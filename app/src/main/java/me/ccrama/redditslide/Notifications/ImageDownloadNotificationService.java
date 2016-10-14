@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import me.ccrama.redditslide.Activities.DeleteFile;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
@@ -138,24 +139,67 @@ public class ImageDownloadNotificationService extends Service {
                     new String[]{localAbsoluteFilePath.getAbsolutePath()}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
                         public void onScanCompleted(String path, Uri uri) {
+                            PendingIntent pContentIntent, pShareIntent, pDeleteIntent, pEditIntent;
+                            Uri photoURI = FileProvider.getUriForFile(
+                                    ImageDownloadNotificationService.this,
+                                    getApplicationContext().getPackageName() + ".MediaView",
+                                    localAbsoluteFilePath);
 
-                            final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                            Uri photoURI = FileProvider.getUriForFile(ImageDownloadNotificationService.this, getApplicationContext().getPackageName() + ".MediaView",localAbsoluteFilePath);
-                            shareIntent.setDataAndType(photoURI,
-                                    "image/*");
-                            List<ResolveInfo> resInfoList =
-                                    getPackageManager().queryIntentActivities(shareIntent,
-                                            PackageManager.MATCH_DEFAULT_ONLY);
-                            for (ResolveInfo resolveInfo : resInfoList) {
-                                String packageName = resolveInfo.activityInfo.packageName;
-                                grantUriPermission(packageName, photoURI,
-                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                                                | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            {
+                                final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
+                                shareIntent.setDataAndType(photoURI, "image/*");
+                                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(shareIntent,
+                                        PackageManager.MATCH_DEFAULT_ONLY);
+                                for (ResolveInfo resolveInfo : resInfoList) {
+                                    String packageName = resolveInfo.activityInfo.packageName;
+                                    grantUriPermission(packageName, photoURI,
+                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                }
+
+                                pContentIntent =
+                                        PendingIntent.getActivity(getApplicationContext(), id,
+                                                shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                             }
 
-                            PendingIntent contentIntent =
-                                    PendingIntent.getActivity(getApplicationContext(), id,
-                                            shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                            {
+                                final Intent shareIntent = new Intent(Intent.ACTION_EDIT);
+                                shareIntent.setDataAndType(photoURI, "image/*");
+                                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(shareIntent,
+                                        PackageManager.MATCH_DEFAULT_ONLY);
+                                for (ResolveInfo resolveInfo : resInfoList) {
+                                    String packageName = resolveInfo.activityInfo.packageName;
+                                    grantUriPermission(packageName, photoURI,
+                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                }
+
+                                pEditIntent =
+                                        PendingIntent.getActivity(getApplicationContext(), id + 1,
+                                                shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                            }
+
+                            {
+                                final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setDataAndType(photoURI, "image/*");
+                                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(shareIntent,
+                                        PackageManager.MATCH_DEFAULT_ONLY);
+                                for (ResolveInfo resolveInfo : resInfoList) {
+                                    String packageName = resolveInfo.activityInfo.packageName;
+                                    grantUriPermission(packageName, photoURI,
+                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                }
+
+                                pShareIntent =
+                                        PendingIntent.getActivity(getApplicationContext(), id + 2,
+                                                shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                            }
+
+                            {
+                                final Intent shareIntent = new Intent(getApplicationContext(), DeleteFile.class);
+                                shareIntent.putExtra("image", uri.getPath());
+                                pDeleteIntent =
+                                        PendingIntent.getActivity(getApplicationContext(), id + 3,
+                                                shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                            }
 
 
                             Notification notif = new NotificationCompat.Builder(
@@ -163,7 +207,10 @@ public class ImageDownloadNotificationService extends Service {
                                     getString(R.string.info_photo_saved))
                                     .setSmallIcon(R.drawable.savecontent)
                                     .setLargeIcon(loadedImage)
-                                    .setContentIntent(contentIntent)
+                                    .setContentIntent(pContentIntent)
+                                    .addAction(R.drawable.share, getString(R.string.share_image), pShareIntent)
+                                    //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
+                                    .addAction(R.drawable.delete, getString(R.string.btn_delete), pDeleteIntent)
                                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
                                             loadedImage))
                                     .build();
@@ -171,6 +218,7 @@ public class ImageDownloadNotificationService extends Service {
                             NotificationManager mNotificationManager =
                                     (NotificationManager) getApplicationContext().getSystemService(
                                             NOTIFICATION_SERVICE);
+                            notif.flags |= Notification.FLAG_AUTO_CANCEL;
                             mNotificationManager.notify(id, notif);
                             loadedImage.recycle();
                         }

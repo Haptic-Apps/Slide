@@ -169,7 +169,7 @@ public class CommentAdapterHelper {
                                         + adapter.submission.getPermalink()
                                         +
                                         n.getFullName().substring(3, n.getFullName().length())
-                                        + "?context=3");
+                                        + "?context=3&inapp=false");
                         i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
                         mContext.startActivity(i);
                     }

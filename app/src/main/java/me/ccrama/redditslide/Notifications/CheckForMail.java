@@ -62,6 +62,7 @@ public class CheckForMail extends BroadcastReceiver {
             new AsyncGetSubs(c).execute();
         }
 
+        if(Reddit.notificationTime != -1)
         new NotificationJobScheduler(context).start(context);
     }
 
@@ -241,7 +242,7 @@ public class CheckForMail extends BroadcastReceiver {
                             new NotificationCompat.BigTextStyle();
                     notiStyle.setBigContentTitle(c.getString(R.string.mod_mail_notification_msg,
                             messages.get(0).getAuthor()));
-                    notiStyle.bigText(Html.fromHtml(messages.get(0).getBody()));
+                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(messages.get(0).getDataNode().get("body_html").asText())));
 
                     Notification notification =
                             new NotificationCompat.Builder(c).setContentIntent(intent)
@@ -384,9 +385,9 @@ public class CheckForMail extends BroadcastReceiver {
                                 notification);
                     }
                 }
-                new NotificationJobScheduler(c).start(c);
-
             }
+            if(Reddit.notificationTime != -1)
+                new NotificationJobScheduler(c).start(c);
         }
 
         HashMap<String, Integer> subThresholds;
@@ -414,34 +415,39 @@ public class CheckForMail extends BroadcastReceiver {
                 }
 
                 String first = "";
+                int count = 0, totalCount = 0;
                 for (String s : subThresholds.keySet()) {
                     first = first + s + "+";
-                }
-                first = first.substring(0, first.length() - 1);
-                SubmissionSearchPaginator unread =
-                        new SubmissionSearchPaginator(Authentication.reddit, "timestamp:"
+                    count++;
+                    totalCount++;
+                    if(count == 3 || totalCount == subThresholds.keySet().size()){
+                        first = first.substring(0, first.length() - 1);
+                        SubmissionSearchPaginator unread =
+                                new SubmissionSearchPaginator(Authentication.reddit, "timestamp:"
+                                        + ((lastTime / 1000) + offsetSeconds) //Go an hour back just in case
+                                        + ".."
+                                        + ((System.currentTimeMillis() / 1000) + offsetSeconds));
+                        LogUtil.v("/r/" + first + "/search?q=timestamp:"
                                 + ((lastTime / 1000) + offsetSeconds)
-                                //Go an hour back just in case
                                 + ".."
-                                + ((System.currentTimeMillis() / 1000) + offsetSeconds));
-                LogUtil.v("/r/" + first + "/search?q=timestamp:"
-                        + ((lastTime / 1000) + offsetSeconds)
-                        //Go an hour back just in case
-                        + ".."
-                        + ((System.currentTimeMillis() / 1000)+offsetSeconds));
-                unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.NEW);
-                unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
-                unread.setSubreddit(first);
-                unread.setLimit(30);
-                if (unread.hasNext()) {
-                    for (Submission subm : unread.next()) {
-                        if (subm.getScore() >= subThresholds.get(
-                                subm.getSubredditName().toLowerCase())
-                                && !HasSeen.getSeen(subm)
-                                && subm.getDataNode().get("created").asLong() + offsetSeconds
-                                >= lastTime / 1000) {
-                            toReturn.add(subm);
+                                + ((System.currentTimeMillis() / 1000)+offsetSeconds));
+                        unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.NEW);
+                        unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
+                        unread.setSubreddit(first);
+                        unread.setLimit(30);
+                        if (unread.hasNext()) {
+                            for (Submission subm : unread.next()) {
+                                if (subm.getScore() >= subThresholds.get(
+                                        subm.getSubredditName().toLowerCase())
+                                        && !HasSeen.getSeen(subm)
+                                        && subm.getDataNode().get("created").asLong() + offsetSeconds
+                                        >= lastTime / 1000) {
+                                    toReturn.add(subm);
+                                }
+                            }
                         }
+                        first = "";
+                        count = 0;
                     }
                 }
                 return toReturn;

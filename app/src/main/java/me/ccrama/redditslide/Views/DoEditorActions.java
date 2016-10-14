@@ -246,6 +246,10 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 e = editText.getText();
+
+                sStart = editText.getSelectionStart();
+                sEnd = editText.getSelectionEnd();
+
                 TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
                         .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                             @Override
