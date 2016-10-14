@@ -108,6 +108,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean            overrideLanguage;
     public static boolean            isRestarting;
     public static AutoCacheScheduler autoCache;
+    public static boolean peek;
     private final List<Listener> listeners = new ArrayList<>();
     public        boolean      active;
     private       ImageLoader  defaultImageLoader;

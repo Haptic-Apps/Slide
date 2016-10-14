@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        xmlns:cardview="http://schemas.android.com/apk/res-auto"
+        cardview:cardBackgroundColor="#00000000"
+        android:gravity="center"
+        cardview:cardCornerRadius="5dp"
+        cardview:cardElevation="5dp"
+        android:layout_centerInParent="true"
+        cardview:cardMaxElevation="5dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+        <RelativeLayout
+                android:id="@+id/gifarea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:visibility="gone">
+
+            <me.ccrama.redditslide.Views.MediaVideoView
+                    android:id="@+id/gif"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true">
+
+            </me.ccrama.redditslide.Views.MediaVideoView>
+
+            <FrameLayout
+                    android:id="@+id/placeholder"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"/>
+        </RelativeLayout>
+
+        <me.ccrama.redditslide.Views.RedditItemView
+                android:id="@+id/reddit_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"/>
+
+        <me.ccrama.redditslide.Views.SubsamplingScaleImageView
+                android:id="@+id/submission_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"/>
+
+        <WebView
+                android:id="@+id/website"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:background="#fff"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:visibility="gone"/>
+
+        <GridView
+                android:layout_width="match_parent"
+                android:id="@+id/grid_area"
+                android:visibility="gone"
+                android:layout_below="@+id/submission_image"
+                android:layout_height="75dp"/>
+
+        <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="-7dp"
+                android:layout_alignParentTop="true"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

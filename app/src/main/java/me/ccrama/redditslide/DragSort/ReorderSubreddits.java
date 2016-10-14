@@ -264,6 +264,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
         dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
             @Override
             public void onItemMoved(int from, int to) {
+                if(to == subs.size()){
+                    to -=1;
+                }
                 String item = subs.remove(from);
                 subs.add(to, item);
                 adapter.notifyDataSetChanged();

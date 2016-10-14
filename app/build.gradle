@@ -75,7 +75,7 @@ android {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:fa5a0e9691'
+    compile 'com.github.ccrama:JRAW:2888e4e239'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
     compile 'com.jakewharton:process-phoenix:1.0.2'
@@ -93,6 +93,7 @@ dependencies {
     compile 'com.cocosw:bottomsheet:1.3.0@aar'
     compile 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'jp.wasabeef:blurry:2.0.2'
     compile 'com.github.ccrama:Android-RobotoTextView:28b71bcd9c'
     // ↑ minor
     compile 'com.makeramen:roundedimageview:2.2.1'

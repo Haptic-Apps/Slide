@@ -25,14 +25,12 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
-import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing the post and its
@@ -182,7 +180,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
 
 
-        if (currentPosts.isEmpty() || currentPosts.size() < firstPage || currentPosts.get(firstPage) == null || firstPage < 0) {
+        if (currentPosts.isEmpty()
+                || currentPosts.size() < firstPage
+                || currentPosts.get(firstPage) == null
+                || firstPage < 0) {
             finish();
         } else {
             updateSubredditAndSubmission(currentPosts.get(firstPage));
@@ -203,10 +204,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                                       finish();
                                                   }
                                                   if (position == firstPage && !popup) {
-                                                      if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
-                                                              != null) {
-                                                          ((OverviewPagerAdapter) pager.getAdapter()).blankPage
-                                                                  .doOffset(positionOffset);
+                                                      if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                          ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
+                                                                  positionOffset);
                                                       }
                                                       pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
 
@@ -341,7 +341,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 String name = currentPosts.get(i).getFullName();
                 args.putString("id", name.substring(3, name.length()));
                 args.putBoolean("archived", currentPosts.get(i).isArchived());
-                args.putBoolean("contest", currentPosts.get(i).getDataNode().get("contest_mode").asBoolean());
+                args.putBoolean("contest",
+                        currentPosts.get(i).getDataNode().get("contest_mode").asBoolean());
                 args.putBoolean("locked", currentPosts.get(i).isLocked());
                 args.putInt("page", i);
                 args.putString("subreddit", currentPosts.get(i).getSubredditName());

@@ -197,12 +197,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        a.openingComments = submission;
                                                                        a.toOpenComments = a.pager.getCurrentItem() + 1;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
-                                                                       ContentType.Type type = ContentType.getContentType(submission);
-                                                                       if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
-                                                                           //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                                                                       } else if(SettingValues.storeHistory) {
-                                                                           HasSeen.addSeen(submission.getFullName());
-                                                                       }
                                                                        ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
                                                                        ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size = a.toOpenComments + 1;
                                                                        a.adapter.notifyDataSetChanged();
@@ -230,12 +224,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        clicked = holder2.getAdapterPosition();
                                                                        a.openingComments = submission;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
-                                                                       ContentType.Type type = ContentType.getContentType(submission);
-                                                                       if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
-                                                                           //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                                                                       } else if(SettingValues.storeHistory){
-                                                                           HasSeen.addSeen(submission.getFullName());
-                                                                       }
                                                                        ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
                                                                        ((SubredditView.OverviewPagerAdapterComment) a.adapter).size = 3;
                                                                        a.adapter.notifyDataSetChanged();

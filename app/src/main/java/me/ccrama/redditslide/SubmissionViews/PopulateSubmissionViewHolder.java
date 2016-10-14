@@ -83,6 +83,8 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.ForceTouch.PeekView;
+import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
@@ -103,7 +105,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -144,136 +145,138 @@ public class PopulateSubmissionViewHolder {
                             }
                         }
                     }
-
-                    if (!PostMatch.openExternal(submission.getUrl())
-                            || type == ContentType.Type.VIDEO) {
-                        switch (type) {
-                            case VID_ME:
-                            case STREAMABLE:
-                                if (SettingValues.video) {
-                                    Intent myIntent = new Intent(contextActivity, MediaView.class);
-                                    myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
-                                    addAdaptorPosition(myIntent, submission,
-                                            holder.getAdapterPosition());
-                                    contextActivity.startActivity(myIntent);
-                                } else {
-                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
-                                }
-                                break;
-                            case IMGUR:
-                                openImage(type, contextActivity, submission, holder.leadImage,
-                                        holder.getAdapterPosition());
-                                break;
-                            case EMBEDDED:
-                                if (SettingValues.video) {
-                                    String data = Html.fromHtml(submission.getDataNode()
-                                            .get("media_embed")
-                                            .get("content")
-                                            .asText()).toString();
-                                    {
-                                        Intent i =
-                                                new Intent(contextActivity, FullscreenVideo.class);
-                                        i.putExtra(FullscreenVideo.EXTRA_HTML, data);
-                                        contextActivity.startActivity(i);
-                                    }
-                                } else {
-                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
-                                }
-                                break;
-                            case REDDIT:
-                                openRedditContent(submission.getUrl(), contextActivity);
-                                break;
-                            case LINK:
-                                LinkUtil.openUrl(submission.getUrl(),
-                                        Palette.getColor(submission.getSubredditName()),
-                                        contextActivity, holder.getAdapterPosition(), submission);
-                                break;
-                            case SELF:
-                                if (holder != null) {
-                                    OnSingleClickListener.override = true;
-                                    holder.itemView.performClick();
-                                }
-                                break;
-                            case ALBUM:
-                                if (SettingValues.album) {
-                                    Intent i;
-                                    if (SettingValues.albumSwipe) {
-                                        i = new Intent(contextActivity, AlbumPager.class);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                    if(!(contextActivity instanceof PeekViewActivity)
+                            || !((PeekViewActivity) contextActivity).isPeeking() || (base instanceof  HeaderImageLinkView && ((HeaderImageLinkView)base).popped)) {
+                        if (!PostMatch.openExternal(submission.getUrl()) || type == ContentType.Type.VIDEO) {
+                            switch (type) {
+                                case VID_ME:
+                                case STREAMABLE:
+                                    if (SettingValues.video) {
+                                        Intent myIntent = new Intent(contextActivity, MediaView.class);
+                                        myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                        addAdaptorPosition(myIntent, submission, holder.getAdapterPosition());
+                                        contextActivity.startActivity(myIntent);
                                     } else {
-                                        i = new Intent(contextActivity, Album.class);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    }
-                                    addAdaptorPosition(i, submission, holder.getAdapterPosition());
-                                    contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright,
-                                            R.anim.fade_out);
-                                } else {
-                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
-
-                                }
-                                break;
-                            case TUMBLR:
-                                if (SettingValues.album) {
-                                    Intent i;
-                                    if (SettingValues.albumSwipe) {
-                                        i = new Intent(contextActivity, TumblrPager.class);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    } else {
-                                        i = new Intent(contextActivity, Tumblr.class);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    }
-                                    addAdaptorPosition(i, submission, holder.getAdapterPosition());
-                                    contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright,
-                                            R.anim.fade_out);
-                                } else {
-                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
-
-                                }
-                                break;
-                            case DEVIANTART:
-                            case XKCD:
-                            case IMAGE:
-                                openImage(type, contextActivity, submission, holder.leadImage,
-                                        holder.getAdapterPosition());
-                                break;
-                            case GIF:
-                                openGif(contextActivity, submission, holder.getAdapterPosition());
-                                break;
-                            case NONE:
-                                if (holder != null) {
-                                    holder.itemView.performClick();
-                                }
-                                break;
-                            case VIDEO:
-                                if (Reddit.videoPlugin) {
-                                    try {
-                                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                        sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
-                                                "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                        sharingIntent.putExtra("url", submission.getUrl());
-                                        contextActivity.startActivity(sharingIntent);
-
-                                    } catch (Exception e) {
                                         Reddit.defaultShare(submission.getUrl(), contextActivity);
                                     }
-                                } else {
-                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
-                                }
-                                break;
+                                    break;
+                                case IMGUR:
+                                    openImage(type, contextActivity, submission, holder.leadImage,
+                                            holder.getAdapterPosition());
+                                    break;
+                                case EMBEDDED:
+                                    if (SettingValues.video) {
+                                        String data = Html.fromHtml(submission.getDataNode()
+                                                .get("media_embed")
+                                                .get("content")
+                                                .asText()).toString();
+                                        {
+                                            Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                            i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                            contextActivity.startActivity(i);
+                                        }
+                                    } else {
+                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                    }
+                                    break;
+                                case REDDIT:
+                                    openRedditContent(submission.getUrl(), contextActivity);
+                                    break;
+                                case LINK:
+                                    LinkUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()),
+                                            contextActivity, holder.getAdapterPosition(), submission);
+                                    break;
+                                case SELF:
+                                    if (holder != null) {
+                                        OnSingleClickListener.override = true;
+                                        holder.itemView.performClick();
+                                    }
+                                    break;
+                                case ALBUM:
+                                    if (SettingValues.album) {
+                                        Intent i;
+                                        if (SettingValues.albumSwipe) {
+                                            i = new Intent(contextActivity, AlbumPager.class);
+                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                        } else {
+                                            i = new Intent(contextActivity, Album.class);
+                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                        }
+                                        addAdaptorPosition(i, submission, holder.getAdapterPosition());
+                                        contextActivity.startActivity(i);
+                                        contextActivity.overridePendingTransition(R.anim.slideright,
+                                                R.anim.fade_out);
+                                    } else {
+                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+
+                                    }
+                                    break;
+                                case TUMBLR:
+                                    if (SettingValues.album) {
+                                        Intent i;
+                                        if (SettingValues.albumSwipe) {
+                                            i = new Intent(contextActivity, TumblrPager.class);
+                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                        } else {
+                                            i = new Intent(contextActivity, Tumblr.class);
+                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                        }
+                                        addAdaptorPosition(i, submission, holder.getAdapterPosition());
+                                        contextActivity.startActivity(i);
+                                        contextActivity.overridePendingTransition(R.anim.slideright,
+                                                R.anim.fade_out);
+                                    } else {
+                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+
+                                    }
+                                    break;
+                                case DEVIANTART:
+                                case XKCD:
+                                case IMAGE:
+                                    openImage(type, contextActivity, submission, holder.leadImage,
+                                            holder.getAdapterPosition());
+                                    break;
+                                case GIF:
+                                    openGif(contextActivity, submission, holder.getAdapterPosition());
+                                    break;
+                                case NONE:
+                                    if (holder != null) {
+                                        holder.itemView.performClick();
+                                    }
+                                    break;
+                                case VIDEO:
+                                    if (Reddit.videoPlugin) {
+                                        try {
+                                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                            sharingIntent.setClassName(
+                                                    "ccrama.me.slideyoutubeplugin",
+                                                    "ccrama.me.slideyoutubeplugin.YouTubeView");
+                                            sharingIntent.putExtra("url", submission.getUrl());
+                                            contextActivity.startActivity(sharingIntent);
+
+                                        } catch (Exception e) {
+                                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        }
+                                    } else {
+                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                    }
+                                    break;
+                            }
+                        } else {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-                    } else {
-                        Reddit.defaultShare(submission.getUrl(), contextActivity);
                     }
                 } else {
-                    Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
-                            Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    if(!(contextActivity instanceof PeekViewActivity)
+                            || !((PeekViewActivity) contextActivity).isPeeking()) {
+
+                        Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
+                                Snackbar.LENGTH_SHORT);
+                        View view = s.getView();
+                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        tv.setTextColor(Color.WHITE);
+                        s.show();
+                    }
                 }
             }
         });
@@ -414,8 +417,7 @@ public class PopulateSubmissionViewHolder {
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
         Drawable open =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
-        Drawable link =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
+        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
         Drawable reddit =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
                         null);
@@ -748,7 +750,7 @@ public class PopulateSubmissionViewHolder {
                         LinkUtil.openExternally(submission.getUrl(), mContext, true);
                         if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                             //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                        } else if(SettingValues.storeHistory) {
+                        } else if (SettingValues.storeHistory) {
                             HasSeen.addSeen(submission.getFullName());
                         }
                         break;
@@ -784,13 +786,15 @@ public class PopulateSubmissionViewHolder {
                                 final int pos = posts.indexOf(submission);
                                 posts.remove(submission);
 
-                                recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                                recyclerview.getAdapter()
+                                        .notifyItemRemoved(holder.getAdapterPosition());
 
                                 Snackbar s2 =
                                         Snackbar.make(holder.itemView, "Removed from read later",
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
-                                TextView tv2 = (TextView) view2.findViewById(android.support.design.R.id.snackbar_text);
+                                TextView tv2 = (TextView) view2.findViewById(
+                                        android.support.design.R.id.snackbar_text);
                                 tv2.setTextColor(Color.WHITE);
                                 s2.setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
@@ -804,10 +808,12 @@ public class PopulateSubmissionViewHolder {
                                         Snackbar.make(holder.itemView, "Removed from read later",
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
-                                TextView tv2 = (TextView) view2.findViewById(android.support.design.R.id.snackbar_text);
+                                TextView tv2 = (TextView) view2.findViewById(
+                                        android.support.design.R.id.snackbar_text);
                                 s2.show();
                             }
-                            OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS).deleteFromMemory(submission.getFullName());
+                            OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS)
+                                    .deleteFromMemory(submission.getFullName());
 
                         }
                         break;
@@ -1009,8 +1015,7 @@ public class PopulateSubmissionViewHolder {
 
             @Override
             public void onPreExecute() {
-                d = new MaterialDialog.Builder(mContext)
-                        .progress(true, 100)
+                d = new MaterialDialog.Builder(mContext).progress(true, 100)
                         .title(R.string.profile_category_loading)
                         .content(R.string.misc_please_wait)
                         .show();
@@ -1305,17 +1310,7 @@ public class PopulateSubmissionViewHolder {
 
         boolean approved = false;
         String whoApproved = "";
-        if (SubmissionCache.removed.contains(submission.getFullName()) || (submission.getDataNode()
-                .get("approved_by")
-                .asText()
-                .equals("null") && !SubmissionCache.approved.contains(submission.getFullName()))) {
-            b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
-        } else {
-            approved = true;
-            whoApproved = submission.getDataNode().get("approved_by").asText();
-            b.sheet(1, approve, res.getString(R.string.mod_btn_approved, whoApproved));
-        }
-
+        b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
         b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
                 .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason))
                 .sheet(30, spam, "Mark as spam");
@@ -1550,10 +1545,11 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
+                    String toGet =
+                            new AccountManager(Authentication.reddit).reply(submission, reason);
                     new ModerationManager(Authentication.reddit).remove(submission, false);
-                    new AccountManager(Authentication.reddit).reply(submission, reason);
-                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission,
-                            DistinguishedStatus.MODERATOR);
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(
+                            Authentication.reddit.get(toGet).get(0), DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();
                     return false;

@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -96,7 +98,8 @@ public class ImageDownloadNotificationService extends Service {
             final String finalUrl = actuallyLoaded;
             try {
                 ((Reddit) getApplication()).getImageLoader()
-                        .loadImage(finalUrl, null, null, new SimpleImageLoadingListener() {
+                        .loadImage(finalUrl, null, new DisplayImageOptions.Builder().imageScaleType(
+                                ImageScaleType.NONE).cacheInMemory(false).build(), new SimpleImageLoadingListener() {
 
                             @Override
                             public void onLoadingComplete(String imageUri, View view,

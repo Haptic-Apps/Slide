@@ -3,13 +3,14 @@ package me.ccrama.redditslide.Activities;
 import android.os.Bundle;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
  * Used as the base if an enter or exit animation is required (if the user can swipe out of the
  * activity)
- *
  */
 
 public class BaseActivityAnim extends BaseActivity implements SwipeBackActivityBase {
@@ -22,6 +23,10 @@ public class BaseActivityAnim extends BaseActivity implements SwipeBackActivityB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.slideright, 0);
+        if (Reddit.peek) {
+            overridePendingTransition(R.anim.pop_in, 0);
+        } else {
+            overridePendingTransition(R.anim.slideright, 0);
+        }
     }
 }

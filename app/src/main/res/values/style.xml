@@ -404,9 +404,6 @@
     <style parent="Theme.AppCompat.NoActionBar" name="swipeableweb">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
-        <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
-        <item name="android:textColor">#DE000000</item> <!-- 87% black -->
         <item name="actionMenuTextColor">#DE000000</item>
         <item name="android:actionMenuTextColor">#DE000000</item>
         <item name="android:colorBackground">#dedede</item>

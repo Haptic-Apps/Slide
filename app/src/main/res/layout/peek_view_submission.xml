@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3f000000"
+        >
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_below="@+id/title"
+            android:id="@+id/pop"
+            android:src="@drawable/up"
+            android:layout_height="0dp"/>
+
+    <me.ccrama.redditslide.Views.PeekMediaView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/peek"
+            android:layout_margin="12dp"
+            android:layout_marginTop="36dp"
+            android:layout_centerInParent="true"
+            android:paddingBottom="36dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_below="@+id/title"
+            android:layout_above="@+id/menu"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/menu"
+            android:orientation="horizontal"
+            android:layout_height="62dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/share"
+                android:src="@drawable/share"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:clickable="true"
+                android:layout_height="match_parent"/>
+
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:id="@+id/upvote"
+                android:src="@drawable/upvoted"
+                android:clickable="true"
+                android:layout_height="match_parent"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:id="@+id/comments"
+                android:src="@drawable/commentchange"
+                android:clickable="true"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:text="https://imgur.com/a/duARTe"
+            android:maxLines="1"
+            android:gravity="center_vertical"
+            android:layout_marginTop="36dp"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+</RelativeLayout>

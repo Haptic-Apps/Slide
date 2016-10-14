@@ -26,6 +26,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 
 
@@ -380,7 +381,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        if (Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn && NetworkUtil.isConnected(this)) {
             findViewById(R.id.reddit_settings).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
