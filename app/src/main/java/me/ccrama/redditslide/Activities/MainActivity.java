@@ -4843,7 +4843,7 @@ public class MainActivity extends BaseActivity
                             setRecentBar(openingComments.getSubredditName().toLowerCase());
                         }
                     }
-                }
+                    }
 
                 @Override
                 public void onPageSelected(final int position) {
