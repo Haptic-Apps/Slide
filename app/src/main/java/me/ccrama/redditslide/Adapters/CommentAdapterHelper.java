@@ -1341,7 +1341,7 @@ public class CommentAdapterHelper {
             @Override
             public void onClick(View v) {
                 final String text = e.getText().toString();
-                new AsyncEditTask(adapter, baseNode, text, mContext, d, holder).execute();
+                new AsyncEditTask(adapter, baseNode, text, mContext, d, holder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         });
 
@@ -1354,7 +1354,7 @@ public class CommentAdapterHelper {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new AsyncDeleteTask(adapter, baseNode, holder, mContext).execute();
+                        new AsyncDeleteTask(adapter, baseNode, holder, mContext).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
                 })
                 .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {

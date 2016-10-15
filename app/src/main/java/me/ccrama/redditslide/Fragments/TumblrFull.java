@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Fragments;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -150,7 +151,7 @@ public class TumblrFull extends Fragment {
             }
         });
 
-        new LoadIntoRecycler(s.getUrl(), getActivity()).execute();
+        new LoadIntoRecycler(s.getUrl(), getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         return rootView;
     }

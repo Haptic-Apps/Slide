@@ -579,7 +579,7 @@ public class UserSubscriptions {
             protected void onPostExecute(Void aVoid) {
                 mainActivity.doLastStuff(toReturn);
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /**

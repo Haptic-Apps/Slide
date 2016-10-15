@@ -53,7 +53,7 @@ public class Authentication {
                 httpAdapter.getNativeClient().connectionPool().evictAll();
                 return null;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public Authentication(Context context) {
@@ -68,7 +68,7 @@ public class Authentication {
             reddit.setRetryLimit(3);
             if (BuildConfig.DEBUG) reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
-            new VerifyCredentials(context).execute();
+            new VerifyCredentials(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
             isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             name = Reddit.appRestart.getString("name", "");
@@ -98,9 +98,9 @@ public class Authentication {
             reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
 
-            new VerifyCredentials(c).execute();
+            new VerifyCredentials(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            new UpdateToken(c).execute();
+            new UpdateToken(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -202,7 +202,7 @@ public class Authentication {
                                                                         DialogInterface dialog,
                                                                         int which) {
                                                                     new UpdateToken(
-                                                                            context).execute();
+                                                                            context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                                 }
                                                             })
                                                     .setNegativeButton(R.string.btn_no,

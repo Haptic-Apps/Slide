@@ -50,7 +50,7 @@ public class SubredditSearchPosts extends GeneralPosts {
         this.adapter = a;
         this.subreddit = subreddit;
         this.term = where;
-        new LoadData(reset).execute();
+        new LoadData(reset).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
     public void loadMore(ContributionAdapter a, String subreddit, String where, boolean reset, boolean multi, TimePeriod time) {
         this.adapter = a;
@@ -58,7 +58,7 @@ public class SubredditSearchPosts extends GeneralPosts {
         this.term = where;
         this.multireddit = multi;
         this.time = time;
-        new LoadData(reset).execute();
+        new LoadData(reset).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     boolean multireddit;
@@ -66,7 +66,7 @@ public class SubredditSearchPosts extends GeneralPosts {
 
     public void reset(TimePeriod time) {
         this.time = time;
-        new LoadData(true).execute();
+        new LoadData(true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {

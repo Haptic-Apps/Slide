@@ -501,7 +501,7 @@ public class SubredditPosts implements PostLoader {
                                         // update offline
                                         displayer.updateOffline(posts, Long.valueOf(s2[1]));
                                     }
-                                }.execute();
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 return true;
                             }
                         });

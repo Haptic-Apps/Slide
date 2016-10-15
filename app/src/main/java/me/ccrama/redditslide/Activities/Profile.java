@@ -564,7 +564,7 @@ public class Profile extends BaseActivityAnim {
 
                         }
                     }
-                }.execute();
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             case (R.id.info):
                 if (account != null && trophyCase != null) {
@@ -715,7 +715,7 @@ public class Profile extends BaseActivityAnim {
                                             ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
                                         }
                                     }
-                                }.execute();
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                             }
                         });

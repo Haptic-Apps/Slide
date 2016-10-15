@@ -173,7 +173,7 @@ public class PeekMediaView extends RelativeLayout {
                     grid.setAdapter(new ImageGridAdapter(getContext(), images));
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     List<Image> images;
@@ -225,7 +225,7 @@ public class PeekMediaView extends RelativeLayout {
                     }
 
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -305,7 +305,7 @@ public class PeekMediaView extends RelativeLayout {
                     //todo error out
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void doLoadImgur(String url) {
@@ -383,7 +383,7 @@ public class PeekMediaView extends RelativeLayout {
                     }
 
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -450,7 +450,7 @@ public class PeekMediaView extends RelativeLayout {
                 protected void onPostExecute(Void aVoid) {
                     progress.setVisibility(View.GONE);
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         } else {
             displayImage(contentUrl);

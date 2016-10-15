@@ -183,7 +183,7 @@ public class PopMediaView {
                     }
 
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -209,7 +209,7 @@ public class PopMediaView {
                     doLoadImage(url, v);
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void doLoadImage(String contentUrl, final View v) {
@@ -263,7 +263,7 @@ public class PopMediaView {
                     }
                     v.findViewById(R.id.progress).setVisibility(View.GONE);
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         } else {
             displayImage(contentUrl, v);

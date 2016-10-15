@@ -1790,7 +1790,7 @@ public class SubsamplingScaleImageView extends View {
                 Log.i(TAG, "Failed to execute AsyncTask on thread pool executor, falling back to single threaded executor", e);
             }
         }
-        asyncTask.execute();
+        asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static class Tile {

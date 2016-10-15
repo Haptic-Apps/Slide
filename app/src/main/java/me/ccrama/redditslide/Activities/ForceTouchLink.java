@@ -84,7 +84,7 @@ public class ForceTouchLink extends BaseActivityAnim {
                     protected void onPostExecute(Void aVoid) {
                         ((Reddit)getApplication()).getImageLoader().displayImage(urlGotten, mainImage);
                     }
-                }.execute();
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
         }
 

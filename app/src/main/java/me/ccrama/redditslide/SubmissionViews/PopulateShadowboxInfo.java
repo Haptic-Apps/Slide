@@ -174,7 +174,7 @@ public class PopulateShadowboxInfo {
                                     }
 
                                 }
-                            }.execute();
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
                         }
@@ -399,7 +399,7 @@ public class PopulateShadowboxInfo {
                                     }
 
                                 }
-                            }.execute();
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
                         }
@@ -575,7 +575,7 @@ public class PopulateShadowboxInfo {
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
                                                     }
-                                                }.execute();
+                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                             }
                                         })
                                         .show();

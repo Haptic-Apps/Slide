@@ -156,7 +156,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                     return null;
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 

@@ -51,7 +51,7 @@ public class ImageDownloadNotificationService extends Service {
                 || !actuallyLoaded.contains(".jpg"))) {
             actuallyLoaded = actuallyLoaded + ".png";
         }
-        new PollTask(actuallyLoaded, intent.getIntExtra("index", -1)).execute();
+        new PollTask(actuallyLoaded, intent.getIntExtra("index", -1)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 

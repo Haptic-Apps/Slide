@@ -37,7 +37,7 @@ public class ModLogPosts {
     }
 
     public void loadMore(ModLogAdapter adapter) {
-        new ModLogPosts.LoadData(true).execute();
+        new ModLogPosts.LoadData(true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void addData(List<ModAction> data) {

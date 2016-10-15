@@ -778,7 +778,7 @@ public class PopulateSubmissionViewHolder {
                             });
                             new CommentCacheAsync(Arrays.asList(submission), mContext,
                                     CommentCacheAsync.SAVED_SUBMISSIONS,
-                                    new boolean[]{true, true}).execute();
+                                    new boolean[]{true, true}).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                             s.show();
                         } else {
                             ReadLater.setReadLater(submission, false);
@@ -864,7 +864,7 @@ public class PopulateSubmissionViewHolder {
                                                     s.show();
                                                 }
                                             }
-                                        }.execute();
+                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                     }
                                 })
                                 .show();
@@ -1004,7 +1004,7 @@ public class PopulateSubmissionViewHolder {
 
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void categorizeSaved(final Submission submission, View itemView,
@@ -1126,7 +1126,7 @@ public class PopulateSubmissionViewHolder {
                                                                         }
 
                                                                     }
-                                                                }.execute();
+                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                             }
                                                         })
                                                 .negativeText(R.string.btn_cancel)
@@ -1172,7 +1172,7 @@ public class PopulateSubmissionViewHolder {
                                                     }
                                                 }
                                             }
-                                        }.execute();
+                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                     }
                                 }
                             })
@@ -1184,7 +1184,7 @@ public class PopulateSubmissionViewHolder {
 
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public <T extends Contribution> void hideSubmission(final Submission submission,
@@ -1390,7 +1390,7 @@ public class PopulateSubmissionViewHolder {
                                                 })
                                         .show();
                             }
-                        }.execute();
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                         break;
                     case 1:
@@ -1557,7 +1557,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private <T extends Contribution> void removeSubmission(final Activity mContext,
@@ -1615,7 +1615,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
@@ -1657,7 +1657,7 @@ public class PopulateSubmissionViewHolder {
 
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void showFlairSelectionDialog(final Activity mContext, final Submission submission,
@@ -1743,7 +1743,7 @@ public class PopulateSubmissionViewHolder {
                     s.show();
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void stickySubmission(final Activity mContext, final Submission submission,
@@ -1780,7 +1780,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void unStickySubmission(final Activity mContext, final Submission submission,
@@ -1817,7 +1817,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void lockSubmission(final Activity mContext, final Submission submission,
@@ -1853,7 +1853,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void unLockSubmission(final Activity mContext, final Submission submission,
@@ -1889,7 +1889,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void distinguishSubmission(final Activity mContext, final Submission submission,
@@ -1926,7 +1926,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void unDistinguishSubmission(final Activity mContext, final Submission submission,
@@ -1963,7 +1963,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void setPostNsfw(final Activity mContext, final Submission submission,
@@ -2000,7 +2000,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void unNsfwSubmission(final Context mContext, final Submission submission,
@@ -2038,7 +2038,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private <T extends Thing> void approveSubmission(final Context mContext, final List<T> posts,
@@ -2097,7 +2097,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 return true;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void showBan(final Context mContext, final View mToolbar, final Submission submission,
@@ -2245,7 +2245,7 @@ public class PopulateSubmissionViewHolder {
                                                 s.show();
                                             }
                                         }
-                                    }.execute();
+                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 }
                             }
                         }
@@ -2885,7 +2885,7 @@ public class PopulateSubmissionViewHolder {
                                                                                 1);
                                                                     }
                                                                 }
-                                                            }.execute();
+                                                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                         }
                                                     });
                                         }
@@ -2947,7 +2947,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         }
                                                                                     });
                                                                         }
-                                                                    }.execute();
+                                                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                                 }
                                                             })
                                                     .setNegativeButton(R.string.btn_cancel, null)
@@ -3066,7 +3066,7 @@ public class PopulateSubmissionViewHolder {
                                                                                                             s.show();
                                                                                                         }
                                                                                                     }
-                                                                                                }.execute();
+                                                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                                                             }
                                                                                         })
                                                                                 .negativeText(
@@ -3139,7 +3139,7 @@ public class PopulateSubmissionViewHolder {
                                                                                     s.show();
                                                                                 }
                                                                             }
-                                                                        }.execute();
+                                                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                                     }
                                                                 }
                                                             })
@@ -3150,7 +3150,7 @@ public class PopulateSubmissionViewHolder {
                                 }
                             }).show();
                         }
-                    }.execute();
+                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             });
         } else {

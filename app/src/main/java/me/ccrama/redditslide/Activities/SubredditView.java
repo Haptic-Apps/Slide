@@ -628,7 +628,7 @@ public class SubredditView extends BaseActivity {
                                     })
                                     .show();
                         }
-                    }.execute();
+                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             });
             dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
@@ -794,7 +794,7 @@ public class SubredditView extends BaseActivity {
                                                                                             s.show();
                                                                                         }
                                                                                     }
-                                                                                }.execute();
+                                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                                             }
                                                                         })
                                                                 .negativeText(R.string.btn_cancel)
@@ -857,7 +857,7 @@ public class SubredditView extends BaseActivity {
                                                                     s.show();
                                                                 }
                                                             }
-                                                        }.execute();
+                                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                     }
                                                 }
                                             })
@@ -1249,13 +1249,13 @@ public class SubredditView extends BaseActivity {
                                                         }
                                                         return null;
                                                     }
-                                                }.execute();
+                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                                             }
                                         })
                                         .show();
                             }
-                        }.execute();
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
                 });
             } else {
@@ -1351,7 +1351,7 @@ public class SubredditView extends BaseActivity {
                                                             }
                                                             return true;
                                                         }
-                                                    }.execute();
+                                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                 }
                                             })
                                     .setNegativeButton(R.string.btn_cancel, null)
@@ -1468,7 +1468,7 @@ public class SubredditView extends BaseActivity {
                                                             }
                                                             return true;
                                                         }
-                                                    }.execute();
+                                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                 }
                                             })
                                     .setNeutralButton(R.string.just_unsub,

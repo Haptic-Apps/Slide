@@ -7,6 +7,7 @@ package me.ccrama.redditslide.Autocache;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Reddit;
@@ -20,7 +21,8 @@ public class CacheAll extends BroadcastReceiver {
         if (NetworkUtil.isConnectedNoOverride(c)) {
             if (Reddit.cachedData.getBoolean("wifiOnly", false) && !NetworkUtil.isConnectedWifi(context))
                 return;
-            new CommentCacheAsync(c, Reddit.cachedData.getString("toCache", "").split(",")).execute();
+            new CommentCacheAsync(c, Reddit.cachedData.getString("toCache", "").split(",")).executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR);
 
         }
     }

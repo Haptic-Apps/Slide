@@ -66,7 +66,7 @@ public class WikiPage extends Fragment {
                 ref.setEnabled(false);
 
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         return v;
     }

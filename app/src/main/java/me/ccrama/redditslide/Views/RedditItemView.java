@@ -95,7 +95,7 @@ public class RedditItemView extends RelativeLayout {
 
         switch (contentType) {
             case SHORTENED: {
-                new AsyncLoadSubmission(parts[1]).execute();
+                new AsyncLoadSubmission(parts[1]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case LIVE: {
@@ -117,31 +117,31 @@ public class RedditItemView extends RelativeLayout {
                     String end = parts[6];
                     if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
                     if (end.length() >= 3) {
-                        new AsyncLoadComment(end).execute();
+                        new AsyncLoadComment(end).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     } else {
-                        new AsyncLoadSubmission(submission).execute();
+                        new AsyncLoadSubmission(submission).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
 
                 } else {
-                    new AsyncLoadSubmission(submission).execute();
+                    new AsyncLoadSubmission(submission).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
                 break;
             }
             case SUBMISSION: {
-                new AsyncLoadSubmission(parts[4]).execute();
+                new AsyncLoadSubmission(parts[4]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case SUBMISSION_WITHOUT_SUB: {
-                new AsyncLoadSubmission(parts[2]).execute();
+                new AsyncLoadSubmission(parts[2]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case SUBREDDIT: {
-                new AsyncLoadSubreddit(parts[2]).execute();
+                new AsyncLoadSubreddit(parts[2]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case USER: {
                 String name = parts[2];
-                new AsyncLoadProfile(name).execute();
+                new AsyncLoadProfile(name).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case OTHER: {

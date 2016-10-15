@@ -165,7 +165,7 @@ public class LiveThread extends BaseActivityAnim {
                     doPaginator();
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     ArrayList<LiveUpdate> updates;
@@ -185,7 +185,7 @@ public class LiveThread extends BaseActivityAnim {
 
                 doLiveThreadUpdates();
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void doLiveThreadUpdates() {
@@ -370,7 +370,7 @@ public class LiveThread extends BaseActivityAnim {
                     }
                     return null;
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         }
     }
@@ -440,7 +440,7 @@ public class LiveThread extends BaseActivityAnim {
                     LogUtil.v("Twitter");
 
                     holder.twitterArea.setVisibility(View.VISIBLE);
-                    new LoadTwitter(holder.twitterArea, url).execute();
+                    new LoadTwitter(holder.twitterArea, url).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
 

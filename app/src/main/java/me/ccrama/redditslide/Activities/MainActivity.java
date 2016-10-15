@@ -281,7 +281,7 @@ public class MainActivity extends BaseActivity
             UserSubscriptions.doMainActivitySubs(this);
         } else if (requestCode == INBOX_RESULT) {
             //update notification badge
-            new AsyncNotificationBadge().execute();
+            new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else if (requestCode == 3333) {
             this.data = data;
             if (doImage != null) {
@@ -364,7 +364,7 @@ public class MainActivity extends BaseActivity
                     }
                     return null;
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         //Upon leaving MainActivity--hide the toolbar search if it is visible
@@ -1032,9 +1032,9 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void run() {
                         runAfterLoad = null;
-                        if (Authentication.isLoggedIn) new AsyncNotificationBadge().execute();
+                        if (Authentication.isLoggedIn) new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         if (!Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").isEmpty()) {
-                            new CheckForMail.AsyncGetSubs(MainActivity.this).execute();
+                            new CheckForMail.AsyncGetSubs(MainActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         }
                         new AsyncTask<Void, Void, Submission>() {
                             @Override
@@ -1125,8 +1125,8 @@ public class MainActivity extends BaseActivity
                                     snack.show();
                                 }
                             }
-                        }.execute();
-                        //todo this  new AsyncStartNotifSocket().execute();
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        //todo this  new AsyncStartNotifSocket().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
                 };
 
@@ -1289,7 +1289,7 @@ public class MainActivity extends BaseActivity
                             .build();
                     d.show();
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         }
 
@@ -1353,7 +1353,7 @@ public class MainActivity extends BaseActivity
         super.onResume();
         if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(
                 MainActivity.this) && headerMain != null && runAfterLoad == null) {
-            new AsyncNotificationBadge().execute();
+            new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         if ((!inNightMode && SettingValues.isNight()) || (inNightMode
@@ -1820,7 +1820,7 @@ public class MainActivity extends BaseActivity
             headerMain = header;
 
             if (runAfterLoad == null) {
-                new AsyncNotificationBadge().execute();
+                new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
 
         } else if (Authentication.didOnline) {
@@ -2454,13 +2454,13 @@ public class MainActivity extends BaseActivity
                                                         }
                                                         return null;
                                                     }
-                                                }.execute();
+                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                                             }
                                         })
                                         .show();
                             }
-                        }.execute();
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
                 });
             } else {
@@ -2649,7 +2649,7 @@ public class MainActivity extends BaseActivity
                                                         }
                                                         return true;
                                                     }
-                                                }.execute();
+                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                             }
                                         })
 
@@ -2751,7 +2751,7 @@ public class MainActivity extends BaseActivity
                                                         }
                                                         return true;
                                                     }
-                                                }.execute();
+                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                             }
                                         })
                                 .setNeutralButton(R.string.just_unsub,
@@ -2961,7 +2961,7 @@ public class MainActivity extends BaseActivity
                                     })
                                     .show();
                         }
-                    }.execute();
+                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             });
             dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
@@ -3128,7 +3128,7 @@ public class MainActivity extends BaseActivity
                                                                                             s.show();
                                                                                         }
                                                                                     }
-                                                                                }.execute();
+                                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                                             }
                                                                         })
                                                                 .negativeText(R.string.btn_cancel)
@@ -3191,7 +3191,7 @@ public class MainActivity extends BaseActivity
                                                                     s.show();
                                                                 }
                                                             }
-                                                        }.execute();
+                                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                     }
                                                 }
                                             })
@@ -3634,7 +3634,7 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit,
-                                chosen).execute();
+                                chosen).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
                 })
                 .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {

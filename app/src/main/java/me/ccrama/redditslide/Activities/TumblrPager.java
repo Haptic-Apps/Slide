@@ -15,6 +15,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -178,7 +179,7 @@ public class TumblrPager extends FullScreenActivity
 
         String url = getIntent().getExtras().getString("url", "");
         setShareUrl(url);
-        new LoadIntoPager(url, this).execute();
+        new LoadIntoPager(url, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);

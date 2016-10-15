@@ -443,7 +443,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                     buildDialog();
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 

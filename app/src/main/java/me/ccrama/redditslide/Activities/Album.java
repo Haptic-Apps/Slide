@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -365,7 +366,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
             ((BaseActivity) getActivity()).setShareUrl(((Album) getActivity()).url);
 
-            new LoadIntoRecycler(((Album) getActivity()).url, getActivity()).execute();
+            new LoadIntoRecycler(((Album) getActivity()).url, getActivity()).executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR);
             ((Album) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
             ((Album) getActivity()).mToolbar.setTitle(R.string.type_album);
             ToolbarColorizeHelper.colorizeToolbar(((Album) getActivity()).mToolbar, Color.WHITE,

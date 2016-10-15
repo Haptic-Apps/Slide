@@ -444,7 +444,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View v) {
                 final String text = e.getText().toString();
-                new AsyncReplyTask(replyTo, text).execute();
+                new AsyncReplyTask(replyTo, text).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 d.dismiss();
             }
         });
@@ -498,7 +498,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         }
 
 
-                                    }.execute();
+                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 }
                             });
                         }

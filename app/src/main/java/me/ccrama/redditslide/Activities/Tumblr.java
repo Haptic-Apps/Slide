@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -366,7 +367,8 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
             ((BaseActivity) getActivity()).setShareUrl(((Tumblr) getActivity()).url);
 
-            new LoadIntoRecycler(((Tumblr) getActivity()).url, getActivity()).execute();
+            new LoadIntoRecycler(((Tumblr) getActivity()).url, getActivity()).executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR);
             ((Tumblr) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
             ((Tumblr) getActivity()).mToolbar.setTitle(R.string.type_album);
             ToolbarColorizeHelper.colorizeToolbar(((Tumblr) getActivity()).mToolbar, Color.WHITE,

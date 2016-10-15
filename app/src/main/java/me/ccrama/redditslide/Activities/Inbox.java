@@ -105,7 +105,7 @@ public class Inbox extends BaseActivityAnim {
                             }
                         }
                     }
-                }.execute();
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -187,6 +187,7 @@ public class Inbox extends BaseActivityAnim {
             }
         });
         if (!Authentication.reddit.isAuthenticated() || Authentication.me == null) {
+            LogUtil.v("Reauthenticating");
 
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -237,7 +238,7 @@ public class Inbox extends BaseActivityAnim {
 
                     return null;
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 

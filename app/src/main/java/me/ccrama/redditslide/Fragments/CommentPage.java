@@ -1201,7 +1201,7 @@ public class CommentPage extends Fragment {
                                                                 })
                                                         .show();
                                             }
-                                        }.execute();
+                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                     }
                                 });
                         dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
@@ -1336,13 +1336,13 @@ public class CommentPage extends Fragment {
                                                                             }
                                                                             return null;
                                                                         }
-                                                                    }.execute();
+                                                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                                                                 }
                                                             })
                                                     .show();
                                         }
-                                    }.execute();
+                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 }
                             });
 
@@ -1447,7 +1447,7 @@ public class CommentPage extends Fragment {
                                                                         }
                                                                         return true;
                                                                     }
-                                                                }.execute();
+                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                             }
                                                         })
                                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -1573,7 +1573,7 @@ public class CommentPage extends Fragment {
                                                                         }
                                                                         return true;
                                                                     }
-                                                                }.execute();
+                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                                             }
                                                         })
                                                 .setNeutralButton(R.string.just_unsub,

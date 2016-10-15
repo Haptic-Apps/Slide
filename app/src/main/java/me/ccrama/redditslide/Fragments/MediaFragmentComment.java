@@ -291,7 +291,7 @@ public class MediaFragmentComment extends Fragment {
                     }
 
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -371,7 +371,7 @@ public class MediaFragmentComment extends Fragment {
                     getActivity().startActivity(i);
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void doLoadImgur(String url) {
@@ -456,7 +456,7 @@ public class MediaFragmentComment extends Fragment {
                         }
                     }
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -525,7 +525,7 @@ public class MediaFragmentComment extends Fragment {
                 protected void onPostExecute(Void aVoid) {
                     rootView.findViewById(R.id.progress).setVisibility(View.GONE);
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         } else {
             displayImage(contentUrl);

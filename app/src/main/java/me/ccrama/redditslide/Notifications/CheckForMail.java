@@ -56,10 +56,10 @@ public class CheckForMail extends BroadcastReceiver {
         if(Authentication.reddit == null || !Authentication.reddit.isAuthenticated()){
             Reddit.authentication = new Authentication(context);
         }
-        new AsyncGetMail().execute();
-        if (Authentication.mod) new AsyncGetModmail().execute();
+        new AsyncGetMail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if (Authentication.mod) new AsyncGetModmail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         if (!Reddit.appRestart.getString(SUBS_TO_GET, "").isEmpty()) {
-            new AsyncGetSubs(c).execute();
+            new AsyncGetSubs(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         if(Reddit.notificationTime != -1)

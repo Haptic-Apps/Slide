@@ -65,7 +65,7 @@ public class Wiki extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Palette.getColor(subreddit));
 
-        new AsyncGetWiki().execute();
+        new AsyncGetWiki().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
     public WikiManager wiki;
     private class AsyncGetWiki extends AsyncTask<Void, Void, Void> {

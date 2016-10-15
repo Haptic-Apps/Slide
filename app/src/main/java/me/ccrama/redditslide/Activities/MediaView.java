@@ -258,7 +258,7 @@ public class MediaView extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(contentUrl, MediaView.this, true);
+                        LinkUtil.openExternally(StringEscapeUtils.unescapeHtml4(contentUrl), MediaView.this, true);
                         break;
                     }
                     case (3): {
@@ -266,7 +266,7 @@ public class MediaView extends FullScreenActivity
                         break;
                     }
                     case (5): {
-                        Reddit.defaultShareText("", contentUrl, MediaView.this);
+                        Reddit.defaultShareText("", StringEscapeUtils.unescapeHtml4(contentUrl), MediaView.this);
                         break;
                     }
                     case (6): {
@@ -387,7 +387,7 @@ public class MediaView extends FullScreenActivity
                 }
                 return null;
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
@@ -689,7 +689,7 @@ public class MediaView extends FullScreenActivity
                     }
 
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -751,7 +751,7 @@ public class MediaView extends FullScreenActivity
                     }
 
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -783,7 +783,7 @@ public class MediaView extends FullScreenActivity
                     finish();
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void doLoadImage(String contentUrl) {
@@ -854,7 +854,7 @@ public class MediaView extends FullScreenActivity
                 protected void onPostExecute(Void aVoid) {
                     findViewById(R.id.progress).setVisibility(View.GONE);
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         } else {
             displayImage(contentUrl);
