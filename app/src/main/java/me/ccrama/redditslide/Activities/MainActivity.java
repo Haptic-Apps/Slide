@@ -4637,7 +4637,7 @@ public class MainActivity extends BaseActivity
                         if (page != null && page.adapter != null) {
                             SubredditPosts p = page.adapter.dataSet;
                             if (p.offline) {
-                                p.doMainActivityOffline(p.displayer);
+                                p.doMainActivityOffline(MainActivity.this.getApplicationContext(), p.displayer);
                             }
                         }
                     }
