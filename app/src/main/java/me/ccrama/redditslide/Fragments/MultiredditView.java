@@ -222,8 +222,8 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         });
 
         if ((multireddits != null) && !multireddits.isEmpty()) {
-            PostLoaderManager.setInstance(new MultiredditPosts(multireddits.get(id).getDisplayName(), profile));
-            posts = (MultiredditPosts) PostLoaderManager.getInstance();
+            posts = new MultiredditPosts(multireddits.get(id).getDisplayName(), profile);
+            PostLoaderManager.setInstance(posts);
 
             adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
             rv.setAdapter(adapter);

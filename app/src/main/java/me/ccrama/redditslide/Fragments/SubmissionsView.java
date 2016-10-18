@@ -313,7 +313,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             });
         }
 
-        PostLoaderManager.setInstance(new SubredditPosts(id));
+        posts = new SubredditPosts(id);
+        PostLoaderManager.setInstance(posts);
         posts = (SubredditPosts)PostLoaderManager.getInstance();
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
         adapter.setHasStableIds(true);
@@ -335,8 +336,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
         });
 
-        PostLoaderManager.setInstance(new SubredditPosts(id, force18));
-        posts = (SubredditPosts)PostLoaderManager.getInstance();
+        posts = new SubredditPosts(id, force18);
+        PostLoaderManager.setInstance(posts);
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);

@@ -33,6 +33,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -209,6 +210,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                    }, 400);
 
                                                                } else {
+                                                                   PostLoaderManager.setInstance(dataSet);
                                                                    Intent i2 = new Intent(context, CommentsScreen.class);
                                                                    i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                                                                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
@@ -236,6 +238,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                    }, 400);
 
                                                                } else {
+                                                                   PostLoaderManager.setInstance(dataSet);
                                                                    Intent i2 = new Intent(context, CommentsScreen.class);
                                                                    i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                                                                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
