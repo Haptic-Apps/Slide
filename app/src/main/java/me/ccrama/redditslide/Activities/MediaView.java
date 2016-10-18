@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -258,7 +259,8 @@ public class MediaView extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(StringEscapeUtils.unescapeHtml4(contentUrl), MediaView.this, true);
+                        LinkUtil.openExternally(StringEscapeUtils.unescapeHtml4(contentUrl),
+                                MediaView.this, true);
                         break;
                     }
                     case (3): {
@@ -266,7 +268,8 @@ public class MediaView extends FullScreenActivity
                         break;
                     }
                     case (5): {
-                        Reddit.defaultShareText("", StringEscapeUtils.unescapeHtml4(contentUrl), MediaView.this);
+                        Reddit.defaultShareText("", StringEscapeUtils.unescapeHtml4(contentUrl),
+                                MediaView.this);
                         break;
                     }
                     case (6): {
@@ -625,7 +628,8 @@ public class MediaView extends FullScreenActivity
             new AsyncTask<Void, Void, JsonObject>() {
                 @Override
                 protected JsonObject doInBackground(Void... params) {
-                    return HttpUtil.getImgurMashapeJsonObject(Reddit.client, gson, apiUrl, mashapeKey);
+                    return HttpUtil.getImgurMashapeJsonObject(Reddit.client, gson, apiUrl,
+                            mashapeKey);
                 }
 
                 @Override
@@ -1196,44 +1200,63 @@ public class MediaView extends FullScreenActivity
         try {
             //creates a file in the cache; filename will be prefixed with "img" and end with ".png"
             image = File.createTempFile("img", ".png", imagesDir);
-            FileOutputStream out = null;
 
-            try {
-                //convert image to png
-                out = new FileOutputStream(image);
-                bitmap.compress(original.endsWith("png")?Bitmap.CompressFormat.PNG: Bitmap.CompressFormat.JPEG, 100, out);
-            } finally {
-                if (out != null) {
-                    out.close();
-
-                    /**
-                     * If a user has both a debug build and a release build installed, the authority name needs to be unique
-                     */
-                    final String authority = (this.getPackageName()).concat(".")
-                            .concat(MediaView.class.getSimpleName());
-
-                    final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
-
-                    if (contentUri != null) {
-                        final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
-                        shareImageIntent.addFlags(
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
-                        shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                        shareImageIntent.setDataAndType(contentUri,
-                                getContentResolver().getType(contentUri));
-
-                        //Select a share option
-                        startActivity(Intent.createChooser(shareImageIntent,
-                                getString(R.string.misc_img_share)));
-                    } else {
-                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG)
-                                .show();
-                    }
+            File f = ((Reddit) getApplicationContext()).getImageLoader()
+                    .getDiscCache()
+                    .get(original);
+            if (f != null) {
+                try {
+                    Files.copy(f, image);
+                } catch (IOException e) {
+                    doAlternativeImageSave(image, bitmap, original);
+                    e.printStackTrace();
                 }
+            } else {
+                doAlternativeImageSave(image, bitmap, original);
             }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
             Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void doAlternativeImageSave(File image, Bitmap bitmap, String original)
+            throws IOException {
+        FileOutputStream out = null;
+
+        try {
+            //convert image to png
+            out = new FileOutputStream(image);
+            bitmap.compress(original.endsWith("png") ? Bitmap.CompressFormat.PNG
+                    : Bitmap.CompressFormat.JPEG, 100, out);
+        } finally {
+            if (out != null) {
+                out.close();
+
+                /**
+                 * If a user has both a debug build and a release build installed, the authority name needs to be unique
+                 */
+                final String authority =
+                        (this.getPackageName()).concat(".").concat(MediaView.class.getSimpleName());
+
+                final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
+
+                if (contentUri != null) {
+                    final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
+                    shareImageIntent.addFlags(
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
+                    shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                    shareImageIntent.setDataAndType(contentUri,
+                            getContentResolver().getType(contentUri));
+
+                    //Select a share option
+                    startActivity(Intent.createChooser(shareImageIntent,
+                            getString(R.string.misc_img_share)));
+                } else {
+                    Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG)
+                            .show();
+                }
+            }
         }
     }
 

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.common.io.Files;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -107,10 +108,31 @@ public class ImageDownloadNotificationService extends Service {
                             @Override
                             public void onLoadingComplete(String imageUri, View view,
                                                           final Bitmap loadedImage) {
-                                try {
-                                    saveImageGallery(loadedImage, finalUrl1);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+
+                                File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(finalUrl1);
+                                if(f !=null){
+                                    File f_out = new File(
+                                            Reddit.appRestart.getString("imagelocation", "")
+                                                    + File.separator
+                                                    + (index > -1 ? String.format("%03d", index) : "") + "_"
+                                                    + UUID.randomUUID().toString()
+                                                    + ".png");
+                                    try {
+                                        Files.copy(f, f_out);
+                                    } catch (IOException e) {
+                                        try {
+                                            saveImageGallery(loadedImage, finalUrl1);
+                                        } catch (IOException ignored) {
+                                            e.printStackTrace();
+                                        }
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        saveImageGallery(loadedImage, finalUrl1);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }, new ImageLoadingProgressListener() {
