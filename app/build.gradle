@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 24
-        versionCode 253
+        versionCode 254
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
