@@ -819,7 +819,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case 4:
                         Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
-                                submission.getUrl(), mContext);
+                                StringEscapeUtils.escapeHtml4(submission.getUrl()), mContext);
                         break;
                     case 12:
                         reportReason = "";

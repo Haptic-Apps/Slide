@@ -1164,12 +1164,12 @@ public class MediaView extends FullScreenActivity
         });
     }
 
-    private void shareImage(String finalUrl) {
+    private void shareImage(final String finalUrl) {
         ((Reddit) getApplication()).getImageLoader()
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        shareImage(loadedImage);
+                        shareImage(loadedImage, finalUrl);
                     }
                 });
     }
@@ -1181,7 +1181,7 @@ public class MediaView extends FullScreenActivity
      *
      * @param bitmap image to share
      */
-    private void shareImage(final Bitmap bitmap) {
+    private void shareImage(final Bitmap bitmap, String original) {
         File image; //image to share
 
         //check to see if the cache/shared_images directory is present
@@ -1201,7 +1201,7 @@ public class MediaView extends FullScreenActivity
             try {
                 //convert image to png
                 out = new FileOutputStream(image);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                bitmap.compress(original.endsWith("png")?Bitmap.CompressFormat.PNG: Bitmap.CompressFormat.JPEG, 100, out);
             } finally {
                 if (out != null) {
                     out.close();

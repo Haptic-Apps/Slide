@@ -54,6 +54,8 @@ public class ImageDownloadNotificationService extends Service {
         new PollTask(actuallyLoaded, intent.getIntExtra("index", -1)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    int currentLevel;
+
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
@@ -115,8 +117,9 @@ public class ImageDownloadNotificationService extends Service {
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current,
                                                          int total) {
-                                if ((current / total * 100) % 10 == 0) {
-                                    mBuilder.setProgress(total, current, false);
+                                if ((current / total * 100) > currentLevel * 10) {
+                                    currentLevel +=1;
+                                    mBuilder.setProgress(100, (current / total * 100), false);
                                     mNotifyManager.notify(id, mBuilder.build());
                                 }
                             }
@@ -179,7 +182,7 @@ public class ImageDownloadNotificationService extends Service {
 
                             {
                                 final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                shareIntent.setDataAndType(photoURI, "image/*");
+                                shareIntent.setDataAndType(photoURI,  getContentResolver().getType(photoURI));
                                 List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(shareIntent,
                                         PackageManager.MATCH_DEFAULT_ONLY);
                                 for (ResolveInfo resolveInfo : resInfoList) {
@@ -195,7 +198,7 @@ public class ImageDownloadNotificationService extends Service {
 
                             {
                                 final Intent shareIntent = new Intent(getApplicationContext(), DeleteFile.class);
-                                shareIntent.putExtra("image", uri.getPath());
+                                shareIntent.putExtra("image", photoURI);
                                 pDeleteIntent =
                                         PendingIntent.getActivity(getApplicationContext(), id + 3,
                                                 shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -238,7 +241,7 @@ public class ImageDownloadNotificationService extends Service {
             FileOutputStream out = null;
             f.createNewFile();
             out = new FileOutputStream(f);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            bitmap.compress(URL.endsWith("png")?Bitmap.CompressFormat.PNG: Bitmap.CompressFormat.JPEG, 100, out);
             {
                 try {
                     if (out != null) {

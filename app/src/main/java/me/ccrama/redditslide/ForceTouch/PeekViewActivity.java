@@ -31,12 +31,13 @@ public class PeekViewActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-
-        if(event.getAction() == MotionEvent.ACTION_UP){
-            Reddit.peek = false;
-        }
         if (peekView != null && event.getAction() == MotionEvent.ACTION_UP) {
 
+            if(Reddit.peek){
+                peekView.pop();
+                peekView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                Reddit.peek = false;
+            }
             // the user lifted their finger, so we are going to remove the peek view
             removePeek(event);
 
@@ -60,11 +61,11 @@ public class PeekViewActivity extends AppCompatActivity {
                         params.rightMargin = twelve;
                     }
 
-                    if (event.getY() < (1 * origY) / 2) {
-                        Reddit.peek = true;
+                    if (event.getY() < (origY) / 2 && !Reddit.peek) {
                         peekView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                        peekView.pop();
-                        removePeek(event);
+                        Reddit.peek = true;
+                    } else if(event.getY() > (origY) / 2){
+                        Reddit.peek = false;
                     }
                     peek.setLayoutParams(params);
                     break;

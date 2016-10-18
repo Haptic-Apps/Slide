@@ -68,7 +68,7 @@ public class Authentication {
             reddit.setRetryLimit(3);
             if (BuildConfig.DEBUG) reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
-            new VerifyCredentials(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new VerifyCredentials(context).execute();
         } else {
             isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             name = Reddit.appRestart.getString("name", "");
@@ -314,6 +314,7 @@ public class Authentication {
                                 .putString("backedCreds", authData.getDataNode().toString())
                                 .apply();
                         reddit.authenticate(authData);
+
                         Authentication.name = "LOGGEDOUT";
                         Reddit.notFirst = true;
                         didOnline = true;

@@ -7,22 +7,15 @@ import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import net.dean.jraw.ApiException;
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.DomainPaginator;
 import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.SubredditPaginator;
 
-import org.apache.http.auth.AUTH;
-
-import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -82,7 +75,8 @@ public class SubredditPosts implements PostLoader {
     }
 
     @Override
-    public void loadMore(Context context, SubmissionDisplay display, boolean reset) {
+    public void loadMore(final Context context, final SubmissionDisplay display,
+            final boolean reset) {
         new LoadData(context, display, reset).execute(subreddit);
     }
 
@@ -354,7 +348,9 @@ public class SubredditPosts implements PostLoader {
                 offline = false;
                 nomore = false;
                 String sub = subredditPaginators[0].toLowerCase();
-                if((sub.equals("random") || sub.equals("randnsfw") )&& MainActivity.randomoverride!= null && !MainActivity.randomoverride.isEmpty()){
+                if ((sub.equals("random") || sub.equals("randnsfw"))
+                        && MainActivity.randomoverride != null
+                        && !MainActivity.randomoverride.isEmpty()) {
                     sub = MainActivity.randomoverride;
                     MainActivity.randomoverride = "";
                 }
@@ -378,7 +374,7 @@ public class SubredditPosts implements PostLoader {
                     && SettingValues.lowResMobile) || SettingValues.lowResAlways))) {
                 loadPhotos(filteredSubmissions);
             }
-            if(SettingValues.storeHistory) {
+            if (SettingValues.storeHistory) {
                 HasSeen.setHasSeenSubmission(filteredSubmissions);
                 LastComments.setCommentsSince(filteredSubmissions);
             }
@@ -436,7 +432,8 @@ public class SubredditPosts implements PostLoader {
                     Reddit.authentication.updateToken(context);
                 }
 
-            } return filteredSubmissions;
+            }
+            return filteredSubmissions;
         }
     }
 
@@ -453,14 +450,16 @@ public class SubredditPosts implements PostLoader {
         int i = 0;
         for (String s : all) {
             String[] split = s.split(",");
-            titles[i] = (Long.valueOf(split[1]) == 0 ? c.getString(R.string.settings_backup_submission_only)
-                    : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + c.getString(R.string.settings_backup_comments));
+            titles[i] = (Long.valueOf(split[1]) == 0 ? c.getString(
+                    R.string.settings_backup_submission_only)
+                    : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + c.getString(
+                            R.string.settings_backup_comments));
             base[i] = s;
             i++;
         }
 
         ((MainActivity) c).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-       ((MainActivity) c).getSupportActionBar()
+        ((MainActivity) c).getSupportActionBar()
                 .setListNavigationCallbacks(
                         new OfflineSubAdapter(c, android.R.layout.simple_list_item_1, titles),
                         new ActionBar.OnNavigationListener() {
