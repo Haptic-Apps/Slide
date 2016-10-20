@@ -75,21 +75,21 @@ android {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:2888e4e239'
+    compile 'com.github.ccrama:JRAW:7ebba23bb4'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'org.ligi:snackengage:0.5'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:customtabs:24.2.0'
-    compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:customtabs:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.github.rey5137:material:1.2.4'
     withGPlayCompile 'com.google.android.gms:play-services-drive:9.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
     // ↑ minor
-    compile 'com.android.support:cardview-v7:24.2.0'
+    compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.cocosw:bottomsheet:1.3.0@aar'
     compile 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
     compile 'org.apache.commons:commons-lang3:3.4'

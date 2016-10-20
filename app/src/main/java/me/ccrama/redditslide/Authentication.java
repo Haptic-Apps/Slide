@@ -50,6 +50,7 @@ public class Authentication {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
+                if(httpAdapter.getNativeClient() != null)
                 httpAdapter.getNativeClient().connectionPool().evictAll();
                 return null;
             }

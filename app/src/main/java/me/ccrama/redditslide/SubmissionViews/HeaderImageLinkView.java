@@ -50,6 +50,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -608,11 +609,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                                 callOnClick();
                             }
                         });
-                    }
-
-                    @Override
-                    public void shown() {
-                        callOnClick();
                     }
                 })
                         .with(new PeekViewOptions().setFullScreenPeek(true))
