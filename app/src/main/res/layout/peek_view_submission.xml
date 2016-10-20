@@ -28,6 +28,19 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>
 
+    <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:text="https://imgur.com/a/duARTe"
+            android:maxLines="1"
+            android:gravity="center_vertical"
+            android:layout_marginTop="36dp"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
     <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/menu"
@@ -50,7 +63,7 @@
                 android:layout_weight="1"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:id="@+id/upvote"
+                android:id="@+id/upvoteb"
                 android:src="@drawable/upvoted"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
@@ -64,17 +77,4 @@
                 android:clickable="true"
                 android:layout_height="match_parent"/>
     </LinearLayout>
-
-    <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/title"
-            android:text="https://imgur.com/a/duARTe"
-            android:maxLines="1"
-            android:gravity="center_vertical"
-            android:layout_marginTop="36dp"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"/>
 </RelativeLayout>

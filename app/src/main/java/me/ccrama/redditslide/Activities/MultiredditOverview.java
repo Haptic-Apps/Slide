@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
@@ -666,7 +667,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         LinearLayout l = (LinearLayout) findViewById(R.id.sidebar_scroll);
         l.removeAllViews();
 
-        ArrayList<String> toSort = new ArrayList<>();
+        CaseInsensitiveArrayList toSort = new CaseInsensitiveArrayList();
 
         for (MultiSubreddit s : current.getSubreddits()) {
             toSort.add(s.getDisplayName().toLowerCase());

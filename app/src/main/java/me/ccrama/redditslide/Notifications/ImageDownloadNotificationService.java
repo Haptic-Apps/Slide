@@ -28,6 +28,8 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,10 +51,11 @@ public class ImageDownloadNotificationService extends Service {
     private void handleIntent(Intent intent) {
         String actuallyLoaded = intent.getStringExtra("actuallyLoaded");
         if (actuallyLoaded.contains("imgur.com") && (!actuallyLoaded.contains(".png")
-                || !actuallyLoaded.contains(".jpg"))) {
+                && !actuallyLoaded.contains(".jpg"))) {
             actuallyLoaded = actuallyLoaded + ".png";
         }
-        new PollTask(actuallyLoaded, intent.getIntExtra("index", -1)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new PollTask(actuallyLoaded, intent.getIntExtra("index", -1)).executeOnExecutor(
+                AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     int currentLevel;
@@ -60,11 +63,11 @@ public class ImageDownloadNotificationService extends Service {
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
-        public int id;
-        private NotificationManager mNotifyManager;
+        public  int                        id;
+        private NotificationManager        mNotifyManager;
         private NotificationCompat.Builder mBuilder;
-        public String actuallyLoaded;
-        private int index;
+        public  String                     actuallyLoaded;
+        private int                        index;
 
 
         public PollTask(String actuallyLoaded, int index) {
@@ -100,56 +103,78 @@ public class ImageDownloadNotificationService extends Service {
             String url = actuallyLoaded;
             final String finalUrl1 = url;
             final String finalUrl = actuallyLoaded;
+            currentLevel = 0;
             try {
                 ((Reddit) getApplication()).getImageLoader()
                         .loadImage(finalUrl, null, new DisplayImageOptions.Builder().imageScaleType(
-                                ImageScaleType.NONE).cacheInMemory(false).build(), new SimpleImageLoadingListener() {
+                                ImageScaleType.NONE).cacheInMemory(false).cacheOnDisk(true).build(),
+                                new SimpleImageLoadingListener() {
 
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view,
-                                                          final Bitmap loadedImage) {
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            final Bitmap loadedImage) {
 
-                                File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(finalUrl1);
-                                if(f !=null){
-                                    File f_out = new File(
-                                            Reddit.appRestart.getString("imagelocation", "")
-                                                    + File.separator
-                                                    + (index > -1 ? String.format("%03d", index) : "") + "_"
-                                                    + UUID.randomUUID().toString()
-                                                    + ".png");
-                                    try {
-                                        Files.copy(f, f_out);
-                                    } catch (IOException e) {
-                                        try {
-                                            saveImageGallery(loadedImage, finalUrl1);
-                                        } catch (IOException ignored) {
-                                            e.printStackTrace();
+                                        File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(finalUrl);
+                                        if (f != null && f.exists()) {
+                                            File f_out = null;
+                                            try {
+                                                f_out = new File(
+                                                        Reddit.appRestart.getString("imagelocation",
+                                                                "")
+                                                                + File.separator
+                                                                + (index > -1 ? String.format(
+                                                                "%03d_", index) : "")
+                                                                + getFileName(new URL(finalUrl1)));
+                                            } catch (MalformedURLException e) {
+                                                f_out = new File(
+                                                        Reddit.appRestart.getString("imagelocation",
+                                                                "")
+                                                                + File.separator
+                                                                + (index > -1 ? String.format(
+                                                                "%03d_", index) : "")
+                                                                + UUID.randomUUID().toString()
+                                                                + ".png");
+                                            }
+                                            LogUtil.v("F out is " + f_out.toString());
+                                            try {
+                                                Files.copy(f, f_out);
+                                                showNotifPhoto(f_out, loadedImage);
+                                            } catch (IOException e) {
+                                                try {
+                                                    saveImageGallery(loadedImage, finalUrl1);
+                                                } catch (IOException ignored) {
+                                                }
+                                            }
+                                        } else {
+                                            try {
+                                                saveImageGallery(loadedImage, finalUrl1);
+                                            } catch (IOException e) {
+                                            }
                                         }
-                                        e.printStackTrace();
                                     }
-                                } else {
-                                    try {
-                                        saveImageGallery(loadedImage, finalUrl1);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view,
+                                            int current, int total) {
+                                        LogUtil.v("Current is " + current + " and total is " + total + " and level is " + currentLevel);
+                                        if (((current / total) * 100) > currentLevel * 10) {
+                                            currentLevel += 1;
+                                            mBuilder.setProgress(100, ((current / total) * 100),
+                                                    false);
+                                            mNotifyManager.notify(id, mBuilder.build());
+                                        }
                                     }
-                                }
-                            }
-                        }, new ImageLoadingProgressListener() {
-                            @Override
-                            public void onProgressUpdate(String imageUri, View view, int current,
-                                                         int total) {
-                                if ((current / total * 100) > currentLevel * 10) {
-                                    currentLevel +=1;
-                                    mBuilder.setProgress(100, (current / total * 100), false);
-                                    mNotifyManager.notify(id, mBuilder.build());
-                                }
-                            }
-                        });
+                                });
             } catch (Exception e) {
                 Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
             }
             return null;
+        }
+
+        private String getFileName(URL url) {
+            if (url == null) return null;
+            String path = url.getPath();
+            return path.substring(path.lastIndexOf("/") + 1);
         }
 
         @Override
@@ -173,12 +198,14 @@ public class ImageDownloadNotificationService extends Service {
                             {
                                 final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
                                 shareIntent.setDataAndType(photoURI, "image/*");
-                                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(shareIntent,
-                                        PackageManager.MATCH_DEFAULT_ONLY);
+                                List<ResolveInfo> resInfoList =
+                                        getPackageManager().queryIntentActivities(shareIntent,
+                                                PackageManager.MATCH_DEFAULT_ONLY);
                                 for (ResolveInfo resolveInfo : resInfoList) {
                                     String packageName = resolveInfo.activityInfo.packageName;
                                     grantUriPermission(packageName, photoURI,
-                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                                    | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 }
 
                                 pContentIntent =
@@ -189,12 +216,14 @@ public class ImageDownloadNotificationService extends Service {
                             {
                                 final Intent shareIntent = new Intent(Intent.ACTION_EDIT);
                                 shareIntent.setDataAndType(photoURI, "image/*");
-                                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(shareIntent,
-                                        PackageManager.MATCH_DEFAULT_ONLY);
+                                List<ResolveInfo> resInfoList =
+                                        getPackageManager().queryIntentActivities(shareIntent,
+                                                PackageManager.MATCH_DEFAULT_ONLY);
                                 for (ResolveInfo resolveInfo : resInfoList) {
                                     String packageName = resolveInfo.activityInfo.packageName;
                                     grantUriPermission(packageName, photoURI,
-                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                                    | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 }
 
                                 pEditIntent =
@@ -204,13 +233,16 @@ public class ImageDownloadNotificationService extends Service {
 
                             {
                                 final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                shareIntent.setDataAndType(photoURI,  getContentResolver().getType(photoURI));
-                                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(shareIntent,
-                                        PackageManager.MATCH_DEFAULT_ONLY);
+                                shareIntent.setDataAndType(photoURI,
+                                        getContentResolver().getType(photoURI));
+                                List<ResolveInfo> resInfoList =
+                                        getPackageManager().queryIntentActivities(shareIntent,
+                                                PackageManager.MATCH_DEFAULT_ONLY);
                                 for (ResolveInfo resolveInfo : resInfoList) {
                                     String packageName = resolveInfo.activityInfo.packageName;
                                     grantUriPermission(packageName, photoURI,
-                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                                    | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 }
 
                                 pShareIntent =
@@ -219,8 +251,9 @@ public class ImageDownloadNotificationService extends Service {
                             }
 
                             {
-                                final Intent shareIntent = new Intent(getApplicationContext(), DeleteFile.class);
-                                shareIntent.putExtra("image", photoURI);
+                                final Intent shareIntent =
+                                        new Intent(getApplicationContext(), DeleteFile.class);
+                                shareIntent.putExtra("image", photoURI.getPath());
                                 pDeleteIntent =
                                         PendingIntent.getActivity(getApplicationContext(), id + 3,
                                                 shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -233,9 +266,11 @@ public class ImageDownloadNotificationService extends Service {
                                     .setSmallIcon(R.drawable.savecontent)
                                     .setLargeIcon(loadedImage)
                                     .setContentIntent(pContentIntent)
-                                    .addAction(R.drawable.share, getString(R.string.share_image), pShareIntent)
+                                    .addAction(R.drawable.share, getString(R.string.share_image),
+                                            pShareIntent)
                                     //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
-                                    .addAction(R.drawable.delete, getString(R.string.btn_delete), pDeleteIntent)
+                                    .addAction(R.drawable.delete, getString(R.string.btn_delete),
+                                            pDeleteIntent)
                                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
                                             loadedImage))
                                     .build();
@@ -254,16 +289,16 @@ public class ImageDownloadNotificationService extends Service {
         private void saveImageGallery(final Bitmap bitmap, String URL) throws IOException {
 
             File f = new File(
-                    Reddit.appRestart.getString("imagelocation", "")
-                            + File.separator
-                            + (index > -1 ? String.format("%03d", index) : "") + "_"
-                            + UUID.randomUUID().toString()
-                            + ".png");
+                    Reddit.appRestart.getString("imagelocation", "") + File.separator + (index > -1
+                            ? String.format("%03d_", index) : "") + UUID.randomUUID()
+                            .toString() + (URL.endsWith("png") ?".png":".jpg"));
 
             FileOutputStream out = null;
             f.createNewFile();
             out = new FileOutputStream(f);
-            bitmap.compress(URL.endsWith("png")?Bitmap.CompressFormat.PNG: Bitmap.CompressFormat.JPEG, 100, out);
+            bitmap.compress(
+                    URL.endsWith("png") ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG,
+                    100, out);
             {
                 try {
                     if (out != null) {

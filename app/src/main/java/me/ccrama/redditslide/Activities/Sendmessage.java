@@ -142,7 +142,7 @@ public class Sendmessage extends BaseActivity {
                             LayoutInflater inflater = getLayoutInflater();
 
                             final View dialoglayout = inflater.inflate(R.layout.capatcha, null);
-                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Sendmessage.this);
+                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Sendmessage.this).setCancelable(false);
 
                             ((Reddit) getApplication()).getImageLoader().displayImage(c.getImageUrl().toString(),
                                     (ImageView) dialoglayout.findViewById(R.id.cap));

@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.UserSubscriptions;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertThat;
  * Created by Alex Macleod on 28/03/2016.
  */
 public class UserSubscriptionsTest {
-    private final ArrayList<String> subreddits = new ArrayList<>(Arrays.asList(
+    private final CaseInsensitiveArrayList subreddits = new CaseInsensitiveArrayList(Arrays.asList(
             "xyy", "xyz", "frontpage", "mod", "friends", "random", "aaa"
     ));
 

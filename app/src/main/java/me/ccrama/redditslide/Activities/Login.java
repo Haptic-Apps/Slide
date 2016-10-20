@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.UserSubscriptions;
@@ -47,8 +48,8 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Login extends BaseActivityAnim {
     private static final String CLIENT_ID    = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    Dialog            d;
-    ArrayList<String> subNames;
+    Dialog                           d;
+    CaseInsensitiveArrayList subNames;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -112,7 +113,7 @@ public class Login extends BaseActivityAnim {
     }
 
     private void doSubStrings(ArrayList<Subreddit> subs) {
-        subNames = new ArrayList<>();
+        subNames = new CaseInsensitiveArrayList();
         for (Subreddit s : subs) {
             subNames.add(s.getDisplayName().toLowerCase());
         }

@@ -294,12 +294,8 @@ public class MediaView extends FullScreenActivity
                 showErrorDialog();
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
-                if (findViewById(R.id.hq).getVisibility() == View.VISIBLE) {
-                    i.putExtra("actuallyLoaded", contentUrl);
-                    LogUtil.v("Loading content url " + contentUrl);
-                } else {
-                    i.putExtra("actuallyLoaded", actuallyLoaded);
-                }
+                //always download the original file, or use the cached original if that is currently displayed
+                i.putExtra("actuallyLoaded", contentUrl);
                 startService(i);
             }
         } else {
@@ -1207,15 +1203,39 @@ public class MediaView extends FullScreenActivity
             if (f != null) {
                 try {
                     Files.copy(f, image);
+                    shareFile(image);
                 } catch (IOException e) {
                     doAlternativeImageSave(image, bitmap, original);
+                    shareFile(image);
                     e.printStackTrace();
                 }
             } else {
                 doAlternativeImageSave(image, bitmap, original);
+                shareFile(image);
             }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
+            Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void shareFile(File image) {
+        final String authority =
+                (this.getPackageName()).concat(".").concat(MediaView.class.getSimpleName());
+
+        final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
+
+        if (contentUri != null) {
+            final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
+            shareImageIntent.addFlags(
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
+            shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            shareImageIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+
+            //Select a share option
+            startActivity(
+                    Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+        } else {
             Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
         }
     }

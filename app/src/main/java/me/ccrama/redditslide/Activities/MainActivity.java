@@ -124,6 +124,7 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.BuildConfig;
+import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Constants;
@@ -177,15 +178,15 @@ public class MainActivity extends BaseActivity
     public static int     restartPage;
     public final  long ANIMATE_DURATION        = 250; //duration of animations
     private final long ANIMATE_DURATION_OFFSET = 45; //offset for smoothing out the exit animations
-    public boolean              singleMode;
-    public ToggleSwipeViewPager pager;
-    public List<String>         usedArray;
-    public DrawerLayout         drawerLayout;
-    public View                 hea;
-    public EditText             drawerSearch;
-    public View                 header;
-    public String               subToDo;
-    public OverviewPagerAdapter adapter;
+    public boolean                  singleMode;
+    public ToggleSwipeViewPager     pager;
+    public CaseInsensitiveArrayList usedArray;
+    public DrawerLayout             drawerLayout;
+    public View                     hea;
+    public EditText                 drawerSearch;
+    public View                     header;
+    public String                   subToDo;
+    public OverviewPagerAdapter     adapter;
     public int     toGoto = 0;
     public boolean first  = true;
     public TabLayout mTabLayout;
@@ -3581,7 +3582,7 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void run() {
                     usedArray =
-                            new ArrayList<>(UserSubscriptions.getSubscriptions(MainActivity.this));
+                            new CaseInsensitiveArrayList(UserSubscriptions.getSubscriptions(MainActivity.this));
                     adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                     pager.setAdapter(adapter);
@@ -3676,7 +3677,7 @@ public class MainActivity extends BaseActivity
 
     public void setDataSet(List<String> data) {
         if (data != null && !data.isEmpty()) {
-            usedArray = data;
+            usedArray = new CaseInsensitiveArrayList(data);
             if (adapter == null) {
                 if (commentPager && singleMode) {
                     adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
@@ -4820,6 +4821,7 @@ public class MainActivity extends BaseActivity
                         int positionOffsetPixels) {
                     if (positionOffset == 0) {
                         if (position != toOpenComments) {
+                            pager.setSwipeLeftOnly(true);
                             header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                             doPageSelectedComments(position);
                             if (position == toOpenComments - 1

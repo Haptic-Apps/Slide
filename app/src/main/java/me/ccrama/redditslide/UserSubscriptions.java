@@ -93,7 +93,7 @@ public class UserSubscriptions {
                 //get online subs
                 c.updateSubs(syncSubscriptionsOverwrite(c));
             } else {
-                ArrayList<String> subredditsForHome = new ArrayList<>();
+                CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
                 for (String s2 : s.split(",")) {
                     subredditsForHome.add(s2.toLowerCase());
                 }
@@ -103,13 +103,13 @@ public class UserSubscriptions {
 
         } else {
             String s = subscriptions.getString(Authentication.name, "");
-            List<String> subredditsForHome = new ArrayList<>();
+            List<String> subredditsForHome = new CaseInsensitiveArrayList();
             if (!s.isEmpty()) {
                 for (String s2 : s.split(",")) {
                     subredditsForHome.add(s2.toLowerCase());
                 }
             }
-            ArrayList<String> finals = new ArrayList<>();
+            CaseInsensitiveArrayList finals = new CaseInsensitiveArrayList();
             List<String> offline = OfflineSubreddit.getAllFormatted();
             for (String subs : subredditsForHome) {
                 if (offline.contains(subs)) {
@@ -130,7 +130,7 @@ public class UserSubscriptions {
         if(modOf == null || modOf.isEmpty()) {
             String s = subscriptions.getString(Authentication.name + "mod", "");
             if (!s.isEmpty()) {
-                modOf = new ArrayList<>();
+                modOf = new CaseInsensitiveArrayList();
                 for (String s2 : s.split(",")) {
                     modOf.add(s2.toLowerCase());
                 }
@@ -164,13 +164,13 @@ public class UserSubscriptions {
         }
     }
 
-    public static ArrayList<String> getSubscriptions(Context c) {
+    public static CaseInsensitiveArrayList getSubscriptions(Context c) {
         String s = subscriptions.getString(Authentication.name, "");
         if (s.isEmpty()) {
             //get online subs
             return syncSubscriptionsOverwrite(c);
         } else {
-            ArrayList<String> subredditsForHome = new ArrayList<>();
+            CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
             for (String s2 : s.split(",")) {
                 subredditsForHome.add(s2);
             }
@@ -178,13 +178,13 @@ public class UserSubscriptions {
         }
     }
 
-    public static ArrayList<String> getSubscriptionsForShortcut(Context c) {
+    public static CaseInsensitiveArrayList getSubscriptionsForShortcut(Context c) {
         String s = subscriptions.getString(Authentication.name, "");
         if (s.isEmpty()) {
             //get online subs
             return syncSubscriptionsOverwrite(c);
         } else {
-            ArrayList<String> subredditsForHome = new ArrayList<>();
+            CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
             for (String s2 : s.split(",")) {
                 if (!s2.contains("/m/")) subredditsForHome.add(s2.toLowerCase());
             }
@@ -197,7 +197,7 @@ public class UserSubscriptions {
         return s.isEmpty();
     }
 
-    public static ArrayList<String>      modOf;
+    public static CaseInsensitiveArrayList      modOf;
     public static ArrayList<MultiReddit> multireddits;
     public static HashMap<String, List<MultiReddit>> public_multireddits =
             new HashMap<String, List<MultiReddit>>();
@@ -210,11 +210,11 @@ public class UserSubscriptions {
         loadMultireddits();
     }
 
-    public static ArrayList<String> toreturn;
-    public static ArrayList<String> friends = new ArrayList<>();
+    public static CaseInsensitiveArrayList toreturn;
+    public static CaseInsensitiveArrayList friends = new CaseInsensitiveArrayList();
 
-    public static ArrayList<String> syncSubscriptionsOverwrite(final Context c) {
-        toreturn = new ArrayList<>();
+    public static CaseInsensitiveArrayList syncSubscriptionsOverwrite(final Context c) {
+        toreturn = new CaseInsensitiveArrayList();
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -233,8 +233,8 @@ public class UserSubscriptions {
         return toreturn;
     }
 
-    public static ArrayList<String> syncSubreddits(Context c) {
-        ArrayList<String> toReturn = new ArrayList<>();
+    public static CaseInsensitiveArrayList syncSubreddits(Context c) {
+        CaseInsensitiveArrayList toReturn = new CaseInsensitiveArrayList();
         if (Authentication.isLoggedIn && NetworkUtil.isConnected(c)) {
             UserSubredditsPaginator pag =
                     new UserSubredditsPaginator(Authentication.reddit, "subscriber");
@@ -285,7 +285,7 @@ public class UserSubscriptions {
         }
     }
 
-    public static void setSubscriptions(ArrayList<String> subs) {
+    public static void setSubscriptions(CaseInsensitiveArrayList subs) {
         subscriptions.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
     }
 
@@ -346,7 +346,7 @@ public class UserSubscriptions {
 
     private static void loadPublicMultireddits(String profile) {
         try {
-            public_multireddits.put(profile, new ArrayList<>(
+            public_multireddits.put(profile, new ArrayList(
                     new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
         } catch (Exception e) {
             public_multireddits.put(profile, null);
@@ -354,8 +354,8 @@ public class UserSubscriptions {
         }
     }
 
-    private static ArrayList<String> doModOf() {
-        ArrayList<String> finished = new ArrayList<>();
+    private static CaseInsensitiveArrayList doModOf() {
+        CaseInsensitiveArrayList finished = new CaseInsensitiveArrayList();
 
         UserSubredditsPaginator pag =
                 new UserSubredditsPaginator(Authentication.reddit, "moderator");
@@ -382,8 +382,8 @@ public class UserSubscriptions {
 
     private static List<String> doFriendsOf() {
         if (friends == null || friends.isEmpty()) {
-            friends = new ArrayList<>();
-            ArrayList<String> finished = new ArrayList<>();
+            friends = new CaseInsensitiveArrayList();
+            CaseInsensitiveArrayList finished = new CaseInsensitiveArrayList();
 
             ImportantUserPaginator pag =
                     new ImportantUserPaginator(Authentication.reddit, "friends");
@@ -433,8 +433,8 @@ public class UserSubscriptions {
     }
 
     //Gets user subscriptions + top 500 subs + subs in history
-    public static ArrayList<String> getAllSubreddits(Context c) {
-        ArrayList<String> finalReturn = new ArrayList<>();
+    public static CaseInsensitiveArrayList getAllSubreddits(Context c) {
+        CaseInsensitiveArrayList finalReturn = new CaseInsensitiveArrayList();
         List<String> history = getHistory();
         List<String> defaults = getDefaults(c);
         finalReturn.addAll(getSubscriptions(c));
@@ -457,35 +457,35 @@ public class UserSubscriptions {
     }
 
     //Gets user subscriptions + top 500 subs + subs in history
-    public static ArrayList<String> getAllUserSubreddits(Context c) {
-        ArrayList<String> finalReturn = new ArrayList<>();
+    public static CaseInsensitiveArrayList getAllUserSubreddits(Context c) {
+        CaseInsensitiveArrayList finalReturn = new CaseInsensitiveArrayList();
         finalReturn.addAll(getSubscriptions(c));
         finalReturn.removeAll(getHistory());
         finalReturn.addAll(getHistory());
         return finalReturn;
     }
 
-    public static ArrayList<String> getHistory() {
+    public static CaseInsensitiveArrayList getHistory() {
         String[] hist = subscriptions.getString("subhistory", "").toLowerCase().split(",");
-        ArrayList<String> history = new ArrayList<>();
+        CaseInsensitiveArrayList history = new CaseInsensitiveArrayList();
         Collections.addAll(history, hist);
         return history;
     }
 
-    public static ArrayList<String> getDefaults(Context c) {
-        ArrayList<String> history = new ArrayList<>();
+    public static CaseInsensitiveArrayList getDefaults(Context c) {
+        CaseInsensitiveArrayList history = new CaseInsensitiveArrayList();
         Collections.addAll(history, c.getString(R.string.top_500_csv).split(","));
         return history;
     }
 
     public static void addSubreddit(String s, Context c) {
-        ArrayList<String> subs = getSubscriptions(c);
+        CaseInsensitiveArrayList subs = getSubscriptions(c);
         subs.add(s);
         setSubscriptions(subs);
     }
 
     public static void removeSubreddit(String s, Context c) {
-        ArrayList<String> subs = getSubscriptions(c);
+        CaseInsensitiveArrayList subs = getSubscriptions(c);
         subs.remove(s);
         setSubscriptions(subs);
     }
@@ -510,7 +510,7 @@ public class UserSubscriptions {
         subscriptions.edit().putString("subhistory", history).apply();
     }
 
-    public static void addSubsToHistory(ArrayList<String> s2, boolean b) {
+    public static void addSubsToHistory(CaseInsensitiveArrayList s2, boolean b) {
         String history = subscriptions.getString("subhistory", "").toLowerCase();
         for (String s : s2) {
             if (!history.contains(s.toLowerCase())) {
@@ -590,8 +590,8 @@ public class UserSubscriptions {
      * @return the sorted ArrayList
      * @see #sortNoExtras(ArrayList)
      */
-    public static ArrayList<String> sort(ArrayList<String> unsorted) {
-        ArrayList<String> subs = new ArrayList<>(unsorted);
+    public static CaseInsensitiveArrayList sort(CaseInsensitiveArrayList unsorted) {
+        CaseInsensitiveArrayList subs = new CaseInsensitiveArrayList(unsorted);
 
         if (!subs.contains("frontpage")) {
             subs.add("frontpage");
@@ -612,9 +612,9 @@ public class UserSubscriptions {
      * @return the sorted ArrayList
      * @see #sort(ArrayList)
      */
-    public static ArrayList<String> sortNoExtras(ArrayList<String> unsorted) {
-        List<String> subs = new ArrayList<>(unsorted);
-        ArrayList<String> finals = new ArrayList<>();
+    public static CaseInsensitiveArrayList sortNoExtras(CaseInsensitiveArrayList unsorted) {
+        List<String> subs = new CaseInsensitiveArrayList(unsorted);
+        CaseInsensitiveArrayList finals = new CaseInsensitiveArrayList();
 
         for (String subreddit : specialSubreddits) {
             if (subs.contains(subreddit)) {

@@ -580,7 +580,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                             }
                         });
 
-                        peekView.addButton((R.id.upvote), new OnButtonUp() {
+                        peekView.addButton((R.id.upvoteb), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
                                 ((View)getParent()).findViewById(R.id.upvote).callOnClick();
