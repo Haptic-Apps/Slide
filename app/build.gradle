@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 24
-        versionCode 254
+        versionCode 255
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
@@ -75,7 +75,7 @@ android {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:7ebba23bb4'
+    compile 'com.github.ccrama:JRAW:467ae526d7'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
     compile 'com.jakewharton:process-phoenix:1.0.2'
