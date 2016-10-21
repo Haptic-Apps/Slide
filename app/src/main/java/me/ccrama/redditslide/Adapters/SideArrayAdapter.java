@@ -27,6 +27,7 @@ import java.util.Map;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SantitizeField;
@@ -39,19 +40,20 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 8/17/2015.
  */
 public class SideArrayAdapter extends ArrayAdapter<String> {
-    private final List<String> objects;
-    private Filter filter;
-    public ArrayList<String> baseItems;
-    public ArrayList<String> fitems;
-    public ListView parentL;
+    private final List<String>             objects;
+    private       Filter                   filter;
+    public        CaseInsensitiveArrayList baseItems;
+    public        CaseInsensitiveArrayList fitems;
+    public        ListView                 parentL;
     public boolean openInSubView = true;
 
-    public SideArrayAdapter(Context context, ArrayList<String> objects, ArrayList<String> allSubreddits, ListView view) {
+    public SideArrayAdapter(Context context, ArrayList<String> objects,
+            ArrayList<String> allSubreddits, ListView view) {
         super(context, 0, objects);
         this.objects = new ArrayList<>(allSubreddits);
         filter = new SubFilter();
-        fitems = new ArrayList<>(objects);
-        baseItems = new ArrayList<>(objects);
+        fitems = new CaseInsensitiveArrayList(objects);
+        baseItems = new CaseInsensitiveArrayList(objects);
         parentL = view;
         multiToMatch = UserSubscriptions.getMultiNameToSubs(true);
     }
@@ -75,67 +77,88 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         return filter;
     }
 
-    int height;
+    int                 height;
     Map<String, String> multiToMatch;
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (position < fitems.size()) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.subforsublist, parent, false);
 
             final String sub;
             final String base = fitems.get(position);
-            if(multiToMatch.containsKey(fitems.get(position)) && !fitems.get(position).contains("/m/")){
+            if (multiToMatch.containsKey(fitems.get(position)) && !fitems.get(position)
+                    .contains("/m/")) {
                 sub = multiToMatch.get(fitems.get(position));
             } else {
                 sub = fitems.get(position);
             }
-            final TextView t =
-                    ((TextView) convertView.findViewById(R.id.name));
+            final TextView t = ((TextView) convertView.findViewById(R.id.name));
             t.setText(sub);
 
             if (height == 0) {
                 final View finalConvertView = convertView;
-                convertView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        height = finalConvertView.getHeight();
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            finalConvertView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        } else {
-                            finalConvertView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        }
-                    }
-                });
+                convertView.getViewTreeObserver()
+                        .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                height = finalConvertView.getHeight();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                    finalConvertView.getViewTreeObserver()
+                                            .removeOnGlobalLayoutListener(this);
+                                } else {
+                                    finalConvertView.getViewTreeObserver()
+                                            .removeGlobalOnLayoutListener(this);
+                                }
+                            }
+                        });
             }
 
-            final String subreddit = (sub.contains("+") || sub.contains("/m/")) ? sub : SantitizeField.sanitizeString(sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
+            final String subreddit = (sub.contains("+") || sub.contains("/m/")) ? sub
+                    : SantitizeField.sanitizeString(
+                            sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
 
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+            convertView.findViewById(R.id.color)
+                    .getBackground()
+                    .setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (base.startsWith(getContext().getString(R.string.search_goto) + " ") || !((MainActivity) getContext()).usedArray.contains(base)) {
+                    if (base.startsWith(getContext().getString(R.string.search_goto) + " ")
+                            || !((MainActivity) getContext()).usedArray.contains(base)) {
                         try {
                             //Hide the toolbar search UI without an animation because we're starting a new activity
-                            if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                                    || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
-                                    && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
-                                ((MainActivity) getContext()).findViewById(R.id.toolbar_search_suggestions).setVisibility(View.GONE);
-                                ((MainActivity) getContext()).findViewById(R.id.toolbar_search).setVisibility(View.GONE);
-                                ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).setVisibility(View.GONE);
+                            if ((SettingValues.subredditSearchMethod
+                                    == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                    || SettingValues.subredditSearchMethod
+                                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
+                                    && ((MainActivity) getContext()).findViewById(
+                                    R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+                                ((MainActivity) getContext()).findViewById(
+                                        R.id.toolbar_search_suggestions).setVisibility(View.GONE);
+                                ((MainActivity) getContext()).findViewById(R.id.toolbar_search)
+                                        .setVisibility(View.GONE);
+                                ((MainActivity) getContext()).findViewById(
+                                        R.id.close_search_toolbar).setVisibility(View.GONE);
 
                                 //Play the exit animations of the search toolbar UI to avoid the animations failing to animate upon the next time
                                 //the search toolbar UI is called. Set animation to 0 because the UI is already hidden.
                                 ((MainActivity) getContext()).exitAnimationsForToolbarSearch(0,
-                                        ((CardView) ((MainActivity) getContext()).findViewById(R.id.toolbar_search_suggestions)),
-                                        ((AutoCompleteTextView) ((MainActivity) getContext()).findViewById(R.id.toolbar_search)),
-                                        ((ImageView) ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar)));
+                                        ((CardView) ((MainActivity) getContext()).findViewById(
+                                                R.id.toolbar_search_suggestions)),
+                                        ((AutoCompleteTextView) ((MainActivity) getContext()).findViewById(
+                                                R.id.toolbar_search)),
+                                        ((ImageView) ((MainActivity) getContext()).findViewById(
+                                                R.id.close_search_toolbar)));
                                 if (SettingValues.single) {
-                                    ((MainActivity) getContext()).getSupportActionBar().setTitle(((MainActivity) getContext()).selectedSub);
+                                    ((MainActivity) getContext()).getSupportActionBar()
+                                            .setTitle(((MainActivity) getContext()).selectedSub);
                                 } else {
-                                    ((MainActivity) getContext()).getSupportActionBar().setTitle(((MainActivity) getContext()).tabViewModeTitle);
+                                    ((MainActivity) getContext()).getSupportActionBar()
+                                            .setTitle(
+                                                    ((MainActivity) getContext()).tabViewModeTitle);
                                 }
                             }
                         } catch (NullPointerException npe) {
@@ -145,46 +168,63 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                         ((Activity) getContext()).startActivityForResult(inte, 2001);
                     } else {
-                        if (((MainActivity) getContext()).commentPager && ((MainActivity) getContext()).adapter instanceof MainActivity.OverviewPagerAdapterComment) {
+                        if (((MainActivity) getContext()).commentPager
+                                && ((MainActivity) getContext()).adapter instanceof MainActivity.OverviewPagerAdapterComment) {
                             ((MainActivity) getContext()).openingComments = null;
                             ((MainActivity) getContext()).toOpenComments = -1;
-                            ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() + 1);
-                            ((MainActivity) getContext()).reloadItemNumber = ((MainActivity) getContext()).usedArray.indexOf(base);
+                            ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size =
+                                    (((MainActivity) getContext()).usedArray.size() + 1);
+                            ((MainActivity) getContext()).reloadItemNumber =
+                                    ((MainActivity) getContext()).usedArray.indexOf(base);
                             ((MainActivity) getContext()).adapter.notifyDataSetChanged();
-                            ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(base));
+                            ((MainActivity) getContext()).doPageSelectedComments(
+                                    ((MainActivity) getContext()).usedArray.indexOf(base));
                             ((MainActivity) getContext()).reloadItemNumber = -2;
                         }
                         try {
                             //Hide the toolbar search UI with an animation because we're just changing tabs
-                            if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                                    || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
-                                    && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
-                                ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).performClick();
+                            if ((SettingValues.subredditSearchMethod
+                                    == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                    || SettingValues.subredditSearchMethod
+                                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
+                                    && ((MainActivity) getContext()).findViewById(
+                                    R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+                                ((MainActivity) getContext()).findViewById(
+                                        R.id.close_search_toolbar).performClick();
                             }
                         } catch (NullPointerException npe) {
                             Log.e(getClass().getName(), npe.getMessage());
                         }
 
-                        ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(base));
+                        ((MainActivity) getContext()).pager.setCurrentItem(
+                                ((MainActivity) getContext()).usedArray.indexOf(base));
                         ((MainActivity) getContext()).drawerLayout.closeDrawers();
                         if (((MainActivity) getContext()).drawerSearch != null) {
                             ((MainActivity) getContext()).drawerSearch.setText("");
                         }
                     }
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
             });
         } else {
-            if ((fitems.size() * height) < parentL.getHeight() && (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
-                    || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
-                ViewGroup.LayoutParams params = convertView.findViewById(R.id.height).getLayoutParams();
+            if ((fitems.size() * height) < parentL.getHeight()
+                    && (SettingValues.subredditSearchMethod
+                    == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
+                    || SettingValues.subredditSearchMethod
+                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)) {
+                convertView =
+                        LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
+                ViewGroup.LayoutParams params =
+                        convertView.findViewById(R.id.height).getLayoutParams();
                 params.height = (parentL.getHeight() - (getCount() - 1) * height);
                 convertView.setLayoutParams(params);
             } else {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
-                ViewGroup.LayoutParams params = convertView.findViewById(R.id.height).getLayoutParams();
+                convertView =
+                        LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
+                ViewGroup.LayoutParams params =
+                        convertView.findViewById(R.id.height).getLayoutParams();
                 params.height = 0;
                 convertView.setLayoutParams(params);
             }
@@ -198,8 +238,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
     }
 
     public void updateHistory(ArrayList<String> history) {
-        for(String s : history){
-            if(!objects.contains(s)){
+        for (String s : history) {
+            if (!objects.contains(s)) {
                 objects.add(s);
             }
         }
@@ -213,19 +253,17 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             String prefix = constraint.toString().toLowerCase();
 
             if (prefix == null || prefix.isEmpty()) {
-                ArrayList<String> list = new ArrayList<>(baseItems);
+                CaseInsensitiveArrayList list = new CaseInsensitiveArrayList(baseItems);
                 results.values = list;
                 results.count = list.size();
             } else {
                 openInSubView = true;
-                final ArrayList<String> list = new ArrayList<>(objects);
-                final ArrayList<String> nlist = new ArrayList<>();
+                final CaseInsensitiveArrayList list = new CaseInsensitiveArrayList(objects);
+                final CaseInsensitiveArrayList nlist = new CaseInsensitiveArrayList();
 
                 for (String sub : list) {
-                    if (StringUtils.containsIgnoreCase(sub, prefix))
-                        nlist.add(sub);
-                    if (sub.equals(prefix))
-                        openInSubView = false;
+                    if (StringUtils.containsIgnoreCase(sub, prefix)) nlist.add(sub);
+                    if (sub.equals(prefix)) openInSubView = false;
                 }
                 if (openInSubView) {
                     nlist.add(getContext().getString(R.string.search_goto) + " " + prefix);
@@ -241,7 +279,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            fitems = (ArrayList<String>) results.values;
+            fitems = (CaseInsensitiveArrayList) results.values;
             clear();
             if (fitems != null) {
                 addAll(fitems);

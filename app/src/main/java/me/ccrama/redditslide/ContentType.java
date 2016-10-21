@@ -183,7 +183,9 @@ public class ContentType {
             if (e.getMessage() != null && (e.getMessage().contains("Illegal character in fragment")
                     || e.getMessage()
                     .contains(
-                            "Illegal character in query"))) //a valid link but something un-encoded in the URL
+                            "Illegal character in query")|| e.getMessage()
+                    .contains(
+                            "Illegal character in path"))) //a valid link but something un-encoded in the URL
             {
                 return Type.LINK;
             }

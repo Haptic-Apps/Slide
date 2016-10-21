@@ -299,10 +299,7 @@ public class MultiredditPosts implements PostLoader {
                 paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
                 paginator.setSorting(Reddit.getSorting("multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
                 paginator.setTimePeriod(Reddit.getTime("multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
-
-                LogUtil.v("Sorting is " + paginator.getSorting().name());
                 paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
-
             }
 
             List<Submission> things = new ArrayList<>();
