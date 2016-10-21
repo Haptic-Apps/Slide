@@ -1143,7 +1143,7 @@ public class CommentAdapterHelper {
                             false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (submission != null && comment.getAuthor()
                 .toLowerCase()
-                .equals(submission.getAuthor().toLowerCase())) {
+                .equals(submission.getAuthor().toLowerCase()) && !comment.getAuthor().equals("[deleted]")) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false),
