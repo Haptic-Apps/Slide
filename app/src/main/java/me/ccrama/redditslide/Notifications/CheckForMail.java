@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
 
@@ -24,10 +23,8 @@ import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.auth.AUTH;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 

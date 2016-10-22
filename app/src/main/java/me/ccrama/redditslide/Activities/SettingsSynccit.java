@@ -10,6 +10,8 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.util.Collections;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Synccit.MySynccitReadTask;
@@ -61,6 +63,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                                     e.apply();
                                     name.setText(SettingValues.synccitName);
                                     auth.setText(SettingValues.synccitAuth);
+                                    SynccitRead.visitedIds.removeAll(Collections.singleton("16noez"));
                                 }
                             }).setNegativeButton(R.string.btn_no, null)
                             .show();

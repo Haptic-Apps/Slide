@@ -8,14 +8,14 @@ import java.util.Scanner;
 /**
  * https://github.com/drakeapps/synccit#example-json-update-call
  */
-public abstract class SynccitUpdateTask extends SynccitTask {
+abstract class SynccitUpdateTask extends SynccitTask {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = SynccitUpdateTask.class.getSimpleName();
 	
 	private static final String UPDATE_MODE = "update";
-	
-	public SynccitUpdateTask(String devName) {
+
+	SynccitUpdateTask(String devName) {
 		super(devName);
 	}
 
@@ -25,15 +25,9 @@ public abstract class SynccitUpdateTask extends SynccitTask {
 	}
 
 	@Override
-	protected SynccitResponse onInput(InputStream in) throws Exception {
-		// read the entire stream into a String
-		Scanner s = new Scanner(in);
-		String json = s.useDelimiter("\\A").next();
-
-		JSONObject obj = new JSONObject(json);
+	protected SynccitResponse onInput(String in) throws Exception {
+		JSONObject obj = new JSONObject(in);
 		String key = obj.has("success") ? "success" : "error";
 		return new SynccitResponse(key, obj.get(key).toString());
 	}
-
-
 }

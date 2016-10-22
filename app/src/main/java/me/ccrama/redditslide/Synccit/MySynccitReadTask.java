@@ -13,7 +13,7 @@ import me.ccrama.redditslide.SettingValues;
 public class MySynccitReadTask extends SynccitReadTask {
 
     private static final String MY_DEV_NAME = "slide_for_reddit";
-    SubmissionDisplay displayer;
+    private SubmissionDisplay displayer;
 
     public MySynccitReadTask(SubmissionDisplay displayer) {
         super(MY_DEV_NAME);

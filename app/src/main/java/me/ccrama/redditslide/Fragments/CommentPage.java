@@ -58,8 +58,6 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
-import org.apache.http.auth.AUTH;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;

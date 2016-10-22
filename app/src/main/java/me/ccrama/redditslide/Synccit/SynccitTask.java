@@ -30,13 +30,8 @@ public abstract class SynccitTask extends HttpPostTask<SynccitResponse> {
 	/** developer name */
 	private String devName;
 	
-	public SynccitTask(String devName) {
+	SynccitTask(String devName) {
 		super(API_URL);
-		this.devName = devName;
-	}
-
-	public SynccitTask(String devName, String apiUrl) {
-		super(apiUrl);
 		this.devName = devName;
 	}
 
