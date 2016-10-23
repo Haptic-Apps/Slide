@@ -22,7 +22,6 @@
                 android:textColor="#fff"
 
                 android:layout_height="wrap_content"
-                android:background="@color/md_light_green_500"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:padding="24dp"

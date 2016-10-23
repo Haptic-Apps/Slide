@@ -319,16 +319,25 @@ public class GifUtils {
                     } catch (Exception e) {
                         LogUtil.e(e,
                                 "Error loading URL " + url); //Most likely is an image, not a gif!
-                        if (c instanceof MediaView) {
+                        if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
+                                ".mp4")) {
                             c.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     (c).startActivity(new Intent(c, MediaView.class).putExtra(
                                             MediaView.EXTRA_URL, url.replace(".mp4",
-                                                    ".png")));//Load the high quality thumbnail, which is a JPG
+                                                    ".png"))); //Link is likely an image and not a gif
                                     (c).finish();
                                 }
                             });
+                        } else {
+                            if (closeIfNull) {
+                                Intent web = new Intent(c, Website.class);
+                                web.putExtra(Website.EXTRA_URL, url);
+                                web.putExtra(Website.EXTRA_COLOR, Color.BLACK);
+                                c.startActivity(web);
+                                c.finish();
+                            }
                         }
                     }
                     break;

@@ -408,7 +408,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.Sendmessage"
+                android:name=".Activities.SendMessage"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>

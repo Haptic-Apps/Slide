@@ -2956,8 +2956,8 @@ public class MainActivity extends BaseActivity
                                         public void onClick(@NonNull MaterialDialog dialog,
                                                 @NonNull DialogAction which) {
                                             Intent i = new Intent(MainActivity.this,
-                                                    Sendmessage.class);
-                                            i.putExtra(Sendmessage.EXTRA_NAME, "/r/" + subreddit);
+                                                    SendMessage.class);
+                                            i.putExtra(SendMessage.EXTRA_NAME, "/r/" + subreddit);
                                             startActivity(i);
                                         }
                                     })

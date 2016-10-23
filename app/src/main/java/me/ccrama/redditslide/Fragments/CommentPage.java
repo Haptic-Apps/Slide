@@ -58,8 +58,6 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
-import org.apache.http.auth.AUTH;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -75,7 +73,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Related;
-import me.ccrama.redditslide.Activities.Sendmessage;
+import me.ccrama.redditslide.Activities.SendMessage;
 import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -1192,9 +1190,9 @@ public class CommentPage extends Fragment {
                                                                             @NonNull DialogAction which) {
                                                                         Intent i = new Intent(
                                                                                 getActivity(),
-                                                                                Sendmessage.class);
+                                                                                SendMessage.class);
                                                                         i.putExtra(
-                                                                                Sendmessage.EXTRA_NAME,
+                                                                                SendMessage.EXTRA_NAME,
                                                                                 "/r/" + subreddit);
                                                                         startActivity(i);
                                                                     }

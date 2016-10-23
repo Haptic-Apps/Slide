@@ -621,8 +621,8 @@ public class SubredditView extends BaseActivity {
                                         public void onClick(@NonNull MaterialDialog dialog,
                                                 @NonNull DialogAction which) {
                                             Intent i = new Intent(SubredditView.this,
-                                                    Sendmessage.class);
-                                            i.putExtra(Sendmessage.EXTRA_NAME, "/r/" + subOverride);
+                                                    SendMessage.class);
+                                            i.putExtra(SendMessage.EXTRA_NAME, "/r/" + subOverride);
                                             startActivity(i);
                                         }
                                     })

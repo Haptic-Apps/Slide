@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
 
 import net.dean.jraw.managers.InboxManager;
 
@@ -70,7 +72,7 @@ public class Inbox extends BaseActivityAnim {
                 SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
                 break;
             case (R.id.compose):
-                Intent i = new Intent(Inbox.this, Sendmessage.class);
+                Intent i = new Intent(Inbox.this, SendMessage.class);
                 startActivity(i);
                 break;
             case (R.id.read):
@@ -267,5 +269,12 @@ public class Inbox extends BaseActivityAnim {
         public CharSequence getPageTitle(int position) {
             return getString(ContentGrabber.InboxValue.values()[position].getDisplayName());
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
     }
 }

@@ -1148,5 +1148,6 @@
     <string name="type_nsfw_tumblr">NSFW Tumblr</string>
     <string name="submission_info_contest">This thread is in contest mode. You cannot change sorting.</string>
     <string name="sub_post_notifs_msg">Slide will check for new posts when it checks for mail (mail notifications must be enabled)</string>
+    <string name="mod_ban_reason_required">Reason is required</string>
 
 </resources>

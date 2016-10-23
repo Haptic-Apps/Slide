@@ -319,6 +319,7 @@ public class Website extends BaseActivityAnim {
             }
             if ((!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO)
                     && !triedURLS.contains(url)) {
+                triedURLS.add(url);
                 switch (type) {
                     case DEVIANTART:
                     case IMGUR:

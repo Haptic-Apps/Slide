@@ -17,20 +17,16 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +48,11 @@ import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Sendmessage;
+import me.ccrama.redditslide.Activities.SendMessage;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Drafts;
@@ -363,9 +357,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (comment.isRead()) {
                         if (comment instanceof PrivateMessage) {
                             DataShare.sharedMessage = (PrivateMessage) comment;
-                            Intent i = new Intent(mContext, Sendmessage.class);
-                            i.putExtra(Sendmessage.EXTRA_NAME, comment.getAuthor());
-                            i.putExtra(Sendmessage.EXTRA_REPLY, true);
+                            Intent i = new Intent(mContext, SendMessage.class);
+                            i.putExtra(SendMessage.EXTRA_NAME, comment.getAuthor());
+                            i.putExtra(SendMessage.EXTRA_REPLY, true);
                             mContext.startActivity(i);
                         } else {
                             new OpenRedditLink(mContext,

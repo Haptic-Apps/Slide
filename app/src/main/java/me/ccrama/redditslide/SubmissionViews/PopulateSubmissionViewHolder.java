@@ -2140,11 +2140,9 @@ public class PopulateSubmissionViewHolder {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //to ban
-                                if (reason.getText().toString().isEmpty() || time.getText()
-                                        .toString()
-                                        .isEmpty()) {
+                                if (reason.getText().toString().isEmpty()) {
                                     new AlertDialogWrapper.Builder(mContext).setTitle(
-                                            R.string.mod_ban_requirements)
+                                           R.string.mod_ban_reason_required)
                                             .setMessage(R.string.misc_please_try_again)
                                             .setPositiveButton(R.string.btn_ok,
                                                     new DialogInterface.OnClickListener() {
@@ -2174,10 +2172,18 @@ public class PopulateSubmissionViewHolder {
                                                 if (m.isEmpty()) {
                                                     m = null;
                                                 }
-                                                new ModerationManager(Authentication.reddit).banUser(
-                                                        submission.getSubredditName(),
-                                                        submission.getAuthor(), reason.getText().toString(),
-                                                        n, m, Integer.valueOf(time.getText().toString()));
+                                                if(time.getText().toString().isEmpty()){
+                                                    new ModerationManager(Authentication.reddit).banUserPermanently(
+                                                            submission.getSubredditName(),
+                                                            submission.getAuthor(),
+                                                            reason.getText().toString(), n, m);
+                                                } else {
+                                                    new ModerationManager(Authentication.reddit).banUser(
+                                                            submission.getSubredditName(),
+                                                            submission.getAuthor(),
+                                                            reason.getText().toString(), n, m,
+                                                            Integer.valueOf(time.getText().toString()));
+                                                }
                                                 return true;
                                             } catch (Exception e) {
                                                 if (e instanceof InvalidScopeException) {

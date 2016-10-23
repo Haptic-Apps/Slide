@@ -671,8 +671,8 @@ public class Profile extends BaseActivityAnim {
                         dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent i = new Intent(Profile.this, Sendmessage.class);
-                                i.putExtra(Sendmessage.EXTRA_NAME, name);
+                                Intent i = new Intent(Profile.this, SendMessage.class);
+                                i.putExtra(SendMessage.EXTRA_NAME, name);
                                 startActivity(i);
                             }
                         });

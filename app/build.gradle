@@ -75,7 +75,7 @@ android {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:467ae526d7'
+    compile 'com.github.ccrama:JRAW:487878c3b5'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
     compile 'com.jakewharton:process-phoenix:1.0.2'

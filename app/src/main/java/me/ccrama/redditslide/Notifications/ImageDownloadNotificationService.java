@@ -58,9 +58,6 @@ public class ImageDownloadNotificationService extends Service {
                 AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    int currentLevel;
-
-
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
         public  int                        id;
@@ -98,12 +95,13 @@ public class ImageDownloadNotificationService extends Service {
             mNotifyManager.notify(id, mBuilder.build());
         }
 
+        int percentDone, latestPercentDone;
+
         @Override
         protected Void doInBackground(Void... params) {
             String url = actuallyLoaded;
             final String finalUrl1 = url;
             final String finalUrl = actuallyLoaded;
-            currentLevel = 0;
             try {
                 ((Reddit) getApplication()).getImageLoader()
                         .loadImage(finalUrl, null, new DisplayImageOptions.Builder().imageScaleType(
@@ -113,18 +111,18 @@ public class ImageDownloadNotificationService extends Service {
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
                                             final Bitmap loadedImage) {
-
-                                        File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(finalUrl);
+                                        File f = ((Reddit) getApplicationContext()).getImageLoader()
+                                                .getDiscCache()
+                                                .get(finalUrl);
                                         if (f != null && f.exists()) {
                                             File f_out = null;
                                             try {
                                                 f_out = new File(
                                                         Reddit.appRestart.getString("imagelocation",
-                                                                "")
-                                                                + File.separator
-                                                                + (index > -1 ? String.format(
-                                                                "%03d_", index) : "")
-                                                                + getFileName(new URL(finalUrl1)));
+                                                                "") + File.separator + (index > -1
+                                                                ? String.format("%03d_", index)
+                                                                : "") + getFileName(
+                                                                new URL(finalUrl1)));
                                             } catch (MalformedURLException e) {
                                                 f_out = new File(
                                                         Reddit.appRestart.getString("imagelocation",
@@ -156,13 +154,14 @@ public class ImageDownloadNotificationService extends Service {
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
-                                        LogUtil.v("Current is " + current + " and total is " + total + " and level is " + currentLevel);
-                                        if (((current / total) * 100) > currentLevel * 10) {
-                                            currentLevel += 1;
-                                            mBuilder.setProgress(100, ((current / total) * 100),
-                                                    false);
+                                        latestPercentDone = (int) ((current / (float) total) * 100);
+                                        if (percentDone != latestPercentDone) {
+                                            percentDone = latestPercentDone;
+                                            mBuilder.setProgress(100, percentDone, false);
                                             mNotifyManager.notify(id, mBuilder.build());
                                         }
+
+
                                     }
                                 });
             } catch (Exception e) {
@@ -174,7 +173,11 @@ public class ImageDownloadNotificationService extends Service {
         private String getFileName(URL url) {
             if (url == null) return null;
             String path = url.getPath();
-            return path.substring(path.lastIndexOf("/") + 1);
+            String end = path.substring(path.lastIndexOf("/") + 1);
+            if(!end.endsWith(".png") && !end.endsWith(".jpg") && !end.endsWith(".jpeg")){
+                end = end + ".png";
+            }
+            return end;
         }
 
         @Override
@@ -290,8 +293,8 @@ public class ImageDownloadNotificationService extends Service {
 
             File f = new File(
                     Reddit.appRestart.getString("imagelocation", "") + File.separator + (index > -1
-                            ? String.format("%03d_", index) : "") + UUID.randomUUID()
-                            .toString() + (URL.endsWith("png") ?".png":".jpg"));
+                            ? String.format("%03d_", index) : "") + UUID.randomUUID().toString() + (
+                            URL.endsWith("png") ? ".png" : ".jpg"));
 
             FileOutputStream out = null;
             f.createNewFile();
