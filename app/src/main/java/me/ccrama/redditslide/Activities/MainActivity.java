@@ -1426,6 +1426,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onDestroy() {
+        unregisterReceiver(networkStateReceiver);
         dismissProgressDialog();
         Slide.hasStarted = false;
         super.onDestroy();
@@ -4637,7 +4638,7 @@ public class MainActivity extends BaseActivity
                         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
                             SubredditPosts p = page.adapter.dataSet;
-                            if (p.offline) {
+                            if (p.offline && !isRestart) {
                                 p.doMainActivityOffline(p.displayer);
                             }
                         }

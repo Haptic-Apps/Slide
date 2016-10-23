@@ -411,6 +411,51 @@ public class MediaView extends FullScreenActivity
         }
     }
 
+    /* Possible drag to exit implementation in the future
+     @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        if(event.getF) {
+            // peekView.doScroll(event);
+
+            FrameLayout.LayoutParams params =
+                    (FrameLayout.LayoutParams) base.getLayoutParams();
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_MOVE:
+
+                    params.topMargin = (int) -((origY - event.getY()));
+                    if (event.getY() != origY) {
+                        params.leftMargin = twelve *2;
+                        params.rightMargin = twelve * 2;
+                    } else {
+                        params.leftMargin = 0;
+                        params.rightMargin = 0;
+                    }
+
+                    if (event.getY() != (origY)) {
+                        shouldClose = true;
+                    } else if (event.getY() == (origY)) {
+                        shouldClose = false;
+                    }
+                    base.setLayoutParams(params);
+                    break;
+                case MotionEvent.ACTION_DOWN:
+                    origY = event.getY();
+                    break;
+            }
+        }
+            // we don't want to pass along the touch event or else it will just scroll under the PeekView}
+
+        if (event.getAction() == MotionEvent.ACTION_UP && shouldClose) {
+            finish();
+            return false;
+        }
+
+        return super.dispatchTouchEvent(event);
+    }
+     */
+
     public void hideOnLongClick() {
         (findViewById(R.id.gifheader)).setOnClickListener(new View.OnClickListener() {
             @Override

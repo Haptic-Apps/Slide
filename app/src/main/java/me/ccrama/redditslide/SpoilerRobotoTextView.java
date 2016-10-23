@@ -670,32 +670,33 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     public void setOrRemoveSpoilerSpans(int endOfLink, URLSpan span) {
-        int offset = (span.getURL().contains("hidden")) ? -1 : 2;
-        Spannable text = (Spannable) getText();
-        // add 2 to end of link since there is a white space between the link text and the spoiler
-        ForegroundColorSpan[] foregroundColors =
-                text.getSpans(endOfLink + offset, endOfLink + offset, ForegroundColorSpan.class);
+        if(span != null) {
+            int offset = (span.getURL().contains("hidden")) ? -1 : 2;
+            Spannable text = (Spannable) getText();
+            // add 2 to end of link since there is a white space between the link text and the spoiler
+            ForegroundColorSpan[] foregroundColors =
+                    text.getSpans(endOfLink + offset, endOfLink + offset, ForegroundColorSpan.class);
 
-        if (foregroundColors.length > 1) {
-            text.removeSpan(foregroundColors[1]);
-            setText(text);
-        } else {
-            for (int i = 1; i < storedSpoilerStarts.size(); i++) {
-                if (storedSpoilerStarts.get(i) < endOfLink + offset
-                        && storedSpoilerEnds.get(i) > endOfLink + offset) {
-                    try {
-                        text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i),
-                                storedSpoilerEnds.get(i) > text.toString().length() ?
-                                        storedSpoilerEnds.get(i)
-                                                + offset : storedSpoilerEnds.get(i),
-                                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                    } catch (Exception ignored) {
-                        //catch out of bounds
-                        ignored.printStackTrace();
+            if (foregroundColors.length > 1) {
+                text.removeSpan(foregroundColors[1]);
+                setText(text);
+            } else {
+                for (int i = 1; i < storedSpoilerStarts.size(); i++) {
+                    if (storedSpoilerStarts.get(i) < endOfLink + offset
+                            && storedSpoilerEnds.get(i) > endOfLink + offset) {
+                        try {
+                            text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i),
+                                    storedSpoilerEnds.get(i) > text.toString().length() ?
+                                            storedSpoilerEnds.get(i)
+                                                    + offset : storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        } catch (Exception ignored) {
+                            //catch out of bounds
+                            ignored.printStackTrace();
+                        }
                     }
                 }
+                setText(text);
             }
-            setText(text);
         }
     }
 

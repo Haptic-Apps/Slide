@@ -130,6 +130,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
     public void initVideoView() {
         LogUtil.v( "Initializing video view.");
+        setAlpha(0);
         videoHeight = 0;
         videoWidth = 0;
         setFocusable(false);
@@ -208,6 +209,8 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             LogUtil.v( "Cannot open video, uri or surface is null number " + number);
             return;
         }
+        animate().alpha(1);
+
         // Tell the music playback service to pause
 
         LogUtil.v( "Opening video.");

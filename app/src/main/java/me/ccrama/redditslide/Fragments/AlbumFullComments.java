@@ -30,6 +30,7 @@ import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.Adapters.CommentUrlObject;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 
@@ -144,15 +145,28 @@ public class AlbumFullComments extends Fragment {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox) getActivity()).subreddit);
-                            (getActivity()).startActivity(i2);
-                        }
-                    });
+                    final Comment c = s.comment.getComment();
+                    rootView.findViewById(R.id.base)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String url = "https://reddit.com"
+                                            + "/r/"
+                                            + c.getSubredditName()
+                                            + "/comments/"
+                                            + c.getDataNode()
+                                            .get("link_id")
+                                            .asText()
+                                            .substring(3, c.getDataNode()
+                                                    .get("link_id")
+                                                    .asText()
+                                                    .length())
+                                            + "/nothing/"
+                                            + c.getId()
+                                            + "?context=3";
+                                    new OpenRedditLink(getActivity(), url);
+                                }
+                            });
                 } else {
                     rootView.findViewById(R.id.base).setOnClickListener(openClick);
                 }

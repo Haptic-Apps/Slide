@@ -385,13 +385,13 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (adapter.keys != null && adapter.keys.size() > 0) goDown();
+                    if (adapter != null && adapter.keys != null && adapter.keys.size() > 0) goDown();
                 }
             });
             v.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goUp();
+                    if (adapter != null && adapter.keys != null && adapter.keys.size() > 0) goUp();
                 }
             });
             v.findViewById(R.id.nav).setOnClickListener(new View.OnClickListener() {

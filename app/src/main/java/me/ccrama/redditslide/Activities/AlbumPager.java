@@ -173,13 +173,16 @@ public class AlbumPager extends FullScreenActivity
 
         String url = getIntent().getExtras().getString("url", "");
         setShareUrl(url);
-        new LoadIntoPager(url, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        pagerLoad = new LoadIntoPager(url, this);
+        pagerLoad.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }
 
     }
+
+    LoadIntoPager pagerLoad;
 
     public class LoadIntoPager extends AlbumUtils.GetAlbumWithCallback {
 
@@ -510,6 +513,9 @@ public class AlbumPager extends FullScreenActivity
             final ViewGroup rootView =
                     (ViewGroup) inflater.inflate(R.layout.album_image_pager, container, false);
 
+            if(((AlbumPager) getActivity()).images == null){
+                ((AlbumPager) getActivity()).pagerLoad.onError();
+            }
             final Image current = ((AlbumPager) getActivity()).images.get(i);
             final String url = current.getImageUrl();
             boolean lq = false;

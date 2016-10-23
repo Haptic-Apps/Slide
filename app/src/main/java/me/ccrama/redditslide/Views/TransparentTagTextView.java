@@ -87,14 +87,16 @@ public class TransparentTagTextView extends TextView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mBackgroundBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mBackgroundCanvas = new Canvas(mBackgroundBitmap);
-        mMaskBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mMaskCanvas = new Canvas(mMaskBitmap);
+        if(w > 0 && h > 0) {
+            mBackgroundBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            mBackgroundCanvas = new Canvas(mBackgroundBitmap);
+            mMaskBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            mMaskCanvas = new Canvas(mMaskBitmap);
 
-        if (mSetBoundsOnSizeAvailable) {
-            mBackground.setBounds(0, 0, w, h);
-            mSetBoundsOnSizeAvailable = false;
+            if (mSetBoundsOnSizeAvailable) {
+                mBackground.setBounds(0, 0, w, h);
+                mSetBoundsOnSizeAvailable = false;
+            }
         }
     }
 
