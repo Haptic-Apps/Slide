@@ -16,7 +16,10 @@ import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -80,6 +83,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
     }
 
+    Runnable mLongPressRunnable;
+    GestureDetector detector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
+    float origY;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -190,9 +196,25 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         }
                     }
                 });
-                fab.setOnLongClickListener(new View.OnLongClickListener() {
+                final Handler handler = new Handler();
+                fab.setOnTouchListener(new View.OnTouchListener() {
+
                     @Override
-                    public boolean onLongClick(View v) {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        detector.onTouchEvent(event);
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            origY = event.getY();
+                            handler.postDelayed(mLongPressRunnable, android.view.ViewConfiguration.getLongPressTimeout());
+                        }
+                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight()/2)|| (event.getAction() == MotionEvent.ACTION_UP)) {
+                            handler.removeCallbacks(mLongPressRunnable);
+                        }
+                        return false;
+                    }
+                });
+                mLongPressRunnable = new Runnable() {
+                    public void run() {
+                        fab.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         if (!Reddit.fabClear) {
                             new AlertDialogWrapper.Builder(getActivity()).setTitle(
                                     R.string.settings_fabclear)
@@ -232,10 +254,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                 android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
-
-                        return false;
                     }
-                });
+                };
             }
         } else {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
