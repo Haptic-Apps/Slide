@@ -21,26 +21,45 @@
   <string name="submission_report">Reportoi postaus</string>
   <string name="submission_gild">Avaa selaimessa</string>
   <string name="submission_save">Tallenna postaus</string>
+  <string name="submission_save_image">Tallenna kuva</string>
   <string name="submission_load_full">Lataa koko lanka</string>
   <string name="submission_tap_gif">Lataa GIF</string>
   <string name="submission_not_found">Ohhoh, viesti kateissa!</string>
   <string name="submission_not_found_msg">Pahoittelut, Viestiä ei löytynyt</string>
+  <string name="submission_copy_text">Kopioi teksti</string>
+  <string name="submission_comment_saved">Kommentti tallennettu</string>
+  <string name="submission_share_permalink">Jaa linkki</string>
+  <string name="submission_comment_copied">Kommentin teksti kopioitu</string>
+  <string name="submission_link_copied">Linkki kopioitu</string>
   <plurals name="submission_points">
     <item quantity="one">%d piste</item>
     <item quantity="other">%d pistettä</item>
+  </plurals>
+  <plurals name="points">
+    <item quantity="one">pst</item>
+    <item quantity="other">pst</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Vaalea</string>
   <string name="theme_dark">Tumma</string>
   <string name="theme_black">AMOLED musta</string>
   <string name="theme_dark_blue">Tummansininen</string>
+  <string name="night_mode">Yötila</string>
   <string name="theme_default_color">Pääväri</string>
   <string name="theme_subreddit_color">Vaihda väri</string>
   <string name="theme_accent_color">Aksenttiväri</string>
   <string name="theme_base">Pohjateema</string>
   <string name="theme_card">Kortti</string>
+  <string name="theme_night">Yö-teema</string>
   <!-- Font settings -->
   <string name="font_size">Fontin koko</string>
+  <string name="font_size_huge">Erittäin suuri</string>
+  <string name="font_size_larger">Suurempi</string>
+  <string name="font_size_large">Suuri</string>
+  <string name="font_size_medium">Keskikoko</string>
+  <string name="font_size_small">Pieni</string>
+  <string name="font_size_smaller">Pienempi</string>
+  <string name="font_size_tiny">Erittäin pieni</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">\"Piilota viesti\" painike toimintovalikossa</string>
   <!-- Settings for Multi-column view -->
@@ -71,6 +90,7 @@
   <string name="profile_friend">Kaveri</string>
   <string name="profile_add_friend">Lisää kaveri</string>
   <string name="profile_remove_friend">Poista kaveri</string>
+  <string name="profile_remove">Poista tili</string>
   <!-- Comment text options -->
   <string name="comment_gild">Kultaa kommentti</string>
   <string name="comment_share">Jaa kommentti</string>
@@ -96,6 +116,15 @@
   <string name="sorting_old">Vanha</string>
   <string name="sorting_controversial">Kiistanalaiset</string>
   <string name="sorting_rising">Nousevat</string>
+  <string name="sorting_month">kuukausi</string>
+  <string name="sorting_year">vuosi</string>
+  <string name="sorting_all">koko ajalta</string>
+  <string name="sorting_search_hour">Viimeisin tunti</string>
+  <string name="sorting_search_day">Viimeiset 24 tuntia</string>
+  <string name="sorting_search_week">Viimeisin viikko</string>
+  <string name="sorting_search_month">Viimeisin kuukausi</string>
+  <string name="sorting_search_year">Viimeisin vuosi</string>
+  <string name="sorting_search_all">Kaikelta ajalta</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Teksti</string>
@@ -114,22 +143,70 @@
   <string name="err_invalid_url">Virheellinen URL</string>
   <string name="err_loading_content">Virhe sisällön lataamisessa</string>
   <string name="err_retry_later">Kokeile hetken päästä uudelleen!</string>
+  <string name="err_permission">Lupa evätty</string>
   <string name="err_authentication">Tunnistautuminen epäonnistui</string>
+  <string name="error_video_not_found">Videota ei löytynyt</string>
+  <string name="error_video_message">Tapahtui virhe videota ladatessa</string>
+  <string name="error_album_not_found">Albumia ei löydy</string>
+  <string name="error_album_not_found_text">Haluatko avata linkin selaimessa?</string>
+  <string name="err_comment_post_nosave_message">\nYritä uudelleen minuutin kuluttua</string>
+  <string name="err_could_not_find_content_msg">Reddit ei löydä pyydettyä sisältöä</string>
+  <string name="err_color_sync_login">Ole hyvä ja kirjaudu sisään käyttääksesi Color Sync</string>
+  <string name="err_something_wrong">Hups, jokin meni pieleen</string>
+  <string name="err_share_image">Virhe jakaessa kuvaa</string>
+  <string name="err_file_not_found">Tiedostoa ei löydy</string>
+  <string name="err_comment_post_reason">Syy: %1$s</string>
+  <string name="err_comment_post_message">\n\nViestisi on tallennettu luonnoksena. Yritä uudelleen myöhemmin.</string>
+  <string name="err_comment_post_copy">Kopioi kommentti</string>
+  <string name="err_connection_failed_msg">Yhteys Redditiin epäonnistui. Tarkista verkkoyhteyden tila ja yritä uudelleen, tai siirry offline-tilaan.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF:iä ei löytynyt</string>
   <!-- Multireddits -->
+  <string name="multireddit_err_title">Ei multiredditejä (vielä)!</string>
+  <string name="multireddit_err_msg">Haluatko luoda uuden multiredditin?</string>
+  <string name="public_multireddit_err_title">Ei multiredditejä!</string>
   <!-- Content types -->
+  <string name="type_vid">Video</string>
+  <string name="type_videos">Videot</string>
+  <string name="type_emb">Upotettu</string>
+  <string name="type_imgur">Imgur-sisältö</string>
+  <string name="type_external">Ulkoinen</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIF-tiedostot</string>
+  <string name="type_albums">Albumit</string>
+  <string name="type_links">Linkit</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_unread">Lukemattomat</string>
+  <string name="mail_tab_messages">Viestit</string>
+  <string name="mail_tab_sent">Lähetetty</string>
+  <string name="mail_tab_mentions">Maininnat</string>
+  <string name="mail_author_wrote">%1$s kirjoitti&#8230;</string>
   <string name="mail_hint_recipient">Vastaanottaja</string>
   <string name="mail_hint_subject">Aihe</string>
+  <string name="mail_hint_body">Teksti</string>
+  <string name="mail_send_to">Lähetä uusi viesti henkilölle %1$s</string>
   <string name="mail_send">Lähetä viesti</string>
+  <string name="mail_reply_to">Vastaa %1$s</string>
+  <string name="mail_mark_read">Merkitse luetuksi</string>
+  <string name="mail_mark_unread">Merkitse lukemattomaksi</string>
+  <string name="mail_view_full_thread">Lataa koko lanka</string>
+  <string name="mail_message_copied">Viesti kopioitu</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Virhe</string>
+  <string name="misc_none">Ei mitään</string>
+  <string name="misc_retry">Haluatko yrittää uudelleen?</string>
+  <string name="misc_score_hidden">pisteet piilotettu</string>
   <string name="misc_nsfw">NSFW</string>
   <string name="misc_subscribed">Tilatut</string>
   <string name="misc_continue">Jatka</string>
+  <string name="misc_unsubscribed">Tilaus peruutettu</string>
+  <string name="misc_please_wait">Odota hetki&#8230;</string>
   <string name="misc_copy_text">Kopioi teksti</string>
+  <string name="misc_maybe_later">Ehkä myöhemmin</string>
+  <string name="misc_try_again">Yritä uudelleen</string>
+  <string name="misc_please_try_again">Yritä uudelleen</string>
+  <string name="misc_please_try_again_soon">Yritä pian uudelleen</string>
+  <string name="misc_more_info">Lisätietoja</string>
   <!-- Goto User -->
   <!-- Buttons -->
   <string name="btn_add">Lisää</string>
@@ -151,35 +228,86 @@
   <string name="btn_refresh">Päivitä</string>
   <!-- Backup -->
   <!-- Vote -->
+  <string name="vote_err_login">Sinun pitää kirjautua sisään äänestääksesi!</string>
+  <string name="vote_removed">Ääni poistettu</string>
   <!-- Moderation tools -->
+  <string name="mod_unmoderated">Tarkastamaton</string>
+  <string name="mod_reports">Raportit</string>
+  <string name="mod_approve">Haluatko varmasti hyväksyä tämän julkaisun?</string>
+  <string name="mod_approved">Julkaisu hyväksytty</string>
+  <string name="mod_btn_approve">Hyväksy</string>
+  <string name="mod_btn_ban">Porttikielto</string>
+  <string name="mod_ban_user">Estä käyttäjä</string>
+  <string name="mod_ban_reauth">Estääksesi käyttäjiä, Sliden täytyy todentaa sinut uudelleen</string>
+  <string name="mod_ban_success">Käyttäjä estetty!</string>
+  <string name="mod_ban_reason">Eston syy</string>
+  <string name="mod_ban_time">Eeston kesto (päivinä)</string>
+  <string name="mod_remove_hint">Poiston syy</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
+  <string name="subreddit_err">Subredditiä ei löydy</string>
   <!-- Search -->
+  <string name="search_comments_hint">Etsi kommentteja</string>
   <string name="search_title">Etsi</string>
   <string name="search_all">Etsi kaikki</string>
   <string name="search_subreddit">Etsi %1$s</string>
+  <string name="search_top">Parhaat</string>
+  <string name="search_new">Uudet</string>
+  <string name="search_comments">Kommentit</string>
   <!-- Captcha -->
   <string name="captcha">Syötä yllä oleva koodi</string>
   <string name="captcha_title">Todista että et ole robotti</string>
   <!-- Settings -->
+  <string name="settings_reddit_prefs">Redditin asetukset</string>
+  <string name="settings_accent_title">Muokkaa aksenttiväriä</string>
   <string name="settings_link_handling">Linkkien käsittely</string>
+  <string name="settings_mail_check">Tarkista uudet viestit</string>
+  <string name="settings_mail_info">Mitä useammin uudet viestit tarkistetaan, sitä enemmän Slide kuluttaa laitteesi akkua taustalla!</string>
+  <string name="settings_main_color_title">Muokkaa pääväriä</string>
+  <string name="settings_notification">Tarkista uudet viestit joka %1$s</string>
+  <string name="settings_store_history">Tallenna historia</string>
+  <string name="settings_confirm_exit">Varmista sovelluksesta poistuminen</string>
   <string name="share_link">Jaa linkki</string>
+  <string name="share_image">Jaa kuva</string>
+  <string name="settings_libs">Avoimen lähdekoodin kirjastot</string>
+  <string name="settings_bugs">Ilmoita virheestä</string>
+  <string name="settings_changelog">Näytä muutosloki</string>
   <string name="settings_google">Yhdistetään Googleen</string>
+  <string name="settings_notifdisabled">Ilmoitukset pois käytöstä</string>
+  <string name="settings_colored_navigation_bar">Värjää navigointipalkki</string>
+  <string name="settings_filter_domain">Suodata verkkotunnuksia</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_font">Fontti</string>
   <string name="settings_section_general">Yleiset</string>
+  <string name="settings_section_save_history">Tallenna historia</string>
+  <string name="settings_section_clear_history">Tyhjennä historia</string>
+  <string name="settings_section_data_saving_mode">Virransäästötila</string>
+  <string name="settings_section_image_quality">Kuvan laatu</string>
+  <string name="settings_section_hide_images">Piilota kuvat</string>
   <string name="settings_synccit_username">Käyttäjänimi</string>
+  <string name="settings_synccit_connected">Yhdistetty onnistuneesti!</string>
+  <string name="settings_font_system">Järjestelmä</string>
+  <string name="settings_manage_subscriptions">Hallinnoi tilauksiasi</string>
+  <string name="settings_redditprefs_over18">Olen yli 18-vuotias ja tahdon nähdä NSFW-sisällön</string>
+  <string name="settings_links_force_external">Avaa ulkoisessa selaimessa</string>
+  <string name="settings_data_low_quality">Lataa heikkolaatuiset kuvat</string>
+  <string name="settings_section_content">Sisältö</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
+  <string name="FAQ">UKK</string>
+  <string name="deleting">Poistetaan&#8230;</string>
   <string name="btn_add_subreddit">Lisää subredditti</string>
+  <string name="subscribe_caps">TILAA</string>
+  <string name="unsubscribe_caps">PERUUTA TILAUS</string>
   <string name="reorder_subreddits_title">Valitse lisättävä subredditti</string>
   <string name="reorder_subreddit_name">Subredditin nimi</string>
   <string name="reorder_remove_title">Poistetaanko tämä subredditti?</string>
   <string name="reorder_remove_msg">Tilaustasi ei peruta, mutta et näe enää tätä subreddittiä sivupalkissasi!</string>
   <!-- Save categories -->
+  <string name="category_create_new">Uusi kategoria</string>
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_share">Jaa</string>

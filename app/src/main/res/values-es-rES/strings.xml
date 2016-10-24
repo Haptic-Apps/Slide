@@ -43,6 +43,7 @@
   <string name="submission_copy_text">Copiar texto</string>
   <string name="submission_comment_saved">Comentario guardado</string>
   <string name="submission_comment_unsaved">Comentario no guardado</string>
+  <string name="submission_share_permalink">Compartir enlace</string>
   <string name="submission_comment_copied">Texto del comentario copiado</string>
   <string name="submission_nocontent">El post no tiene contenido</string>
   <string name="submission_link_copied">Enlace copiado</string>
@@ -113,6 +114,7 @@
   <string name="profile_karma_comment">karma de comentarios</string>
   <string name="profile_message">Mensaje privado</string>
   <string name="profile_saved">Guardado</string>
+  <string name="profile_read_later">Leer más tarde</string>
   <string name="profile_upvoted">Votado Positivo</string>
   <string name="profile_err_title">Usuario no encontrado</string>
   <string name="profile_err_msg">No se pudo recuperar el usuario de Reddit.</string>
@@ -698,6 +700,7 @@
   <string name="nsfw">Contenido NSFW</string>
   <string name="content_thumbnails">Miniatura del contenido</string>
   <string name="view_reddit_settings">Abrir opciones de Reddit en el navegador</string>
+  <string name="font_styles">Estilos de fuente</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Ajustes del Subreddit</string>
   <string name="title_edit_theme">Editar Tema</string>
@@ -826,7 +829,6 @@
   <string name="mediaview_converting_fail">La conversión del gif a través de Gfycat no funciona</string>
   <string name="mediaview_converting_fail_btn">Abrir en Internet</string>
   <string name="mediaview_save">Guardar %1$s</string>
-  <string name="mediaview_saving">Guardando %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Guardar borrador</string>
   <string name="draft_saved">Borrador guardado</string>
@@ -919,6 +921,7 @@
   <string name="mode_centered">Tarjeta con imagen centrada</string>
   <string name="mode_card">Tarjeta</string>
   <string name="mode_thumbnail">Miniatura</string>
+  <string name="mode_cropped">Imagen grande recortada</string>
   <string name="mode_bigpic">Imágenes grandes</string>
   <string name="press_actionbar">Pulsa la flecha para Barra de Acción</string>
   <string name="tap_actionbar">Pulsación larga para Barra de Acción</string>
@@ -1037,4 +1040,12 @@
   <string name="theme_red_shift">Red shift</string>
   <string name="view_sub_sidebar">Ver sub barra lateral</string>
   <string name="mod_log">Registro de mod</string>
+  <string name="navigation_bar_vote_gestures">Gestos de la Barra de Navegación</string>
+  <string name="nav_gestures_description">Upvote y Downvote deslizando en las flechas de navegación de comentarios</string>
+  <string name="subreddit_sidebar_progress">Obteniendo Barra Lateral...</string>
+  <string name="manage_your_subreddits">Administra tus subreddits</string>
+  <string name="enlarge_links">Ampliar los enlaces</string>
+  <string name="enlarge_links_warning">Puede causar que algunas líneas sean más grandes que otras, pero hace más fácil tocar los enlaces</string>
+  <string name="type_tumblr">Tumblr</string>
+  <string name="type_nsfw_tumblr">Tumblr NSFW</string>
 </resources>

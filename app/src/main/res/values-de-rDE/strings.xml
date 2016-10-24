@@ -54,6 +54,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="submission_copy_text">Text kopieren</string>
   <string name="submission_comment_saved">Kommentar wurde gespeichert</string>
   <string name="submission_comment_unsaved">Kommentar nicht mehr gespeichert</string>
+  <string name="submission_share_permalink">Link teilen</string>
   <string name="submission_comment_copied">Kommentartext kopiert</string>
   <string name="submission_nocontent">Deine Einreichung hat keinen Inhalt</string>
   <string name="submission_link_copied">Link wurde kopiert</string>
@@ -120,6 +121,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="profile_karma_comment">Kommentar-Karma</string>
   <string name="profile_message">Private Nachricht</string>
   <string name="profile_saved">Gespeichert</string>
+  <string name="profile_read_later">Später lesen</string>
   <string name="profile_upvoted">Positiv bewertet</string>
   <string name="profile_err_title">Benutzer nicht gefunden</string>
   <string name="profile_err_msg">Nutzer konnte nicht geladen werden.</string>

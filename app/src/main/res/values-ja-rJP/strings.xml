@@ -43,6 +43,7 @@
   <string name="submission_copy_text">テキストをコピー</string>
   <string name="submission_comment_saved">保存されたコメント</string>
   <string name="submission_comment_unsaved">保存されていないコメント</string>
+  <string name="submission_share_permalink">リンクを共有</string>
   <string name="submission_comment_copied">コメント テキストをコピーしました</string>
   <string name="submission_nocontent">サブミッションにはコンテンツがありません</string>
   <string name="submission_link_copied">リンクをコピーしました</string>
@@ -109,6 +110,7 @@
   <string name="profile_karma_comment">コメントカルマ</string>
   <string name="profile_message">プライベートメッセージ</string>
   <string name="profile_saved">保存しました</string>
+  <string name="profile_read_later">後で読む</string>
   <string name="profile_upvoted">↑投票しました</string>
   <string name="profile_err_title">ユーザーが見つかりませんでした。</string>
   <string name="profile_err_msg">Reddit ユーザーを取得できませんでした。</string>
@@ -691,6 +693,7 @@
   <string name="nsfw">NSFW コンテンツ</string>
   <string name="content_thumbnails">コンテンツのサムネイル</string>
   <string name="view_reddit_settings">Redditをブラウザ上で設定する</string>
+  <string name="font_styles">フォント スタイル</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit テーマ &amp; レイアウト</string>
   <string name="title_edit_theme">テーマを編集</string>
@@ -811,7 +814,6 @@
   <string name="mediaview_converting_fail">Gfycat の gif 変換が動作しません</string>
   <string name="mediaview_converting_fail_btn">Web で開く</string>
   <string name="mediaview_save">%1$s を保存</string>
-  <string name="mediaview_saving">保存中 %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">下書きの保存中</string>
   <string name="draft_saved">下書きを保存しました</string>
@@ -903,6 +905,8 @@
   <string name="mode_centered">中央に画像のあるカード</string>
   <string name="mode_card">カード</string>
   <string name="mode_thumbnail">サムネイル</string>
+  <string name="mode_big_thumbnails">ワイド サムネイル</string>
+  <string name="mode_cropped">トリミングした大きな画像</string>
   <string name="mode_bigpic">大型の画像</string>
   <string name="press_actionbar">矢印を押してアクションバーを表示します</string>
   <string name="tap_actionbar">アクションバーの長押し</string>
@@ -1020,4 +1024,14 @@
   <string name="theme_red_shift">レッドシフト</string>
   <string name="view_sub_sidebar">サブ サイドバーを表示</string>
   <string name="mod_log">Mod ログ</string>
+  <string name="navigation_bar_vote_gestures">ナビゲーションバーの投票ジェスチャー</string>
+  <string name="nav_gestures_description">コメント ナビゲーションの矢印をスワイプして、↑投票と↓投票</string>
+  <string name="subreddit_sidebar_progress">サイドバーの取得中...</string>
+  <string name="manage_your_subreddits">あなたの Subreddit を管理</string>
+  <string name="enlarge_links">リンクを拡大</string>
+  <string name="enlarge_links_warning">一部の行が他より大きくなりますが、リンクにタッチしやすくなります</string>
+  <string name="type_tumblr">Tumblr</string>
+  <string name="type_nsfw_tumblr">NSFW Tumblr</string>
+  <string name="submission_info_contest">このスレッドは、コンテスト モードです。並べ替えを変更できません</string>
+  <string name="sub_post_notifs_msg">メールをチェックするとき、Slide が新しい投稿をチェックします (メール通知を有効にする必要があります)</string>
 </resources>

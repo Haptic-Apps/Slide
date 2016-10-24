@@ -120,6 +120,7 @@
   <string name="sorting_old">Eski</string>
   <string name="sorting_controversial">Tartışmalı</string>
   <string name="sorting_rising">Yükselen</string>
+  <string name="sorting_all">tüm zamanlar</string>
   <string name="sorting_search_hour">Son 1 saat</string>
   <string name="sorting_search_day">Son 24 saat</string>
   <string name="sorting_search_week">Geçen hafta</string>
@@ -138,8 +139,13 @@
   <string name="editor_hint_optional_body">İçerik (isteğe bağlı)</string>
   <string name="editor_submit">Bir yazı gönder</string>
   <string name="editor_hint_subreddit">Subreddit</string>
+  <string name="editor_finding_title">Başlık bulma</string>
+  <string name="edit_selftext">Yazıyı düzenle</string>
+  <string name="delete_submission">Gönderiyi sil</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Fotoğraf Kaydedildi</string>
+  <string name="video_saved">Video kaydedildi</string>
+  <string name="gif_saved">GIF kaydedildi</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Hay aksi, bir şeyler ters gitti!</string>
   <string name="err_invalid_url">Geçersiz URL</string>
@@ -151,14 +157,25 @@
   <string name="err_permission">İzin reddedildi</string>
   <string name="err_permission_msg">Slide\'in harici depolama için yazma erişim iznini engellemişiniz gibi görünüyor. Bu durum resim önbelleğinde, yazı önbelleğinde ve resimleri kaydederken hatalara sebep olur :(. \nSlide\'ın harici depolamaya erişmesine izin vermek ister misiniz?</string>
   <string name="err_authentication">Kimlik doğrulaması başarısız</string>
+  <string name="err_submit_restricted">Subreddid engellendi</string>
+  <string name="err_submit_restricted_text">Lütfen başka bir subreddit seçin. Buraya gönderi yollamaya yetkiniz yok.</string>
+  <string name="err_upload_unaccessible">Resmin erişilebilirliğinden emin olur ve tekrar deneyin!</string>
   <string name="error_video_not_found">Video bulunamadı</string>
   <string name="error_video_message">Video yüklenirken bir sorun oluştu</string>
+  <string name="error_album_not_found">Albüm bulunamadı</string>
+  <string name="error_album_not_found_text">Bu linki tarayıcıda açmak ister misin?</string>
+  <string name="err_comment_post_nosave_message">\nLütfen bir dakika içinde yeniden deneyin.</string>
   <string name="err_could_not_find_content_msg">Reddit istenilen içeriği bulamadı</string>
   <string name="err_refused_request_msg">Reddit isteği reddetti. Reddit\'e tekrar bağlanmaya calismak ister misiniz?</string>
+  <string name="err_color_sync_login">Renk eşitlemeyi kullanmak için lütfen giriş yapınız</string>
+  <string name="err_something_wrong">Hay aksi, bir şeyler ters gitti</string>
+  <string name="err_couldnt_save_choose_new">Slayt seçilen dizine kaydedilemedi. Yeni bir dizin seçmek ister misiniz?</string>
+  <string name="err_share_image">Görüntü paylaşımı sırasında hata oluştu</string>
   <string name="err_file_not_found">Dosya bulunamadı</string>
   <string name="err_not_valid_backup">Geçerli bir Slide yedek dosyası değil</string>
   <string name="err_not_valid_backup_msg">Seçili dosya geçerli bir Slide yedek dosyası değil</string>
   <string name="err_comment_post">Hay aksi, yorumu gönderme başarısız oldu!</string>
+  <string name="err_comment_post_reason">Sebep: %1$s</string>
   <string name="err_comment_post_message">\n\nİletiniz taslak olarak kaydedildi. Lütfen daha sonra tekrar deneyin.</string>
   <string name="err_comment_post_copy">Yorumu kopyala</string>
   <string name="err_connection_failed_msg">Reddit\'le bağlantı kurulamadı. Lütfen internet bağlantınız kontrol edip tekrar deneyin veya çevrimdışı moda geçin.</string>
@@ -168,6 +185,8 @@
   <!-- Multireddits -->
   <string name="multireddit_err_title">Multireddit yok (şimdilik)!</string>
   <string name="multireddit_err_msg">Yeni bir multireddit oluşturmak ister misiniz?</string>
+  <string name="public_multireddit_err_title">Çoklu reddit yok!</string>
+  <string name="public_multireddit_err_msg">Bu kullanıcının ortak multireddit\'i yok.</string>
   <string name="multireddit_title_empty">Başlık boş olamaz</string>
   <string name="multireddit_title_empty_msg">Lütfen multireddit\'iniz için bir başlık girin</string>
   <string name="multireddit_no_subs">Subreddit eklenmedi</string>
@@ -176,6 +195,12 @@
   <string name="multireddit_create_hint">Multireddit adı</string>
   <string name="multireddit_invalid_name">Geçersiz multireddit adı</string>
   <string name="multireddit_invalid_name_msg">Multireddit adları yalnızca harf, sayı ve alt çizgi içerebilir</string>
+  <string name="multi_add_to">/R/%s için Ekle</string>
+  <string name="multi_subreddit_added">Subreddit /m/%1$s için eklendi</string>
+  <string name="multi_error">Bir hata oluştu. Lütfen daha sonra tekrar deneyin.</string>
+  <string name="btn_import_multi">Multreddit\'i içeri aktar</string>
+  <string name="multi_saved_successfully">Başarıyla kaydedildi</string>
+  <string name="delete_multireddit_title">/m/%1$s\'i silmek istiyor musun?</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW görüntü</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
@@ -185,11 +210,14 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">Başlık yazısı</string>
   <string name="type_album">Albüm</string>
+  <string name="type_xkcd">XKCD</string>
   <string name="type_nsfw_album">NSFW albüm</string>
   <string name="type_img">Resim</string>
   <string name="type_vid">Video</string>
+  <string name="type_videos">Videolar</string>
   <string name="type_nsfw_video">NSFW video</string>
   <string name="type_emb">Yerleştirilmiş</string>
+  <string name="type_nsfw_emb">İİUD gömülü</string>
   <string name="type_imgur">Imgur içeriği</string>
   <string name="type_nsfw_imgur">NSFW Imgur içeriği</string>
   <string name="type_external">Dış</string>
@@ -210,6 +238,8 @@
   <string name="mail_hint_body">Mesaj Metni</string>
   <string name="mail_send_to">%1$s kişisine bir mesaj gönder</string>
   <string name="mail_send">Bir mesaj gönder</string>
+  <string name="mail_notification_msg_from">%1$s\'den yeni mesaj</string>
+  <string name="mail_notification_msg_via">/r/%1$s aracılığıyla yeni mesaj</string>
   <string name="mod_mail_notification_msg">%1$s\'dan yeni modmail</string>
   <string name="mail_reply_to">%1$s kişisine cevapla</string>
   <string name="mail_notification_author">%2$s kişisinden %1$s</string>

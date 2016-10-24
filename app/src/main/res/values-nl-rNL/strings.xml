@@ -24,11 +24,18 @@
   <string name="submission_report">Bericht melden</string>
   <string name="submission_gild">Openen in browser</string>
   <string name="submission_save">Bericht opslaan</string>
+  <string name="submission_save_image">Afbeelding opslaan</string>
   <string name="submission_load_full">Volledige discussie laden</string>
   <string name="submission_np_link">Dit bericht is doorgelinkt. Liever niet stemmen of reageren</string>
   <string name="submission_tap_gif">Tik om GIF te laden</string>
   <string name="submission_not_found">Oh oh, bericht niet gevonden!</string>
   <string name="submission_not_found_msg">Sorry, dit bericht kan niet worden gevonden</string>
+  <string name="submission_copy_text">Tekst kopiëren</string>
+  <string name="submission_comment_saved">Reactie opgeslagen</string>
+  <string name="submission_comment_unsaved">Reactie verwijderd</string>
+  <string name="submission_share_permalink">Link delen</string>
+  <string name="submission_comment_copied">Reactietekst gekopieerd</string>
+  <string name="submission_link_copied">Link gekopieerd</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punten</item>
@@ -50,6 +57,7 @@
   <string name="theme_dark">Donker</string>
   <string name="theme_black">AMOLED-zwart</string>
   <string name="theme_dark_blue">Donkerblauw</string>
+  <string name="night_mode">Nachtmodus</string>
   <string name="theme_default_color">Primaire kleur</string>
   <string name="theme_subreddit_color">Kleur wijzigen</string>
   <string name="theme_accent_color">Accentkleur</string>
@@ -57,6 +65,7 @@
   <string name="theme_card">Kaart</string>
   <string name="theme_sepia">Sepia</string>
   <string name="theme_amoled_contrast">AMOLED met contrast</string>
+  <string name="theme_night">Nachtthema</string>
   <!-- Font settings -->
   <string name="font_size">Lettergrootte</string>
   <string name="font_size_huge">Gigantisch</string>
@@ -92,6 +101,7 @@
   <string name="profile_karma_comment">Reactiekarma</string>
   <string name="profile_message">Privébericht</string>
   <string name="profile_saved">Opgeslagen</string>
+  <string name="profile_read_later">Later lezen</string>
   <string name="profile_upvoted">upvoted</string>
   <string name="profile_err_title">Gebruiker niet gevonden</string>
   <string name="profile_err_msg">Reddit-gebruiker kan niet worden geladen.</string>
@@ -123,6 +133,7 @@
   <string name="comment_delete">Reactie verwijderen</string>
   <string name="comment_delete_msg">Weet je zeker dat je deze reactie wilt verwijderen? Dit kan niet ongedaan worden gemaakt</string>
   <string name="comment_delete_err">Oh oh, er is iets misgegaan</string>
+  <string name="comment_delete_err_msg">Wil je het nogmaals proberen?</string>
   <string name="comment_deleted">[verwijderd]</string>
   <string name="comment_unsave">Verwijderen</string>
   <string name="comment_load_more">Laad er %1$d meer</string>
@@ -144,12 +155,19 @@
   <string name="sorting_old">Oud</string>
   <string name="sorting_controversial">Controversieel</string>
   <string name="sorting_rising">Stijgende</string>
+  <string name="sorting_hour">uur</string>
+  <string name="sorting_day">24 uur</string>
+  <string name="sorting_week">week</string>
+  <string name="sorting_month">maand</string>
+  <string name="sorting_year">jaar</string>
+  <string name="sorting_all">altijd</string>
   <string name="sorting_search_hour">Afgelopen uur</string>
   <string name="sorting_search_day">Afgelopen 24 uur</string>
   <string name="sorting_search_week">Afgelopen week</string>
   <string name="sorting_search_month">Afgelopen maand</string>
   <string name="sorting_search_year">Afgelopen jaar</string>
   <string name="sorting_search_all">Altijd</string>
+  <string name="sorting_defaultfor">Standaard voor /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Tekst</string>
@@ -158,10 +176,12 @@
   <string name="editor_title">Titel</string>
   <string name="editor_err_msg">Probeer het over een paar seconden opnieuw.</string>
   <string name="editor_uploading_image">Afbeelding uploaden naar Imgur</string>
+  <string name="editor_self">Zelftekst</string>
   <string name="editor_select_img">Afbeelding selecteren</string>
   <string name="editor_hint_optional_body">Inhoud (optioneel)</string>
   <string name="editor_submit">Een bericht plaatsen</string>
   <string name="editor_hint_subreddit">Subreddit</string>
+  <string name="edit_selftext">Wijzig zelftekst</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Afbeelding opgeslagen</string>
   <string name="video_saved">Video opgeslagen</string>
@@ -182,11 +202,11 @@
   <string name="err_comment_post_nosave_message">\nProbeer het over een minuut nogmaals</string>
   <string name="err_could_not_find_content_msg">Reddit kon de opgevraagde inhoud niet vinden</string>
   <string name="err_refused_request_msg">Reddit weigerde het verzoek. Wil je probeer nogmaals te verbinden met Reddit?</string>
-  <string name="err_couldnt_save_choose_new">Slide kon niet opslaan naar de geselecteerde map. Wil je een nieuwe map kiezen voor het opslaan?</string>
+  <string name="err_couldnt_save_choose_new">Slide kon niet opslaan in de geselecteerde map. Wil je een nieuwe map kiezen om het op te slaan?</string>
   <string name="err_file_not_found">Bestand niet gevonden</string>
-  <string name="err_not_valid_backup">Dit is geen geldig back-up bestand van Slide</string>
-  <string name="err_not_valid_backup_msg">Het geselecteerde bestand is geen geldig back-up bestand van Slide</string>
-  <string name="err_file_not_found_msg">Het geselecteerde bestand kan niet worden gevonden. Zorg ervoor dat het bestand bestaat en dat Slide toestemming heeft voor het benaderen dat bestand/die map</string>
+  <string name="err_not_valid_backup">Dit is geen geldige back-up van Slide</string>
+  <string name="err_not_valid_backup_msg">Het geselecteerde bestand is geen geldige back-up</string>
+  <string name="err_file_not_found_msg">Het geselecteerde bestand kan niet worden gevonden. Zorg ervoor dat het bestand bestaat en dat Slide toestemming om dat bestand of map te openen</string>
   <string name="err_comment_post">Ai, het plaatsen van deze reactie is mislukt!</string>
   <string name="err_comment_post_message">\n\nJouw bericht is opgeslagen als concept. Probeer het later nogmaals.</string>
   <string name="err_comment_post_copy">Kopieer reactie</string>
@@ -197,7 +217,7 @@
   <!-- Multireddits -->
   <string name="multireddit_err_title">Er zijn (nog) geen multireddits!</string>
   <string name="multireddit_err_msg">Wil je een nieuwe multireddit maken?</string>
-  <string name="public_multireddit_err_title">Geen multireddits!</string>
+  <string name="public_multireddit_err_title">Er zijn geen multireddits!</string>
   <string name="public_multireddit_err_msg">Deze gebruiker heeft geen openbare multireddits.</string>
   <string name="multireddit_title_empty">Titel mag niet leeg zijn</string>
   <string name="multireddit_title_empty_msg">Voer een titel in voor je multireddit</string>
@@ -457,7 +477,7 @@
   <string name="settings_comment_collapse_default">Onderliggende reacties standaard inklappen</string>
   <string name="settings_subredditspecific_selftext">Altijd voorbeelden van zelfteksten tonen in deze Subreddit</string>
   <string name="settings_font_system">Systeem</string>
-  <string name="settings_manage_subscriptions">Beheer uw abonnementen</string>
+  <string name="settings_manage_subscriptions">Beheer jouw abonnementen</string>
   <string name="settings_comments_swap_long">Wissel lange druk- and klikactie</string>
   <string name="settings_redditprefs_over18">Ik ben ouder dan 18 jaar en ik wil NSFW-inhoud zien</string>
   <string name="settings_layout_view">Weergavemodus</string>
@@ -718,7 +738,7 @@
   <string name="msg_sent_success">Bericht verzonden</string>
   <string name="msg_sent_failure">Bericht versturen mislukt</string>
   <string name="msg_send_user_dne">Die gebruiker bestaat niet</string>
-  <string name="editor_actions_quote_comment">Selecteer de tekst die je wilt quoteren</string>
+  <string name="editor_actions_quote_comment">Selecteer de tekst die je wilt quoten</string>
   <string name="content_removed">[verwijderd]</string>
   <string name="guest">Gast</string>
   <string name="album_slide_view">Horizontaal album</string>
@@ -762,8 +782,8 @@
   <string name="comment_undistinguished">Onderscheiding van de reactie is verwijderd</string>
   <string name="distinguish_comment">Ben je zeker dat je deze reactie wilt onderscheiden?</string>
   <string name="comment_distinguished">Onderscheiding is toegevoegd aan de reactie</string>
-  <string name="remove_comment">Dit commentaar echt verwijderen?</string>
-  <string name="comment_removed">Commentaar verwijderd</string>
+  <string name="remove_comment">Deze reactie echt verwijderen?</string>
+  <string name="comment_removed">Reactie verwijderd</string>
   <string name="set_nav_mode">Stel navigatiemodus in</string>
   <string name="auto_hide_the_comment_nav_bar">Automatisch de reactienavigatiebalk verbergen</string>
   <string name="rate_slide">Beoordeel Slide</string>

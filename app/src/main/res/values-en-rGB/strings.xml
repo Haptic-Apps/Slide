@@ -772,7 +772,6 @@
   <string name="mediaview_notif_text">Download in progress</string>
   <string name="mediaview_converting_fail">Converting the gif through Gfycat did not work</string>
   <string name="mediaview_converting_fail_btn">Open in web</string>
-  <string name="mediaview_saving">Saving %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Saving draft</string>
   <string name="draft_saved">Draft saved</string>

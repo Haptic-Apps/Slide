@@ -3,7 +3,7 @@
 <resources>
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Подтвердите выход</string>
-  <string name="general_confirm_exit_msg">Вы уверены что хотите выйти?</string>
+  <string name="general_confirm_exit_msg">Вы действительно хотите выйти из Slide?</string>
   <string name="general_enable_shadowbox">Включить Shadowbox Mode</string>
   <string name="general_open_settings">Открыть Настройки Сабреддита</string>
   <string name="general_sub_sync">Синхронизация Подписок</string>
@@ -24,31 +24,41 @@
   <string name="submission_report">Сообщить о посте</string>
   <string name="submission_gild">Открыть в браузере</string>
   <string name="submission_save">Сохранить пост</string>
+  <string name="submission_save_image">Сохранить изображение</string>
   <string name="submission_load_full">Загрузить полное обсуждение</string>
   <string name="submission_np_link">Здесь нету ссылки для участия. Пожалуйста, не голосуйте или комментируйте</string>
   <string name="submission_tap_gif">Нажмите для загрузки GIF</string>
   <string name="submission_not_found">Ох, пост не найден!</string>
   <string name="submission_not_found_msg">Извините, пост не может быть найден</string>
+  <string name="submission_comment_saved">Комментарий сохранён</string>
+  <string name="submission_link_copied">Ссылка скопирована</string>
   <plurals name="submission_points">
     <item quantity="one">%d очко</item>
     <item quantity="few">%d очка</item>
     <item quantity="other">%d очков</item>
   </plurals>
+  <plurals name="new_messages">
+    <item quantity="one">%d новое сообщение</item>
+    <item quantity="few">%d новых сообщения</item>
+    <item quantity="other">%d новых сообщений</item>
+  </plurals>
   <plurals name="points">
-    <item quantity="one">монета</item>
-    <item quantity="few">монеты</item>
-    <item quantity="other">монетов</item>
+    <item quantity="one">очко</item>
+    <item quantity="few">очка</item>
+    <item quantity="other">очков</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Светлая</string>
   <string name="theme_dark">Тёмная</string>
   <string name="theme_black">Чёрная AMOLED</string>
   <string name="theme_dark_blue">Тёмно-синий</string>
+  <string name="night_mode">Ночной режим</string>
   <string name="theme_default_color">Основной цвет</string>
   <string name="theme_subreddit_color">Изменить цвет</string>
   <string name="theme_accent_color">Контрастный цвет</string>
   <string name="theme_base">Основная тема</string>
   <string name="theme_card">Карточка</string>
+  <string name="theme_night">Ночная тема</string>
   <!-- Font settings -->
   <string name="font_size">Размер Шрифта</string>
   <string name="font_size_larger">Больше</string>
@@ -82,7 +92,7 @@
   <string name="profile_karma_comment">карма комментария</string>
   <string name="profile_message">Личное сообщение</string>
   <string name="profile_saved">Сохранено</string>
-  <string name="profile_upvoted">Апвоут</string>
+  <string name="profile_upvoted">Заплюсовано</string>
   <string name="profile_err_title">Пользователь не найден</string>
   <string name="profile_err_msg">Пользователь Reddit не может быть получен.</string>
   <string name="profile_overview">обзор</string>
@@ -97,6 +107,7 @@
   <string name="profile_manage_accounts">Управление аккаунтами</string>
   <string name="profile_remove_account">Вы действительно хотите удалить эту учетную запись?</string>
   <string name="profile_remove">Удалить аккаунт</string>
+  <string name="profile_history">История</string>
   <string name="profile_share">Пользователь %s</string>
   <string name="profile_age">Redditor для %s</string>
   <string name="profile_tag">Тег</string>
@@ -133,6 +144,12 @@
   <string name="sorting_old">Старое</string>
   <string name="sorting_controversial">Спорное</string>
   <string name="sorting_rising">Набирающее популярность</string>
+  <string name="sorting_hour">час</string>
+  <string name="sorting_day">24 часа</string>
+  <string name="sorting_week">неделю</string>
+  <string name="sorting_month">месяц</string>
+  <string name="sorting_year">год</string>
+  <string name="sorting_all">всё время</string>
   <string name="sorting_search_hour">За последний час</string>
   <string name="sorting_search_day">За последние 24 часа</string>
   <string name="sorting_search_week">За последнюю неделю</string>
@@ -154,6 +171,8 @@
   <string name="editor_hint_subreddit">Сабреддит</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Фото сохранено</string>
+  <string name="video_saved">Видео сохранено</string>
+  <string name="gif_saved">GIF сохранена</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Ох, что-то пошло не так!</string>
   <string name="err_invalid_url">Неверный URL-адрес</string>
@@ -165,6 +184,10 @@
   <string name="err_permission">Отказано в доступе</string>
   <string name="err_permission_msg">Похоже, вы отказали Slided в записи данных на внешнее хранилище. Это не даст возможности сохранят кэш и изображения :(. \nОткроете Slide доступ на внешнее хранилище?</string>
   <string name="err_authentication">Ошибка аутентификации</string>
+  <string name="error_video_not_found">Видео не найдено</string>
+  <string name="error_video_message">При загрузке этого видео произошла ошибка</string>
+  <string name="error_album_not_found">Альбом не найден</string>
+  <string name="err_file_not_found">Файл не найден</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF не найдена</string>
   <string name="gif_err_msg">Произошла ошибка при загрузке этого GIF. Пожалуйста, повторите попытку.</string>
@@ -176,6 +199,7 @@
   <string name="multireddit_no_subs_msg">Пожалуйста, добавьте некоторые subreddits, нажав на кнопку +!</string>
   <string name="multireddit_selector">Выберите сабреддиты для добавления</string>
   <string name="multireddit_invalid_name">Неверное название мультиреддита</string>
+  <string name="multi_saved_successfully">Успешно сохранено</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW изображение</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
@@ -191,8 +215,10 @@
   <string name="type_videos">Видео</string>
   <string name="type_nsfw_video">Ненормативные видео</string>
   <string name="type_emb">Встроенное</string>
+  <string name="type_external">Внешний</string>
   <!-- Content types plural (Content filters) -->
   <string name="type_gifs">GIF</string>
+  <string name="type_albums">Альбомы</string>
   <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s написал&#8230;</string>
   <string name="mail_hint_recipient">Получатель</string>
@@ -222,6 +248,10 @@
   <string name="misc_img_share">Поделиться изображением с</string>
   <string name="misc_link_chooser">Открыть URL-адрес</string>
   <string name="misc_copy_text">Копировать текст</string>
+  <string name="misc_please_try_again">Пожалуйста, попробуйте еще раз</string>
+  <string name="misc_more_info">Дополнительная информация</string>
+  <string name="misc_rate_title">Нравится Slide?</string>
+  <string name="misc_rate_msg">Оцените его!</string>
   <!-- Goto User -->
   <string name="user_enter">Введите имя пользователя</string>
   <string name="user_btn_goto">Перейти к пользователю</string>
@@ -278,6 +308,9 @@
   <string name="mod_btn_approve">Подтвердить</string>
   <string name="mod_btn_mark_nsfw">Отметить как непристойное содержание</string>
   <string name="mod_btn_unmark_nsfw">Снять пометку непристойного содержания</string>
+  <string name="mod_ban_success">Пользователь забанен!</string>
+  <string name="mod_ban_reason">Причина бана</string>
+  <string name="mod_ban_time">Срок бана (в днях)</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -295,12 +328,16 @@
   <string name="search_msg">Что вы ищете?</string>
   <string name="search_all">Искать все</string>
   <string name="search_subreddit">Искать %1$s</string>
+  <string name="search_top">Лучшее</string>
+  <string name="search_new">Новое</string>
+  <string name="search_comments">Коментарии</string>
   <!-- Captcha -->
   <string name="captcha">Введите код выше</string>
   <string name="captcha_title">Докажите, что вы не робот</string>
   <!-- Settings -->
   <string name="settings_reddit_prefs">Параметры Reddit</string>
   <string name="settings_accent_title">Цвет элементов</string>
+  <string name="settings_delete_sub_settings">Вы действительно хотите удалить настройки для %1$s?</string>
   <string name="settings_layout_default">Разметка поста</string>
   <string name="settings_link_album">Вид внутреннего альбома</string>
   <string name="settings_link_gif">Встроенный просмотр GIF</string>
@@ -325,6 +362,7 @@
   <string name="settings_notifdisabled">Уведомления отключены.</string>
   <string name="settings_filter_domain">Фильтры доменов</string>
   <string name="settings_filter_title">Фильтры титров</string>
+  <string name="settings_font_comment">Шрифт комментария</string>
   <string name="settings_link_chrome">Использовать Chrome Customtabs</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Резервное копирование &amp; восстановление</string>
@@ -342,12 +380,16 @@
   <string name="settings_title_font">Шрифт</string>
   <string name="settings_section_appearance">Вид</string>
   <string name="settings_section_other">Другое</string>
+  <string name="settings_section_hide_images">Скрыть изображения</string>
   <string name="settings_synccit_remove">ОТКЛЮЧИТЬ SYNCCIT</string>
   <string name="settings_synccit_auth">Код авторизации</string>
   <string name="settings_synccit_username">Имя пользователя</string>
+  <string name="settings_redditprefs_over18">Я старше 18 лет и хочу увидеть NSFW содержимое</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
+  <string name="reorder_add_subreddit">Добавить сабреддит</string>
+  <string name="reorder_fab_subreddit">Сабреддит</string>
   <string name="btn_add_subreddit">Добавить сабреддит</string>
   <string name="reorder_subreddits_title">Выберите сабреддиты для добавления</string>
   <string name="reorder_subreddit_name">Название сабреддита</string>
@@ -433,6 +475,10 @@
   <!-- Live thread -->
   <!-- Used when viewing media -->
   <!-- Drafts -->
+  <string name="draft_saving">Сохранение черновика</string>
+  <string name="dialog_no_drafts">Пока нет черновиков</string>
+  <string name="manage_drafts">Управление черновиками</string>
+  <string name="really_delete_drafts">Действительно удалить эти черновики?</string>
   <!-- Strings for widgets -->
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->

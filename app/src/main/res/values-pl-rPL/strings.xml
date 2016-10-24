@@ -44,6 +44,7 @@
   <string name="submission_copy_text">Skopiuj tekst</string>
   <string name="submission_comment_saved">Komentarz zapisany</string>
   <string name="submission_comment_unsaved">Komentarz wypisany</string>
+  <string name="submission_share_permalink">Udostępnij link</string>
   <string name="submission_comment_copied">Tekst komentarza skopiowany</string>
   <string name="submission_nocontent">Post nie ma zawartości</string>
   <string name="submission_link_copied">Link skopiowany</string>
@@ -118,6 +119,7 @@
   <string name="profile_karma_comment">karmy komentarzy</string>
   <string name="profile_message">Prywatna wiadomość</string>
   <string name="profile_saved">Zapisane</string>
+  <string name="profile_read_later">Przeczytaj później</string>
   <string name="profile_upvoted">Polubione</string>
   <string name="profile_err_title">Użytkownik nie znaleziony</string>
   <string name="profile_err_msg">Użytkownik Reddita nie mógł zostać znaleziony</string>
@@ -706,6 +708,7 @@
   <string name="nsfw">Zawartość NSFW</string>
   <string name="content_thumbnails">Miniatury zawartości</string>
   <string name="view_reddit_settings">Otwórz ustawienia Reddita w przeglądarce</string>
+  <string name="font_styles">Style czcionek</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Motywy subredditów</string>
   <string name="title_edit_theme">Edytuj motyw</string>
@@ -842,7 +845,6 @@
   <string name="mediaview_converting_fail">Konwersja gifa przez Gfycat się nie powiodła</string>
   <string name="mediaview_converting_fail_btn">Otwórz w sieci</string>
   <string name="mediaview_save">Zapisz %1$s</string>
-  <string name="mediaview_saving">Zapisywanie %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Zapisywanie szkicu</string>
   <string name="draft_saved">Szkic zapisany</string>
@@ -936,6 +938,8 @@
   <string name="mode_centered">Karty z wycentrowanym obrazem</string>
   <string name="mode_card">Karta</string>
   <string name="mode_thumbnail">Miniatura</string>
+  <string name="mode_big_thumbnails">Szerokie miniatury</string>
+  <string name="mode_cropped">Ucięte duże zdjęcie</string>
   <string name="mode_bigpic">Duży obraz</string>
   <string name="press_actionbar">Rozwijanie strzałką</string>
   <string name="tap_actionbar">Długie przyciśnięcie</string>
@@ -1056,4 +1060,14 @@
   <string name="theme_red_shift">Czerwone przejście</string>
   <string name="view_sub_sidebar">Zobacz sidebar subreddita</string>
   <string name="mod_log">Dziennik moderaci</string>
+  <string name="navigation_bar_vote_gestures">Gesty głosowania paska nawigacji</string>
+  <string name="nav_gestures_description">Głosuj przesuwając strzałki w pasku nawigacji komentarzy</string>
+  <string name="subreddit_sidebar_progress">Pobieranie sidebara...</string>
+  <string name="manage_your_subreddits">Zarządzaj subredditami</string>
+  <string name="enlarge_links">Powiększ linki</string>
+  <string name="enlarge_links_warning">Może powiększać niektóre linie, lecz ułatwia klikania linków</string>
+  <string name="type_tumblr">Tumblr</string>
+  <string name="type_nsfw_tumblr">NSFW Tumblr</string>
+  <string name="submission_info_contest">Ten wątek jest w trybie konkursu. Nie możesz zmienić sortowania</string>
+  <string name="sub_post_notifs_msg">Slide będzie sprawdzał nowe posty podczas sprawdzania skrzynki odbiorczej (powiadomienia muszą być włączone)</string>
 </resources>
