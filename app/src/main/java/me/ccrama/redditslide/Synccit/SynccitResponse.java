@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Synccit;
 /**
  * https://github.com/drakeapps/synccit#example-json-update-call
  */
-public class SynccitResponse {
+class SynccitResponse {
 	
 	private String key;
 	private String value;

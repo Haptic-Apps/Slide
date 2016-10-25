@@ -14,7 +14,6 @@ android {
         // Translations are crowd-sourced
         disable 'MissingTranslation'
     }
-    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 24

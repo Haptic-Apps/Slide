@@ -9,11 +9,4 @@ import java.util.Set;
 public class SynccitRead {
     public static ArrayList<String> visitedIds = new ArrayList<>();
     public static ArrayList<String> newVisited = new ArrayList<>();
-
-    static void setVisited(Set<String> visitedIds2) {
-        visitedIds = new ArrayList<>();
-        for(String s : visitedIds2) {
-            visitedIds.add(s);
-        }
-    }
 }
