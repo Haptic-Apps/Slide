@@ -119,7 +119,10 @@ public class HasSeen {
         hasSeen.add(fullname);
         seenTimes.put(fullname, System.currentTimeMillis());
 
-        KVStore.getInstance().insertOrUpdate(fullname, String.valueOf(System.currentTimeMillis()));
+        long result = KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
+        if(result == -1){
+            KVStore.getInstance().update(fullname, String.valueOf(System.currentTimeMillis()));
+        }
 
         if (!fullname.contains("t1_")) {
             SynccitRead.newVisited.add(fullname);

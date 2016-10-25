@@ -31,8 +31,6 @@ import android.view.animation.Interpolator;
 import java.util.Arrays;
 
 /**
- * By ikew0ng
- * <p/>
  * ViewDragHelper is a utility class for writing custom ViewGroups. It offers a
  * number of useful operations and state tracking for allowing a user to drag
  * and reposition views within their parent ViewGroup.
@@ -153,6 +151,8 @@ public class ViewDragHelper {
     private boolean mReleaseInProgress;
 
     private final ViewGroup mParentView;
+
+    private boolean mFullScreenSwipe = false;
 
     /**
      * A Callback is used as a communication channel with the ViewDragHelper
@@ -528,6 +528,25 @@ public class ViewDragHelper {
      */
     public void setEdgeSize(int size) {
         mEdgeSize = size;
+    }
+
+    /**
+     * Return whether swiping anywhere within activity will start the swipe back gesture instead of
+     * only from the edges.
+     *
+     * @return Whether full screen dragging is enabled
+     */
+    public boolean isFullScreenSwipeEnabled() {
+        return mFullScreenSwipe;
+    }
+
+    /**
+     * Set whether swiping anywhere within the activity should start the swipe back gesture.
+     *
+     * @param enabled Whether full screen dragging should be enabled
+     */
+    public void setFullScreenSwipeEnabled(boolean enabled) {
+        mFullScreenSwipe = enabled;
     }
 
     /**
@@ -1047,8 +1066,6 @@ public class ViewDragHelper {
     public boolean shouldInterceptTouchEvent(MotionEvent ev) {
         final int action = MotionEventCompat.getActionMasked(ev);
         final int actionIndex = MotionEventCompat.getActionIndex(ev);
-        float x = ev.getX();
-        float y = ev.getY();
 
         if (action == MotionEvent.ACTION_DOWN) {
             // Reset things for a new event stream, just in case we didn't get
@@ -1059,11 +1076,12 @@ public class ViewDragHelper {
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
         }
-
         mVelocityTracker.addMovement(ev);
 
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
+                final float x = ev.getX();
+                final float y = ev.getY();
                 final int pointerId = MotionEventCompat.getPointerId(ev, 0);
                 saveInitialMotion(x, y, pointerId);
 
@@ -1083,14 +1101,12 @@ public class ViewDragHelper {
 
             case MotionEventCompat.ACTION_POINTER_DOWN: {
                 final int pointerId = MotionEventCompat.getPointerId(ev, actionIndex);
-                x = MotionEventCompat.getX(ev, actionIndex);
-                y = MotionEventCompat.getY(ev, actionIndex);
+                final float x = MotionEventCompat.getX(ev, actionIndex);
+                final float y = MotionEventCompat.getY(ev, actionIndex);
 
                 saveInitialMotion(x, y, pointerId);
 
                 // A ViewDragHelper can only manipulate one view at a time.
-                final View toCapture = findTopChildUnder((int) x, (int) y);
-
                 if (mDragState == STATE_IDLE) {
                     final int edgesTouched = mInitialEdgeTouched[pointerId];
                     if ((edgesTouched & mTrackingEdges) != 0) {
@@ -1098,6 +1114,7 @@ public class ViewDragHelper {
                     }
                 } else if (mDragState == STATE_SETTLING) {
                     // Catch a settling view if possible.
+                    final View toCapture = findTopChildUnder((int) x, (int) y);
                     if (toCapture == mCapturedView) {
                         tryCaptureViewForDrag(toCapture, pointerId);
                     }
@@ -1111,8 +1128,8 @@ public class ViewDragHelper {
                 final int pointerCount = MotionEventCompat.getPointerCount(ev);
                 for (int i = 0; i < pointerCount; i++) {
                     final int pointerId = MotionEventCompat.getPointerId(ev, i);
-                    x = MotionEventCompat.getX(ev, i);
-                    y = MotionEventCompat.getY(ev, i);
+                    final float x = MotionEventCompat.getX(ev, i);
+                    final float y = MotionEventCompat.getY(ev, i);
                     final float dx = x - mInitialMotionX[pointerId];
                     final float dy = y - mInitialMotionY[pointerId];
 
@@ -1348,7 +1365,21 @@ public class ViewDragHelper {
             mEdgeDragsLocked[pointerId] |= edge;
             return false;
         }
-        return (mEdgeDragsInProgress[pointerId] & edge) == 0 && absDelta > mTouchSlop;
+        switch (edge) {
+            case EDGE_LEFT:
+                if (delta <= 0f || absDelta <= mTouchSlop) return false;
+                break;
+            case EDGE_TOP:
+                if (odelta <= 0f || absODelta <= mTouchSlop) return false;
+                break;
+            case EDGE_RIGHT:
+                if (delta >= 0f || absDelta <= mTouchSlop) return false;
+                break;
+            case EDGE_BOTTOM:
+                if (odelta >= 0f || absODelta <= mTouchSlop) return false;
+                break;
+        }
+        return (mEdgeDragsInProgress[pointerId] & edge) == 0;
     }
 
     /**
@@ -1444,20 +1475,19 @@ public class ViewDragHelper {
     }
 
     /**
-     * Check if any of the edges specified were initially touched in the
-     * currently active gesture. If there is no currently active gesture this
-     * method will return false.
+     * Check if there is a drag in progress for any of the specified edges.
+     * If there is no currently active gesture or if this method will return
+     * false.
      *
-     * @param edges Edges to check for an initial edge touch. See
+     * @param edges Edges to check for a drag gesture in progress. See
      *              {@link #EDGE_LEFT}, {@link #EDGE_TOP}, {@link #EDGE_RIGHT},
      *              {@link #EDGE_BOTTOM} and {@link #EDGE_ALL}
-     * @return true if any of the edges specified were initially touched in the
-     * current gesture
+     * @return true if there is a drag in progress for any of the specified edges.
      */
-    public boolean isEdgeTouched(int edges) {
+    public boolean isEdgeDragInProgress(int edges) {
         final int count = mInitialEdgeTouched.length;
         for (int i = 0; i < count; i++) {
-            if (isEdgeTouched(edges, i)) {
+            if (isEdgeDragInProgress(edges, i)) {
                 return true;
             }
         }
@@ -1465,19 +1495,18 @@ public class ViewDragHelper {
     }
 
     /**
-     * Check if any of the edges specified were initially touched by the pointer
-     * with the specified ID. If there is no currently active gesture or if
+     * Check if there is a drag in progress by the pointer with the specified ID
+     * for any of the specified edges. If there is no currently active gesture or if
      * there is no pointer with the given ID currently down this method will
      * return false.
      *
-     * @param edges Edges to check for an initial edge touch. See
+     * @param edges Edges to check for a drag gesture in progress. See
      *              {@link #EDGE_LEFT}, {@link #EDGE_TOP}, {@link #EDGE_RIGHT},
      *              {@link #EDGE_BOTTOM} and {@link #EDGE_ALL}
-     * @return true if any of the edges specified were initially touched in the
-     * current gesture
+     * @return true if there is a drag in progress for any of the specified edges.
      */
-    public boolean isEdgeTouched(int edges, int pointerId) {
-        return isPointerDown(pointerId) && (mInitialEdgeTouched[pointerId] & edges) != 0;
+    public boolean isEdgeDragInProgress(int edges, int pointerId) {
+        return isPointerDown(pointerId) && (mEdgeDragsInProgress[pointerId] & edges) != 0;
     }
 
     private void releaseViewForPointerUp() {
@@ -1567,13 +1596,12 @@ public class ViewDragHelper {
         return null;
     }
 
-    public boolean override = false;
-
     private int getEdgeTouched(int x, int y) {
-
         int result = 0;
-        if (!override) {
 
+        if (mFullScreenSwipe) {
+            result = mTrackingEdges;
+        } else {
             if (x < mParentView.getLeft() + mEdgeSize)
                 result = EDGE_LEFT;
             if (y < mParentView.getTop() + mEdgeSize)
@@ -1582,10 +1610,8 @@ public class ViewDragHelper {
                 result = EDGE_RIGHT;
             if (y > mParentView.getBottom() - mEdgeSize)
                 result = EDGE_BOTTOM;
-        } else {
-            result = EDGE_LEFT;
-
         }
+
         return result;
     }
 }

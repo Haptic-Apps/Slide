@@ -33,6 +33,9 @@ public class AlbumUtils {
     public static SharedPreferences albumRequests;
 
     private static String getHash(String s) {
+        if(s.contains("/comment/")){
+            s = s.substring(0, s.indexOf("/comment"));
+        }
         String next = s.substring(s.lastIndexOf("/"), s.length());
         if (next.contains(".")) {
             next = next.substring(0, next.indexOf("."));

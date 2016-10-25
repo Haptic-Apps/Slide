@@ -92,27 +92,15 @@ public class BaseActivity extends PeekViewActivity
         if (enableSwipeBackLayout) {
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-
 
             if (SettingValues.swipeAnywhere || overrideRedditSwipeAnywhere) {
                 if (overrideSwipeFromAnywhere) {
-                    Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
-                    mHelper.getSwipeBackLayout().mDragHelper.override = false;
                     shouldInterceptAlways = true;
-
                 } else {
-
-
-                    Log.v(LogUtil.getTag(), "WILL SWIPE FROM ANYWHERE");
-
-                    mHelper.getSwipeBackLayout().mDragHelper.override = true;
-                    mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
-
-                    Log.v(LogUtil.getTag(), "EDGE SIZE IS " + metrics.widthPixels);
+                    mHelper.getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
+                    mHelper.getSwipeBackLayout().setFullScreenSwipeEnabled(true);
                 }
             } else {
-                mHelper.getSwipeBackLayout().mDragHelper.override = false;
                 shouldInterceptAlways = true;
             }
         }

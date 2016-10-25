@@ -94,7 +94,7 @@ public class Login extends BaseActivityAnim {
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookies(null);
             CookieManager.getInstance().flush();
-        } catch(NoSuchMethodError e){
+        } catch(Exception e){
             //Ignore, some devices can't clear cookies
         }
 

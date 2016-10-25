@@ -1406,7 +1406,7 @@ public class CommentAdapterHelper {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
-                                                doInBackground();
+                                                new AsyncEditTask(adapter, baseNode, text, mContext, AsyncEditTask.this.dialog, holder).execute();
                                             }
                                         })
                                 .setNegativeButton(R.string.btn_no,

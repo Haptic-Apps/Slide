@@ -988,6 +988,11 @@ public class MainActivity extends BaseActivity
         inNightMode = SettingValues.isNight();
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created
+            finish();
+            return;
+        }
         if (!Slide.hasStarted) {
             Slide.hasStarted = true;
         }

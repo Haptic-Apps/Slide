@@ -92,24 +92,45 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
-        String distingush = "";
-        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
-            distingush = "[M]";
-        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-            distingush = "[A]";
-        }
+        SpannableStringBuilder author = new SpannableStringBuilder(comment.getAuthor());
+        final int authorcolor = Palette.getFontColorUser(comment.getAuthor());
 
-        SpannableStringBuilder author = new SpannableStringBuilder(" " + distingush + comment.getAuthor() + " ");
-        int authorcolor = Palette.getFontColorUser(comment.getAuthor());
-
-        author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (!distingush.isEmpty()) {
-            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }  else if (authorcolor != 0) {
-            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+            author.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                    0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+            author.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                    0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+            author.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                    0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (Authentication.name != null && comment.getAuthor()
+                .toLowerCase()
+                .equals(Authentication.name.toLowerCase())) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+            author.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                            false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } /* todoelse if (submission != null && comment.getAuthor()
+                .toLowerCase()
+                .equals(submission.getAuthor().toLowerCase()) && !comment.getAuthor().equals("[deleted]")) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+            author.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false),
+                    0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } */else if (authorcolor != 0) {
+            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         titleString.append(author);
