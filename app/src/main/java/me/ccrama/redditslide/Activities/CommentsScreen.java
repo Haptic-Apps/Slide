@@ -19,9 +19,7 @@ import net.dean.jraw.models.Submission;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
-import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -31,6 +29,7 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.PostLoaderManager;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing the post and its
@@ -150,11 +149,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
         currentPosts = new ArrayList<>();
-        if (multireddit != null) {
-            subredditPosts = new MultiredditPosts(multireddit, profile);
-        } else {
+        subredditPosts = PostLoaderManager.getInstance();
+        if (multireddit == null) {
             baseSubreddit = subreddit.toLowerCase();
-            subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
 
         if (firstPage == RecyclerView.NO_POSITION || firstPage < 0) {
@@ -164,7 +161,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             OfflineSubreddit o = OfflineSubreddit.getSubreddit(
                     multireddit == null ? baseSubreddit : "multi" + multireddit,
                     OfflineSubreddit.currentid, !Authentication.didOnline, CommentsScreen.this);
-            subredditPosts.getPosts().addAll(o.submissions);
             currentPosts.addAll(subredditPosts.getPosts());
         }
 

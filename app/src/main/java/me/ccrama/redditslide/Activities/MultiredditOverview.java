@@ -45,10 +45,13 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.MultiredditView;
+import me.ccrama.redditslide.PostLoader;
+import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -202,13 +205,13 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
             case R.id.gallery:
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts =
-                            ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                    MultiredditPosts loader = ((MultiredditView) adapter.getCurrentFragment()).posts;
+                    List<Submission> posts = loader.posts;
                     if (posts != null && !posts.isEmpty()) {
+                        PostLoaderManager.setInstance(loader);
                         Intent i2 = new Intent(this, Gallery.class);
                         i2.putExtra(Gallery.EXTRA_PROFILE, profile);
-                        i2.putExtra(Gallery.EXTRA_MULTIREDDIT,
-                                ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                        i2.putExtra(Gallery.EXTRA_MULTIREDDIT, loader.multiReddit.getDisplayName());
                         startActivity(i2);
                     }
                 } else {
@@ -248,15 +251,13 @@ public class MultiredditOverview extends BaseActivityAnim {
                                                 .apply();
                                         SettingValues.previews = SettingValues.prefs.getInt(
                                                 SettingValues.PREVIEWS_LEFT, 10);
-                                        List<Submission> posts =
-                                                ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                        MultiredditPosts loader = ((MultiredditView) adapter.getCurrentFragment()).posts;
+                                        List<Submission> posts = loader.posts;
                                         if (posts != null && !posts.isEmpty()) {
-                                            Intent i2 = new Intent(MultiredditOverview.this,
-                                                    Gallery.class);
+                                            PostLoaderManager.setInstance(loader);
+                                            Intent i2 = new Intent(MultiredditOverview.this, Gallery.class);
                                             i2.putExtra(Gallery.EXTRA_PROFILE, profile);
-                                            i2.putExtra(Gallery.EXTRA_MULTIREDDIT,
-                                                    ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
-                                                            .getDisplayName());
+                                            i2.putExtra(Gallery.EXTRA_MULTIREDDIT, loader.multiReddit.getDisplayName());
                                             startActivity(i2);
                                         }
                                     }
@@ -266,15 +267,15 @@ public class MultiredditOverview extends BaseActivityAnim {
                 }
                 return true;
             case R.id.action_shadowbox:
+                final MultiredditPosts loader = ((MultiredditView) adapter.getCurrentFragment()).posts;
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts =
-                            ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                    List<Submission> posts = loader.posts;
                     if (posts != null && !posts.isEmpty()) {
+                        PostLoaderManager.setInstance(loader);
                         Intent i = new Intent(this, Shadowbox.class);
                         i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
                         i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
-                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT,
-                                ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, loader.multiReddit.getDisplayName());
                         startActivity(i);
                     }
                 } else {
@@ -305,9 +306,9 @@ public class MultiredditOverview extends BaseActivityAnim {
                                             });
                     if (SettingValues.previews > 0
                             && adapter != null
-                            && ((MultiredditView) adapter.getCurrentFragment()).posts != null
-                            && ((MultiredditView) adapter.getCurrentFragment()).posts.posts != null
-                            && !((MultiredditView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
+                            && loader != null
+                            && loader.posts != null
+                            && !loader.posts.isEmpty()) {
                         b.setNeutralButton(getString(R.string.pro_previews, SettingValues.previews),
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -318,16 +319,13 @@ public class MultiredditOverview extends BaseActivityAnim {
                                                 .apply();
                                         SettingValues.previews = SettingValues.prefs.getInt(
                                                 SettingValues.PREVIEWS_LEFT, 10);
-                                        List<Submission> posts =
-                                                ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                        List<Submission> posts = loader.posts;
                                         if (posts != null && !posts.isEmpty()) {
-                                            Intent i = new Intent(MultiredditOverview.this,
-                                                    Shadowbox.class);
+                                            PostLoaderManager.setInstance(loader);
+                                            Intent i = new Intent(MultiredditOverview.this, Shadowbox.class);
                                             i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
                                             i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
-                                            i.putExtra(Shadowbox.EXTRA_MULTIREDDIT,
-                                                    ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
-                                                            .getDisplayName());
+                                            i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, loader.multiReddit.getDisplayName());
                                             startActivity(i);
                                         }
                                     }
