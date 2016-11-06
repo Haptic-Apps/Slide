@@ -24,7 +24,11 @@ public class FullScreenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         //TODO something like this getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
              //   WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        overridePendingTransition(R.anim.pop_in, 0);
+        if (Reddit.peek) {
+            overridePendingTransition(R.anim.pop_in, 0);
+        } else {
+            overridePendingTransition(R.anim.slide_in, 0);
+        }
         setRecentBar(null, Palette.getDefaultColor());
 
 
@@ -32,7 +36,7 @@ public class FullScreenActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.slide_down_fade_out);
+        overridePendingTransition(0, R.anim.slide_out);
     }
 
     @Override

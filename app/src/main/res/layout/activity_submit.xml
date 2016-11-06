@@ -112,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <EditText
+                    <me.ccrama.redditslide.Views.ImageInsertEditText
                         android:id="@+id/bodytext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -357,12 +357,10 @@ public class MediaFragment extends Fragment {
                                     Intent i = new Intent(contextActivity, AlbumPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     Intent i = new Intent(contextActivity, Album.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 }
                             } else {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -374,12 +372,10 @@ public class MediaFragment extends Fragment {
                                     Intent i = new Intent(contextActivity, TumblrPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     Intent i = new Intent(contextActivity, Tumblr.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 }
                             } else {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);

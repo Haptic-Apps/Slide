@@ -14,17 +14,30 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +45,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -48,6 +62,7 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -108,7 +123,10 @@ import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.RateSnack;
 
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -148,6 +166,7 @@ import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.EditTextValidator;
+import me.ccrama.redditslide.util.ImageUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -1038,9 +1057,13 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void run() {
                         runAfterLoad = null;
-                        if (Authentication.isLoggedIn) new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        if (Authentication.isLoggedIn) {
+                            new AsyncNotificationBadge().executeOnExecutor(
+                                    AsyncTask.THREAD_POOL_EXECUTOR);
+                        }
                         if (!Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").isEmpty()) {
-                            new CheckForMail.AsyncGetSubs(MainActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                            new CheckForMail.AsyncGetSubs(MainActivity.this).executeOnExecutor(
+                                    AsyncTask.THREAD_POOL_EXECUTOR);
                         }
                         new AsyncTask<Void, Void, Submission>() {
                             @Override
@@ -1335,8 +1358,9 @@ public class MainActivity extends BaseActivity
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
         try {
-            this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-        } catch(Exception e){
+            this.registerReceiver(networkStateReceiver,
+                    new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        } catch (Exception e) {
 
         }
     }
@@ -3135,7 +3159,8 @@ public class MainActivity extends BaseActivity
                                                                                             s.show();
                                                                                         }
                                                                                     }
-                                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                                }.executeOnExecutor(
+                                                                                        AsyncTask.THREAD_POOL_EXECUTOR);
                                                                             }
                                                                         })
                                                                 .negativeText(R.string.btn_cancel)
@@ -3198,7 +3223,8 @@ public class MainActivity extends BaseActivity
                                                                     s.show();
                                                                 }
                                                             }
-                                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                        }.executeOnExecutor(
+                                                                AsyncTask.THREAD_POOL_EXECUTOR);
                                                     }
                                                 }
                                             })
@@ -3587,8 +3613,8 @@ public class MainActivity extends BaseActivity
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    usedArray =
-                            new CaseInsensitiveArrayList(UserSubscriptions.getSubscriptions(MainActivity.this));
+                    usedArray = new CaseInsensitiveArrayList(
+                            UserSubscriptions.getSubscriptions(MainActivity.this));
                     adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                     pager.setAdapter(adapter);
@@ -3940,6 +3966,129 @@ public class MainActivity extends BaseActivity
                 doDrawer();
             }
         }
+
+        if (Authentication.isLoggedIn
+                && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+            ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
+            shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
+                    .setLongLabel("Open your Inbox")
+                    .setIcon(getIcon("inbox", R.drawable.sidebar_inbox))
+                    .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, Inbox.class))
+                    .build());
+
+            shortcuts.add(new ShortcutInfo.Builder(this, "submit").setShortLabel("Submit")
+                    .setLongLabel("Create new Submission")
+                    .setIcon(getIcon("submit", R.drawable.edit))
+                    .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, Submit.class))
+                    .build());
+
+            int count = 0;
+
+            for(String s : subs){
+                if(count == 2){
+                    break;
+                }
+                Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, SubredditView.class);
+                sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
+                        .setLongLabel("/r/" + s)
+                        .setIcon(getIcon(s, R.drawable.sub))
+                        .setIntent(sub)
+                        .build());
+                count ++;
+            }
+
+            Collections.reverse(shortcuts);
+
+            shortcutManager.setDynamicShortcuts(shortcuts);
+        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+            ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
+            int count = 0;
+            for(String s : subs){
+                if(count == 4){
+                    break;
+                }
+                Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, SubredditView.class);
+                sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
+                        .setLongLabel("/r/" + s)
+                        .setIcon(getIcon(s, R.drawable.sub))
+                        .setIntent(sub)
+                        .build());
+                count ++;
+            }
+
+            Collections.reverse(shortcuts);
+
+            shortcutManager.setDynamicShortcuts(shortcuts);
+        }
+    }
+
+    private Icon getIcon(String subreddit, @DrawableRes int overlay) {
+        Bitmap color = Bitmap.createBitmap(toDp(this, 148), toDp(this, 148), Bitmap.Config.RGB_565);
+        color.eraseColor(Palette.getColor(subreddit));
+        color = clipToCircle(color);
+
+        Bitmap over = drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
+
+        Canvas canvas = new Canvas(color);
+        canvas.drawBitmap(over, color.getWidth()/2 - (over.getWidth()/2), color.getHeight()/2 - (over.getHeight()/2), null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Icon.createWithBitmap(color);
+        }
+        return null;
+    }
+
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
+    public static int toDp(Context context, int px) {
+        return convert(context, px, TypedValue.COMPLEX_UNIT_PX);
+    }
+
+    private static int convert(Context context, int amount, int conversionUnit) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("px should not be less than zero");
+        }
+
+        Resources r = context.getResources();
+        return (int) TypedValue.applyDimension(conversionUnit, amount, r.getDisplayMetrics());
+    }
+
+    public static Bitmap clipToCircle(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+
+        final int width = bitmap.getWidth();
+        final int height = bitmap.getHeight();
+        final Bitmap outputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        final Path path = new Path();
+        path.addCircle(
+                (float) (width / 2),
+                (float) (height / 2),
+                (float) Math.min(width, (height / 2)),
+                Path.Direction.CCW);
+
+        final Canvas canvas = new Canvas(outputBitmap);
+        canvas.clipPath(path);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        return outputBitmap;
     }
 
     private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
@@ -4851,7 +5000,7 @@ public class MainActivity extends BaseActivity
                             setRecentBar(openingComments.getSubredditName().toLowerCase());
                         }
                     }
-                    }
+                }
 
                 @Override
                 public void onPageSelected(final int position) {

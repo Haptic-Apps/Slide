@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.NotificationCompat;
@@ -42,6 +43,7 @@ import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -481,7 +483,7 @@ public class MediaView extends FullScreenActivity
                     fadeOut(findViewById(R.id.black));
                     getWindow().getDecorView().setSystemUiVisibility(0);
                 } else {
-                    MediaView.this.finish();
+                    finish();
                 }
             }
         });
@@ -600,6 +602,8 @@ public class MediaView extends FullScreenActivity
         });
 
         hideOnLongClick();
+
+        getWindow().setAllowReturnTransitionOverlap(false);
     }
 
     public void doLoad(final String contentUrl) {

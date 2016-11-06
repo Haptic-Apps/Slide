@@ -174,7 +174,7 @@ public class ImageDownloadNotificationService extends Service {
             if (url == null) return null;
             String path = url.getPath();
             String end = path.substring(path.lastIndexOf("/") + 1);
-            if(!end.endsWith(".png") && !end.endsWith(".jpg") && !end.endsWith(".jpeg")){
+            if (!end.endsWith(".png") && !end.endsWith(".jpg") && !end.endsWith(".jpeg")) {
                 end = end + ".png";
             }
             return end;
@@ -236,8 +236,7 @@ public class ImageDownloadNotificationService extends Service {
 
                             {
                                 final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                shareIntent.setDataAndType(photoURI,
-                                        getContentResolver().getType(photoURI));
+
                                 List<ResolveInfo> resInfoList =
                                         getPackageManager().queryIntentActivities(shareIntent,
                                                 PackageManager.MATCH_DEFAULT_ONLY);
@@ -248,9 +247,15 @@ public class ImageDownloadNotificationService extends Service {
                                                     | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 }
 
+                                shareIntent.putExtra(Intent.EXTRA_STREAM, photoURI);
+                                shareIntent.setDataAndType(photoURI,
+                                        getContentResolver().getType(photoURI));
+
                                 pShareIntent =
                                         PendingIntent.getActivity(getApplicationContext(), id + 2,
-                                                shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                                Intent.createChooser(shareIntent,
+                                                        getString(R.string.misc_img_share)),
+                                                PendingIntent.FLAG_CANCEL_CURRENT);
                             }
 
                             {

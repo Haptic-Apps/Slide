@@ -17,7 +17,7 @@ public class BaseActivityAnim extends BaseActivity implements SwipeBackActivityB
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.fade_out);
+        overridePendingTransition(0, R.anim.slide_out);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class BaseActivityAnim extends BaseActivity implements SwipeBackActivityB
         if (Reddit.peek) {
             overridePendingTransition(R.anim.pop_in, 0);
         } else {
-            overridePendingTransition(R.anim.slideright, 0);
+            overridePendingTransition(R.anim.slide_in, 0);
         }
     }
 }

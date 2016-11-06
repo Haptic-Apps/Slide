@@ -26,6 +26,7 @@ public class DeleteFile extends Activity {
 
         if (extras != null) {
             image = getIntent().getStringExtra("image");
+            image = image.replace("/external_files/", getFilesDir().toString());
             LogUtil.v("Deleting " + image);
             File f = new File(image);
             f.delete();

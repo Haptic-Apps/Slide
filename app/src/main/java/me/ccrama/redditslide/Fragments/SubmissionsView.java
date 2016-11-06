@@ -467,6 +467,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         adapter.notifyDataSetChanged();
                     } else {
                         forced = false;
+                        rv.scrollToPosition(0);
                         adapter.notifyDataSetChanged();
                     }
 
@@ -556,7 +557,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                         if (SettingValues.scrollSeen
                                                 && pastVisiblesItems > 0
                                                 && SettingValues.storeHistory) {
-                                            HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1)
+                                            HasSeen.addSeenScrolling(posts.posts.get(pastVisiblesItems - 1)
                                                     .getFullName());
                                         }
                                     }

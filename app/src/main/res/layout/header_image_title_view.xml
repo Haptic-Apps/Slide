@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:transitionName="large_image"
         android:maxHeight="3200px"
         android:scaleType="centerCrop"
         android:src="@drawable/chameleon" />

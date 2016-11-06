@@ -83,7 +83,6 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
-import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
@@ -145,16 +144,21 @@ public class PopulateSubmissionViewHolder {
                             }
                         }
                     }
-                    if(!(contextActivity instanceof PeekViewActivity)
-                            || !((PeekViewActivity) contextActivity).isPeeking() || (base instanceof  HeaderImageLinkView && ((HeaderImageLinkView)base).popped)) {
-                        if (!PostMatch.openExternal(submission.getUrl()) || type == ContentType.Type.VIDEO) {
+                    if (!(contextActivity instanceof PeekViewActivity)
+                            || !((PeekViewActivity) contextActivity).isPeeking()
+                            || (base instanceof HeaderImageLinkView
+                            && ((HeaderImageLinkView) base).popped)) {
+                        if (!PostMatch.openExternal(submission.getUrl())
+                                || type == ContentType.Type.VIDEO) {
                             switch (type) {
                                 case VID_ME:
                                 case STREAMABLE:
                                     if (SettingValues.video) {
-                                        Intent myIntent = new Intent(contextActivity, MediaView.class);
+                                        Intent myIntent =
+                                                new Intent(contextActivity, MediaView.class);
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
-                                        addAdaptorPosition(myIntent, submission, holder.getAdapterPosition());
+                                        addAdaptorPosition(myIntent, submission,
+                                                holder.getAdapterPosition());
                                         contextActivity.startActivity(myIntent);
                                     } else {
                                         Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -171,7 +175,8 @@ public class PopulateSubmissionViewHolder {
                                                 .get("content")
                                                 .asText()).toString();
                                         {
-                                            Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                            Intent i = new Intent(contextActivity,
+                                                    FullscreenVideo.class);
                                             i.putExtra(FullscreenVideo.EXTRA_HTML, data);
                                             contextActivity.startActivity(i);
                                         }
@@ -183,8 +188,10 @@ public class PopulateSubmissionViewHolder {
                                     openRedditContent(submission.getUrl(), contextActivity);
                                     break;
                                 case LINK:
-                                    LinkUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()),
-                                            contextActivity, holder.getAdapterPosition(), submission);
+                                    LinkUtil.openUrl(submission.getUrl(),
+                                            Palette.getColor(submission.getSubredditName()),
+                                            contextActivity, holder.getAdapterPosition(),
+                                            submission);
                                     break;
                                 case SELF:
                                     if (holder != null) {
@@ -202,7 +209,8 @@ public class PopulateSubmissionViewHolder {
                                             i = new Intent(contextActivity, Album.class);
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
-                                        addAdaptorPosition(i, submission, holder.getAdapterPosition());
+                                        addAdaptorPosition(i, submission,
+                                                holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
@@ -221,7 +229,8 @@ public class PopulateSubmissionViewHolder {
                                             i = new Intent(contextActivity, Tumblr.class);
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
-                                        addAdaptorPosition(i, submission, holder.getAdapterPosition());
+                                        addAdaptorPosition(i, submission,
+                                                holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
@@ -237,7 +246,8 @@ public class PopulateSubmissionViewHolder {
                                             holder.getAdapterPosition());
                                     break;
                                 case GIF:
-                                    openGif(contextActivity, submission, holder.getAdapterPosition());
+                                    openGif(contextActivity, submission,
+                                            holder.getAdapterPosition());
                                     break;
                                 case NONE:
                                     if (holder != null) {
@@ -255,7 +265,8 @@ public class PopulateSubmissionViewHolder {
                                             contextActivity.startActivity(sharingIntent);
 
                                         } catch (Exception e) {
-                                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                            Reddit.defaultShare(submission.getUrl(),
+                                                    contextActivity);
                                         }
                                     } else {
                                         Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -267,13 +278,14 @@ public class PopulateSubmissionViewHolder {
                         }
                     }
                 } else {
-                    if(!(contextActivity instanceof PeekViewActivity)
+                    if (!(contextActivity instanceof PeekViewActivity)
                             || !((PeekViewActivity) contextActivity).isPeeking()) {
 
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        TextView tv = (TextView) view.findViewById(
+                                android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -327,6 +339,7 @@ public class PopulateSubmissionViewHolder {
             myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
             contextActivity.startActivity(myIntent);
+
         } else {
             Reddit.defaultShare(submission.getUrl(), contextActivity);
         }
@@ -776,9 +789,12 @@ public class PopulateSubmissionViewHolder {
                                     s2.show();
                                 }
                             });
-                            new CommentCacheAsync(Arrays.asList(submission), mContext,
-                                    CommentCacheAsync.SAVED_SUBMISSIONS,
-                                    new boolean[]{true, true}).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                            if (NetworkUtil.isConnected(mContext)) {
+                                new CommentCacheAsync(Arrays.asList(submission), mContext,
+                                        CommentCacheAsync.SAVED_SUBMISSIONS,
+                                        new boolean[]{true, true}).executeOnExecutor(
+                                        AsyncTask.THREAD_POOL_EXECUTOR);
+                            }
                             s.show();
                         } else {
                             ReadLater.setReadLater(submission, false);
@@ -1126,7 +1142,8 @@ public class PopulateSubmissionViewHolder {
                                                                         }
 
                                                                     }
-                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                }.executeOnExecutor(
+                                                                        AsyncTask.THREAD_POOL_EXECUTOR);
                                                             }
                                                         })
                                                 .negativeText(R.string.btn_cancel)
@@ -2142,7 +2159,7 @@ public class PopulateSubmissionViewHolder {
                                 //to ban
                                 if (reason.getText().toString().isEmpty()) {
                                     new AlertDialogWrapper.Builder(mContext).setTitle(
-                                           R.string.mod_ban_reason_required)
+                                            R.string.mod_ban_reason_required)
                                             .setMessage(R.string.misc_please_try_again)
                                             .setPositiveButton(R.string.btn_ok,
                                                     new DialogInterface.OnClickListener() {
@@ -2172,8 +2189,9 @@ public class PopulateSubmissionViewHolder {
                                                 if (m.isEmpty()) {
                                                     m = null;
                                                 }
-                                                if(time.getText().toString().isEmpty()){
-                                                    new ModerationManager(Authentication.reddit).banUserPermanently(
+                                                if (time.getText().toString().isEmpty()) {
+                                                    new ModerationManager(
+                                                            Authentication.reddit).banUserPermanently(
                                                             submission.getSubredditName(),
                                                             submission.getAuthor(),
                                                             reason.getText().toString(), n, m);
@@ -2757,12 +2775,15 @@ public class PopulateSubmissionViewHolder {
                             final int color2 = ta.getColor(0, Color.WHITE);
                             Drawable edit_drawable =
                                     mContext.getResources().getDrawable(R.drawable.edit);
+                            Drawable nsfw_drawable =
+                                    mContext.getResources().getDrawable(R.drawable.hide);
                             Drawable delete_drawable =
                                     mContext.getResources().getDrawable(R.drawable.delete);
                             Drawable flair_drawable =
                                     mContext.getResources().getDrawable(R.drawable.fontsizedarker);
 
                             edit_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
+                            nsfw_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
                             delete_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
                             flair_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
 
@@ -2775,6 +2796,13 @@ public class PopulateSubmissionViewHolder {
                             if (submission.isSelfPost()) {
                                 b.sheet(1, edit_drawable,
                                         mContext.getString(R.string.edit_selftext));
+                            }
+                            if(submission.isNsfw()){
+                                b.sheet(4, nsfw_drawable,
+                                        mContext.getString(R.string.mod_btn_unmark_nsfw));
+                            } else {
+                                b.sheet(4, nsfw_drawable,
+                                        mContext.getString(R.string.mod_btn_mark_nsfw));
                             }
                             b.sheet(2, delete_drawable,
                                     mContext.getString(R.string.delete_submission));
@@ -2891,7 +2919,8 @@ public class PopulateSubmissionViewHolder {
                                                                                 1);
                                                                     }
                                                                 }
-                                                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                            }.executeOnExecutor(
+                                                                    AsyncTask.THREAD_POOL_EXECUTOR);
                                                         }
                                                     });
                                         }
@@ -2953,7 +2982,8 @@ public class PopulateSubmissionViewHolder {
                                                                                         }
                                                                                     });
                                                                         }
-                                                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                    }.executeOnExecutor(
+                                                                            AsyncTask.THREAD_POOL_EXECUTOR);
                                                                 }
                                                             })
                                                     .setNegativeButton(R.string.btn_cancel, null)
@@ -3072,7 +3102,8 @@ public class PopulateSubmissionViewHolder {
                                                                                                             s.show();
                                                                                                         }
                                                                                                     }
-                                                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                                                }.executeOnExecutor(
+                                                                                                        AsyncTask.THREAD_POOL_EXECUTOR);
                                                                                             }
                                                                                         })
                                                                                 .negativeText(
@@ -3145,13 +3176,20 @@ public class PopulateSubmissionViewHolder {
                                                                                     s.show();
                                                                                 }
                                                                             }
-                                                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                        }.executeOnExecutor(
+                                                                                AsyncTask.THREAD_POOL_EXECUTOR);
                                                                     }
                                                                 }
                                                             })
                                                     .show();
                                         }
                                         break;
+                                        case 4:
+                                            if (submission.isNsfw()) {
+                                                unNsfwSubmission(mContext, submission, holder);
+                                            } else {
+                                                setPostNsfw(mContext, submission, holder);
+                                            }                                            break;
                                     }
                                 }
                             }).show();

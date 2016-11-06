@@ -11,13 +11,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -481,6 +481,17 @@ public class DoEditorActions {
                 dialog.show();
             }
         });
+
+       if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+           ((ImageInsertEditText) editText).setImageSelectedCallback(new ImageInsertEditText.ImageSelectedCallback() {
+               @Override
+               public void onImageSelected(final Uri content, String mimeType) {
+                   handleImageIntent(new ArrayList<Uri>() {{
+                       add(content);
+                   }}, editText, a);
+               }
+           });
+       }
     }
 
     public static Editable e;
@@ -492,40 +503,43 @@ public class DoEditorActions {
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         e = editText.getText();
-        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
-                .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
-                    @Override
-                    public void onImageSelected(List<Uri> uri) {
-                        Draw.uri = uri.get(0);
-                        Fragment auxiliary = new AuxiliaryFragment();
+        TedBottomPicker tedBottomPicker =
+                new TedBottomPicker.Builder(editText.getContext()).setOnImageSelectedListener(
+                        new TedBottomPicker.OnImageSelectedListener() {
+                            @Override
+                            public void onImageSelected(List<Uri> uri) {
+                                Draw.uri = uri.get(0);
+                                Fragment auxiliary = new AuxiliaryFragment();
 
-                        sStart = editText.getSelectionStart();
-                        sEnd = editText.getSelectionEnd();
+                                sStart = editText.getSelectionStart();
+                                sEnd = editText.getSelectionEnd();
 
-                        fm.beginTransaction().add(auxiliary, "IMAGE_UPLOAD").commit();
-                        fm.executePendingTransactions();
+                                fm.beginTransaction().add(auxiliary, "IMAGE_UPLOAD").commit();
+                                fm.executePendingTransactions();
 
-                        auxiliary.startActivityForResult(intent, 3333);
-                    }
-                })
-                .setLayoutResource(R.layout.image_sheet_dialog)
-                .setTitle("Choose a photo")
-                .create();
+                                auxiliary.startActivityForResult(intent, 3333);
+                            }
+                        })
+                        .setLayoutResource(R.layout.image_sheet_dialog)
+                        .setTitle("Choose a photo")
+                        .create();
 
         tedBottomPicker.show(fm);
     }
+
     public static class AuxiliaryFragment extends Fragment {
         @Override
         public void onActivityResult(int requestCode, int resultCode, final Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
-            handleImageIntent(new ArrayList<Uri>(){{add(data.getData());}},
-                    e,
-                    getContext());
+            handleImageIntent(new ArrayList<Uri>() {{
+                add(data.getData());
+            }}, e, getContext());
 
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 
         }
     }
+
     public static String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.JPEG, 100,

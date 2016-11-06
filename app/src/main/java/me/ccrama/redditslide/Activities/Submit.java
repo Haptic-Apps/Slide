@@ -387,6 +387,7 @@ public class Submit extends BaseActivity {
         protected Void doInBackground(Void... voids) {
             try {
                 if (self.getVisibility() == View.VISIBLE) {
+                    final String text = ((EditText) findViewById(R.id.bodytext)).getText().toString();
                     try {
                         if (new CaptchaHelper(Authentication.reddit).isNecessary()) {
                             //display capacha
@@ -415,7 +416,6 @@ public class Submit extends BaseActivity {
                                         public void onClick(View d) {
                                             trying = ((EditText) dialoglayout.findViewById(R.id.entry)).getText().toString();
                                             dialog.dismiss();
-                                            final String text = ((EditText) findViewById(R.id.bodytext)).getText().toString();
                                             new AsyncTask<Void, Void, Boolean>() {
                                                 @Override
                                                 protected Boolean doInBackground(Void... params) {
@@ -466,12 +466,13 @@ public class Submit extends BaseActivity {
                             Submit.this.finish();
                         }
                     } catch (final ApiException e) {
+                        Drafts.addDraft(text);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 new AlertDialogWrapper.Builder(Submit.this)
                                         .setTitle(R.string.err_title)
-                                        .setMessage(getString(R.string.misc_err) + ": " + e.getExplanation() + "\n" + getString(R.string.misc_retry))
+                                        .setMessage(getString(R.string.misc_err) + ": " + e.getExplanation() + "\n" + getString(R.string.misc_retry_draft))
                                         .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {

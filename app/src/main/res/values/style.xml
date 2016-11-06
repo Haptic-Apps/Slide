@@ -415,6 +415,7 @@
 
     <style parent="Theme.AppCompat.NoActionBar" name="swipestyle">
         <item name="colorAccent">@color/md_amber_A400</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <!-- Dark Theme Subthemes !-->

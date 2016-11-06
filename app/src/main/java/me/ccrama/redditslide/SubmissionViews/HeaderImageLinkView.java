@@ -13,7 +13,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -35,6 +34,11 @@ import net.dean.jraw.models.Submission;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.MultiredditOverview;
+import me.ccrama.redditslide.Activities.Profile;
+import me.ccrama.redditslide.Activities.Search;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -44,13 +48,13 @@ import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
 import me.ccrama.redditslide.ForceTouch.callback.OnPop;
 import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
 import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -80,7 +84,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     float       position;
     private TextView  title;
     private TextView  info;
-    private ImageView backdrop;
+    public  ImageView backdrop;
 
     public HeaderImageLinkView(Context context) {
         super(context);
@@ -97,9 +101,12 @@ public class HeaderImageLinkView extends RelativeLayout {
         init();
     }
 
+    boolean thumbUsed;
+
     public void doImageAndText(final Submission submission, boolean full, String baseSub) {
 
         boolean fullImage = ContentType.fullImage(type);
+        thumbUsed = false;
 
         setVisibility(View.VISIBLE);
         String url = "";
@@ -219,6 +226,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
                 thumbImage2.setImageDrawable(
                         ContextCompat.getDrawable(getContext(), R.drawable.web));
+                thumbUsed = true;
             } else if (submission.isNsfw()
                     && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) {
                 setVisibility(View.GONE);
@@ -232,6 +240,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 } else {
                     thumbImage2.setImageDrawable(
                             ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
+                    thumbUsed = true;
                 }
                 loadedUrl = submission.getUrl();
             } else if (type != ContentType.Type.IMAGE
@@ -248,6 +257,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 thumbImage2.setImageDrawable(
                         ContextCompat.getDrawable(getContext(), R.drawable.web));
+                thumbUsed = true;
                 loadedUrl = submission.getUrl();
             } else if (type == ContentType.Type.IMAGE && !thumbnail.isNull() && !thumbnail.asText()
                     .isEmpty()) {
@@ -404,7 +414,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (wrapArea.getVisibility() == View.VISIBLE) {
                     title = secondTitle;
                     info = secondSubTitle;
-                    setBottomSheet(wrapArea, submission.getUrl());
+                    setBottomSheet(wrapArea, submission, full);
                 } else {
                     title = (TextView) findViewById(R.id.textimage);
                     info = (TextView) findViewById(R.id.subtextimage);
@@ -414,16 +424,16 @@ public class HeaderImageLinkView extends RelativeLayout {
                             && type != ContentType.Type.SELF
                             && !submission.getDataNode().get("thumbnail").isNull()
                             && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
-                        setBottomSheet(thumbImage2, submission.getUrl());
+                        setBottomSheet(thumbImage2, submission, full);
                     } else {
-                        setBottomSheet(this, submission.getUrl());
+                        setBottomSheet(this, submission, full);
                     }
                 }
             } else {
                 title = (TextView) findViewById(R.id.textimage);
                 info = (TextView) findViewById(R.id.subtextimage);
-                setBottomSheet(thumbImage2, submission.getUrl());
-                setBottomSheet(this, submission.getUrl());
+                setBottomSheet(thumbImage2, submission, full);
+                setBottomSheet(this, submission, full);
 
             }
 
@@ -584,21 +594,22 @@ public class HeaderImageLinkView extends RelativeLayout {
                         peekView.addButton((R.id.upvoteb), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                ((View)getParent()).findViewById(R.id.upvote).callOnClick();
+                                ((View) getParent()).findViewById(R.id.upvote).callOnClick();
                             }
                         });
 
                         peekView.setOnRemoveListener(new OnRemove() {
                             @Override
                             public void onRemove() {
-                                ((PeekMediaView) rootView.findViewById(R.id.peek)).website.loadUrl("about:blank");
+                                ((PeekMediaView) rootView.findViewById(R.id.peek)).website.loadUrl(
+                                        "about:blank");
                             }
                         });
 
                         peekView.addButton((R.id.comments), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                ((View)getParent().getParent()).callOnClick();
+                                ((View) getParent().getParent()).callOnClick();
                             }
                         });
 
@@ -610,6 +621,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                             }
                         });
                     }
+
                 })
                         .with(new PeekViewOptions().setFullScreenPeek(true))
                         .show((PeekViewActivity) activity, event);
@@ -660,7 +672,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
     }
 
-    public void setBottomSheet(View v, final String url) {
+    public void setBottomSheet(View v, final Submission submission, final boolean full) {
         handler = new Handler();
         v.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -670,7 +682,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 x += getScrollX();
                 y += getScrollY();
 
-                HeaderImageLinkView.this.event =event;
+                HeaderImageLinkView.this.event = event;
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     position = event.getY(); //used to see if the user scrolled or not
@@ -714,7 +726,21 @@ public class HeaderImageLinkView extends RelativeLayout {
                 clickHandled = true;
 
                 handler.removeCallbacksAndMessages(null);
-                onLinkLongClick(url, event);
+                if (SettingValues.storeHistory && !full) {
+                    if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
+                        HasSeen.addSeen(submission.getFullName());
+                        Context contextActivity = getContext();
+                        if (contextActivity instanceof MainActivity
+                                || contextActivity instanceof MultiredditOverview
+                                || contextActivity instanceof SubredditView
+                                || contextActivity instanceof Search
+                                || contextActivity instanceof Profile) {
+                            ((View) getParent()).findViewById(R.id.title).setAlpha(0.54f);
+                            ((View) getParent()).findViewById(R.id.body).setAlpha(0.54f);
+                        }
+                    }
+                }
+                onLinkLongClick(submission.getUrl(), event);
             }
         };
     }

@@ -5,7 +5,7 @@ plugins {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '24.0.2'
     lintOptions {
         quiet true
@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 256
         multiDexEnabled = true
         versionName androidGitVersion.name()
@@ -74,21 +74,22 @@ android {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:487878c3b5'
+    compile 'com.github.ccrama:JRAW:e9ae5374fe'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'org.ligi:snackengage:0.5'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:customtabs:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:customtabs:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.github.rey5137:material:1.2.4'
     withGPlayCompile 'com.google.android.gms:play-services-drive:9.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
     // ↑ minor
-    compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.android.support:support-v13:25.0.0'
+    compile 'com.android.support:cardview-v7:25.0.0'
     compile 'com.cocosw:bottomsheet:1.3.0@aar'
     compile 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
     compile 'org.apache.commons:commons-lang3:3.4'

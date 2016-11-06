@@ -235,12 +235,10 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         Intent i = new Intent(main, AlbumPager.class);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
-                                        main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                     } else {
                                         Intent i = new Intent(main, Album.class);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
-                                        main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                     }
                                 } else {
                                     Reddit.defaultShare(submission.getUrl(), main);
@@ -253,12 +251,10 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         Intent i = new Intent(main, TumblrPager.class);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
-                                        main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                     } else {
                                         Intent i = new Intent(main, Tumblr.class);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
-                                        main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                     }
                                 } else {
                                     Reddit.defaultShare(submission.getUrl(), main);

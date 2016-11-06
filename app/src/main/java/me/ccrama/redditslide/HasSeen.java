@@ -129,4 +129,27 @@ public class HasSeen {
             SynccitRead.visitedIds.add(fullname);
         }
     }
+
+    public static void addSeenScrolling(String fullname) {
+        if (hasSeen == null) {
+            hasSeen = new ArrayList<>();
+        }
+        if(seenTimes == null){
+            seenTimes = new HashMap<>();
+        }
+
+        if (fullname.contains("t3_")) {
+            fullname = fullname.substring(3, fullname.length());
+        }
+
+        hasSeen.add(fullname);
+        seenTimes.put(fullname, System.currentTimeMillis());
+
+        KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
+
+        if (!fullname.contains("t1_")) {
+            SynccitRead.newVisited.add(fullname);
+            SynccitRead.visitedIds.add(fullname);
+        }
+    }
 }

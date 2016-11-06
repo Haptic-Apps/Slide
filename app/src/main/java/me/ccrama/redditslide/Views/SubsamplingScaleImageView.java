@@ -40,6 +40,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -66,6 +67,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.concurrent.RejectedExecutionException;
 
 /**
  * Displays an image subsampled as necessary to avoid loading too much image data into memory. After a pinch to zoom in,
@@ -412,6 +414,7 @@ public class SubsamplingScaleImageView extends View {
      * @param state         State to be restored. Nullable.
      */
     public final void setImage(ImageSource imageSource, ImageSource previewSource, ImageViewState state) {
+        setAlpha(0);
         if (imageSource == null) {
             throw new NullPointerException("imageSource must not be null");
         }
@@ -1552,6 +1555,7 @@ public class SubsamplingScaleImageView extends View {
         checkImageLoaded();
         invalidate();
         requestLayout();
+        animate().setInterpolator(new FastOutSlowInInterpolator()).alpha(1);
     }
 
     /**
@@ -1626,6 +1630,7 @@ public class SubsamplingScaleImageView extends View {
             bitmapIsCached = false;
         }
         invalidate();
+        animate().setInterpolator(new FastOutSlowInInterpolator()).alpha(1);
     }
 
     /**
@@ -1730,6 +1735,7 @@ public class SubsamplingScaleImageView extends View {
             invalidate();
             requestLayout();
         }
+        animate().setInterpolator(new FastOutSlowInInterpolator()).alpha(1);
     }
 
     /**
@@ -1790,7 +1796,11 @@ public class SubsamplingScaleImageView extends View {
                 Log.i(TAG, "Failed to execute AsyncTask on thread pool executor, falling back to single threaded executor", e);
             }
         }
-        asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        try {
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } catch(RejectedExecutionException e){
+            //todo catch gracefully
+        }
     }
 
     private static class Tile {

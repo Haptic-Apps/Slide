@@ -97,7 +97,7 @@ public class BaseActivity extends PeekViewActivity
                 if (overrideSwipeFromAnywhere) {
                     shouldInterceptAlways = true;
                 } else {
-                    mHelper.getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
+                    mHelper.getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
                     mHelper.getSwipeBackLayout().setFullScreenSwipeEnabled(true);
                 }
             } else {

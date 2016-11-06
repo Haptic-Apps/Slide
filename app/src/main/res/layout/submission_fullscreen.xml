@@ -298,7 +298,7 @@
                 android:padding="16dp"
                 android:visibility="gone">
 
-            <EditText
+            <me.ccrama.redditslide.Views.ImageInsertEditText
                     android:id="@+id/replyLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
