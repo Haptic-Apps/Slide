@@ -35,6 +35,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
@@ -332,7 +333,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             });
         }
 
-        posts = new SubredditPosts(id, getContext());
+        posts = new SubredditPosts(id);
+        PostLoaderManager.setInstance(posts);
+        posts = (SubredditPosts)PostLoaderManager.getInstance();
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
@@ -353,7 +356,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
         });
 
-        posts = new SubredditPosts(id, getContext(), force18);
+        posts = new SubredditPosts(id, force18);
+        PostLoaderManager.setInstance(posts);
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);

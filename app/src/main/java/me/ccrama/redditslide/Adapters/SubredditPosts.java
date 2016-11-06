@@ -58,19 +58,16 @@ public class SubredditPosts implements PostLoader {
     private Paginator        paginator;
     public  OfflineSubreddit cached;
     boolean doneOnce;
-    Context c;
     boolean force18;
 
-    public SubredditPosts(String subreddit, Context c) {
+    public SubredditPosts(String subreddit) {
         posts = new ArrayList<>();
         this.subreddit = subreddit;
-        this.c = c;
     }
 
-    public SubredditPosts(String subreddit, Context c, boolean force18) {
+    public SubredditPosts(String subreddit, boolean force18) {
         posts = new ArrayList<>();
         this.subreddit = subreddit;
-        this.c = c;
         this.force18 = force18;
     }
 
@@ -86,7 +83,7 @@ public class SubredditPosts implements PostLoader {
         loadMore(context, display, reset);
     }
 
-    public void loadPhotos(List<Submission> submissions) {
+    public void loadPhotos(Context c, List<Submission> submissions) {
         for (Submission submission : submissions) {
             String url;
             ContentType.Type type = ContentType.getContentType(submission);
@@ -280,8 +277,8 @@ public class SubredditPosts implements PostLoader {
                 currentid = 0;
                 OfflineSubreddit.currentid = currentid;
 
-                if (c instanceof BaseActivity) {
-                    ((BaseActivity) c).setShareUrl("https://reddit.com/r/" + subreddit);
+                if (context instanceof BaseActivity) {
+                    ((BaseActivity) context).setShareUrl("https://reddit.com/r/" + subreddit);
                 }
 
                 if (subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals(
@@ -291,10 +288,10 @@ public class SubredditPosts implements PostLoader {
 
                 MainActivity.randomoverride = subredditRandom;
 
-                if (c instanceof SubredditView && (subreddit.equals("random") || subreddit.equals(
+                if (context instanceof SubredditView && (subreddit.equals("random") || subreddit.equals(
                         "myrandom") || subreddit.equals("randnsfw"))) {
-                    ((SubredditView) c).subreddit = subredditRandom;
-                    ((SubredditView) c).executeAsyncSubreddit(subredditRandom);
+                    ((SubredditView) context).subreddit = subredditRandom;
+                    ((SubredditView) context).executeAsyncSubreddit(subredditRandom);
                 }
                 if (!SettingValues.synccitName.isEmpty() && !offline) {
                     new MySynccitReadTask(displayer).execute(ids);
@@ -306,7 +303,7 @@ public class SubredditPosts implements PostLoader {
                 displayer.updateSuccess(posts, posts.size() + 1);
             } else if (MainActivity.isRestart) {
                 posts = new ArrayList<>();
-                cached = OfflineSubreddit.getSubreddit(subreddit, 0L, true, c);
+                cached = OfflineSubreddit.getSubreddit(subreddit, 0L, true, context);
                 for (Submission s : cached.submissions) {
                     if (!PostMatch.doesMatch(s, subreddit, force18)) {
                         posts.add(s);
@@ -317,8 +314,8 @@ public class SubredditPosts implements PostLoader {
                 displayer.updateSuccess(posts, start);
             } else {
                 if (!all.isEmpty() && !nomore && SettingValues.cache) {
-                    if (c instanceof MainActivity) {
-                        doMainActivityOffline(displayer);
+                    if (context instanceof MainActivity) {
+                        doMainActivityOffline(context, displayer);
                     }
                 } else if (!nomore) {
                     // error
@@ -370,9 +367,9 @@ public class SubredditPosts implements PostLoader {
             List<Submission> filteredSubmissions = getNextFiltered();
 
 
-            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c)
+            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(context)
                     && SettingValues.lowResMobile) || SettingValues.lowResAlways))) {
-                loadPhotos(filteredSubmissions);
+                loadPhotos(context, filteredSubmissions);
             }
             if (SettingValues.storeHistory) {
                 HasSeen.setHasSeenSubmission(filteredSubmissions);
@@ -438,7 +435,7 @@ public class SubredditPosts implements PostLoader {
     }
 
 
-    public void doMainActivityOffline(final SubmissionDisplay displayer) {
+    public void doMainActivityOffline(final Context c, final SubmissionDisplay displayer) {
         if (all == null) {
             all = OfflineSubreddit.getAll(subreddit);
         }

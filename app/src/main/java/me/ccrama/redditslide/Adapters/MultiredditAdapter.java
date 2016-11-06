@@ -28,6 +28,7 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.MultiredditView;
+import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
@@ -149,6 +150,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         holder.leadImage.setAlpha(0.65f);
                         holder.thumbimage.setAlpha(0.65f);
 
+                        PostLoaderManager.setInstance(dataSet);
                         Intent i2 = new Intent(context, CommentsScreen.class);
                         i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                         i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.multiReddit.getDisplayName());
