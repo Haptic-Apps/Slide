@@ -4981,7 +4981,24 @@ public class MainActivity extends BaseActivity
                             if (position == toOpenComments - 1
                                     && adapter != null
                                     && adapter.getCurrentFragment() != null) {
-                                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                                SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+                                if (page != null && page.adapter != null) {
+                                    page.adapter.refreshView();
+                                    SubredditPosts p = page.adapter.dataSet;
+                                    if (p.offline && !isRestart) {
+                                        p.doMainActivityOffline(MainActivity.this,
+                                                p.displayer);
+                                    }
+                                }
+                            } else {
+                                SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+                                if (page != null && page.adapter != null) {
+                                    SubredditPosts p = page.adapter.dataSet;
+                                    if (p.offline && !isRestart) {
+                                        p.doMainActivityOffline(MainActivity.this,
+                                                p.displayer);
+                                    }
+                                }
                             }
                         } else {
                             if (mAsyncGetSubreddit != null) {

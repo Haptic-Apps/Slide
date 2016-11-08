@@ -43,7 +43,7 @@ public class OfflineSubreddit {
     static File cacheDirectory;
 
     public static File getCacheDirectory(Context context) {
-        if (cacheDirectory == null) {
+        if (cacheDirectory == null && context != null) {
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
                     && context.getExternalCacheDir() != null) {
                 cacheDirectory = context.getExternalCacheDir();
