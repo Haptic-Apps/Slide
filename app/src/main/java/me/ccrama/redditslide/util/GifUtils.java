@@ -243,6 +243,61 @@ public class GifUtils {
 
         OkHttpClient client = Reddit.client;
 
+        public void loadGfycat(String name,Gson gson ) throws Exception {
+            showProgressBar(c, progressBar, false);
+            if(!name.startsWith("/"))
+                name = "/" + name;
+            String gfycatUrl = "https://gfycat.com/cajax/get" + name;
+            LogUtil.v(gfycatUrl);
+            final JsonObject result = HttpUtil.getJsonObject(client, gson, gfycatUrl);
+            String obj = "";
+            if (result == null
+                    || result.get("gfyItem") == null
+                    || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
+
+                onError();
+                if (closeIfNull) {
+                    c.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new AlertDialogWrapper.Builder(c).setTitle(
+                                        R.string.gif_err_title)
+                                        .setMessage(R.string.gif_err_msg)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.btn_ok,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(
+                                                            DialogInterface dialog,
+                                                            int which) {
+                                                        c.finish();
+                                                    }
+                                                })
+                                        .create()
+                                        .show();
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    });
+                }
+
+
+            } else {
+                if (result.getAsJsonObject("gfyItem").has("mobileUrl")) {
+                    obj = result.getAsJsonObject("gfyItem")
+                            .get("mobileUrl")
+                            .getAsString();
+                } else {
+                    obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
+                }
+            }
+            showProgressBar(c, progressBar, false);
+            final URL finalUrl = new URL(obj);
+            writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
+        }
+
         @Override
         protected Void doInBackground(String... sub) {
             MediaView.didLoadGif = false;
@@ -252,58 +307,12 @@ public class GifUtils {
             LogUtil.v(url + ", VideoType: " + videoType);
             switch (videoType) {
                 case GFYCAT:
-                    showProgressBar(c, progressBar, false);
-                    String gfycatUrl = "https://gfycat.com/cajax/get" + url.substring(
+                    String name = url.substring(
                             url.lastIndexOf("/", url.length()));
+                    String gfycatUrl = "https://gfycat.com/cajax/get" + name;
+
                     try {
-                        LogUtil.v(gfycatUrl);
-                        final JsonObject result = HttpUtil.getJsonObject(client, gson, gfycatUrl);
-                        String obj = "";
-                        if (result == null
-                                || result.get("gfyItem") == null
-                                || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
-
-                            onError();
-                            if (closeIfNull) {
-                                c.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            new AlertDialogWrapper.Builder(c).setTitle(
-                                                    R.string.gif_err_title)
-                                                    .setMessage(R.string.gif_err_msg)
-                                                    .setCancelable(false)
-                                                    .setPositiveButton(R.string.btn_ok,
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which) {
-                                                                    c.finish();
-                                                                }
-                                                            })
-                                                    .create()
-                                                    .show();
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                });
-                            }
-
-
-                        } else {
-                            if (result.getAsJsonObject("gfyItem").has("mobileUrl")) {
-                                obj = result.getAsJsonObject("gfyItem")
-                                        .get("mobileUrl")
-                                        .getAsString();
-                            } else {
-                                obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
-                            }
-                        }
-                        showProgressBar(c, progressBar, false);
-                        final URL finalUrl = new URL(obj);
-                        writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
+                        loadGfycat(name, gson);
                     } catch (Exception e) {
                         LogUtil.e(e, "Error loading gfycat video url = ["
                                 + url
@@ -505,7 +514,9 @@ public class GifUtils {
                                     || transcodeResult.get("mp4Url") == null
                                     || transcodeResult.get("mp4Url").isJsonNull()) {
 
-                                if (transcodeResult != null
+                                if(transcodeResult != null && transcodeResult.has("gfyname")){
+                                    loadGfycat(transcodeResult.get("gfyname").getAsString(), gson);
+                                } else if (transcodeResult != null
                                         && transcodeResult.has("error")
                                         && transcodeResult.get("error")
                                         .getAsString()

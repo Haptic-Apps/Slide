@@ -549,7 +549,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         peekView.setOnRemoveListener(new OnRemove() {
                             @Override
                             public void onRemove() {
-                                ((PeekMediaView) rootView.findViewById(R.id.peek)).website.loadUrl("about:blank");
+                                ((PeekMediaView) rootView.findViewById(R.id.peek)).doClose();
                             }
                         });
 

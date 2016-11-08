@@ -34,11 +34,6 @@ import net.dean.jraw.models.Submission;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.MultiredditOverview;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Search;
-import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -601,8 +596,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         peekView.setOnRemoveListener(new OnRemove() {
                             @Override
                             public void onRemove() {
-                                ((PeekMediaView) rootView.findViewById(R.id.peek)).website.loadUrl(
-                                        "about:blank");
+                                ((PeekMediaView) rootView.findViewById(R.id.peek)).doClose();
                             }
                         });
 
@@ -729,15 +723,9 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (SettingValues.storeHistory && !full) {
                     if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
                         HasSeen.addSeen(submission.getFullName());
-                        Context contextActivity = getContext();
-                        if (contextActivity instanceof MainActivity
-                                || contextActivity instanceof MultiredditOverview
-                                || contextActivity instanceof SubredditView
-                                || contextActivity instanceof Search
-                                || contextActivity instanceof Profile) {
-                            ((View) getParent()).findViewById(R.id.title).setAlpha(0.54f);
-                            ((View) getParent()).findViewById(R.id.body).setAlpha(0.54f);
-                        }
+                        ((View) getParent()).findViewById(R.id.title).setAlpha(0.54f);
+                        ((View) getParent()).findViewById(R.id.body).setAlpha(0.54f);
+
                     }
                 }
                 onLinkLongClick(submission.getUrl(), event);

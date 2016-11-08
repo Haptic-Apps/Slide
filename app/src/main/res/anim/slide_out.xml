@@ -8,7 +8,7 @@
             android:startOffset="250"
             android:toAlpha="0"/>
     <translate
-            android:duration="300"
+            android:duration="325"
             android:fromXDelta="0%"
             android:fromYDelta="0%"
             android:toXDelta="100%"

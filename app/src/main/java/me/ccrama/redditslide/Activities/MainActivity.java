@@ -19,10 +19,8 @@ import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -37,7 +35,6 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -123,9 +120,7 @@ import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.RateSnack;
 
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -150,7 +145,6 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -168,7 +162,6 @@ import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.EditTextValidator;
-import me.ccrama.redditslide.util.ImageUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -927,16 +920,15 @@ public class MainActivity extends BaseActivity
                 }
                 return true;
             case R.id.action_shadowbox:
-                final SubredditPosts loader = ((SubmissionsView) adapter.getCurrentFragment()).posts;
+                final SubredditPosts loader =
+                        ((SubmissionsView) adapter.getCurrentFragment()).posts;
                 if (SettingValues.tabletUI) {
                     List<Submission> posts = loader.posts;
                     if (posts != null && !posts.isEmpty()) {
                         PostLoaderManager.setInstance(loader);
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i2.putExtra("offline", loader.cached != null
-                                        ? loader.cached.time
-                                        : 0L);
+                        i2.putExtra("offline", loader.cached != null ? loader.cached.time : 0L);
                         i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
@@ -981,10 +973,11 @@ public class MainActivity extends BaseActivity
                                         List<Submission> posts = loader.posts;
                                         if (posts != null && !posts.isEmpty()) {
                                             PostLoaderManager.setInstance(loader);
-                                            Intent i2 = new Intent(MainActivity.this, Shadowbox.class);
+                                            Intent i2 =
+                                                    new Intent(MainActivity.this, Shadowbox.class);
                                             i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                                            i2.putExtra("offline", loader.cached != null
-                                                            ? loader.cached.time
+                                            i2.putExtra("offline",
+                                                    loader.cached != null ? loader.cached.time
                                                             : 0L);
                                             i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,
                                                     ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
@@ -3966,62 +3959,68 @@ public class MainActivity extends BaseActivity
             }
         }
 
-        if (Authentication.isLoggedIn
-                && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-            ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
-            shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
-                    .setLongLabel("Open your Inbox")
-                    .setIcon(getIcon("inbox", R.drawable.sidebar_inbox))
-                    .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, Inbox.class))
-                    .build());
-
-            shortcuts.add(new ShortcutInfo.Builder(this, "submit").setShortLabel("Submit")
-                    .setLongLabel("Create new Submission")
-                    .setIcon(getIcon("submit", R.drawable.edit))
-                    .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, Submit.class))
-                    .build());
-
-            int count = 0;
-
-            for(String s : subs){
-                if(count == 2){
-                    break;
-                }
-                Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, SubredditView.class);
-                sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
-                shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
-                        .setLongLabel("/r/" + s)
-                        .setIcon(getIcon(s, R.drawable.sub))
-                        .setIntent(sub)
+        if (NetworkUtil.isConnected(MainActivity.this)) {
+            if (Authentication.isLoggedIn
+                    && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+                ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
+                shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
+                        .setLongLabel("Open your Inbox")
+                        .setIcon(getIcon("inbox", R.drawable.sidebar_inbox))
+                        .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                                Inbox.class))
                         .build());
-                count ++;
-            }
 
-            Collections.reverse(shortcuts);
-
-            shortcutManager.setDynamicShortcuts(shortcuts);
-        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-            ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
-            int count = 0;
-            for(String s : subs){
-                if(count == 4){
-                    break;
-                }
-                Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this, SubredditView.class);
-                sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
-                shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
-                        .setLongLabel("/r/" + s)
-                        .setIcon(getIcon(s, R.drawable.sub))
-                        .setIntent(sub)
+                shortcuts.add(new ShortcutInfo.Builder(this, "submit").setShortLabel("Submit")
+                        .setLongLabel("Create new Submission")
+                        .setIcon(getIcon("submit", R.drawable.edit))
+                        .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                                Submit.class))
                         .build());
-                count ++;
+
+                int count = 0;
+
+                for (String s : subs) {
+                    if (count == 2 || count == subs.size()) {
+                        break;
+                    }
+                    Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                            SubredditView.class);
+                    sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                    shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
+                            .setLongLabel("/r/" + s)
+                            .setIcon(getIcon(s, R.drawable.sub))
+                            .setIntent(sub)
+                            .build());
+                    count++;
+                }
+
+                Collections.reverse(shortcuts);
+
+                shortcutManager.setDynamicShortcuts(shortcuts);
+            } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+                ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
+                int count = 0;
+                for (String s : subs) {
+                    if (count == 4 || count == subs.size()) {
+                        break;
+                    }
+                    Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                            SubredditView.class);
+                    sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                    shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
+                            .setLongLabel("/r/" + s)
+                            .setIcon(getIcon(s, R.drawable.sub))
+                            .setIntent(sub)
+                            .build());
+                    count++;
+                }
+
+                Collections.reverse(shortcuts);
+
+                shortcutManager.setDynamicShortcuts(shortcuts);
             }
-
-            Collections.reverse(shortcuts);
-
-            shortcutManager.setDynamicShortcuts(shortcuts);
         }
     }
 
@@ -4033,7 +4032,8 @@ public class MainActivity extends BaseActivity
         Bitmap over = drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
 
         Canvas canvas = new Canvas(color);
-        canvas.drawBitmap(over, color.getWidth()/2 - (over.getWidth()/2), color.getHeight()/2 - (over.getHeight()/2), null);
+        canvas.drawBitmap(over, color.getWidth() / 2 - (over.getWidth() / 2),
+                color.getHeight() / 2 - (over.getHeight() / 2), null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Icon.createWithBitmap(color);
@@ -4041,13 +4041,15 @@ public class MainActivity extends BaseActivity
         return null;
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap =
+                Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                        Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
@@ -4078,11 +4080,8 @@ public class MainActivity extends BaseActivity
         final Bitmap outputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
         final Path path = new Path();
-        path.addCircle(
-                (float) (width / 2),
-                (float) (height / 2),
-                (float) Math.min(width, (height / 2)),
-                Path.Direction.CCW);
+        path.addCircle((float) (width / 2), (float) (height / 2),
+                (float) Math.min(width, (height / 2)), Path.Direction.CCW);
 
         final Canvas canvas = new Canvas(outputBitmap);
         canvas.clipPath(path);
@@ -4792,7 +4791,8 @@ public class MainActivity extends BaseActivity
                         if (page != null && page.adapter != null) {
                             SubredditPosts p = page.adapter.dataSet;
                             if (p.offline && !isRestart) {
-                                p.doMainActivityOffline(MainActivity.this.getApplicationContext(), p.displayer);
+                                p.doMainActivityOffline(MainActivity.this,
+                                        p.displayer);
                             }
                         }
                     }

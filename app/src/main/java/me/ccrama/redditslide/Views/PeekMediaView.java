@@ -88,6 +88,12 @@ public class PeekMediaView extends RelativeLayout {
     boolean web;
     float origY = 0;
 
+    public void doClose() {
+        website.setVisibility(View.GONE);
+        website.loadUrl("about:blank");
+        videoView.stopPlayback();
+    }
+
     public void doScroll(MotionEvent event) {
         if (origY == 0) {
             origY = event.getY();
@@ -466,7 +472,7 @@ public class PeekMediaView extends RelativeLayout {
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         gif = new GifUtils.AsyncLoadGif((PeekViewActivity) getContext(),
-                (MediaVideoView) findViewById(R.id.gif), progress, null, false, true, true){
+                (MediaVideoView) findViewById(R.id.gif), progress, null, false, true, true) {
             @Override
             public void onError() {
                 doLoadLink(dat);
@@ -608,5 +614,4 @@ public class PeekMediaView extends RelativeLayout {
         this.website = (WebView) findViewById(R.id.website);
         this.progress = ((ProgressBar) findViewById(R.id.progress));
     }
-
 }
