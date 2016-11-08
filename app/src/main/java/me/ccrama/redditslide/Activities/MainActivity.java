@@ -4780,13 +4780,12 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
-                    if (positionOffset == 0 ) {
+                    if (positionOffset == 0) {
                         header.animate()
                                 .translationY(0)
                                 .setInterpolator(new LinearInterpolator())
                                 .setDuration(180);
                         doSubSidebarNoLoad(usedArray.get(position));
-
                     }
                 }
 
@@ -4794,16 +4793,13 @@ public class MainActivity extends BaseActivity
                 public void onPageSelected(final int position) {
                     Reddit.currentPosition = position;
                     selectedSub = usedArray.get(position);
-
                     SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                     if (page != null && page.adapter != null) {
                         SubredditPosts p = page.adapter.dataSet;
                         if (p.offline && !isRestart) {
-                            p.doMainActivityOffline(MainActivity.this,
-                                    p.displayer);
+                            p.doMainActivityOffline(MainActivity.this, p.displayer);
                         }
                     }
-
                     if (hea != null) {
                         hea.setBackgroundColor(Palette.getColor(selectedSub));
                         if (accountsArea != null) {
@@ -4982,7 +4978,8 @@ public class MainActivity extends BaseActivity
                             if (position == toOpenComments - 1
                                     && adapter != null
                                     && adapter.getCurrentFragment() != null) {
-                                SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+                                SubmissionsView page =
+                                        (SubmissionsView) adapter.getCurrentFragment();
                                 if (page != null && page.adapter != null) {
                                     page.adapter.refreshView();
                                 }
@@ -5010,22 +5007,22 @@ public class MainActivity extends BaseActivity
                     if (position == toOpenComments - 1
                             && adapter != null
                             && adapter.getCurrentFragment() != null) {
-                        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+                        SubmissionsView page =
+                                (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
                             page.adapter.refreshView();
                             SubredditPosts p = page.adapter.dataSet;
                             if (p.offline && !isRestart) {
-                                p.doMainActivityOffline(MainActivity.this,
-                                        p.displayer);
+                                p.doMainActivityOffline(MainActivity.this, p.displayer);
                             }
                         }
                     } else {
-                        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+                        SubmissionsView page =
+                                (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
                             SubredditPosts p = page.adapter.dataSet;
                             if (p.offline && !isRestart) {
-                                p.doMainActivityOffline(MainActivity.this,
-                                        p.displayer);
+                                p.doMainActivityOffline(MainActivity.this, p.displayer);
                             }
                         }
                     }
@@ -5036,6 +5033,11 @@ public class MainActivity extends BaseActivity
 
                 }
             });
+            if (pager.getAdapter() != null) {
+                pager.getAdapter().notifyDataSetChanged();
+                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
+            }
         }
 
         @Override
