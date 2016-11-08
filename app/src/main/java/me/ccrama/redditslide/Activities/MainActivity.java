@@ -3745,6 +3745,15 @@ public class MainActivity extends BaseActivity
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
                 pager.setCurrentItem(toGoto);
+                if(!NetworkUtil.isConnected(this) && commentPager){
+                    SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+                    if (page != null && page.adapter != null) {
+                        SubredditPosts p = page.adapter.dataSet;
+                        if (p.offline && !isRestart) {
+                            p.doMainActivityOffline(MainActivity.this, p.displayer);
+                        }
+                    }
+                }
             }
             setToolbarClick();
 
@@ -5007,8 +5016,7 @@ public class MainActivity extends BaseActivity
                     if (position == toOpenComments - 1
                             && adapter != null
                             && adapter.getCurrentFragment() != null) {
-                        SubmissionsView page =
-                                (SubmissionsView) adapter.getCurrentFragment();
+                        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
                             page.adapter.refreshView();
                             SubredditPosts p = page.adapter.dataSet;
@@ -5017,8 +5025,7 @@ public class MainActivity extends BaseActivity
                             }
                         }
                     } else {
-                        SubmissionsView page =
-                                (SubmissionsView) adapter.getCurrentFragment();
+                        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
                             SubredditPosts p = page.adapter.dataSet;
                             if (p.offline && !isRestart) {
@@ -5033,11 +5040,6 @@ public class MainActivity extends BaseActivity
 
                 }
             });
-            if (pager.getAdapter() != null) {
-                pager.getAdapter().notifyDataSetChanged();
-                pager.setCurrentItem(1);
-                pager.setCurrentItem(0);
-            }
         }
 
         @Override
@@ -5131,8 +5133,6 @@ public class MainActivity extends BaseActivity
             } else {
                 return "";
             }
-
-
         }
     }
 }
