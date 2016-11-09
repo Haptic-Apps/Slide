@@ -339,7 +339,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
-        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
+        posts.loadMore(getActivity(), this, true);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -361,7 +361,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
-        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
+        posts.loadMore(getActivity(), this, true);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -258,11 +258,7 @@ public class SubredditPosts implements PostLoader {
 
         @Override
         public void onPostExecute(final List<Submission> submissions) {
-
             loading = false;
-            context = null;
-
-
             if (submissions != null && !submissions.isEmpty()) {
                 String[] ids = new String[submissions.size()];
                 int i = 0;
@@ -288,8 +284,9 @@ public class SubredditPosts implements PostLoader {
 
                 MainActivity.randomoverride = subredditRandom;
 
-                if (context instanceof SubredditView && (subreddit.equals("random") || subreddit.equals(
-                        "myrandom") || subreddit.equals("randnsfw"))) {
+                if (context instanceof SubredditView && (subreddit.equals("random")
+                        || subreddit.equals("myrandom")
+                        || subreddit.equals("randnsfw"))) {
                     ((SubredditView) context).subreddit = subredditRandom;
                     ((SubredditView) context).executeAsyncSubreddit(subredditRandom);
                 }
@@ -436,6 +433,7 @@ public class SubredditPosts implements PostLoader {
 
 
     public void doMainActivityOffline(final Context c, final SubmissionDisplay displayer) {
+        LogUtil.v(subreddit);
         if (all == null) {
             all = OfflineSubreddit.getAll(subreddit);
         }
@@ -454,7 +452,6 @@ public class SubredditPosts implements PostLoader {
             base[i] = s;
             i++;
         }
-
         ((MainActivity) c).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ((MainActivity) c).getSupportActionBar()
                 .setListNavigationCallbacks(
@@ -501,7 +498,5 @@ public class SubredditPosts implements PostLoader {
                                 return true;
                             }
                         });
-
-
     }
 }

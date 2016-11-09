@@ -3712,6 +3712,7 @@ public class MainActivity extends BaseActivity
                 adapter.notifyDataSetChanged();
             }
             pager.setAdapter(adapter);
+
             pager.setOffscreenPageLimit(1);
             if (toGoto == -1) {
                 toGoto = 0;
@@ -3745,15 +3746,6 @@ public class MainActivity extends BaseActivity
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
                 pager.setCurrentItem(toGoto);
-                if(!NetworkUtil.isConnected(this) && commentPager){
-                    SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
-                    if (page != null && page.adapter != null) {
-                        SubredditPosts p = page.adapter.dataSet;
-                        if (p.offline && !isRestart) {
-                            p.doMainActivityOffline(MainActivity.this, p.displayer);
-                        }
-                    }
-                }
             }
             setToolbarClick();
 
@@ -4803,12 +4795,7 @@ public class MainActivity extends BaseActivity
                     Reddit.currentPosition = position;
                     selectedSub = usedArray.get(position);
                     SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
-                    if (page != null && page.adapter != null) {
-                        SubredditPosts p = page.adapter.dataSet;
-                        if (p.offline && !isRestart) {
-                            p.doMainActivityOffline(MainActivity.this, p.displayer);
-                        }
-                    }
+
                     if (hea != null) {
                         hea.setBackgroundColor(Palette.getColor(selectedSub));
                         if (accountsArea != null) {
@@ -4865,6 +4852,12 @@ public class MainActivity extends BaseActivity
                     } else {
                         mTabLayout.setSelectedTabIndicatorColor(
                                 new ColorPreferences(MainActivity.this).getColor(selectedSub));
+                    }
+                    if (page != null && page.adapter != null) {
+                        SubredditPosts p = page.adapter.dataSet;
+                        if (p.offline && !isRestart) {
+                            p.doMainActivityOffline(MainActivity.this, p.displayer);
+                        }
                     }
                 }
 
@@ -5040,6 +5033,7 @@ public class MainActivity extends BaseActivity
 
                 }
             });
+            notifyDataSetChanged();
         }
 
         @Override
@@ -5100,7 +5094,6 @@ public class MainActivity extends BaseActivity
                 } else {
                     shouldLoad = usedArray.get(position);
                 }
-
                 if (getCurrentFragment() != object) {
                     mCurrentFragment = ((SubmissionsView) object);
                     if (mCurrentFragment != null
