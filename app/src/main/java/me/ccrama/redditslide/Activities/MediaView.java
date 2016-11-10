@@ -602,8 +602,6 @@ public class MediaView extends FullScreenActivity
         });
 
         hideOnLongClick();
-
-        getWindow().setAllowReturnTransitionOverlap(false);
     }
 
     public void doLoad(final String contentUrl) {

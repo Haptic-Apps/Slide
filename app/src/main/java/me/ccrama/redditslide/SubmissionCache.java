@@ -135,11 +135,11 @@ public class SubmissionCache {
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500,
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_900,
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_purple_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
                 author.setSpan(

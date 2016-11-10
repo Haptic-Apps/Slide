@@ -82,22 +82,6 @@ public class Login extends BaseActivityAnim {
         Log.v(LogUtil.getTag(), "Auth URL: " + authorizationUrl);
         final WebView webView = (WebView) findViewById(R.id.web);
 
-        webView.loadUrl(authorizationUrl);
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-//                activity.setProgress(newProgress * 1000);
-            }
-        });
-        try {
-            CookieSyncManager.createInstance(this);
-            CookieManager cookieManager = CookieManager.getInstance();
-            cookieManager.removeAllCookies(null);
-            CookieManager.getInstance().flush();
-        } catch(Exception e){
-            //Ignore, some devices can't clear cookies
-        }
-
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -110,6 +94,8 @@ public class Login extends BaseActivityAnim {
                 }
             }
         });
+
+        webView.loadUrl(authorizationUrl);
     }
 
     private void doSubStrings(ArrayList<Subreddit> subs) {

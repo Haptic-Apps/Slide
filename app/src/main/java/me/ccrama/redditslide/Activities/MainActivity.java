@@ -3989,15 +3989,18 @@ public class MainActivity extends BaseActivity
                     if (count == 2 || count == subs.size()) {
                         break;
                     }
-                    Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
-                            SubredditView.class);
-                    sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
-                    shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
-                            .setLongLabel("/r/" + s)
-                            .setIcon(getIcon(s, R.drawable.sub))
-                            .setIntent(sub)
-                            .build());
-                    count++;
+                    if (!s.contains("/m/")) {
+                        Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                                SubredditView.class);
+                        sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
+                                s.equalsIgnoreCase("frontpage") ? "" : "/r/" + s)
+                                .setLongLabel("/r/" + s)
+                                .setIcon(getIcon(s, R.drawable.sub))
+                                .setIntent(sub)
+                                .build());
+                        count++;
+                    }
                 }
 
                 Collections.reverse(shortcuts);
@@ -4011,15 +4014,19 @@ public class MainActivity extends BaseActivity
                     if (count == 4 || count == subs.size()) {
                         break;
                     }
-                    Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
-                            SubredditView.class);
-                    sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
-                    shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel("/r/" + s)
-                            .setLongLabel("/r/" + s)
-                            .setIcon(getIcon(s, R.drawable.sub))
-                            .setIntent(sub)
-                            .build());
-                    count++;
+                    if (!s.contains("/m/")) {
+
+                        Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                                SubredditView.class);
+                        sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
+                                s.equalsIgnoreCase("frontpage") ? "" : "/r/" + s)
+                                .setLongLabel("/r/" + s)
+                                .setIcon(getIcon(s, R.drawable.sub))
+                                .setIntent(sub)
+                                .build());
+                        count++;
+                    }
                 }
 
                 Collections.reverse(shortcuts);
