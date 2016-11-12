@@ -3939,7 +3939,11 @@ public class MainActivity extends BaseActivity
                     .show();
         } else {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            setDrawerEdge(this, Constants.DRAWER_SWIPE_EDGE, drawerLayout);
+            if (!getResources().getBoolean(R.bool.isTablet)) {
+                setDrawerEdge(this, Constants.DRAWER_SWIPE_EDGE, drawerLayout);
+            } else {
+                setDrawerEdge(this, Constants.DRAWER_SWIPE_EDGE_TABLET, drawerLayout);
+            }
 
             if (loader != null) {
                 header.setVisibility(View.VISIBLE);
