@@ -62,10 +62,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/content"
-        android:paddingStart="10dp"
+        android:paddingLeft="10dp"
         android:layout_marginStart="-2dp"
         android:layout_marginEnd="-2dp"
-        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
         android:layout_toRightOf="@id/dot"
         android:textColor="?attr/font"
         android:textSize="?attr/font_commentbody" />

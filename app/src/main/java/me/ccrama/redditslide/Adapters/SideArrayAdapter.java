@@ -208,6 +208,54 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
             });
+            convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    try {
+                        //Hide the toolbar search UI without an animation because we're starting a new activity
+                        if ((SettingValues.subredditSearchMethod
+                                == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                || SettingValues.subredditSearchMethod
+                                == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
+                                && ((MainActivity) getContext()).findViewById(R.id.toolbar_search)
+                                .getVisibility() == View.VISIBLE) {
+                            ((MainActivity) getContext()).findViewById(
+                                    R.id.toolbar_search_suggestions).setVisibility(View.GONE);
+                            ((MainActivity) getContext()).findViewById(R.id.toolbar_search)
+                                    .setVisibility(View.GONE);
+                            ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar)
+                                    .setVisibility(View.GONE);
+
+                            //Play the exit animations of the search toolbar UI to avoid the animations failing to animate upon the next time
+                            //the search toolbar UI is called. Set animation to 0 because the UI is already hidden.
+                            ((MainActivity) getContext()).exitAnimationsForToolbarSearch(0,
+                                    ((CardView) ((MainActivity) getContext()).findViewById(
+                                            R.id.toolbar_search_suggestions)),
+                                    ((AutoCompleteTextView) ((MainActivity) getContext()).findViewById(
+                                            R.id.toolbar_search)),
+                                    ((ImageView) ((MainActivity) getContext()).findViewById(
+                                            R.id.close_search_toolbar)));
+                            if (SettingValues.single) {
+                                ((MainActivity) getContext()).getSupportActionBar()
+                                        .setTitle(((MainActivity) getContext()).selectedSub);
+                            } else {
+                                ((MainActivity) getContext()).getSupportActionBar()
+                                        .setTitle(((MainActivity) getContext()).tabViewModeTitle);
+                            }
+                        }
+                    } catch (NullPointerException npe) {
+                        Log.e(getClass().getName(), npe.getMessage());
+                    }
+                    Intent inte = new Intent(getContext(), SubredditView.class);
+                    inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
+                    ((Activity) getContext()).startActivityForResult(inte, 2001);
+
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    return true;
+                }
+            });
         } else {
             if ((fitems.size() * height) < parentL.getHeight()
                     && (SettingValues.subredditSearchMethod

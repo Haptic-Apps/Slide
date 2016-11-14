@@ -58,7 +58,7 @@
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/mail_hint_recipient"
                     android:inputType="textFilter"
-                    android:maxLength="21"
+                    android:maxLength="24"
                     android:maxLines="1"
                     android:imeOptions="flagNavigateNext"
                     android:textColor="?attr/font"

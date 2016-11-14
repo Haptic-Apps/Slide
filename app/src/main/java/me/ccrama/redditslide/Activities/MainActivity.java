@@ -3994,7 +3994,7 @@ public class MainActivity extends BaseActivity
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                s.equalsIgnoreCase("frontpage") ? "" : "/r/" + s)
+                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
                                 .setLongLabel("/r/" + s)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
@@ -4020,11 +4020,11 @@ public class MainActivity extends BaseActivity
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                s.equalsIgnoreCase("frontpage") ? "" : "/r/" + s)
+                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
                                 .setLongLabel("/r/" + s)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
-                                .build());
+                                .build();
                         count++;
                     }
                 }

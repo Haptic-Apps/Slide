@@ -138,56 +138,6 @@ public class Inbox extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
-
-        super.onCreate(savedInstance);
-        last = SettingValues.prefs.getLong("lastInbox",
-                System.currentTimeMillis() - (60 * 1000 * 60));
-        SettingValues.prefs.edit().putLong("lastInbox", System.currentTimeMillis()).apply();
-        applyColorTheme("");
-        setContentView(R.layout.activity_inbox);
-        setupAppBar(R.id.toolbar, R.string.title_inbox, true, true);
-        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
-
-        tabs = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabs.setSelectedTabIndicatorColor(new ColorPreferences(Inbox.this).getColor("no sub"));
-
-        pager = (ViewPager) findViewById(R.id.content_view);
-        findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
-        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-
-        if (getIntent() != null && getIntent().hasExtra(EXTRA_UNREAD)) {
-            pager.setCurrentItem(1);
-        }
-
-        tabs.setupWithViewPager(pager);
-
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                    int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                findViewById(R.id.header).animate()
-                        .translationY(0)
-                        .setInterpolator(new LinearInterpolator())
-                        .setDuration(180);
-                if (position == 3 && findViewById(R.id.read) != null) {
-                    findViewById(R.id.read).setVisibility(View.GONE);
-                } else if (findViewById(R.id.read) != null) {
-                    findViewById(R.id.read).setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         if (!Authentication.reddit.isAuthenticated() || Authentication.me == null) {
             LogUtil.v("Reauthenticating");
 
@@ -240,8 +190,59 @@ public class Inbox extends BaseActivityAnim {
 
                     return null;
                 }
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }.execute();
         }
+
+        super.onCreate(savedInstance);
+        last = SettingValues.prefs.getLong("lastInbox",
+                System.currentTimeMillis() - (60 * 1000 * 60));
+        SettingValues.prefs.edit().putLong("lastInbox", System.currentTimeMillis()).apply();
+        applyColorTheme("");
+        setContentView(R.layout.activity_inbox);
+        setupAppBar(R.id.toolbar, R.string.title_inbox, true, true);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
+
+        tabs = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabs.setSelectedTabIndicatorColor(new ColorPreferences(Inbox.this).getColor("no sub"));
+
+        pager = (ViewPager) findViewById(R.id.content_view);
+        findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
+        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+
+        if (getIntent() != null && getIntent().hasExtra(EXTRA_UNREAD)) {
+            pager.setCurrentItem(1);
+        }
+
+        tabs.setupWithViewPager(pager);
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                findViewById(R.id.header).animate()
+                        .translationY(0)
+                        .setInterpolator(new LinearInterpolator())
+                        .setDuration(180);
+                if (position == 3 && findViewById(R.id.read) != null) {
+                    findViewById(R.id.read).setVisibility(View.GONE);
+                } else if (findViewById(R.id.read) != null) {
+                    findViewById(R.id.read).setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

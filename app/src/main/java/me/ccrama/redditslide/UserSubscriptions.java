@@ -172,6 +172,7 @@ public class UserSubscriptions {
         } else {
             CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
             for (String s2 : s.split(",")) {
+                if(!subredditsForHome.contains(s2))
                 subredditsForHome.add(s2);
             }
             return subredditsForHome;
@@ -435,8 +436,8 @@ public class UserSubscriptions {
     //Gets user subscriptions + top 500 subs + subs in history
     public static CaseInsensitiveArrayList getAllSubreddits(Context c) {
         CaseInsensitiveArrayList finalReturn = new CaseInsensitiveArrayList();
-        List<String> history = getHistory();
-        List<String> defaults = getDefaults(c);
+        CaseInsensitiveArrayList history = getHistory();
+        CaseInsensitiveArrayList defaults = getDefaults(c);
         finalReturn.addAll(getSubscriptions(c));
         for (String s : finalReturn) {
             if (history.contains(s)) {
@@ -451,8 +452,16 @@ public class UserSubscriptions {
                 defaults.remove(s);
             }
         }
-        finalReturn.addAll(history);
-        finalReturn.addAll(defaults);
+        for(String s : history){
+            if(!finalReturn.contains(s)){
+                finalReturn.add(s);
+            }
+        }
+        for(String s : defaults){
+            if(!finalReturn.contains(s)){
+                finalReturn.add(s);
+            }
+        }
         return finalReturn;
     }
 

@@ -282,6 +282,7 @@ public class Authentication {
                                 .apply();
                         reddit.authenticate(finalData);
                         refresh = oAuthHelper.getRefreshToken();
+                        if (BuildConfig.DEBUG) LogUtil.v("ACCESS TOKEN IS " + finalData.getAccessToken());
 
                         Authentication.isLoggedIn = true;
 

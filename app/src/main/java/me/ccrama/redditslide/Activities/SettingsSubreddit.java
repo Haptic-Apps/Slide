@@ -139,6 +139,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                             ArrayList<Subreddit> subColors = UserSubscriptions.syncSubredditsGetObject();
                                             d.setMaxProgress(subColors.size());
                                             int i = 0;
+                                            done = 0;
                                             for (Subreddit s : subColors) {
                                                 if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
                                                     Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), SettingsSubreddit.this));
