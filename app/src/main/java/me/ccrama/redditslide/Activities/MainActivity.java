@@ -3929,7 +3929,15 @@ public class MainActivity extends BaseActivity
             d = new MaterialDialog.Builder(MainActivity.this).title(
                     R.string.offline_no_content_found)
                     .positiveText(R.string.offline_enter_online)
+                    .negativeText(R.string.btn_close)
                     .cancelable(false)
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog,
+                                @NonNull DialogAction which) {
+                            finish();
+                        }
+                    })
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog,

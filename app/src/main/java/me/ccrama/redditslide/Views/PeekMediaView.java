@@ -50,6 +50,8 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Tumblr.Photo;
+import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -114,6 +116,9 @@ public class PeekMediaView extends RelativeLayout {
                 progress.setIndeterminate(true);
                 break;
             case TUMBLR:
+                doLoadTumblr(url);
+                progress.setIndeterminate(true);
+                break;
             case EMBEDDED:
             case EXTERNAL:
             case LINK:
@@ -182,7 +187,37 @@ public class PeekMediaView extends RelativeLayout {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    private void doLoadTumblr(final String url) {
+        new TumblrUtils.GetTumblrPostWithCallback(url, (PeekViewActivity) getContext()) {
+
+            @Override
+            public void onError() {
+                ((PeekViewActivity) getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doLoadLink(url);
+                    }
+                });
+            }
+
+            @Override
+            public void doWithData(final List<Photo> jsonElements) {
+                super.doWithData(jsonElements);
+                progress.setVisibility(View.GONE);
+                tumblrImages = new ArrayList<>(jsonElements);
+                displayImage(tumblrImages.get(0).getOriginalSize().getUrl());
+                if (tumblrImages.size() > 1) {
+                    GridView grid = (GridView) findViewById(R.id.grid_area);
+                    grid.setNumColumns(5);
+                    grid.setVisibility(VISIBLE);
+                    grid.setAdapter(new ImageGridAdapter(getContext(), tumblrImages, true));
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     List<Image> images;
+    List<Photo> tumblrImages;
 
     WebChromeClient client;
     WebViewClient   webClient;

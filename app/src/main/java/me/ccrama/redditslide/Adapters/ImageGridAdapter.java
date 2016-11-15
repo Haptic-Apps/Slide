@@ -11,29 +11,44 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Tumblr.Photo;
 
 /**
  * Created by carlo_000 on 3/20/2016.
  */
 public class ImageGridAdapter extends android.widget.BaseAdapter {
-    private Context mContext;
-    private List<Image> jsons;
-    public static final DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .cacheOnDisk(true)
-            .resetViewBeforeLoading(true)
-            .bitmapConfig(Bitmap.Config.RGB_565)
-            .imageScaleType(ImageScaleType.EXACTLY)
-            .cacheInMemory(false)
-            .displayer(new FadeInBitmapDisplayer(250))
-            .build();
+    private Context      mContext;
+    private List<String> jsons;
+    public static final DisplayImageOptions options =
+            new DisplayImageOptions.Builder().cacheOnDisk(true)
+                    .resetViewBeforeLoading(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+                    .cacheInMemory(false)
+                    .displayer(new FadeInBitmapDisplayer(250))
+                    .build();
 
-    public ImageGridAdapter(Context c, List<Image> jsons) {
+    public ImageGridAdapter(Context c, List<Image> imgurAlbum) {
         mContext = c;
-        this.jsons = jsons;
+        jsons = new ArrayList<>();
+        for (Image i : imgurAlbum) {
+            jsons.add(i.getThumbnailUrl());
+        }
+    }
+
+    public ImageGridAdapter(Context c, List<Photo> tumblrAlbum, boolean tumblr) {
+        mContext = c;
+        jsons = new ArrayList<>();
+        for (Photo i : tumblrAlbum) {
+            jsons.add((i.getAltSizes() != null && !i.getAltSizes().isEmpty()) ? i.getAltSizes()
+                    .get(0)
+                    .getUrl() : i.getOriginalSize().getUrl());
+        }
     }
 
     public int getCount() {
@@ -41,7 +56,7 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
     }
 
     public String getItem(int position) {
-        return jsons.get(position).getThumbnailUrl();
+        return jsons.get(position);
     }
 
     public long getItemId(int position) {
@@ -62,7 +77,8 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
         imageView.setLayoutParams(new GridView.LayoutParams(size, size));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(getItem(position), imageView, options);
+        ((Reddit) mContext.getApplicationContext()).getImageLoader()
+                .displayImage(getItem(position), imageView, options);
         return imageView;
     }
 }

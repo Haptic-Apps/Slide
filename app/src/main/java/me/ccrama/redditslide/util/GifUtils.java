@@ -390,7 +390,7 @@ public class GifUtils {
                             if (result.getAsJsonObject()
                                     .get("files")
                                     .getAsJsonObject()
-                                    .has("mp4-mobile")) {
+                                    .has("mp4-mobile") && !result.getAsJsonObject().get("files").getAsJsonObject().get("mp4-mobile").getAsJsonObject().get("url").getAsString().isEmpty()) {
                                 obj = "https:" + result.getAsJsonObject()
                                         .get("files")
                                         .getAsJsonObject()
@@ -418,7 +418,12 @@ public class GifUtils {
                                 + streamableUrl
                                 + "]");
 
-                        onError();
+                        c.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                onError();
+                            }
+                        });
                         if (closeIfNull) {
                             c.runOnUiThread(new Runnable() {
                                 @Override
