@@ -10,7 +10,9 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
+import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
+import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.AlbumFull;
@@ -24,7 +26,6 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.PostLoaderManager;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -50,7 +51,11 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         String profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
-        subredditPosts = PostLoaderManager.getInstance();
+        if (multireddit != null) {
+            subredditPosts = new MultiredditPosts(multireddit, profile);
+        } else {
+            subredditPosts = new SubredditPosts(subreddit, Shadowbox.this);
+        }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
         if(multireddit == null){
@@ -64,6 +69,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         long offline = getIntent().getLongExtra("offline",0L);
 
         OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
+
+        subredditPosts.getPosts().addAll(submissions.submissions);
 
         pager = (ViewPager) findViewById(R.id.content_view);
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());

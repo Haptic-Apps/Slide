@@ -30,7 +30,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
-import me.ccrama.redditslide.PostLoaderManager;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -51,7 +50,11 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         String profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
-        subredditPosts = PostLoaderManager.getInstance();
+        if (multireddit != null) {
+            subredditPosts = new MultiredditPosts(multireddit, profile);
+        } else {
+            subredditPosts = new SubredditPosts(subreddit, Gallery.this);
+        }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
         if (multireddit == null) {

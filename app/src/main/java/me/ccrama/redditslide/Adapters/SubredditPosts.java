@@ -58,16 +58,19 @@ public class SubredditPosts implements PostLoader {
     private Paginator        paginator;
     public  OfflineSubreddit cached;
     boolean doneOnce;
+    Context c;
     boolean force18;
 
-    public SubredditPosts(String subreddit) {
+    public SubredditPosts(String subreddit, Context c) {
         posts = new ArrayList<>();
         this.subreddit = subreddit;
+        this.c = c;
     }
 
-    public SubredditPosts(String subreddit, boolean force18) {
+    public SubredditPosts(String subreddit, Context c, boolean force18) {
         posts = new ArrayList<>();
         this.subreddit = subreddit;
+        this.c = c;
         this.force18 = force18;
     }
 
@@ -83,7 +86,7 @@ public class SubredditPosts implements PostLoader {
         loadMore(context, display, reset);
     }
 
-    public void loadPhotos(Context c, List<Submission> submissions) {
+    public void loadPhotos(List<Submission> submissions) {
         for (Submission submission : submissions) {
             String url;
             ContentType.Type type = ContentType.getContentType(submission);
@@ -273,8 +276,8 @@ public class SubredditPosts implements PostLoader {
                 currentid = 0;
                 OfflineSubreddit.currentid = currentid;
 
-                if (context instanceof BaseActivity) {
-                    ((BaseActivity) context).setShareUrl("https://reddit.com/r/" + subreddit);
+                if (c instanceof BaseActivity) {
+                    ((BaseActivity) c).setShareUrl("https://reddit.com/r/" + subreddit);
                 }
 
                 if (subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals(
@@ -300,7 +303,7 @@ public class SubredditPosts implements PostLoader {
                 displayer.updateSuccess(posts, posts.size() + 1);
             } else if (MainActivity.isRestart) {
                 posts = new ArrayList<>();
-                cached = OfflineSubreddit.getSubreddit(subreddit, 0L, true, context);
+                cached = OfflineSubreddit.getSubreddit(subreddit, 0L, true, c);
                 for (Submission s : cached.submissions) {
                     if (!PostMatch.doesMatch(s, subreddit, force18)) {
                         posts.add(s);
@@ -320,7 +323,6 @@ public class SubredditPosts implements PostLoader {
                 }
             }
         }
-
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
 
@@ -364,9 +366,9 @@ public class SubredditPosts implements PostLoader {
             List<Submission> filteredSubmissions = getNextFiltered();
 
 
-            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(context)
+            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c)
                     && SettingValues.lowResMobile) || SettingValues.lowResAlways))) {
-                loadPhotos(context, filteredSubmissions);
+                loadPhotos(filteredSubmissions);
             }
             if (SettingValues.storeHistory) {
                 HasSeen.setHasSeenSubmission(filteredSubmissions);

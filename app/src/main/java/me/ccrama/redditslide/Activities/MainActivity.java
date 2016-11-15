@@ -145,7 +145,6 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -848,10 +847,9 @@ public class MainActivity extends BaseActivity
             return true;
             case R.id.gallery:
                 if (SettingValues.tabletUI) {
-                    SubredditPosts loader = ((SubmissionsView) adapter.getCurrentFragment()).posts;
-                    List<Submission> posts = loader.posts;
+                    List<Submission> posts =
+                            ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
-                        PostLoaderManager.setInstance(loader);
                         Intent i2 = new Intent(this, Gallery.class);
                         i2.putExtra("offline",
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
@@ -920,15 +918,17 @@ public class MainActivity extends BaseActivity
                 }
                 return true;
             case R.id.action_shadowbox:
-                final SubredditPosts loader =
-                        ((SubmissionsView) adapter.getCurrentFragment()).posts;
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts = loader.posts;
+                    List<Submission> posts =
+                            ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
-                        PostLoaderManager.setInstance(loader);
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i2.putExtra("offline", loader.cached != null ? loader.cached.time : 0L);
+                        i2.putExtra("offline",
+                                ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
+                                        != null
+                                        ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time
+                                        : 0L);
                         i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
@@ -970,14 +970,16 @@ public class MainActivity extends BaseActivity
                                                 .apply();
                                         SettingValues.previews = SettingValues.prefs.getInt(
                                                 SettingValues.PREVIEWS_LEFT, 10);
-                                        List<Submission> posts = loader.posts;
+                                        List<Submission> posts =
+                                                ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                                         if (posts != null && !posts.isEmpty()) {
-                                            PostLoaderManager.setInstance(loader);
                                             Intent i2 =
                                                     new Intent(MainActivity.this, Shadowbox.class);
                                             i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
                                             i2.putExtra("offline",
-                                                    loader.cached != null ? loader.cached.time
+                                                    ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
+                                                            != null
+                                                            ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time
                                                             : 0L);
                                             i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,
                                                     ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);

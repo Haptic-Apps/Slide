@@ -68,7 +68,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
-import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
@@ -77,7 +76,6 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -409,10 +407,9 @@ public class SubredditView extends BaseActivity {
                 return true;
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
-                    SubredditPosts loader = ((SubmissionsView) ((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment()).posts;
-                    List<Submission> posts = loader.posts;
+                    List<Submission> posts =
+                            ((SubmissionsView) ((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
-                        PostLoaderManager.setInstance(loader);
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
                         i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,

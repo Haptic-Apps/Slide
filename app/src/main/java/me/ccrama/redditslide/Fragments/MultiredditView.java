@@ -39,7 +39,6 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PostLoaderManager;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -223,7 +222,6 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         if ((multireddits != null) && !multireddits.isEmpty()) {
             posts = new MultiredditPosts(multireddits.get(id).getDisplayName(), profile);
-            PostLoaderManager.setInstance(posts);
 
             adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
             rv.setAdapter(adapter);
