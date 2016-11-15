@@ -12,13 +12,11 @@
     <application
             android:name=".Reddit"
             android:allowBackup="true"
-            android:alwaysRetainTaskState="true"
             android:fullBackupContent="true"
             android:hardwareAccelerated="true"
             android:icon="@mipmap/ic_launcher"
             android:installLocation="auto"
             android:label="@string/app_name"
-            android:largeHeap="true"
             android:resizeableActivity="true"
             android:theme="@style/yellow_dark">
 
@@ -36,6 +34,7 @@
                 android:name=".Activities.Slide"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:icon="@mipmap/ic_launcher"
+                android:alwaysRetainTaskState="true"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -49,6 +48,7 @@
                 android:name=".Activities.MainActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:label="@string/app_name"
+                android:alwaysRetainTaskState="true"
                 android:windowSoftInputMode="adjustResize">
         </activity>
         <activity-alias
@@ -335,10 +335,12 @@
         <activity
                 android:name=".Activities.ModQueue"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.MediaView"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.AlbumPager"
@@ -371,6 +373,7 @@
         <activity
                 android:name=".Activities.Website"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeableweb"/>
         <activity
                 android:name=".Activities.FullscreenVideo"
@@ -384,6 +387,7 @@
         <activity
                 android:name=".Activities.CommentsScreen"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
@@ -394,14 +398,17 @@
         <activity
                 android:name=".Activities.SubredditView"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.MultiredditOverview"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.Profile"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.SettingsReddit"
@@ -410,6 +417,7 @@
         <activity
                 android:name=".Activities.SendMessage"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
@@ -452,16 +460,19 @@
         <activity
                 android:name=".Activities.CommentsScreenSingle"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
                 android:name=".Activities.Inbox"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.Submit"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:label="New Submission"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -495,10 +506,12 @@
         <activity
                 android:name=".Activities.Shadowbox"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.ShadowboxComments"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.Settings"
@@ -556,10 +569,12 @@
         <activity
                 android:name=".Activities.Login"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.Reauthenticate"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity android:name=".Activities.CancelSubNotifs"/>
         <activity android:name=".Activities.DeleteFile"/>
@@ -578,6 +593,7 @@
         <activity
                 android:name=".Activities.LiveThread"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:alwaysRetainTaskState="true"
                 android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.SetupWidget"

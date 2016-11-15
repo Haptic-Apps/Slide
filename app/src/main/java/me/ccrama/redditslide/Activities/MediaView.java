@@ -250,6 +250,7 @@ public class MediaView extends FullScreenActivity
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
                     type = "GIF";
                     contentUrl = contentUrl.replace(".gifv", ".gif");
+                  //todo possibly share gifs  b.sheet(9, share, "Share GIF");
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -276,6 +277,10 @@ public class MediaView extends FullScreenActivity
                     }
                     case (6): {
                         saveFile(contentUrl);
+                    }
+                    break;
+                    case (9): {
+                        shareGif(contentUrl);
                     }
                     break;
                     case (4): {
@@ -391,6 +396,82 @@ public class MediaView extends FullScreenActivity
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
+
+    public void shareGif(final String baseUrl) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+                    showFirstDialog();
+                } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+                    showErrorDialog();
+                } else {
+                    final File f = new File(
+                            Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID
+                                    .randomUUID()
+                                    .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
+                    mNotifyManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mBuilder = new NotificationCompat.Builder(MediaView.this);
+                    mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
+                            .setSmallIcon(R.drawable.save);
+                    try {
+
+                        final URL url =
+                                new URL(baseUrl); //wont exist on server yet, just load the full version
+                        URLConnection ucon = url.openConnection();
+                        ucon.setReadTimeout(5000);
+                        ucon.setConnectTimeout(10000);
+                        InputStream is = ucon.getInputStream();
+                        BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+                        int length = ucon.getContentLength();
+                        f.createNewFile();
+                        FileOutputStream outStream = new FileOutputStream(f);
+                        byte[] buff = new byte[5 * 1024];
+
+                        int len;
+                        int last = 0;
+                        while ((len = inStream.read(buff)) != -1) {
+                            outStream.write(buff, 0, len);
+                            int percent = Math.round(100.0f * f.length() / length);
+                            if (percent > last) {
+                                last = percent;
+                                mBuilder.setProgress(length, (int) f.length(), false);
+                                mNotifyManager.notify(1, mBuilder.build());
+                            }
+                        }
+                        outStream.flush();
+                        outStream.close();
+                        inStream.close();
+                        MediaScannerConnection.scanFile(MediaView.this,
+                                new String[]{f.getAbsolutePath()}, null,
+                                new MediaScannerConnection.OnScanCompletedListener() {
+                                    public void onScanCompleted(String path, Uri uri) {
+                                        Intent mediaScanIntent =
+                                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                        Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
+                                        mediaScanIntent.setData(contentUri);
+                                        MediaView.this.sendBroadcast(mediaScanIntent);
+
+                                        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        shareIntent.setDataAndType(contentUri, "image/gif");
+                                        startActivity(Intent.createChooser(shareIntent, "Share GIF"));
+                                        NotificationManager mNotificationManager =
+                                                (NotificationManager) getSystemService(
+                                                        Activity.NOTIFICATION_SERVICE);
+                                        mNotificationManager.cancel(1);
+                                    }
+                                });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+    }
+
 
     @Override
     public void onDestroy() {
