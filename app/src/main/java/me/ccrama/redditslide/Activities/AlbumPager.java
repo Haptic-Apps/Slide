@@ -515,123 +515,122 @@ public class AlbumPager extends FullScreenActivity
 
             if(((AlbumPager) getActivity()).images == null){
                 ((AlbumPager) getActivity()).pagerLoad.onError();
-            }
-            final Image current = ((AlbumPager) getActivity()).images.get(i);
-            final String url = current.getImageUrl();
-            boolean lq = false;
-            if (SettingValues.loadImageLq && (SettingValues.lowResAlways
-                    || (!NetworkUtil.isConnectedWifi(getActivity())
-                    && SettingValues.lowResMobile))) {
-                String lqurl = url.substring(0, url.lastIndexOf("."))
-                        + (SettingValues.imgurLq ? "m" : "h")
-                        + url.substring(url.lastIndexOf("."), url.length());
-                loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
-                lq = true;
             } else {
-                loadImage(rootView, this, url, ((AlbumPager) getActivity()).images.size() == 1);
-            }
+                final Image current = ((AlbumPager) getActivity()).images.get(i);
+                final String url = current.getImageUrl();
+                boolean lq = false;
+                if (SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity())
+                        && SettingValues.lowResMobile))) {
+                    String lqurl = url.substring(0, url.lastIndexOf("."))
+                            + (SettingValues.imgurLq ? "m" : "h")
+                            + url.substring(url.lastIndexOf("."), url.length());
+                    loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
+                    lq = true;
+                } else {
+                    loadImage(rootView, this, url, ((AlbumPager) getActivity()).images.size() == 1);
+                }
 
-            {
-                rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((AlbumPager) getActivity()).showBottomSheetImage(url, false, i);
-                    }
-                });
                 {
-                    rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
-
+                    rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View v2) {
-                            ((AlbumPager) getActivity()).doImageSave(false, url, i);
+                        public void onClick(View v) {
+                            ((AlbumPager) getActivity()).showBottomSheetImage(url, false, i);
                         }
+                    });
+                    {
+                        rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 
+                            @Override
+                            public void onClick(View v2) {
+                                ((AlbumPager) getActivity()).doImageSave(false, url, i);
+                            }
+
+                        });
+                    }
+
+
+                }
+                {
+                    String title = "";
+                    String description = "";
+                    if (current.getTitle() != null) {
+                        List<String> text = SubmissionParser.getBlocks(current.getTitle());
+                        title = text.get(0).trim();
+                    }
+
+                    if (current.getDescription() != null) {
+                        List<String> text = SubmissionParser.getBlocks(current.getDescription());
+                        description = text.get(0).trim();
+                    }
+                    if (title.isEmpty() && description.isEmpty()) {
+                        rootView.findViewById(R.id.panel).setVisibility(View.GONE);
+                        (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
+                    } else if (title.isEmpty()) {
+                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                    } else {
+                        setTextWithLinks(title, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                    }
+                    {
+                        int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
+                        Typeface typeface;
+                        if (type >= 0) {
+                            typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
+                        } else {
+                            typeface = Typeface.DEFAULT;
+                        }
+                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTypeface(
+                                typeface);
+                    }
+                    {
+                        int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+                        Typeface typeface;
+                        if (type >= 0) {
+                            typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
+                        } else {
+                            typeface = Typeface.DEFAULT;
+                        }
+                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTypeface(
+                                typeface);
+                    }
+                    final SlidingUpPanelLayout l = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
+                    rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                        }
+                    });
+                    rootView.findViewById(R.id.body).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                        }
                     });
                 }
-
-
-            }
-            {
-                String title = "";
-                String description = "";
-                if (current.getTitle() != null) {
-                    List<String> text = SubmissionParser.getBlocks(current.getTitle());
-                    title = text.get(0).trim();
-                }
-
-                if (current.getDescription() != null) {
-                    List<String> text = SubmissionParser.getBlocks(current.getDescription());
-                    description = text.get(0).trim();
-                }
-                if (title.isEmpty() && description.isEmpty()) {
-                    rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                    (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
-                } else if (title.isEmpty()) {
-                    setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                if (lq) {
+                    rootView.findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            loadImage(rootView, ImageFullNoSubmission.this, url,
+                                    ((AlbumPager) getActivity()).images.size() == 1);
+                            rootView.findViewById(R.id.hq).setVisibility(View.GONE);
+                        }
+                    });
                 } else {
-                    setTextWithLinks(title,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
-                    setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                    rootView.findViewById(R.id.hq).setVisibility(View.GONE);
                 }
-                {
-                    int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
-                    Typeface typeface;
-                    if (type >= 0) {
-                        typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
-                    } else {
-                        typeface = Typeface.DEFAULT;
-                    }
-                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTypeface(typeface);
-                }
-                {
-                    int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
-                    Typeface typeface;
-                    if (type >= 0) {
-                        typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
-                    } else {
-                        typeface = Typeface.DEFAULT;
-                    }
-                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTypeface(typeface);
-                }
-                final SlidingUpPanelLayout l =
-                        (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
-                rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                    }
-                });
-                rootView.findViewById(R.id.body).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                    }
-                });
-            }
-            if (lq) {
-                rootView.findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loadImage(rootView, ImageFullNoSubmission.this, url, ((AlbumPager) getActivity()).images.size() == 1);
-                        rootView.findViewById(R.id.hq).setVisibility(View.GONE);
-                    }
-                });
-            } else {
-                rootView.findViewById(R.id.hq).setVisibility(View.GONE);
-            }
 
-            if (getActivity().getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
-                rootView.findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getActivity().finish();
-                        SubmissionsView.datachanged(adapterPosition);
-                    }
-                });
-            } else {
-                rootView.findViewById(R.id.comments).setVisibility(View.GONE);
+                if (getActivity().getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
+                    rootView.findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getActivity().finish();
+                            SubmissionsView.datachanged(adapterPosition);
+                        }
+                    });
+                } else {
+                    rootView.findViewById(R.id.comments).setVisibility(View.GONE);
+                }
             }
             return rootView;
         }

@@ -656,11 +656,11 @@ public class Profile extends BaseActivityAnim {
                             View view = getLayoutInflater().inflate(R.layout.trophy, null);
                             ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
                             ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
-                            if (t.getAboutUrl() != null) {
+                            if (t.getAboutUrl() != null && !t.getAboutUrl().equalsIgnoreCase("null")) {
                                 view.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        LinkUtil.openUrl(t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                        LinkUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
                                     }
                                 });
                             }

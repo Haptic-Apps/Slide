@@ -629,19 +629,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                             if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
                             mPage.overrideFab = false;
-                            String text = currentlyEditing.getText().toString();
-                            new ReplyTaskComment(submission).execute(text);
-                            replyArea.setVisibility(View.GONE);
-                            currentlyEditing.setText("");
-                            currentlyEditing = null;
-                            editingPosition = -1;
-                            //Hide soft keyboard
-                            View view = ((Activity) mContext).getCurrentFocus();
-                            if (view != null) {
-                                InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            if(currentlyEditing != null) {
+                                String text = currentlyEditing.getText().toString();
+                                new ReplyTaskComment(submission).execute(text);
+                                replyArea.setVisibility(View.GONE);
+                                currentlyEditing.setText("");
+                                currentlyEditing = null;
+                                editingPosition = -1;
+                                //Hide soft keyboard
+                                View view = ((Activity) mContext).getCurrentFocus();
+                                if (view != null) {
+                                    InputMethodManager imm =
+                                            (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
                         }
                     });

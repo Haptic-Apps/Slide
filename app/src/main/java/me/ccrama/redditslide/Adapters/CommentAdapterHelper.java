@@ -316,26 +316,27 @@ public class CommentAdapterHelper {
             @Override
             protected void onPostExecute(Void aVoid) {
                 Snackbar s;
-                if (ActionStates.isSaved(comment)) {
-                    s = Snackbar.make(holder.itemView, R.string.submission_comment_saved,
-                            Snackbar.LENGTH_LONG);
-                    if (Authentication.me.hasGold()) {
-                        s.setAction(R.string.category_categorize, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                categorizeComment(comment, mContext);
-                            }
-                        });
+                if(holder.itemView != null) {
+                    if (ActionStates.isSaved(comment)) {
+                        s = Snackbar.make(holder.itemView, R.string.submission_comment_saved,
+                                Snackbar.LENGTH_LONG);
+                        if (Authentication.me.hasGold()) {
+                            s.setAction(R.string.category_categorize, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    categorizeComment(comment, mContext);
+                                }
+                            });
+                        }
+                    } else {
+                        s = Snackbar.make(holder.itemView, R.string.submission_comment_unsaved,
+                                Snackbar.LENGTH_SHORT);
                     }
-                } else {
-                    s = Snackbar.make(holder.itemView, R.string.submission_comment_unsaved,
-                            Snackbar.LENGTH_SHORT);
+                    View view = s.getView();
+                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
                 }
-                View view = s.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
             }
         }.execute();
     }
