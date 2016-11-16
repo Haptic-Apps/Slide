@@ -133,7 +133,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
                             out = new FileOutputStream(image);
                             Bitmap.createBitmap(drawView.getBitmap(), 0, (int) drawView.height,
                                     (int) drawView.right, (int) (drawView.bottom - drawView.height))
-                                    .compress(Bitmap.CompressFormat.PNG, 100, out);
+                                    .compress(Bitmap.CompressFormat.JPEG, 100, out);
                         } finally {
                             if (out != null) {
                                 out.close();

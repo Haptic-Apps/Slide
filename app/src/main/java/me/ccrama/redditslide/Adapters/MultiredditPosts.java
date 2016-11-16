@@ -332,7 +332,7 @@ public class MultiredditPosts implements PostLoader {
             if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways)))
                 loadPhotos(filteredSubmissions);
 
-            return things;
+            return filteredSubmissions;
         }
     }
 }
