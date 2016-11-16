@@ -166,6 +166,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void defaultShareText(String title, String url, Context c) {
+        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         /* Decode html entities */
