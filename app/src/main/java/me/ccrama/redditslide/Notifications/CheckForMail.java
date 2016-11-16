@@ -366,7 +366,7 @@ public class CheckForMail extends BroadcastReceiver {
                                                 + s.getSubredditName()
                                                 + c.getString(
                                                 R.string.submission_properties_seperator_comments)
-                                                + s.getTitle())
+                                                + Html.fromHtml(s.getTitle()))
                                         .setContentText(Html.fromHtml(s.getTitle() + c.getString(
                                                 R.string.submission_properties_seperator_comments))
                                                 + s.getAuthor())
