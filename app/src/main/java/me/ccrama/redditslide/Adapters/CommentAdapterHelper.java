@@ -320,7 +320,7 @@ public class CommentAdapterHelper {
                     if (ActionStates.isSaved(comment)) {
                         s = Snackbar.make(holder.itemView, R.string.submission_comment_saved,
                                 Snackbar.LENGTH_LONG);
-                        if (Authentication.me.hasGold()) {
+                        if (Authentication.me != null && Authentication.me.hasGold()) {
                             s.setAction(R.string.category_categorize, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

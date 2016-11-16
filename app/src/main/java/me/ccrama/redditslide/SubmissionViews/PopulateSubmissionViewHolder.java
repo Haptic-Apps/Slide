@@ -871,14 +871,17 @@ public class PopulateSubmissionViewHolder {
                                             @Override
                                             protected void onPostExecute(Void aVoid) {
                                                 if (holder.itemView != null) {
-                                                    Snackbar s = Snackbar.make(holder.itemView,
-                                                            R.string.msg_report_sent,
-                                                            Snackbar.LENGTH_SHORT);
-                                                    View view = s.getView();
-                                                    TextView tv = (TextView) view.findViewById(
-                                                            android.support.design.R.id.snackbar_text);
-                                                    tv.setTextColor(Color.WHITE);
-                                                    s.show();
+                                                    try {
+                                                        Snackbar s = Snackbar.make(holder.itemView,
+                                                                R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+                                                        View view = s.getView();
+                                                        TextView tv = (TextView) view.findViewById(
+                                                                android.support.design.R.id.snackbar_text);
+                                                        tv.setTextColor(Color.WHITE);
+                                                        s.show();
+                                                    } catch(Exception ignored){
+
+                                                    }
                                                 }
                                             }
                                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

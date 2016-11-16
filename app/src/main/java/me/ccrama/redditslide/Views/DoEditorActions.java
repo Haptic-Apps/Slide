@@ -777,8 +777,10 @@ public class DoEditorActions {
                                                 + ")";
                                         int start = Math.max(sStart, 0);
                                         int end = Math.max(sEnd, 0);
-                                        DoEditorActions.e.insert(Math.max(start, end), s);
-                                        DoEditorActions.e = null;
+                                        if(DoEditorActions.e != null) {
+                                            DoEditorActions.e.insert(Math.max(start, end), s);
+                                            DoEditorActions.e = null;
+                                        }
                                         sStart = 0;
                                         sEnd = 0;
                                     }
