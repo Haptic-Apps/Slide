@@ -16,12 +16,15 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,16 +67,17 @@ public class SettingsBackup extends BaseActivityAnim {
                 Uri fileUri = data.getData();
                 Log.v(LogUtil.getTag(), "WORKED! " + fileUri.toString());
 
-                File path = new File(fileUri.getPath());
                 StringWriter fw = new StringWriter();
                 try {
-                    FileReader fr = new FileReader(path);
-                    int c = fr.read();
+                    InputStream is = getContentResolver().openInputStream(fileUri);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    int c = reader.read();
                     while (c != -1) {
                         fw.write(c);
-                        c = fr.read();
+                        c = reader.read();
                     }
                     String read = fw.toString();
+
                     if (read.contains("Slide_backupEND>")) {
 
                         String[] files = read.split("END>");
@@ -201,7 +205,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("file/txt");
+                    intent.setType("text/plain");
                     startActivityForResult(intent, 42);
 
                 }
