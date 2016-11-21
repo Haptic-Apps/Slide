@@ -186,6 +186,21 @@ public class SettingsGeneral extends BaseActivityAnim
         setupAppBar(R.id.toolbar, R.string.settings_title_general, true, true);
 
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.immersivemode);
+
+            single.setChecked(SettingValues.immersiveMode);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingsTheme.changed = true;
+                    SettingValues.immersiveMode = isChecked;
+                    SettingValues.prefs.edit()
+                            .putBoolean(SettingValues.PREF_IMMERSIVE_MODE, isChecked)
+                            .apply();
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.forcelanguage);
 
             single.setChecked(SettingValues.overrideLanguage);

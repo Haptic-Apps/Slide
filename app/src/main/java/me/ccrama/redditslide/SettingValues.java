@@ -65,6 +65,7 @@ public class SettingValues {
     public static final String PREF_IMAGE_LQ                  = "imageLq";
     public static final String PREF_COLOR_SUB_NAME            = "colorSubName";
     public static final String PREF_OVERRIDE_LANGUAGE         = "overrideLanguage";
+    public static final String PREF_IMMERSIVE_MODE            = "immersiveMode";
     public static final String PREF_SHOW_DOMAIN               = "showDomain";
     public static final String PREF_CARD_TEXT                 = "cardText";
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
@@ -184,6 +185,7 @@ public class SettingValues {
     public static boolean colorSubName;
     public static boolean hideSelftextLeadImage;
     public static boolean overrideLanguage;
+    public static boolean immersiveMode;
     public static boolean showDomain;
     public static boolean cardText;
     public static boolean alwaysZoom;
@@ -219,6 +221,7 @@ public class SettingValues {
         single = prefs.getBoolean(PREF_SINGLE, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
         overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
+        immersiveMode = prefs.getBoolean(PREF_IMMERSIVE_MODE, false);
 
         commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;

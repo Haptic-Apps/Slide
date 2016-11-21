@@ -52,6 +52,23 @@ public class BaseActivity extends PeekViewActivity
     protected boolean overrideSwipeFromAnywhere = false;
     NfcAdapter mNfcAdapter;
 
+    /**
+     * Enable fullscreen immersive mode if setting is checked
+     *
+     */
+    @Override public void onWindowFocusChanged(final boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (SettingValues.immersiveMode) {
+            final View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -85,9 +102,26 @@ public class BaseActivity extends PeekViewActivity
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-				applyOverrideLanguage();
+        applyOverrideLanguage();
 
         super.onCreate(savedInstanceState);
+
+        /**
+         * Enable fullscreen immersive mode if setting is checked
+         *
+         * Adding this check in the onCreate method prevents the status/nav bars from appearing
+         * briefly when changing from one activity to another
+         *
+         */
+        if (SettingValues.immersiveMode) {
+            final View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
 
         if (enableSwipeBackLayout) {
             mHelper = new SwipeBackActivityHelper(this);
