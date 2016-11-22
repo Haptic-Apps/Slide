@@ -170,6 +170,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
         builder = removeNewlines(builder);
 
+        builder.append(" ");
+
         super.setText(builder, BufferType.SPANNABLE);
     }
 
@@ -216,7 +218,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     + "]s]]</a>";
             html = html.replace(htmlSpoilerMatcher.group(), inner);
         }
-
         return html;
     }
 
