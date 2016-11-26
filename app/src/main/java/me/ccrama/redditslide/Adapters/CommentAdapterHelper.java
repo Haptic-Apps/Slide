@@ -1050,11 +1050,13 @@ public class CommentAdapterHelper {
     public static SpannableStringBuilder createRemovedLine(String removedBy, Context c) {
         SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
         SpannableStringBuilder mod = new SpannableStringBuilder("Removed by ");
-        mod.append(removedBy);
-        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if(removedBy.equalsIgnoreCase("true")) {//Probably shadowbanned or removed not by mod action
+            mod = new SpannableStringBuilder("Removed by Reddit");
+        } else {
+            mod.append(removedBy);
+        }
+        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_red_300)), 0,
                 mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         removedString.append(mod);

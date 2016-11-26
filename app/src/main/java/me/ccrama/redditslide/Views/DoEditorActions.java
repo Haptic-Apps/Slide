@@ -486,6 +486,10 @@ public class DoEditorActions {
            ((ImageInsertEditText) editText).setImageSelectedCallback(new ImageInsertEditText.ImageSelectedCallback() {
                @Override
                public void onImageSelected(final Uri content, String mimeType) {
+                   e = editText.getText();
+
+                   sStart = editText.getSelectionStart();
+                   sEnd = editText.getSelectionEnd();
                    handleImageIntent(new ArrayList<Uri>() {{
                        add(content);
                    }}, editText, a);

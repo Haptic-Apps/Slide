@@ -13,13 +13,10 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-
 
 import java.util.Locale;
 
@@ -34,29 +31,28 @@ import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
- * This is an activity which is the base for most of Slide's activities.
- * It has support for handling of swiping, setting up the AppBar (toolbar),
- * and coloring of applicable views.
+ * This is an activity which is the base for most of Slide's activities. It has support for handling
+ * of swiping, setting up the AppBar (toolbar), and coloring of applicable views.
  */
 
 public class BaseActivity extends PeekViewActivity
-        implements SwipeBackActivityBase, NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
+        implements SwipeBackActivityBase, NfcAdapter.CreateNdefMessageCallback,
+        NfcAdapter.OnNdefPushCompleteCallback {
     @Nullable
-    public Toolbar mToolbar;
+    public    Toolbar                 mToolbar;
     protected SwipeBackActivityHelper mHelper;
     protected boolean overrideRedditSwipeAnywhere = false;
-    protected boolean enableSwipeBackLayout = true;
-    protected boolean overrideSwipeFromAnywhere = false;
+    protected boolean enableSwipeBackLayout       = true;
+    protected boolean overrideSwipeFromAnywhere   = false;
     NfcAdapter mNfcAdapter;
 
     /**
      * Enable fullscreen immersive mode if setting is checked
-     *
      */
-    @Override public void onWindowFocusChanged(final boolean hasFocus) {
+    @Override
+    public void onWindowFocusChanged(final boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (SettingValues.immersiveMode) {
             final View decorView = getWindow().getDecorView();
@@ -88,18 +84,19 @@ public class BaseActivity extends PeekViewActivity
 
     /**
      * Force English locale if setting is checked
-     *
      */
-    public void applyOverrideLanguage(){
+    public void applyOverrideLanguage() {
         if (SettingValues.overrideLanguage) {
-                Locale locale = new Locale("en", "US");
-                Locale.setDefault(locale);
-                Configuration config = new Configuration();
-                config.locale = locale;
-                getBaseContext().getResources().updateConfiguration(config,
-                                getBaseContext().getResources().getDisplayMetrics());
+            Locale locale = new Locale("en", "US");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources()
+                    .updateConfiguration(config,
+                            getBaseContext().getResources().getDisplayMetrics());
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         applyOverrideLanguage();
@@ -121,6 +118,20 @@ public class BaseActivity extends PeekViewActivity
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            decorView.setOnSystemUiVisibilityChangeListener(
+                    new View.OnSystemUiVisibilityChangeListener() {
+                        @Override
+                        public void onSystemUiVisibilityChange(int visibility) {
+                            if ((visibility) == 0) {
+                                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                            }
+                        }
+                    });
         }
 
         if (enableSwipeBackLayout) {
@@ -150,15 +161,17 @@ public class BaseActivity extends PeekViewActivity
     @Override
     public View findViewById(int id) {
         View v = super.findViewById(id);
-        if (v == null && mHelper != null)
-            return mHelper.findViewById(id);
+        if (v == null && mHelper != null) return mHelper.findViewById(id);
         return v;
     }
 
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
-        if (enableSwipeBackLayout) return mHelper.getSwipeBackLayout();
-        else return null;
+        if (enableSwipeBackLayout) {
+            return mHelper.getSwipeBackLayout();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -199,8 +212,8 @@ public class BaseActivity extends PeekViewActivity
     }
 
     /**
-     * Applies the activity's base color theme based on the theme of a specific subreddit. Should
-     * be called before inflating any layouts.
+     * Applies the activity's base color theme based on the theme of a specific subreddit. Should be
+     * called before inflating any layouts.
      *
      * @param subreddit The subreddit to base the theme on
      */
@@ -212,11 +225,11 @@ public class BaseActivity extends PeekViewActivity
     }
 
     /**
-     * Applies the activity's base color theme based on the theme of a specific subreddit. Should
-     * be called before inflating any layouts.
+     * Applies the activity's base color theme based on the theme of a specific subreddit. Should be
+     * called before inflating any layouts.
      * <p/>
-     * This will take the accent colors from the sub theme but return the AMOLED with contrast
-     * base theme.
+     * This will take the accent colors from the sub theme but return the AMOLED with contrast base
+     * theme.
      *
      * @param subreddit The subreddit to base the theme on
      */
@@ -248,7 +261,8 @@ public class BaseActivity extends PeekViewActivity
      * @param title          String resource for the toolbar's title
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
-    protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton, boolean colorToolbar) {
+    protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton,
+            boolean colorToolbar) {
         setupAppBar(toolbar, getString(title), enableUpButton, colorToolbar);
     }
 
@@ -259,7 +273,8 @@ public class BaseActivity extends PeekViewActivity
      * @param title          String to be set as the toolbar title
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
-    protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, boolean colorToolbar) {
+    protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
+            boolean colorToolbar) {
         int systemBarColor = Palette.getStatusBarColor();
         mToolbar = (Toolbar) findViewById(toolbar);
 
@@ -285,7 +300,8 @@ public class BaseActivity extends PeekViewActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      * @param color          Color to color the tab bar
      */
-    protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, int color, @IdRes int appbar) {
+    protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, int color,
+            @IdRes int appbar) {
         int systemBarColor = Palette.getDarkerColor(color);
         mToolbar = (Toolbar) findViewById(toolbar);
         findViewById(appbar).setBackgroundColor(color);
@@ -310,8 +326,8 @@ public class BaseActivity extends PeekViewActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      * @param username       The username to base the theme on
      */
-    protected void setupUserAppBar(@IdRes int toolbar, @Nullable String title, boolean enableUpButton,
-                                   String username) {
+    protected void setupUserAppBar(@IdRes int toolbar, @Nullable String title,
+            boolean enableUpButton, String username) {
         int systemBarColor = Palette.getUserStatusBarColor(username);
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColorUser(username));
@@ -338,7 +354,7 @@ public class BaseActivity extends PeekViewActivity
      * @param subreddit      The subreddit to base the theme on
      */
     protected void setupSubredditAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
-                                        String subreddit) {
+            String subreddit) {
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColor(subreddit));
         setSupportActionBar(mToolbar);
@@ -400,17 +416,18 @@ public class BaseActivity extends PeekViewActivity
                     Log.i("LinkDetails", "NFC is not available on this device");
                 }
             }
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
 
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
-        if (shareUrl != null)
+        if (shareUrl != null) {
             return new NdefMessage(new NdefRecord[]{
                     NdefRecord.createUri(shareUrl)
             });
+        }
         return null;
     }
 
@@ -427,12 +444,13 @@ public class BaseActivity extends PeekViewActivity
     protected void setRecentBar(@Nullable String title, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            if (title == null || title.equals(""))
-                title = getString(R.string.app_name);
+            if (title == null || title.equals("")) title = getString(R.string.app_name);
 
             BitmapDrawable drawable = ((BitmapDrawable) ContextCompat.getDrawable(this,
-                    title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte : R.drawable.ic_launcher));
-            setTaskDescription(new ActivityManager.TaskDescription(title, drawable.getBitmap(), color));
+                    title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
+                            : R.drawable.ic_launcher));
+            setTaskDescription(
+                    new ActivityManager.TaskDescription(title, drawable.getBitmap(), color));
         }
     }
 }
