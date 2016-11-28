@@ -26,6 +26,7 @@ import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class CheckForMail extends BroadcastReceiver {
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
             if (messages != null && !messages.isEmpty()) {
+                Collections.reverse(messages);
                 if (Reddit.isPackageInstalled(c, "com.teslacoilsw.notifier")) {
                     try {
 
@@ -113,6 +115,45 @@ public class CheckForMail extends BroadcastReceiver {
                 readIntent.putExtra(MESSAGE_EXTRA, messageNames);
                 PendingIntent readPI = PendingIntent.getService(c, 2, readIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
+
+                {
+                    int amount = messages.size();
+
+                    NotificationCompat.InboxStyle notiStyle = new NotificationCompat.InboxStyle();
+                    notiStyle.setBigContentTitle(
+                            res.getQuantityString(R.plurals.mail_notification_title, amount, amount));
+                    notiStyle.setSummaryText("");
+                    for (Message m : messages) {
+                        if (m.getAuthor() != null) {
+                            notiStyle.addLine(
+                                    c.getString(R.string.mail_notification_msg_from, m.getAuthor()));
+                        } else {
+                            notiStyle.addLine(
+                                    c.getString(R.string.mail_notification_msg_via, m.getSubreddit()));
+
+                        }
+                    }
+
+                    Notification notification = new NotificationCompat.Builder(c).setContentIntent(intent)
+                            .setSmallIcon(R.drawable.notif)
+                            .setTicker(
+                                    res.getQuantityString(R.plurals.mail_notification_title, amount, amount))
+                            .setWhen(System.currentTimeMillis())
+                            .setAutoCancel(true)
+                            .setContentTitle(
+                                    res.getQuantityString(R.plurals.mail_notification_title, amount, amount))
+                            .setStyle(notiStyle)
+                            .setGroup("MESSAGES")
+                            .setGroupSummary(true)
+                            .addAction(R.drawable.ic_check_all_black, c.getString(R.string.mail_mark_read), readPI)
+                            .build();
+                    if (SettingValues.notifSound) {
+                        notification.defaults |= Notification.DEFAULT_SOUND;
+                        notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    }
+
+                    notificationManager.notify(0, notification);
+                }
 
                 for (Message m : messages) {
                     NotificationCompat.BigTextStyle notiStyle =
@@ -162,45 +203,6 @@ public class CheckForMail extends BroadcastReceiver {
                     }
                     notificationManager.notify((int) m.getCreated().getTime(), notification);
                 }
-                int amount = messages.size();
-
-                NotificationCompat.InboxStyle notiStyle = new NotificationCompat.InboxStyle();
-                notiStyle.setBigContentTitle(
-                        res.getQuantityString(R.plurals.mail_notification_title, amount, amount));
-                notiStyle.setSummaryText("");
-                for (Message m : messages) {
-                    if (m.getAuthor() != null) {
-                        notiStyle.addLine(
-                                c.getString(R.string.mail_notification_msg_from, m.getAuthor()));
-                    } else {
-                        notiStyle.addLine(
-                                c.getString(R.string.mail_notification_msg_via, m.getSubreddit()));
-
-                    }
-                }
-
-                Notification notification =
-                        new NotificationCompat.Builder(c).setContentIntent(intent)
-                                .setSmallIcon(R.drawable.notif)
-                                .setTicker(res.getQuantityString(R.plurals.mail_notification_title,
-                                        amount, amount))
-                                .setWhen(System.currentTimeMillis())
-                                .setAutoCancel(true)
-                                .setContentTitle(
-                                        res.getQuantityString(R.plurals.mail_notification_title,
-                                                amount, amount))
-                                .setStyle(notiStyle)
-                                .setGroup("MESSAGES")
-                                .setGroupSummary(true)
-                                .addAction(R.drawable.ic_check_all_black,
-                                        c.getString(R.string.mail_mark_read), readPI)
-                                .build();
-                if (SettingValues.notifSound) {
-                    notification.defaults |= Notification.DEFAULT_SOUND;
-                    notification.defaults |= Notification.DEFAULT_VIBRATE;
-                }
-
-                notificationManager.notify(0, notification);
             }
         }
 
@@ -230,7 +232,7 @@ public class CheckForMail extends BroadcastReceiver {
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
             if (messages != null && !messages.isEmpty()) {
-
+                Collections.reverse(messages);
                 NotificationManager notificationManager =
                         (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -240,6 +242,36 @@ public class CheckForMail extends BroadcastReceiver {
                         Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 PendingIntent intent = PendingIntent.getActivity(c, 0, notificationIntent, 0);
+
+                {
+                    int amount = messages.size();
+
+                    NotificationCompat.InboxStyle notiStyle = new NotificationCompat.InboxStyle();
+                    notiStyle.setBigContentTitle(
+                            res.getQuantityString(R.plurals.mod_mail_notification_title, amount,
+                                    amount));
+                    notiStyle.setSummaryText("");
+                    for (Message m : messages) {
+                        notiStyle.addLine(c.getString(R.string.mod_mail_notification_msg, m.getAuthor()));
+                    }
+
+                    Notification notification = new NotificationCompat.Builder(c).setContentIntent(intent)
+                            .setSmallIcon(R.drawable.mod)
+                            .setTicker(res.getQuantityString(R.plurals.mod_mail_notification_title, amount, amount))
+                            .setWhen(System.currentTimeMillis())
+                            .setAutoCancel(true)
+                            .setGroupSummary(true)
+                            .setGroup("MODMAIL")
+                            .setContentTitle(res.getQuantityString(R.plurals.mod_mail_notification_title, amount, amount))
+                            .setStyle(notiStyle)
+                            .build();
+                    if (SettingValues.notifSound) {
+                        notification.defaults |= Notification.DEFAULT_SOUND;
+                        notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    }
+
+                    notificationManager.notify(1, notification);
+                }
 
                 for (Message m : messages) {
 
@@ -271,38 +303,6 @@ public class CheckForMail extends BroadcastReceiver {
 
                     notificationManager.notify((int) m.getCreated().getTime(), notification);
                 }
-
-                    int amount = messages.size();
-
-                    NotificationCompat.InboxStyle notiStyle = new NotificationCompat.InboxStyle();
-                    notiStyle.setBigContentTitle(
-                            res.getQuantityString(R.plurals.mod_mail_notification_title, amount,
-                                    amount));
-                    notiStyle.setSummaryText("");
-                    for (Message m : messages) {
-                        notiStyle.addLine(
-                                c.getString(R.string.mod_mail_notification_msg, m.getAuthor()));
-                    }
-
-                    Notification notification =
-                            new NotificationCompat.Builder(c).setContentIntent(intent)
-                                    .setSmallIcon(R.drawable.mod)
-                                    .setTicker(res.getQuantityString(
-                                            R.plurals.mod_mail_notification_title, amount, amount))
-                                    .setWhen(System.currentTimeMillis())
-                                    .setAutoCancel(true)
-                                    .setGroupSummary(true)
-                                    .setGroup("MODMAIL")
-                                    .setContentTitle(res.getQuantityString(
-                                            R.plurals.mod_mail_notification_title, amount, amount))
-                                    .setStyle(notiStyle)
-                                    .build();
-                    if (SettingValues.notifSound) {
-                        notification.defaults |= Notification.DEFAULT_SOUND;
-                        notification.defaults |= Notification.DEFAULT_VIBRATE;
-                    }
-
-                    notificationManager.notify(1, notification);
 
             }
         }
