@@ -18,6 +18,7 @@
             android:installLocation="auto"
             android:label="@string/app_name"
             android:resizeableActivity="true"
+            android:roundIcon="@mipmap/icon_round"
             android:theme="@style/yellow_dark">
 
         <provider
@@ -35,6 +36,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:icon="@mipmap/ic_launcher"
                 android:alwaysRetainTaskState="true"
+                android:roundIcon="@mipmap/icon_round"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

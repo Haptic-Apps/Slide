@@ -554,7 +554,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (baseNode.children.getChildrenIds().isEmpty()) {
                         String toGoTo = "https://reddit.com"
                                 + submission.getPermalink()
-                                + baseNode.comment.getComment().getId();
+                                + baseNode.comment.getComment().getId() + "?context=0";
                         new OpenRedditLink(mContext, toGoTo, true);
                     } else if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);

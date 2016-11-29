@@ -46,6 +46,7 @@ public class SubmissionComments {
     private CommentAdapter adapter;
     public LoadData mLoadData;
     public boolean online = true;
+    int contextNumber = 5;
 
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, Submission s) {
         this.fullName = fullName;
@@ -112,6 +113,14 @@ public class SubmissionComments {
         this.page = commentPage;
         this.context = context;
         this.refreshLayout = layout;
+    }
+
+    public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context, int contextNumber) {
+        this.fullName = fullName;
+        this.page = commentPage;
+        this.context = context;
+        this.refreshLayout = layout;
+        this.contextNumber = contextNumber;
     }
 
     public void cancelLoad() {
@@ -222,7 +231,7 @@ public class SubmissionComments {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting);
             } else {
                 single = true;
-                builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(5);
+                builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(contextNumber);
             }
             try {
 

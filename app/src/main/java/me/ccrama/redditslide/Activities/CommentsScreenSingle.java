@@ -48,6 +48,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     private String    subreddit;
     private String    name;
     private String    context;
+    private int       contextNumber;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -60,6 +61,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
     public static final String EXTRA_SUBREDDIT  = "subreddit";
     public static final String EXTRA_CONTEXT    = "context";
+    public static final String EXTRA_CONTEXT_NUMBER    = "contextNumber";
     public static final String EXTRA_SUBMISSION = "submission";
     public static final String EXTRA_NP         = "np";
     public static final String EXTRA_LOADMORE   = "loadmore";
@@ -94,6 +96,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         np = getIntent().getExtras().getBoolean(EXTRA_NP, false);
         context = getIntent().getExtras().getString(EXTRA_CONTEXT, "");
+
+        contextNumber = getIntent().getExtras().getInt(EXTRA_CONTEXT_NUMBER, 5);
 
         if (subreddit.equals(Reddit.EMPTY_STRING)) {
             new AsyncGetSubredditName().execute(name);
@@ -314,6 +318,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 args.putBoolean("archived", archived);
                 args.putBoolean("locked", locked);
                 args.putBoolean("contest", contest);
+                args.putInt("contextNumber", contextNumber);
                 args.putString("subreddit", subreddit);
                 args.putBoolean("single", getIntent().getBooleanExtra(EXTRA_LOADMORE, true));
                 args.putBoolean("np", np);
