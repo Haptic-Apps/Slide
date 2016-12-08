@@ -3248,8 +3248,11 @@ public class PopulateSubmissionViewHolder {
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
-        holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
-
+        if(submissionScore >= 10000) {
+            holder.score.setText(String.format(Locale.getDefault(), "%.1fk",(((double)submissionScore)/1000)));
+        } else {
+            holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
+        }
     }
 
     private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder) {
