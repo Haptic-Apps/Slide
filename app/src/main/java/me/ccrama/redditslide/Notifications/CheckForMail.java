@@ -31,12 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.CancelSubNotifs;
+import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Adapters.MarkAsReadService;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -179,7 +181,10 @@ public class CheckForMail extends BroadcastReceiver {
                     }
                     Intent openPIBase;
                     if (m.isComment()) {
-                        openPIBase = new Intent(c, ModQueue.class);
+                        openPIBase = new Intent(c, OpenContent.class);
+                        String context = m.getDataNode().get("context").asText();
+                        openPIBase.putExtra(OpenContent.EXTRA_URL, "https://reddit.com" + context.substring(0,
+                                context.lastIndexOf("/")));
                     } else {
                         openPIBase = new Intent(c, Inbox.class);
                         openPIBase.putExtra(Inbox.EXTRA_UNREAD, true);
