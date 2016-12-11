@@ -24,6 +24,7 @@
                 android:id="@+id/action"
                 android:layout_width="28dp"
                 android:layout_marginLeft="4dp"
+                android:tint="?attr/tint"
                 android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:padding="4dp"

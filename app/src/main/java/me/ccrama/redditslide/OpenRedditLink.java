@@ -45,7 +45,11 @@ public class OpenRedditLink {
         RedditLinkType type = getRedditLinkType(url);
 
         String[] parts = url.split("/");
-        if (parts[parts.length - 1].startsWith("?")) parts = Arrays.copyOf(parts, parts.length - 1);
+        String endParameters = "";
+        if (parts[parts.length - 1].startsWith("?")){
+            endParameters = parts[parts.length-1];
+            parts = Arrays.copyOf(parts, parts.length - 1);
+        }
 
         switch (type) {
             case SHORTENED: {
@@ -199,10 +203,23 @@ public class OpenRedditLink {
                 if (parts.length >= 7) {
                     i.putExtra(CommentsScreenSingle.EXTRA_LOADMORE, true);
                     String end = parts[6];
+                    String endCopy = end;
                     if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
 
                     if (end.length() >= 3) i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
 
+                    if(endCopy.contains("?context=") || !endParameters.isEmpty()){
+                        if(!endParameters.isEmpty()){
+                            endCopy = endParameters;
+                        }
+                        LogUtil.v("Adding end params");
+                        try {
+                            int contextNumber = Integer.valueOf(endCopy.substring(endCopy.indexOf("?context=")+9, endCopy.length()));
+                            i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT_NUMBER, contextNumber);
+                        } catch(Exception ignored){
+
+                        }
+                    }
                 }
                 context.startActivity(i);
                 break;

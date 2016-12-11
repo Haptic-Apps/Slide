@@ -87,7 +87,7 @@ public class ContentType {
             final String path = uri.getPath().toLowerCase();
 
             return Reddit.videoPlugin && hostContains(host, "youtu.be", "youtube.com",
-                    "youtube.co.uk") && !path.contains("/user/");
+                    "youtube.co.uk") && !path.contains("/user/") &&!path.contains("/channel/");
 
         } catch (NullPointerException e) {
             return false;

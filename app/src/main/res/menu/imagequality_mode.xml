@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/imgur"
-        android:title="@string/low_quality_through_imgur_higher_resolution"/>
+        android:title="@string/load_medium_quality_imgur_images"/>
 
     <item
         android:id="@+id/reddit"

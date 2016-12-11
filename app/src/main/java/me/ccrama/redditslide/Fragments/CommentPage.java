@@ -132,6 +132,7 @@ public class CommentPage extends Fragment {
     public  CommentAdapter                  adapter;
     private String                          fullname;
     private String                          context;
+    private int                             contextNumber;
     private ContextWrapper                  contextThemeWrapper;
     private PreCachingLayoutManagerComments mLayoutManager;
     public  String                          subreddit;
@@ -383,7 +384,9 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (adapter != null && adapter.keys != null && adapter.keys.size() > 0) goDown();
+                    if (adapter != null && adapter.keys != null && adapter.keys.size() > 0) {
+                        goDown();
+                    }
                 }
             });
             v.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
@@ -421,119 +424,113 @@ public class CommentPage extends Fragment {
                             }
                         }
                         new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                R.string.set_nav_mode)
-                                .setSingleChoiceItems(Reddit.stringToArray(
+                                R.string.set_nav_mode).setSingleChoiceItems(Reddit.stringToArray(
 
-                                        "Parent comment ("
-                                                + parentCount
-                                                + ")"
-                                                + ","
-                                                +
-                                                "Children comment (highlight child comment & navigate)"
-                                                + ","
-                                                +
-                                                "OP ("
-                                                + opCount
-                                                + ")"
-                                                + ","
-                                                + "Time"
-                                                + ","
-                                                + "Link ("
-                                                + linkCount
-                                                + ")"
-                                                + ","
-                                                +
-                                                ((Authentication.isLoggedIn) ? "You" + "," : "")
-                                                +
-                                                "Gilded ("
-                                                + gildCount
-                                                + ")").toArray(new String[Authentication.isLoggedIn?6:5]), getCurrentSort(),
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case 0:
-                                                        currentSort = CommentNavType.PARENTS;
-                                                        break;
-                                                    case 1:
-                                                        currentSort = CommentNavType.CHILDREN;
-                                                        break;
-                                                    case 2:
-                                                        currentSort = CommentNavType.OP;
-                                                        break;
-                                                    case 3:
-                                                        currentSort = CommentNavType.TIME;
-                                                        LayoutInflater inflater =
-                                                                getActivity().getLayoutInflater();
-                                                        final View dialoglayout = inflater.inflate(
-                                                                R.layout.commenttime, null);
-                                                        final AlertDialogWrapper.Builder builder =
-                                                                new AlertDialogWrapper.Builder(
-                                                                        getActivity());
-                                                        final Slider landscape =
-                                                                (Slider) dialoglayout.findViewById(
-                                                                        R.id.landscape);
+                                "Parent comment ("
+                                        + parentCount
+                                        + ")"
+                                        + ","
+                                        +
+                                        "Children comment (highlight child comment & navigate)"
+                                        + ","
+                                        +
+                                        "OP ("
+                                        + opCount
+                                        + ")"
+                                        + ","
+                                        + "Time"
+                                        + ","
+                                        + "Link ("
+                                        + linkCount
+                                        + ")"
+                                        + ","
+                                        +
+                                        ((Authentication.isLoggedIn) ? "You" + "," : "")
+                                        +
+                                        "Gilded ("
+                                        + gildCount
+                                        + ")")
+                                        .toArray(new String[Authentication.isLoggedIn ? 6 : 5]),
+                                getCurrentSort(), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case 0:
+                                                currentSort = CommentNavType.PARENTS;
+                                                break;
+                                            case 1:
+                                                currentSort = CommentNavType.CHILDREN;
+                                                break;
+                                            case 2:
+                                                currentSort = CommentNavType.OP;
+                                                break;
+                                            case 3:
+                                                currentSort = CommentNavType.TIME;
+                                                LayoutInflater inflater =
+                                                        getActivity().getLayoutInflater();
+                                                final View dialoglayout =
+                                                        inflater.inflate(R.layout.commenttime,
+                                                                null);
+                                                final AlertDialogWrapper.Builder builder =
+                                                        new AlertDialogWrapper.Builder(
+                                                                getActivity());
+                                                final Slider landscape =
+                                                        (Slider) dialoglayout.findViewById(
+                                                                R.id.landscape);
 
-                                                        final TextView since =
-                                                                (TextView) dialoglayout.findViewById(
-                                                                        R.id.time_string);
-                                                        landscape.setValueRange(60, 18000, false);
-                                                        landscape.setOnPositionChangeListener(
-                                                                new Slider.OnPositionChangeListener() {
-                                                                    @Override
-                                                                    public void onPositionChanged(
-                                                                            Slider slider,
-                                                                            boolean b, float v,
-                                                                            float v1, int i,
-                                                                            int i1) {
-                                                                        Calendar c =
-                                                                                Calendar.getInstance();
-                                                                        sortTime =
-                                                                                c.getTimeInMillis()
-                                                                                        - i1 * 1000;
+                                                final TextView since =
+                                                        (TextView) dialoglayout.findViewById(
+                                                                R.id.time_string);
+                                                landscape.setValueRange(60, 18000, false);
+                                                landscape.setOnPositionChangeListener(
+                                                        new Slider.OnPositionChangeListener() {
+                                                            @Override
+                                                            public void onPositionChanged(
+                                                                    Slider slider, boolean b,
+                                                                    float v, float v1, int i,
+                                                                    int i1) {
+                                                                Calendar c = Calendar.getInstance();
+                                                                sortTime = c.getTimeInMillis()
+                                                                        - i1 * 1000;
 
-                                                                        int commentcount = 0;
-                                                                        for (CommentObject o : adapter.currentComments) {
-                                                                            if (o.comment != null
-                                                                                    && o.comment.getComment()
-                                                                                    .getDataNode()
-                                                                                    .has("created")
-                                                                                    && o.comment.getComment()
-                                                                                    .getCreated()
-                                                                                    .getTime()
-                                                                                    > sortTime) {
-                                                                                commentcount += 1;
-                                                                            }
-                                                                        }
-                                                                        since.setText(
-                                                                                TimeUtils.getTimeAgo(
-                                                                                        sortTime,
-                                                                                        getActivity())
-                                                                                        + " ("
-                                                                                        + commentcount
-                                                                                        + " comments)");
+                                                                int commentcount = 0;
+                                                                for (CommentObject o : adapter.currentComments) {
+                                                                    if (o.comment != null
+                                                                            && o.comment.getComment()
+                                                                            .getDataNode()
+                                                                            .has("created")
+                                                                            && o.comment.getComment()
+                                                                            .getCreated()
+                                                                            .getTime() > sortTime) {
+                                                                        commentcount += 1;
                                                                     }
-                                                                });
-                                                        landscape.setValue(600, false);
-                                                        builder.setView(dialoglayout);
-                                                        builder.setPositiveButton(R.string.btn_set,
-                                                                null).show();
-                                                        break;
-                                                    case 5:
-                                                        currentSort = CommentNavType.YOU;
-                                                        break;
-                                                    case 4:
-                                                        currentSort = CommentNavType.LINK;
-                                                        break;
-                                                    case 6:
-                                                        currentSort = CommentNavType.GILDED;
-                                                        break;
+                                                                }
+                                                                since.setText(TimeUtils.getTimeAgo(
+                                                                        sortTime, getActivity())
+                                                                        + " ("
+                                                                        + commentcount
+                                                                        + " comments)");
+                                                            }
+                                                        });
+                                                landscape.setValue(600, false);
+                                                builder.setView(dialoglayout);
+                                                builder.setPositiveButton(R.string.btn_set, null)
+                                                        .show();
+                                                break;
+                                            case 5:
+                                                currentSort = CommentNavType.YOU;
+                                                break;
+                                            case 4:
+                                                currentSort = CommentNavType.LINK;
+                                                break;
+                                            case 6:
+                                                currentSort = CommentNavType.GILDED;
+                                                break;
 
-                                                }
+                                        }
 
-                                            }
-                                        })
-                                .show();
+                                    }
+                                }).show();
 
                     }
                 }
@@ -1334,7 +1331,8 @@ public class CommentPage extends Fragment {
                                                                             }
                                                                             return null;
                                                                         }
-                                                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                    }.executeOnExecutor(
+                                                                            AsyncTask.THREAD_POOL_EXECUTOR);
 
                                                                 }
                                                             })
@@ -1445,7 +1443,8 @@ public class CommentPage extends Fragment {
                                                                         }
                                                                         return true;
                                                                     }
-                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                }.executeOnExecutor(
+                                                                        AsyncTask.THREAD_POOL_EXECUTOR);
                                                             }
                                                         })
                                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -1571,7 +1570,8 @@ public class CommentPage extends Fragment {
                                                                         }
                                                                         return true;
                                                                     }
-                                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                }.executeOnExecutor(
+                                                                        AsyncTask.THREAD_POOL_EXECUTOR);
                                                             }
                                                         })
                                                 .setNeutralButton(R.string.just_unsub,
@@ -1777,7 +1777,8 @@ public class CommentPage extends Fragment {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                     if (load) comments.setSorting(commentSorting);
                 } else {
-                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
+                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context,
+                            contextNumber);
                     if (load) comments.setSorting(commentSorting);
                 }
             }
@@ -1827,6 +1828,7 @@ public class CommentPage extends Fragment {
         page = bundle.getInt("page", 0);
         single = bundle.getBoolean("single", false);
         context = bundle.getString("context", "");
+        contextNumber = bundle.getInt("contextNumber", 5);
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
         locked = bundle.getBoolean("locked", false);
