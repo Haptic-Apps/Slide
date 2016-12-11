@@ -230,7 +230,7 @@ public class BaseActivity extends PeekViewActivity
     public void onResume() {
         super.onResume();
         Reddit.setDefaultErrorHandler(this); //set defualt reddit api issue handler
-
+        hideDecor();
     }
 
     @Override
