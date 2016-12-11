@@ -1103,6 +1103,16 @@ public class MainActivity extends BaseActivity
                                                             true)
                                                     .apply();
                                             return s;
+                                        }  else if (s.isStickied()
+                                                && s.getTitle().startsWith("PRO")
+                                                && !SettingValues.tabletUI
+                                                && !Reddit.appRestart.contains(
+                                                "announcement" + s.getFullName())) {
+                                            Reddit.appRestart.edit()
+                                                    .putBoolean("announcement" + s.getFullName(),
+                                                            true)
+                                                    .apply();
+                                            return s;
                                         }
                                     }
                                 } catch (Exception e) {
