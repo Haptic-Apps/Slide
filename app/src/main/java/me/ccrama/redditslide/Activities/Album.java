@@ -152,40 +152,6 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         }
     }
 
-    public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
-        MediaScannerConnection.scanFile(Album.this,
-                new String[]{localAbsoluteFilePath.getAbsolutePath()}, null,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    public void onScanCompleted(String path, Uri uri) {
-
-                        final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                        shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
-                        PendingIntent contentIntent =
-                                PendingIntent.getActivity(Album.this, 0, shareIntent,
-                                        PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-                        Notification notif =
-                                new NotificationCompat.Builder(Album.this).setContentTitle(
-                                        getString(R.string.info_photo_saved))
-                                        .setSmallIcon(R.drawable.notif)
-                                        .setLargeIcon(loadedImage)
-                                        .setContentIntent(contentIntent)
-                                        .setStyle(
-                                                new NotificationCompat.BigPictureStyle().bigPicture(
-                                                        loadedImage))
-                                        .build();
-
-
-                        NotificationManager mNotificationManager =
-                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                        mNotificationManager.notify(1, notif);
-                        loadedImage.recycle();
-                    }
-
-                });
-    }
-
     public void showErrorDialog() {
         new AlertDialogWrapper.Builder(Album.this).setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)

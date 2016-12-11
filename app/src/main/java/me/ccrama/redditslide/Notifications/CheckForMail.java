@@ -113,10 +113,7 @@ public class CheckForMail extends BroadcastReceiver {
                 PendingIntent intent = PendingIntent.getActivity(c, 0, notificationIntent, 0);
 
                 //Intent for mark as read notification action
-                Intent readIntent = new Intent(c, MarkAsReadService.class);
-                readIntent.putExtra(MESSAGE_EXTRA, messageNames);
-                PendingIntent readPI = PendingIntent.getService(c, 2, readIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent readPI = MarkAsReadService.getMarkAsReadIntent(2, c, messageNames);
 
                 {
                     int amount = messages.size();
@@ -197,11 +194,8 @@ public class CheckForMail extends BroadcastReceiver {
                                     openPIBase, 0);
                     notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
                             m.getDataNode().get("body_html").asText())));
-                    Intent readIntentSingle = new Intent(c, MarkAsReadService.class);
-                    readIntentSingle.putExtra(MESSAGE_EXTRA, new String[]{m.getFullName()});
-                    PendingIntent readPISingle =
-                            PendingIntent.getService(c, 2 + (int) m.getCreated().getTime(),
-                                    readIntentSingle, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(2 + (int) m.getCreated().getTime(), c,  new String[]{m.getFullName()});
 
                     Notification notification =
                             new NotificationCompat.Builder(c).setContentIntent(openPi)

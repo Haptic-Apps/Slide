@@ -1,15 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -40,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.Adapters.TumblrView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
@@ -57,8 +50,8 @@ import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 
 /**
  * Created by ccrama on 9/7/2016. <p/> This class is responsible for accessing the Tumblr api to get
- * the image-related json data from a URL. It extends FullScreenActivity and supports swipe
- * from anywhere.
+ * the image-related json data from a URL. It extends FullScreenActivity and supports swipe from
+ * anywhere.
  */
 public class Tumblr extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
@@ -153,40 +146,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         }
     }
 
-    public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
-        MediaScannerConnection.scanFile(Tumblr.this,
-                new String[]{localAbsoluteFilePath.getAbsolutePath()}, null,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    public void onScanCompleted(String path, Uri uri) {
-
-                        final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                        shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
-                        PendingIntent contentIntent =
-                                PendingIntent.getActivity(Tumblr.this, 0, shareIntent,
-                                        PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-                        Notification notif =
-                                new NotificationCompat.Builder(Tumblr.this).setContentTitle(
-                                        getString(R.string.info_photo_saved))
-                                        .setSmallIcon(R.drawable.notif)
-                                        .setLargeIcon(loadedImage)
-                                        .setContentIntent(contentIntent)
-                                        .setStyle(
-                                                new NotificationCompat.BigPictureStyle().bigPicture(
-                                                        loadedImage))
-                                        .build();
-
-
-                        NotificationManager mNotificationManager =
-                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                        mNotificationManager.notify(1, notif);
-                        loadedImage.recycle();
-                    }
-
-                });
-    }
-
     public void showErrorDialog() {
         new AlertDialogWrapper.Builder(Tumblr.this).setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
@@ -278,10 +237,9 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                                               }
                                               if (position == 0
                                                       && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
-                                                          != null) {
-                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage
-                                                              .doOffset(positionOffset);
+                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
+                                                              positionOffset);
                                                   }
                                                   ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           adjustAlpha(positionOffset * 0.7f));
@@ -393,8 +351,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
             @Override
             public void onError() {
-                Intent i =
-                        new Intent(getActivity(), Website.class);
+                Intent i = new Intent(getActivity(), Website.class);
                 i.putExtra(Website.EXTRA_URL, url);
                 startActivity(i);
                 getActivity().finish();
@@ -406,8 +363,9 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                 if (getActivity() != null) {
                     getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
                     ((Tumblr) getActivity()).images = new ArrayList<>(jsonElements);
-                    TumblrView adapter = new TumblrView(baseActivity, ((Tumblr) getActivity()).images,
-                            getActivity().findViewById(R.id.toolbar).getHeight());
+                    TumblrView adapter =
+                            new TumblrView(baseActivity, ((Tumblr) getActivity()).images,
+                                    getActivity().findViewById(R.id.toolbar).getHeight());
                     recyclerView.setAdapter(adapter);
                 }
             }
