@@ -4005,7 +4005,7 @@ public class MainActivity extends BaseActivity
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel("/r/" + s)
+                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build());
@@ -4031,7 +4031,7 @@ public class MainActivity extends BaseActivity
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel("/r/" + s)
+                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build();
