@@ -583,6 +583,8 @@
     <string name="settings_image_location">Select image/GIF save location</string>
     <string name="settings_image_location_unset">Not yet set</string>
     <string name="settings_set_image_location">Images will be saved to %s</string>
+    <string name="settings_general_immersive_mode">Immersive fullscreen mode</string>
+    <string name="settings_general_immersive_mode_desc">Hide the status and navigation bars (experimental)</string>
 
 
     <!-- Settings titles displayed in settings activity-->
@@ -1149,5 +1151,6 @@
     <string name="submission_info_contest">This thread is in contest mode. You cannot change sorting.</string>
     <string name="sub_post_notifs_msg">Slide will check for new posts when it checks for mail (mail notifications must be enabled)</string>
     <string name="mod_ban_reason_required">Reason is required</string>
+    <string name="settings_abbreviate_post_scores">Abbreviate post scores (ex. 24.0k)</string>
 
 </resources>

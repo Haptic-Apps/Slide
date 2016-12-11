@@ -2284,18 +2284,6 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    public static String getSubmissionScoreString(int score, Resources res, Submission submission) {
-        String scoreText= ((score >= 10000)?String.format(Locale.getDefault(), "%.1fk",(((double)score)/1000)):"" +score);
-        switch (submission.getSubredditName().toLowerCase()) {
-            case "androidcirclejerk":
-                return scoreText + " upDuARTes"; //Praise DuARTe
-            case "xdacirclejerk":
-                return scoreText + " thanks"; //Hit Thanks and Pls buy me a beer! (XDA)
-            default:
-                return res.getQuantityString(R.plurals.submission_points, score, score);
-        }
-    }
-
     public void doInfoLine(SubmissionViewHolder holder, Submission submission, Context mContext,
             String baseSub, boolean full) {
         holder.info.setText(SubmissionCache.getInfoLine(submission, mContext, baseSub));
@@ -2451,7 +2439,7 @@ public class PopulateSubmissionViewHolder {
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
-        if(submissionScore >= 10000) {
+        if(submissionScore >= 10000 && SettingValues.abbreviateScores) {
             holder.score.setText(String.format(Locale.getDefault(), "%.1fk",(((double)submissionScore)/1000)));
         } else {
             holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
@@ -3248,7 +3236,7 @@ public class PopulateSubmissionViewHolder {
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
-        if(submissionScore >= 10000) {
+        if(submissionScore >= 10000 && SettingValues.abbreviateScores) {
             holder.score.setText(String.format(Locale.getDefault(), "%.1fk",(((double)submissionScore)/1000)));
         } else {
             holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
