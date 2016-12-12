@@ -176,7 +176,7 @@ public class Website extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         p = (ProgressBar) findViewById(R.id.progress);
-        v = (NestedWebView) findViewById(R.id.web);
+        v = (WebView) findViewById(R.id.web);
 
         client = new MyWebViewClient();
         webClient = new AdBlockWebViewClient();
