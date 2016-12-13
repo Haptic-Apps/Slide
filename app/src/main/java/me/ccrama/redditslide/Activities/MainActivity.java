@@ -1104,7 +1104,9 @@ public class MainActivity extends BaseActivity
                                                     .apply();
                                             return s;
                                         }  else if (s.isStickied()
-                                                && s.getTitle().startsWith("PRO")
+                                                && s.getSubmissionFlair()
+                                                .getText()
+                                                .equalsIgnoreCase("PRO")
                                                 && !SettingValues.tabletUI
                                                 && !Reddit.appRestart.contains(
                                                 "announcement" + s.getFullName())) {
