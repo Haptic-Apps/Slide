@@ -5,11 +5,15 @@
         android:title="@string/never_load_images"/>
 
     <item
-        android:id="@+id/imgur"
-        android:title="@string/load_medium_quality_imgur_images"/>
+        android:id="@+id/low"
+        android:title="@string/load_low_quality"/>
 
     <item
-        android:id="@+id/reddit"
-        android:title="@string/low_quality_through_reddit_lower_resolution"/>
+        android:id="@+id/medium"
+        android:title="@string/load_medium_quality"/>
+
+    <item
+        android:id="@+id/high"
+        android:title="@string/load_high_quality"/>
 
 </menu>
