@@ -905,7 +905,7 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 25:
                         final TextView showText = new TextView(mContext);
-                        showText.setText(Html.fromHtml(
+                        showText.setText(StringEscapeUtils.unescapeHtml4(
                                 submission.getTitle() + "\n\n" + submission.getSelftext()));
                         showText.setTextIsSelectable(true);
                         int sixteen = Reddit.dpToPxVertical(24);

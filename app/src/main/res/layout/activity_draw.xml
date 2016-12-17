@@ -7,14 +7,6 @@
         android:layout_width="match_parent"
         android:id="@+id/toolbar"
         android:layout_height="56dp">
-        <ImageView
-            android:id="@+id/done"
-            android:layout_margin="10dp"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="center_vertical|right"
-            android:adjustViewBounds="true"
-            android:src="@drawable/done" />
         <View
                 android:id="@+id/color"
                 android:layout_margin="10dp"
