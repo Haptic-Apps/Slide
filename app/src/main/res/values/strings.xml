@@ -955,6 +955,9 @@
     <string name="load_high_quality_image_every_time">Otherwise, load high quality image every time</string>
     <string name="load_lower_quality_imgur">If enabled, will attempt to load an even lower quality Imgur image</string>
     <string name="load_medium_quality_imgur_images">Load medium quality Imgur images</string>
+    <string name="load_low_quality">Load low quality images (max. 320x320)</string>
+    <string name="load_medium_quality">Load medium quality images (max. 640x640)</string>
+    <string name="load_high_quality">Load high quality images (max. 1080x1080)</string>
     <string name="choose_color_title">Choose a color</string>
     <string name="enter_text_to_filter_click_enter_to_add">Enter text to filter, click enter to add</string>
     <string name="mode_desktop_compact">Desktop compact</string>

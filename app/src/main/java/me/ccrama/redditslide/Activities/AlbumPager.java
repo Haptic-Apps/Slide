@@ -522,7 +522,7 @@ public class AlbumPager extends FullScreenActivity
                 if (SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity())
                         && SettingValues.lowResMobile))) {
                     String lqurl = url.substring(0, url.lastIndexOf("."))
-                            + (SettingValues.imgurLq ? "m" : "h")
+                            + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))
                             + url.substring(url.lastIndexOf("."), url.length());
                     loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
                     lq = true;
