@@ -236,6 +236,10 @@ public class OpenRedditLink {
      */
     public static String formatRedditUrl(String url) {
 
+        if(url == null){
+            return "";
+        }
+
         // Strip unused prefixes that don't require special handling
         url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay|amp)\\.)?", "");
 

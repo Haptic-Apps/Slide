@@ -57,6 +57,8 @@ public class Website extends BaseActivityAnim {
             uri = new URI(url);
 
             String domain = uri.getHost();
+            if(domain == null)
+                return "";
             return domain.startsWith("www.") ? domain.substring(4) : domain;
         } catch (URISyntaxException e) {
             e.printStackTrace();
