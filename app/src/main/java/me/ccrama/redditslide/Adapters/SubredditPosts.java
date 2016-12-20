@@ -103,9 +103,30 @@ public class SubredditPosts implements PostLoader {
                                 && submission.getThumbnails().getVariations().length > 0) {
 
                             int length = submission.getThumbnails().getVariations().length;
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length / 2].getUrl())
-                                    .toString(); //unescape url characters
+                            if (SettingValues.lqLow && length >= 3)
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[2].getUrl())
+                                        .toString(); //unescape url characters
+                            }
+                            else if (SettingValues.lqMid && length >= 4)
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[3].getUrl())
+                                        .toString(); //unescape url characters
+                            }
+                            else if (length >= 5)
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[length - 1].getUrl())
+                                        .toString(); //unescape url characters
+                            }
+                            else
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getSource().getUrl())
+                                        .toString(); //unescape url characters
+                            }
 
                         } else {
                             if (submission.getDataNode().has("preview") && submission.getDataNode()
@@ -159,9 +180,30 @@ public class SubredditPosts implements PostLoader {
                                 && submission.getThumbnails().getVariations().length != 0) {
 
                             int length = submission.getThumbnails().getVariations().length;
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length / 2].getUrl())
-                                    .toString(); //unescape url characters
+                            if (SettingValues.lqLow && length >= 3)
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[2].getUrl())
+                                        .toString(); //unescape url characters
+                            }
+                            else if (SettingValues.lqMid && length >= 4)
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[3].getUrl())
+                                        .toString(); //unescape url characters
+                            }
+                            else if (length >= 5)
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[length - 1].getUrl())
+                                        .toString(); //unescape url characters
+                            }
+                            else
+                            {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getSource().getUrl())
+                                        .toString(); //unescape url characters
+                            }
 
                         } else {
                             url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())

@@ -71,7 +71,9 @@ public class SettingValues {
     public static final String PREF_CARD_TEXT                 = "cardText";
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
-    public static final String PREF_IMGUR_LQ                  = "imgurLq";
+    public static final String PREF_LQ_LOW              = "lqLow";
+    public static final String PREF_LQ_MID              = "lqMid";
+    public static final String PREF_LQ_HIGH              = "lqHigh";
     public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
     public static final String PREF_COOKIES                   = "storeCookies";
     public static final String PREF_NIGHT_START               = "nightStart";
@@ -191,7 +193,9 @@ public class SettingValues {
     public static boolean showDomain;
     public static boolean cardText;
     public static boolean alwaysZoom;
-    public static boolean imgurLq = true;
+    public static boolean lqLow = false;
+    public static boolean lqMid = true;
+    public static boolean lqHigh = false;
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
     public static boolean typeInText;
@@ -258,7 +262,10 @@ public class SettingValues {
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
 
-        imgurLq = prefs.getBoolean(PREF_IMGUR_LQ, true);
+        lqLow = prefs.getBoolean(PREF_LQ_LOW, false);
+        lqMid = prefs.getBoolean(PREF_LQ_MID, true);
+        lqHigh = prefs.getBoolean(PREF_LQ_HIGH, false);
+
         noImages = prefs.getBoolean(PREF_NO_IMAGES, false);
 
         abbreviateScores = prefs.getBoolean(PREF_ABBREVIATE_SCORES, true);
