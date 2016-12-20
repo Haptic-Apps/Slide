@@ -17,7 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -45,6 +44,7 @@ import android.widget.Toast;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -495,10 +495,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     @Override
-    public void onLinkLongClick(final String url, MotionEvent event) {
-        if (url == null) {
+    public void onLinkLongClick(final String baseUrl, MotionEvent event) {
+        if (baseUrl == null) {
             return;
         }
+        final String url = StringEscapeUtils.unescapeHtml4(baseUrl);
+
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         Activity activity = null;
         final Context context = getContext();
@@ -538,12 +540,13 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         peekView.addButton((R.id.copy), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                ClipboardManager clipboard = (ClipboardManager) rootView.getContext()
-                                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipboardManager clipboard =
+                                        (ClipboardManager) rootView.getContext()
+                                                .getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("Link", url);
                                 clipboard.setPrimaryClip(clip);
-                                Toast.makeText(rootView.getContext(), R.string.submission_link_copied,
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(rootView.getContext(),
+                                        R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -665,12 +668,13 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     public void setOrRemoveSpoilerSpans(int endOfLink, URLSpan span) {
-        if(span != null) {
+        if (span != null) {
             int offset = (span.getURL().contains("hidden")) ? -1 : 2;
             Spannable text = (Spannable) getText();
             // add 2 to end of link since there is a white space between the link text and the spoiler
             ForegroundColorSpan[] foregroundColors =
-                    text.getSpans(endOfLink + offset, endOfLink + offset, ForegroundColorSpan.class);
+                    text.getSpans(endOfLink + offset, endOfLink + offset,
+                            ForegroundColorSpan.class);
 
             if (foregroundColors.length > 1) {
                 text.removeSpan(foregroundColors[1]);
@@ -683,7 +687,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i),
                                     storedSpoilerEnds.get(i) > text.toString().length() ?
                                             storedSpoilerEnds.get(i)
-                                                    + offset : storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                                                    + offset : storedSpoilerEnds.get(i),
+                                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                         } catch (Exception ignored) {
                             //catch out of bounds
                             ignored.printStackTrace();
