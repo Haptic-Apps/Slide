@@ -263,13 +263,33 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                     if (ContentType.isImgurImage(submission.getUrl())) {
                         url = submission.getUrl();
-                        url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.imgurLq ? "m"
-                                : "h") + url.substring(url.lastIndexOf("."), url.length());
+                        url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h")) + url.substring(url.lastIndexOf("."), url.length());
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
-                        url = Html.fromHtml(
-                                submission.getThumbnails().getVariations()[length / 2].getUrl())
-                                .toString(); //unescape url characters
+                        if (SettingValues.lqLow && length >= 3)
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl())
+                                    .toString(); //unescape url characters
+                        }
+                        else if (SettingValues.lqMid && length >= 4)
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl())
+                                    .toString(); //unescape url characters
+                        }
+                        else if (length >= 5)
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                                    .toString(); //unescape url characters
+                        }
+                        else
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getSource().getUrl())
+                                    .toString(); //unescape url characters
+                        }
                     }
                     lq = true;
 
@@ -335,13 +355,33 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (loadLq && submission.getThumbnails().getVariations().length != 0) {
                     if (ContentType.isImgurImage(submission.getUrl())) {
                         url = submission.getUrl();
-                        url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.imgurLq ? "m"
-                                : "h") + url.substring(url.lastIndexOf("."), url.length());
+                        url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))  + url.substring(url.lastIndexOf("."), url.length());
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
-                        url = Html.fromHtml(
-                                submission.getThumbnails().getVariations()[length / 2].getUrl())
-                                .toString(); //unescape url characters
+                        if (SettingValues.lqLow && length >= 3)
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl())
+                                    .toString(); //unescape url characters
+                        }
+                        else if (SettingValues.lqMid && length >= 4)
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl())
+                                    .toString(); //unescape url characters
+                        }
+                        else if (length >= 5)
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                                    .toString(); //unescape url characters
+                        }
+                        else
+                        {
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getSource().getUrl())
+                                    .toString(); //unescape url characters
+                        }
                     }
                     lq = true;
 
