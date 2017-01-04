@@ -93,6 +93,9 @@ public class NestedWebView extends WebView implements NestedScrollingChild {
                 stopNestedScroll();
                 break;
         }
+		if (event != null) {
+			event.recycle();
+		}
         return returnValue;
     }
 

@@ -62,6 +62,10 @@ public class RealPathUtil {
         Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+        final String returnValueAutoRefactor = cursor.getString(column_index);
+		if (cursor != null) {
+			cursor.close();
+		}
+		return returnValueAutoRefactor;
     }
 }
