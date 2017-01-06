@@ -27,6 +27,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.Tumblr;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
@@ -68,10 +69,8 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
-                            if (context instanceof Album) {
-                                ((LinearLayoutManager) ((Album) context).album.album.recyclerView.getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
-
-
+                            if (context instanceof Tumblr) {
+                                ((LinearLayoutManager) ((Tumblr) context).album.album.recyclerView.getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
                             } else {
                                 ((LinearLayoutManager) ((RecyclerView) context.findViewById(R.id.images)).getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
                             }

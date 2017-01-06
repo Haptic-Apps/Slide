@@ -1700,7 +1700,11 @@ public class CommentPage extends Fragment {
                 && getActivity() instanceof CommentsScreen
                 && ((CommentsScreen) getActivity()).subredditPosts != null
                 && Authentication.didOnline) {
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            try {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            } catch(IndexOutOfBoundsException e){
+                return;
+            }
             Submission s = ((CommentsScreen) getActivity()).currentPosts.get(page);
             if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode()
                     .get("suggested_sort")

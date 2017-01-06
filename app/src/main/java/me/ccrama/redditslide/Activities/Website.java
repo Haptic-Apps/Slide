@@ -57,6 +57,8 @@ public class Website extends BaseActivityAnim {
             uri = new URI(url);
 
             String domain = uri.getHost();
+            if(domain == null)
+                return "";
             return domain.startsWith("www.") ? domain.substring(4) : domain;
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -176,7 +178,7 @@ public class Website extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         p = (ProgressBar) findViewById(R.id.progress);
-        v = (NestedWebView) findViewById(R.id.web);
+        v = (WebView) findViewById(R.id.web);
 
         client = new MyWebViewClient();
         webClient = new AdBlockWebViewClient();

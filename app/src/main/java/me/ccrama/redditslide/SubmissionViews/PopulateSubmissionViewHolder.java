@@ -905,7 +905,7 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 25:
                         final TextView showText = new TextView(mContext);
-                        showText.setText(Html.fromHtml(
+                        showText.setText(StringEscapeUtils.unescapeHtml4(
                                 submission.getTitle() + "\n\n" + submission.getSelftext()));
                         showText.setTextIsSelectable(true);
                         int sixteen = Reddit.dpToPxVertical(24);
@@ -2284,17 +2284,6 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    public static String getSubmissionScoreString(int score, Resources res, Submission submission) {
-        switch (submission.getSubredditName().toLowerCase()) {
-            case "androidcirclejerk":
-                return score + " upDuARTes"; //Praise DuARTe
-            case "xdacirclejerk":
-                return score + " thanks"; //Hit Thanks and Pls buy me a beer! (XDA)
-            default:
-                return res.getQuantityString(R.plurals.submission_points, score, score);
-        }
-    }
-
     public void doInfoLine(SubmissionViewHolder holder, Submission submission, Context mContext,
             String baseSub, boolean full) {
         holder.info.setText(SubmissionCache.getInfoLine(submission, mContext, baseSub));
@@ -2356,7 +2345,6 @@ public class PopulateSubmissionViewHolder {
                         "("
                                 + (int) (submission.getUpvoteRatio() * 100)
                                 + "%)" : "";
-        holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
 
         if (!scoreRatio.isEmpty()) {
             TextView percent = ((TextView) holder.itemView.findViewById(R.id.percent));
@@ -2451,7 +2439,11 @@ public class PopulateSubmissionViewHolder {
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
-        holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
+        if(submissionScore >= 10000 && SettingValues.abbreviateScores) {
+            holder.score.setText(String.format(Locale.getDefault(), "%.1fk",(((double)submissionScore)/1000)));
+        } else {
+            holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
+        }
 
         //Save the score so we can use it in the OnClickListeners for the vote buttons
         final int SUBMISSION_SCORE = submissionScore;
@@ -3244,8 +3236,11 @@ public class PopulateSubmissionViewHolder {
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
-        holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
-
+        if(submissionScore >= 10000 && SettingValues.abbreviateScores) {
+            holder.score.setText(String.format(Locale.getDefault(), "%.1fk",(((double)submissionScore)/1000)));
+        } else {
+            holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
+        }
     }
 
     private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder) {
