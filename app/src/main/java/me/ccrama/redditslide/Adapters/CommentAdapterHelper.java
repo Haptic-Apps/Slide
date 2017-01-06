@@ -205,7 +205,7 @@ public class CommentAdapterHelper {
                     case 7:
                         //Show select and copy text to clipboard
                         final TextView showText = new TextView(mContext);
-                        showText.setText(Html.fromHtml(n.getBody()));
+                        showText.setText(StringEscapeUtils.unescapeHtml4(n.getBody()));
                         showText.setTextIsSelectable(true);
                         int sixteen = Reddit.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);

@@ -632,12 +632,11 @@ public class MediaView extends FullScreenActivity
                 }
             });
         } else if (ContentType.isImgurImage(contentUrl)
-                && SettingValues.imgurLq
                 && SettingValues.loadImageLq
                 && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(this)
                 && SettingValues.lowResMobile))) {
             String url = contentUrl;
-            url = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."),
+            url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))  + url.substring(url.lastIndexOf("."),
                     url.length());
 
             displayImage(url);

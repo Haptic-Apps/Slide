@@ -263,7 +263,9 @@ public class CommentOverflow extends LinearLayout {
                 if(text.subSequence(i, i + tableHeaderEnd.length()).toString().equals(tableHeaderEnd)){
                     textView.setTypeface(null, Typeface.BOLD);
                 }
-                row.addView(textView);
+                if (row != null) {
+                    row.addView(textView);
+                }
 
                 columnStart = 0;
                 columnStarted = false;

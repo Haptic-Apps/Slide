@@ -537,6 +537,49 @@
                         android:textColorHint="?attr/font" />
                 </RelativeLayout>
 
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.25dp"
+                        android:alpha=".25"
+                        android:background="?attr/tint" />
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:background="?android:selectableItemBackground"
+                        android:paddingStart="16dp">
+
+                    <LinearLayout
+                            android:layout_marginEnd="64dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/settings_abbreviate_post_scores"
+                                android:textColor="?attr/font"
+                                android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/abbreviateScores"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingEnd="16dp"
+                            android:backgroundTint="?attr/tint"
+                            android:button="@null"
+                            android:buttonTint="?attr/tint"
+                            android:hapticFeedbackEnabled="true"
+                            android:textColor="?attr/font"
+                            android:textColorHint="?attr/font" />
+                </RelativeLayout>
+
+
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"
                     android:id="@+id/postButtonsHeader"

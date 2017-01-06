@@ -29,6 +29,7 @@ public class ContentTypeTest {
         assertTrue(ContentType.hostContains("www.example.com", "no-match", "example.com"));
         assertTrue(ContentType.hostContains("www.example.com", "", null, "example.com"));
         assertTrue(ContentType.hostContains("www.example.com", "example.com", "no-match"));
+        assertTrue(ContentType.hostContains("example.com.www.example.com", "example.com"));
 
         assertFalse(ContentType.hostContains("www.example.com", "www.example.com.au"));
         assertFalse(ContentType.hostContains("www.example.com", "www.example"));

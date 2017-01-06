@@ -217,7 +217,7 @@ public class GifUtils {
 
 
         public String formatUrl(String s) {
-            if (s.endsWith("v")) {
+            if (s.endsWith("v") && !s.contains("streamable.com")) {
                 s = s.substring(0, s.length() - 1);
             } else if (s.contains("gfycat") && (!s.contains("mp4") && !s.contains("webm"))) {
                 if (s.contains("-size_restricted")) s = s.replace("-size_restricted", "");

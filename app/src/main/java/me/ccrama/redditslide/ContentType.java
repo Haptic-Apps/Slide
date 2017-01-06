@@ -32,7 +32,7 @@ public class ContentType {
         for (String base : bases) {
             if (base == null || base.isEmpty()) continue;
 
-            final int index = host.indexOf(base);
+            final int index = host.lastIndexOf(base);
             if (index < 0 || index + base.length() != host.length()) continue;
             if (base.length() == host.length() || host.charAt(index - 1) == '.') return true;
         }
@@ -87,7 +87,7 @@ public class ContentType {
             final String path = uri.getPath().toLowerCase();
 
             return Reddit.videoPlugin && hostContains(host, "youtu.be", "youtube.com",
-                    "youtube.co.uk") && !path.contains("/user/");
+                    "youtube.co.uk") && !path.contains("/user/") &&!path.contains("/channel/");
 
         } catch (NullPointerException e) {
             return false;

@@ -47,6 +47,7 @@ public class SettingValues {
     public static final String PREF_ALWAYS_EXTERNAL           = "alwaysExternal";
     public static final String PREF_DRAFTS                    = "drafts";
     public static final String PREF_SUBREDDIT_FILTERS         = "subredditFilters";
+    public static final String PREF_ABBREVIATE_SCORES         = "abbreviateScores";
     public static final String PREF_FLAIR_FILTERS             = "subFlairFilters";
     public static final String PREF_COMMENT_LAST_VISIT        = "commentLastVisit";
     public static final String PREF_VOTES_INFO_LINE           = "votesInfoLine";
@@ -70,7 +71,9 @@ public class SettingValues {
     public static final String PREF_CARD_TEXT                 = "cardText";
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
-    public static final String PREF_IMGUR_LQ                  = "imgurLq";
+    public static final String PREF_LQ_LOW              = "lqLow";
+    public static final String PREF_LQ_MID              = "lqMid";
+    public static final String PREF_LQ_HIGH              = "lqHigh";
     public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
     public static final String PREF_COOKIES                   = "storeCookies";
     public static final String PREF_NIGHT_START               = "nightStart";
@@ -152,6 +155,7 @@ public class SettingValues {
     public static boolean                 collapseComments;
     public static boolean                 collapseCommentsDefault;
     public static boolean                 rightHandedCommentMenu;
+    public static boolean                 abbreviateScores;
     public static int                     subredditSearchMethod;
     public static int                     nightStart;
     public static int                     nightEnd;
@@ -189,7 +193,9 @@ public class SettingValues {
     public static boolean showDomain;
     public static boolean cardText;
     public static boolean alwaysZoom;
-    public static boolean imgurLq = true;
+    public static boolean lqLow = false;
+    public static boolean lqMid = true;
+    public static boolean lqHigh = false;
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
     public static boolean typeInText;
@@ -228,14 +234,14 @@ public class SettingValues {
 
         fab = prefs.getBoolean(PREF_FAB, true);
         fabType = prefs.getInt(PREF_FAB_TYPE, Constants.FAB_DISMISS);
-        if(fabType > 2 || fabType < 0){
+        if (fabType > 2 || fabType < 0) {
             fabType = Constants.FAB_DISMISS;
             prefs.edit().putInt(PREF_FAB_TYPE, Constants.FAB_DISMISS).apply();
         }
 
         subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD,
                 Constants.SUBREDDIT_SEARCH_METHOD_DRAWER);
-        if(subredditSearchMethod > 3 || subredditSearchMethod < 0){
+        if (subredditSearchMethod > 3 || subredditSearchMethod < 0) {
             subredditSearchMethod = 1;
             prefs.edit().putInt(PREF_SUBREDDIT_SEARCH_METHOD, 1).apply();
         }
@@ -256,8 +262,13 @@ public class SettingValues {
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
 
-        imgurLq = prefs.getBoolean(PREF_IMGUR_LQ, true);
+        lqLow = prefs.getBoolean(PREF_LQ_LOW, false);
+        lqMid = prefs.getBoolean(PREF_LQ_MID, true);
+        lqHigh = prefs.getBoolean(PREF_LQ_HIGH, false);
+
         noImages = prefs.getBoolean(PREF_NO_IMAGES, false);
+
+        abbreviateScores = prefs.getBoolean(PREF_ABBREVIATE_SCORES, true);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);

@@ -135,6 +135,8 @@ public class SubredditView extends BaseActivity {
                     ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
                 }
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

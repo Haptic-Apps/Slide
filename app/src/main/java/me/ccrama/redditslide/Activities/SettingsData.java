@@ -23,7 +23,9 @@ public class SettingsData extends BaseActivityAnim {
         setContentView(R.layout.activity_settings_datasaving);
         setupAppBar(R.id.toolbar, R.string.settings_data, true, true);
         //Image mode multi choice
-        ((TextView) findViewById(R.id.currentmode)).setText(SettingValues.noImages ? getString(R.string.never_load_images) : (SettingValues.imgurLq ? getString(R.string.load_medium_quality_imgur_images) : getString(R.string.low_quality_through_reddit_lower_resolution)));
+        ((TextView) findViewById(R.id.currentmode)).setText(SettingValues.noImages ? getString(R.string.never_load_images) :
+                (SettingValues.lqLow ? getString(R.string.load_low_quality) :
+                        (SettingValues.lqMid ? getString(R.string.load_medium_quality) : getString(R.string.load_high_quality))));
 
         findViewById(R.id.datasavequality).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,10 +47,12 @@ public class SettingsData extends BaseActivityAnim {
                                             .putBoolean(SettingValues.PREF_IMAGE_LQ, true)
                                             .apply();
                                     break;
-                                case R.id.reddit:
+                                case R.id.low:
                                     SettingValues.loadImageLq = true;
-                                    SettingValues.imgurLq = false;
                                     SettingValues.noImages = false;
+                                    SettingValues.lqLow = true;
+                                    SettingValues.lqMid = false;
+                                    SettingValues.lqHigh = false;
                                     SettingValues.prefs.edit()
                                             .putBoolean(SettingValues.PREF_IMAGE_LQ, true)
                                             .apply();
@@ -56,25 +60,63 @@ public class SettingsData extends BaseActivityAnim {
                                             .putBoolean(SettingValues.PREF_NO_IMAGES, false)
                                             .apply();
                                     SettingValues.prefs.edit()
-                                            .putBoolean(SettingValues.PREF_IMGUR_LQ, false)
+                                            .putBoolean(SettingValues.PREF_LQ_LOW, true)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_MID, false)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_HIGH, false)
                                             .apply();
                                     break;
-                                case R.id.imgur:
+                                case R.id.medium:
                                     SettingValues.loadImageLq = true;
-                                    SettingValues.imgurLq = true;
                                     SettingValues.noImages = false;
-                                    SettingValues.prefs.edit()
-                                            .putBoolean(SettingValues.PREF_NO_IMAGES, false)
-                                            .apply();
+                                    SettingValues.lqLow = false;
+                                    SettingValues.lqMid = true;
+                                    SettingValues.lqHigh = false;
                                     SettingValues.prefs.edit()
                                             .putBoolean(SettingValues.PREF_IMAGE_LQ, true)
                                             .apply();
                                     SettingValues.prefs.edit()
-                                            .putBoolean(SettingValues.PREF_IMGUR_LQ, true)
+                                            .putBoolean(SettingValues.PREF_NO_IMAGES, false)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_LOW, false)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_MID, true)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_HIGH, false)
+                                            .apply();
+                                    break;
+                                case R.id.high:
+                                    SettingValues.loadImageLq = true;
+                                    SettingValues.noImages = false;
+                                    SettingValues.lqLow = false;
+                                    SettingValues.lqMid = false;
+                                    SettingValues.lqHigh = true;
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_IMAGE_LQ, true)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_NO_IMAGES, false)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_LOW, false)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_MID, false)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_LQ_HIGH, true)
                                             .apply();
                                     break;
                             }
-                            ((TextView) findViewById(R.id.currentmode)).setText(SettingValues.noImages ? getString(R.string.never_load_images) : (SettingValues.imgurLq ? getString(R.string.load_medium_quality_imgur_images) : getString(R.string.low_quality_through_reddit_lower_resolution)));
+                            ((TextView) findViewById(R.id.currentmode)).setText(SettingValues.noImages ? getString(R.string.never_load_images) :
+                                    (SettingValues.lqLow ? getString(R.string.load_low_quality) :
+                                            (SettingValues.lqMid ? getString(R.string.load_medium_quality) : getString(R.string.load_high_quality))));
                             return true;
                         }
                     });
@@ -120,7 +162,9 @@ public class SettingsData extends BaseActivityAnim {
                             ((TextView) findViewById(R.id.currentmode)).setText("Enable datasaving mode");
                         } else {
                             findViewById(R.id.datasavequality).setAlpha(1f);
-                            ((TextView) findViewById(R.id.currentmode)).setText(SettingValues.noImages ? getString(R.string.never_load_images) : (SettingValues.imgurLq ? getString(R.string.load_medium_quality_imgur_images) : getString(R.string.low_quality_through_reddit_lower_resolution)));
+                            ((TextView) findViewById(R.id.currentmode)).setText(SettingValues.noImages ? getString(R.string.never_load_images) :
+                                    (SettingValues.lqLow ? getString(R.string.load_low_quality) :
+                                            (SettingValues.lqMid ? getString(R.string.load_medium_quality) : getString(R.string.load_high_quality))));
                         }
                         return true;
                     }

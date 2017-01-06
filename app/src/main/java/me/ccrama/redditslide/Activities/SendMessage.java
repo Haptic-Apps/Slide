@@ -35,8 +35,10 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 3/5/2015.
  */
 public class SendMessage extends BaseActivity {
-    public static final String EXTRA_NAME = "name";
+    public static final String EXTRA_NAME  = "name";
     public static final String EXTRA_REPLY = "reply";
+    public static final String EXTRA_MESSAGE  = "message";
+    public static final String EXTRA_SUBJECT  = "subject";
 
     public String URL;
     private Boolean reply;
@@ -100,6 +102,14 @@ public class SendMessage extends BaseActivity {
             name = "";
             oldMSG.setVisibility(View.GONE);
             b.setTitle(R.string.mail_send);
+        }
+
+        if(getIntent().hasExtra(EXTRA_MESSAGE)){
+            body.setText(getIntent().getStringExtra(EXTRA_MESSAGE));
+        }
+
+        if(getIntent().hasExtra(EXTRA_SUBJECT)){
+            subject.setText(getIntent().getStringExtra(EXTRA_SUBJECT));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

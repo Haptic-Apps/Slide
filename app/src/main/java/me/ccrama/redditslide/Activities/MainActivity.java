@@ -1103,6 +1103,18 @@ public class MainActivity extends BaseActivity
                                                             true)
                                                     .apply();
                                             return s;
+                                        }  else if (s.isStickied()
+                                                && s.getSubmissionFlair()
+                                                .getText()
+                                                .equalsIgnoreCase("PRO")
+                                                && !SettingValues.tabletUI
+                                                && !Reddit.appRestart.contains(
+                                                "announcement" + s.getFullName())) {
+                                            Reddit.appRestart.edit()
+                                                    .putBoolean("announcement" + s.getFullName(),
+                                                            true)
+                                                    .apply();
+                                            return s;
                                         }
                                     }
                                 } catch (Exception e) {
@@ -4005,7 +4017,7 @@ public class MainActivity extends BaseActivity
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel("/r/" + s)
+                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build());
@@ -4031,7 +4043,7 @@ public class MainActivity extends BaseActivity
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel("/r/" + s)
+                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build();

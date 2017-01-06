@@ -68,6 +68,56 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         if (id == android.R.id.home) {
             onBackPressed();
         }
+        if(id == R.id.done && enabled){
+            File image; //image to share
+            //check to see if the cache/shared_images directory is present
+            final File imagesDir = new File(
+                    Draw.this.getCacheDir().toString() + File.separator + "shared_image");
+            if (!imagesDir.exists()) {
+                imagesDir.mkdir(); //create the folder if it doesn't exist
+            } else {
+                deleteFilesInDir(imagesDir);
+            }
+
+            try {
+                //creates a file in the cache; filename will be prefixed with "img" and end with ".png"
+                image = File.createTempFile("img", ".png", imagesDir);
+                FileOutputStream out = null;
+
+                try {
+                    //convert image to png
+                    out = new FileOutputStream(image);
+                    Bitmap.createBitmap(drawView.getBitmap(), 0, (int) drawView.height,
+                            (int) drawView.right, (int) (drawView.bottom - drawView.height))
+                            .compress(Bitmap.CompressFormat.JPEG, 100, out);
+                } finally {
+                    if (out != null) {
+                        out.close();
+
+                        /**
+                         * If a user has both a debug build and a release build installed, the authority name needs to be unique
+                         */
+                        final String authority = (Draw.this.getPackageName()).concat(".")
+                                .concat(MediaView.class.getSimpleName());
+
+                        final Uri contentUri =
+                                FileProvider.getUriForFile(Draw.this, authority, image);
+
+                        if (contentUri != null) {
+                            Intent intent = new Intent();
+                            intent.setData(contentUri);
+                            setResult(RESULT_OK, intent);
+                        } else {
+                            //todo error Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+                        }
+                        finish();
+                    }
+                }
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
+                //todo error Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+            }
+        }
         if (id == R.id.undo) {
             drawView.undo();
         }
@@ -80,6 +130,8 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         inflater.inflate(R.menu.draw_menu, menu);
         return true;
     }
+
+    boolean enabled ;
 
     @Override
     protected void onActivityResult(int code, int resultC, Intent data) {
@@ -106,63 +158,11 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
                 drawView.drawBitmap(bitmap);
                 drawView.setPaintStrokeColor(getLastColor());
                 drawView.setPaintStrokeWidth(20f);
+                enabled = true;
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            findViewById(R.id.done).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    File image; //image to share
-                    //check to see if the cache/shared_images directory is present
-                    final File imagesDir = new File(
-                            Draw.this.getCacheDir().toString() + File.separator + "shared_image");
-                    if (!imagesDir.exists()) {
-                        imagesDir.mkdir(); //create the folder if it doesn't exist
-                    } else {
-                        deleteFilesInDir(imagesDir);
-                    }
-
-                    try {
-                        //creates a file in the cache; filename will be prefixed with "img" and end with ".png"
-                        image = File.createTempFile("img", ".png", imagesDir);
-                        FileOutputStream out = null;
-
-                        try {
-                            //convert image to png
-                            out = new FileOutputStream(image);
-                            Bitmap.createBitmap(drawView.getBitmap(), 0, (int) drawView.height,
-                                    (int) drawView.right, (int) (drawView.bottom - drawView.height))
-                                    .compress(Bitmap.CompressFormat.JPEG, 100, out);
-                        } finally {
-                            if (out != null) {
-                                out.close();
-
-                                /**
-                                 * If a user has both a debug build and a release build installed, the authority name needs to be unique
-                                 */
-                                final String authority = (Draw.this.getPackageName()).concat(".")
-                                        .concat(MediaView.class.getSimpleName());
-
-                                final Uri contentUri =
-                                        FileProvider.getUriForFile(Draw.this, authority, image);
-
-                                if (contentUri != null) {
-                                    Intent intent = new Intent();
-                                    intent.setData(contentUri);
-                                    setResult(RESULT_OK, intent);
-                                } else {
-                                    //todo error Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
-                                }
-                                finish();
-                            }
-                        }
-                    } catch (IOException | NullPointerException e) {
-                        e.printStackTrace();
-                        //todo error Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
         } else {
             finish();
         }

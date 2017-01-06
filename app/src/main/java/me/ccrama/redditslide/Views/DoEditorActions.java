@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -482,20 +481,23 @@ public class DoEditorActions {
             }
         });
 
-       if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-           ((ImageInsertEditText) editText).setImageSelectedCallback(new ImageInsertEditText.ImageSelectedCallback() {
-               @Override
-               public void onImageSelected(final Uri content, String mimeType) {
-                   e = editText.getText();
+        try {
+            ((ImageInsertEditText) editText).setImageSelectedCallback(
+                    new ImageInsertEditText.ImageSelectedCallback() {
+                        @Override
+                        public void onImageSelected(final Uri content, String mimeType) {
+                            e = editText.getText();
 
-                   sStart = editText.getSelectionStart();
-                   sEnd = editText.getSelectionEnd();
-                   handleImageIntent(new ArrayList<Uri>() {{
-                       add(content);
-                   }}, editText, a);
-               }
-           });
-       }
+                            sStart = editText.getSelectionStart();
+                            sEnd = editText.getSelectionEnd();
+                            handleImageIntent(new ArrayList<Uri>() {{
+                                add(content);
+                            }}, editText, a);
+                        }
+                    });
+        } catch (Exception e) {
+            //if thrown, there is likely an issue implementing this on the user's version of Android. There shouldn't be an issue, but just in case
+        }
     }
 
     public static Editable e;
@@ -781,7 +783,7 @@ public class DoEditorActions {
                                                 + ")";
                                         int start = Math.max(sStart, 0);
                                         int end = Math.max(sEnd, 0);
-                                        if(DoEditorActions.e != null) {
+                                        if (DoEditorActions.e != null) {
                                             DoEditorActions.e.insert(Math.max(start, end), s);
                                             DoEditorActions.e = null;
                                         }

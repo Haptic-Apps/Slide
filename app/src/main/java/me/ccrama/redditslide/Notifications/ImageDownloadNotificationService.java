@@ -259,12 +259,7 @@ public class ImageDownloadNotificationService extends Service {
                             }
 
                             {
-                                final Intent shareIntent =
-                                        new Intent(getApplicationContext(), DeleteFile.class);
-                                shareIntent.putExtra("image", photoURI.getPath());
-                                pDeleteIntent =
-                                        PendingIntent.getActivity(getApplicationContext(), id + 3,
-                                                shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                pDeleteIntent = DeleteFile.getDeleteIntent(id + 3, getApplicationContext(), photoURI.getPath());
                             }
 
 

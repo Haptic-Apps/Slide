@@ -554,7 +554,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (baseNode.children.getChildrenIds().isEmpty()) {
                         String toGoTo = "https://reddit.com"
                                 + submission.getPermalink()
-                                + baseNode.comment.getComment().getId() + "?context=0";
+                                + baseNode.comment.getComment().getId()
+                                + "?context=0";
                         new OpenRedditLink(mContext, toGoTo, true);
                     } else if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
@@ -629,7 +630,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                             if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
                             mPage.overrideFab = false;
-                            if(currentlyEditing != null) {
+                            if (currentlyEditing != null) {
                                 String text = currentlyEditing.getText().toString();
                                 new ReplyTaskComment(submission).execute(text);
                                 replyArea.setVisibility(View.GONE);
@@ -640,7 +641,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 View view = ((Activity) mContext).getCurrentFocus();
                                 if (view != null) {
                                     InputMethodManager imm =
-                                            (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            (InputMethodManager) mContext.getSystemService(
+                                                    Context.INPUT_METHOD_SERVICE);
                                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                 }
                             }
@@ -1112,6 +1114,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (Authentication.isLoggedIn
                     && !submission.isArchived()
                     && !submission.isLocked()
+                    && !deleted.contains(n.getFullName())
+                    && !comment.getAuthor().equals("[deleted]")
                     && Authentication.didOnline) {
                 if (isReplying) {
                     baseView.setVisibility(View.VISIBLE);
@@ -1316,13 +1320,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (reply.getVisibility() == View.VISIBLE) {
                     reply.setVisibility(View.GONE);
                 }
-                if (submission.isArchived()
+                if ((submission.isArchived() || deleted.contains(n.getFullName())
+                        || comment.getAuthor().equals("[deleted]"))
                         && Authentication.isLoggedIn
                         && Authentication.didOnline
                         && upvote.getVisibility() == View.VISIBLE) {
                     upvote.setVisibility(View.GONE);
                 }
-                if (submission.isArchived()
+                if ((submission.isArchived() || deleted.contains(n.getFullName())
+                        || comment.getAuthor().equals("[deleted]"))
                         && Authentication.isLoggedIn
                         && Authentication.didOnline
                         && downvote.getVisibility() == View.VISIBLE) {
@@ -2160,7 +2166,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentComments.remove(position - 1);
             currentComments.add(position - 1, new CommentItem(n));
             listView.setItemAnimator(new SlideRightAlphaAnimator());
-            ((Activity)mContext).runOnUiThread(new Runnable() {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     notifyItemChanged(holderpos);
