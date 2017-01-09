@@ -69,6 +69,10 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
 
     private static class ViewHolderItem {
 		private TextView t;
+
+        ViewHolderItem(TextView t){
+            this.t = t;
+        }
 	}
 
 	@Override
@@ -76,8 +80,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         ViewHolderItem viewHolderItem;
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
-			viewHolderItem = new ViewHolderItem();
-			viewHolderItem.t = ((TextView) convertView.findViewById(R.id.name));
+			viewHolderItem = new ViewHolderItem((TextView) convertView.findViewById(R.id.name));
 			convertView.setTag(viewHolderItem);
 		} else {
 			viewHolderItem = (ViewHolderItem) convertView.getTag();
