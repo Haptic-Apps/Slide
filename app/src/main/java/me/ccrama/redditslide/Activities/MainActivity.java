@@ -119,7 +119,6 @@ import org.ligi.snackengage.conditions.WithLimitedNumberOfTimes;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.RateSnack;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
