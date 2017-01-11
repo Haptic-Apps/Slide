@@ -3780,8 +3780,9 @@ public class MainActivity extends BaseActivity
             copy = new ArrayList<>(usedArray);
         else {
             copy = UserSubscriptions.getAllUserSubreddits(this);
-            copy.removeAll(Arrays.asList("", null));
         }
+
+        copy.removeAll(Arrays.asList("", null));
 
         sideArrayAdapter =
                 new SideArrayAdapter(this, copy, UserSubscriptions.getAllSubreddits(this),
