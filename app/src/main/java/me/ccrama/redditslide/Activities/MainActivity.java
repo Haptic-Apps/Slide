@@ -119,8 +119,10 @@ import org.ligi.snackengage.conditions.WithLimitedNumberOfTimes;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.RateSnack;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -3771,14 +3773,22 @@ public class MainActivity extends BaseActivity
     }
 
     public void setDrawerSubList() {
-        ArrayList<String> copy = new ArrayList<>(usedArray);
+
+        ArrayList<String> copy;
+
+        if(NetworkUtil.isConnected(this))
+            copy = new ArrayList<>(usedArray);
+        else {
+            copy = UserSubscriptions.getAllUserSubreddits(this);
+            copy.removeAll(Arrays.asList("", null));
+        }
 
         sideArrayAdapter =
                 new SideArrayAdapter(this, copy, UserSubscriptions.getAllSubreddits(this),
                         drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
-        if (NetworkUtil.isConnected(this) && (SettingValues.subredditSearchMethod
+        if ((SettingValues.subredditSearchMethod
                 == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
                 || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH
                 || SettingValues.subredditSearchMethod
