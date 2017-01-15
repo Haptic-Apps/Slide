@@ -31,9 +31,9 @@ public class NetworkUtil {
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         switch (activeNetwork != null ? activeNetwork.getType() : CONST_NO_NETWORK) {
-            case ConnectivityManager.TYPE_WIFI:
+            case ConnectivityManager.TYPE_WIFI: case ConnectivityManager.TYPE_ETHERNET:
                 return Status.WIFI;
-            case ConnectivityManager.TYPE_MOBILE:
+            case ConnectivityManager.TYPE_MOBILE: case ConnectivityManager.TYPE_BLUETOOTH: case ConnectivityManager.TYPE_WIMAX:
                 return Status.MOBILE;
             default:
                 return Status.NONE;
