@@ -67,12 +67,26 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         return filter;
     }
 
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
+    private static class ViewHolderItem {
+		private TextView t;
 
-        final TextView t =
-                ((TextView) convertView.findViewById(R.id.name));
+        ViewHolderItem(TextView t){
+            this.t = t;
+        }
+	}
+
+	@Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolderItem viewHolderItem;
+		if (convertView == null) {
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
+			viewHolderItem = new ViewHolderItem((TextView) convertView.findViewById(R.id.name));
+			convertView.setTag(viewHolderItem);
+		} else {
+			viewHolderItem = (ViewHolderItem) convertView.getTag();
+		}
+		final TextView t =
+                viewHolderItem.t;
         t.setText(fitems.get(position));
 
         final String subreddit = fitems.get(position);
