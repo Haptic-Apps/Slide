@@ -24,7 +24,6 @@
       android:layout_height="48dp"
       android:padding="4dp"
       android:src="@drawable/support">
-      <!--Removed ObsoleteLayoutParam: layout_alignParentRight-->
     </ImageView>
 
     <me.ccrama.redditslide.SpoilerRobotoTextView android:id="@+id/body"
