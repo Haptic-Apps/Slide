@@ -62,7 +62,7 @@
                     android:maxLines="1"
                     android:imeOptions="flagNavigateNext"
                     android:textColor="?attr/font"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-/" />
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-/." />
                 <requestFocus />
             </android.support.design.widget.TextInputLayout>
 
