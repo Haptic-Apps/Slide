@@ -162,13 +162,14 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             + a.getDataNode().get("target_title").asText()
                             + "\"" : "") + (a.getTargetAuthor() != null ? " by /u/"
                     + a.getTargetAuthor() : ""));
-
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OpenRedditLink.openUrl(mContext, a.getTargetPermalink(), true);
-                }
-            });
+            if (a.getTargetPermalink() != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        OpenRedditLink.openUrl(mContext, a.getTargetPermalink(), true);
+                    }
+                });
+            }
 
             if (a.getDetails() != null) {
                 SpannableStringBuilder description =
