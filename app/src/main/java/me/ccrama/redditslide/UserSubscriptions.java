@@ -47,7 +47,7 @@ public class UserSubscriptions {
                     "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews",
                     "WritingPrompts");
     public static final List<String> specialSubreddits      =
-            Arrays.asList("frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod");
+            Arrays.asList("frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod", "popular");
     public static SharedPreferences subscriptions;
     public static SharedPreferences multiNameToSubs;
 
