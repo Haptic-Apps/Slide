@@ -222,6 +222,7 @@ public class SubredditView extends BaseActivity {
                 && !subreddit.equals("mod")
                 && !subreddit.equals("myrandom")
                 && !subreddit.equals("randnsfw")
+                && !subreddit.equals("popular")
                 && !subreddit.contains("+")) {
             executeAsyncSubreddit(subreddit);
         } else {
@@ -381,6 +382,7 @@ public class SubredditView extends BaseActivity {
                 if (!subreddit.equalsIgnoreCase("frontpage")
                         && !subreddit.equalsIgnoreCase("all")
                         && !subreddit.equalsIgnoreCase("random")
+                        && !subreddit.equalsIgnoreCase("popular")
                         && !subreddit.equals("myrandom")
                         && !subreddit.equals("randnsfw")
                         && !subreddit.equalsIgnoreCase("friends")
@@ -497,6 +499,7 @@ public class SubredditView extends BaseActivity {
         if (!subOverride.equalsIgnoreCase("all")
                 && !subOverride.equalsIgnoreCase("frontpage")
                 && !subOverride.equalsIgnoreCase("random")
+                && !subOverride.equalsIgnoreCase("popular")
                 && !subOverride.equalsIgnoreCase("myrandom")
                 && !subOverride.equalsIgnoreCase("randnsfw")
                 &&

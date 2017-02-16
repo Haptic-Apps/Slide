@@ -789,6 +789,7 @@ public class MainActivity extends BaseActivity
                         && !subreddit.contains("/m/")
                         && !subreddit.equalsIgnoreCase("friends")
                         && !subreddit.equalsIgnoreCase("random")
+                        && !subreddit.equalsIgnoreCase("popular")
                         && !subreddit.equalsIgnoreCase("myrandom")
                         && !subreddit.equalsIgnoreCase("randnsfw")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
