@@ -57,7 +57,7 @@ public class BaseActivity extends PeekViewActivity
     public void onWindowFocusChanged(final boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (SettingValues.immersiveMode) {
-            if (!hasFocus) {
+            if (hasFocus) {
                 hideDecor();
             }
         }
@@ -72,6 +72,23 @@ public class BaseActivity extends PeekViewActivity
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            decorView.setOnSystemUiVisibilityChangeListener(
+                    new View.OnSystemUiVisibilityChangeListener() {
+                        @Override
+                        public void onSystemUiVisibilityChange(int visibility) {
+                            if ((visibility) == 0) {
+                                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                            } else {
+                                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                            }
+                        }
+                    });
         }
     }
 

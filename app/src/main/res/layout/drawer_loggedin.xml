@@ -585,7 +585,7 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="beforeDescendants"
+            android:descendantFocusability="afterDescendants"
             android:focusableInTouchMode="true">
 
         <EditText
