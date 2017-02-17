@@ -138,7 +138,7 @@ public class Inbox extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
-        if (!Authentication.reddit.isAuthenticated() || Authentication.me == null) {
+        if (Authentication.reddit == null || !Authentication.reddit.isAuthenticated() || Authentication.me == null) {
             LogUtil.v("Reauthenticating");
 
             new AsyncTask<Void, Void, Void>() {

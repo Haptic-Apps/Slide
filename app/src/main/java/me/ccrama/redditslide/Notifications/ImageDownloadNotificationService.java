@@ -155,7 +155,7 @@ public class ImageDownloadNotificationService extends Service {
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
                                         latestPercentDone = (int) ((current / (float) total) * 100);
-                                        if (percentDone != latestPercentDone) {
+                                        if (percentDone <= latestPercentDone + 10 || latestPercentDone == 100 ) { //Do every 10 percent
                                             percentDone = latestPercentDone;
                                             mBuilder.setProgress(100, percentDone, false);
                                             mNotifyManager.notify(id, mBuilder.build());

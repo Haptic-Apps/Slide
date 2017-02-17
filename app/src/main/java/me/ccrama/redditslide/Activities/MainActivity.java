@@ -1463,7 +1463,11 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(networkStateReceiver);
+        try {
+            unregisterReceiver(networkStateReceiver);
+        } catch (Exception ignored){
+
+        }
         dismissProgressDialog();
         Slide.hasStarted = false;
         super.onDestroy();

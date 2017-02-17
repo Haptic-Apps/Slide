@@ -228,6 +228,7 @@ public class GifUtils {
                 s = s.replace(".webm", ".mp4");
             }
             if (s.endsWith("/")) s = s.substring(0, s.length() - 1);
+            if(s.endsWith("?r")) s = s.substring(0, s.length() - 2);
 
             return s;
         }

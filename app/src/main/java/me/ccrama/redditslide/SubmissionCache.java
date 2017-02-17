@@ -360,6 +360,15 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
+        if (submission.getDataNode().get("spoiler").asBoolean()) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0SPOILER\u00A0");
+            pinned.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_grey_600, true), 0,
+                    pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+
         if (submission.getSubmissionFlair().getText() != null && !submission.getSubmissionFlair()
                 .getText()
                 .isEmpty() || flairOverride != null || (submission.getSubmissionFlair()

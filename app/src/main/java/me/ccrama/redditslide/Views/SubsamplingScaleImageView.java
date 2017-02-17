@@ -1661,7 +1661,12 @@ public class SubsamplingScaleImageView extends View {
                 DecoderFactory<? extends ImageDecoder> decoderFactory = decoderFactoryRef.get();
                 SubsamplingScaleImageView subsamplingScaleImageView = viewRef.get();
                 if (context != null && decoderFactory != null && subsamplingScaleImageView != null) {
-                    bitmap = decoderFactory.make().decode(context, source);
+                    try {
+                        bitmap = decoderFactory.make().decode(context, source);
+                    } catch (OutOfMemoryError e){
+                        System.gc();
+                        bitmap = decoderFactory.make().decode(context, source);
+                    }
                     return subsamplingScaleImageView.getExifOrientation(sourceUri);
                 }
             } catch (Exception e) {

@@ -1699,7 +1699,7 @@ public class CommentPage extends Fragment {
         if (!single
                 && getActivity() instanceof CommentsScreen
                 && ((CommentsScreen) getActivity()).subredditPosts != null
-                && Authentication.didOnline) {
+                && Authentication.didOnline && ((CommentsScreen) getActivity()).currentPosts != null && ((CommentsScreen) getActivity()).currentPosts.size() >= page) {
             try {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             } catch(IndexOutOfBoundsException e){
