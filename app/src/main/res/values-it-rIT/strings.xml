@@ -484,6 +484,7 @@
   <string name="settings_delete_sub_settings">Vuoi veramente eliminare le impostazioni per %1$s?</string>
   <string name="settings_layout_default">Stile dei post</string>
   <string name="settings_link_album">Vista album integrata</string>
+  <string name="settings_link_peek">Anteprima del contenuto (sperimentale)</string>
   <string name="settings_link_gif">Vista GIF integrata</string>
   <string name="settings_link_handling">Gestione link</string>
   <string name="settings_link_image">Vista immagine integrata</string>
@@ -829,6 +830,7 @@
   <string name="mediaview_converting_fail">La conversione della gif attraverso Gfycat non ha funzionato</string>
   <string name="mediaview_converting_fail_btn">Apri sul web</string>
   <string name="mediaview_save">Salva %1$s</string>
+  <string name="mediaview_saving">Salvando %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Salvataggio della bozza in corso</string>
   <string name="draft_saved">Bozza salvata</string>
@@ -985,7 +987,7 @@
   <string name="clear_subreddit_history">Pulisci la cronologia dei subreddit</string>
   <string name="clear_submission_history">Pulisci cronologia post</string>
   <string name="alert_history_cleared">Cronologia pulita!</string>
-  <string name="manage_offline_content">Gestisci contenuto offline</string>
+  <string name="manage_offline_content">Gestisci i contenuti offline</string>
   <string name="go_offline">Vai offline</string>
   <string name="sidebar_edit_flair">Modifica il tuo flair</string>
   <string name="go_online_view_content">Per favore, vai online per vedere questo contenuto</string>
@@ -1051,4 +1053,5 @@
   <string name="type_nsfw_tumblr">Tumblr NSFW</string>
   <string name="submission_info_contest">Questo thread è in contest mode. Non puoi cambiare l\'ordinamento</string>
   <string name="sub_post_notifs_msg">Slide cercherà nuovi post quando cerca la posta (le notifiche della posta devono essere abilitate)</string>
+  <string name="mod_ban_reason_required">È richiesto il motivo</string>
 </resources>

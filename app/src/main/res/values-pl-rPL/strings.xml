@@ -492,6 +492,7 @@
   <string name="settings_delete_sub_settings">Czy naprawdę chcesz usunąć ustawienia dla %1$s?</string>
   <string name="settings_layout_default">Układ postów</string>
   <string name="settings_link_album">Wewnętrzne przeglądanie albumów</string>
+  <string name="settings_link_peek">Podgląd treści (eksperymentalne)</string>
   <string name="settings_link_gif">Wewnętrzne oglądanie GIFów</string>
   <string name="settings_link_handling">Obsługa linków</string>
   <string name="settings_link_image">Wewnętrzne oglądanie zdjęć</string>
@@ -510,6 +511,7 @@
   <string name="posts_hidden_forever">Posty na zawsze ukryte</string>
   <string name="share_image">Udostępnij obraz</string>
   <string name="settings_libs">Biblioteki open source</string>
+  <string name="settings_about_libs">O bibliotekach</string>
   <string name="settings_bugs">Zgłoś błędy</string>
   <string name="settings_changelog">Zobacz listę zmian</string>
   <string name="settings_google">Łączenie z Google</string>
@@ -845,6 +847,7 @@
   <string name="mediaview_converting_fail">Konwersja gifa przez Gfycat się nie powiodła</string>
   <string name="mediaview_converting_fail_btn">Otwórz w sieci</string>
   <string name="mediaview_save">Zapisz %1$s</string>
+  <string name="mediaview_saving">Zapisywanie %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Zapisywanie szkicu</string>
   <string name="draft_saved">Szkic zapisany</string>
@@ -1070,4 +1073,5 @@
   <string name="type_nsfw_tumblr">NSFW Tumblr</string>
   <string name="submission_info_contest">Ten wątek jest w trybie konkursu. Nie możesz zmienić sortowania</string>
   <string name="sub_post_notifs_msg">Slide będzie sprawdzał nowe posty podczas sprawdzania skrzynki odbiorczej (powiadomienia muszą być włączone)</string>
+  <string name="mod_ban_reason_required">Wymagany powód</string>
 </resources>

@@ -260,6 +260,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="multireddit_create_hint">Multireddit-Name</string>
   <string name="multireddit_invalid_name">Ungültiger Multireddit-Name</string>
   <string name="multireddit_invalid_name_msg">Multireddit-Namen dürfen nur Buchstaben, Zahlen und Unterstriche enthalten.</string>
+  <string name="multi_add_to">/r/%s hinzufügen zu</string>
   <string name="multi_subreddit_added">Subreddit wurde zu /m/%1$s hinzugefügt</string>
   <string name="multi_error">Es ist ein Fehler aufgetreten, bitte versuchen Sie es später noch einmal</string>
   <string name="btn_import_multi">Multireddit importieren</string>
@@ -484,6 +485,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit Einstellungen</string>
   <string name="settings_accent_title">Akzentfarbe bearbeiten</string>
+  <string name="settings_delete_sub_settings">Möchtest du die Einstellungen für %1$s wirklich löschen?</string>
   <string name="settings_layout_default">Beitragslayout</string>
   <string name="settings_link_album">Interne Albumansicht</string>
   <string name="settings_link_gif">Interne GIF-Anzeige</string>
@@ -511,6 +513,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_fabclear">Aktionsknopf Löschaktion</string>
   <string name="settings_notifdisabled">Benachrichtigungen deaktiviert.</string>
   <string name="settings_colored_navigation_bar">Farbige Steuerleiste</string>
+  <string name="settings_colored_icon">Farbiges App-Icon (Experimentell)</string>
+  <string name="settings_colored_icon_desc">Benötigt möglicherweise einen Neustart des Telefons. Wird außerdem das Icon von der Startseite entfernen.</string>
   <string name="settings_filter_domain">Domänenfilter</string>
   <string name="settings_filter_selfttext">Selftext Filter</string>
   <string name="settings_filter_title">Titel-Filter</string>
@@ -533,16 +537,20 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_title_pro">Hol dir die Pro-Version</string>
   <string name="settings_title_sub_theme">Subreddit Theme</string>
   <string name="settings_title_sorting">Standard-Sortierung</string>
+  <string name="settings_title_support">Spenden</string>
   <string name="settings_title_about">Über</string>
   <string name="settings_title_fab">Schwebender Aktionsknopf</string>
   <string name="settings_title_comments">Kommentare</string>
   <string name="settings_title_filter">Filter</string>
   <string name="settings_title_font">Schriftart</string>
+  <string name="settings_section_general">Allgemein</string>
   <string name="settings_section_appearance">Darstellung</string>
   <string name="settings_section_other">Weitere Einstellungen</string>
   <string name="settings_section_browser">Browser</string>
   <string name="settings_section_custom_domains">Benutzerdefinierte Domains</string>
+  <string name="settings_section_save_history">Verlauf speichern</string>
   <string name="settings_section_clear_history">Verlauf löschen</string>
+  <string name="settings_section_data_saving_mode">Datensparmodus</string>
   <string name="settings_section_image_quality">Bildqualität</string>
   <string name="settings_section_hide_images">Bilder ausblenden</string>
   <string name="settings_comment_color">Farbige Indikatoren für Kommentartiefe</string>
@@ -561,6 +569,11 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_comment_collapse">Kommentare komplett zuklappen</string>
   <string name="settings_comment_collapse_description">Deaktiviert Animationen in den Kommentaren</string>
   <string name="settings_comment_collapse_default">Untergeordnete Kommentare standardmäßig zuklappen</string>
+  <string name="settings_data_enable">Aktiviere Datenspar-Einstellungen</string>
+  <string name="settings_backup_none">Es werden keine Subreddits gesichert</string>
+  <string name="settings_backup_will_backup">\u0020wird gesichert</string>
+  <string name="settings_backup_comments">\u0020(Kommentare)</string>
+  <string name="settings_filter_profile">Profil-Filter</string>
   <string name="settings_subredditspecific_selftext">Zeige immer Vorschau vom Selftext in diesem Subreddit</string>
   <string name="settings_font_system">System</string>
   <string name="settings_manage_subscriptions">Verwalte deine Abonnenten</string>
@@ -581,13 +594,18 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_links_force_external">Immer in externem Browser öffnen</string>
   <string name="settings_links_force_external_desc">Wähle Domains, welche immer extern geöffnet werden</string>
   <string name="settings_layout_show_domain">Domäne in der Infozeile anzeigen</string>
+  <string name="settings_layout_show_content_type">Zeige Inhalts-Typ in Info-Zeile</string>
+  <string name="settings_layout_show_votes_comments">Zeige Stimmen/Kommentare in Info-Zeile</string>
   <string name="settings_general_swipeanywhere_description">Irgendwo wischen um zu beenden</string>
   <string name="settings_general_comment_last_visit">Anzahl der Kommentare seit dem letzten Besuch anzeigen</string>
+  <string name="settings_fab_create">Zeige \"Kommentar erstellen\" FAB</string>
   <string name="settings_right_handed_comment_menu">Rechtshänder Kommentar Menü</string>
   <string name="settings_reddit_description">Diese Einstellungen ändern was die Reddit API zu Slide zurücksendet.\n\nUm Thumbnails in allen Subreddits zu sehen, ändern den Thumbnail Modus zu \'Immer anzeigen\'\n\nUm allen NSFW Inhalt anzuzeigen, aktiviere \'Verstecke NSFW Fotos\' aus und schalte \'Ich bin über 18\'</string>
   <string name="settings_description_synccit">Synccit erlaubt dir deinen Beitragsverlauf zwischen Geräten und deinem Browser zu synchronisieren</string>
   <string name="settings_description_view_type">Ansichtstypen beeinflussen die Hauptansicht und auch die Ansicht in Subreddits.\n\nKommentarfenster: Kommentare erscheinen neben Beiträgen durch wischen und werden beim Zurückwechseln automatisch gespeichert, damit du nichts verlierst.\n\nNicht-Subreddit Tabs: Wischen zwischen Subreddits ist deaktiviert\n\nSubreddit Tabs: Wischen um zwischen Subreddits zu wechseln</string>
   <string name="settings_comment_hide_selftext_image">Beitragsbild bei Selftext Beiträgen ausblenden</string>
+  <string name="settings_reddit_syncing">Synchronisation mit Reddit</string>
+  <string name="settings_filter_flair">Flair-Filter</string>
   <string name="settings_data_low_quality">Bilder mit niedriger Qualität laden</string>
   <string name="settings_view_type">Ansichtstyp</string>
   <string name="settings_data">Datenverbrauch</string>
@@ -596,6 +614,20 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_handling_enterdomain">Gib einen Domainnamen oder einen Teil eines Domainnamens ein</string>
   <string name="settings_section_content">Inhalt</string>
   <string name="settings_about_changelog_post">Änderungsprotokoll anzeigen</string>
+  <string name="settings_filter_flair_error">Flair-Filter müssen dem Muster subreddit:flairtext folgen</string>
+  <string name="settings_backup_include_personal_title">Persönliche Informationen einschließen?</string>
+  <string name="settings_backup_include_personal_text">Dies beinhaltet Authentifizierungs-Tokens, Benutzernamen, Tags und den Verlauf</string>
+  <string name="settings_backup_view">Zeige Sicherung</string>
+  <string name="settings_backup_err_no_explorer">Kein Dateiexplorer gefunden, Datei befindet sich hier: %1$s</string>
+  <string name="settings_about_version_copied_toast">Versionsnummer in die Zwischenablage kopiert</string>
+  <string name="settings_about_stacktrace_copied_toast">Stacktrace in die Zwischenablage kopiert</string>
+  <string name="settings_support_slide">Unterstütze Slide for Reddit und werde Pro!</string>
+  <string name="settings_theme_night_start_title">Wähle eine Startzeit für den Nachtmodus aus</string>
+  <string name="settings_theme_night_end_title">Wähle eine Endzeit für den Nachtmodus aus</string>
+  <string name="settings_theme_night_start_at">Start um\u0020</string>
+  <string name="settings_theme_night_end_at">Ende um\u0020</string>
+  <string name="settings_general_inbox_snd">Töne und Vibration</string>
+  <string name="settings_enable_notifs">Benachrichtigungen für Posteingang aktivieren</string>
   <!-- View types -->
   <string name="view_type_tabs">Subreddit-Tabs</string>
   <string name="view_type_none">Keine Subreddit-Tabs</string>
@@ -607,6 +639,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="subreddit_search_method_both">Auszug- und Symbolleiten-Titel</string>
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Eine Domain hinzufügen</string>
+  <string name="reorder_add_subreddit">Einen Subreddit hinzufügen</string>
   <string name="reorder_fab_collection">Sammlung</string>
   <string name="reorder_fab_domain">Domain</string>
   <string name="reorder_fab_subreddit">Subreddit</string>
@@ -616,6 +649,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="reorder_move">Nach oben bewegen</string>
   <string name="reorder_domain_placeholder">\u0020(nur die Domain)</string>
   <string name="reorder_not_found_err">Subreddit nicht gefunden, aber hier sind ein paar Vorschläge</string>
+  <string name="reorder_subscribed_toast">/r/%1$s abonniert</string>
+  <string name="reorder_unsubscribed_toast">/r/%1$s abbestellt</string>
   <string name="sorting_faq"><b>Wie kann ich Subreddits aktualisieren?</b>\nUm Subreddits zu aktualisieren, drücke auf das Neuladen-Symbol in der Symbolleiste!\n\n<b>Ich habe ein Subreddit-Abo abbestellt aber es ist noch immer in der Liste!</b>\nSlide behält im Browser abbestellte Subreddits als "Lockere Abos". Willst du diese entfernen, halte den Subreddit gedrückt und klicke entfernen!\n\n<b>Wie benutze ich Sammlungen?</b>\nKlicke den + Aktionsknopf und wähle \'Sammlung erzeugen\'. Sammlungen mehrerer Subs verhalten sich in der Hauptansicht wie ein einziger Subreddit!</string>
   <string name="FAQ">Häufige Fragen / FAQ</string>
   <string name="alphabetize_subreddits">Sortiere Subreddits alphabetisch</string>
@@ -628,11 +663,25 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="add_to_subs">ZU ABOS HINZUFÜGEN</string>
   <string name="sub_added">Subreddit hinzugefügt!</string>
   <string name="reorder_subs_FAQ">Subreddit FAQ anordnen</string>
+  <string name="subscribe_to">Abonniere /r/%1$s</string>
+  <string name="unsubscribe_from">/r/%1$s abbestellen</string>
+  <string name="btn_add_to_sublist">ZU SUB-LISTE HINZUFÜGEN</string>
+  <string name="btn_remove_from_sublist">VON SUB-LISTE ENTFERNEN</string>
+  <string name="subscribe_caps">ABONNIEREN</string>
+  <string name="unsubscribe_caps">DEABONNIEREN</string>
   <string name="reorder_subreddits_title">Wähle einen Subreddit zum Hinzufügen aus</string>
   <string name="reorder_subreddit_name">Subreddit-Name</string>
   <string name="reorder_remove_title">Diesen Subreddit entfernen?</string>
   <string name="reorder_remove_msg">Dein Abo wird nicht gelöscht, jedoch wird dieser Subreddit nicht mehr in deiner Seitenleiste angezeigt!</string>
+  <string name="reorder_sync_complete">Synchronisation abgeschlossen</string>
+  <string name="reorder_loading_title">Subreddits werden geladen</string>
+  <string name="reorder_url_err">URL ungültig</string>
   <!-- Save categories -->
+  <string name="category_set_name_hint">Kategoriename</string>
+  <string name="category_categorize">KATEGORISIEREN</string>
+  <string name="category_create_new">Neue Kategorie</string>
+  <string name="profile_category_loading">Lade Kategorien</string>
+  <string name="profile_category_select">Kategorie auswählen</string>
   <!-- Setting subheaders -->
   <string name="sorting">Sortierung</string>
   <string name="display">Anzeige</string>
@@ -646,6 +695,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="nsfw">NSFW-Inhalt</string>
   <string name="content_thumbnails">Inhalt-Thumbnails</string>
   <string name="view_reddit_settings">Reddit-Einstellungen im Browser öffnen</string>
+  <string name="font_styles">Schriftstil</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit-Themes &amp; Layout</string>
   <string name="title_edit_theme">Theme bearbeiten</string>
@@ -678,7 +728,12 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="offline_msg">Bitte stelle eine Verbindung her und aktualisiere den Subreddit, um diese Aktion auszuführen</string>
   <string name="offline_last_update">Zuletzt aktualisiert am %1$s</string>
   <string name="offline_comments_not_loaded">Stellen Sie eine Internetverbindung her und wählen Sie im Drei-Punkte-Menü \'Kommentare cachen\' um Kommentare offline anzuzeigen</string>
+  <string name="offline_no_content_found">Keine Offline-Inhalte gefunden</string>
+  <string name="offline_enter_online">Online-Modus aktivieren</string>
+  <string name="offline_caching_title">%1$s wird gecached</string>
+  <string name="offline_caching_complete">Caching abgeschlossen</string>
   <!-- Website -->
+  <string name="website_back">Zurück</string>
   <string name="website_external">In externem Browser öffnen</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d Subreddit hinzugefügt</item>
@@ -741,10 +796,32 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="discover_popular">Beliebt</string>
   <string name="discover_trending">Angesagt</string>
   <!-- Subreddit post notifiactions -->
+  <string name="sub_post_notifs_title_settings">Über neue Posts benachrichtigt werden?</string>
+  <string name="sub_post_notifs_menu">Werde über neue Posts benachrichtigt</string>
+  <string name="sub_post_notify">Nenachrichtigen</string>
+  <string name="sub_post_notifs_text">Slide wird alle 10 Minuten auf neue Posts prüfen. Du kannst dies in den Post Benachrichtigungen abstellen</string>
+  <string name="sub_post_notifs_err">Du kannst nur für einzelne Subreddits Benachrichtigungen hinzufügen</string>
+  <string name="sub_post_notifs_settings_title">Zu überprüfende Subreddits</string>
+  <string name="sub_post_notifs_notification_title">Neuer Post in /r/%1$s</string>
+  <string name="sub_post_notifs_notification_btn">/r/%1$s nicht mehr verfolgen</string>
   <!-- Internal browser -->
+  <string name="internal_browser_extracting_error">Artikel konnte nicht extrahiert werden</string>
+  <string name="internal_browser_extracting_progress">Artikel wird extrahiert&#8230;</string>
+  <string name="internal_browser_storecookies">Webseiten-Cookies speichern</string>
+  <string name="internal_browser_readermode">Lesemodus</string>
   <!-- Live thread -->
+  <string name="livethread_loading_title">Live-Thread wird geladen&#8230;</string>
+  <string name="livethread_not_found">Live-Thread nicht gefunden</string>
+  <string name="livethread_recents_title">Live-Thread: %1$s</string>
   <!-- Used when viewing media -->
+  <string name="mediaview_notif_title">Lade Bild&#8230;</string>
+  <string name="mediaview_notif_text">Download wird ausgeführt</string>
+  <string name="mediaview_converting_fail_btn">Im Web öffnen</string>
+  <string name="mediaview_save">%1$s speichern</string>
+  <string name="mediaview_saving">%1$s speichern</string>
   <!-- Drafts -->
+  <string name="draft_saving">Entwurf wird gespeichert</string>
+  <string name="draft_saved">Entwurf gespeichert</string>
   <string name="choose_draft">Entwurf auswählen</string>
   <string name="dialog_no_drafts">Noch keine Entwürfe</string>
   <string name="dialog_no_drafts_msg">Du kannst einen Entwurf hinzufügen, indem Du auf \'Speichern\' in der Bearbeitungsleiste klickst!</string>
@@ -752,10 +829,39 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="manage_drafts">Entwürfe verwalten</string>
   <string name="really_delete_drafts">Entwürfe wirklich löschen?</string>
   <!-- Strings for widgets -->
+  <string name="widget_theme_dark">DUNKEL</string>
+  <string name="widget_theme_light">HELL</string>
+  <string name="widget_theme_clear">KLAR</string>
+  <string name="widget_posttype_title">Post-Typ</string>
+  <string name="widget_posttype_list">LISTE</string>
+  <string name="widget_subname_hint">Subreddit-Name</string>
+  <string name="widget_content">Inhalt</string>
+  <string name="widget_loading">Lädt&#8230;</string>
+  <string name="widget_creation_title">Neues Widget</string>
+  <string name="shortcut_creation_title">Neuer Shortcut</string>
   <!-- Strings for alert dialogs -->
+  <string name="force_change_subscription">Konnte Abonnement nicht ändern</string>
+  <string name="force_change_subscription_desc">Möchtest du es trotzdem lokal ändern?</string>
+  <string name="never_load_images">Keine Bilder laden</string>
+  <string name="choose_color_title">Wähle eine Farbe</string>
   <!-- Sidebar strings (multis, flairs) -->
+  <string name="sidebar_select_flair">Flair auswählen</string>
+  <string name="sidebar_select_flair_text">Flair-Text setzen</string>
+  <string name="sidebar_findingmods">Moderatoren finden</string>
+  <string name="snackbar_flair_success">Flair erfolgreich gesetzt</string>
+  <string name="snackbar_flair_error">Fehler beim setzen des Flairs, probiere es bald noch einmal</string>
+  <string name="sidebar_submods">Moderatoren von /r/%s</string>
+  <string name="sidebar_flair">Flair: %1$s</string>
+  <string name="sidebar_notfound">Keine Sidebar gefunden</string>
   <!--Filtering dialog -->
+  <string name="filter_title">Was möchtest du filtern?</string>
+  <string name="filter_posts_sub">Beiträge von /r/%1$s</string>
+  <string name="filter_posts_user">Beiträge von /u/%1$s</string>
+  <string name="filter_open_externally">URLs von %s extern öffnen</string>
+  <string name="filter_btn">Filter</string>
   <!-- Caching -->
+  <string name="cache_no_comments_found">Keine Kommentare gefunden</string>
+  <string name="cache_no_comments_found_snackbar">Keine gecachten Kommentare gefunden</string>
   <string name="autocache_subreddits">Subreddits automatisch cachen</string>
   <string name="autocache_time">Zeit für automatisches Cachen</string>
   <string name="cache_subreddits_now">Subreddits jetzt cachen</string>
@@ -782,7 +888,10 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="handling_external_browser">In externem Browser öffnen</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Karte mit zentrierten Bild</string>
+  <string name="mode_card">Karten</string>
   <string name="mode_thumbnail">Vorschau</string>
+  <string name="mode_big_thumbnails">Breite Thumbnails</string>
+  <string name="mode_cropped">Großes Bild zugeschnitten</string>
   <string name="mode_bigpic">Großes Bild</string>
   <string name="press_actionbar">Pfeil drücken um Actionbar anzuzeigen</string>
   <string name="tap_actionbar">Gedrückt halten um Actionbar anzuzeigen</string>
@@ -881,4 +990,20 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="create_folder">Ordner erstellen</string>
   <string name="folder_name">Ordnername</string>
   <string name="sidebar_friends">Freunde</string>
+  <string name="gallery_mode">Galerie-Modus</string>
+  <string name="pro_previews">Vorschau (%d)</string>
+  <string name="draw_undo">Rückgängig</string>
+  <string name="empty_preview_text">Nichts zu sehen ¯\\_ (ツ) _ / ¯</string>
+  <string name="low_quality_through_reddit_lower_resolution">Niedrige Qualität via Reddit (niedrigere Auflösung)</string>
+  <string name="theme_red_shift">Rotverschiebung</string>
+  <string name="view_sub_sidebar">Sub-Sidebar ansehen</string>
+  <string name="mod_log">Mod Log</string>
+  <string name="subreddit_sidebar_progress">Sidebar wird geladen...</string>
+  <string name="manage_your_subreddits">Deine Subreddits verwalten</string>
+  <string name="enlarge_links">Links vergrößern</string>
+  <string name="enlarge_links_warning">Kann dazu führen, dass manche Zeilen größer sind als andere. Links sind jedoch einfacher zu klicken</string>
+  <string name="type_tumblr">Tumblr</string>
+  <string name="type_nsfw_tumblr">NSFW Tumblr</string>
+  <string name="submission_info_contest">Dieser Thread ist im Wettbewerb-Modus. Sie können die Sortierung nicht ändern.</string>
+  <string name="mod_ban_reason_required">Grund ist erforderlich</string>
 </resources>

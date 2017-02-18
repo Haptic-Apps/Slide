@@ -36,6 +36,8 @@
   <string name="submission_comment_saved">Komentar spremljen</string>
   <string name="submission_share_permalink">Podijeli poveznicu</string>
   <string name="submission_link_copied">Poveznica kopirana</string>
+  <string name="submission_text_copied">Selftext kopiran</string>
+  <string name="submission_removed">Post uklonjen</string>
   <plurals name="submission_points">
     <item quantity="one">%d bod</item>
     <item quantity="few">%d bod</item>
@@ -45,6 +47,16 @@
     <item quantity="one">%d nova poruka</item>
     <item quantity="few">%d novih poruka</item>
     <item quantity="other">%d novih poruka</item>
+  </plurals>
+  <plurals name="points">
+    <item quantity="one">bd</item>
+    <item quantity="few">bd</item>
+    <item quantity="other">bd</item>
+  </plurals>
+  <plurals name="comments">
+    <item quantity="one">kom</item>
+    <item quantity="few">kom</item>
+    <item quantity="other">kom</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Svijetla</string>
@@ -88,7 +100,10 @@
   <string name="drawer_offline">Slide je u izvanmrežnom načinu rada</string>
   <string name="drawer_offline_retry">Pokušaj se povezati s internetom</string>
   <!-- Sidebar items (That's the one on the right) -->
+  <string name="sidebar_wiki">Podreddit wiki</string>
   <!-- User profile -->
+  <string name="profile_karma_link">Post karma</string>
+  <string name="profile_karma_comment">Komentar karma</string>
   <string name="profile_message">Privatne poruka</string>
   <string name="profile_saved">spremljeno</string>
   <string name="profile_read_later">Pročitaj Kasnije</string>
@@ -109,6 +124,7 @@
   <string name="profile_remove">Izbriši korisnički račun</string>
   <string name="profile_history">Povijest</string>
   <string name="profile_share">Profil od %s</string>
+  <string name="profile_age">Redditor za %s</string>
   <string name="profile_tag">Oznaka</string>
   <string name="profile_tag_set">Postavi oznaku za %s</string>
   <string name="profile_tag_user">Označi korisnika</string>
@@ -125,7 +141,9 @@
   <string name="comment_deleted">[izbrisano]</string>
   <string name="comment_unsave">Poništi spremanje</string>
   <string name="comment_load_more">Učitaj %1$d više</string>
+  <string name="comment_load_more_string_new">Učitaj %1$s više</string>
   <string name="comment_loading_more">Učitavanje više komentara&#8230;</string>
+  <string name="comment_parent">Pokazati nadređeni komentar</string>
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Započni</string>
   <string name="welcome_personalize">Osobne postavke</string>
@@ -146,11 +164,13 @@
   <string name="sorting_week">tjedan</string>
   <string name="sorting_month">mjesec</string>
   <string name="sorting_year">godina</string>
+  <string name="sorting_all">sve vrijeme</string>
   <string name="sorting_search_hour">Protekli sat</string>
   <string name="sorting_search_day">Protekla 24 sata</string>
   <string name="sorting_search_week">Prošli tjedan</string>
   <string name="sorting_search_month">Prošli mjesec</string>
   <string name="sorting_search_year">Prošla godina</string>
+  <string name="sorting_search_all">Svo vrijeme</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Tekst</string>
@@ -159,10 +179,12 @@
   <string name="editor_title">Naslov</string>
   <string name="editor_err_msg">Molimo pokušajte ponovno za nekoliko sekundi.</string>
   <string name="editor_uploading_image">Uploadam slike na imgur</string>
+  <string name="editor_self">Selftext</string>
   <string name="editor_select_img">Odaberite sliku</string>
   <string name="editor_hint_optional_body">Tijelo poruke (nije obavezno)</string>
   <string name="editor_submit">Pošalji novi post</string>
   <string name="editor_hint_subreddit">Podreddit</string>
+  <string name="edit_selftext">Uredi selftext</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Fotografija spremljena</string>
   <string name="video_saved">Video spremljen</string>
@@ -203,7 +225,9 @@
   <string name="multireddit_create_hint">Ime multireddita</string>
   <string name="multireddit_invalid_name">Neispravno ime multireddita</string>
   <string name="multireddit_invalid_name_msg">Imena multireddita mogu sadržavati samo slova, brojeve i podvlake.</string>
+  <string name="multi_add_to">Dodaj /r/%s u</string>
   <string name="multi_error">Došlo je do pogreške, molimo pokušajte ponovno kasnije</string>
+  <string name="btn_import_multi">Uvezi multireddit</string>
   <string name="multi_saved_successfully">Uspješno spremljeno</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW slika</string>
@@ -277,6 +301,7 @@
   <string name="misc_try_again">Pokušajte ponovo</string>
   <string name="misc_please_try_again">Molimo pokušajte ponovno</string>
   <string name="misc_more_info">Više informacija</string>
+  <string name="misc_rate_title">Sviđa ti se Slide?</string>
   <string name="misc_rate_msg">Ocjenite ga!</string>
   <string name="misc_captcha_incorrect">Capatcha netočna, molimo pokušajte ponovno</string>
   <!-- Goto User -->
@@ -324,11 +349,16 @@
   <string name="backup_info">Slide sigurnosno kopira sve podatke u privatnu mapu Google Drive. Možete sinkronizirati podatke svih uređaja (ili na istog uređaja), a podatci nikada ne idu preko drugih usluga ili poslužitelja.</string>
   <string name="backup_btn">Sigurnosna kopija</string>
   <string name="backup_btn_restore">Vrati</string>
+  <string name="backup_btn_file">Sigurnosno kopiraj u datoteku</string>
   <!-- Vote -->
   <string name="vote_err">Pogreška davanja glasa!</string>
   <string name="vote_err_login">Morate biti prijavljeni da bi glasali!</string>
+  <string name="vote_removed">Glas uklonjen</string>
   <!-- Moderation tools -->
   <string name="mod_mail">Moderatorski mail</string>
+  <string name="mod_mail_unread">Nepročitane moderatorske poruke</string>
+  <string name="mod_modqueue">Modqueue</string>
+  <string name="mod_unmoderated">Nemoderirano</string>
   <string name="mod_reports">Izvješća</string>
   <string name="mod_approve">Stvarno želite da odobrite ovaj post?</string>
   <string name="mod_approved">Post odobren.</string>
@@ -339,14 +369,33 @@
   <string name="mod_no_reports">Nema izvješća</string>
   <string name="mod_btn_approve">Dozvoli</string>
   <string name="mod_btn_approved">Odobrio /u/%1$s</string>
+  <string name="mod_btn_submission_flair">Postavi flair</string>
+  <string name="mod_btn_submission_flair_text">Postavi tekst flair-a</string>
   <string name="mod_btn_mark_nsfw">Označi NSFW</string>
   <string name="mod_btn_unmark_nsfw">Makni oznaku NSFW</string>
+  <string name="mod_btn_pin">Prikači</string>
+  <string name="mod_btn_unpin">Otkvači</string>
   <string name="mod_btn_remove">Ukloni</string>
   <string name="mod_btn_remove_reason">Ukloni s razlogom</string>
   <string name="mod_btn_author">Profil autora</string>
   <string name="mod_btn_ban">Zabranite pristup</string>
   <string name="mod_ban_user">Zabrana pristupa korisniku</string>
   <string name="mod_ban_success">Pristup korisniku zabranjen!</string>
+  <string name="mod_ban_fail">Pogreška zabrane korisnika</string>
+  <string name="mod_ban_reason">Razlog Bana</string>
+  <string name="mod_ban_time">Vrijeme zabrane (dana)</string>
+  <string name="mod_ban_title">Zabrani /u/%1$s</string>
+  <string name="mod_remove_hint">Razlog uklanjanja</string>
+  <string name="mod_remove_insert_draft">Umetni skice</string>
+  <string name="mod_distinguish">Razlikovati</string>
+  <string name="mod_undistinguish">Ne-razlikuj</string>
+  <string name="mod_sticky">Ljepljivo</string>
+  <string name="mod_unsticky">Odlijepi</string>
+  <plurals name="mod_btn_reports">
+    <item quantity="one">Pogledaj %d izvješće</item>
+    <item quantity="few">Pogledaj %d izvješća</item>
+    <item quantity="other">Pogledaj %d izvješća</item>
+  </plurals>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -355,6 +404,7 @@
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d pretplatnika</string>
   <string name="subreddit_subscribers_string">%1$s pretplatnika</string>
+  <string name="subreddit_active_users_string_new">%1$s ovdje</string>
   <string name="subreddit_err_msg">Podreddit %1$s nije moguće pronaći. Možda je krivo napisan?</string>
   <string name="subreddit_err">Podreddit nije pronađen</string>
   <string name="subreddit_chooser">Odaberite podreddit</string>
@@ -395,6 +445,7 @@
   <string name="posts_hidden_forever">Uvijek sakriveni postovi</string>
   <string name="share_image">Podijeli sliku</string>
   <string name="settings_libs">Open-source biblioteke</string>
+  <string name="settings_about_libs">O bibliotekama</string>
   <string name="settings_bugs">Prijavite bugove</string>
   <string name="settings_changelog">Prikaz dnevnika promjena</string>
   <string name="settings_google">Povezivanje s Google</string>
@@ -404,6 +455,7 @@
   <string name="settings_colored_navigation_bar">Obojena navigacijska traka</string>
   <string name="settings_colored_icon_desc">Može zahtijevati ponovno pokretanje telefona. Time ćete ukloniti ikonu sa početnog zaslona.</string>
   <string name="settings_filter_domain">Filteri za domene</string>
+  <string name="settings_filter_selfttext">Filteri selftext-a</string>
   <string name="settings_filter_title">Naslovni filteri</string>
   <string name="settings_filter_hint">Unesi odgovarajući tekst odvojen zarezima</string>
   <string name="settings_prefs_reddit">Pregledaj sve reddit.com postavke</string>
@@ -412,6 +464,7 @@
   <string name="settings_comment_crop">Sakrij glavnu sliku u komentarima</string>
   <string name="settings_general_scroll_read">Označi postove pročitanima kada prijeđem preko njih</string>
   <string name="settings_link_chrome">Koristite Chrome tabove</string>
+  <string name="settings_image_location_unset">Još nije postavljen</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Pričuvna kopija &amp; Obnova</string>
   <string name="settings_title_default_theme">Glavna tema</string>
@@ -432,6 +485,7 @@
   <string name="settings_section_appearance">Izgled</string>
   <string name="settings_section_other">Ostalo</string>
   <string name="settings_section_browser">Preglednik</string>
+  <string name="settings_section_custom_domains">Prilagođene domene</string>
   <string name="settings_section_save_history">Spremi povijest</string>
   <string name="settings_section_clear_history">Obriši povijest</string>
   <string name="settings_section_image_quality">Kvaliteta slike</string>
@@ -450,16 +504,27 @@
   <string name="settings_synccit">Synccit integracija</string>
   <string name="settings_comment_collapse">Potpuno sažmi komentare</string>
   <string name="settings_comment_collapse_description">Također onemogućuje animacije komentara</string>
+  <string name="settings_backup_will_backup">\u0020 će biti spremljen</string>
+  <string name="settings_backup_submission_only">samo postovi</string>
   <string name="settings_backup_comments">\u0020(Komentari)</string>
+  <string name="settings_filter_profile">Filteri profila</string>
   <string name="settings_font_system">Sustav</string>
   <string name="settings_manage_subscriptions">Upravljanje pretplatama</string>
   <string name="settings_redditprefs_over18">Imam preko 18 godina i želim vidjeti NSFW sadržaj</string>
   <string name="settings_layout_view">Način prikaza</string>
+  <string name="settings_layout_picture_mode">Način slike</string>
+  <string name="settings_reddit_thumbnail_mode">Način sličica minijatura</string>
+  <string name="settings_layout_actionbar_mode">Actionbar način</string>
+  <string name="settings_layout_small_content_tag">Manji sadržaj oznaka</string>
   <string name="settings_general_comment_last_visit">Prikaži broj novih komentara od zadnjeg posjeta</string>
+  <string name="settings_reddit_syncing">Sinkroniziranje s Redditom</string>
+  <string name="settings_filter_flair">Filteri flair-ova</string>
   <string name="settings_view_type">Vrsta prikaza</string>
+  <string name="settings_data">Ušteda podataka</string>
   <string name="settings_section_content">Sadržaj</string>
   <string name="settings_about_changelog_post">Prikaži popis promjena</string>
   <string name="settings_backup_include_personal_title">Uključi osobne informacije?</string>
+  <string name="settings_backup_view">Pogledaj kopiju</string>
   <string name="settings_support_slide">Podrži Slide for Reddit kupovinom Pro!</string>
   <string name="settings_theme_night_start_title">Odaberite vrijeme početka za noćni način rada</string>
   <string name="settings_theme_night_end_title">Odaberite vrijeme završetka za noćni način rada</string>
@@ -468,6 +533,7 @@
   <string name="settings_general_inbox_snd">Zvuk i vibracija</string>
   <!-- View types -->
   <string name="view_type_tabs">Podreddit tabovi</string>
+  <string name="view_type_comments">Komentar okna</string>
   <!--Search methods -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Dodaj domenu</string>
@@ -488,19 +554,32 @@
   <string name="btn_add_collection">Dodavanje zbirke</string>
   <string name="add_to_subs">DODAJ U PRETPLATE</string>
   <string name="sub_added">Podreddit dodan!</string>
+  <string name="btn_add_to_sublist">DODAJ NA POPIS PODREDDITA</string>
+  <string name="subscribe_caps">PRETPLATI SE</string>
+  <string name="unsubscribe_caps">OTKAŽI PRETPLATU</string>
   <string name="reorder_subreddits_title">Odaberite podreddit za dodati</string>
   <string name="reorder_subreddit_name">Ime podreddita</string>
   <string name="reorder_remove_title">Ukloniti ovaj subreddit?</string>
   <string name="reorder_remove_msg">Vaša pretplata neće biti otkazana, ali nećete vidjeti ovaj podreddit u sidebaru!</string>
   <string name="reorder_sync_complete">Sinkronizacija dovršena</string>
+  <string name="reorder_url_err">URL nije valjan</string>
   <!-- Save categories -->
+  <string name="category_set_name">Postavi ime kategorije</string>
+  <string name="category_set_name_hint">Ime kategorije</string>
+  <string name="category_categorize">KATEGORIZIRAJ</string>
   <string name="category_create_new">Nova kategorija</string>
+  <string name="profile_category_loading">Učitavanje kategorija</string>
+  <string name="profile_category_select">Odaberi kategoriju</string>
   <!-- Setting subheaders -->
   <string name="sorting">Sortiranje</string>
   <string name="display">Prikaz</string>
   <string name="image_downloads">Slike</string>
   <string name="app_theme">Tema aplikacije</string>
+  <string name="tinting">Bojanje</string>
+  <string name="post_info">Informacije o postu</string>
+  <string name="post_buttons">Post gumbi</string>
   <string name="navigation">Navigacija</string>
+  <string name="collapse_comments">Akcije sažimanja</string>
   <string name="nsfw">NSFW sadržaj</string>
   <string name="content_thumbnails">Sadržaj sličice</string>
   <string name="font_styles">Stilovi fonta</string>
@@ -532,14 +611,26 @@
   <string name="donate_success_msg">Hvala vam jako puno za Vašu podršku za Slide for Reddit! To mi zaista puno znači. Ako naiđete na bilo kakve probleme, pošaljite mi e-mail ili izvješće na GitHub bilo kada!</string>
   <string name="donate_success_btn">Nema na čemu!</string>
   <!-- Offline mode -->
+  <string name="offline_caching">Predmemoriranje postova</string>
   <string name="offline_msg">Molimo Vas povežite se na internet i osvježite podreddite kako bi ste to napravili</string>
   <string name="offline_last_update">Posljednje ažurirano %1$s</string>
   <string name="offline_comments_not_loaded">Idite Online i odaberite \'Predmemoriraj komentare\' iz izbornika 3 točkice za prikaz komentara izvanmrežno.</string>
+  <string name="offline_caching_title">Spremanje %1$s</string>
   <!-- Website -->
   <string name="website_back">Vrati se</string>
   <string name="website_external">Otvori u vanjskom pregledniku</string>
+  <plurals name="reorder_subs_added">
+    <item quantity="one">%d subreddit dodan</item>
+    <item quantity="few">%d subreddit dodano</item>
+    <item quantity="other">%d subreddit dodano</item>
+  </plurals>
   <!-- Time -->
   <string name="time_just_now">Upravo sada</string>
+  <plurals name="time_years">
+    <item quantity="one">%d godina</item>
+    <item quantity="few">%d godina</item>
+    <item quantity="other">%d godina</item>
+  </plurals>
   <plurals name="time_months">
     <item quantity="one">%d mjesec</item>
     <item quantity="few">%d mjeseci</item>
@@ -560,6 +651,11 @@
     <item quantity="few">%d minute</item>
     <item quantity="other">%d minuta</item>
   </plurals>
+  <plurals name="time_seconds">
+    <item quantity="one">%d sekunda</item>
+    <item quantity="few">%d sekunda</item>
+    <item quantity="other">%d sekundi</item>
+  </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <string name="time_years_short">%dg</string>
   <string name="time_days_short">%dd</string>
@@ -568,6 +664,7 @@
   <string name="time_seconds_short">%dsek</string>
   <!-- Strings present during the login process -->
   <string name="login_subscribe_rslideforreddit">Pretplatite se na /r/slideforreddit?</string>
+  <string name="login_sync_colors">Sinkronizirati boje sada?</string>
   <string name="login_starting">Postavljanje stvari!</string>
   <string name="login_starting_desc">Ovo bi trebalo trajati samo sekundu&#8230;</string>
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
@@ -580,10 +677,23 @@
   <string name="discover_trending">Trendovi</string>
   <!-- Subreddit post notifiactions -->
   <string name="sub_post_notify">Obavijestiti</string>
+  <string name="sub_post_notifs_threshold">Prag ocjene</string>
+  <string name="sub_post_notifs_settings_search">Traži ime subreddita</string>
   <!-- Internal browser -->
+  <string name="internal_browser_readermode">Način čitanja</string>
   <!-- Live thread -->
+  <string name="livethread_recents_title">Live tema: %1$s</string>
   <!-- Used when viewing media -->
+  <string name="mediaview_notif_title">Preuzimanje slike&#8230;</string>
+  <string name="mediaview_converting_fail_btn">Otvori u webu</string>
+  <string name="mediaview_save">Spremi %1$s</string>
+  <string name="mediaview_saving">Spremanje %1$s</string>
   <!-- Drafts -->
+  <string name="draft_saving">Spremanje skice</string>
+  <string name="draft_saved">Skica spremljena</string>
+  <string name="choose_draft">Odaberi nacrt</string>
+  <string name="dialog_no_drafts">Nema skica još</string>
+  <string name="manage_drafts">Upravljanje skicama</string>
   <!-- Strings for widgets -->
   <string name="widget_theme_dark">TAMNO</string>
   <string name="widget_theme_light">SVIJETLO</string>
@@ -592,15 +702,33 @@
   <string name="widget_posttype_list">POPIS</string>
   <string name="widget_posttype_bigpic">VELIKA SLIKA</string>
   <string name="widget_posttype_compact">KOMPAKTNI</string>
+  <string name="widget_subname_hint">Ime podreddita</string>
+  <string name="widget_visuals">Vizuali</string>
   <string name="widget_content">Sadržaj</string>
   <string name="widget_loading">Učitavanje&#8230;</string>
+  <string name="widget_creation_title">Novi widget</string>
   <string name="shortcut_creation_title">Novi prečac</string>
   <!-- Strings for alert dialogs -->
   <string name="choose_color_title">Izaberi boju</string>
+  <string name="mode_desktop_compact">Radna površina kompaktno</string>
   <!-- Sidebar strings (multis, flairs) -->
+  <string name="sidebar_select_flair">Postavi flair</string>
+  <string name="sidebar_select_flair_text">Postavi tekst flair-a</string>
+  <string name="sidebar_findingmods">Traženje moderatora</string>
+  <string name="sidebar_submods">/ r/%s moderatori</string>
+  <string name="sidebar_flair">Flair: %1$s</string>
+  <plurals name="reorder_selected">
+    <item quantity="one">"%d odabran"</item>
+    <item quantity="few">"%d odabran"</item>
+    <item quantity="other">"%d odabrano"</item>
+  </plurals>
   <!--Filtering dialog -->
+  <string name="filter_posts_sub">Objave iz /r/%1$s</string>
   <string name="filter_btn">Filter</string>
   <!-- Caching -->
+  <string name="cache_no_comments_found">Komentari nisu pronađeni</string>
+  <string name="autocache_time">Autocache vrijeme</string>
+  <string name="cache_wifi_only">Učitaj samo na WiFi-u</string>
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Učitaj više komentara</string>
@@ -619,31 +747,70 @@
   <string name="mode_centered">Kartice s centriranom slikom</string>
   <string name="mode_card">Kartice</string>
   <string name="mode_thumbnail">Minijatura</string>
+  <string name="mode_big_thumbnails">Široke sličice minijatura</string>
+  <string name="mode_bigpic">Velika slika</string>
   <string name="press_actionbar">Pritisnite strelicu za prikaz akcijske trake</string>
   <string name="tap_actionbar">Dugi pritisak za prikaz akcijske trake</string>
   <string name="always_actionbar">Uvijek pokaži akcijsku traku</string>
   <string name="sub_content_filter">Filter sadržaja podreddita</string>
   <string name="submission_share_reddit_url">Podijeli komentare</string>
   <string name="filter_content">Filtriraj ovaj sadržaj</string>
+  <string name="btn_open_content">Otvori sadržaj</string>
   <string name="btn_report">Izvješće</string>
+  <string name="msg_report_sent">Izvještaj poslan</string>
   <string name="do_not_show_again">Ne prikazuj ponovno</string>
+  <string name="datasave_mobile">Mobilni podaci</string>
   <string name="never">Nikada</string>
+  <string name="card_background_tint">Pozadina kartice</string>
   <string name="subreddit_name_tint">Ime podreddita</string>
+  <string name="thumb_type_always">Uvijek pokaži</string>
   <string name="thumb_type_off">Nikad ne pokazuj</string>
+  <string name="tutorial_swipe_navigation">Navigacija klizanjem</string>
+  <string name="handling_browser">Web preglednik</string>
+  <string name="btn_open_comments">Otvori komentare</string>
   <string name="btn_preview">Pregled</string>
   <string name="content_deleted">[deleted]</string>
+  <string name="type_selftext">Selftext</string>
+  <string name="submission_unhide">Otkrij post</string>
+  <string name="submission_info_unhidden">Post otkriven</string>
   <string name="msg_sent_success">Poruka poslana</string>
   <string name="content_removed">[removed]</string>
   <string name="guest">Gost</string>
+  <string name="album_slide_view">Pogled klizajućeg albuma</string>
+  <string name="album_grid">Album rešetka</string>
   <string name="album_saving">Spremanje albuma</string>
+  <string name="open_externally">Otvori u eksternom pregledniku</string>
+  <string name="download_album">Preuzmi album</string>
+  <string name="compose_message">Sastavite poruku</string>
   <string name="mark_all_as_read">Označi sve kao pročitano</string>
   <string name="alert_history_cleared">Povijest izbrisana!</string>
+  <string name="go_offline">Idi van mreže</string>
+  <string name="sidebar_edit_flair">Uredite svoj flair</string>
   <string name="help">Pomoć</string>
+  <string name="view_subreddits">Pogledaj subreddite</string>
+  <string name="btn_suggest_title">Predloži naslov</string>
+  <string name="btn_offline">Uđi u izvanmrežni način rada</string>
   <string name="discard_comment_title">Odbacite komentar?</string>
   <string name="backup_complete">Izrada sigurnosne kopije je završena!</string>
+  <string name="choose_sync_time">Odaberi vrijeme sinkronizacije</string>
+  <string name="title_not_found">Naslov nije pronađen</string>
+  <string name="comment_stickied">Komentar zalijepljen</string>
+  <string name="comment_removed">Komentar uklonjen</string>
+  <string name="rate_slide">Ocijeni Slide</string>
+  <string name="edit_query">Uređivanje upita</string>
+  <string name="share_slide">Podijeli Slide</string>
+  <string name="create_folder">Stvori mapu</string>
+  <string name="folder_name">Naziv mape</string>
   <string name="sidebar_friends">Prijatelji</string>
+  <string name="hide_read_posts">Sakrij pogledane postove</string>
+  <string name="gallery_mode">Način galerije</string>
   <string name="pro_previews">Pregled (%d)</string>
   <string name="draw_undo">Poništi</string>
+  <string name="theme_red_shift">Crvena smjena</string>
+  <string name="mod_log">Mod zapisnik</string>
+  <string name="subreddit_sidebar_progress">Dobivanje rubne trake...</string>
+  <string name="enlarge_links">Povećaj link</string>
   <string name="type_tumblr">Tumblr</string>
   <string name="type_nsfw_tumblr">NSFW Tumblr</string>
+  <string name="mod_ban_reason_required">Potreban je razlog</string>
 </resources>

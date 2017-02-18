@@ -484,6 +484,7 @@
   <string name="settings_delete_sub_settings">Voulez-vous vraiment supprimer les paramètres de %1$s?</string>
   <string name="settings_layout_default">Aménagement des postes</string>
   <string name="settings_link_album">Voir les albums en interne</string>
+  <string name="settings_link_peek">Coup d\'œil sur le contenu (expérimental)</string>
   <string name="settings_link_gif">Voir les gif en interne</string>
   <string name="settings_link_handling">Gestion des liens</string>
   <string name="settings_link_image">Voir les images en interne</string>
@@ -502,6 +503,7 @@
   <string name="posts_hidden_forever">Publications masquées pour toujours</string>
   <string name="share_image">Partager l\'image</string>
   <string name="settings_libs">Bibliothèques Open source</string>
+  <string name="settings_about_libs">À propos des librairies</string>
   <string name="settings_bugs">Signaler un bug</string>
   <string name="settings_changelog">Voir le rapport de version</string>
   <string name="settings_google">Connexion à Google</string>
@@ -829,6 +831,7 @@
   <string name="mediaview_converting_fail">La conversion du gif via Gfycat n\'a pas fonctionné</string>
   <string name="mediaview_converting_fail_btn">Ouvert en web</string>
   <string name="mediaview_save">Enregistrer%1$s</string>
+  <string name="mediaview_saving">Sauvegarde de %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Enregistrement du brouillon</string>
   <string name="draft_saved">Brouillon enregistré</string>
@@ -1051,4 +1054,5 @@
   <string name="type_nsfw_tumblr">Tumblr NSFW</string>
   <string name="submission_info_contest">Ce fil est en mode concours. Vous ne pouvez pas modifier le tri</string>
   <string name="sub_post_notifs_msg">Slide vérifiera pour de nouvelles publications quand il vérifie pour des messages (les notificatons de messages doivent être activées)</string>
+  <string name="mod_ban_reason_required">La raison est demandée</string>
 </resources>

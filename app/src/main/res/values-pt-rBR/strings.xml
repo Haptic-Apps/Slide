@@ -7,9 +7,10 @@
   <string name="general_enable_shadowbox">Modo de apresentação</string>
   <string name="general_open_settings">Barra lateral</string>
   <string name="general_sub_sync">Sincronizando Assinaturas</string>
-  <string name="general_gallerymode_ispro">Modo Galeria é uma funcionalidade Pro</string>
+  <string name="general_gallerymode_ispro">Modo galeria é um recurso Pro</string>
   <string name="general_cropdraw_ispro">Cortar e desenhar em imagens enviadas é uma funcionalidade Pro</string>
   <string name="general_shadowbox_comments_ispro">Modo Shadowbox de comentários é uma funcionalidade Pro</string>
+  <string name="general_nighttheme_ispro">Modo noturno automático é um recurso Pro</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Envio não salvo</string>
   <string name="submission_info_saved">Envio salvo</string>
@@ -34,14 +35,14 @@
   <string name="submission_not_found">Opa, post não encontrado!</string>
   <string name="submission_not_found_msg">Desculpe, este post não pôde ser encontrado</string>
   <string name="submission_copy_text">Copiar texto</string>
-  <string name="submission_comment_saved">Comentário guardado</string>
+  <string name="submission_comment_saved">Comentário salvo</string>
   <string name="submission_comment_unsaved">Comentário retirado</string>
-  <string name="submission_share_permalink">Partilhar ligação</string>
+  <string name="submission_share_permalink">Compartilhar link</string>
   <string name="submission_comment_copied">Texto do comentário copiado</string>
-  <string name="submission_nocontent">A submissão não têm conteúdo</string>
-  <string name="submission_link_copied">Ligação copiada</string>
+  <string name="submission_nocontent">O envio não tem conteúdo</string>
+  <string name="submission_link_copied">Link copiado</string>
   <string name="submission_text_copied">Selftext copiado</string>
-  <string name="submission_removed">Submissão removida</string>
+  <string name="submission_removed">Envio removido</string>
   <plurals name="submission_points">
     <item quantity="one">%d ponto</item>
     <item quantity="other">%d pontos</item>
@@ -63,7 +64,7 @@
   <string name="theme_dark">Escuro</string>
   <string name="theme_black">Preto (para AMOLED)</string>
   <string name="theme_dark_blue">Azul escuro</string>
-  <string name="night_mode">Modo Nocturno</string>
+  <string name="night_mode">Modo Noturno</string>
   <string name="theme_default_color">Cor principal</string>
   <string name="theme_subreddit_color">Alterar cor</string>
   <string name="theme_accent_color">Cor dos detalhes</string>
@@ -71,7 +72,7 @@
   <string name="theme_card">Cartão</string>
   <string name="theme_sepia">Sépia</string>
   <string name="theme_amoled_contrast">AMOLED com contraste</string>
-  <string name="theme_night">Tema Nocturno</string>
+  <string name="theme_night">Tema noturno</string>
   <!-- Font settings -->
   <string name="font_size">Tamanho da fonte</string>
   <string name="font_size_huge">Gigante</string>
@@ -167,14 +168,14 @@
   <string name="sorting_week">semana</string>
   <string name="sorting_month">mês</string>
   <string name="sorting_year">ano</string>
-  <string name="sorting_all">sempre</string>
+  <string name="sorting_all">desde sempre</string>
   <string name="sorting_search_hour">Última hora</string>
   <string name="sorting_search_day">Últimas 24 horas</string>
   <string name="sorting_search_week">Semana passada</string>
   <string name="sorting_search_month">Mês passado</string>
   <string name="sorting_search_year">Ano passado</string>
   <string name="sorting_search_all">Todo o tempo</string>
-  <string name="sorting_defaultfor">Defeito para /r/%1$s</string>
+  <string name="sorting_defaultfor">Padrão para /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Texto</string>
@@ -188,10 +189,10 @@
   <string name="editor_hint_optional_body">Texto (opcional)</string>
   <string name="editor_submit">Enviar um post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
-  <string name="editor_finding_title">Encontrar o título</string>
+  <string name="editor_finding_title">Encontrando o título</string>
   <string name="edit_selftext">Editar selftext</string>
-  <string name="delete_submission">Apagar submissão</string>
-  <string name="set_submission_flair">Definir flair da submissão</string>
+  <string name="delete_submission">Apagar envio</string>
+  <string name="set_submission_flair">Definir flair do envio</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Imagem Salva</string>
   <string name="video_saved">Vídeo salvo</string>
@@ -207,24 +208,26 @@
   <string name="err_permission">Permissão negada</string>
   <string name="err_permission_msg">Parece que você negou ao Slide acesso para escrever/salvar no armazenamento externo. Isso fará com que o cache de imagens, de posts e salvar imagens falhe :(. \n Gostaria de permitir acesso ao armazenamento externo?</string>
   <string name="err_authentication">Falha na autenticação</string>
-  <string name="err_submit_restricted">Esta subreddit é restrita</string>
-  <string name="err_submit_restricted_text">Não é permitido fazer submissões aqui. Por favor escolha outra subreddit</string>
-  <string name="err_upload_unaccessible">Verifique se a imagem é acessível e tente de novo!</string>
+  <string name="err_submit_restricted">Este subreddit é restrito</string>
+  <string name="err_submit_restricted_text">Você não tem permissão para postar aqui. Por favor, escolha outro subreddit</string>
+  <string name="err_upload_unaccessible">Tenha certeza que a imagem é acessível e tente novamente!</string>
   <string name="error_video_not_found">Vídeo não encontrado</string>
   <string name="error_video_message">Ocorreu um erro ao carregar este vídeo</string>
   <string name="error_album_not_found">Álbum não encontrado</string>
-  <string name="error_album_not_found_text">Gostaria de abrir a ligação no browser?</string>
+  <string name="error_album_not_found_text">Você gostaria de abrir o link no navegador?</string>
   <string name="err_comment_post_nosave_message">\nPor favor, tente novamente em um minuto</string>
   <string name="err_could_not_find_content_msg">Reddit não pôde localizar o conteúdo solicitado</string>
   <string name="err_refused_request_msg">Reddit recusou uma conexão. Gostaria de tentar re-conectar ao Reddit?</string>
-  <string name="err_color_sync_login">Por favor faça login para usar o Color Sync</string>
-  <string name="err_something_wrong">Uh oh, alguma coisa correu mal</string>
+  <string name="err_color_sync_login">Por favor, faça o login para usar o Color Sync</string>
+  <string name="err_something_wrong">Ah não, algo deu errado</string>
   <string name="err_couldnt_save_choose_new">Slide não pôde salvar o diretório selecionado. Você gostaria de escolher um novo local para salvar?</string>
+  <string name="err_share_image">Erro ao compartilhar a imagem</string>
   <string name="err_file_not_found">Arquivo não encontrado</string>
   <string name="err_not_valid_backup">Não é um arquivo de backup válido para o Slide</string>
   <string name="err_not_valid_backup_msg">O arquivo selecionado não é um arquivo de backup válido para o Slide</string>
   <string name="err_file_not_found_msg">O arquivo selecionado não pôde ser encontrado. Por favor, verifique se ele existe e se o Slide tem permissões para acessar o arquivo/pasta</string>
   <string name="err_comment_post">Uh oh, o envio desse comentário falhou!</string>
+  <string name="err_comment_post_reason">Razão: %1$s</string>
   <string name="err_comment_post_message">\n\nSua mensagem foi salva como um rascunho. Por favor, tente novamente mais tarde.</string>
   <string name="err_comment_post_copy">Copiar comentário</string>
   <string name="err_connection_failed_msg">A conexão ao Reddit falhou. Verifique sua conexão com a internet e tente novamente ou entre no modo offline.</string>
@@ -234,6 +237,8 @@
   <!-- Multireddits -->
   <string name="multireddit_err_title">Sem Multireddits (ainda)!</string>
   <string name="multireddit_err_msg">Gostaria de criar um novo Multireddit?</string>
+  <string name="public_multireddit_err_title">Sem multireddits!</string>
+  <string name="public_multireddit_err_msg">Este usuário tem não multireddits públicos.</string>
   <string name="multireddit_title_empty">O título não pode estar vazio</string>
   <string name="multireddit_title_empty_msg">Por favor, digite um título para seu multireddit</string>
   <string name="multireddit_no_subs">Nenhum subreddits foi acrescentado</string>
@@ -242,6 +247,7 @@
   <string name="multireddit_create_hint">Nome do Multireddit</string>
   <string name="multireddit_invalid_name">Nome do multireddit inválido</string>
   <string name="multireddit_invalid_name_msg">Os nomes de Multireddit podem conter apenas letras, números e sublinhados.</string>
+  <string name="multi_add_to">Adicionar /r/%s para</string>
   <string name="btn_import_multi">Importar multireddit</string>
   <!-- Content types -->
   <string name="type_nsfw_img">Imagem NSFW</string>
@@ -382,14 +388,14 @@
   <string name="mod_btn_author">Perfil do autor</string>
   <string name="mod_btn_ban">Banir</string>
   <string name="mod_ban_user">Banir utilizador</string>
-  <string name="mod_ban_success">Utilizador banido!</string>
-  <string name="mod_ban_fail">Error a banir utilizador</string>
-  <string name="mod_ban_reason">Razão do ban</string>
+  <string name="mod_ban_success">Usuário banido!</string>
+  <string name="mod_ban_fail">Error ao banir usuário</string>
+  <string name="mod_ban_reason">Motivo do banimento</string>
   <string name="mod_ban_note_mod">Nota do moderador (opcional)</string>
-  <string name="mod_ban_note_user">Mensagem do utilizador (opcional)</string>
-  <string name="mod_ban_time">Duração do ban (dias)</string>
+  <string name="mod_ban_note_user">Mensagem do usuário (opcional)</string>
+  <string name="mod_ban_time">Duração do banimento (dias)</string>
   <string name="mod_ban_title">Banir /u/%1$s</string>
-  <string name="mod_ban_requirements">É necessária razão e duração</string>
+  <string name="mod_ban_requirements">Razão e duração são necessários</string>
   <string name="mod_remove_template">Removido por§u0020</string>
   <string name="mod_remove_hint">Razão da remoção</string>
   <string name="mod_remove_title">Qual é a razão para remover esta submissão?</string>

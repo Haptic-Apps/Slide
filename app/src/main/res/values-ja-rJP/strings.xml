@@ -477,6 +477,7 @@
   <string name="settings_delete_sub_settings">%1$s の設定を削除してもよろしいですか?</string>
   <string name="settings_layout_default">投稿レイアウト</string>
   <string name="settings_link_album">内部のアルバム表示</string>
+  <string name="settings_link_peek">コンテンツをのぞき見 (実験的)</string>
   <string name="settings_link_gif">内部 GIF 表示</string>
   <string name="settings_link_handling">リンクの処理</string>
   <string name="settings_link_image">内部画像表示</string>
@@ -495,6 +496,7 @@
   <string name="posts_hidden_forever">投稿を永久に隠す</string>
   <string name="share_image">画像を共有</string>
   <string name="settings_libs">オープンソース ライブラリ</string>
+  <string name="settings_about_libs">ライブラリについて</string>
   <string name="settings_bugs">バグを報告</string>
   <string name="settings_changelog">更新履歴を表示</string>
   <string name="settings_google">Google に接続中</string>
@@ -814,6 +816,7 @@
   <string name="mediaview_converting_fail">Gfycat の gif 変換が動作しません</string>
   <string name="mediaview_converting_fail_btn">Web で開く</string>
   <string name="mediaview_save">%1$s を保存</string>
+  <string name="mediaview_saving">%1$s を保存中</string>
   <!-- Drafts -->
   <string name="draft_saving">下書きの保存中</string>
   <string name="draft_saved">下書きを保存しました</string>
@@ -1034,4 +1037,5 @@
   <string name="type_nsfw_tumblr">NSFW Tumblr</string>
   <string name="submission_info_contest">このスレッドは、コンテスト モードです。並べ替えを変更できません</string>
   <string name="sub_post_notifs_msg">メールをチェックするとき、Slide が新しい投稿をチェックします (メール通知を有効にする必要があります)</string>
+  <string name="mod_ban_reason_required">理由が必要です</string>
 </resources>
