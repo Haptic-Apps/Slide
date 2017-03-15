@@ -233,7 +233,12 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 locked = s.isLocked();
                 archived = s.isArchived();
                 contest = s.getDataNode().get("contest_mode").asBoolean();
-                return s.getSubredditName();
+                if(s.getSubredditName() == null){
+                    subreddit = "Promoted";
+                } else {
+                    subreddit = s.getSubredditName();
+                }
+                return subreddit;
 
             } catch (Exception e) {
                 try {

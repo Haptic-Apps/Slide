@@ -2299,7 +2299,7 @@ public class PopulateSubmissionViewHolder {
         holder.title.setText(SubmissionCache.getTitleLine(submission,
                 mContext)); // title is a spoiler roboto textview so it will format the html
 
-        if (!offline && UserSubscriptions.modOf != null && UserSubscriptions.modOf.contains(
+        if (!offline && UserSubscriptions.modOf != null && submission.getSubredditName() != null &&  UserSubscriptions.modOf.contains(
                 submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);
             final Map<String, Integer> reports = submission.getUserReports();
@@ -2592,7 +2592,7 @@ public class PopulateSubmissionViewHolder {
                 holder.firstTextView.setTypeface(typeface);
 
                 setViews(submission.getDataNode().get("selftext_html").asText(),
-                        submission.getSubredditName(), holder);
+                        submission.getSubredditName() == null ? "all" : submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);

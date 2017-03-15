@@ -273,7 +273,7 @@ public class Search extends BaseActivityAnim {
                     }
                 }
 
-                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount) {
+                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount && !posts.nomore) {
                     posts.loading = true;
                     posts.loadMore(adapter, subreddit, where, false, multireddit, time);
 

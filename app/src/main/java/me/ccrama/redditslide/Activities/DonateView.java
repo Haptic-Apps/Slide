@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.Authentication;
@@ -126,10 +127,17 @@ public class DonateView extends BaseActivityAnim {
                 Reddit.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
                     @Override
                     public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-                        Purchase donation = inv.getPurchase("donation_" + slider.getValue());
-                        if (donation != null) {
-                            Reddit.mHelper.consumeAsync(donation, mPurchaseFinishedListener);
-                            return;
+                        if(inv != null) {
+                            Purchase donation = inv.getPurchase("donation_" + slider.getValue());
+                            LogUtil.v("Trying to get donation_" + slider.getValue());
+                            if (donation != null) {
+                                LogUtil.v("Not null");
+                                Reddit.mHelper.consumeAsync(donation, mPurchaseFinishedListener);
+                            } else {
+                                LogUtil.v("Null");
+                            }
+                        } else {
+                            new AlertDialogWrapper.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
                         }
                     }
                 });

@@ -84,6 +84,9 @@ public class SubmissionCache {
 
         SpannableStringBuilder subreddit =
                 new SpannableStringBuilder(" /r/" + submission.getSubredditName() + " ");
+        if(submission.getSubredditName() == null){
+            subreddit = new SpannableStringBuilder("Promoted ");
+        }
         String subname;
         if (submission.getSubredditName() != null) {
             subname = submission.getSubredditName().toLowerCase();
@@ -96,6 +99,7 @@ public class SubmissionCache {
                 && Palette.getColor(subname) != Palette.getDefaultColor()))) {
             boolean secondary = (baseSub.equalsIgnoreCase("frontpage")
                     || (baseSub.equalsIgnoreCase("all"))
+                    || (baseSub.equalsIgnoreCase("popular"))
                     || (baseSub.equalsIgnoreCase("friends"))
                     || (baseSub.equalsIgnoreCase("mod"))
                     || baseSub.contains(".")

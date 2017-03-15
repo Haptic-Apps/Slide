@@ -162,7 +162,13 @@ public class LinkUtil {
         }
 
         Uri uri = Uri.parse(url);
-        return uri.normalizeScheme();
+        Uri toReturn;
+        try {
+            toReturn = uri.normalizeScheme();
+        } catch(NoSuchMethodError e){
+            toReturn = uri;
+        }
+        return toReturn;
     }
 
     /**
@@ -188,8 +194,12 @@ public class LinkUtil {
         final String id = BuildConfig.APPLICATION_ID;
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         final PackageManager packageManager = context.getPackageManager();
-        final String resolvedName = intent.resolveActivity(packageManager).getPackageName();
-
+        String resolvedName;
+        try {
+            resolvedName = intent.resolveActivity(packageManager).getPackageName();
+        } catch(Exception e){
+            resolvedName = context.getPackageName();
+        }
         if (resolvedName == null)
             return;
 

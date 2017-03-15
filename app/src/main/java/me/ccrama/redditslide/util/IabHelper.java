@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.compat.BuildConfig;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -108,8 +109,8 @@ public class IabHelper {
     // some fields on the getSkuDetails response bundle
     private static final String GET_SKU_DETAILS_ITEM_LIST = "ITEM_ID_LIST";
     // Is debug logging enabled?
-    private boolean mDebugLog = false;
-    private String mDebugTag = "IabHelper";
+    private boolean mDebugLog = BuildConfig.DEBUG;
+    private String mDebugTag = "Slide";
     // Is setup done?
     private boolean mSetupDone = false;
     // Has this object been disposed of? (If so, we should ignore callbacks, etc)
@@ -227,7 +228,7 @@ public class IabHelper {
                 if (mDisposed) return;
                 logDebug("Billing service connected.");
                 mService = IInAppBillingService.Stub.asInterface(service);
-                String packageName = mContext.getPackageName();
+                String packageName = "me.ccrama.redditslide";
                 try {
                     logDebug("Checking for in-app billing 3 support.");
 
@@ -361,7 +362,7 @@ public class IabHelper {
 
         try {
             logDebug("Constructing buy intent for " + sku + ", item type: " + itemType);
-            Bundle buyIntentBundle = mService.getBuyIntent(3, mContext.getPackageName(), sku, itemType, extraData);
+            Bundle buyIntentBundle = mService.getBuyIntent(3, "me.ccrama.redditslide", sku, itemType, extraData);
             int response = getResponseCodeFromBundle(buyIntentBundle);
             if (response != BILLING_RESPONSE_RESULT_OK) {
                 logError("Unable to buy item, Error response: " + getResponseDesc(response));
@@ -615,7 +616,7 @@ public class IabHelper {
             }
 
             logDebug("Consuming sku: " + sku + ", token: " + token);
-            int response = mService.consumePurchase(3, mContext.getPackageName(), token);
+            int response = mService.consumePurchase(3, "me.ccrama.redditslide", token);
             if (response == BILLING_RESPONSE_RESULT_OK) {
                 logDebug("Successfully consumed sku: " + sku);
             } else {
@@ -712,13 +713,13 @@ public class IabHelper {
     private int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
         // Query purchases
         logDebug("Querying owned items, item type: " + itemType);
-        logDebug("Package name: " + mContext.getPackageName());
+        logDebug("Package name: " + "me.ccrama.redditslide");
         boolean verificationFailed = false;
         String continueToken = null;
 
         do {
             logDebug("Calling getPurchases with continuation token: " + continueToken);
-            Bundle ownedItems = mService.getPurchases(3, mContext.getPackageName(),
+            Bundle ownedItems = mService.getPurchases(3, "me.ccrama.redditslide",
                     itemType, continueToken);
 
             int response = getResponseCodeFromBundle(ownedItems);
@@ -791,7 +792,7 @@ public class IabHelper {
 
         Bundle querySkus = new Bundle();
         querySkus.putStringArrayList(GET_SKU_DETAILS_ITEM_LIST, skuList);
-        Bundle skuDetails = mService.getSkuDetails(3, mContext.getPackageName(),
+        Bundle skuDetails = mService.getSkuDetails(3, "me.ccrama.redditslide",
                 itemType, querySkus);
 
         if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST)) {

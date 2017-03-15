@@ -1739,11 +1739,13 @@ public class MainActivity extends BaseActivity
                                                                                             .getStringSet(
                                                                                                     "tokens",
                                                                                                     new HashSet<String>()));
+                                                                   int index = keys.indexOf(s);
+                                                                    if(keys.indexOf(s) > tokens.size()){
+                                                                        index -= 1;
+                                                                    }
                                                                     Authentication.authentication.edit()
                                                                             .putString("lasttoken",
-                                                                                    tokens.get(
-                                                                                            keys.indexOf(
-                                                                                                    s)))
+                                                                                    tokens.get(index))
                                                                             .remove("backedCreds")
                                                                             .commit();
                                                                 }

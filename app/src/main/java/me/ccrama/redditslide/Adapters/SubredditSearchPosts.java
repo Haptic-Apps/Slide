@@ -14,7 +14,6 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.MultiredditOverview;
-import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
@@ -25,10 +24,10 @@ import me.ccrama.redditslide.Reddit;
 public class SubredditSearchPosts extends GeneralPosts {
     private String term;
     private String subreddit = "";
-    public boolean loading;
+    public  boolean               loading;
     private Paginator<Submission> paginator;
-    public SwipeRefreshLayout refreshLayout;
-    private ContributionAdapter adapter;
+    public  SwipeRefreshLayout    refreshLayout;
+    private ContributionAdapter   adapter;
 
     public Activity parent;
 
@@ -52,7 +51,9 @@ public class SubredditSearchPosts extends GeneralPosts {
         this.term = where;
         new LoadData(reset).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-    public void loadMore(ContributionAdapter a, String subreddit, String where, boolean reset, boolean multi, TimePeriod time) {
+
+    public void loadMore(ContributionAdapter a, String subreddit, String where, boolean reset,
+            boolean multi, TimePeriod time) {
         this.adapter = a;
         this.subreddit = subreddit;
         this.term = where;
@@ -118,69 +119,53 @@ public class SubredditSearchPosts extends GeneralPosts {
                     adapter.notifyDataSetChanged();
                 }
 
+            } else if (submissions != null) {
+                // end of submissions
+                nomore = true;
+                adapter.notifyDataSetChanged();
             } else if (!nomore) {
                 // error
                 adapter.setError(true);
-            } else {
-                if(isNew) {
-                    posts = new ArrayList<>();
-                    adapter.notifyDataSetChanged();
-                }
             }
             refreshLayout.setRefreshing(false);
         }
-
-        boolean isNew;
 
         @Override
         protected ArrayList<Contribution> doInBackground(String... subredditPaginators) {
             ArrayList<Contribution> newSubmissions = new ArrayList<>();
             try {
                 if (reset || paginator == null) {
-                    isNew = true;
                     if (multireddit) {
-                        paginator = new SubmissionSearchPaginatorMultireddit(Authentication.reddit, term);
-                        ((SubmissionSearchPaginatorMultireddit) paginator).setMultiReddit(MultiredditOverview.searchMulti);
-                        ((SubmissionSearchPaginatorMultireddit) paginator).setSearchSorting(SubmissionSearchPaginatorMultireddit.SearchSort.valueOf(Reddit.search.toString()));
-                        ((SubmissionSearchPaginatorMultireddit) paginator).setSyntax(SubmissionSearchPaginatorMultireddit.SearchSyntax.LUCENE);
+                        paginator = new SubmissionSearchPaginatorMultireddit(Authentication.reddit,
+                                term);
+                        ((SubmissionSearchPaginatorMultireddit) paginator).setMultiReddit(
+                                MultiredditOverview.searchMulti);
+                        ((SubmissionSearchPaginatorMultireddit) paginator).setSearchSorting(
+                                SubmissionSearchPaginatorMultireddit.SearchSort.valueOf(
+                                        Reddit.search.toString()));
+                        ((SubmissionSearchPaginatorMultireddit) paginator).setSyntax(
+                                SubmissionSearchPaginatorMultireddit.SearchSyntax.LUCENE);
 
                     } else {
                         paginator = new SubmissionSearchPaginator(Authentication.reddit, term);
-                        if (!subreddit.isEmpty())
+                        if (!subreddit.isEmpty()) {
                             ((SubmissionSearchPaginator) paginator).setSubreddit(subreddit);
+                        }
                         ((SubmissionSearchPaginator) paginator).setSearchSorting(Reddit.search);
-                        ((SubmissionSearchPaginator) paginator).setSyntax(SubmissionSearchPaginator.SearchSyntax.LUCENE);
+                        ((SubmissionSearchPaginator) paginator).setSyntax(
+                                SubmissionSearchPaginator.SearchSyntax.LUCENE);
 
                     }
                     paginator.setTimePeriod((time));
                 }
 
                 if (!paginator.hasNext()) {
-                    nomore = true;
-                    return new ArrayList<>();
+                    return newSubmissions;
                 }
-                if (reset) {
-                    nomore = false;
-                    for (Submission s : paginator.next()) {
-
-                        newSubmissions.add(s);
-
-
-                    }
-                    if (newSubmissions.isEmpty()) {
-                        nomore = true;
-                    }
-
-                } else if (!nomore) {
-                    for (Submission s : paginator.next()) {
-                        newSubmissions.add(s);
-                    }
-                    if (newSubmissions.isEmpty()) {
-                        nomore = true;
-                    }
-                } else {
-                    adapter.notifyDataSetChanged();
+                for (Submission s : paginator.next()) {
+                    newSubmissions.add(s);
                 }
+
                 return newSubmissions;
             } catch (Exception e) {
                 e.printStackTrace();

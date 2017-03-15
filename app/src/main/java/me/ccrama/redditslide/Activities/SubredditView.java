@@ -252,7 +252,7 @@ public class SubredditView extends BaseActivity {
         super.onPrepareOptionsMenu(menu);
 
         //Hide the "Submit" menu item if the currently viewed sub is the frontpage or /r/all.
-        if (subreddit.equals("frontpage") || subreddit.equals("all")) {
+        if (subreddit.equals("frontpage") || subreddit.equals("all") || subreddit.equals("popular") || subreddit.equals("friends") || subreddit.equals("mod")) {
             menu.findItem(R.id.submit).setVisible(false);
             menu.findItem(R.id.sidebar).setVisible(false);
         }

@@ -525,6 +525,9 @@ public class ColorPreferences {
     }
 
     public Theme getThemeSubreddit(String s, boolean b) {
+        if(s == null){
+            s = "Promoted";
+        }
         int back = getFontStyle().getThemeType();
         String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
         try {
