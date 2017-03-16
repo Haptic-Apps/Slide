@@ -10,7 +10,7 @@ android:
   components:
   - tools
   - platform-tools
-  - build-tools-25.0.0
+  - build-tools-25.0.2
   - android-25
   - extra-android-m2repository
   - extra-google-m2repository
@@ -23,4 +23,4 @@ jdk:
 - oraclejdk8
 
 script:
-- ./gradlew -PdisablePreDex assembleProd lintProd{With,No}GPlay{Debug,Release} testProd{With,No}GPlay{Debug,Release}UnitTest
+- ./gradlew -PdisablePreDex assemble lint{With,No}GPlay{Debug,Release} test{With,No}GPlay{Debug,Release}UnitTest

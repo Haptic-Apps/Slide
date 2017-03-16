@@ -6,7 +6,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
     lintOptions {
         quiet true
         abortOnError false
@@ -16,32 +16,17 @@ android {
     }
     defaultConfig {
         applicationId "me.ccrama.redditslide"
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode 264
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
 
-    flavorDimensions "api", "gplay"
-
     productFlavors {
-        dev {
-            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
-            // to pre-dex each module and produce an APK that can be used
-            // without time consuming dex merging processes.
-            dimension "api"
-            minSdkVersion 21
-        }
-        prod {
-            // The actual minSdkVersion for the application.
-            dimension "api"
-            minSdkVersion 15
-        }
         withGPlay {
-            dimension "gplay"
         }
         noGPlay {
-            dimension "gplay"
         }
     }
 
