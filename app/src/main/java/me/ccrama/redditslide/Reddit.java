@@ -632,6 +632,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onCreate() {
         super.onCreate();
         //  LeakCanary.install(this);
+        if (ProcessPhoenix.isPhoenixProcess(this)) {
+            return;
+        }
         UpgradeUtil.upgrade(getApplicationContext());
         doMainStuff();
     }
