@@ -275,7 +275,7 @@ public class ImageDownloadNotificationService extends Service {
                                     .addAction(R.drawable.delete, getString(R.string.btn_delete),
                                             pDeleteIntent)
                                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
-                                            loadedImage))
+                                            Bitmap.createScaledBitmap(loadedImage,400, 400, false)))
                                     .build();
 
                             NotificationManager mNotificationManager =

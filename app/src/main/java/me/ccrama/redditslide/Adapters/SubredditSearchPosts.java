@@ -160,6 +160,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                 }
 
                 if (!paginator.hasNext()) {
+                    nomore = true;
                     return newSubmissions;
                 }
                 for (Submission s : paginator.next()) {
