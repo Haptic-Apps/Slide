@@ -363,7 +363,7 @@ public class Settings extends BaseActivity {
         findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if(!FDroid.isFDroid){
+                if(FDroid.isFDroid){
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=56FKCCYLX7L72"));
                     startActivity(browserIntent);
                 } else {
