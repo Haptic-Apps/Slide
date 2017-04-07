@@ -463,7 +463,6 @@
   <string name="settings_font_comment">Font komentara</string>
   <string name="settings_comment_crop">Sakrij glavnu sliku u komentarima</string>
   <string name="settings_general_scroll_read">Označi postove pročitanima kada prijeđem preko njih</string>
-  <string name="settings_link_chrome">Koristite Chrome tabove</string>
   <string name="settings_image_location_unset">Još nije postavljen</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Pričuvna kopija &amp; Obnova</string>

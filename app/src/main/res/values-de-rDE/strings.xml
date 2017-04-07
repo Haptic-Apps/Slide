@@ -524,7 +524,6 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_font_comment">Kommentar-Schriftart</string>
   <string name="settings_comment_crop">Hauptbild in Kommentaransicht zuschneiden</string>
   <string name="settings_general_scroll_read">Beiträge nach Vorbeiscrollen als gelesen markieren</string>
-  <string name="settings_link_chrome">Verwende Chrome Custom Tabs</string>
   <string name="settings_image_location">Bild/GIF Speicher-Verzeichnis auswählen</string>
   <string name="settings_image_location_unset">Noch nicht festgelegt</string>
   <string name="settings_set_image_location">Bilder werden in %s gespeichert</string>

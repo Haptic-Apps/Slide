@@ -452,7 +452,6 @@
   <string name="settings_font_comment">Fonte do comentário</string>
   <string name="settings_comment_crop">Cortar imagem na visualização do comentário</string>
   <string name="settings_general_scroll_read">Marque postagens como lidas quando passar por cima</string>
-  <string name="settings_link_chrome">Use abas personalizadas do Chrome</string>
   <string name="settings_image_location">Selecione o local da imagem/GIF</string>
   <string name="settings_image_location_unset">Ainda não definido</string>
   <string name="settings_set_image_location">Imagens serão salvas em %s</string>

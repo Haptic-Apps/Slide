@@ -24,12 +24,12 @@
   <string name="submission_post_saved">Publication enregistrée</string>
   <string name="submission_info_hidden">Publication masquée pour toujours.</string>
   <string name="submission_stickied">Épinglé</string>
-  <string name="submission_link_extern">Ouvrir à l\'externe</string>
+  <string name="submission_link_extern">Ouvrir ailleurs</string>
   <string name="submission_link_copy">Copier l\'URL</string>
   <string name="submission_link_share">Partager l\'URL</string>
   <string name="submission_share_title">Quel lien souhaitez-vous partager ?</string>
   <string name="submission_share_reddit">Lien reddit</string>
-  <string name="submission_share_content">URL du contenu</string>
+  <string name="submission_share_content">Le lien du contenu</string>
   <string name="submission_hide">Masquer la publication</string>
   <string name="submission_report">Signaler la publication</string>
   <string name="submission_gild">Ouvrir dans un navigateur</string>
@@ -523,7 +523,6 @@
   <string name="settings_font_comment">Polices de commentaire</string>
   <string name="settings_comment_crop">Rogner l\'image principale en vue de commentaire</string>
   <string name="settings_general_scroll_read">Marquer les articles comme vus après défilement</string>
-  <string name="settings_link_chrome">Utilisez les onglets personnalisés Chrome</string>
   <string name="settings_image_location">Choisir la destination de l\'image / GIF</string>
   <string name="settings_image_location_unset">Pas encore défini</string>
   <string name="settings_set_image_location">Les images seront enregistrées dans %s</string>

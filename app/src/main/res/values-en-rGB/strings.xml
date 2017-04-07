@@ -489,7 +489,6 @@
   <string name="settings_font_comment">Comment font</string>
   <string name="settings_comment_crop">Crop lead image in comment view</string>
   <string name="settings_general_scroll_read">Mark posts as seen when scrolled past</string>
-  <string name="settings_link_chrome">Use Chrome Custom Tabs</string>
   <string name="settings_image_location">Select image/GIF save location</string>
   <string name="settings_image_location_unset">Not yet set</string>
   <string name="settings_set_image_location">Images will be saved to %s</string>

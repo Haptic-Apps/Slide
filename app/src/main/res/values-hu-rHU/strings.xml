@@ -477,7 +477,6 @@
   <string name="settings_font_comment">Hozzászólás betűtípusa</string>
   <string name="settings_comment_crop">Kép levágása a hozzászólásoknál</string>
   <string name="settings_general_scroll_read">Bejegyzések megjelölése olvasottként továbbgörgetéskor</string>
-  <string name="settings_link_chrome">Egyéni Chrome lapok használata</string>
   <string name="settings_image_location">Képek/GIFek mentési helyének kiválasztása</string>
   <string name="settings_image_location_unset">Még nincs megadva</string>
   <string name="settings_set_image_location">A képek ide lesznek elmentve: %s</string>

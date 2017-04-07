@@ -521,7 +521,6 @@
   <string name="settings_font_comment">Fuente de los comentarios</string>
   <string name="settings_comment_crop">Recorta la imagen principal en la vista de comentarios</string>
   <string name="settings_general_scroll_read">Marca los posts como leídos al pasar por encima</string>
-  <string name="settings_link_chrome">Usa las pestañas customizadas de Chrome</string>
   <string name="settings_image_location">Selecciona la ubicación para guardar Imágenes / GIF</string>
   <string name="settings_image_location_unset">No establecida aún</string>
   <string name="settings_set_image_location">Las imágenes se guardarán en %s</string>

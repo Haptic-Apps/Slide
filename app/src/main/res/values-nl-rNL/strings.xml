@@ -433,7 +433,6 @@
   <string name="settings_font_comment">Lettertype reactie</string>
   <string name="settings_comment_crop">Hoofdafbeelding bijsnijden in reactieweergave</string>
   <string name="settings_general_scroll_read">Berichten als gelezen markeren wanneer je er voorbij scrolt</string>
-  <string name="settings_link_chrome">Gebruik Chrome Custom Tabs</string>
   <string name="settings_image_location">Selecteer afbeelding/GIF-opslaglocatie</string>
   <string name="settings_image_location_unset">Nog niet ingesteld</string>
   <string name="settings_set_image_location">Afbeeldingen zullen worden opgeslagen in %s</string>

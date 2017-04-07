@@ -284,7 +284,6 @@
   <string name="settings_font_post">帖子标题字体</string>
   <string name="settings_font_comment">评论字体</string>
   <string name="settings_general_scroll_read">将滑过的帖子标记为已阅</string>
-  <string name="settings_link_chrome">使用 Chrome 自定义标签页</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">备份 &amp; 还原</string>
   <string name="settings_title_default_theme">主要主题</string>

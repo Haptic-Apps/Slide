@@ -7,9 +7,14 @@
   <string name="general_enable_shadowbox">Включить Shadowbox Mode</string>
   <string name="general_open_settings">Открыть Настройки Сабреддита</string>
   <string name="general_sub_sync">Синхронизация Подписок</string>
+  <string name="general_gallerymode_ispro">Режим галереи доступен только в Pro версии</string>
+  <string name="general_shadowbox_ispro">Shadowbox режим доступен только в Pro версии</string>
+  <string name="general_nighttheme_ispro">Автоматический ночной режим доступен только в Pro версии</string>
+  <string name="general_backup_ispro">Резервное копирование доступно только в Pro версии</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Несохранённые предложения</string>
   <string name="submission_info_saved">Запись сохранена</string>
+  <string name="submission_info_cached">Запись сохранена</string>
   <string name="submission_info_archived">Этот пост в архиве. Вы не сможете голосовать или комментировать</string>
   <string name="submission_post_saved">Пост сохранён</string>
   <string name="submission_info_hidden">Пост скрыт навсегда.</string>
@@ -30,7 +35,11 @@
   <string name="submission_tap_gif">Нажмите для загрузки GIF</string>
   <string name="submission_not_found">Ох, пост не найден!</string>
   <string name="submission_not_found_msg">Извините, пост не может быть найден</string>
+  <string name="submission_copy_text">Копировать текст</string>
   <string name="submission_comment_saved">Комментарий сохранён</string>
+  <string name="submission_comment_unsaved">Комментарий удален из сохраненных</string>
+  <string name="submission_share_permalink">Поделиться ссылкой</string>
+  <string name="submission_comment_copied">Текст комментария скопирован</string>
   <string name="submission_link_copied">Ссылка скопирована</string>
   <plurals name="submission_points">
     <item quantity="one">%d очко</item>
@@ -58,9 +67,11 @@
   <string name="theme_accent_color">Контрастный цвет</string>
   <string name="theme_base">Основная тема</string>
   <string name="theme_card">Карточка</string>
+  <string name="theme_amoled_contrast">AMOLED с контрастом</string>
   <string name="theme_night">Ночная тема</string>
   <!-- Font settings -->
   <string name="font_size">Размер Шрифта</string>
+  <string name="font_size_huge">Огромный</string>
   <string name="font_size_larger">Больше</string>
   <string name="font_size_large">Большой</string>
   <string name="font_size_medium">Средний</string>
@@ -188,6 +199,10 @@
   <string name="error_video_message">При загрузке этого видео произошла ошибка</string>
   <string name="error_album_not_found">Альбом не найден</string>
   <string name="err_file_not_found">Файл не найден</string>
+  <string name="err_comment_post_reason">Причина: %1$s</string>
+  <string name="err_comment_post_message">\n\nВаше сообщение было сохранено как черновик. Пожалуйста попробуйте отправить его еще раз позже.</string>
+  <string name="err_comment_post_copy">Копировать комментарий</string>
+  <string name="err_connection_failed_msg">Сбой подключения к Reddit. Пожалуйста проверьте подключение к Интернету и повторите попытку, или войдите в автономный режим.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF не найдена</string>
   <string name="gif_err_msg">Произошла ошибка при загрузке этого GIF. Пожалуйста, повторите попытку.</string>
@@ -219,13 +234,20 @@
   <!-- Content types plural (Content filters) -->
   <string name="type_gifs">GIF</string>
   <string name="type_albums">Альбомы</string>
+  <string name="type_links">Ссылки</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Входящие</string>
+  <string name="mail_tab_unread">Непрочитанные</string>
+  <string name="mail_tab_messages">Сообщения</string>
+  <string name="mail_tab_sent">Отправленные</string>
+  <string name="mail_tab_mentions">Упоминания</string>
   <string name="mail_author_wrote">%1$s написал&#8230;</string>
   <string name="mail_hint_recipient">Получатель</string>
   <string name="mail_hint_subject">Тема</string>
   <string name="mail_hint_body">Текст</string>
   <string name="mail_send_to">Отправить сообщение %1$s</string>
   <string name="mail_send">Отправить сообщение</string>
+  <string name="mail_notification_msg_from">Новое сообщение от %1$s</string>
   <string name="mail_reply_to">Ответ %1$s</string>
   <string name="mail_notification_author">%1$s от %2$s</string>
   <string name="mail_theirs">Просмотреть их сообщение</string>
@@ -248,10 +270,14 @@
   <string name="misc_img_share">Поделиться изображением с</string>
   <string name="misc_link_chooser">Открыть URL-адрес</string>
   <string name="misc_copy_text">Копировать текст</string>
+  <string name="misc_try_again">Попробуйте снова</string>
   <string name="misc_please_try_again">Пожалуйста, попробуйте еще раз</string>
+  <string name="misc_please_try_again_soon">Повторите попытку позже</string>
+  <string name="misc_setting_up">Настраиваю некоторые вещи&#8230;</string>
   <string name="misc_more_info">Дополнительная информация</string>
   <string name="misc_rate_title">Нравится Slide?</string>
   <string name="misc_rate_msg">Оцените его!</string>
+  <string name="misc_captcha_incorrect">Captcha введена неправильно, попробуйте еще раз</string>
   <!-- Goto User -->
   <string name="user_enter">Введите имя пользователя</string>
   <string name="user_btn_goto">Перейти к пользователю</string>
@@ -260,6 +286,7 @@
   <string name="btn_add">Добавить</string>
   <string name="btn_cancel">Отменить</string>
   <string name="btn_close">Закрыть</string>
+  <string name="btn_open">Открыть</string>
   <string name="btn_discard">Отклонить</string>
   <string name="btn_done">Готово</string>
   <string name="btn_go_back">Назад</string>
@@ -274,11 +301,18 @@
   <string name="btn_sure">Конечно!</string>
   <string name="btn_undo">Отменить</string>
   <string name="btn_yes">Да</string>
+  <string name="btn_yes_exclaim">Да!</string>
   <string name="btn_refresh">обновить</string>
   <string name="btn_cache">Загрузить комментарии</string>
   <string name="btn_delete">Удалить</string>
   <string name="btn_time">Период</string>
+  <string name="btn_message">Сообщение</string>
   <string name="btn_select">Выбрать</string>
+  <string name="btn_view">Просмотр</string>
+  <string name="btn_changelog">Список изменений</string>
+  <string name="btn_set">УСТАНОВИТЬ</string>
+  <string name="btn_create">Создать</string>
+  <string name="btn_new">Новый</string>
   <!-- Backup -->
   <string name="backup_success">Резервное копир-е успешно!</string>
   <string name="backup_restoring">Восстановление настроек</string>
@@ -293,6 +327,7 @@
   <!-- Vote -->
   <string name="vote_err">Ошибка при голосовании!</string>
   <string name="vote_err_login">Вы должны войти, чтобы голосовать!</string>
+  <string name="vote_removed">Голос удален</string>
   <!-- Moderation tools -->
   <string name="mod_mail">Почта от мод-ов</string>
   <string name="mod_modqueue">Ожидание модераторства</string>
@@ -308,9 +343,19 @@
   <string name="mod_btn_approve">Подтвердить</string>
   <string name="mod_btn_mark_nsfw">Отметить как непристойное содержание</string>
   <string name="mod_btn_unmark_nsfw">Снять пометку непристойного содержания</string>
+  <string name="mod_btn_pin">Закрепить</string>
+  <string name="mod_btn_unpin">Открепить</string>
+  <string name="mod_btn_remove">Удалить</string>
+  <string name="mod_btn_remove_reason">Удалите указав причину</string>
+  <string name="mod_btn_author">Профиль автора</string>
+  <string name="mod_btn_ban">Заблокировать</string>
+  <string name="mod_ban_user">Заблокировать пользователя</string>
   <string name="mod_ban_success">Пользователь забанен!</string>
+  <string name="mod_ban_fail">Ошибка при блокировке пользователя</string>
   <string name="mod_ban_reason">Причина бана</string>
   <string name="mod_ban_time">Срок бана (в днях)</string>
+  <string name="mod_remove_template">Удален из-за\u0020</string>
+  <string name="mod_remove_hint">Причина удаления</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -363,7 +408,6 @@
   <string name="settings_filter_domain">Фильтры доменов</string>
   <string name="settings_filter_title">Фильтры титров</string>
   <string name="settings_font_comment">Шрифт комментария</string>
-  <string name="settings_link_chrome">Использовать Chrome Customtabs</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Резервное копирование &amp; восстановление</string>
   <string name="settings_title_default_theme">Основная тема</string>
@@ -373,6 +417,7 @@
   <string name="settings_title_pro">Перейти на Pro</string>
   <string name="settings_title_sub_theme">Темы сабреддитов</string>
   <string name="settings_title_sorting">Сортировка по умолчанию</string>
+  <string name="settings_title_support">Пожертвовать</string>
   <string name="settings_title_about">О приложении</string>
   <string name="settings_title_fab">Поведение плавающей кнопки</string>
   <string name="settings_title_comments">Коментарии</string>
@@ -380,11 +425,20 @@
   <string name="settings_title_font">Шрифт</string>
   <string name="settings_section_appearance">Вид</string>
   <string name="settings_section_other">Другое</string>
+  <string name="settings_section_save_history">Сохранить историю</string>
+  <string name="settings_section_clear_history">Очистить историю</string>
+  <string name="settings_section_image_quality">Качество изображений</string>
   <string name="settings_section_hide_images">Скрыть изображения</string>
   <string name="settings_synccit_remove">ОТКЛЮЧИТЬ SYNCCIT</string>
   <string name="settings_synccit_auth">Код авторизации</string>
   <string name="settings_synccit_username">Имя пользователя</string>
+  <string name="settings_synccit_connected">Соединение завершено!</string>
+  <string name="settings_font_system">Система</string>
   <string name="settings_redditprefs_over18">Я старше 18 лет и хочу увидеть NSFW содержимое</string>
+  <string name="settings_layout_picture_mode">Режим просмотра изображений</string>
+  <string name="settings_reddit_thumbnail_mode">Режим миниатюр</string>
+  <string name="settings_reddit_syncing">Синхронизация с Reddit</string>
+  <string name="settings_section_content">Содержимое</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
@@ -470,17 +524,27 @@
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Синхронизация завершена</string>
   <!-- Discover section: find -->
+  <string name="discover_popular">Популярное</string>
+  <string name="discover_trending">Набирающее популярность</string>
   <!-- Subreddit post notifiactions -->
+  <string name="sub_post_notify">Уведомлять</string>
   <!-- Internal browser -->
+  <string name="internal_browser_readermode">Режим Чтения</string>
   <!-- Live thread -->
   <!-- Used when viewing media -->
+  <string name="mediaview_notif_title">Загрузка изображения&#8230;</string>
+  <string name="mediaview_notif_text">Идет загрузка</string>
   <!-- Drafts -->
   <string name="draft_saving">Сохранение черновика</string>
   <string name="dialog_no_drafts">Пока нет черновиков</string>
   <string name="manage_drafts">Управление черновиками</string>
   <string name="really_delete_drafts">Действительно удалить эти черновики?</string>
   <!-- Strings for widgets -->
+  <string name="widget_loading">Загрузка&#8230;</string>
+  <string name="widget_creation_title">Новый виджет</string>
+  <string name="shortcut_creation_title">Новый ярлык</string>
   <!-- Strings for alert dialogs -->
+  <string name="never_load_images">Не загружать изображения</string>
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
   <!-- Caching -->
@@ -488,5 +552,20 @@
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Загрузить больше комментариев</string>
   <string name="dialog_color_sync_title">Синхронизация цветов</string>
+  <string name="mode_list">Список</string>
+  <string name="mode_thumbnail">Миниатюра</string>
+  <string name="submission_share_reddit_url">Поделиться комментариями</string>
   <string name="btn_report">Отчет</string>
+  <string name="msg_report_sent">Отчет отправлен</string>
+  <string name="never">Никогда</string>
+  <string name="subreddit_name_tint">Название Subreddit</string>
+  <string name="thumb_type_always">Всегда показывать</string>
+  <string name="thumb_type_off">Никогда не показывать</string>
+  <string name="handling_browser">Веб-браузер</string>
+  <string name="btn_preview">Предварительный просмотр</string>
+  <string name="msg_sent_success">Сообщение отправлено</string>
+  <string name="msg_sent_failure">Не удалось отправить сообщение</string>
+  <string name="msg_send_user_dne">Данный пользователь не существует</string>
+  <string name="guest">Гость</string>
+  <string name="type_tumblr">Tumblr</string>
 </resources>

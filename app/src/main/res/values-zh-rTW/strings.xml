@@ -387,7 +387,6 @@
   <string name="settings_font_comment">留言字體</string>
   <string name="settings_comment_crop">在留言頁中裁剪主圖片</string>
   <string name="settings_general_scroll_read">在畫面捲動至貼文後標記貼文為已讀</string>
-  <string name="settings_link_chrome">使用 Chrome Custom Tabs</string>
   <string name="settings_image_location">選擇圖片／GIF 的儲存位置</string>
   <string name="settings_image_location_unset">未設定</string>
   <string name="settings_set_image_location">圖片會被儲存至 %s</string>
