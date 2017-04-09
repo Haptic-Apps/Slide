@@ -260,7 +260,6 @@
   <string name="settings_fabclear_msg">Klepnutím na tlačítko Vymazat odeberete aktuálně zobrazené příspěvky, ale nezmizí navždy. \nDlouhým stisknutím tlačítka skryjete příspěvky navždy!</string>
   <string name="settings_notifdisabled">Upozornění vypnuta.</string>
   <string name="settings_font_comment">Písmo komentáře</string>
-  <string name="settings_link_chrome">Používat Vlastní Karty Chrome</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Záloha &amp; Obnovení</string>
   <string name="settings_title_default_theme">Hlavní téma</string>

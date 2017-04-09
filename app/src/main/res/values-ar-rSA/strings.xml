@@ -5,6 +5,7 @@
   <string name="general_confirm_exit">تأكيد الخروج</string>
   <string name="general_confirm_exit_msg">هل تريد حقاً الخروج من سلايد؟</string>
   <string name="general_enable_shadowbox">نمط Shadowbox</string>
+  <string name="general_open_settings">الشريط الجانبي</string>
   <string name="general_sub_sync">مزامنة الاشتراكات</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">لم يتم حفظ البيانات</string>
@@ -27,6 +28,7 @@
   <string name="submission_tap_gif">اضغط لتنزيل الـGIF</string>
   <string name="submission_not_found">أووه، لم يتم العثور على المنشور!</string>
   <string name="submission_not_found_msg">عذرًا، لا يمكن العثور على هذا المنشور</string>
+  <string name="submission_copy_text">نسخ النص</string>
   <!-- Theme settings -->
   <string name="theme_light">فاتح (ابيض)</string>
   <string name="theme_dark">غامق</string>

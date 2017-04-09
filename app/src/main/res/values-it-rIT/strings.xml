@@ -522,7 +522,6 @@
   <string name="settings_font_comment">Carattere dei commenti</string>
   <string name="settings_comment_crop">Taglia immagine troppo grande nella vista commenti</string>
   <string name="settings_general_scroll_read">Segna post come già letti quando vengono scrollati</string>
-  <string name="settings_link_chrome">Usa Chrome Custom Tabs</string>
   <string name="settings_image_location">Salva immagini/GIF in</string>
   <string name="settings_image_location_unset">Non ancora impostato</string>
   <string name="settings_set_image_location">Le immagini verranno salvate in %s</string>

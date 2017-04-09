@@ -516,10 +516,11 @@
   <string name="settings_font_comment">コメントのフォント</string>
   <string name="settings_comment_crop">コメント表示で先頭画像のトリミング</string>
   <string name="settings_general_scroll_read">スクロールで過ぎたときに既読として投稿をマーク</string>
-  <string name="settings_link_chrome">Chrome カスタムタブを使用する</string>
   <string name="settings_image_location">画像/GIFの保存先を選択する</string>
   <string name="settings_image_location_unset">未設定です</string>
   <string name="settings_set_image_location">画像が %s に保存されるようになりました</string>
+  <string name="settings_general_immersive_mode">イマーシブ全画面モード</string>
+  <string name="settings_general_immersive_mode_desc">ステータスとナビゲーション バーを非表示にします (実験的)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">バックアップ &amp; 復元</string>
   <string name="settings_title_default_theme">メイン テーマ</string>
@@ -848,6 +849,9 @@
   <string name="load_high_quality_image_every_time">そうでなければ、毎回高品質の画像を読み込みます</string>
   <string name="load_lower_quality_imgur">有効にした場合、低品質の Imgur 画像を読み込みます</string>
   <string name="load_medium_quality_imgur_images">中品質の Imgur 画像を読み込みます</string>
+  <string name="load_low_quality">低品質画像を読み込む (最大 320x320)</string>
+  <string name="load_medium_quality">中品質画像を読み込む (最大 640x640)</string>
+  <string name="load_high_quality">高品質画像を読み込む (最大 1080x1080)</string>
   <string name="choose_color_title">色を選択</string>
   <string name="enter_text_to_filter_click_enter_to_add">フィルターするテキストを入力します。Enter をクリックして追加します</string>
   <string name="mode_desktop_compact">デスクトップ コンパクト</string>
@@ -1038,4 +1042,5 @@
   <string name="submission_info_contest">このスレッドは、コンテスト モードです。並べ替えを変更できません</string>
   <string name="sub_post_notifs_msg">メールをチェックするとき、Slide が新しい投稿をチェックします (メール通知を有効にする必要があります)</string>
   <string name="mod_ban_reason_required">理由が必要です</string>
+  <string name="settings_abbreviate_post_scores">投稿スコアを省略 (例 24.0k)</string>
 </resources>

@@ -531,7 +531,6 @@
   <string name="settings_font_comment">Czcionka komentarzy</string>
   <string name="settings_comment_crop">Kadruj obraz w widoku komentarzy</string>
   <string name="settings_general_scroll_read">Oznacz posty jako przeczytane po przewinięciu</string>
-  <string name="settings_link_chrome">Używaj Chrome Custom Tabs</string>
   <string name="settings_image_location">Wybierz lokalizację zapisywanie obrazów/GIFów</string>
   <string name="settings_image_location_unset">Jeszcze nie ustawione</string>
   <string name="settings_set_image_location">Obrazy będą zapisywane w %s</string>

@@ -448,7 +448,6 @@
   <string name="settings_font_comment">Font comentarii</string>
   <string name="settings_comment_crop">Decupează imaginea principala în perspectiva cu comentarii</string>
   <string name="settings_general_scroll_read">Marchează posturile ca citite când defilez peste ele</string>
-  <string name="settings_link_chrome">Folosește filele personalizate din Chrome</string>
   <string name="settings_image_location">Selectează locația pentru imagini/GIFuri</string>
   <string name="settings_image_location_unset">Nu este setat</string>
   <string name="settings_set_image_location">Imaginile vor fi salvate la %s</string>

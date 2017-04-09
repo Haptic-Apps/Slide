@@ -369,7 +369,6 @@
   <string name="settings_font_comment">Kommentarfont</string>
   <string name="settings_comment_crop">Beskjær hovedbildet i kommentar-visning</string>
   <string name="settings_general_scroll_read">Merk innlegg som lest etter å ha skrollet forbi</string>
-  <string name="settings_link_chrome">Bruk Chrome Custom Tabs</string>
   <string name="settings_image_location">Velg bilde/GIF-lagringssted</string>
   <string name="settings_image_location_unset">Ikke fastsatt ennå</string>
   <string name="settings_set_image_location">Bilder vil bli lagret til %s</string>

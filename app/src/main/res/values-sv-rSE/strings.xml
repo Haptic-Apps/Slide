@@ -285,7 +285,6 @@
   <string name="settings_font_post">Font på trådtitel</string>
   <string name="settings_font_comment">Font på kommentarer</string>
   <string name="settings_comment_crop">Beskär ledande bild i kommentarsvyn</string>
-  <string name="settings_link_chrome">Använd Chrome Customtabs</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Säkerhetskopiering &amp; återställning</string>
   <string name="settings_title_default_theme">Huvudtema</string>
