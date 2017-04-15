@@ -44,7 +44,18 @@
                 android:textColor="?attr/font"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-
+            <TextView
+                    android:id="@+id/sendas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="Sending as you"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/font"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

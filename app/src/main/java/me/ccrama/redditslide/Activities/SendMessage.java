@@ -14,9 +14,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.CaptchaHelper;
@@ -24,12 +26,16 @@ import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.PrivateMessage;
 
+import java.util.ArrayList;
+
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -53,6 +59,7 @@ public class SendMessage extends BaseActivity {
     private String messageSentStatus; //the String to show in the Toast for when the message is sent
     private boolean messageSent = true; //whether or not the message was sent successfully
 
+    String author;
 
     public void onCreate(Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -67,6 +74,32 @@ public class SendMessage extends BaseActivity {
         to = (EditText) findViewById(R.id.to);
         body = (EditText) findViewById(R.id.body);
         View oldMSG = findViewById(R.id.oldMSG);
+
+        TextView sendingAs = (TextView) findViewById(R.id.sendas);
+        sendingAs.setText("Sending as /u/" + Authentication.name);
+        author = Authentication.name;
+        sendingAs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> items = new ArrayList<>();
+                items.add("/u/" + Authentication.name);
+                for(String s : UserSubscriptions.modOf){
+                    items.add("/r/" + s);
+                }
+                new MaterialDialog.Builder(SendMessage.this).title("Send message as")
+                        .items(items)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int which,
+                                    CharSequence text) {
+                                SendMessage.this.author = (String) text;
+                            }
+                        })
+                        .negativeText(R.string.btn_cancel)
+                        .onNegative(null)
+                        .show();
+            }
+        });
 
         if (getIntent() != null && getIntent().hasExtra(EXTRA_NAME)) {
             name = getIntent().getExtras().getString(EXTRA_NAME, "");
@@ -119,6 +152,10 @@ public class SendMessage extends BaseActivity {
         }
         setupUserAppBar(R.id.toolbar, null, true, name);
         setRecentBar(b.getTitle().toString(), Palette.getDefaultColor());
+
+        if(reply){
+            sendingAs.setVisibility(View.GONE);
+        }
 
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,8 +261,20 @@ public class SendMessage extends BaseActivity {
                 try {
                     if (captcha != null)
                         new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext, captcha, captchaAttempt);
-                    else
-                        new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext);
+                    else {
+                        String to = author;
+                        if(to.startsWith("/r/")){
+                            to = to.substring(3, to.length());
+                            LogUtil.v(to);
+                            new InboxManager(Authentication.reddit).compose(to, totext, subjecttext,
+                                    bodytext);
+                        } else {
+                            new InboxManager(Authentication.reddit).compose(totext, subjecttext,
+                                    bodytext);
+
+                        }
+
+                    }
 
                 } catch (ApiException e) {
                     messageSent = false;
