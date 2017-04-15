@@ -74,6 +74,7 @@ import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.ImageFlairs;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
@@ -545,6 +546,13 @@ public class SubredditView extends BaseActivity {
                     startActivity(i);
                 }
             });
+            dialoglayout.findViewById(R.id.syncflair)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ImageFlairs.syncFlairs(SubredditView.this, subreddit);
+                        }
+                    });
             dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

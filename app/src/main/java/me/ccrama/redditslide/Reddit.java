@@ -669,6 +669,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
         UserSubscriptions.multiNameToSubs = getSharedPreferences("MULTITONAME", 0);
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
+        ImageFlairs.flairs = getSharedPreferences("FLAIRS", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
         defaultSorting = SettingValues.defaultSorting;
         timePeriod = SettingValues.timePeriod;

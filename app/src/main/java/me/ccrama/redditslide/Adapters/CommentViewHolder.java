@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Adapters;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public final SpoilerRobotoTextView firstTextView;
     public final CommentOverflow commentOverflow;
     public final View background;
+    public final ImageView imageFlair;
 
     public CommentViewHolder(View v) {
         super(v);
@@ -36,6 +38,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         textColorRegular = firstTextView.getCurrentTextColor();
         textColorUp = ContextCompat.getColor(v.getContext(), R.color.md_orange_500);
         content = (TextView) v.findViewById(R.id.content);
+        imageFlair= (ImageView) v.findViewById(R.id.flair);
         commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
     }
 }
