@@ -71,6 +71,7 @@ public class SettingValues {
     public static final String PREF_CARD_TEXT                 = "cardText";
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
+    public static final String PREF_READER                  = "readerDefault";
     public static final String PREF_LQ_LOW              = "lqLow";
     public static final String PREF_LQ_MID              = "lqMid";
     public static final String PREF_LQ_HIGH              = "lqHigh";
@@ -101,6 +102,7 @@ public class SettingValues {
     public static final String PREF_COLOR_ICON             = "colorIcon";
     public static final String PREF_PEEK                   = "peek";
     public static final String PREF_LARGE_LINKS            = "largeLinks";
+    public static final String PREF_LARGE_DEPTH            = "largeDepth";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -120,6 +122,7 @@ public class SettingValues {
     public static boolean                 cache;
     public static boolean                 expandedSettings;
     public static boolean                 fabComments;
+    public static boolean                 largeDepth;
     public static boolean                 cacheDefault;
     public static boolean                 image;
     public static boolean                 video;
@@ -152,6 +155,7 @@ public class SettingValues {
     public static boolean                 smallTag;
     public static boolean                 typeInfoLine;
     public static boolean                 votesInfoLine;
+    public static boolean                 reader;
     public static boolean                 collapseComments;
     public static boolean                 collapseCommentsDefault;
     public static boolean                 rightHandedCommentMenu;
@@ -228,6 +232,8 @@ public class SettingValues {
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
         overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
         immersiveMode = prefs.getBoolean(PREF_IMMERSIVE_MODE, false);
+        largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
+        reader = prefs.getBoolean(PREF_READER, false);
 
         commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;

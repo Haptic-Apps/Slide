@@ -25,6 +25,7 @@ import android.util.Log;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.MakeExternal;
+import me.ccrama.redditslide.Activities.ReaderMode;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
@@ -94,11 +95,19 @@ public class LinkUtil {
                 Reddit.defaultShare(url, contextActivity);
             }
         } else {
-            // Internal browser
-            Intent i = new Intent(contextActivity, Website.class);
-            i.putExtra(Website.EXTRA_URL, url);
-            i.putExtra(Website.EXTRA_COLOR, color);
-            contextActivity.startActivity(i);
+            if(SettingValues.reader){
+                //Reader mode
+                Intent i = new Intent(contextActivity, ReaderMode.class);
+                i.putExtra(ReaderMode.EXTRA_URL, url);
+                i.putExtra(ReaderMode.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+            } else {
+                // Internal browser
+                Intent i = new Intent(contextActivity, Website.class);
+                i.putExtra(Website.EXTRA_URL, url);
+                i.putExtra(Website.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+            }
         }
     }
 
@@ -134,12 +143,22 @@ public class LinkUtil {
                 Reddit.defaultShare(url, contextActivity);
             }
         } else {
-            // Internal browser
-            Intent i = new Intent(contextActivity, Website.class);
-            i.putExtra(Website.EXTRA_URL, url);
-            PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
-            i.putExtra(Website.EXTRA_COLOR, color);
-            contextActivity.startActivity(i);
+            if(SettingValues.reader){
+                //Reader mode
+                Intent i = new Intent(contextActivity, ReaderMode.class);
+                i.putExtra(ReaderMode.EXTRA_URL, url);
+                PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
+                i.putExtra(ReaderMode.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+
+            } else {
+                // Internal browser
+                Intent i = new Intent(contextActivity, Website.class);
+                i.putExtra(Website.EXTRA_URL, url);
+                PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
+                i.putExtra(Website.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+            }
         }
     }
 

@@ -410,7 +410,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.dot.setVisibility(View.VISIBLE);
 
-            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+            int dwidth = (int) ((SettingValues.largeDepth?5:3) * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
 
             //Padding on the left, starting with the third comment
@@ -421,7 +421,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
             params.setMargins(width, 0, 0, 0);
             holder.itemView.setLayoutParams(params);
-
+            RelativeLayout.LayoutParams params2 =
+                    (RelativeLayout.LayoutParams) holder.dot.getLayoutParams();
+            params2.width = dwidth;
+            holder.dot.setLayoutParams(params2);
             if (baseNode.getDepth() - 1 > 0) {
                 int i22 = baseNode.getDepth() - 2;
                 if (i22 % 5 == 0) {
@@ -539,7 +542,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.content.setText(R.string.thread_continue);
             }
 
-            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+            int dwidth = (int) ((SettingValues.largeDepth?5:3) * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
             for (int i = 1; i < baseNode.comment.getDepth(); i++) {
                 width += dwidth;
@@ -573,6 +576,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
             params.setMargins(width, 0, 0, 0);
             holder.itemView.setLayoutParams(params);
+
         }
         if (firstHolder instanceof SpacerViewHolder) {
             //Make a space the size of the toolbar minus 1 so there isn't a gap

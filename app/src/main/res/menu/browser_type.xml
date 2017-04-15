@@ -7,7 +7,9 @@
     <item
         android:id="@+id/internal"
         android:title="@string/handling_internal_browser"/>
-
+    <item
+            android:id="@+id/reader"
+            android:title="@string/handling_reader_mode"/>
     <item
         android:id="@+id/external"
         android:title="@string/handling_external_browser"/>

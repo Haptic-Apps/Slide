@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -251,6 +252,29 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                     rv.setViewVisibility(R.id.thumbimage2, View.GONE);
                 }
             }
+            switch (SubredditWidgetProvider.getViewType(id, mContext)) {
+                case 1:
+                case 0:
+                    if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2) {
+                    } else {
+                        rv.setTextColor(R.id.title, Color.WHITE);
+                        rv.setTextColor(R.id.score, Color.WHITE);
+                        rv.setTextColor(R.id.comments, Color.WHITE);
+                        rv.setTextColor(R.id.information, Color.WHITE);
+                    }
+
+                    break;
+                case 2:
+                    if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2) {
+                    } else {
+                        rv.setTextColor(R.id.title, Color.WHITE);
+                        rv.setTextColor(R.id.score, Color.WHITE);
+                        rv.setTextColor(R.id.comments, Color.WHITE);
+                        rv.setTextColor(R.id.information, Color.WHITE);
+                    }
+                    break;
+            }
+
             Bundle infos = new Bundle();
             infos.putString(OpenContent.EXTRA_URL, data.getPermalink());
             infos.putBoolean("popup", true);

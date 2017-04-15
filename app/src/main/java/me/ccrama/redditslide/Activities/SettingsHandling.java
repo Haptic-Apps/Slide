@@ -101,9 +101,9 @@ public class SettingsHandling extends BaseActivityAnim
             findViewById(R.id.video).setVisibility(View.GONE);
         }
         ((TextView) findViewById(R.id.browser)).setText(
-                SettingValues.web ? (SettingValues.customtabs ? getString(
+                SettingValues.web ? (SettingValues.reader ? getString(R.string.handling_reader_mode) : (SettingValues.customtabs ? getString(
                         R.string.settings_link_chrome)
-                        : getString(R.string.handling_internal_browser))
+                        : getString(R.string.handling_internal_browser)))
                         : getString(R.string.handling_external_browser));
 
         findViewById(R.id.select_browser).setOnClickListener(new View.OnClickListener() {
@@ -122,6 +122,9 @@ public class SettingsHandling extends BaseActivityAnim
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
                                 SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_READER, false)
+                                        .apply();
+                                SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, true)
                                         .apply();
                                 break;
@@ -132,6 +135,23 @@ public class SettingsHandling extends BaseActivityAnim
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
                                 SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_READER, false)
+                                        .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
+                                        .apply();
+                                break;
+                            case R.id.reader:
+                                SettingValues.customtabs = false;
+                                SettingValues.web = true;
+                                SettingValues.reader = true;
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREFS_WEB, true)
+                                        .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_READER, true)
+                                        .apply();
+                                SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
                                         .apply();
                                 break;
@@ -140,10 +160,13 @@ public class SettingsHandling extends BaseActivityAnim
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, false)
                                         .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_READER, false)
+                                        .apply();
                                 break;
                         }
                         ((TextView) findViewById(R.id.browser)).setText(
-                                SettingValues.web ? (SettingValues.customtabs ? getString(
+                                SettingValues.web ? SettingValues.reader?  getString(R.string.handling_reader_mode) : (SettingValues.customtabs ? getString(
                                         R.string.settings_link_chrome)
                                         : getString(R.string.handling_internal_browser))
                                         : getString(R.string.handling_external_browser));

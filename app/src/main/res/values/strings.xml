@@ -1155,5 +1155,7 @@
     <string name="sub_post_notifs_msg">Slide will check for new posts when it checks for mail (mail notifications must be enabled)</string>
     <string name="mod_ban_reason_required">Reason is required</string>
     <string name="settings_abbreviate_post_scores">Abbreviate post scores (ex. 24.0k)</string>
+    <string name="settings_wide_depth_indicators">Wide comment depth indicators</string>
+    <string name="handling_reader_mode">Use Reader mode</string>
 
 </resources>

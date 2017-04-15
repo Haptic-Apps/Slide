@@ -20,6 +20,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class Related extends BaseActivityAnim {
 
@@ -104,14 +105,14 @@ public class Related extends BaseActivityAnim {
 
                 if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount) {
                     posts.loading = true;
-                    posts.loadMore(adapter, "all", "url:" + url, false);
+                    posts.loadMore(adapter, "", "url:" + url, false);
 
                 }
             }
         });
         final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
-        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("all", this));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("", this));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we estimate the height of the header in dp.
@@ -126,7 +127,7 @@ public class Related extends BaseActivityAnim {
             }
         });
 
-        posts = new SubredditSearchPosts("all", "url:" + url, this);
+        posts = new SubredditSearchPosts("", "url:" + url, this);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 
@@ -136,7 +137,7 @@ public class Related extends BaseActivityAnim {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, "all", "url:" + url, true);
+                        posts.loadMore(adapter, "", "url:" + url, true);
                         //TODO catch errors
                     }
                 }

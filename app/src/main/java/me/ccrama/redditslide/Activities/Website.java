@@ -139,6 +139,7 @@ public class Website extends BaseActivityAnim {
                                     ReaderMode.html = "";
                                     i.putExtra("url", v.getUrl());
                                 }
+                                i.putExtra(ReaderMode.EXTRA_COLOR, subredditColor);
                                 startActivity(i);
 
                             }

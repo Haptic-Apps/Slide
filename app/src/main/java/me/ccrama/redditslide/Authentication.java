@@ -62,11 +62,11 @@ public class Authentication {
 
         if (NetworkUtil.isConnected(context)) {
             hasDone = true;
-            httpAdapter = new OkHttpAdapter(Reddit.client, Protocol.SPDY_3 );
+            httpAdapter = new OkHttpAdapter(Reddit.client, Protocol.HTTP_2 );
             isLoggedIn = false;
             reddit = new RedditClient(
                     UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME), httpAdapter);
-            reddit.setRetryLimit(3);
+            reddit.setRetryLimit(2);
             if (BuildConfig.DEBUG) reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
             new VerifyCredentials(context).execute();
@@ -99,7 +99,7 @@ public class Authentication {
             reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
 
-            new VerifyCredentials(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new VerifyCredentials(c).execute();
         } else {
             new UpdateToken(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -269,7 +269,7 @@ public class Authentication {
                                 && authentication.getLong("expires", 0) > Calendar.getInstance()
                                 .getTimeInMillis()) {
                             finalData = oAuthHelper.refreshToken(credentials,
-                                    authentication.getString("backedCreds", "")); //does a request
+                                    authentication.getString("backedCreds", ""));
                         } else {
                             finalData = oAuthHelper.refreshToken(credentials); //does a request
                             authentication.edit()

@@ -17,6 +17,7 @@ import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -80,6 +81,7 @@ public class SubredditSearchPosts extends GeneralPosts {
         @Override
         public void onPostExecute(ArrayList<Contribution> submissions) {
             loading = false;
+
 
             if (submissions != null && !submissions.isEmpty()) {
                 // new submissions found
