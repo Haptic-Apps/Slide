@@ -182,7 +182,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overrideRedditSwipeAnywhere();
+        disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_sort);

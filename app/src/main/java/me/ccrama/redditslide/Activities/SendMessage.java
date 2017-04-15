@@ -75,7 +75,7 @@ public class SendMessage extends BaseActivity {
         body = (EditText) findViewById(R.id.body);
         View oldMSG = findViewById(R.id.oldMSG);
 
-        TextView sendingAs = (TextView) findViewById(R.id.sendas);
+        final TextView sendingAs = (TextView) findViewById(R.id.sendas);
         sendingAs.setText("Sending as /u/" + Authentication.name);
         author = Authentication.name;
         sendingAs.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +93,7 @@ public class SendMessage extends BaseActivity {
                             public void onSelection(MaterialDialog dialog, View itemView, int which,
                                     CharSequence text) {
                                 SendMessage.this.author = (String) text;
+                                sendingAs.setText("Sending as " + author);
                             }
                         })
                         .negativeText(R.string.btn_cancel)
@@ -265,7 +266,6 @@ public class SendMessage extends BaseActivity {
                         String to = author;
                         if(to.startsWith("/r/")){
                             to = to.substring(3, to.length());
-                            LogUtil.v(to);
                             new InboxManager(Authentication.reddit).compose(to, totext, subjecttext,
                                     bodytext);
                         } else {
