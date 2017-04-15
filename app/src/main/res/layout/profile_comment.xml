@@ -90,5 +90,16 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:visibility="invisible" />
+        <ImageView
+                android:id="@+id/mod"
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:visibility="gone"
+                android:layout_marginLeft="-8dp"
+                android:padding="8dp"
+                android:tag="tintactionbar"
+                android:tint="?attr/tint"
+                app:srcCompat="@drawable/mod" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

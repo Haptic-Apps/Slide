@@ -798,7 +798,7 @@ public class CommentAdapterHelper {
 
     }
 
-    private static void distinguishComment(final Context mContext, final CommentViewHolder holder,
+    public static void distinguishComment(final Context mContext, final CommentViewHolder holder,
             final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
 
@@ -834,7 +834,7 @@ public class CommentAdapterHelper {
         }.execute();
     }
 
-    private static void unDistinguishComment(final Context mContext, final CommentViewHolder holder,
+    public static void unDistinguishComment(final Context mContext, final CommentViewHolder holder,
             final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
 
@@ -870,7 +870,7 @@ public class CommentAdapterHelper {
         }.execute();
     }
 
-    private static void stickyComment(final Context mContext, final CommentViewHolder holder,
+    public static void stickyComment(final Context mContext, final CommentViewHolder holder,
             final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
 
