@@ -77,9 +77,14 @@ public class ImageFlairs {
                 FlairStylesheet flairStylesheet =  new FlairStylesheet(stylesheet);
                 for (String s : flairStylesheet.getListOfFlairIds()) {
                     String classDef = flairStylesheet.getClass(flairStylesheet.stylesheetString,
-                            "flair-" + s);
-                    String backgroundURL = flairStylesheet.getBackgroundURL(classDef);
-                    if (!allImages.contains(backgroundURL)) allImages.add(backgroundURL);
+                            "flair-" + s );
+                    LogUtil.v("Found " + s +  " and " + classDef);
+                    try {
+                        String backgroundURL = flairStylesheet.getBackgroundURL(classDef);
+                        if (!allImages.contains(backgroundURL)) allImages.add(backgroundURL);
+                    } catch (Exception e){
+                      //  e.printStackTrace();
+                    }
                 }
                 for(String backgroundURL : allImages){
                     flairStylesheet.cacheFlairsByFile(subreddit, backgroundURL, context);
@@ -117,6 +122,7 @@ public class ImageFlairs {
                     Math.max(1, Math.min(bitmap.getWidth() - nX, width)), nHeight =
                     Math.max(1, Math.min(bitmap.getHeight() - nY, height));
 
+            LogUtil.v("Getting at " + nX + " " + nY + " " + nWidth + " " + nHeight + " and " + bitmap.getHeight() + " and " + bitmap.getWidth());
             Bitmap b = Bitmap.createBitmap(bitmap, nX, nY, nWidth, nHeight);
             return b;
         }
@@ -160,8 +166,15 @@ public class ImageFlairs {
 
         FlairStylesheet(String stylesheetString) {
             this.stylesheetString = stylesheetString;
-
+            Pattern linkAndFlair = Pattern.compile("\\.flair-(\\w+),.linkflair-(\\w+)");
+            Matcher m = linkAndFlair.matcher(stylesheetString);
+            while(m.find()){
+                if(m.group(1).equals(m.group(2)) && m.end() <= stylesheetString.length()){
+                    stylesheetString = stylesheetString.substring(0, m.start()) + ".flair-" + m.group(1) + stylesheetString.substring(m.end());
+                }
+            }
             String baseFlairDef = getClass(stylesheetString, "flair");
+
             if (baseFlairDef == null) return;
 
             // Attempts to find default dimension and offset
@@ -177,11 +190,15 @@ public class ImageFlairs {
          * @return
          */
         String getClass(String cssDefinitionString, String className) {
-            Pattern propertyDefinition = Pattern.compile("\\." + className + "\\s*\\{(.+?)\\}");
+            Pattern propertyDefinition = Pattern.compile("\\." + className + "(.*?)\\{(.+?)\\}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
             if (matches.find()) {
-                return matches.group(1);
+                String returning = matches.group(1);
+                if(returning.startsWith(",") || returning.isEmpty()){
+                    returning = matches.group(2);
+                }
+                return returning;
             } else {
                 return null;
             }
@@ -323,6 +340,7 @@ public class ImageFlairs {
                 }
             }
 
+
             getFlairImageLoader(context).loadImage(filename, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
@@ -397,7 +415,7 @@ public class ImageFlairs {
          * @return
          */
         List<String> getListOfFlairIds() {
-            Pattern flairId = Pattern.compile("\\.flair-(\\w+)\\s*\\{");
+            Pattern flairId = Pattern.compile("\\.flair-(\\w+)\\s*(\\{|\\,)");
             Matcher matches = flairId.matcher(stylesheetString);
 
             List<String> flairIds = new ArrayList<>();
@@ -448,8 +466,7 @@ public class ImageFlairs {
         }
 
         options = new DisplayImageOptions.Builder().cacheOnDisk(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .imageScaleType(ImageScaleType.NONE)
                 .cacheInMemory(false)
                 .resetViewBeforeLoading(false)
                 .build();
