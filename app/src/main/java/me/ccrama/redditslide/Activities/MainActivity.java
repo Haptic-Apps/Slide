@@ -1372,6 +1372,7 @@ public class MainActivity extends BaseActivity
         } catch (Exception e) {
 
         }
+        ImageFlairs.syncFlairs(this,"soccer");
     }
 
     @Override

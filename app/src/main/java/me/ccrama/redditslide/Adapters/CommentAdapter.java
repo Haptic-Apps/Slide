@@ -374,15 +374,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             if(ImageFlairs.isSynced(comment.getSubredditName()) && comment.getAuthorFlair() != null && comment.getAuthorFlair().getCssClass() != null &&  !comment.getAuthorFlair().getCssClass().isEmpty()){
-                File file = DiskCacheUtils.findInCache(comment.getSubredditName().toLowerCase() + ":" + comment.getAuthorFlair().getCssClass().toLowerCase(), ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
-                if(file != null && file.exists()){
-                    holder.imageFlair.setVisibility(View.VISIBLE);
-                    String decodedImgUri = Uri.fromFile(file).toString();
-                    ImageFlairs.getFlairImageLoader(mContext).displayImage(decodedImgUri, holder.imageFlair);
-                } else {
-                    holder.imageFlair.setImageDrawable(null);
-                    holder.imageFlair.setVisibility(View.GONE);
-                }
+                boolean set = false;
+                for(String s : comment.getAuthorFlair().getCssClass().split(" ")) {
+                   File file = DiskCacheUtils.findInCache(
+                           comment.getSubredditName().toLowerCase() + ":" + s
+                                   .toLowerCase(),
+                           ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
+                   if (file != null && file.exists()) {
+                       set = true;
+                       holder.imageFlair.setVisibility(View.VISIBLE);
+                       String decodedImgUri = Uri.fromFile(file).toString();
+                       ImageFlairs.getFlairImageLoader(mContext).displayImage(decodedImgUri, holder.imageFlair);
+                       break;
+                   }
+               }
+               if(!set){
+                   holder.imageFlair.setImageDrawable(null);
+                   holder.imageFlair.setVisibility(View.GONE);
+               }
             } else {
                 holder.imageFlair.setVisibility(View.GONE);
             }

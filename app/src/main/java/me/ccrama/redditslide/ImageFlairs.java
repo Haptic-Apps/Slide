@@ -88,8 +88,8 @@ public class ImageFlairs {
                     }
                 }
                 try {
-                    String cla = flairStylesheet.getClassWithBackground(flairStylesheet.stylesheetString,
-                            "flair");
+                    String cla = flairStylesheet.getClassWithParam(flairStylesheet.stylesheetString,
+                            "flair", "background:url|background-image:url");
                     String total = flairStylesheet.getBackgroundURL(cla);
                     if (total != null && !total.isEmpty()) allImages.add(total);
                 } catch(Exception e){
@@ -130,8 +130,6 @@ public class ImageFlairs {
                     Math.max(0, Math.min(bitmap.getHeight(), y)), nWidth =
                     Math.max(1, Math.min(bitmap.getWidth() - nX, width)), nHeight =
                     Math.max(1, Math.min(bitmap.getHeight() - nY, height));
-
-            LogUtil.v("Getting at " + nX + " " + nY + " " + nWidth + " " + nHeight + " and " + bitmap.getHeight() + " and " + bitmap.getWidth());
             Bitmap b = Bitmap.createBitmap(bitmap, nX, nY, nWidth, nHeight);
             return b;
         }
@@ -162,10 +160,12 @@ public class ImageFlairs {
         class Location {
             int x, y;
             Boolean missing = true;
+            Boolean percent;
 
-            Location(int x, int y) {
+            Location(int x, int y, boolean percent) {
                 this.x = x;
                 this.y = y;
+                this.percent = percent;
                 missing = false;
             }
 
@@ -182,7 +182,7 @@ public class ImageFlairs {
                     stylesheetString = stylesheetString.substring(0, m.start()) + ".flair-" + m.group(1) + stylesheetString.substring(m.end());
                 }
             }
-            String baseFlairDef = getClassWithBackground(stylesheetString, "flair");
+            String baseFlairDef = getClassWithParam(stylesheetString, "flair", "background:url|background-image:url");
 
             if (baseFlairDef == null) return;
 
@@ -213,8 +213,8 @@ public class ImageFlairs {
             }
         }
 
-        String getClassWithBackground(String cssDefinitionString, String className) {
-            Pattern propertyDefinition = Pattern.compile("\\." + className + "\\{((.*?)(background:url|background-image:url)(.*?))\\}");
+        String getClassWithParam(String cssDefinitionString, String className, String toMatch) {
+            Pattern propertyDefinition = Pattern.compile("\\." + className + "\\{((.*?)("+toMatch+")(.*?))\\}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
             while(matches.find()){
@@ -284,7 +284,7 @@ public class ImageFlairs {
             }
             // could not find any background url
             if(count == 0){
-                return getBackgroundURL(getClassWithBackground(stylesheetString, "flair"), 1);
+                return getBackgroundURL(getClassWithParam(stylesheetString, "flair", "background:url|background-image:url"), 1);
             }
             return null;
         }
@@ -343,7 +343,7 @@ public class ImageFlairs {
          * @return
          */
         Location getBackgroundPosition(String classDefinitionString) {
-            Pattern positionDefinition = Pattern.compile("([+-]?\\d+|0)\\s+([+-]?\\d+|0)\\s*px");
+            Pattern positionDefinition = Pattern.compile("([+-]?\\d+|0)(px|%)\\s+([+-]?\\d+|0)\\s*(px|%)");
 
             String backgroundPositionProperty =
                     getProperty(classDefinitionString, "background-position");
@@ -351,8 +351,8 @@ public class ImageFlairs {
 
             Matcher matches = positionDefinition.matcher((backgroundPositionProperty));
             if (matches.find()) {
-                return new Location(-Integer.parseInt(matches.group(1)),
-                        -Integer.parseInt(matches.group(2)));
+                return new Location(Math.abs(Integer.parseInt(matches.group(1))),
+                        Math.abs(Integer.parseInt(matches.group(3))), matches.group(2).equals("%"));
             } else {
                 return new Location();
             }
@@ -397,10 +397,12 @@ public class ImageFlairs {
                             String classDef =
                                     FlairStylesheet.this.getClass(stylesheetString, "flair-" + id);
                             if (classDef == null) break;
-
-                            LogUtil.v("Getting " + id);
                             Dimensions flairDimensions = getBackgroundSize(classDef);
                             if (flairDimensions.missing) flairDimensions = defaultDimension;
+
+                            if(flairDimensions.width <= 1 && flairDimensions.height <= 1){
+                                flairDimensions = getBackgroundSize(getClassWithParam(stylesheetString, "flair", "width"));
+                            }
 
                             prevDimension = flairDimensions;
 
@@ -409,23 +411,17 @@ public class ImageFlairs {
 
                             final Dimensions finalFlairDimensions = flairDimensions;
                             final Location finalFlairLocation = flairLocation;
+
                             try {
+                                LogUtil.v("Numbers are: " + finalFlairDimensions.width + " " + finalFlairDimensions.height + " " + finalFlairLocation.x + " " +  finalFlairLocation.y);
                                 newBit = new CropTransformation(context, id,
                                         finalFlairDimensions.width, finalFlairDimensions.height,
-                                        finalFlairLocation.x, finalFlairLocation.y).transform(
+                                        finalFlairLocation.percent?(int)((((double)finalFlairLocation.x)/100)* finalFlairDimensions.width):finalFlairLocation.x, finalFlairLocation.percent?(int)((((double)finalFlairLocation.y)/100)* finalFlairDimensions.height):finalFlairLocation.y).transform(
                                         loadedImage);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             try {
-                                LogUtil.v("Saving to "
-                                        + getFlairImageLoader(context).getDiskCache()
-                                        .getDirectory()
-                                        .toString()
-                                        + " as "
-                                        + sub.toLowerCase()
-                                        + ":"
-                                        + id.toLowerCase());
                                 getFlairImageLoader(context).getDiskCache()
                                         .save(sub.toLowerCase() + ":" + id.toLowerCase(), newBit);
                             } catch (Exception e) {
