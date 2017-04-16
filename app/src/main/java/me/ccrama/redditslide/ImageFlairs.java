@@ -81,10 +81,19 @@ public class ImageFlairs {
                     LogUtil.v("Found " + s +  " and " + classDef);
                     try {
                         String backgroundURL = flairStylesheet.getBackgroundURL(classDef);
+
                         if (!allImages.contains(backgroundURL)) allImages.add(backgroundURL);
                     } catch (Exception e){
                       //  e.printStackTrace();
                     }
+                }
+                try {
+                    String cla = flairStylesheet.getClassWithBackground(flairStylesheet.stylesheetString,
+                            "flair");
+                    String total = flairStylesheet.getBackgroundURL(cla);
+                    if (total != null && !total.isEmpty()) allImages.add(total);
+                } catch(Exception e){
+                    e.printStackTrace();
                 }
                 for(String backgroundURL : allImages){
                     flairStylesheet.cacheFlairsByFile(subreddit, backgroundURL, context);
@@ -173,7 +182,7 @@ public class ImageFlairs {
                     stylesheetString = stylesheetString.substring(0, m.start()) + ".flair-" + m.group(1) + stylesheetString.substring(m.end());
                 }
             }
-            String baseFlairDef = getClass(stylesheetString, "flair");
+            String baseFlairDef = getClassWithBackground(stylesheetString, "flair");
 
             if (baseFlairDef == null) return;
 
@@ -204,6 +213,19 @@ public class ImageFlairs {
             }
         }
 
+        String getClassWithBackground(String cssDefinitionString, String className) {
+            Pattern propertyDefinition = Pattern.compile("\\." + className + "\\{((.*?)(background:url|background-image:url)(.*?))\\}");
+            Matcher matches = propertyDefinition.matcher(cssDefinitionString);
+
+            while(matches.find()){
+                String second = matches.group(2);
+                if (!second.contains("}")) {
+                    return "background:url" + matches.group(4);
+                }
+            }
+            return null;
+        }
+
         /**
          * Get property value inside a class definition by property name.
          *
@@ -229,31 +251,44 @@ public class ImageFlairs {
          * @return
          */
         String getBackgroundURL(String classDefinitionString) {
+            return getBackgroundURL(classDefinitionString, 0);
+        }
+
+        String getBackgroundURL(String classDefinitionString, int count) {
             Pattern urlDefinition = Pattern.compile("url\\([\"\'](.+?)[\"\']\\)");
-            String backgroundProperty = getProperty(classDefinitionString, "background");
-            if (backgroundProperty != null) {
-                // check "background"
-                Matcher matches = urlDefinition.matcher(backgroundProperty);
-                if (matches.find()) {
-                    String url = matches.group(1);
-                    if (url.startsWith("//")) url = "https:" + url;
-                    return url;
+            try {
+                String backgroundProperty = getProperty(classDefinitionString, "background");
+                if (backgroundProperty != null) {
+                    // check "background"
+                    Matcher matches = urlDefinition.matcher(backgroundProperty);
+                    if (matches.find()) {
+                        String url = matches.group(1);
+                        if (url.startsWith("//")) url = "https:" + url;
+                        return url;
+                    }
                 }
-            }
-            // either backgroundProperty is null or url cannot be found
-            String backgroundImageProperty = getProperty(classDefinitionString, "background-image");
-            if (backgroundImageProperty != null) {
-                // check "background-image"
-                Matcher matches = urlDefinition.matcher(backgroundImageProperty);
-                if (matches.find()) {
-                    String url = matches.group(1);
-                    if (url.startsWith("//")) url = "https:" + url;
-                    return url;
+                // either backgroundProperty is null or url cannot be found
+                String backgroundImageProperty =
+                        getProperty(classDefinitionString, "background-image");
+                if (backgroundImageProperty != null) {
+                    // check "background-image"
+                    Matcher matches = urlDefinition.matcher(backgroundImageProperty);
+                    if (matches.find()) {
+                        String url = matches.group(1);
+                        if (url.startsWith("//")) url = "https:" + url;
+                        return url;
+                    }
                 }
+            } catch(Exception ignored){
+
             }
             // could not find any background url
+            if(count == 0){
+                return getBackgroundURL(getClassWithBackground(stylesheetString, "flair"), 1);
+            }
             return null;
         }
+
 
         /**
          * Get background dimension in class definition.
@@ -334,7 +369,7 @@ public class ImageFlairs {
             final ArrayList<String> flairsToGet = new ArrayList<>();
             for (String s : getListOfFlairIds()) {
                 String classDef = getClass(stylesheetString, "flair-" + s);
-                final String backgroundURL = getBackgroundURL(classDef);
+                String backgroundURL = getBackgroundURL(classDef);
                 if (backgroundURL != null && backgroundURL.equalsIgnoreCase(filename)) {
                     flairsToGet.add(s);
                 }
@@ -363,6 +398,7 @@ public class ImageFlairs {
                                     FlairStylesheet.this.getClass(stylesheetString, "flair-" + id);
                             if (classDef == null) break;
 
+                            LogUtil.v("Getting " + id);
                             Dimensions flairDimensions = getBackgroundSize(classDef);
                             if (flairDimensions.missing) flairDimensions = defaultDimension;
 

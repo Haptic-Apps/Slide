@@ -378,7 +378,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if(file != null && file.exists()){
                     holder.imageFlair.setVisibility(View.VISIBLE);
                     String decodedImgUri = Uri.fromFile(file).toString();
-                    LogUtil.v(decodedImgUri);
                     ImageFlairs.getFlairImageLoader(mContext).displayImage(decodedImgUri, holder.imageFlair);
                 } else {
                     holder.imageFlair.setImageDrawable(null);
