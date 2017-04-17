@@ -50,6 +50,7 @@ public class UserSubscriptions {
             Arrays.asList("frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod", "popular");
     public static SharedPreferences subscriptions;
     public static SharedPreferences multiNameToSubs;
+    public static SharedPreferences pinned;
 
     public static void setSubNameToProperties(String name, String descrption) {
         multiNameToSubs.edit().putString(name, descrption).apply();
@@ -178,6 +179,23 @@ public class UserSubscriptions {
             return subredditsForHome;
         }
     }
+    public static CaseInsensitiveArrayList pins;
+    public static CaseInsensitiveArrayList getPinned() {
+        String s = pinned.getString(Authentication.name, "");
+        if (s.isEmpty()) {
+            //get online subs
+            return new CaseInsensitiveArrayList();
+        } else if(pins == null){
+            pins = new CaseInsensitiveArrayList();
+            for (String s2 : s.split(",")) {
+                if(!pins.contains(s2))
+                    pins.add(s2);
+            }
+            return pins;
+        } else {
+            return pins;
+        }
+    }
 
     public static CaseInsensitiveArrayList getSubscriptionsForShortcut(Context c) {
         String s = subscriptions.getString(Authentication.name, "");
@@ -288,6 +306,11 @@ public class UserSubscriptions {
 
     public static void setSubscriptions(CaseInsensitiveArrayList subs) {
         subscriptions.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+    }
+
+    public static void setPinned(CaseInsensitiveArrayList subs) {
+        pinned.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+        pins = null;
     }
 
     public static void switchAccounts() {
@@ -499,6 +522,18 @@ public class UserSubscriptions {
         setSubscriptions(subs);
     }
 
+    public static void addPinned(String s, Context c) {
+        CaseInsensitiveArrayList subs = getPinned();
+        subs.add(s);
+        setPinned(subs);
+    }
+
+    public static void removePinned(String s, Context c) {
+        CaseInsensitiveArrayList subs = getPinned();
+        subs.remove(s);
+        setPinned(subs);
+    }
+
     //Sets sub as "searched for", will apply to all accounts
     public static void addSubToHistory(String s) {
         String history = subscriptions.getString("subhistory", "");
@@ -624,13 +659,19 @@ public class UserSubscriptions {
     public static CaseInsensitiveArrayList sortNoExtras(CaseInsensitiveArrayList unsorted) {
         List<String> subs = new CaseInsensitiveArrayList(unsorted);
         CaseInsensitiveArrayList finals = new CaseInsensitiveArrayList();
-
+        for (String subreddit : getPinned()) {
+            if (subs.contains(subreddit)) {
+                subs.remove(subreddit);
+                finals.add(subreddit);
+            }
+        }
         for (String subreddit : specialSubreddits) {
             if (subs.contains(subreddit)) {
                 subs.remove(subreddit);
                 finals.add(subreddit);
             }
         }
+
 
         java.util.Collections.sort(subs, String.CASE_INSENSITIVE_ORDER);
         finals.addAll(subs);

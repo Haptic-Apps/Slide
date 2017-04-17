@@ -30,7 +30,16 @@
             android:adjustViewBounds="true"
 
             android:background="@drawable/circle" />
-
+        <View
+                android:id="@+id/pinned"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/lock" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="49dp"

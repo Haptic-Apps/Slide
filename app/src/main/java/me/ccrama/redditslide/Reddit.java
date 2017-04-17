@@ -668,6 +668,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
         UserSubscriptions.multiNameToSubs = getSharedPreferences("MULTITONAME", 0);
+        UserSubscriptions.pinned = getSharedPreferences("PINNED", 0);
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
         ImageFlairs.flairs = getSharedPreferences("FLAIRS", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
