@@ -28,6 +28,7 @@ public class SettingValues {
     public static final String PREF_NO_IMAGES                 = "noImages";
     public static final String PREF_AUTOTHEME                 = "autotime";
     public static final String PREVIEWS_LEFT                  = "previewsLeft";
+    public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
     public static final String PREF_COLOR_BACK                = "colorBack";
     public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
     public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
@@ -71,10 +72,10 @@ public class SettingValues {
     public static final String PREF_CARD_TEXT                 = "cardText";
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
-    public static final String PREF_READER                  = "readerDefault";
-    public static final String PREF_LQ_LOW              = "lqLow";
-    public static final String PREF_LQ_MID              = "lqMid";
-    public static final String PREF_LQ_HIGH              = "lqHigh";
+    public static final String PREF_READER                    = "readerDefault";
+    public static final String PREF_LQ_LOW                    = "lqLow";
+    public static final String PREF_LQ_MID                    = "lqMid";
+    public static final String PREF_LQ_HIGH                   = "lqHigh";
     public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
     public static final String PREF_COOKIES                   = "storeCookies";
     public static final String PREF_NIGHT_START               = "nightStart";
@@ -190,6 +191,7 @@ public class SettingValues {
     public static boolean switchThumb;
     public static boolean bigThumbnails;
     public static boolean commentPager;
+    public static boolean alphabetizeOnSubscribe;
     public static boolean colorSubName;
     public static boolean hideSelftextLeadImage;
     public static boolean overrideLanguage;
@@ -197,8 +199,8 @@ public class SettingValues {
     public static boolean showDomain;
     public static boolean cardText;
     public static boolean alwaysZoom;
-    public static boolean lqLow = false;
-    public static boolean lqMid = true;
+    public static boolean lqLow  = false;
+    public static boolean lqMid  = true;
     public static boolean lqHigh = false;
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
@@ -283,6 +285,9 @@ public class SettingValues {
         expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
         voteGestures = prefs.getBoolean(PREF_VOTE_GESTURES, false);
         fullCommentOverride = prefs.getBoolean(PREF_FULL_COMMENT_OVERRIDE, false);
+
+        alphabetizeOnSubscribe = prefs.getBoolean(PREF_ALPHABETIZE_SUBSCRIBE, false);
+
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
         swap = prefs.getBoolean(PREF_SWAP, false);

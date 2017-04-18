@@ -65,6 +65,7 @@ import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
@@ -76,11 +77,15 @@ public class ReorderSubreddits extends BaseActivityAnim {
     private RecyclerView             recyclerView;
     private String                   input;
     public static final String MULTI_REDDIT = "/m/";
-
+    MenuItem subscribe;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.reorder_subs, menu);
+
+        subscribe = menu.findItem(R.id.alphabetize_subscribe);
+        subscribe.setChecked(SettingValues.alphabetizeOnSubscribe);
+
         return true;
     }
 
@@ -143,6 +148,14 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 adapter = new CustomAdapter(subs);
                 //  adapter.setHasStableIds(true);
                 recyclerView.setAdapter(adapter);
+                return true;
+            case R.id.alphabetize_subscribe:
+                SettingValues.prefs.edit()
+                        .putBoolean(SettingValues.PREF_ALPHABETIZE_SUBSCRIBE, !SettingValues.alphabetizeOnSubscribe)
+                        .apply();
+                SettingValues.alphabetizeOnSubscribe = !SettingValues.alphabetizeOnSubscribe;
+                if(subscribe != null)
+                subscribe.setChecked(SettingValues.alphabetizeOnSubscribe);
                 return true;
             case R.id.info:
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
@@ -912,7 +925,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             new AlertDialogWrapper.Builder(ReorderSubreddits.this).setItems(
                                     new CharSequence[]{
                                             getString(R.string.reorder_move),
-                                            UserSubscriptions.getPinned().contains(origPos)?"Unpin":"Pin",
+                                            UserSubscriptions.getPinned().contains(origPos)
+                                                    ? "Unpin" : "Pin",
                                             getString(R.string.btn_delete)
                                     }, new DialogInterface.OnClickListener() {
                                         @Override
@@ -970,7 +984,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                             });
                                                 }
                                                 b.show();
-                                            } else if(which == 0){
+                                            } else if (which == 0) {
                                                 String s = items.get(holder.getAdapterPosition());
                                                 int index = subs.indexOf(s);
                                                 subs.remove(index);
@@ -978,19 +992,22 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                                 notifyItemMoved(holder.getAdapterPosition(), 0);
                                                 recyclerView.smoothScrollToPosition(0);
-                                            } else if(which == 1){
+                                            } else if (which == 1) {
                                                 String s = items.get(holder.getAdapterPosition());
-                                                if(!UserSubscriptions.getPinned().contains(s)) {
+                                                if (!UserSubscriptions.getPinned().contains(s)) {
                                                     int index = subs.indexOf(s);
-                                                    UserSubscriptions.addPinned(s, ReorderSubreddits.this);
+                                                    UserSubscriptions.addPinned(s,
+                                                            ReorderSubreddits.this);
                                                     subs.remove(index);
                                                     subs.add(0, s);
 
                                                     notifyItemMoved(holder.getAdapterPosition(), 0);
                                                     recyclerView.smoothScrollToPosition(0);
                                                 } else {
-                                                    UserSubscriptions.removePinned(s, ReorderSubreddits.this);
-                                                    adapter.notifyItemChanged(holder.getAdapterPosition());
+                                                    UserSubscriptions.removePinned(s,
+                                                            ReorderSubreddits.this);
+                                                    adapter.notifyItemChanged(
+                                                            holder.getAdapterPosition());
                                                 }
                                             }
                                         }

@@ -3,7 +3,9 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.widget.Toast;
 
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Paginator;
@@ -171,6 +173,10 @@ public class SubredditSearchPosts extends GeneralPosts {
 
                 return newSubmissions;
             } catch (Exception e) {
+                if(e instanceof NetworkException){
+                    NetworkException error = (NetworkException) e;
+                    Toast.makeText(adapter.mContext,"Loading failed, " + error.getResponse().getStatusCode() + ": " + ((NetworkException) e).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+                }
                 e.printStackTrace();
                 return null;
             }

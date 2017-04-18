@@ -7,10 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.DomainPaginator;
 import net.dean.jraw.paginators.Paginator;
@@ -466,6 +468,10 @@ public class SubredditPosts implements PostLoader {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                if(e instanceof NetworkException){
+                    NetworkException error = (NetworkException)e;
+                    Toast.makeText(context,"Loading failed, " + error.getResponse().getStatusCode() + ": " + ((NetworkException) e).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+                }
                 if (e.getMessage() != null && e.getMessage().contains("Forbidden")) {
                     Reddit.authentication.updateToken(context);
                 }

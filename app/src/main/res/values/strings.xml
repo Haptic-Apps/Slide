@@ -1157,5 +1157,6 @@
     <string name="settings_abbreviate_post_scores">Abbreviate post scores (ex. 24.0k)</string>
     <string name="settings_wide_depth_indicators">Wide comment depth indicators</string>
     <string name="handling_reader_mode">Use Reader mode</string>
+    <string name="settings_link_reader_night">Link Reader mode and Night mode</string>
 
 </resources>

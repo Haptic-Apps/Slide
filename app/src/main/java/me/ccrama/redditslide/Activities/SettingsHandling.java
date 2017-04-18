@@ -118,6 +118,7 @@ public class SettingsHandling extends BaseActivityAnim
                             case R.id.chrome:
                                 SettingValues.customtabs = true;
                                 SettingValues.web = true;
+                                SettingValues.reader = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -131,6 +132,7 @@ public class SettingsHandling extends BaseActivityAnim
                             case R.id.internal:
                                 SettingValues.customtabs = false;
                                 SettingValues.web = true;
+                                SettingValues.reader = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -157,6 +159,7 @@ public class SettingsHandling extends BaseActivityAnim
                                 break;
                             case R.id.external:
                                 SettingValues.web = false;
+                                SettingValues.reader = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, false)
                                         .apply();
