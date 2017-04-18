@@ -97,7 +97,7 @@
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/expandedmenu"
+                        android:id="@+id/readernight"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:backgroundTint="?attr/tint"

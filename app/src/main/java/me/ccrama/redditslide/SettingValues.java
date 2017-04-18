@@ -31,6 +31,7 @@ public class SettingValues {
     public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
     public static final String PREF_COLOR_BACK                = "colorBack";
     public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
+    public static final String PREF_READER_NIGHT              = "readernight";
     public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
     public static final String PREF_EXPANDED_TOOLBAR          = "expandedToolbar";
     public static final String PREF_SWAP                      = "Swap";
@@ -138,6 +139,7 @@ public class SettingValues {
     public static boolean                 noImages;
     public static boolean                 lowResMobile;
     public static boolean                 blurCheck;
+    public static boolean                 readerNight;
     public static boolean                 swipeAnywhere;
     public static boolean                 commentLastVisit;
     public static boolean                 storeHistory;
@@ -231,6 +233,7 @@ public class SettingValues {
                 CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
 
         single = prefs.getBoolean(PREF_SINGLE, false);
+        readerNight = prefs.getBoolean(PREF_READER_NIGHT, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
         overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
         immersiveMode = prefs.getBoolean(PREF_IMMERSIVE_MODE, false);

@@ -24,6 +24,8 @@ import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.Set;
+
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.ReaderMode;
 import me.ccrama.redditslide.Activities.Website;
@@ -95,7 +97,7 @@ public class LinkUtil {
                 Reddit.defaultShare(url, contextActivity);
             }
         } else {
-            if(SettingValues.reader){
+            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
                 //Reader mode
                 Intent i = new Intent(contextActivity, ReaderMode.class);
                 i.putExtra(ReaderMode.EXTRA_URL, url);
@@ -143,7 +145,7 @@ public class LinkUtil {
                 Reddit.defaultShare(url, contextActivity);
             }
         } else {
-            if(SettingValues.reader){
+            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
                 //Reader mode
                 Intent i = new Intent(contextActivity, ReaderMode.class);
                 i.putExtra(ReaderMode.EXTRA_URL, url);
