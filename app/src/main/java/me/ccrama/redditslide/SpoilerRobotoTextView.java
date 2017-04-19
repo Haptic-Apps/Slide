@@ -212,7 +212,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         Matcher htmlSpoilerMatcher = htmlSpoilerPattern.matcher(html);
         while (htmlSpoilerMatcher.find()) {
             String newPiece = htmlSpoilerMatcher.group();
-            String inner = "<a href=\"/spoiler\">spoiler&lt; [[s[ "
+            String inner = "<a href=\"/spoil\">spoil&lt; [[s[ "
                     + newPiece.substring(newPiece.indexOf(">") + 1,
                     newPiece.indexOf("<", newPiece.indexOf(">")))
                     + "]s]]</a>";
@@ -222,7 +222,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private String saveEmotesFromDestruction(String html) {
-        //Emotes often have no spoiler caption, and therefore are converted to empty anchors. Html.fromHtml removes anchors with zero length node text. Find zero length anchors that start with "/" and add "." to them.
+        //Emotes often have no spoil caption, and therefore are converted to empty anchors. Html.fromHtml removes anchors with zero length node text. Find zero length anchors that start with "/" and add "." to them.
         Pattern htmlEmotePattern = Pattern.compile("<a href=\"/.*\"></a>");
         Matcher htmlEmoteMatcher = htmlEmotePattern.matcher(html);
         while (htmlEmoteMatcher.find()) {
@@ -273,7 +273,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 Bitmap emoteBitmap = BitmapFactory.decodeFile(emoteFile.getAbsolutePath(), options);
                 builder.setSpan(new ImageSpan(getContext(), emoteBitmap), start, start + 1,
                         Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                //Check if url span has length. If it does, it's a spoiler/caption
+                //Check if url span has length. If it does, it's a spoil/caption
                 if (textCovers.length() > 1) {
                     builder.setSpan(new URLSpan("/sp"), start + 1, end + 1,
                             Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -671,7 +671,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (span != null) {
             int offset = (span.getURL().contains("hidden")) ? -1 : 2;
             Spannable text = (Spannable) getText();
-            // add 2 to end of link since there is a white space between the link text and the spoiler
+            // add 2 to end of link since there is a white space between the link text and the spoil
             ForegroundColorSpan[] foregroundColors =
                     text.getSpans(endOfLink + offset, endOfLink + offset,
                             ForegroundColorSpan.class);
@@ -701,7 +701,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     /**
-     * Set the necessary spans for each spoiler. <p/> The algorithm works in the same way as
+     * Set the necessary spans for each spoil. <p/> The algorithm works in the same way as
      * <code>setCodeFont</code>.
      *
      * @param sequence
@@ -742,7 +742,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
                 sequence.setSpan(new URLSpanNoUnderline("#spoilerhidden"), start, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                // spoiler text has a space at the front
+                // spoil text has a space at the front
                 sequence.setSpan(backgroundColorSpan, start + 1, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 sequence.setSpan(underneathColorSpan, start, end - 4,

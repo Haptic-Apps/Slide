@@ -108,6 +108,7 @@ public class SettingsHandling extends BaseActivityAnim
 
         final SwitchCompat readernight = (SwitchCompat) findViewById(R.id.readernight);
         readernight.setEnabled(SettingValues.nightMode && SettingValues.web && SettingValues.reader);
+        readernight.setChecked(SettingValues.readerNight);
         readernight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -212,10 +212,10 @@ public class SubmissionParser {
 
 
     /**
-     * Move the spoiler text inside of the "title" attribute to inside the link
-     * tag. Then surround the spoiler text with <code>[[s[</code> and <code>]s]]</code>.
+     * Move the spoil text inside of the "title" attribute to inside the link
+     * tag. Then surround the spoil text with <code>[[s[</code> and <code>]s]]</code>.
      * <p/>
-     * If there is no text inside of the link tag, insert "spoiler".
+     * If there is no text inside of the link tag, insert "spoil".
      *
      * @param html
      * @return
@@ -232,7 +232,7 @@ public class SubmissionParser {
             spoilerTeaser = matcher.group(2);
             // Remove the last </a> tag, but keep the < for parsing.
             if (!tag.contains("<a href=\"http")) {
-                html = html.replace(tag, tag.substring(0, tag.length() - 4) + (spoilerTeaser.isEmpty() ? "spoiler" : "") + "&lt; [[s[ " + spoilerText + "]s]]</a>");
+                html = html.replace(tag, tag.substring(0, tag.length() - 4) + (spoilerTeaser.isEmpty() ? "spoil" : "") + "&lt; [[s[ " + spoilerText + "]s]]</a>");
             }
         }
 

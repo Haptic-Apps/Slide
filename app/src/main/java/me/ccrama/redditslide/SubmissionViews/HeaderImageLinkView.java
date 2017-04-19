@@ -238,7 +238,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     thumbUsed = true;
                 }
                 loadedUrl = submission.getUrl();
-            } else if (submission.getDataNode().get("spoiler").asBoolean()) {
+            } else if (submission.getDataNode().get("spoil").asBoolean()) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
                     thumbImage2.setVisibility(View.VISIBLE);
