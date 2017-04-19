@@ -364,7 +364,7 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
-        if (submission.getDataNode().get("spoil").asBoolean()) {
+        if (submission.getDataNode().get("spoiler").asBoolean()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0SPOILER\u00A0");
             pinned.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_grey_600, true), 0,

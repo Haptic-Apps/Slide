@@ -389,7 +389,6 @@ public class SettingValues {
     public static void setSubSorting(Sorting linkSorting, TimePeriod time, String subreddit) {
         prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), linkSorting.name()).apply();
         prefs.edit().putString("defaultTime" + subreddit.toLowerCase(), time.name()).apply();
-
     }
 
     public static Sorting getSubmissionSort(String sub) {
@@ -428,6 +427,10 @@ public class SettingValues {
         return TimePeriod.valueOf(
                 prefs.getString("defaultTime" + sub.toLowerCase(), Reddit.timePeriod.name()));
 
+    }
+
+    public static boolean hasSort(String subreddit) {
+        return prefs.contains("defaultSort" + subreddit.toLowerCase());
     }
 
     public enum ColorIndicator {

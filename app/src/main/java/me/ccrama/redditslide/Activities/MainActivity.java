@@ -2946,10 +2946,16 @@ public class MainActivity extends BaseActivity
                 }
             });
 
-            TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
-            sort.setText(SettingValues.getBaseSubmissionSort("Default sorting: " + subreddit).name()
-                    + " of "
-                    + SettingValues.getBaseTimePeriod(subreddit).name());
+            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+            if(SettingValues.hasSort(subreddit)) {
+                Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
+                sort.setText(sortingis.name()
+                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+            } else {
+                sort.setText("Set default sorting");
+
+            }
             dialoglayout.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2971,22 +2977,20 @@ public class MainActivity extends BaseActivity
                                             break;
                                         case 3:
                                             sorts = Sorting.TOP;
-                                            askTimePeriod(sorts, subreddit);
+                                            askTimePeriod(sorts, subreddit, dialoglayout);
                                             return;
                                         case 4:
                                             sorts = Sorting.CONTROVERSIAL;
-                                            askTimePeriod(sorts, subreddit);
+                                            askTimePeriod(sorts, subreddit, dialoglayout);
                                             return;
                                     }
-                                    SettingValues.prefs.edit()
-                                            .putString("defaultSorting",
-                                                    Reddit.defaultSorting.name())
-                                            .apply();
-                                    SettingValues.defaultSorting = Reddit.defaultSorting;
 
-                                    ((TextView) findViewById(R.id.sorting_current)).setText(
-                                            Reddit.getSortingStrings(
-                                                    getBaseContext())[Reddit.getSortingId("")]);
+                                    SettingValues.setSubSorting(sorts,time,subreddit);
+                                    Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
+                                    sort.setText(sortingis.name()
+                                            + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                                            + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                                    reloadSubs();
                                 }
                             };
                     AlertDialogWrapper.Builder builder =
@@ -2994,6 +2998,24 @@ public class MainActivity extends BaseActivity
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()),
                             Reddit.getSortingId(""), l2);
+                    builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase()).apply();
+                            SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase()).apply();
+                            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                            if(SettingValues.hasSort(subreddit)) {
+                                Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
+                                sort.setText(sortingis.name()
+                                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                            } else {
+                                sort.setText("Set default sorting");
+
+                            }
+                            reloadSubs();
+                        }
+                    });
                     builder.show();
                 }
             });
@@ -3327,9 +3349,9 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    TimePeriod time;
+    TimePeriod time = TimePeriod.DAY;
 
-    private void askTimePeriod(final Sorting sort, final String sub) {
+    private void askTimePeriod(final Sorting sort, final String sub, final View dialoglayout) {
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
             @Override
@@ -3357,6 +3379,16 @@ public class MainActivity extends BaseActivity
                 SettingValues.setSubSorting(sort, time, sub);
                 Reddit.setSorting(sub, sort);
                 Reddit.setTime(sub, time);
+                final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                if(SettingValues.hasSort(sub)) {
+                    Sorting sortingis = SettingValues.getBaseSubmissionSort(sub);
+                    sort.setText(sortingis.name()
+                            + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                            + SettingValues.getBaseTimePeriod(sub).name():""));
+                } else {
+                    sort.setText("Set default sorting");
+                }
+                reloadSubs();
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);

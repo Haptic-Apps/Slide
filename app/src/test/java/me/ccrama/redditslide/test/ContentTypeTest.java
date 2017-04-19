@@ -88,7 +88,7 @@ public class ContentTypeTest {
     public void detectsSpoiler() {
         assertThat(ContentType.getContentType("/s"), is(Type.SPOILER));
         assertThat(ContentType.getContentType("/sp"), is(Type.SPOILER));
-        assertThat(ContentType.getContentType("/spoil"), is(Type.SPOILER));
+        assertThat(ContentType.getContentType("/spoiler"), is(Type.SPOILER));
         assertThat(ContentType.getContentType("#s"), is(Type.SPOILER));
     }
 

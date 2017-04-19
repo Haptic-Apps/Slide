@@ -1348,7 +1348,7 @@ public class PopulateSubmissionViewHolder {
             b.sheet(3, nsfw, res.getString(R.string.mod_btn_mark_nsfw));
         }
 
-        final boolean isSpoiler = submission.getDataNode().get("spoil").asBoolean();
+        final boolean isSpoiler = submission.getDataNode().get("spoiler").asBoolean();
         if (isSpoiler) {
             b.sheet(12, nsfw, "Unmark as spoiler");
         } else {
@@ -2636,7 +2636,7 @@ public class PopulateSubmissionViewHolder {
                 && submission.isSelfPost()
                 && !submission.getSelftext().isEmpty()
                 && !submission.isNsfw()
-                && !submission.getDataNode().get("spoil").asBoolean()
+                && !submission.getDataNode().get("spoiler").asBoolean()
                 && !submission.getDataNode().get("selftext_html").asText().trim().isEmpty()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
