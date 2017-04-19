@@ -52,6 +52,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     private static int               adapterPosition;
@@ -304,7 +305,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     ToolbarScrollHideHandler toolbarScroll;
 
     @NonNull
-    private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
+    public static RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,
                 CatchStaggeredGridLayoutManager.VERTICAL);
     }
@@ -462,7 +463,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (startIndex != -1 && !forced) {
+                    if (startIndex != -1 && !forced && startIndex < submissions.size()) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                         adapter.notifyDataSetChanged();
                     } else {

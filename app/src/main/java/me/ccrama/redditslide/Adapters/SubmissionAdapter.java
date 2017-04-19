@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -31,12 +32,14 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 
 
@@ -68,7 +71,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void setError(Boolean b) {
-        listView.setAdapter(new ErrorAdapter());
+       listView.setAdapter(new ErrorAdapter());
+        listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation)));
     }
 
     @Override
@@ -92,6 +96,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void undoSetError() {
         listView.setAdapter(this);
+        listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation)));
     }
 
     @Override

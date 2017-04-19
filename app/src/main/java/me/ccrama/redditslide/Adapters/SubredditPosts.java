@@ -55,13 +55,11 @@ public class SubredditPosts implements PostLoader {
     public String           subreddit;
     public String           subredditRandom;
     public boolean nomore = false;
-    public  boolean          stillShow;
     public  boolean          offline;
     public  boolean          forced;
     public  boolean          loading;
     private Paginator        paginator;
     public  OfflineSubreddit cached;
-    boolean doneOnce;
     Context c;
     boolean force18;
 
@@ -316,11 +314,12 @@ public class SubredditPosts implements PostLoader {
                 if(error.getCause() instanceof UnknownHostException){
                     Toast.makeText(context,"Loading failed, please check your internet connection", Toast.LENGTH_LONG).show();
                 }
-            }
-            if (submissions != null && !submissions.isEmpty()) {
+                displayer.updateError();
+            } else if (submissions != null && !submissions.isEmpty()) {
                 if(displayer instanceof SubmissionsView) {
                     ((SubmissionsView)displayer).adapter.undoSetError();
                 }
+
                 String[] ids = new String[submissions.size()];
                 int i = 0;
                 for (Submission s : submissions) {
@@ -377,6 +376,7 @@ public class SubredditPosts implements PostLoader {
                     }
                 } else if (!nomore) {
                     // error
+                    LogUtil.v("Setting error");
                     displayer.updateError();
                 }
             }
@@ -396,9 +396,6 @@ public class SubredditPosts implements PostLoader {
                 offline = false;
                 usedOffline = false;
             }
-
-
-            stillShow = true;
 
             if (reset || paginator == null) {
                 offline = false;
@@ -454,9 +451,6 @@ public class SubredditPosts implements PostLoader {
             if (posts != null) {
                 start = posts.size() + 1;
             }
-
-
-            LogUtil.v("Offline is " + offline + " and reset is " + reset + " and usedOffline is " + usedOffline + " and size is " + filteredSubmissions.size());
 
             return filteredSubmissions;
         }
@@ -555,9 +549,7 @@ public class SubredditPosts implements PostLoader {
                                     @Override
                                     protected void onPostExecute(Void aVoid) {
 
-                                        if (!cached.submissions.isEmpty()) {
-                                            stillShow = true;
-                                        } else {
+                                        if (cached.submissions.isEmpty()) {
                                             displayer.updateOfflineError();
                                         }
                                         // update offline
