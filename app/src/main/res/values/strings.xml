@@ -1158,5 +1158,6 @@
     <string name="settings_wide_depth_indicators">Wide comment depth indicators</string>
     <string name="handling_reader_mode">Use Reader mode</string>
     <string name="settings_link_reader_night">Link Reader mode and Night mode</string>
+    <string name="theme_pixel">Pixel</string>
 
 </resources>

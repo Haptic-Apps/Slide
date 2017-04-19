@@ -376,6 +376,31 @@ public class Tutorial extends AppCompatActivity {
                             }
                         }
                     });
+                    dialoglayout.findViewById(R.id.pixel).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 7) {
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
+
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    getActivity().overridePendingTransition(0, 0);
+
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
                     dialoglayout.findViewById(R.id.sepia).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -401,6 +426,32 @@ public class Tutorial extends AppCompatActivity {
                             }
                         }
                     });
+                    dialoglayout.findViewById(R.id.pixel).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 7) {
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
+
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    getActivity().overridePendingTransition(0, 0);
+
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
                     dialoglayout.findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -219,7 +219,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                (a).adapter.getCurrentFragment();
                                                                        ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size =
                                                                                a.toOpenComments + 1;
-                                                                       a.adapter.notifyDataSetChanged();
+                                                                       try {
+                                                                           a.adapter.notifyDataSetChanged();
+                                                                       } catch(Exception ignored){
+
+                                                                       }
                                                                    }
                                                                    a.pager.postDelayed(new Runnable() {
                                                                        @Override

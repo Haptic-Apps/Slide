@@ -671,6 +671,28 @@ public class MainActivity extends BaseActivity
                                 }
                             }
                         });
+                dialoglayout.findViewById(R.id.pixel)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String[] names =
+                                        new ColorPreferences(MainActivity.this).getFontStyle()
+                                                .getTitle()
+                                                .split("_");
+                                String name = names[names.length - 1];
+                                final String newName = name.replace("(", "");
+                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                    if (theme.toString().contains(newName)
+                                            && theme.getThemeType() == 7) {
+                                        back = theme.getThemeType();
+                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                                        d.dismiss();
+                                        restartTheme();
+                                        break;
+                                    }
+                                }
+                            }
+                        });
                 dialoglayout.findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -3433,7 +3455,7 @@ public class MainActivity extends BaseActivity
             ((TextView) findViewById(R.id.post_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.mods_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.flair_text)).setTextColor(subColor);
-            ((TextView) findViewById(R.id.sort)).setTextColor(subColor);
+            ((TextView) drawerLayout.findViewById(R.id.sort)).setTextColor(subColor);
 
         } else {
             if (drawerLayout != null) {

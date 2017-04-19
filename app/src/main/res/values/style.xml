@@ -148,6 +148,15 @@
         <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
     </style>
 
+    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.PIXEL">
+        <item name="android:textColorPrimary">#FFFFFFFF</item>
+        <item name="android:textColorSecondary">#8Affffff</item>
+        <item name="android:textColorHint">#42ffffff</item>
+        <item name="bs_dialogBackground">#3a3a3a</item>
+        <item name="bs_dividerColor">#00000000</item>
+        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+    </style>
+    
     <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Night_Red">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
@@ -222,6 +231,22 @@
         <item name="md_background_color">#37474F</item>
         <item name="list_background">#263238</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <style parent="swipestyle" name="Theme.PIXEL">
+        <item name="activity_background">#3a3a3a</item>
+        <item name="card_background">#2d2d2d</item>
+        <item name="android:colorBackground">#2d2d2d</item>
+        <item name="md_background_color">#2d2d2d</item>
+        <item name="list_background">#3a3a3a</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.PIXEL</item>
         <item name="font">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -565,6 +590,56 @@
     </style>
 
     <style parent="Theme.DARK_BLUE" name="yellow_blue">
+        <item name="colorAccent">@color/md_yellow_A400</item>
+    </style>
+
+    <!-- Pixel Theme Subthemes !-->
+
+    <style parent="Theme.PIXEL" name="amber_pixel">
+        <item name="colorAccent">@color/md_amber_A400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="blue_pixel">
+        <item name="colorAccent">@color/md_blue_400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="cyan_pixel">
+        <item name="colorAccent">@color/md_cyan_A400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="deeporange_pixel">
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="green_pixel">
+        <item name="colorAccent">@color/md_green_A400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="indigo_pixel">
+        <item name="colorAccent">@color/md_indigo_A400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="lightblue_pixel">
+        <item name="colorAccent">@color/md_light_blue_A400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="lime_pixel">
+        <item name="colorAccent">@color/md_lime_A400</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="pink_pixel">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="teal_pixel">
+        <item name="colorAccent">@color/md_teal_A700</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="white_pixel">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.PIXEL" name="yellow_pixel">
         <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 
