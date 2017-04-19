@@ -29,7 +29,6 @@
     <ImageView
             android:layout_width="30dp"
             android:id="@+id/flair"
-            android:layout_marginTop="6dp"
             android:layout_marginStart="8dp"
             android:layout_toRightOf="@+id/dot"
             android:layout_height="30dp"/>
@@ -39,6 +38,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_toRightOf="@+id/flair"
+        android:layout_alignBaseline="@+id/flair"
         android:layout_marginTop="6dp"
         android:paddingRight="30dp"
         android:layout_marginBottom="6dp"

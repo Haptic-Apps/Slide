@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.File;
@@ -60,10 +61,10 @@ public class ImageFlairs {
     }
 
     static class StylesheetFetchTask extends AsyncTask<Void, Void, FlairStylesheet> {
-        String subreddit;
+        String  subreddit;
         Context context;
 
-        StylesheetFetchTask( String subreddit, Context context) {
+        StylesheetFetchTask(String subreddit, Context context) {
             super();
             this.context = context;
             this.subreddit = subreddit;
@@ -74,28 +75,23 @@ public class ImageFlairs {
             try {
                 String stylesheet = Authentication.reddit.getStylesheet(subreddit);
                 ArrayList<String> allImages = new ArrayList<>();
-                FlairStylesheet flairStylesheet =  new FlairStylesheet(stylesheet);
+                FlairStylesheet flairStylesheet = new FlairStylesheet(stylesheet);
                 for (String s : flairStylesheet.getListOfFlairIds()) {
                     String classDef = flairStylesheet.getClass(flairStylesheet.stylesheetString,
-                            "flair-" + s );
-                    LogUtil.v("Found " + s +  " and " + classDef);
+                            "flair-" + s);
+                    LogUtil.v("Found " + s + " and " + classDef);
                     try {
                         String backgroundURL = flairStylesheet.getBackgroundURL(classDef);
-
+                        if (backgroundURL == null) backgroundURL = flairStylesheet.defaultURL;
                         if (!allImages.contains(backgroundURL)) allImages.add(backgroundURL);
-                    } catch (Exception e){
-                      //  e.printStackTrace();
+                    } catch (Exception e) {
+                        //  e.printStackTrace();
                     }
                 }
-                try {
-                    String cla = flairStylesheet.getClassWithParam(flairStylesheet.stylesheetString,
-                            "flair", "background:url|background-image:url");
-                    String total = flairStylesheet.getBackgroundURL(cla);
-                    if (total != null && !total.isEmpty()) allImages.add(total);
-                } catch(Exception e){
-                    e.printStackTrace();
+                if (flairStylesheet.defaultURL != null) {
+                    allImages.add(flairStylesheet.defaultURL);
                 }
-                for(String backgroundURL : allImages){
+                for (String backgroundURL : allImages) {
                     flairStylesheet.cacheFlairsByFile(subreddit, backgroundURL, context);
                 }
                 return flairStylesheet;
@@ -125,21 +121,32 @@ public class ImageFlairs {
             this.y = y;
         }
 
-        public Bitmap transform(Bitmap bitmap) throws Exception {
-            int nX = Math.max(0, Math.min(bitmap.getWidth(), x)), nY =
-                    Math.max(0, Math.min(bitmap.getHeight(), y)), nWidth =
-                    Math.max(1, Math.min(bitmap.getWidth() - nX, width)), nHeight =
-                    Math.max(1, Math.min(bitmap.getHeight() - nY, height));
+        public Bitmap transform(Bitmap bitmap, boolean isPercentage) throws Exception {
+            int nX, nY;
+
+            if (isPercentage) {
+                nX = Math.max(0, Math.min(bitmap.getWidth()- 1, bitmap.getWidth() * x / 100));
+                nY = Math.max(0, Math.min(bitmap.getHeight() - 1, bitmap.getHeight() * y / 100));
+            } else {
+                nX = Math.max(0, Math.min(bitmap.getWidth() - 1, x));
+                nY = Math.max(0, Math.min(bitmap.getHeight() - 1, y));
+            }
+
+            int nWidth = Math.max(1, Math.min(bitmap.getWidth() - nX - 1, width)), nHeight =
+                    Math.max(1, Math.min(bitmap.getHeight() - nY - 1, height));
+
             Bitmap b = Bitmap.createBitmap(bitmap, nX, nY, nWidth, nHeight);
             return b;
         }
 
     }
 
+
     static class FlairStylesheet {
         String stylesheetString;
         Dimensions defaultDimension = new Dimensions();
         Location   defaultLocation  = new Location();
+        String     defaultURL       = "";
 
         Dimensions prevDimension = null;
 
@@ -159,13 +166,19 @@ public class ImageFlairs {
 
         class Location {
             int x, y;
-            Boolean missing = true;
-            Boolean percent;
+            Boolean isPercentage = false;
+            Boolean missing      = true;
 
-            Location(int x, int y, boolean percent) {
+            Location(int x, int y) {
                 this.x = x;
                 this.y = y;
-                this.percent = percent;
+                missing = false;
+            }
+
+            Location(int x, int y, boolean isPercentage) {
+                this.x = x;
+                this.y = y;
+                this.isPercentage = isPercentage;
                 missing = false;
             }
 
@@ -174,21 +187,16 @@ public class ImageFlairs {
         }
 
         FlairStylesheet(String stylesheetString) {
+            stylesheetString = stylesheetString.replaceAll("@media[^{]+\\{([\\s\\S]+?\\})\\s*\\}", "");
             this.stylesheetString = stylesheetString;
-            Pattern linkAndFlair = Pattern.compile("\\.flair-(\\w+),.linkflair-(\\w+)");
-            Matcher m = linkAndFlair.matcher(stylesheetString);
-            while(m.find()){
-                if(m.group(1).equals(m.group(2)) && m.end() <= stylesheetString.length()){
-                    stylesheetString = stylesheetString.substring(0, m.start()) + ".flair-" + m.group(1) + stylesheetString.substring(m.end());
-                }
-            }
-            String baseFlairDef = getClassWithParam(stylesheetString, "flair", "background:url|background-image:url");
 
+            String baseFlairDef = getClass(stylesheetString, "flair");
             if (baseFlairDef == null) return;
 
-            // Attempts to find default dimension and offset
+            // Attempts to find default dimension, offset and image URL
             defaultDimension = getBackgroundSize(baseFlairDef);
             defaultLocation = getBackgroundPosition(baseFlairDef);
+            defaultURL = getBackgroundURL(baseFlairDef);
         }
 
         /**
@@ -199,31 +207,20 @@ public class ImageFlairs {
          * @return
          */
         String getClass(String cssDefinitionString, String className) {
-            Pattern propertyDefinition = Pattern.compile("\\." + className + "(.*?)\\{(.+?)\\}");
+            Pattern propertyDefinition =
+                    Pattern.compile("(?<! )\\." + className + "(,[^\\{]*)*\\{(.+?)\\}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
-            if (matches.find()) {
-                String returning = matches.group(1);
-                if(returning.startsWith(",") || returning.isEmpty()){
-                    returning = matches.group(2);
-                }
-                return returning;
-            } else {
-                return null;
-            }
-        }
+            String properties = null;
 
-        String getClassWithParam(String cssDefinitionString, String className, String toMatch) {
-            Pattern propertyDefinition = Pattern.compile("\\." + className + "\\{((.*?)("+toMatch+")(.*?))\\}");
-            Matcher matches = propertyDefinition.matcher(cssDefinitionString);
-
-            while(matches.find()){
-                String second = matches.group(2);
-                if (!second.contains("}")) {
-                    return "background:url" + matches.group(4);
-                }
+            while (matches.find()) {
+                if (properties == null) properties = "";
+                properties = matches.group(2)
+                        + ";"
+                        + properties;   // append properties to simulate property overriding
             }
-            return null;
+
+            return properties;
         }
 
         /**
@@ -251,44 +248,31 @@ public class ImageFlairs {
          * @return
          */
         String getBackgroundURL(String classDefinitionString) {
-            return getBackgroundURL(classDefinitionString, 0);
-        }
-
-        String getBackgroundURL(String classDefinitionString, int count) {
             Pattern urlDefinition = Pattern.compile("url\\([\"\'](.+?)[\"\']\\)");
-            try {
-                String backgroundProperty = getProperty(classDefinitionString, "background");
-                if (backgroundProperty != null) {
-                    // check "background"
-                    Matcher matches = urlDefinition.matcher(backgroundProperty);
-                    if (matches.find()) {
-                        String url = matches.group(1);
-                        if (url.startsWith("//")) url = "https:" + url;
-                        return url;
-                    }
+            String backgroundProperty = getProperty(classDefinitionString, "background");
+            if (backgroundProperty != null) {
+                // check "background"
+                Matcher matches = urlDefinition.matcher(backgroundProperty);
+                if (matches.find()) {
+                    String url = matches.group(1);
+                    if (url.startsWith("//")) url = "https:" + url;
+                    return url;
                 }
-                // either backgroundProperty is null or url cannot be found
-                String backgroundImageProperty =
-                        getProperty(classDefinitionString, "background-image");
-                if (backgroundImageProperty != null) {
-                    // check "background-image"
-                    Matcher matches = urlDefinition.matcher(backgroundImageProperty);
-                    if (matches.find()) {
-                        String url = matches.group(1);
-                        if (url.startsWith("//")) url = "https:" + url;
-                        return url;
-                    }
+            }
+            // either backgroundProperty is null or url cannot be found
+            String backgroundImageProperty = getProperty(classDefinitionString, "background-image");
+            if (backgroundImageProperty != null) {
+                // check "background-image"
+                Matcher matches = urlDefinition.matcher(backgroundImageProperty);
+                if (matches.find()) {
+                    String url = matches.group(1);
+                    if (url.startsWith("//")) url = "https:" + url;
+                    return url;
                 }
-            } catch(Exception ignored){
-
             }
             // could not find any background url
-            if(count == 0){
-                return getBackgroundURL(getClassWithParam(stylesheetString, "flair", "background:url|background-image:url"), 1);
-            }
             return null;
         }
-
 
         /**
          * Get background dimension in class definition.
@@ -337,26 +321,56 @@ public class ImageFlairs {
         }
 
         /**
+         * Get background scaling in class definition.
+         *
+         * @param classDefinitionString
+         * @return
+         */
+        Dimensions getBackgroundScaling(String classDefinitionString) {
+            Pattern positionDefinitionPx = Pattern.compile("([+-]?\\d+|0)px\\s+([+-]?\\d+|0)px");
+            String backgroundPositionProperty =
+                    getProperty(classDefinitionString, "background-size");
+            if (backgroundPositionProperty == null) return new Dimensions();
+
+            Matcher matches = positionDefinitionPx.matcher(backgroundPositionProperty);
+            if (matches.find()) {
+                return new Dimensions(Integer.parseInt(matches.group(1)),
+                        Integer.parseInt(matches.group(2)));
+            } else {
+                return new Dimensions();
+            }
+
+        }
+
+        /**
          * Get background offset in class definition.
          *
          * @param classDefinitionString
          * @return
          */
         Location getBackgroundPosition(String classDefinitionString) {
-            Pattern positionDefinition = Pattern.compile("([+-]?\\d+|0)(px|%)\\s+([+-]?\\d+|0)\\s*(px|%)");
+            Pattern positionDefinitionPx = Pattern.compile("([+-]?\\d+|0)px\\s+([+-]?\\d+|0)px"),
+                    positionDefinitionPercentage =
+                            Pattern.compile("([+-]?\\d+|0)%\\s+([+-]?\\d+|0)%");
 
             String backgroundPositionProperty =
                     getProperty(classDefinitionString, "background-position");
             if (backgroundPositionProperty == null) return new Location();
 
-            Matcher matches = positionDefinition.matcher((backgroundPositionProperty));
+            Matcher matches = positionDefinitionPx.matcher(backgroundPositionProperty);
             if (matches.find()) {
-                return new Location(Math.abs(Integer.parseInt(matches.group(1))),
-                        Math.abs(Integer.parseInt(matches.group(3))), matches.group(2).equals("%"));
+                return new Location(-Integer.parseInt(matches.group(1)),
+                        -Integer.parseInt(matches.group(2)));
             } else {
+                matches = positionDefinitionPercentage.matcher(backgroundPositionProperty);
+                if (matches.find()) {
+                    return new Location(Integer.parseInt(matches.group(1)),
+                            Integer.parseInt(matches.group(2)), true);
+                }
                 return new Location();
             }
         }
+
 
         /**
          * Request a flair by flair id. `.into` can be chained onto this method call.
@@ -370,75 +384,98 @@ public class ImageFlairs {
             for (String s : getListOfFlairIds()) {
                 String classDef = getClass(stylesheetString, "flair-" + s);
                 String backgroundURL = getBackgroundURL(classDef);
+                if (backgroundURL == null) backgroundURL = defaultURL;
                 if (backgroundURL != null && backgroundURL.equalsIgnoreCase(filename)) {
                     flairsToGet.add(s);
                 }
             }
 
+            String scaling = getClass(stylesheetString, "flair");
+            final Dimensions backScaling = getBackgroundScaling(scaling);
+            if (!backScaling.missing) {
+                getFlairImageLoader(context).loadImage(filename, new ImageSize(backScaling.width, backScaling.height), new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
 
-            getFlairImageLoader(context).loadImage(filename, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    LogUtil.v("Started loading");
+                    }
 
-                }
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    LogUtil.v("Loading failed because " + failReason.getCause().getMessage());
+                    }
 
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    if (loadedImage != null) {
-                        for (String id : flairsToGet) {
-                            Bitmap newBit = null;
-                            String classDef =
-                                    FlairStylesheet.this.getClass(stylesheetString, "flair-" + id);
-                            if (classDef == null) break;
-                            Dimensions flairDimensions = getBackgroundSize(classDef);
-                            if (flairDimensions.missing) flairDimensions = defaultDimension;
-
-                            if(flairDimensions.width <= 1 && flairDimensions.height <= 1){
-                                flairDimensions = getBackgroundSize(getClassWithParam(stylesheetString, "flair", "width"));
-                            }
-
-                            prevDimension = flairDimensions;
-
-                            Location flairLocation = getBackgroundPosition(classDef);
-                            if (flairLocation.missing) flairLocation = defaultLocation;
-
-                            final Dimensions finalFlairDimensions = flairDimensions;
-                            final Location finalFlairLocation = flairLocation;
-
-                            try {
-                                LogUtil.v("Numbers are: " + finalFlairDimensions.width + " " + finalFlairDimensions.height + " " + finalFlairLocation.x + " " +  finalFlairLocation.y);
-                                newBit = new CropTransformation(context, id,
-                                        finalFlairDimensions.width, finalFlairDimensions.height,
-                                        finalFlairLocation.percent?(int)((((double)finalFlairLocation.x)/100)* finalFlairDimensions.width):finalFlairLocation.x, finalFlairLocation.percent?(int)((((double)finalFlairLocation.y)/100)* finalFlairDimensions.height):finalFlairLocation.y).transform(
-                                        loadedImage);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                getFlairImageLoader(context).getDiskCache()
-                                        .save(sub.toLowerCase() + ":" + id.toLowerCase(), newBit);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        Bitmap b = Bitmap.createScaledBitmap(loadedImage,backScaling.width, backScaling.height, false);
+                        loadingComplete(b, sub, context, filename, flairsToGet);
                         loadedImage.recycle();
-                    } else {
-                        LogUtil.v("Loaded image is null for " + filename);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+                });
+            } else {
+                getFlairImageLoader(context).loadImage(filename, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        loadingComplete(loadedImage, sub, context, filename, flairsToGet);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+                });
+            }
+        }
+
+        private void loadingComplete(Bitmap loadedImage, String sub, Context context,
+                String filename, ArrayList<String> flairsToGet) {
+            if (loadedImage != null) {
+                for (String id : flairsToGet) {
+                    Bitmap newBit = null;
+                    String classDef =
+                            FlairStylesheet.this.getClass(stylesheetString, "flair-" + id);
+                    if (classDef == null) break;
+
+                    Dimensions flairDimensions = getBackgroundSize(classDef);
+                    if (flairDimensions.missing) flairDimensions = defaultDimension;
+
+                    prevDimension = flairDimensions;
+
+                    Location flairLocation = getBackgroundPosition(classDef);
+                    if (flairLocation.missing) flairLocation = defaultLocation;
+
+                    try {
+                        newBit = new CropTransformation(context, id, flairDimensions.width,
+                                flairDimensions.height, flairLocation.x, flairLocation.y).transform(
+                                loadedImage, flairLocation.isPercentage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        getFlairImageLoader(context).getDiskCache()
+                                .save(sub.toLowerCase() + ":" + id.toLowerCase(), newBit);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
-                }
-            });
-
+                loadedImage.recycle();
+            } else {
+                LogUtil.v("Loaded image is null for " + filename);
+            }
         }
 
         /**

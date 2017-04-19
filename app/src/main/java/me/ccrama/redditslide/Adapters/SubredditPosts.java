@@ -18,6 +18,7 @@ import net.dean.jraw.paginators.DomainPaginator;
 import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.SubredditPaginator;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -29,6 +30,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
@@ -306,7 +308,19 @@ public class SubredditPosts implements PostLoader {
         @Override
         public void onPostExecute(final List<Submission> submissions) {
             loading = false;
+            if(error != null){
+                if(error instanceof NetworkException){
+                    NetworkException e = (NetworkException)error;
+                    Toast.makeText(context,"Loading failed, " + e.getResponse().getStatusCode() + ": " + ((NetworkException) error).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+                }
+                if(error.getCause() instanceof UnknownHostException){
+                    Toast.makeText(context,"Loading failed, please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }
             if (submissions != null && !submissions.isEmpty()) {
+                if(displayer instanceof SubmissionsView) {
+                    ((SubmissionsView)displayer).adapter.undoSetError();
+                }
                 String[] ids = new String[submissions.size()];
                 int i = 0;
                 for (Submission s : submissions) {
@@ -370,6 +384,7 @@ public class SubredditPosts implements PostLoader {
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
 
+
             if ((!NetworkUtil.isConnected(context) && !Authentication.didOnline)
                     || MainActivity.isRestart) {
                 Log.v(LogUtil.getTag(), "Using offline data");
@@ -379,6 +394,7 @@ public class SubredditPosts implements PostLoader {
                 return null;
             } else {
                 offline = false;
+                usedOffline = false;
             }
 
 
@@ -438,6 +454,10 @@ public class SubredditPosts implements PostLoader {
             if (posts != null) {
                 start = posts.size() + 1;
             }
+
+
+            LogUtil.v("Offline is " + offline + " and reset is " + reset + " and usedOffline is " + usedOffline + " and size is " + filteredSubmissions.size());
+
             return filteredSubmissions;
         }
 
@@ -468,10 +488,7 @@ public class SubredditPosts implements PostLoader {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                if(e instanceof NetworkException){
-                    NetworkException error = (NetworkException)e;
-                    Toast.makeText(context,"Loading failed, " + error.getResponse().getStatusCode() + ": " + ((NetworkException) e).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
-                }
+                error = e;
                 if (e.getMessage() != null && e.getMessage().contains("Forbidden")) {
                     Reddit.authentication.updateToken(context);
                 }
@@ -479,6 +496,8 @@ public class SubredditPosts implements PostLoader {
             }
             return filteredSubmissions;
         }
+
+        Exception error;
     }
 
 

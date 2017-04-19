@@ -13,6 +13,7 @@ import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginatorMultireddit;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.MultiredditOverview;
@@ -84,6 +85,15 @@ public class SubredditSearchPosts extends GeneralPosts {
         public void onPostExecute(ArrayList<Contribution> submissions) {
             loading = false;
 
+            if(error != null){
+                if(error instanceof NetworkException){
+                    NetworkException e = (NetworkException)error;
+                    Toast.makeText(adapter.mContext,"Loading failed, " + e.getResponse().getStatusCode() + ": " + ((NetworkException) error).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+                }
+                if(error.getCause() instanceof UnknownHostException){
+                    Toast.makeText(adapter.mContext,"Loading failed, please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }
 
             if (submissions != null && !submissions.isEmpty()) {
                 // new submissions found
@@ -173,14 +183,12 @@ public class SubredditSearchPosts extends GeneralPosts {
 
                 return newSubmissions;
             } catch (Exception e) {
-                if(e instanceof NetworkException){
-                    NetworkException error = (NetworkException) e;
-                    Toast.makeText(adapter.mContext,"Loading failed, " + error.getResponse().getStatusCode() + ": " + ((NetworkException) e).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
-                }
+              error = e;
                 e.printStackTrace();
                 return null;
             }
         }
+        Exception error;
 
     }
 
