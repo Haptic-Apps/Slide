@@ -686,7 +686,20 @@ public class ColorPreferences {
         night_red_cyan(R.style.cyan_night_red, "night_red_cyan", R.color.md_cyan_A400, 6),
         night_red_lightblue(R.style.lightblue_night_red, "night_red_lightblue", R.color.md_light_blue_A400, 6),
         night_red_blue(R.style.blue_night_red, "night_red_blue", R.color.md_blue_A400, 6),
-        night_red_indigo(R.style.indigo_night_red, "night_red_indigo", R.color.md_indigo_A400, 6);
+        night_red_indigo(R.style.indigo_night_red, "night_red_indigo", R.color.md_indigo_A400, 6),
+
+        pixel_white(R.style.white_pixel, "pixel_white", R.color.md_blue_grey_200, 7),
+        pixel_pink(R.style.pink_pixel, "pixel_pink", R.color.md_pink_A200, 7),
+        pixel_deeporange(R.style.deeporange_pixel, "pixel_deeporange", R.color.md_deep_orange_A400, 7),
+        pixel_amber(R.style.amber_pixel, "pixel_amber", R.color.md_amber_A400, 7),
+        pixel_yellow(R.style.yellow_pixel, "pixel_yellow", R.color.md_yellow_A400, 7),
+        pixel_lime(R.style.lime_pixel, "pixel_lime", R.color.md_lime_A400, 7),
+        pixel_green(R.style.green_pixel, "pixel_green", R.color.md_green_A400, 7),
+        pixel_teal(R.style.teal_pixel, "pixel_teal", R.color.md_teal_A700, 7),
+        pixel_cyan(R.style.cyan_pixel, "pixel_cyan", R.color.md_cyan_A400, 7),
+        pixel_lightblue(R.style.lightblue_pixel, "pixel_lightblue", R.color.md_light_blue_A400, 7),
+        pixel_blue(R.style.blue_pixel, "pixel_blue", R.color.md_blue_A400, 7),
+        pixel_indigo(R.style.indigo_pixel, "pixel_indigo", R.color.md_indigo_A400, 7);
 
         private int baseId;
         private String title;

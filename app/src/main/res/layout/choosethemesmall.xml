@@ -141,6 +141,37 @@
                     </LinearLayout>
 
                     <LinearLayout
+                            android:id="@+id/pixel"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#2d2d2d"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+
+                            android:paddingEnd="16dp">
+
+                        <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="match_parent"
+                                android:alpha=".86"
+                                android:padding="12dp"
+                                android:tint="#ffffff"
+                                app:srcCompat="@drawable/theme" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/theme_pixel"
+
+                                android:textColor="#ffffff"
+
+                                android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/dark"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"

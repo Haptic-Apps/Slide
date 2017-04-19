@@ -27,7 +27,6 @@ import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -47,9 +46,11 @@ public class UserSubscriptions {
                     "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews",
                     "WritingPrompts");
     public static final List<String> specialSubreddits      =
-            Arrays.asList("frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod", "popular");
+            Arrays.asList("frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod",
+                    "popular");
     public static SharedPreferences subscriptions;
     public static SharedPreferences multiNameToSubs;
+    public static SharedPreferences pinned;
 
     public static void setSubNameToProperties(String name, String descrption) {
         multiNameToSubs.edit().putString(name, descrption).apply();
@@ -127,7 +128,7 @@ public class UserSubscriptions {
     }
 
     public static void doCachedModSubs() {
-        if(modOf == null || modOf.isEmpty()) {
+        if (modOf == null || modOf.isEmpty()) {
             String s = subscriptions.getString(Authentication.name + "mod", "");
             if (!s.isEmpty()) {
                 modOf = new CaseInsensitiveArrayList();
@@ -138,8 +139,10 @@ public class UserSubscriptions {
         }
     }
 
-    public static void cacheModOf(){
-        subscriptions.edit().putString(Authentication.name + "mod", Reddit.arrayToString(modOf)).apply();
+    public static void cacheModOf() {
+        subscriptions.edit()
+                .putString(Authentication.name + "mod", Reddit.arrayToString(modOf))
+                .apply();
     }
 
     public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
@@ -172,10 +175,27 @@ public class UserSubscriptions {
         } else {
             CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
             for (String s2 : s.split(",")) {
-                if(!subredditsForHome.contains(s2))
-                subredditsForHome.add(s2);
+                if (!subredditsForHome.contains(s2)) subredditsForHome.add(s2);
             }
             return subredditsForHome;
+        }
+    }
+
+    public static CaseInsensitiveArrayList pins;
+
+    public static CaseInsensitiveArrayList getPinned() {
+        String s = pinned.getString(Authentication.name, "");
+        if (s.isEmpty()) {
+            //get online subs
+            return new CaseInsensitiveArrayList();
+        } else if (pins == null) {
+            pins = new CaseInsensitiveArrayList();
+            for (String s2 : s.split(",")) {
+                if (!pins.contains(s2)) pins.add(s2);
+            }
+            return pins;
+        } else {
+            return pins;
         }
     }
 
@@ -198,8 +218,8 @@ public class UserSubscriptions {
         return s.isEmpty();
     }
 
-    public static CaseInsensitiveArrayList      modOf;
-    public static ArrayList<MultiReddit> multireddits;
+    public static CaseInsensitiveArrayList modOf;
+    public static ArrayList<MultiReddit>   multireddits;
     public static HashMap<String, List<MultiReddit>> public_multireddits =
             new HashMap<String, List<MultiReddit>>();
 
@@ -288,6 +308,11 @@ public class UserSubscriptions {
 
     public static void setSubscriptions(CaseInsensitiveArrayList subs) {
         subscriptions.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+    }
+
+    public static void setPinned(CaseInsensitiveArrayList subs) {
+        pinned.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+        pins = null;
     }
 
     public static void switchAccounts() {
@@ -452,13 +477,13 @@ public class UserSubscriptions {
                 defaults.remove(s);
             }
         }
-        for(String s : history){
-            if(!finalReturn.contains(s)){
+        for (String s : history) {
+            if (!finalReturn.contains(s)) {
                 finalReturn.add(s);
             }
         }
-        for(String s : defaults){
-            if(!finalReturn.contains(s)){
+        for (String s : defaults) {
+            if (!finalReturn.contains(s)) {
                 finalReturn.add(s);
             }
         }
@@ -490,13 +515,29 @@ public class UserSubscriptions {
     public static void addSubreddit(String s, Context c) {
         CaseInsensitiveArrayList subs = getSubscriptions(c);
         subs.add(s);
-        setSubscriptions(subs);
+        if (SettingValues.alphabetizeOnSubscribe) {
+            setSubscriptions(sortNoExtras(subs));
+        } else {
+            setSubscriptions(subs);
+        }
     }
 
     public static void removeSubreddit(String s, Context c) {
         CaseInsensitiveArrayList subs = getSubscriptions(c);
         subs.remove(s);
         setSubscriptions(subs);
+    }
+
+    public static void addPinned(String s, Context c) {
+        CaseInsensitiveArrayList subs = getPinned();
+        subs.add(s);
+        setPinned(subs);
+    }
+
+    public static void removePinned(String s, Context c) {
+        CaseInsensitiveArrayList subs = getPinned();
+        subs.remove(s);
+        setPinned(subs);
     }
 
     //Sets sub as "searched for", will apply to all accounts
@@ -624,13 +665,19 @@ public class UserSubscriptions {
     public static CaseInsensitiveArrayList sortNoExtras(CaseInsensitiveArrayList unsorted) {
         List<String> subs = new CaseInsensitiveArrayList(unsorted);
         CaseInsensitiveArrayList finals = new CaseInsensitiveArrayList();
-
+        for (String subreddit : getPinned()) {
+            if (subs.contains(subreddit)) {
+                subs.remove(subreddit);
+                finals.add(subreddit);
+            }
+        }
         for (String subreddit : specialSubreddits) {
             if (subs.contains(subreddit)) {
                 subs.remove(subreddit);
                 finals.add(subreddit);
             }
         }
+
 
         java.util.Collections.sort(subs, String.CASE_INSENSITIVE_ORDER);
         finals.addAll(subs);

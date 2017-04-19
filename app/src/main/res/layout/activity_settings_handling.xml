@@ -59,7 +59,55 @@
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.25dp"
+                    android:alpha=".25"
+                    android:background="?attr/tint" />
 
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="64dp"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_link_reader_night"
+                            android:textColor="?attr/font"
+                            android:textSize="14sp"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".86"
+                            android:text="Must have Reader mode selected above and Night mode enabled"
+                            android:textColor="?attr/font"
+                            android:textSize="13sp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/readernight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:paddingEnd="16dp"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font"/>
+            </RelativeLayout>
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:id="@+id/internalViewersHeader"

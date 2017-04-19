@@ -28,8 +28,10 @@ public class SettingValues {
     public static final String PREF_NO_IMAGES                 = "noImages";
     public static final String PREF_AUTOTHEME                 = "autotime";
     public static final String PREVIEWS_LEFT                  = "previewsLeft";
+    public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
     public static final String PREF_COLOR_BACK                = "colorBack";
     public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
+    public static final String PREF_READER_NIGHT              = "readernight";
     public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
     public static final String PREF_EXPANDED_TOOLBAR          = "expandedToolbar";
     public static final String PREF_SWAP                      = "Swap";
@@ -71,10 +73,10 @@ public class SettingValues {
     public static final String PREF_CARD_TEXT                 = "cardText";
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
-    public static final String PREF_READER                  = "readerDefault";
-    public static final String PREF_LQ_LOW              = "lqLow";
-    public static final String PREF_LQ_MID              = "lqMid";
-    public static final String PREF_LQ_HIGH              = "lqHigh";
+    public static final String PREF_READER                    = "readerDefault";
+    public static final String PREF_LQ_LOW                    = "lqLow";
+    public static final String PREF_LQ_MID                    = "lqMid";
+    public static final String PREF_LQ_HIGH                   = "lqHigh";
     public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
     public static final String PREF_COOKIES                   = "storeCookies";
     public static final String PREF_NIGHT_START               = "nightStart";
@@ -137,6 +139,7 @@ public class SettingValues {
     public static boolean                 noImages;
     public static boolean                 lowResMobile;
     public static boolean                 blurCheck;
+    public static boolean                 readerNight;
     public static boolean                 swipeAnywhere;
     public static boolean                 commentLastVisit;
     public static boolean                 storeHistory;
@@ -190,6 +193,7 @@ public class SettingValues {
     public static boolean switchThumb;
     public static boolean bigThumbnails;
     public static boolean commentPager;
+    public static boolean alphabetizeOnSubscribe;
     public static boolean colorSubName;
     public static boolean hideSelftextLeadImage;
     public static boolean overrideLanguage;
@@ -197,8 +201,8 @@ public class SettingValues {
     public static boolean showDomain;
     public static boolean cardText;
     public static boolean alwaysZoom;
-    public static boolean lqLow = false;
-    public static boolean lqMid = true;
+    public static boolean lqLow  = false;
+    public static boolean lqMid  = true;
     public static boolean lqHigh = false;
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
@@ -229,6 +233,7 @@ public class SettingValues {
                 CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
 
         single = prefs.getBoolean(PREF_SINGLE, false);
+        readerNight = prefs.getBoolean(PREF_READER_NIGHT, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
         overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
         immersiveMode = prefs.getBoolean(PREF_IMMERSIVE_MODE, false);
@@ -283,6 +288,9 @@ public class SettingValues {
         expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
         voteGestures = prefs.getBoolean(PREF_VOTE_GESTURES, false);
         fullCommentOverride = prefs.getBoolean(PREF_FULL_COMMENT_OVERRIDE, false);
+
+        alphabetizeOnSubscribe = prefs.getBoolean(PREF_ALPHABETIZE_SUBSCRIBE, false);
+
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
         swap = prefs.getBoolean(PREF_SWAP, false);
@@ -378,18 +386,51 @@ public class SettingValues {
                 defaultCommentSorting.name()));
     }
 
-    public static void setDefaultSubmissionSorting(Sorting sort, String subreddit) {
-        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), sort.name()).apply();
+    public static void setSubSorting(Sorting linkSorting, TimePeriod time, String subreddit) {
+        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), linkSorting.name()).apply();
+        prefs.edit().putString("defaultTime" + subreddit.toLowerCase(), time.name()).apply();
     }
 
-    public static Sorting getSubmissionSorting(String sub) {
-        return Sorting.valueOf(
-                prefs.getString("defaultSort" + sub.toLowerCase(), defaultCommentSorting.name()));
+    public static Sorting getSubmissionSort(String sub) {
+        String subreddit = sub.toLowerCase();
+        if (Reddit.sorting.containsKey(subreddit)) {
+            return Reddit.sorting.get(subreddit);
+        } else {
+            return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(),
+                    Reddit.defaultSorting.name()));
+        }
     }
+
+    public static TimePeriod getSubmissionTimePeriod(String sub) {
+        String subreddit = sub.toLowerCase();
+        if (Reddit.times.containsKey(subreddit)) {
+            return Reddit.times.get(subreddit);
+        } else {
+            return TimePeriod.valueOf(
+                    prefs.getString("defaultTime" + sub.toLowerCase(), Reddit.timePeriod.name()));
+        }
+    }
+
 
     public static boolean isNight() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         return (hour >= nightStart + 12 || hour <= nightEnd) && tabletUI && nightMode;
+    }
+
+    public static Sorting getBaseSubmissionSort(String sub) {
+        return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(),
+                Reddit.defaultSorting.name()));
+
+    }
+
+    public static TimePeriod getBaseTimePeriod(String sub) {
+        return TimePeriod.valueOf(
+                prefs.getString("defaultTime" + sub.toLowerCase(), Reddit.timePeriod.name()));
+
+    }
+
+    public static boolean hasSort(String subreddit) {
+        return prefs.contains("defaultSort" + subreddit.toLowerCase());
     }
 
     public enum ColorIndicator {

@@ -104,7 +104,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -1286,6 +1285,8 @@ public class PopulateSubmissionViewHolder {
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support, null);
         final Drawable nsfw =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        final Drawable spoiler =
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.spoil, null);
         final Drawable pin =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
         final Drawable lock =
@@ -1313,6 +1314,7 @@ public class PopulateSubmissionViewHolder {
         pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         flair.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        spoiler.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove_reason.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -1344,6 +1346,13 @@ public class PopulateSubmissionViewHolder {
             b.sheet(3, nsfw, res.getString(R.string.mod_btn_unmark_nsfw));
         } else {
             b.sheet(3, nsfw, res.getString(R.string.mod_btn_mark_nsfw));
+        }
+
+        final boolean isSpoiler = submission.getDataNode().get("spoiler").asBoolean();
+        if (isSpoiler) {
+            b.sheet(12, nsfw, "Unmark as spoiler");
+        } else {
+            b.sheet(12, nsfw, "Mark as spoiler");
         }
 
         final boolean locked = submission.isLocked();
@@ -1431,6 +1440,13 @@ public class PopulateSubmissionViewHolder {
                             unNsfwSubmission(mContext, submission, holder);
                         } else {
                             setPostNsfw(mContext, submission, holder);
+                        }
+                        break;
+                    case 12:
+                        if (isSpoiler) {
+                            unSpoiler(mContext, submission, holder);
+                        } else {
+                            setSpoiler(mContext, submission, holder);
                         }
                         break;
                     case 9:
@@ -2062,6 +2078,81 @@ public class PopulateSubmissionViewHolder {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    private void setSpoiler(final Activity mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s =
+                            Snackbar.make(holder.itemView, "Spoiler status set", Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    new ModerationManager(Authentication.reddit).setSpoiler(submission, true);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    return false;
+
+                }
+                return true;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void unSpoiler(final Context mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
+        //todo update view with NSFW tag
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s = Snackbar.make(holder.itemView, "Spoiler status removed",
+                            Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    new ModerationManager(Authentication.reddit).setSpoiler(submission, false);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    return false;
+
+                }
+                return true;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     private <T extends Thing> void approveSubmission(final Context mContext, final List<T> posts,
             final Submission submission, final RecyclerView recyclerview,
             final SubmissionViewHolder holder) {
@@ -2297,7 +2388,7 @@ public class PopulateSubmissionViewHolder {
         holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
 
         holder.title.setText(SubmissionCache.getTitleLine(submission,
-                mContext)); // title is a spoiler roboto textview so it will format the html
+                mContext)); // title is a spoil roboto textview so it will format the html
 
         if (!offline && UserSubscriptions.modOf != null && submission.getSubredditName() != null &&  UserSubscriptions.modOf.contains(
                 submission.getSubredditName().toLowerCase())) {

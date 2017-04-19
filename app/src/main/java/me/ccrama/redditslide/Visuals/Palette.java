@@ -156,7 +156,8 @@ public class Palette {
         LIGHT("Light",Color.parseColor("#e5e5e5"), Color.parseColor("#ffffff"), Color.parseColor("#de000000"), Color.parseColor("#8A000000") ),
         AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
         SEPIA("Sepia", Color.parseColor("#cac5ad"), Color.parseColor("#e2dfd7"), Color.parseColor("#DE3e3d36"), Color.parseColor("#8A3e3d36")),
-        BLUE("Dark Blue", Color.parseColor("#2F3D44"), Color.parseColor("#37474F"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF"));
+        BLUE("Dark Blue", Color.parseColor("#2F3D44"), Color.parseColor("#37474F"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        PIXEL("Pixel", Color.parseColor("#3e3e3e"), Color.parseColor("#2d2d2d"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF"));
 
         public String getDisplayName() {
             return displayName;

@@ -212,10 +212,10 @@ public class SubmissionParser {
 
 
     /**
-     * Move the spoiler text inside of the "title" attribute to inside the link
-     * tag. Then surround the spoiler text with <code>[[s[</code> and <code>]s]]</code>.
+     * Move the spoil text inside of the "title" attribute to inside the link
+     * tag. Then surround the spoil text with <code>[[s[</code> and <code>]s]]</code>.
      * <p/>
-     * If there is no text inside of the link tag, insert "spoiler".
+     * If there is no text inside of the link tag, insert "spoil".
      *
      * @param html
      * @return

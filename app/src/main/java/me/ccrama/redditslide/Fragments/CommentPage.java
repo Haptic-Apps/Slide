@@ -94,6 +94,7 @@ import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.ImageFlairs;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -1097,6 +1098,13 @@ public class CommentPage extends Fragment {
                                         Intent i = new Intent(getActivity(), Submit.class);
                                         i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                                         startActivity(i);
+                                    }
+                                });
+                        dialoglayout.findViewById(R.id.syncflair)
+                                .setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                       ImageFlairs.syncFlairs(getContext(), subreddit);
                                     }
                                 });
                         dialoglayout.findViewById(R.id.theme)

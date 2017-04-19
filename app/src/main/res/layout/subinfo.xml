@@ -326,6 +326,61 @@
                             android:textStyle="bold"/>
                 </RelativeLayout>
 
+                <RelativeLayout
+                        android:id="@+id/syncflair"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        >
+
+                    <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/image"/>
+
+                    <TextView
+                            android:id="@+id/sync"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:drawablePadding="16dp"
+                            android:gravity="center_vertical"
+                            android:minHeight="48dp"
+                            android:paddingStart="52dp"
+                            android:text="Sync subreddit image flairs"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorAccent"
+                            android:textStyle="bold"/>
+                </RelativeLayout>
+                <RelativeLayout
+                        android:id="@+id/sorting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        >
+
+                    <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/sort"/>
+
+                    <TextView
+                            android:id="@+id/sort"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:drawablePadding="16dp"
+                            android:gravity="center_vertical"
+                            android:minHeight="48dp"
+                            android:paddingStart="52dp"
+                            android:text="Default subreddit sorting"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorAccent"
+                            android:textStyle="bold"/>
+                </RelativeLayout>
+
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"

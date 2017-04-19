@@ -668,7 +668,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
         UserSubscriptions.multiNameToSubs = getSharedPreferences("MULTITONAME", 0);
+        UserSubscriptions.pinned = getSharedPreferences("PINNED", 0);
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
+        ImageFlairs.flairs = getSharedPreferences("FLAIRS", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
         defaultSorting = SettingValues.defaultSorting;
         timePeriod = SettingValues.timePeriod;
@@ -737,15 +739,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static final Map<String, Sorting> sorting = new HashMap<>();
-
-    public static Sorting getSorting(String subreddit) {
-        subreddit = subreddit.toLowerCase();
-        if (sorting.containsKey(subreddit)) {
-            return sorting.get(subreddit);
-        } else {
-            return defaultSorting;
-        }
-    }
 
     public static Sorting getSorting(String subreddit, Sorting defaultSort) {
         subreddit = subreddit.toLowerCase();

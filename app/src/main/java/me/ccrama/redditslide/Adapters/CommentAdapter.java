@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -39,6 +40,7 @@ import com.devspark.robototextview.util.RobotoTypefaceManager;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -48,6 +50,7 @@ import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -65,6 +68,7 @@ import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.ImageFlairs;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -369,7 +373,28 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-
+            if(ImageFlairs.isSynced(comment.getSubredditName()) && comment.getAuthorFlair() != null && comment.getAuthorFlair().getCssClass() != null &&  !comment.getAuthorFlair().getCssClass().isEmpty()){
+                boolean set = false;
+                for(String s : comment.getAuthorFlair().getCssClass().split(" ")) {
+                   File file = DiskCacheUtils.findInCache(
+                           comment.getSubredditName().toLowerCase() + ":" + s
+                                   .toLowerCase(),
+                           ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
+                   if (file != null && file.exists()) {
+                       set = true;
+                       holder.imageFlair.setVisibility(View.VISIBLE);
+                       String decodedImgUri = Uri.fromFile(file).toString();
+                       ImageFlairs.getFlairImageLoader(mContext).displayImage(decodedImgUri, holder.imageFlair);
+                       break;
+                   }
+               }
+               if(!set){
+                   holder.imageFlair.setImageDrawable(null);
+                   holder.imageFlair.setVisibility(View.GONE);
+               }
+            } else {
+                holder.imageFlair.setVisibility(View.GONE);
+            }
             //Set typeface for body
             int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
             Typeface typeface;

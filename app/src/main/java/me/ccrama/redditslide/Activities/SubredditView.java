@@ -74,6 +74,7 @@ import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.ImageFlairs;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
@@ -545,6 +546,13 @@ public class SubredditView extends BaseActivity {
                     startActivity(i);
                 }
             });
+            dialoglayout.findViewById(R.id.syncflair)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ImageFlairs.syncFlairs(SubredditView.this, subreddit);
+                        }
+                    });
             dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -555,6 +563,82 @@ public class SubredditView extends BaseActivity {
                     startActivity(i);
                 }
             });
+
+            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+            if(SettingValues.hasSort(subreddit)) {
+                Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
+                sort.setText(sortingis.name()
+                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+            } else {
+                sort.setText("Set default sorting");
+
+            }
+            dialoglayout.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    final DialogInterface.OnClickListener l2 =
+                            new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 0:
+                                            sorts = Sorting.HOT;
+                                            break;
+                                        case 1:
+                                            sorts = Sorting.NEW;
+                                            break;
+                                        case 2:
+                                            sorts = Sorting.RISING;
+                                            break;
+                                        case 3:
+                                            sorts = Sorting.TOP;
+                                            askTimePeriod(sorts, subreddit, dialoglayout);
+                                            return;
+                                        case 4:
+                                            sorts = Sorting.CONTROVERSIAL;
+                                            askTimePeriod(sorts, subreddit, dialoglayout);
+                                            return;
+                                    }
+
+                                    SettingValues.setSubSorting(sorts,time,subreddit);
+                                    Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
+                                    sort.setText(sortingis.name()
+                                            + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                                            + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                                    reloadSubs();
+
+                                }
+                            };
+                    AlertDialogWrapper.Builder builder =
+                            new AlertDialogWrapper.Builder(SubredditView.this);
+                    builder.setTitle(R.string.sorting_choose);
+                    builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()),
+                            Reddit.getSortingId(""), l2);
+                    builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase()).apply();
+                            SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase()).apply();
+                            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                            if(SettingValues.hasSort(subreddit)) {
+                                Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
+                                sort.setText(sortingis.name()
+                                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                            } else {
+                                sort.setText("Set default sorting");
+
+                            }
+                            reloadSubs();
+                        }
+                    });
+                    builder.show();
+                }
+            });
+
             dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -988,6 +1072,51 @@ public class SubredditView extends BaseActivity {
         return position;
     }
 
+    TimePeriod time = TimePeriod.DAY;
+    Sorting sorts;
+
+    private void askTimePeriod(final Sorting sort, final String sub, final View dialoglayout) {
+        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        time = TimePeriod.HOUR;
+                        break;
+                    case 1:
+                        time = TimePeriod.DAY;
+                        break;
+                    case 2:
+                        time = TimePeriod.WEEK;
+                        break;
+                    case 3:
+                        time = TimePeriod.MONTH;
+                        break;
+                    case 4:
+                        time = TimePeriod.YEAR;
+                        break;
+                    case 5:
+                        time = TimePeriod.ALL;
+                        break;
+                }
+                SettingValues.setSubSorting(sort, time, sub);
+                Reddit.setSorting(sub, sort);
+                Reddit.setTime(sub, time);
+                final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                Sorting sortingis = SettingValues.getBaseSubmissionSort("Default sorting: " + subreddit);
+                sort.setText(sortingis.name()
+                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
+                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                reloadSubs();
+            }
+        };
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
+        builder.setTitle(R.string.sorting_choose);
+        builder.setSingleChoiceItems(Reddit.getSortingStringsTime(getBaseContext()),
+                Reddit.getSortingIdTime(""), l2);
+        builder.show();
+    }
     public void openPopup() {
         PopupMenu popup =
                 new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
