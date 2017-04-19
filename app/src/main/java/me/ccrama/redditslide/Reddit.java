@@ -740,15 +740,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static final Map<String, Sorting> sorting = new HashMap<>();
 
-    public static Sorting getSorting(String subreddit) {
-        subreddit = subreddit.toLowerCase();
-        if (sorting.containsKey(subreddit)) {
-            return sorting.get(subreddit);
-        } else {
-            return defaultSorting;
-        }
-    }
-
     public static Sorting getSorting(String subreddit, Sorting defaultSort) {
         subreddit = subreddit.toLowerCase();
         if (sorting.containsKey(subreddit)) {

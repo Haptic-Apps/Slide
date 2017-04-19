@@ -401,8 +401,8 @@ public class SubredditPosts implements PostLoader {
                 } else {
                     paginator = new DomainPaginator(Authentication.reddit, sub);
                 }
-                paginator.setSorting(Reddit.getSorting(subreddit));
-                paginator.setTimePeriod(Reddit.getTime(subreddit));
+                paginator.setSorting(SettingValues.getSubmissionSort(subreddit));
+                paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod(subreddit));
                 paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
 
             }

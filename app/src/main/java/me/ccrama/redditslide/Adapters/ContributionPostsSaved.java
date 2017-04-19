@@ -10,6 +10,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -96,8 +97,8 @@ public class ContributionPostsSaved extends ContributionPosts {
             try {
                 if (reset || paginator == null) {
                     paginator = new UserSavedPaginator(Authentication.reddit, where, subreddit);
-                    paginator.setSorting(Reddit.getSorting(subreddit));
-                    paginator.setTimePeriod(Reddit.getTime(subreddit));
+                    paginator.setSorting(SettingValues.getSubmissionSort(subreddit));
+                    paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod(subreddit));
                     if(category != null)
                         paginator.setCategory(category);
                 }

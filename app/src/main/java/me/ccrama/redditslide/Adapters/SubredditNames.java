@@ -125,8 +125,8 @@ public class SubredditNames {
                 stillShow = true;
                 if (reset || paginator == null) {
                     paginator = new SubredditStream(Authentication.reddit, subredditPaginators[0]);
-                    paginator.setSorting(Reddit.getSorting(where));
-                    paginator.setTimePeriod(Reddit.getTime(where));
+                    paginator.setSorting(SettingValues.getSubmissionSort(where));
+                    paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod(where));
                     paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
 
                 }
@@ -150,8 +150,8 @@ public class SubredditNames {
                 stillShow = true;
                 if (reset || paginator == null) {
                     paginator = new SubredditSearchPaginator(Authentication.reddit, subredditPaginators[0]);
-                    paginator.setSorting(Reddit.getSorting(where));
-                    paginator.setTimePeriod(Reddit.getTime(where));
+                    paginator.setSorting(SettingValues.getSubmissionSort(where));
+                    paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod(where));
                     paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
                 }
 

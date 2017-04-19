@@ -386,18 +386,48 @@ public class SettingValues {
                 defaultCommentSorting.name()));
     }
 
-    public static void setDefaultSubmissionSorting(Sorting sort, String subreddit) {
-        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), sort.name()).apply();
+    public static void setSubSorting(Sorting linkSorting, TimePeriod time, String subreddit) {
+        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), linkSorting.name()).apply();
+        prefs.edit().putString("defaultTime" + subreddit.toLowerCase(), time.name()).apply();
+
     }
 
-    public static Sorting getSubmissionSorting(String sub) {
-        return Sorting.valueOf(
-                prefs.getString("defaultSort" + sub.toLowerCase(), defaultCommentSorting.name()));
+    public static Sorting getSubmissionSort(String sub) {
+        String subreddit = sub.toLowerCase();
+        if (Reddit.sorting.containsKey(subreddit)) {
+            return Reddit.sorting.get(subreddit);
+        } else {
+            return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(),
+                    Reddit.defaultSorting.name()));
+        }
     }
+
+    public static TimePeriod getSubmissionTimePeriod(String sub) {
+        String subreddit = sub.toLowerCase();
+        if (Reddit.times.containsKey(subreddit)) {
+            return Reddit.times.get(subreddit);
+        } else {
+            return TimePeriod.valueOf(
+                    prefs.getString("defaultTime" + sub.toLowerCase(), Reddit.timePeriod.name()));
+        }
+    }
+
 
     public static boolean isNight() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         return (hour >= nightStart + 12 || hour <= nightEnd) && tabletUI && nightMode;
+    }
+
+    public static Sorting getBaseSubmissionSort(String sub) {
+        return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(),
+                Reddit.defaultSorting.name()));
+
+    }
+
+    public static TimePeriod getBaseTimePeriod(String sub) {
+        return TimePeriod.valueOf(
+                prefs.getString("defaultTime" + sub.toLowerCase(), Reddit.timePeriod.name()));
+
     }
 
     public enum ColorIndicator {
