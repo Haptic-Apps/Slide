@@ -72,8 +72,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void setError(Boolean b) {
        listView.setAdapter(new ErrorAdapter());
+        isError = true;
         listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation)));
     }
+
+    boolean isError;
 
     @Override
     public long getItemId(int position) {
@@ -96,6 +99,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void undoSetError() {
         listView.setAdapter(this);
+        isError = false;
         listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation)));
     }
 

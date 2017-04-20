@@ -316,7 +316,7 @@ public class SubredditPosts implements PostLoader {
                 }
                 displayer.updateError();
             } else if (submissions != null && !submissions.isEmpty()) {
-                if(displayer instanceof SubmissionsView) {
+                if(displayer instanceof SubmissionsView && ((SubmissionsView)displayer).adapter.isError) {
                     ((SubmissionsView)displayer).adapter.undoSetError();
                 }
 

@@ -94,6 +94,7 @@ public class PeekMediaView extends RelativeLayout {
         website.setVisibility(View.GONE);
         website.loadUrl("about:blank");
         videoView.stopPlayback();
+        if (gif != null) gif.cancel(true);
     }
 
     public void doScroll(MotionEvent event) {

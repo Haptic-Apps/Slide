@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
@@ -43,9 +44,12 @@ import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 
 import net.dean.jraw.ApiException;
+import net.dean.jraw.RedditClient;
+import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
+import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
@@ -57,6 +61,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -64,6 +69,7 @@ import java.util.TreeMap;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -614,6 +620,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     AsyncLoadMore currentLoading;
+    String changedProfile;
 
     private void doReplySubmission(RecyclerView.ViewHolder submissionViewHolder) {
         final View replyArea = submissionViewHolder.itemView.findViewById(R.id.innerSend);
@@ -626,6 +633,40 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             currentlyEditing =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
+
+            final TextView profile = (TextView) submissionViewHolder.itemView.findViewById(R.id.profile);
+            changedProfile = Authentication.name;
+            profile.setText("/u/" + changedProfile);
+            profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final HashMap<String, String> accounts = new HashMap<>();
+
+                    for (String s : Authentication.authentication.getStringSet("accounts",
+                            new HashSet<String>())) {
+                        if (s.contains(":")) {
+                            accounts.put(s.split(":")[0], s.split(":")[1]);
+                        } else {
+                            accounts.put(s, "");
+                        }
+                    }
+                    final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+                    final int i = keys.indexOf(changedProfile);
+
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                    builder.setTitle(R.string.sorting_choose);
+                    builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            changedProfile = keys.get(which);
+                            profile.setText("/u/" + changedProfile);
+                        }
+                    });
+                    builder.alwaysCallSingleChoiceCallback();
+                    builder.setNegativeButton(R.string.btn_cancel, null);
+                    builder.show();
+                }
+            });
             currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -661,7 +702,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                             if (currentlyEditing != null) {
                                 String text = currentlyEditing.getText().toString();
-                                new ReplyTaskComment(submission).execute(text);
+                                new ReplyTaskComment(submission, changedProfile).execute(text);
                                 replyArea.setVisibility(View.GONE);
                                 currentlyEditing.setText("");
                                 currentlyEditing = null;
@@ -1190,6 +1231,39 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                         }
                     });
+                    final TextView profile = (TextView) baseView.findViewById(R.id.profile);
+                    changedProfile = Authentication.name;
+                    profile.setText("/u/" + changedProfile);
+                    profile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final HashMap<String, String> accounts = new HashMap<>();
+
+                            for (String s : Authentication.authentication.getStringSet("accounts",
+                                    new HashSet<String>())) {
+                                if (s.contains(":")) {
+                                    accounts.put(s.split(":")[0], s.split(":")[1]);
+                                } else {
+                                    accounts.put(s, "");
+                                }
+                            }
+                            final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+                            final int i = keys.indexOf(changedProfile);
+
+                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                            builder.setTitle(R.string.sorting_choose);
+                            builder.setSingleChoiceItems( keys.toArray(new String[keys.size()]), i, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    changedProfile = keys.get(which);
+                                    profile.setText("/u/" + changedProfile);
+                                }
+                            });
+                            builder.alwaysCallSingleChoiceCallback();
+                            builder.setNegativeButton(R.string.btn_cancel, null);
+                            builder.show();
+                        }
+                    });
                     replyLine.requestFocus();
                     InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
                             Context.INPUT_METHOD_SERVICE);
@@ -1273,6 +1347,39 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 }
                             }
                         });
+                        final TextView profile = (TextView) baseView.findViewById(R.id.profile);
+                        changedProfile = Authentication.name;
+                        profile.setText("/u/" + changedProfile);
+                        profile.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final HashMap<String, String> accounts = new HashMap<>();
+
+                                for (String s : Authentication.authentication.getStringSet("accounts",
+                                        new HashSet<String>())) {
+                                    if (s.contains(":")) {
+                                        accounts.put(s.split(":")[0], s.split(":")[1]);
+                                    } else {
+                                        accounts.put(s, "");
+                                    }
+                                }
+                                final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+                                final int i = keys.indexOf(changedProfile);
+
+                                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                                builder.setTitle(R.string.sorting_choose);
+                                builder.setSingleChoiceItems( keys.toArray(new String[keys.size()]), i, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        changedProfile = keys.get(which);
+                                        profile.setText("/u/" + changedProfile);
+                                    }
+                                });
+                                builder.alwaysCallSingleChoiceCallback();
+                                builder.setNegativeButton(R.string.btn_cancel, null);
+                                builder.show();
+                            }
+                        });
                         replyLine.requestFocus();
                         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
                                 Context.INPUT_METHOD_SERVICE);
@@ -1315,7 +1422,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                         dataSet.refreshLayout.setRefreshing(true);
                         String text = currentlyEditing.getText().toString();
-                        new ReplyTaskComment(n, baseNode, holder).execute(text);
+                        new ReplyTaskComment(n, baseNode, holder, changedProfile).execute(text);
                         currentlyEditing = null;
                         editingPosition = -1;
 
@@ -2210,16 +2317,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CommentNode       node;
         CommentViewHolder holder;
         boolean           isSubmission;
+        String profileName;
 
-        public ReplyTaskComment(Contribution n, CommentNode node, CommentViewHolder holder) {
+        public ReplyTaskComment(Contribution n, CommentNode node, CommentViewHolder holder, String profileName) {
             sub = n;
             this.holder = holder;
             this.node = node;
+            this.profileName = profileName;
         }
 
-        public ReplyTaskComment(Contribution n) {
+        public ReplyTaskComment(Contribution n, String profileName) {
             sub = n;
             isSubmission = true;
+            this.profileName = profileName;
         }
 
         @Override
@@ -2269,7 +2379,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (Authentication.me != null) {
                 try {
                     commentBack = comment[0];
-                    return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
+                    if(profileName.equals(Authentication.name)) {
+                        return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
+                    } else {
+                        LogUtil.v("Switching to " + profileName);
+                        return new AccountManager(getAuthenticatedClient(profileName)).reply(sub, comment[0]);
+                    }
                 } catch (Exception e) {
                     if (e instanceof ApiException) {
                         why = ((ApiException) e).getExplanation();
@@ -2280,5 +2395,43 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return null;
             }
         }
+    }
+
+    private RedditClient getAuthenticatedClient(String profileName) {
+        String token;
+        RedditClient reddit = new RedditClient(
+                UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
+        final HashMap<String, String> accounts = new HashMap<>();
+
+        for (String s : Authentication.authentication.getStringSet("accounts",
+                new HashSet<String>())) {
+            if (s.contains(":")) {
+                accounts.put(s.split(":")[0], s.split(":")[1]);
+            } else {
+                accounts.put(s, "");
+            }
+        }
+        final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+        if (accounts.containsKey(profileName)
+                && !accounts.get(profileName)
+                .isEmpty()) {
+            token = accounts.get(profileName);
+        } else {
+            ArrayList<String> tokens =
+                    new ArrayList<>(
+                            Authentication.authentication
+                                    .getStringSet(
+                                            "tokens",
+                                            new HashSet<String>()));
+            int index = keys.indexOf(profileName);
+            if (keys.indexOf(profileName)
+                    > tokens.size()) {
+                index -= 1;
+            }
+            token = tokens.get(
+                    index);
+        }
+        Authentication.doVerify(token, reddit, true, mContext);
+        return reddit;
     }
 }

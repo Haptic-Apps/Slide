@@ -1939,6 +1939,7 @@ public class CommentPage extends Fragment {
     private void reloadSubs() {
         mSwipeRefreshLayout.setRefreshing(true);
         comments.setSorting(commentSorting);
+        rv.scrollToPosition(0);
     }
 
     private void openPopup(View view) {

@@ -463,7 +463,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (startIndex != -1 && !forced && startIndex < submissions.size()) {
+                    if (startIndex != -1 && !forced ) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                         adapter.notifyDataSetChanged();
                     } else {

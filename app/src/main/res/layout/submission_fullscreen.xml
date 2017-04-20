@@ -298,6 +298,15 @@
                 android:padding="16dp"
                 android:visibility="gone">
 
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:text="/u/ccrama"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:id="@+id/profile"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"/>
+
             <me.ccrama.redditslide.Views.ImageInsertEditText
                     android:id="@+id/replyLine"
                     android:layout_width="match_parent"

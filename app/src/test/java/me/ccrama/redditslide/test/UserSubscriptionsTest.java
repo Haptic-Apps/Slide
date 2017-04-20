@@ -30,7 +30,7 @@ public class UserSubscriptionsTest {
 
     @Test
     public void sortsSubredditsNoExtras() {
-        assertThat(UserSubscriptions.sortNoExtras(subreddits), is(new ArrayList<>(Arrays.asList(
+        assertThat(UserSubscriptions.sortNoExtras(subreddits, false), is(new ArrayList<>(Arrays.asList(
                 "frontpage", "random", "friends", "mod", "aaa", "xyy", "xyz"
         ))));
     }

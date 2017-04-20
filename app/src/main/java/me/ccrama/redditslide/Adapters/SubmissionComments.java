@@ -133,6 +133,7 @@ public class SubmissionComments {
         defaultSorting = sort;
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
+
     }
 
     public void loadMore(CommentAdapter adapter, String subreddit) {
