@@ -105,28 +105,20 @@ public class SubredditPosts implements PostLoader {
                                 && submission.getThumbnails().getVariations().length > 0) {
 
                             int length = submission.getThumbnails().getVariations().length;
-                            if (SettingValues.lqLow && length >= 3)
-                            {
+                            if (SettingValues.lqLow && length >= 3) {
                                 url = Html.fromHtml(
                                         submission.getThumbnails().getVariations()[2].getUrl())
                                         .toString(); //unescape url characters
-                            }
-                            else if (SettingValues.lqMid && length >= 4)
-                            {
+                            } else if (SettingValues.lqMid && length >= 4) {
                                 url = Html.fromHtml(
                                         submission.getThumbnails().getVariations()[3].getUrl())
                                         .toString(); //unescape url characters
-                            }
-                            else if (length >= 5)
-                            {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getVariations()[length - 1].getUrl())
-                                        .toString(); //unescape url characters
-                            }
-                            else
-                            {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getSource().getUrl())
+                            } else if (length >= 5) {
+                                url = Html.fromHtml(submission.getThumbnails().getVariations()[
+                                        length
+                                                - 1].getUrl()).toString(); //unescape url characters
+                            } else {
+                                url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
                                         .toString(); //unescape url characters
                             }
 
@@ -182,28 +174,20 @@ public class SubredditPosts implements PostLoader {
                                 && submission.getThumbnails().getVariations().length != 0) {
 
                             int length = submission.getThumbnails().getVariations().length;
-                            if (SettingValues.lqLow && length >= 3)
-                            {
+                            if (SettingValues.lqLow && length >= 3) {
                                 url = Html.fromHtml(
                                         submission.getThumbnails().getVariations()[2].getUrl())
                                         .toString(); //unescape url characters
-                            }
-                            else if (SettingValues.lqMid && length >= 4)
-                            {
+                            } else if (SettingValues.lqMid && length >= 4) {
                                 url = Html.fromHtml(
                                         submission.getThumbnails().getVariations()[3].getUrl())
                                         .toString(); //unescape url characters
-                            }
-                            else if (length >= 5)
-                            {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getVariations()[length - 1].getUrl())
-                                        .toString(); //unescape url characters
-                            }
-                            else
-                            {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getSource().getUrl())
+                            } else if (length >= 5) {
+                                url = Html.fromHtml(submission.getThumbnails().getVariations()[
+                                        length
+                                                - 1].getUrl()).toString(); //unescape url characters
+                            } else {
+                                url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
                                         .toString(); //unescape url characters
                             }
 
@@ -306,18 +290,23 @@ public class SubredditPosts implements PostLoader {
         @Override
         public void onPostExecute(final List<Submission> submissions) {
             loading = false;
-            if(error != null){
-                if(error instanceof NetworkException){
-                    NetworkException e = (NetworkException)error;
-                    Toast.makeText(context,"Loading failed, " + e.getResponse().getStatusCode() + ": " + ((NetworkException) error).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+            if (error != null) {
+                if (error instanceof NetworkException) {
+                    NetworkException e = (NetworkException) error;
+                    Toast.makeText(context, "Loading failed, " + e.getResponse().getStatusCode() + (
+                                    e.getResponse().getStatusMessage().isEmpty() ? ""
+                                            : ": " + e.getResponse().getStatusMessage()),
+                            Toast.LENGTH_SHORT).show();
                 }
-                if(error.getCause() instanceof UnknownHostException){
-                    Toast.makeText(context,"Loading failed, please check your internet connection", Toast.LENGTH_LONG).show();
+                if (error.getCause() instanceof UnknownHostException) {
+                    Toast.makeText(context, "Loading failed, please check your internet connection",
+                            Toast.LENGTH_LONG).show();
                 }
                 displayer.updateError();
             } else if (submissions != null && !submissions.isEmpty()) {
-                if(displayer instanceof SubmissionsView && ((SubmissionsView)displayer).adapter.isError) {
-                    ((SubmissionsView)displayer).adapter.undoSetError();
+                if (displayer instanceof SubmissionsView
+                        && ((SubmissionsView) displayer).adapter.isError) {
+                    ((SubmissionsView) displayer).adapter.undoSetError();
                 }
 
                 String[] ids = new String[submissions.size()];
@@ -381,6 +370,7 @@ public class SubredditPosts implements PostLoader {
                 }
             }
         }
+
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
 

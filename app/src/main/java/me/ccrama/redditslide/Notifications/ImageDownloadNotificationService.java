@@ -138,15 +138,18 @@ public class ImageDownloadNotificationService extends Service {
                                                 Files.copy(f, f_out);
                                                 showNotifPhoto(f_out, loadedImage);
                                             } catch (IOException e) {
+                                                e.printStackTrace();
                                                 try {
                                                     saveImageGallery(loadedImage, finalUrl1);
                                                 } catch (IOException ignored) {
+                                                    ignored.printStackTrace();
                                                 }
                                             }
                                         } else {
                                             try {
                                                 saveImageGallery(loadedImage, finalUrl1);
                                             } catch (IOException e) {
+                                                e.printStackTrace();
                                             }
                                         }
                                     }
@@ -155,7 +158,7 @@ public class ImageDownloadNotificationService extends Service {
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
                                         latestPercentDone = (int) ((current / (float) total) * 100);
-                                        if (percentDone <= latestPercentDone + 10 || latestPercentDone == 100 ) { //Do every 10 percent
+                                        if (percentDone <= latestPercentDone + 30 || latestPercentDone == 100 ) { //Do every 10 percent
                                             percentDone = latestPercentDone;
                                             mBuilder.setProgress(100, percentDone, false);
                                             mNotifyManager.notify(id, mBuilder.build());
