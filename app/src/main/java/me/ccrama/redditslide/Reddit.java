@@ -783,6 +783,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         @Override
         protected Void doInBackground(Void... params) {
+            if(mHelper == null)
             try {
                 mHelper = new IabHelper(Reddit.this,
                         SecretConstants.getBase64EncodedPublicKey(getBaseContext()));
@@ -791,11 +792,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         if (!result.isSuccess()) {
                             LogUtil.e("Problem setting up In-app Billing: " + result);
                         }
-
                     }
                 });
             } catch (Exception ignored) {
-
+                ignored.printStackTrace();
             }
             return null;
         }

@@ -25,6 +25,7 @@ import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.Inventory;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.Purchase;
+import me.ccrama.redditslide.util.SkuDetails;
 
 
 /**
@@ -128,11 +129,22 @@ public class DonateView extends BaseActivityAnim {
                     @Override
                     public void onQueryInventoryFinished(IabResult result, Inventory inv) {
                         if(inv != null) {
-                            Purchase donation = inv.getPurchase("donation_" + slider.getValue());
+                                    SkuDetails donation = inv.getSkuDetails("donation_" + slider.getValue());
                             LogUtil.v("Trying to get donation_" + slider.getValue());
                             if (donation != null) {
                                 LogUtil.v("Not null");
-                                Reddit.mHelper.consumeAsync(donation, mPurchaseFinishedListener);
+                                Reddit.mHelper.launchPurchaseFlow(DonateView.this, donation.getSku(),
+                                        4000, new IabHelper.OnIabPurchaseFinishedListener() {
+                                            @Override
+                                            public void onIabPurchaseFinished(IabResult result,
+                                                    Purchase info) {
+                                                if(result.isSuccess()){
+                                                    new AlertDialogWrapper.Builder(DonateView.this).setTitle("Thank you!").setMessage("Thank you very much for your support :)").setPositiveButton(R.string.btn_done, null).show();
+                                                } else {
+                                                    new AlertDialogWrapper.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
+                                                }
+                                            }
+                                        });
                             } else {
                                 LogUtil.v("Null");
                             }
