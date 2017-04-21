@@ -995,6 +995,8 @@ public class SubredditView extends BaseActivity {
             ((TextView) findViewById(R.id.post_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.mods_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.flair_text)).setTextColor(subColor);
+            ((TextView) findViewById(R.id.sorting).findViewById(R.id.sort)).setTextColor(subColor);
+            ((TextView) findViewById(R.id.sync)).setTextColor(subColor);
 
         } else {
             if (drawerLayout != null) {
