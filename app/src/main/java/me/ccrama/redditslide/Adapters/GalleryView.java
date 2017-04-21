@@ -202,6 +202,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             case STREAMABLE:
                                 if (SettingValues.video) {
                                     Intent myIntent = new Intent(main, MediaView.class);
+                                    myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                                     myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                     main.startActivity(myIntent);
                                 } else {
@@ -233,10 +234,12 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 if (SettingValues.album) {
                                     if (SettingValues.albumSwipe) {
                                         Intent i = new Intent(main, AlbumPager.class);
+                                        i.putExtra(AlbumPager.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                     } else {
                                         Intent i = new Intent(main, Album.class);
+                                        i.putExtra(Album.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                     }
@@ -249,10 +252,12 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 if (SettingValues.image) {
                                     if (SettingValues.albumSwipe) {
                                         Intent i = new Intent(main, TumblrPager.class);
+                                        i.putExtra(TumblrPager.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                     } else {
                                         Intent i = new Intent(main, Tumblr.class);
+                                        i.putExtra(Tumblr.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                     }

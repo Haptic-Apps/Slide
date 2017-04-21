@@ -156,6 +156,7 @@ public class PopulateSubmissionViewHolder {
                                     if (SettingValues.video) {
                                         Intent myIntent =
                                                 new Intent(contextActivity, MediaView.class);
+                                        myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                         addAdaptorPosition(myIntent, submission,
                                                 holder.getAdapterPosition());
@@ -204,9 +205,11 @@ public class PopulateSubmissionViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, AlbumPager.class);
+                                            i.putExtra(AlbumPager.SUBREDDIT, submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
+                                            i.putExtra(Album.SUBREDDIT, submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
                                         addAdaptorPosition(i, submission,
@@ -224,9 +227,11 @@ public class PopulateSubmissionViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, TumblrPager.class);
+                                            i.putExtra(TumblrPager.SUBREDDIT, submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Tumblr.class);
+                                            i.putExtra(Tumblr.SUBREDDIT, submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
                                         addAdaptorPosition(i, submission,
@@ -302,6 +307,7 @@ public class PopulateSubmissionViewHolder {
             Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
+            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
             String url;
             String previewUrl;
             url = submission.getUrl();
@@ -363,6 +369,7 @@ public class PopulateSubmissionViewHolder {
             DataShare.sharedSubmission = submission;
 
             Intent myIntent = new Intent(contextActivity, MediaView.class);
+            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
 
             myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
 

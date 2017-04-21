@@ -169,7 +169,7 @@ public class TumblrFull extends Fragment {
         @Override
         public void doWithData(final List<Photo> jsonElements) {
             super.doWithData(jsonElements);
-            TumblrView adapter = new TumblrView(baseActivity, jsonElements, 0);
+            TumblrView adapter = new TumblrView(baseActivity, jsonElements, 0, s.getSubredditName());
             ((RecyclerView) list).setAdapter(adapter);
         }
 

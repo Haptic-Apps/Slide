@@ -30,6 +30,7 @@ public class SettingValues {
     public static final String PREVIEWS_LEFT                  = "previewsLeft";
     public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
     public static final String PREF_COLOR_BACK                = "colorBack";
+    public static final String PREF_IMAGE_SUBFOLDERS          = "imageSubfolders";
     public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
     public static final String PREF_READER_NIGHT              = "readernight";
     public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
@@ -188,6 +189,7 @@ public class SettingValues {
     public static boolean customtabs;
     public static boolean dualPortrait;
     public static boolean nightMode;
+    public static boolean imageSubfolders;
     public static boolean autoTime;
     public static boolean albumSwipe;
     public static boolean switchThumb;
@@ -239,6 +241,7 @@ public class SettingValues {
         immersiveMode = prefs.getBoolean(PREF_IMMERSIVE_MODE, false);
         largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
         reader = prefs.getBoolean(PREF_READER, false);
+        imageSubfolders = prefs.getBoolean(PREF_IMAGE_SUBFOLDERS, false);
 
         commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;
@@ -418,8 +421,8 @@ public class SettingValues {
     }
 
     public static Sorting getBaseSubmissionSort(String sub) {
-        return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(),
-                Reddit.defaultSorting.name()));
+        return Sorting.valueOf(
+                prefs.getString("defaultSort" + sub.toLowerCase(), Reddit.defaultSorting.name()));
 
     }
 

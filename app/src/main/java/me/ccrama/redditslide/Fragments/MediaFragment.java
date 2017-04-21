@@ -313,6 +313,7 @@ public class MediaFragment extends Fragment {
                             if (SettingValues.video) {
                                 Intent myIntent = new Intent(contextActivity, MediaView.class);
                                 myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
                                 contextActivity.startActivity(myIntent);
 
                             } else {
@@ -356,10 +357,12 @@ public class MediaFragment extends Fragment {
                                 if (SettingValues.albumSwipe) {
                                     Intent i = new Intent(contextActivity, AlbumPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(AlbumPager.SUBREDDIT, submission.getSubredditName());
                                     contextActivity.startActivity(i);
                                 } else {
                                     Intent i = new Intent(contextActivity, Album.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(Album.SUBREDDIT, submission.getSubredditName());
                                     contextActivity.startActivity(i);
                                 }
                             } else {
@@ -371,10 +374,12 @@ public class MediaFragment extends Fragment {
                                 if (SettingValues.albumSwipe) {
                                     Intent i = new Intent(contextActivity, TumblrPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(TumblrPager.SUBREDDIT, submission.getSubredditName());
                                     contextActivity.startActivity(i);
                                 } else {
                                     Intent i = new Intent(contextActivity, Tumblr.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(Tumblr.SUBREDDIT, submission.getSubredditName());
                                     contextActivity.startActivity(i);
                                 }
                             } else {

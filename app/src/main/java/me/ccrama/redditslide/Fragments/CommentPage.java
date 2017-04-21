@@ -701,7 +701,7 @@ public class CommentPage extends Fragment {
                                                     if (ContentType.mediaType(t)) {
                                                         ShadowboxComments.comments.add(
                                                                 new CommentUrlObject(c.comment,
-                                                                        url));
+                                                                        url, subreddit));
                                                     }
 
                                                 }
@@ -714,7 +714,7 @@ public class CommentPage extends Fragment {
 
                                                 if (ContentType.mediaType(t)) {
                                                     ShadowboxComments.comments.add(
-                                                            new CommentUrlObject(c.comment, url));
+                                                            new CommentUrlObject(c.comment, url, subreddit));
                                                 }
 
                                             }
@@ -777,7 +777,7 @@ public class CommentPage extends Fragment {
                                         if (SettingValues.video) {
                                             Intent myIntent =
                                                     new Intent(getActivity(), MediaView.class);
-
+                                            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                                             myIntent.putExtra(MediaView.EXTRA_URL,
                                                     adapter.submission.getUrl());
                                             getActivity().startActivity(myIntent);
@@ -790,6 +790,7 @@ public class CommentPage extends Fragment {
                                     case IMGUR:
                                     case XKCD:
                                         Intent i2 = new Intent(getActivity(), MediaView.class);
+                                        i2.putExtra(MediaView.SUBREDDIT, subreddit);
                                         if (adapter.submission.getDataNode().has("preview")
                                                 && adapter.submission.getDataNode()
                                                 .get("preview")
@@ -878,6 +879,7 @@ public class CommentPage extends Fragment {
                                                         new Intent(getActivity(), AlbumPager.class);
                                                 i.putExtra(Album.EXTRA_URL,
                                                         adapter.submission.getUrl());
+                                                i.putExtra(AlbumPager.SUBREDDIT, subreddit);
                                                 getActivity().startActivity(i);
                                                 getActivity().overridePendingTransition(
                                                         R.anim.slideright, R.anim.fade_out);
@@ -885,6 +887,7 @@ public class CommentPage extends Fragment {
                                                 Intent i = new Intent(getActivity(), Album.class);
                                                 i.putExtra(Album.EXTRA_URL,
                                                         adapter.submission.getUrl());
+                                                i.putExtra(Album.SUBREDDIT, subreddit);
                                                 getActivity().startActivity(i);
                                                 getActivity().overridePendingTransition(
                                                         R.anim.slideright, R.anim.fade_out);
@@ -902,11 +905,13 @@ public class CommentPage extends Fragment {
                                                         TumblrPager.class);
                                                 i.putExtra(Album.EXTRA_URL,
                                                         adapter.submission.getUrl());
+                                                i.putExtra(TumblrPager.SUBREDDIT, subreddit);
                                                 getActivity().startActivity(i);
                                                 getActivity().overridePendingTransition(
                                                         R.anim.slideright, R.anim.fade_out);
                                             } else {
                                                 Intent i = new Intent(getActivity(), Tumblr.class);
+                                                i.putExtra(Tumblr.SUBREDDIT, subreddit);
                                                 i.putExtra(Album.EXTRA_URL,
                                                         adapter.submission.getUrl());
                                                 getActivity().startActivity(i);

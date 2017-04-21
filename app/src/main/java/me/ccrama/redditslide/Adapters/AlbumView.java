@@ -45,12 +45,14 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public boolean paddingBottom;
     public int height;
+    public String subreddit;
 
-    public AlbumView(final Activity context, final List<Image> users, int height) {
+    public AlbumView(final Activity context, final List<Image> users, int height, String subreddit) {
 
         this.height = height;
         main = context;
         this.users = users;
+        this.subreddit = subreddit;
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
         if (context.findViewById(R.id.grid) != null)
@@ -182,6 +184,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if (SettingValues.image && !user.isAnimated() || SettingValues.gif && user.isAnimated()) {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getImageUrl());
+                        myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                         main.startActivity(myIntent);
                     } else {
                         Reddit.defaultShare(user.getImageUrl(), main);

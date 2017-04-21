@@ -313,6 +313,7 @@ public class MediaFragmentComment extends Fragment {
                                 url = submission.getUrl();
                                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
                                 myIntent.putExtra(MediaView.EXTRA_URL, url);
+                                myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
                                 myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
                                 contextActivity.startActivity(myIntent);

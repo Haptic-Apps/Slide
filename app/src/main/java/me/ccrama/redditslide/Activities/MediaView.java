@@ -20,7 +20,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.NotificationCompat;
@@ -43,7 +42,6 @@ import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -90,6 +88,7 @@ import static me.ccrama.redditslide.Activities.AlbumPager.readableFileSize;
 public class MediaView extends FullScreenActivity
         implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL         = "url";
+    public static final String SUBREDDIT         = "sub";
     public static final String ADAPTER_POSITION  = "adapter_position";
     public static final String SUBMISSION_URL    = "submission";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
@@ -97,6 +96,7 @@ public class MediaView extends FullScreenActivity
     public static final String EXTRA_SHARE_URL   = "urlShare";
 
     public static String   fileLoc;
+    public        String   subreddit;
     public static Runnable doOnClick;
     public static boolean  didLoadGif;
 
@@ -250,7 +250,7 @@ public class MediaView extends FullScreenActivity
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
                     type = "GIF";
                     contentUrl = contentUrl.replace(".gifv", ".gif");
-                  //todo possibly share gifs  b.sheet(9, share, "Share GIF");
+                    //todo possibly share gifs  b.sheet(9, share, "Share GIF");
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -303,6 +303,7 @@ public class MediaView extends FullScreenActivity
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 //always download the original file, or use the cached original if that is currently displayed
                 i.putExtra("actuallyLoaded", contentUrl);
+                if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
                 startService(i);
             }
         } else {
@@ -455,7 +456,8 @@ public class MediaView extends FullScreenActivity
 
                                         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
                                         shareIntent.setDataAndType(contentUri, "image/gif");
-                                        startActivity(Intent.createChooser(shareIntent, "Share GIF"));
+                                        startActivity(
+                                                Intent.createChooser(shareIntent, "Share GIF"));
                                         NotificationManager mNotificationManager =
                                                 (NotificationManager) getSystemService(
                                                         Activity.NOTIFICATION_SERVICE);
@@ -619,6 +621,9 @@ public class MediaView extends FullScreenActivity
         } else {
             findViewById(R.id.comments).setVisibility(View.GONE);
         }
+        if (getIntent().hasExtra(SUBREDDIT)) {
+            subreddit = getIntent().getExtras().getString(SUBREDDIT);
+        }
 
         if (getIntent().hasExtra(EXTRA_LQ)) {
             String lqUrl = getIntent().getStringExtra(EXTRA_DISPLAY_URL);
@@ -631,12 +636,12 @@ public class MediaView extends FullScreenActivity
                     findViewById(R.id.hq).setVisibility(View.GONE);
                 }
             });
-        } else if (ContentType.isImgurImage(contentUrl)
-                && SettingValues.loadImageLq
-                && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(this)
-                && SettingValues.lowResMobile))) {
+        } else if (ContentType.isImgurImage(contentUrl) && SettingValues.loadImageLq && (
+                SettingValues.lowResAlways
+                        || (!NetworkUtil.isConnectedWifi(this) && SettingValues.lowResMobile))) {
             String url = contentUrl;
-            url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))  + url.substring(url.lastIndexOf("."),
+            url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
+                    : (SettingValues.lqMid ? "l" : "h")) + url.substring(url.lastIndexOf("."),
                     url.length());
 
             displayImage(url);

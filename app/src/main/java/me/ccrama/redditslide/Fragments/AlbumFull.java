@@ -40,14 +40,13 @@ public class AlbumFull extends Fragment {
     private int i = 0;
     private Submission s;
     boolean hidden;
-    View rootView;
+    View    rootView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        rootView = inflater.inflate(
-                R.layout.submission_albumcard, container, false);
+            Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.submission_albumcard, container, false);
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
         if (s.getUrl().contains("gallery")) {
@@ -71,8 +70,7 @@ public class AlbumFull extends Fragment {
                 if (dy > 0 && !hidden) {
                     hidden = true;
 
-                    if (va != null && va.isRunning())
-                        va.cancel();
+                    if (va != null && va.isRunning()) va.cancel();
 
                     final View base = rootView.findViewById(R.id.base);
                     va = ValueAnimator.ofFloat(1.0f, 0.2f);
@@ -90,8 +88,7 @@ public class AlbumFull extends Fragment {
                 } else if (hidden && dy <= 0) {
                     final View base = rootView.findViewById(R.id.base);
 
-                    if (va != null && va.isRunning())
-                        va.cancel();
+                    if (va != null && va.isRunning()) va.cancel();
 
                     hidden = false;
                     va = ValueAnimator.ofFloat(0.2f, 1.0f);
@@ -117,43 +114,53 @@ public class AlbumFull extends Fragment {
         final View.OnClickListener openClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(
+                        SlidingUpPanelLayout.PanelState.EXPANDED);
             }
         };
         rootView.findViewById(R.id.base).setOnClickListener(openClick);
         final View title = rootView.findViewById(R.id.title);
-        title.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
-                title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
-        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
+        title.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        ((SlidingUpPanelLayout) rootView.findViewById(
+                                R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
+                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(
+                new SlidingUpPanelLayout.PanelSlideListener() {
+                    @Override
+                    public void onPanelSlide(View panel, float slideOffset) {
 
-            }
+                    }
 
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox) getActivity()).subreddit);
-                            (getActivity()).startActivity(i2);
+                    @Override
+                    public void onPanelStateChanged(View panel,
+                            SlidingUpPanelLayout.PanelState previousState,
+                            SlidingUpPanelLayout.PanelState newState) {
+                        if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                            rootView.findViewById(R.id.base)
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent i2 =
+                                                    new Intent(getActivity(), CommentsScreen.class);
+                                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT,
+                                                    ((Shadowbox) getActivity()).subreddit);
+                                            (getActivity()).startActivity(i2);
+                                        }
+                                    });
+                        } else {
+                            rootView.findViewById(R.id.base).setOnClickListener(openClick);
                         }
-                    });
-                } else {
-                    rootView.findViewById(R.id.base).setOnClickListener(openClick);
-                }
-            }
-        });
+                    }
+                });
 
-        new LoadIntoRecycler(s.getUrl(), getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new LoadIntoRecycler(s.getUrl(), getActivity()).executeOnExecutor(
+                AsyncTask.THREAD_POOL_EXECUTOR);
 
         return rootView;
     }
@@ -171,7 +178,8 @@ public class AlbumFull extends Fragment {
         @Override
         public void doWithData(final List<Image> jsonElements) {
             super.doWithData(jsonElements);
-            AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0);
+            AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0,
+                    s.getSubredditName());
             ((RecyclerView) list).setAdapter(adapter);
         }
 

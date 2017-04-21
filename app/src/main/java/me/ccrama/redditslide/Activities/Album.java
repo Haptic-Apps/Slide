@@ -61,6 +61,7 @@ import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
  */
 public class Album extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
+    public static final String SUBREDDIT = "subreddit";
     private List<Image> images;
     private int         adapterPosition;
 
@@ -123,7 +124,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
-
+                if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
                 startService(i);
             }
         } else {
@@ -204,6 +205,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     }
 
     public String url;
+    public String subreddit;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -228,6 +230,10 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        if(getIntent().hasExtra(SUBREDDIT)){
+            this.subreddit = getIntent().getExtras().getString(SUBREDDIT);
+        }
 
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
@@ -404,7 +410,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                     getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
                     ((Album) getActivity()).images = new ArrayList<>(jsonElements);
                     AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images,
-                            getActivity().findViewById(R.id.toolbar).getHeight());
+                            getActivity().findViewById(R.id.toolbar).getHeight(), ((Album) getActivity()).subreddit);
                     recyclerView.setAdapter(adapter);
                 }
             }

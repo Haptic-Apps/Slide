@@ -191,7 +191,7 @@ public class AlbumFullComments extends Fragment {
         @Override
         public void doWithData(final List<Image> jsonElements) {
             super.doWithData(jsonElements);
-            AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0);
+            AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0, s.getSubredditName());
             ((RecyclerView) list).setAdapter(adapter);
         }
 

@@ -216,6 +216,20 @@ public class SettingsGeneral extends BaseActivityAnim
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.subfolder);
+
+            single.setChecked(SettingValues.imageSubfolders);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.imageSubfolders = isChecked;
+                    SettingValues.prefs.edit()
+                            .putBoolean(SettingValues.PREF_IMAGE_SUBFOLDERS, isChecked)
+                            .apply();
+                }
+            });
+        }
+        {
             findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

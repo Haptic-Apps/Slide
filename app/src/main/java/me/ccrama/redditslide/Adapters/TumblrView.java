@@ -45,12 +45,14 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public boolean paddingBottom;
     public int height;
+    public String subreddit;
 
-    public TumblrView(final Activity context, final List<Photo> users, int height) {
+    public TumblrView(final Activity context, final List<Photo> users, int height, String subreddit) {
 
         this.height = height;
         main = context;
         this.users = users;
+        this.subreddit = subreddit;
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
         if (context.findViewById(R.id.grid) != null)
@@ -169,6 +171,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View view) {
                     if (SettingValues.image ) {
                         Intent myIntent = new Intent(main, MediaView.class);
+                        myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getOriginalSize().getUrl());
                         main.startActivity(myIntent);
                     } else {

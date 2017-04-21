@@ -410,6 +410,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     if (SettingValues.image) {
                         Intent intent2 = new Intent(activity, MediaView.class);
                         intent2.putExtra(MediaView.EXTRA_URL, url);
+                        intent2.putExtra(MediaView.SUBREDDIT, subreddit);
                         activity.startActivity(intent2);
                     } else {
                         Reddit.defaultShare(url, activity);
@@ -426,16 +427,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     break;
                 case STREAMABLE:
                 case VID_ME:
-                    openStreamable(url);
+                    openStreamable(url, subreddit);
                     break;
                 case ALBUM:
                     if (SettingValues.album) {
                         if (SettingValues.albumSwipe) {
                             Intent i = new Intent(activity, AlbumPager.class);
                             i.putExtra(Album.EXTRA_URL, url);
+                            i.putExtra(AlbumPager.SUBREDDIT, subreddit);
                             activity.startActivity(i);
                         } else {
                             Intent i = new Intent(activity, Album.class);
+                            i.putExtra(Album.SUBREDDIT, subreddit);
                             i.putExtra(Album.EXTRA_URL, url);
                             activity.startActivity(i);
                         }
@@ -459,10 +462,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     }
                     break;
                 case IMAGE:
-                    openImage(url);
+                    openImage(url, subreddit);
                     break;
                 case GIF:
-                    openGif(url);
+                    openGif(url, subreddit);
                     break;
                 case NONE:
                     break;
@@ -634,21 +637,23 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
     }
 
-    private void openGif(String url) {
+    private void openGif(String url, String subreddit) {
         if (SettingValues.gif) {
             Intent myIntent = new Intent(getContext(), MediaView.class);
             myIntent.putExtra(MediaView.EXTRA_URL, url);
+            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
             getContext().startActivity(myIntent);
         } else {
             Reddit.defaultShare(url, getContext());
         }
     }
 
-    private void openStreamable(String url) {
+    private void openStreamable(String url, String subreddit) {
         if (SettingValues.video) { //todo maybe streamable here?
             Intent myIntent = new Intent(getContext(), MediaView.class);
 
             myIntent.putExtra(MediaView.EXTRA_URL, url);
+            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
             getContext().startActivity(myIntent);
 
         } else {
@@ -656,10 +661,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
     }
 
-    private void openImage(String submission) {
+    private void openImage(String submission, String subreddit) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(getContext(), MediaView.class);
             myIntent.putExtra(MediaView.EXTRA_URL, submission);
+            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
             getContext().startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission, getContext());

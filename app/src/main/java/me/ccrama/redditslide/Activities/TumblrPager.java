@@ -102,6 +102,7 @@ public class TumblrPager extends FullScreenActivity
         implements FolderChooserDialogCreate.FolderCallback {
 
     private static int adapterPosition;
+    public static final String SUBREDDIT = "subreddit";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,6 +118,9 @@ public class TumblrPager extends FullScreenActivity
             if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            }
+            if (getIntent().hasExtra(SUBREDDIT)) {
+                i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
             }
             i.putExtras(getIntent());
             startActivity(i);
@@ -171,6 +175,9 @@ public class TumblrPager extends FullScreenActivity
         ToolbarColorizeHelper.colorizeToolbar(mToolbar, Color.WHITE, this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getIntent().hasExtra(SUBREDDIT)){
+            this.subreddit = getIntent().getStringExtra(SUBREDDIT);
+        }
 
         mToolbar.setPopupTheme(
                 new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
@@ -273,6 +280,7 @@ public class TumblrPager extends FullScreenActivity
     ViewPager p;
 
     public List<Photo> images;
+    public String subreddit;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -475,6 +483,7 @@ public class TumblrPager extends FullScreenActivity
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
+                if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
                 i.putExtra("index", index);
                 startService(i);
             }

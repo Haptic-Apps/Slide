@@ -96,6 +96,7 @@ public class AlbumPager extends FullScreenActivity
         implements FolderChooserDialogCreate.FolderCallback {
 
     private static int adapterPosition;
+    public static final String SUBREDDIT = "subreddit";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -111,6 +112,9 @@ public class AlbumPager extends FullScreenActivity
             if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            }
+            if(getIntent().hasExtra(SUBREDDIT)){
+                i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
             }
             i.putExtras(getIntent());
             startActivity(i);
@@ -149,6 +153,8 @@ public class AlbumPager extends FullScreenActivity
         }
     }
 
+    public String subreddit;
+
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
         super.onCreate(savedInstanceState);
@@ -159,6 +165,10 @@ public class AlbumPager extends FullScreenActivity
 
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        if(getIntent().hasExtra(SUBREDDIT)){
+            this.subreddit = getIntent().getStringExtra(SUBREDDIT);
+        }
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.type_album);
@@ -491,6 +501,7 @@ public class AlbumPager extends FullScreenActivity
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
+                if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
                 i.putExtra("index", index);
                 startService(i);
             }
