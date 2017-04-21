@@ -225,6 +225,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     for (Subreddit s : subs) {
                         isSubscribed.put(s.getDisplayName().toLowerCase(), true);
                     }
+
+                    if(UserSubscriptions.multireddits == null){
+                        UserSubscriptions.loadMultireddits();
+                    }
                     return null;
                 }
 
@@ -312,8 +316,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     fab.collapse();
-                    if (UserSubscriptions.getMultireddits() != null
-                            && !UserSubscriptions.getMultireddits().isEmpty()) {
+                    if (UserSubscriptions.multireddits != null
+                            && !UserSubscriptions.multireddits.isEmpty()) {
                         new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
                                 R.string.create_or_import_multi)
                                 .setPositiveButton(R.string.btn_new,
@@ -328,10 +332,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 final String[] multis = new String[UserSubscriptions
-                                                        .getMultireddits()
+                                                        .multireddits
                                                         .size()];
                                                 int i = 0;
-                                                for (MultiReddit m : UserSubscriptions.getMultireddits()) {
+                                                for (MultiReddit m : UserSubscriptions.multireddits) {
                                                     multis[i] = m.getDisplayName();
                                                     i++;
                                                 }

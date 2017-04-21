@@ -328,21 +328,28 @@ public class UserSubscriptions {
     /**
      * @return list of multireddits if they are available, null if could not fetch multireddits
      */
-    public static List<MultiReddit> getMultireddits() {
-        if (multireddits == null) {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    loadMultireddits();
-                    return null;
-                }
-            }.execute();
-        }
-        return multireddits;
+    public static void getMultireddits(final MultiCallback callback) {
+        new AsyncTask<Void, Void, List<MultiReddit>>() {
+
+            @Override
+            protected List<MultiReddit> doInBackground(Void... params) {
+                loadMultireddits();
+                return multireddits;
+            }
+
+            @Override
+            protected void onPostExecute(List<MultiReddit> multiReddits) {
+                callback.onComplete(multiReddits);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private static void loadMultireddits() {
-        if (Authentication.isLoggedIn && Authentication.didOnline) {
+    public interface MultiCallback {
+        void onComplete(List<MultiReddit> multis);
+    }
+
+    public static void loadMultireddits() {
+        if (Authentication.isLoggedIn && Authentication.didOnline && (multireddits == null || multireddits.isEmpty())) {
             try {
                 multireddits =
                         new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
@@ -356,26 +363,27 @@ public class UserSubscriptions {
     /**
      * @return list of multireddits if they are available, null if could not fetch multireddits
      */
-    public static List<MultiReddit> getPublicMultireddits(final String profile) {
+    public static void getPublicMultireddits(MultiCallback callback, final String profile) {
         if (profile.isEmpty()) {
-            return getMultireddits();
+            getMultireddits(callback);
         }
 
         if (public_multireddits.get(profile) == null) {
             // It appears your own multis are pre-loaded at some point
             // but some other user's multis obviously can't be so
             // don't return until we've loaded them.
-            loadPublicMultireddits(profile);
+            loadPublicMultireddits(callback ,profile);
         }
-        return public_multireddits.get(profile);
     }
 
-    private static void loadPublicMultireddits(String profile) {
+    private static void loadPublicMultireddits(MultiCallback callback, String profile) {
         try {
             public_multireddits.put(profile, new ArrayList(
                     new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
+            callback.onComplete(public_multireddits.get(profile));
         } catch (Exception e) {
             public_multireddits.put(profile, null);
+            callback.onComplete(public_multireddits.get(profile));
             e.printStackTrace();
         }
     }

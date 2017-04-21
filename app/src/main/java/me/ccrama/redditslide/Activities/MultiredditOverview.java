@@ -145,7 +145,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                         && (UserSubscriptions.multireddits != null)
                         && !UserSubscriptions.multireddits.isEmpty()) {
                     Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                    i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits()
+                    i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.multireddits
                             .get(pager.getCurrentItem())
                             .getDisplayName());
                     startActivity(i);
@@ -153,37 +153,50 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
             return true;
             case R.id.search: {
-                List<MultiReddit> multireddits = getMultireddits();
-                if ((multireddits != null) && !multireddits.isEmpty()) {
-                    searchMulti = multireddits.get(pager.getCurrentItem());
-                    MaterialDialog.Builder builder =
-                            new MaterialDialog.Builder(this).title(R.string.search_title)
-                                    .alwaysCallInputCallback()
-                                    .input(getString(R.string.search_msg), "",
-                                            new MaterialDialog.InputCallback() {
-                                                @Override
-                                                public void onInput(MaterialDialog materialDialog,
-                                                        CharSequence charSequence) {
-                                                    term = charSequence.toString();
-                                                }
-                                            });
 
-                    //Add "search current sub" if it is not frontpage/all/random
-                    builder.positiveText(getString(R.string.search_subreddit,
-                            "/m/" + searchMulti.getDisplayName()))
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog materialDialog,
-                                        @NonNull DialogAction dialogAction) {
-                                    Intent i = new Intent(MultiredditOverview.this, Search.class);
-                                    i.putExtra(Search.EXTRA_TERM, term);
-                                    i.putExtra(Search.EXTRA_MULTIREDDIT,
-                                            searchMulti.getDisplayName());
-                                    startActivity(i);
-                                }
-                            });
+                UserSubscriptions.MultiCallback m = new UserSubscriptions.MultiCallback() {
+                    @Override
+                    public void onComplete(List<MultiReddit> multireddits) {
+                        if ((multireddits != null) && !multireddits.isEmpty()) {
+                            searchMulti = multireddits.get(pager.getCurrentItem());
+                            MaterialDialog.Builder builder =
+                                    new MaterialDialog.Builder(MultiredditOverview.this).title(R.string.search_title)
+                                            .alwaysCallInputCallback()
+                                            .input(getString(R.string.search_msg), "",
+                                                    new MaterialDialog.InputCallback() {
+                                                        @Override
+                                                        public void onInput(
+                                                                MaterialDialog materialDialog,
+                                                                CharSequence charSequence) {
+                                                            term = charSequence.toString();
+                                                        }
+                                                    });
 
-                    builder.show();
+                            //Add "search current sub" if it is not frontpage/all/random
+                            builder.positiveText(getString(R.string.search_subreddit,
+                                    "/m/" + searchMulti.getDisplayName()))
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                                @NonNull DialogAction dialogAction) {
+                                            Intent i = new Intent(MultiredditOverview.this,
+                                                    Search.class);
+                                            i.putExtra(Search.EXTRA_TERM, term);
+                                            i.putExtra(Search.EXTRA_MULTIREDDIT,
+                                                    searchMulti.getDisplayName());
+                                            startActivity(i);
+                                        }
+                                    });
+
+                            builder.show();
+                        }
+                    }
+                };
+
+                if (profile.isEmpty()) {
+                    UserSubscriptions.getMultireddits(m);
+                } else {
+                    UserSubscriptions.getPublicMultireddits(m, profile);
                 }
             }
             return true;
@@ -282,27 +295,27 @@ public class MultiredditOverview extends BaseActivityAnim {
                             R.string.general_shadowbox_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                                    try {
-                                                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                                    } catch (ActivityNotFoundException e) {
-                                                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                                    }
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_no_danks,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    });
                     if (SettingValues.previews > 0
                             && adapter != null
                             && ((MultiredditView) adapter.getCurrentFragment()).posts != null
@@ -397,14 +410,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         }
     }
 
-    private List<MultiReddit> getMultireddits() {
-        if (profile.isEmpty()) {
-            return UserSubscriptions.getMultireddits();
-        } else {
-            return UserSubscriptions.getPublicMultireddits(profile);
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -430,22 +435,16 @@ public class MultiredditOverview extends BaseActivityAnim {
             profile = "";
         }
 
-        new AsyncTask<Void, Void, List<MultiReddit>>() {
+        UserSubscriptions.getMultireddits(new UserSubscriptions.MultiCallback() {
             @Override
-            protected List<MultiReddit> doInBackground(Void... params) {
-                return getMultireddits();
-            }
-
-            @Override
-            protected void onPostExecute(List<MultiReddit> multiReddits) {
+            public void onComplete(List<MultiReddit> multiReddits) {
                 if (multiReddits != null && !multiReddits.isEmpty()) {
                     setDataSet(multiReddits);
                 } else {
                     buildDialog();
                 }
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
+        });
     }
 
 

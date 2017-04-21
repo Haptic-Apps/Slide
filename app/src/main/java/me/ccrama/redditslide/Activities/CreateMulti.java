@@ -93,16 +93,21 @@ public class CreateMulti extends BaseActivityAnim {
 
         subs = new ArrayList<>();
         if (getIntent().hasExtra(EXTRA_MULTI)) {
-            String multi = getIntent().getExtras().getString(EXTRA_MULTI);
+            final String multi = getIntent().getExtras().getString(EXTRA_MULTI);
             old = multi;
             title.setText(multi.replace("%20", " "));
-            for (MultiReddit multiReddit : UserSubscriptions.getMultireddits()) {
-                if (multiReddit.getDisplayName().equals(multi)) {
-                    for (MultiSubreddit sub : multiReddit.getSubreddits()) {
-                        subs.add(sub.getDisplayName().toLowerCase());
+            UserSubscriptions.getMultireddits(new UserSubscriptions.MultiCallback() {
+                @Override
+                public void onComplete(List<MultiReddit> multis) {
+                    for (MultiReddit multiReddit : multis) {
+                        if (multiReddit.getDisplayName().equals(multi)) {
+                            for (MultiSubreddit sub : multiReddit.getSubreddits()) {
+                                subs.add(sub.getDisplayName().toLowerCase());
+                            }
+                        }
                     }
                 }
-            }
+            });
         }
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
 

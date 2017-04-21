@@ -198,9 +198,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         List<MultiReddit> multireddits;
         if (profile.isEmpty()) {
-            multireddits = UserSubscriptions.getMultireddits();
+            multireddits = UserSubscriptions.multireddits;
         } else {
-            multireddits = UserSubscriptions.getPublicMultireddits(profile);
+            multireddits = UserSubscriptions.public_multireddits.get(profile);
         }
 
         if ((multireddits != null) && !multireddits.isEmpty()) {

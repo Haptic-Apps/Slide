@@ -565,8 +565,9 @@ public class SubredditView extends BaseActivity {
             });
 
             final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+            Sorting sortingis = Sorting.HOT;
             if(SettingValues.hasSort(subreddit)) {
-                Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
+                sortingis = SettingValues.getBaseSubmissionSort(subreddit);
                 sort.setText(sortingis.name()
                         + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
                         + SettingValues.getBaseTimePeriod(subreddit).name():""));
@@ -574,6 +575,7 @@ public class SubredditView extends BaseActivity {
                 sort.setText("Set default sorting");
 
             }
+            final Sorting finalSortingis = sortingis;
             dialoglayout.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -616,7 +618,7 @@ public class SubredditView extends BaseActivity {
                             new AlertDialogWrapper.Builder(SubredditView.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()),
-                            Reddit.getSortingId(""), l2);
+                            Reddit.getSortingId(finalSortingis), l2);
                     builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

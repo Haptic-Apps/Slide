@@ -654,7 +654,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     final int i = keys.indexOf(changedProfile);
 
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    builder.setTitle(R.string.sorting_choose);
+                    builder.setTitle("Switch to another account");
                     builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

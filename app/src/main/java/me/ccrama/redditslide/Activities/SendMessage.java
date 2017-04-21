@@ -83,6 +83,7 @@ public class SendMessage extends BaseActivity {
             public void onClick(View v) {
                 ArrayList<String> items = new ArrayList<>();
                 items.add("/u/" + Authentication.name);
+                if(UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty())
                 for(String s : UserSubscriptions.modOf){
                     items.add("/r/" + s);
                 }
@@ -154,7 +155,7 @@ public class SendMessage extends BaseActivity {
         setupUserAppBar(R.id.toolbar, null, true, name);
         setRecentBar(b.getTitle().toString(), Palette.getDefaultColor());
 
-        if(reply){
+        if(reply || UserSubscriptions.modOf == null || UserSubscriptions.modOf.isEmpty()){
             sendingAs.setVisibility(View.GONE);
         }
 
