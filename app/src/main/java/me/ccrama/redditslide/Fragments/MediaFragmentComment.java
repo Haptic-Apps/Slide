@@ -340,7 +340,7 @@ public class MediaFragmentComment extends Fragment {
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
-                rootView.findViewById(R.id.placeholder), false, false, true);
+                rootView.findViewById(R.id.placeholder), false, false, true, sub);
         gif.execute(dat);
     }
 

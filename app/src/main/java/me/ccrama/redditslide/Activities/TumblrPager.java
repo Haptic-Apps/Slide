@@ -394,7 +394,7 @@ public class TumblrPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, true, (TextView) rootView.findViewById(R.id.size)).execute(url);
+            }, false, true, true, (TextView) rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
             ((MediaVideoView) rootView.findViewById(R.id.gif)).setZOrderOnTop(true);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override

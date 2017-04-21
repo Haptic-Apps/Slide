@@ -36,6 +36,7 @@ import java.util.UUID;
 import me.ccrama.redditslide.Activities.DeleteFile;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -123,11 +124,16 @@ public class ImageDownloadNotificationService extends Service {
                                         if (f != null && f.exists()) {
                                             File f_out = null;
                                             try {
+                                                if(SettingValues.imageSubfolders && !subreddit.isEmpty()){
+                                                    File directory = new File( Reddit.appRestart.getString("imagelocation",
+                                                            "")
+                                                            + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : ""));
+                                                    directory.mkdirs();
+                                                }
                                                 f_out = new File(
                                                         Reddit.appRestart.getString("imagelocation",
                                                                 "")
-                                                                + (subreddit.isEmpty() ? ""
-                                                                : File.separator + subreddit)
+                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
                                                                 + File.separator
                                                                 + (index > -1 ? String.format(
                                                                 "%03d_", index) : "")
@@ -136,6 +142,7 @@ public class ImageDownloadNotificationService extends Service {
                                                 f_out = new File(
                                                         Reddit.appRestart.getString("imagelocation",
                                                                 "")
+                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
                                                                 + File.separator
                                                                 + (index > -1 ? String.format(
                                                                 "%03d_", index) : "")

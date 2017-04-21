@@ -1159,5 +1159,7 @@
     <string name="handling_reader_mode">Use Reader mode</string>
     <string name="settings_link_reader_night">Link Reader mode and Night mode</string>
     <string name="theme_pixel">Pixel</string>
+    <string name="save_images_to_subreddit_specific_subfolders">Save images to subreddit-specific subfolders</string>
+    <string name="description_save_subfolders">Works in submission and comment views</string>
 
 </resources>

@@ -731,7 +731,7 @@ public class MediaView extends FullScreenActivity
         findViewById(R.id.progress).setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader,
                 findViewById(R.id.placeholder), doOnClick, true, false, true,
-                ((TextView) findViewById(R.id.size)));
+                ((TextView) findViewById(R.id.size)), subreddit);
         gif.execute(dat);
         findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override

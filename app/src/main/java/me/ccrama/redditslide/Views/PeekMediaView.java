@@ -508,7 +508,7 @@ public class PeekMediaView extends RelativeLayout {
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         gif = new GifUtils.AsyncLoadGif((PeekViewActivity) getContext(),
-                (MediaVideoView) findViewById(R.id.gif), progress, null, false, true, true) {
+                (MediaVideoView) findViewById(R.id.gif), progress, null, false, true, true, "") {
             @Override
             public void onError() {
                 doLoadLink(dat);

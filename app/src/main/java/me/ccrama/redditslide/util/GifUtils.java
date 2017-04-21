@@ -45,6 +45,7 @@ import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import okhttp3.OkHttpClient;
 
@@ -73,14 +74,16 @@ public class GifUtils {
         public boolean        hideControls;
         public boolean        autostart;
         public Runnable       doOnClick;
+        public String subreddit = "";
         public boolean        cacheOnly;
 
         public TextView size;
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
-                @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart) {
+                @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart, String subreddit) {
             this.c = c;
+            this.subreddit = subreddit;
             this.video = video;
             this.progressBar = p;
             this.closeIfNull = closeIfNull;
@@ -93,9 +96,10 @@ public class GifUtils {
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
                 @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart,
-                TextView size) {
+                TextView size, String subreddit) {
             this.c = c;
             this.video = video;
+            this.subreddit = subreddit;
             this.progressBar = p;
             this.closeIfNull = closeIfNull;
             this.placeholder = placeholder;
@@ -111,9 +115,10 @@ public class GifUtils {
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull,
-                @NotNull boolean hideControls, boolean autostart) {
+                @NotNull boolean hideControls, boolean autostart, String subreddit) {
             this.c = c;
             this.video = video;
+            this.subreddit = subreddit;
             this.progressBar = p;
             this.closeIfNull = closeIfNull;
             this.placeholder = placeholder;
@@ -149,7 +154,7 @@ public class GifUtils {
 
         }
 
-        public void showGif(final URL url, final int tries) {
+        public void showGif(final URL url, final int tries, final String subreddit) {
             if (tries < 2) {
                 c.runOnUiThread(new Runnable() {
                     @Override
@@ -170,14 +175,14 @@ public class GifUtils {
                             gifSave.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    saveGif(downloaded, c);
+                                    saveGif(downloaded, c, subreddit);
                                 }
                             });
                         } else if (doOnClick != null) {
                             MediaView.doOnClick = new Runnable() {
                                 @Override
                                 public void run() {
-                                    saveGif(downloaded, c);
+                                    saveGif(downloaded, c, subreddit);
                                     try {
                                         Toast.makeText(c, "Downloading image...",
                                                 Toast.LENGTH_SHORT).show();
@@ -200,7 +205,7 @@ public class GifUtils {
                         if (autostart) {
                             video.start();
                             if (!video.isPlaying()) {
-                                showGif(url, tries + 1);
+                                showGif(url, tries + 1, subreddit);
                             }
                         }
 
@@ -296,7 +301,7 @@ public class GifUtils {
             }
             showProgressBar(c, progressBar, false);
             final URL finalUrl = new URL(obj);
-            writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
+            writeGif(finalUrl, progressBar, c, AsyncLoadGif.this, subreddit);
         }
 
         @Override
@@ -325,7 +330,7 @@ public class GifUtils {
                 case DIRECT:
                 case IMGUR:
                     try {
-                        writeGif(new URL(url), progressBar, c, AsyncLoadGif.this);
+                        writeGif(new URL(url), progressBar, c, AsyncLoadGif.this, subreddit);
                     } catch (Exception e) {
                         LogUtil.e(e,
                                 "Error loading URL " + url); //Most likely is an image, not a gif!
@@ -411,7 +416,7 @@ public class GifUtils {
 
                         }
                         final URL finalUrl = new URL(obj);
-                        writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
+                        writeGif(finalUrl, progressBar, c, AsyncLoadGif.this, subreddit);
                     } catch (Exception e) {
                         LogUtil.e(e, "Error loading streamable video url = ["
                                 + url
@@ -485,7 +490,7 @@ public class GifUtils {
                                     .getAsString();
                         }
                         final URL finalUrl = new URL(obj);
-                        writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
+                        writeGif(finalUrl, progressBar, c, AsyncLoadGif.this, subreddit);
                     } catch (Exception e) {
                         LogUtil.e(e, "Error loading vid.me video url = ["
                                 + url
@@ -505,7 +510,7 @@ public class GifUtils {
                                 .getAsBoolean()) {
                             final URL finalUrl =
                                     new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
-                            writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
+                            writeGif(finalUrl, progressBar, c, AsyncLoadGif.this, subreddit);
                         } else {
                             LogUtil.v("https://upload.gfycat.com/transcode?fetchUrl=" + Uri.encode(
                                     url));
@@ -595,7 +600,7 @@ public class GifUtils {
                             } else {
                                 final URL finalUrl = new URL(transcodeResult.get("mp4Url")
                                         .getAsString()); //wont exist on server yet, just load the full version
-                                writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
+                                writeGif(finalUrl, progressBar, c, AsyncLoadGif.this, subreddit);
                             }
                         }
 
@@ -621,7 +626,7 @@ public class GifUtils {
         }
 
         public void writeGif(final URL url, final ProgressBar progressBar, final Activity c,
-                final AsyncLoadGif afterDone) throws Exception {
+                final AsyncLoadGif afterDone, final String subreddit) throws Exception {
             try {
                 if (!GifCache.fileExists(url)) {
                     ucon = url.openConnection();
@@ -655,7 +660,7 @@ public class GifUtils {
                                         progressBar.setProgress(percent);
                                         if (percent == 100) {
                                             progressBar.setVisibility(View.GONE);
-                                            afterDone.showGif(url, 0);
+                                            afterDone.showGif(url, 0, subreddit);
                                             if (size != null) size.setVisibility(View.GONE);
                                         }
                                     }
@@ -673,7 +678,7 @@ public class GifUtils {
                             @Override
                             public void run() {
                                 progressBar.setVisibility(View.GONE);
-                                afterDone.showGif(url, 0);
+                                afterDone.showGif(url, 0, subreddit);
                             }
                         });
                     }
@@ -728,7 +733,7 @@ public class GifUtils {
                 .show();
     }
 
-    public static void saveGif(File from, Activity a) {
+    public static void saveGif(File from, Activity a, String subreddit) {
         try {
             Toast.makeText(a, "Downloading image...", Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
@@ -739,7 +744,14 @@ public class GifUtils {
         } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
             showErrorDialog(a);
         } else {
+            if(SettingValues.imageSubfolders && !subreddit.isEmpty()){
+                File directory = new File( Reddit.appRestart.getString("imagelocation",
+                        "")
+                        + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : ""));
+                directory.mkdirs();
+            }
             File f = new File(Reddit.appRestart.getString("imagelocation", "")
+                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
                     + File.separator
                     + UUID.randomUUID().toString()
                     + ".mp4");

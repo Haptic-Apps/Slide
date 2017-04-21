@@ -430,7 +430,7 @@ public class MediaFragment extends Fragment {
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
                 rootView.findViewById(R.id.placeholder), false, false,
                 !(getActivity() instanceof Shadowbox)
-                        || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i);
+                        || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
         gif.execute(dat);
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
     }

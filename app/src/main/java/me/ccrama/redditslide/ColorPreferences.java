@@ -241,6 +241,7 @@ public class ColorPreferences {
             return new int[]{
                     //  ContextCompat.getColor(context, R.color.md_blue_grey_100),
                     //    ContextCompat.getColor(context, R.color.md_blue_grey_200),
+                    Color.parseColor("#5C94C8"),
                     ContextCompat.getColor(context, R.color.md_blue_grey_300),
                     ContextCompat.getColor(context, R.color.md_blue_grey_400),
                     ContextCompat.getColor(context, R.color.md_blue_grey_500),

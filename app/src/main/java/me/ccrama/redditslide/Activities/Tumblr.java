@@ -216,7 +216,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
     }
 
     public OverviewPagerAdapter album;
-    public String subreddit;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
