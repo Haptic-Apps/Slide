@@ -47,6 +47,11 @@ public class ImageFlairs {
                             .setMessage("Slide found and synced " + flairStylesheet.count + " image flairs")
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
+                } else {
+                    d = new AlertDialogWrapper.Builder(context).setTitle("Error syncing subreddit flairs")
+                            .setMessage("Slide could not find any subreddit flairs to sync from /r/" + subreddit+"'s stylesheet.")
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
                 }
             }
 
