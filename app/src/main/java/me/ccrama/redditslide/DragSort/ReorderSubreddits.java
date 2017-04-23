@@ -870,7 +870,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             getString(R.string.reorder_unsubscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();
                                 } else {
-                                    new UserSubscriptions.SubscribeTask().execute(sub);
+                                    new UserSubscriptions.SubscribeTask(ReorderSubreddits.this).execute(sub);
                                     Snackbar.make(mToolbar,
                                             getString(R.string.reorder_subscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();

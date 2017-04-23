@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
@@ -16,10 +15,8 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +76,6 @@ public class ImageFlairs {
                 for (String s : flairStylesheet.getListOfFlairIds()) {
                     String classDef = flairStylesheet.getClass(flairStylesheet.stylesheetString,
                             "flair-" + s);
-                    LogUtil.v("Found " + s + " and " + classDef);
                     try {
                         String backgroundURL = flairStylesheet.getBackgroundURL(classDef);
                         if (backgroundURL == null) backgroundURL = flairStylesheet.defaultURL;
@@ -125,7 +121,7 @@ public class ImageFlairs {
             int nX, nY;
 
             if (isPercentage) {
-                nX = Math.max(0, Math.min(bitmap.getWidth()- 1, bitmap.getWidth() * x / 100));
+                nX = Math.max(0, Math.min(bitmap.getWidth() - 1, bitmap.getWidth() * x / 100));
                 nY = Math.max(0, Math.min(bitmap.getHeight() - 1, bitmap.getHeight() * y / 100));
             } else {
                 nX = Math.max(0, Math.min(bitmap.getWidth() - 1, x));
@@ -187,7 +183,8 @@ public class ImageFlairs {
         }
 
         FlairStylesheet(String stylesheetString) {
-            stylesheetString = stylesheetString.replaceAll("@media[^{]+\\{([\\s\\S]+?\\})\\s*\\}", "");
+            stylesheetString =
+                    stylesheetString.replaceAll("@media[^{]+\\{([\\s\\S]+?\\})\\s*\\}", "");
             this.stylesheetString = stylesheetString;
 
             String baseFlairDef = getClass(stylesheetString, "flair");
@@ -327,15 +324,24 @@ public class ImageFlairs {
          * @return
          */
         Dimensions getBackgroundScaling(String classDefinitionString) {
-            Pattern positionDefinitionPx = Pattern.compile("([+-]?\\d+|0)px\\s+([+-]?\\d+|0)px");
+            Pattern positionDefinitionPx =
+                    Pattern.compile("([+-]?\\d+|0)(px\\s|\\s)+([+-]?\\d+|0)px");
             String backgroundPositionProperty =
                     getProperty(classDefinitionString, "background-size");
-            if (backgroundPositionProperty == null) return new Dimensions();
+            String backgroundPositionPropertySecondary =
+                    getProperty(classDefinitionString, "background-size");
+
+            if (backgroundPositionProperty == null && backgroundPositionPropertySecondary == null
+                    || backgroundPositionProperty == null
+                    && !backgroundPositionPropertySecondary.contains("px ")
+                    && !backgroundPositionPropertySecondary.contains("px;")) {
+                return new Dimensions();
+            }
 
             Matcher matches = positionDefinitionPx.matcher(backgroundPositionProperty);
             if (matches.find()) {
                 return new Dimensions(Integer.parseInt(matches.group(1)),
-                        Integer.parseInt(matches.group(2)));
+                        Integer.parseInt(matches.group(3)));
             } else {
                 return new Dimensions();
             }
@@ -349,26 +355,36 @@ public class ImageFlairs {
          * @return
          */
         Location getBackgroundPosition(String classDefinitionString) {
-            Pattern positionDefinitionPx = Pattern.compile("([+-]?\\d+|0)px\\s+([+-]?\\d+|0)px"),
+            Pattern positionDefinitionPx =
+                    Pattern.compile("([+-]?\\d+|0)(px\\s|\\s)+([+-]?\\d+|0)px"),
                     positionDefinitionPercentage =
-                            Pattern.compile("([+-]?\\d+|0)%\\s+([+-]?\\d+|0)%");
+                            Pattern.compile("([+-]?\\d+|0)(%\\s|\\s)+([+-]?\\d+|0)%");
 
             String backgroundPositionProperty =
                     getProperty(classDefinitionString, "background-position");
-            if (backgroundPositionProperty == null) return new Location();
+            if (backgroundPositionProperty == null) {
+                backgroundPositionProperty = getProperty(classDefinitionString, "background");
+                if (backgroundPositionProperty == null) {
+                    return new Location();
+                }
+            }
 
             Matcher matches = positionDefinitionPx.matcher(backgroundPositionProperty);
-            if (matches.find()) {
-                return new Location(-Integer.parseInt(matches.group(1)),
-                        -Integer.parseInt(matches.group(2)));
-            } else {
-                matches = positionDefinitionPercentage.matcher(backgroundPositionProperty);
+            try {
                 if (matches.find()) {
-                    return new Location(Integer.parseInt(matches.group(1)),
-                            Integer.parseInt(matches.group(2)), true);
+                    return new Location(-Integer.parseInt(matches.group(1)),
+                            -Integer.parseInt(matches.group(3)));
+                } else {
+                    matches = positionDefinitionPercentage.matcher(backgroundPositionProperty);
+                    if (matches.find()) {
+                        return new Location(Integer.parseInt(matches.group(1)),
+                                Integer.parseInt(matches.group(3)), true);
+                    }
                 }
-                return new Location();
+            } catch (NumberFormatException ignored) {
+
             }
+            return new Location();
         }
 
 
@@ -393,51 +409,20 @@ public class ImageFlairs {
             String scaling = getClass(stylesheetString, "flair");
             final Dimensions backScaling = getBackgroundScaling(scaling);
             if (!backScaling.missing) {
-                getFlairImageLoader(context).loadImage(filename, new ImageSize(backScaling.width, backScaling.height), new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        Bitmap b = Bitmap.createScaledBitmap(loadedImage,backScaling.width, backScaling.height, false);
-                        loadingComplete(b, sub, context, filename, flairsToGet);
-                        loadedImage.recycle();
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-
-                    }
-                });
+                Bitmap loaded = getFlairImageLoader(context).loadImageSync(filename,
+                        new ImageSize(backScaling.width, backScaling.height));
+                if (loaded != null) {
+                    Bitmap b =
+                            Bitmap.createScaledBitmap(loaded, backScaling.width, backScaling.height,
+                                    false);
+                    loadingComplete(b, sub, context, filename, flairsToGet);
+                    loaded.recycle();
+                }
             } else {
-                getFlairImageLoader(context).loadImage(filename, new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        loadingComplete(loadedImage, sub, context, filename, flairsToGet);
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-
-                    }
-                });
+                Bitmap loaded = getFlairImageLoader(context).loadImageSync(filename);
+                if (loaded != null) {
+                    loadingComplete(loaded, sub, context, filename, flairsToGet);
+                }
             }
         }
 
@@ -497,7 +482,24 @@ public class ImageFlairs {
         }
     }
 
-    public static ImageLoader getFlairImageLoader(Context context) {
+    public static class FlairImageLoader extends ImageLoader {
+
+        private volatile static FlairImageLoader instance;
+
+        /** Returns singletone class instance */
+        public static FlairImageLoader getInstance() {
+            if (instance == null) {
+                synchronized (ImageLoader.class) {
+                    if (instance == null) {
+                        instance = new FlairImageLoader();
+                    }
+                }
+            }
+            return instance;
+        }
+    }
+
+    public static FlairImageLoader getFlairImageLoader(Context context) {
         if (imageLoader == null) {
             return initFlairImageLoader(context);
         } else {
@@ -505,7 +507,7 @@ public class ImageFlairs {
         }
     }
 
-    public static ImageLoader imageLoader;
+    public static FlairImageLoader imageLoader;
 
 
     public static File getCacheDirectory(Context context) {
@@ -516,8 +518,8 @@ public class ImageFlairs {
         return new File(context.getCacheDir(), "flairs");
     }
 
-    public static ImageLoader initFlairImageLoader(Context context) {
-        long discCacheSize = 1024 * 1024;
+    public static FlairImageLoader initFlairImageLoader(Context context) {
+        long discCacheSize = 1024 * 1024 * 100; //100 MB limit
         DiskCache discCache;
         File dir = getCacheDirectory(context);
         int threadPoolSize;
@@ -548,11 +550,11 @@ public class ImageFlairs {
                         .defaultDisplayImageOptions(options)
                         .build();
 
-        if (ImageLoader.getInstance().isInited()) {
-            ImageLoader.getInstance().destroy();
+        if (FlairImageLoader.getInstance().isInited()) {
+            FlairImageLoader.getInstance().destroy();
         }
 
-        imageLoader = ImageLoader.getInstance();
+        imageLoader = FlairImageLoader.getInstance();
         imageLoader.init(config);
         return imageLoader;
 

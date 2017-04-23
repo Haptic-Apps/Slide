@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -191,7 +192,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
          */
         if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.setMarginStart(0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                params.setMarginStart(0);
+            }
             rv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             refreshLayout.setLayoutParams(params);
         }
@@ -343,7 +346,6 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(List<Submission> submissions, final int startIndex) {
-        if (SettingValues.storeHistory) LastComments.setCommentsSince(submissions);
         adapter.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {

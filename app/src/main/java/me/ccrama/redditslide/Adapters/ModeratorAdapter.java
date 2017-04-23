@@ -385,8 +385,12 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             ContextCompat.getColor(mContext, R.color.md_red_300),
                             PorterDuff.Mode.SRC_ATOP);
                 } else {
-                    ((ImageView)holder.itemView.findViewById(R.id.mod)).setColorFilter(Color.WHITE,
+                    int[] attrs = new int[]{R.attr.tint};
+                    TypedArray ta = mContext.obtainStyledAttributes(attrs);
+                    int color = ta.getColor(0, Color.WHITE);
+                    ((ImageView)holder.itemView.findViewById(R.id.mod)).setColorFilter(color,
                             PorterDuff.Mode.SRC_ATOP);
+                    ta.recycle();
                 }
                 holder.itemView.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
                     @Override

@@ -21,6 +21,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -80,156 +81,166 @@ public class MultiredditPosts implements PostLoader {
 
     public void loadPhotos(List<Submission> submissions) {
         for (Submission submission : submissions) {
-            boolean forceThumb = false;
             String url;
             ContentType.Type type = ContentType.getContentType(submission);
             if (submission.getThumbnails() != null) {
 
-                int height = submission.getThumbnails().getSource().getHeight();
-                int width = submission.getThumbnails().getSource().getWidth();
+                if (type == ContentType.Type.IMAGE
+                        || type == ContentType.Type.SELF
+                        || (submission.getThumbnailType() == Submission.ThumbnailType.URL)) {
+                    if (type == ContentType.Type.IMAGE) {
+                        if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile)
+                                || SettingValues.lowResAlways)
+                                && submission.getThumbnails() != null
+                                && submission.getThumbnails().getVariations() != null
+                                && submission.getThumbnails().getVariations().length > 0) {
 
-                if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+                            int length = submission.getThumbnails().getVariations().length;
+                            if (SettingValues.lqLow && length >= 3) {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[2].getUrl())
+                                        .toString(); //unescape url characters
+                            } else if (SettingValues.lqMid && length >= 4) {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[3].getUrl())
+                                        .toString(); //unescape url characters
+                            } else if (length >= 5) {
+                                url = Html.fromHtml(submission.getThumbnails().getVariations()[
+                                        length
+                                                - 1].getUrl()).toString(); //unescape url characters
+                            } else {
+                                url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                                        .toString(); //unescape url characters
+                            }
 
-
-                } else if (type == ContentType.Type.IMAGE) {
-                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
-
-                        int length = submission.getThumbnails().getVariations().length;
-                        if (SettingValues.lqLow && length >= 3)
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
-                                    .toString(); //unescape url characters
-                        }
-                        else if (SettingValues.lqMid && length >= 4)
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
-                                    .toString(); //unescape url characters
-                        }
-                        else if (length >= 5)
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
-                                    .toString(); //unescape url characters
-                        }
-                        else
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getSource().getUrl())
-                                    .toString(); //unescape url characters
-                        }
-
-                    } else {
-                        if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
                         } else {
-                            url = submission.getUrl();
+                            if (submission.getDataNode().has("preview") && submission.getDataNode()
+                                    .get("preview")
+                                    .get("images")
+                                    .get(0)
+                                    .get("source")
+                                    .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                url = submission.getDataNode()
+                                        .get("preview")
+                                        .get("images")
+                                        .get(0)
+                                        .get("source")
+                                        .get("url")
+                                        .asText();
+                            } else {
+                                url = submission.getUrl();
+                            }
                         }
+
+
+                        ((Reddit) c.getApplicationContext()).getImageLoader()
+                                .loadImage(url, new ImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
+
+                                    }
+                                });
+
+                    } else if (submission.getThumbnails() != null) {
+
+                        if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile)
+                                || SettingValues.lowResAlways)
+                                && submission.getThumbnails().getVariations().length != 0) {
+
+                            int length = submission.getThumbnails().getVariations().length;
+                            if (SettingValues.lqLow && length >= 3) {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[2].getUrl())
+                                        .toString(); //unescape url characters
+                            } else if (SettingValues.lqMid && length >= 4) {
+                                url = Html.fromHtml(
+                                        submission.getThumbnails().getVariations()[3].getUrl())
+                                        .toString(); //unescape url characters
+                            } else if (length >= 5) {
+                                url = Html.fromHtml(submission.getThumbnails().getVariations()[
+                                        length
+                                                - 1].getUrl()).toString(); //unescape url characters
+                            } else {
+                                url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                                        .toString(); //unescape url characters
+                            }
+
+                        } else {
+                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                                    .toString(); //unescape url characters
+                        }
+
+                        ((Reddit) c.getApplicationContext()).getImageLoader()
+                                .loadImage(url, new ImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
+
+                                    }
+                                });
+
+                    } else if (submission.getThumbnail() != null && (submission.getThumbnailType()
+                            == Submission.ThumbnailType.URL
+                            || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+
+                        ((Reddit) c.getApplicationContext()).getImageLoader()
+                                .loadImage(submission.getUrl(), new ImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
+
+                                    }
+                                });
                     }
-
-
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-
-                        }
-
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                        }
-
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                        }
-
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-
-                        }
-                    });
-
-                } else if (submission.getThumbnails() != null) {
-
-                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
-
-                        int length = submission.getThumbnails().getVariations().length;
-                        if (SettingValues.lqLow && length >= 3)
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
-                                    .toString(); //unescape url characters
-                        }
-                        else if (SettingValues.lqMid && length >= 4)
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
-                                    .toString(); //unescape url characters
-                        }
-                        else if (length >= 5)
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
-                                    .toString(); //unescape url characters
-                        }
-                        else
-                        {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getSource().getUrl())
-                                    .toString(); //unescape url characters
-                        }
-
-                    } else {
-                        url = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
-                    }
-
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-
-                        }
-
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                        }
-
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                        }
-
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-
-                        }
-                    });
-
-                } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(submission.getUrl(), new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-
-                        }
-
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                        }
-
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                        }
-
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-
-                        }
-                    });
                 }
             }
         }
@@ -378,6 +389,8 @@ public class MultiredditPosts implements PostLoader {
 
             if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways)))
                 loadPhotos(filteredSubmissions);
+
+            if (SettingValues.storeHistory) LastComments.setCommentsSince(filteredSubmissions);
 
             return filteredSubmissions;
         }

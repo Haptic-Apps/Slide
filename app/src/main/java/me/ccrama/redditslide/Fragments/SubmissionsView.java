@@ -544,7 +544,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                             super.onScrolled(recyclerView, dx, dy);
 
-                            if (!posts.loading && !posts.nomore && !posts.offline) {
+                            if (!posts.loading && !posts.nomore && !posts.offline && !adapter.isError){
                                 visibleItemCount = rv.getLayoutManager().getChildCount();
                                 totalItemCount = rv.getLayoutManager().getItemCount();
 

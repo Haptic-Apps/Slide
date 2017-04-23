@@ -76,7 +76,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation)));
     }
 
-    boolean isError;
+    public boolean isError;
 
     @Override
     public long getItemId(int position) {

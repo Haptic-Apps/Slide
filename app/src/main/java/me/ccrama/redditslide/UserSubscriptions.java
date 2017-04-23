@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -349,7 +350,8 @@ public class UserSubscriptions {
     }
 
     public static void loadMultireddits() {
-        if (Authentication.isLoggedIn && Authentication.didOnline && (multireddits == null || multireddits.isEmpty())) {
+        if (Authentication.isLoggedIn && Authentication.didOnline && (multireddits == null
+                || multireddits.isEmpty())) {
             try {
                 multireddits =
                         new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
@@ -372,7 +374,7 @@ public class UserSubscriptions {
             // It appears your own multis are pre-loaded at some point
             // but some other user's multis obviously can't be so
             // don't return until we've loaded them.
-            loadPublicMultireddits(callback ,profile);
+            loadPublicMultireddits(callback, profile);
         }
     }
 
@@ -704,11 +706,20 @@ public class UserSubscriptions {
     }
 
     public static class SubscribeTask extends AsyncTask<String, Void, Void> {
+        Context context;
+        public SubscribeTask(Context context){
+            this.context = context;
+        }
+
         @Override
         protected Void doInBackground(String... subreddits) {
             final AccountManager m = new AccountManager(Authentication.reddit);
             for (String subreddit : subreddits) {
-                m.subscribe(Authentication.reddit.getSubreddit(subreddit));
+                try {
+                    m.subscribe(Authentication.reddit.getSubreddit(subreddit));
+                } catch(Exception e){
+                    Toast.makeText(context, "Couldn't subscribe, subreddit is private, quarantined, or invite only", Toast.LENGTH_SHORT).show();
+                }
             }
             return null;
         }
