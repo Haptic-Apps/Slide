@@ -739,8 +739,12 @@ public class UserSubscriptions {
         @Override
         protected Void doInBackground(String... subreddits) {
             final AccountManager m = new AccountManager(Authentication.reddit);
-            for (String subreddit : subreddits) {
-                m.unsubscribe(Authentication.reddit.getSubreddit(subreddit));
+            try {
+                for (String subreddit : subreddits) {
+                    m.unsubscribe(Authentication.reddit.getSubreddit(subreddit));
+                }
+            } catch(Exception e){
+
             }
             return null;
         }
