@@ -435,7 +435,7 @@ public class MultiredditOverview extends BaseActivityAnim {
             profile = "";
         }
 
-        UserSubscriptions.getMultireddits(new UserSubscriptions.MultiCallback() {
+        UserSubscriptions.MultiCallback callback = new UserSubscriptions.MultiCallback() {
             @Override
             public void onComplete(List<MultiReddit> multiReddits) {
                 if (multiReddits != null && !multiReddits.isEmpty()) {
@@ -444,7 +444,13 @@ public class MultiredditOverview extends BaseActivityAnim {
                     buildDialog();
                 }
             }
-        });
+        };
+
+        if (profile.isEmpty()) {
+            UserSubscriptions.getMultireddits(callback);
+        } else {
+            UserSubscriptions.getPublicMultireddits(callback, profile);
+        }
     }
 
 

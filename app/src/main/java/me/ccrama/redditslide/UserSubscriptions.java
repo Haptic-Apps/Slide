@@ -378,16 +378,26 @@ public class UserSubscriptions {
         }
     }
 
-    private static void loadPublicMultireddits(MultiCallback callback, String profile) {
-        try {
-            public_multireddits.put(profile, new ArrayList(
-                    new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
-            callback.onComplete(public_multireddits.get(profile));
-        } catch (Exception e) {
-            public_multireddits.put(profile, null);
-            callback.onComplete(public_multireddits.get(profile));
-            e.printStackTrace();
-        }
+    private static void loadPublicMultireddits(final MultiCallback callback, final String profile) {
+        new AsyncTask<Void, Void, List<MultiReddit>>() {
+
+            @Override
+            protected List<MultiReddit> doInBackground(Void... params) {
+                try {
+                    public_multireddits.put(profile, new ArrayList(
+                            new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
+                } catch (Exception e) {
+                    public_multireddits.put(profile, null);
+                    e.printStackTrace();
+                }
+                return public_multireddits.get(profile);
+            }
+
+            @Override
+            protected void onPostExecute(List<MultiReddit> multiReddits) {
+                callback.onComplete(multiReddits);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static CaseInsensitiveArrayList doModOf() {

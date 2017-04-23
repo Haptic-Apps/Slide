@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -40,11 +41,12 @@ public class ImageFlairs {
             protected void onPostExecute(FlairStylesheet flairStylesheet) {
                 super.onPostExecute(flairStylesheet);
                 d.dismiss();
-
                 flairs.edit().putBoolean(subreddit.toLowerCase(), true).commit();
+                d = new AlertDialogWrapper.Builder(context).setTitle("Subreddit flairs synced")
+                        .setMessage("Slide found and synced " + flairStylesheet.count + " image flairs")
+                        .setPositiveButton(R.string.btn_ok, null).show();
             }
 
-            Dialog d;
 
             @Override
             protected void onPreExecute() {
@@ -60,6 +62,7 @@ public class ImageFlairs {
     static class StylesheetFetchTask extends AsyncTask<Void, Void, FlairStylesheet> {
         String  subreddit;
         Context context;
+        Dialog d;
 
         StylesheetFetchTask(String subreddit, Context context) {
             super();
@@ -73,6 +76,7 @@ public class ImageFlairs {
                 String stylesheet = Authentication.reddit.getStylesheet(subreddit);
                 ArrayList<String> allImages = new ArrayList<>();
                 FlairStylesheet flairStylesheet = new FlairStylesheet(stylesheet);
+                int count = 0;
                 for (String s : flairStylesheet.getListOfFlairIds()) {
                     String classDef = flairStylesheet.getClass(flairStylesheet.stylesheetString,
                             "flair-" + s);
@@ -138,11 +142,13 @@ public class ImageFlairs {
     }
 
 
+
     static class FlairStylesheet {
         String stylesheetString;
         Dimensions defaultDimension = new Dimensions();
         Location   defaultLocation  = new Location();
         String     defaultURL       = "";
+        int count;
 
         Dimensions prevDimension = null;
 
@@ -194,6 +200,7 @@ public class ImageFlairs {
             defaultDimension = getBackgroundSize(baseFlairDef);
             defaultLocation = getBackgroundPosition(baseFlairDef);
             defaultURL = getBackgroundURL(baseFlairDef);
+            count = 0;
         }
 
         /**
@@ -205,7 +212,7 @@ public class ImageFlairs {
          */
         String getClass(String cssDefinitionString, String className) {
             Pattern propertyDefinition =
-                    Pattern.compile("(?<! )\\." + className + "(,[^\\{]*)*\\{(.+?)\\}");
+                    Pattern.compile("(?<! )\\." + className + "(,|:[^\\{]*)*\\{(.+?)\\}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
             String properties = null;
@@ -453,6 +460,7 @@ public class ImageFlairs {
                     try {
                         getFlairImageLoader(context).getDiskCache()
                                 .save(sub.toLowerCase() + ":" + id.toLowerCase(), newBit);
+                        count +=1;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -469,7 +477,7 @@ public class ImageFlairs {
          * @return
          */
         List<String> getListOfFlairIds() {
-            Pattern flairId = Pattern.compile("\\.flair-(\\w+)\\s*(\\{|\\,)");
+            Pattern flairId = Pattern.compile("\\.flair-(\\w+)\\s*(\\{|\\,|\\:)");
             Matcher matches = flairId.matcher(stylesheetString);
 
             List<String> flairIds = new ArrayList<>();

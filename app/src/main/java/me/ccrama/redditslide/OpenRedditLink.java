@@ -329,6 +329,7 @@ public class OpenRedditLink {
         USER,
         SEARCH,
         MESSAGE,
+        MULTIREDDIT,
         LIVE,
         OTHER
     }
