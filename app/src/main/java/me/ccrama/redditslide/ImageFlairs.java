@@ -40,8 +40,8 @@ public class ImageFlairs {
             @Override
             protected void onPostExecute(FlairStylesheet flairStylesheet) {
                 super.onPostExecute(flairStylesheet);
+                d.dismiss();
                 if(flairStylesheet != null) {
-                    d.dismiss();
                     flairs.edit().putBoolean(subreddit.toLowerCase(), true).commit();
                     d = new AlertDialogWrapper.Builder(context).setTitle("Subreddit flairs synced")
                             .setMessage("Slide found and synced " + flairStylesheet.count + " image flairs")
