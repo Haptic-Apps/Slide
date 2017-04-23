@@ -479,7 +479,8 @@ public class ImageFlairs {
                     if (classDef == null) break;
 
                     Dimensions flairDimensions = getBackgroundSize(classDef);
-                    if (flairDimensions.missing) flairDimensions = defaultDimension;
+                    if (flairDimensions.missing || flairDimensions.width > defaultDimension.width && getProperty(classDef, "clip") != null) //Either missing or does special clipping, we can assume it is the default case
+                        flairDimensions = defaultDimension;
 
                     prevDimension = flairDimensions;
 
