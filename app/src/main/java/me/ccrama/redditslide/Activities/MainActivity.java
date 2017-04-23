@@ -2979,7 +2979,7 @@ public class MainActivity extends BaseActivity
                 sort.setText("Set default sorting");
 
             }
-            final Sorting finalSortingis = sortingis;
+            final int sortid = Reddit.getSortingId(sortingis);
             dialoglayout.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -3020,7 +3020,7 @@ public class MainActivity extends BaseActivity
                             new AlertDialogWrapper.Builder(MainActivity.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()),
-                            Reddit.getSortingId(finalSortingis), l2);
+                            sortid, l2);
                     builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
