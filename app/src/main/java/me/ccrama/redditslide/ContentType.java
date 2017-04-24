@@ -127,6 +127,10 @@ public class ContentType {
             return Type.SPOILER;
         }
 
+        if (url.startsWith("mailto:")) {
+            return Type.EXTERNAL;
+        }
+
         if (url.startsWith("//")) url = "https:" + url;
         if (url.startsWith("/")) url = "reddit.com" + url;
         if (!url.contains("://")) url = "http://" + url;
