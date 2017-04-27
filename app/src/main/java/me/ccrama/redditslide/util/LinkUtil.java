@@ -178,7 +178,7 @@ public class LinkUtil {
         if (url.startsWith("/")) {
             url = "https://reddit.com" + url;
         }
-        if (!url.contains("://")) {
+        if (!url.contains("://")  && !url.startsWith("mailto:")) {
             url = "http://" + url;
         }
 
