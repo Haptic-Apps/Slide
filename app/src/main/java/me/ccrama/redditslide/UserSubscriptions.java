@@ -658,7 +658,7 @@ public class UserSubscriptions {
      *
      * @param unsorted the ArrayList to sort
      * @return the sorted ArrayList
-     * @see #sortNoExtras(ArrayList)
+     * @see #sortNoExtras(CaseInsensitiveArrayList)
      */
     public static CaseInsensitiveArrayList sort(CaseInsensitiveArrayList unsorted) {
         CaseInsensitiveArrayList subs = new CaseInsensitiveArrayList(unsorted);
@@ -680,24 +680,19 @@ public class UserSubscriptions {
      *
      * @param unsorted the ArrayList to sort
      * @return the sorted ArrayList
-     * @see #sort(ArrayList)
+     * @see #sort(CaseInsensitiveArrayList)
      */
     public static CaseInsensitiveArrayList sortNoExtras(CaseInsensitiveArrayList unsorted) {
-        return sortNoExtras(unsorted, true);
-    }
-
-    public static CaseInsensitiveArrayList sortNoExtras(CaseInsensitiveArrayList unsorted,
-            boolean pinned) {
         List<String> subs = new CaseInsensitiveArrayList(unsorted);
         CaseInsensitiveArrayList finals = new CaseInsensitiveArrayList();
-        if (pinned) {
-            for (String subreddit : getPinned()) {
-                if (subs.contains(subreddit)) {
-                    subs.remove(subreddit);
-                    finals.add(subreddit);
-                }
+
+        for (String subreddit : getPinned()) {
+            if (subs.contains(subreddit)) {
+                subs.remove(subreddit);
+                finals.add(subreddit);
             }
         }
+
         for (String subreddit : specialSubreddits) {
             if (subs.contains(subreddit)) {
                 subs.remove(subreddit);
