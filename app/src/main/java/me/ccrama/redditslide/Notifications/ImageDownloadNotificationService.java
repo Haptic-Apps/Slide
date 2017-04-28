@@ -85,7 +85,7 @@ public class ImageDownloadNotificationService extends Service {
             mBuilder = new NotificationCompat.Builder(getApplicationContext());
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
                     .setContentText(getString(R.string.mediaview_notif_text))
-                    .setSmallIcon(R.drawable.save);
+                    .setSmallIcon(R.drawable.save_png);
         }
 
         @Override
@@ -288,13 +288,13 @@ public class ImageDownloadNotificationService extends Service {
                             Notification notif = new NotificationCompat.Builder(
                                     getApplicationContext()).setContentTitle(
                                     getString(R.string.info_photo_saved))
-                                    .setSmallIcon(R.drawable.savecontent)
+                                    .setSmallIcon(R.drawable.save_png)
                                     .setLargeIcon(loadedImage)
                                     .setContentIntent(pContentIntent)
-                                    .addAction(R.drawable.share, getString(R.string.share_image),
+                                    .addAction(R.drawable.share_png, getString(R.string.share_image),
                                             pShareIntent)
                                     //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
-                                    .addAction(R.drawable.delete, getString(R.string.btn_delete),
+                                    .addAction(R.drawable.delete_png, getString(R.string.btn_delete),
                                             pDeleteIntent)
                                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
                                             Bitmap.createScaledBitmap(loadedImage, 400, 400,

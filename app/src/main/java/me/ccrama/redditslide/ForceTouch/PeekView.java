@@ -202,14 +202,18 @@ public class PeekView extends FrameLayout {
         dim.setLayoutParams(dimParams);
 
         if (options.shouldBlurBackground()) {
-            Blurry.with(context)
-                    .radius(2)
-                    .sampling(5)
-                    .animate()
-                    .color(options.getBlurOverlayColor())
-                    .onto((ViewGroup) androidContentView.getRootView());
+            try {
+                Blurry.with(context)
+                        .radius(2)
+                        .sampling(5)
+                        .animate()
+                        .color(options.getBlurOverlayColor())
+                        .onto((ViewGroup) androidContentView.getRootView());
 
-            dim.setAlpha(0f);
+                dim.setAlpha(0f);
+            } catch(Exception ignored){
+
+            }
         }
 
         // add the dim and the content view to the upper level frame layout

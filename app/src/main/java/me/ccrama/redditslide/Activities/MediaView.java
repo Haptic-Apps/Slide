@@ -328,7 +328,7 @@ public class MediaView extends FullScreenActivity
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(MediaView.this);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.save);
+                            .setSmallIcon(R.drawable.download_png);
                     try {
 
                         final URL url =
@@ -378,7 +378,7 @@ public class MediaView extends FullScreenActivity
                                         Notification notif = new NotificationCompat.Builder(
                                                 MediaView.this).setContentTitle(
                                                 getString(R.string.gif_saved))
-                                                .setSmallIcon(R.drawable.savecontent)
+                                                .setSmallIcon(R.drawable.save_png)
                                                 .setContentIntent(contentIntent)
                                                 .build();
 

@@ -278,7 +278,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                     Notification notification =
                             new NotificationCompat.Builder(c).setContentIntent(intent)
-                                    .setSmallIcon(R.drawable.mod)
+                                    .setSmallIcon(R.drawable.mod_png)
                                     .setTicker(res.getQuantityString(
                                             R.plurals.mod_mail_notification_title, amount, amount))
                                     .setWhen(System.currentTimeMillis())
@@ -308,7 +308,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                         Notification notification =
                                 new NotificationCompat.Builder(c).setContentIntent(intent)
-                                        .setSmallIcon(R.drawable.mod)
+                                        .setSmallIcon(R.drawable.mod_png)
                                         .setTicker(res.getQuantityString(
                                                 R.plurals.mod_mail_notification_title, 1, 1))
                                         .setWhen(System.currentTimeMillis())

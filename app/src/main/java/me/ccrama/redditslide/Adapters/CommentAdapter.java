@@ -1421,11 +1421,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                         }
                         dataSet.refreshLayout.setRefreshing(true);
-                        String text = currentlyEditing.getText().toString();
-                        new ReplyTaskComment(n, baseNode, holder, changedProfile).execute(text);
-                        currentlyEditing = null;
-                        editingPosition = -1;
-
+                        if(currentlyEditing != null) {
+                            String text = currentlyEditing.getText().toString();
+                            new ReplyTaskComment(n, baseNode, holder, changedProfile).execute(text);
+                            currentlyEditing = null;
+                            editingPosition = -1;
+                        }
                         //Hide soft keyboard
                         View view = ((Activity) mContext).getCurrentFocus();
                         if (view != null) {
