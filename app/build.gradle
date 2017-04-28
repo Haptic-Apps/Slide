@@ -18,7 +18,7 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 269
+        versionCode 270
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
