@@ -28,6 +28,7 @@ import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -373,8 +374,7 @@ public class SubredditPosts implements PostLoader {
 
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
-
-
+            if (BuildConfig.DEBUG) LogUtil.v("Loading data");
             if ((!NetworkUtil.isConnected(context) && !Authentication.didOnline)
                     || MainActivity.isRestart) {
                 Log.v(LogUtil.getTag(), "Using offline data");

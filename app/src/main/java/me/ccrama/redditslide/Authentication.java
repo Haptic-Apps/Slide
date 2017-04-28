@@ -93,6 +93,7 @@ public class Authentication {
 
 
     public void updateToken(Context c) {
+        if (BuildConfig.DEBUG) LogUtil.v("Executing update token");
         if (reddit == null) {
             hasDone = true;
             isLoggedIn = false;
@@ -103,7 +104,7 @@ public class Authentication {
 
             new VerifyCredentials(c).execute();
         } else {
-            new UpdateToken(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new UpdateToken(c).execute();
         }
     }
 
@@ -171,7 +172,7 @@ public class Authentication {
                         final Credentials fcreds =
                                 Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                         OAuthData authData;
-                        LogUtil.v("Not logged in");
+                        if (BuildConfig.DEBUG) LogUtil.v("Not logged in");
                         try {
 
                             authData = reddit.getOAuthHelper().easyAuth(fcreds);
@@ -239,6 +240,7 @@ public class Authentication {
                 }
 
             }
+            if (BuildConfig.DEBUG) LogUtil.v("Done loading token");
             return null;
 
         }
@@ -320,7 +322,7 @@ public class Authentication {
                 didOnline = true;
 
             } else if (!single) {
-                LogUtil.v("NOT LOGGED IN");
+                if (BuildConfig.DEBUG) LogUtil.v("NOT LOGGED IN");
 
                 final Credentials fcreds =
                         Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
