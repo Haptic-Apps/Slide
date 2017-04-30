@@ -126,6 +126,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     long lastSeen = 0;
     public ArrayList<String> approved = new ArrayList<>();
     public ArrayList<String> removed  = new ArrayList<>();
+    private Map<String, CommentViewHolder> topLevels = new HashMap<>();
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView,
             Submission submission, FragmentManager fm) {
@@ -301,6 +302,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final CommentNode baseNode = currentComments.get(datasetPosition).comment;
             final Comment comment = baseNode.getComment();
+            if (baseNode.isTopLevel()) {
+                topLevels.put(comment.getFullName(), holder);
+            }
 
             if (pos == getItemCount() - 1) {
                 holder.itemView.setPadding(0, 0, 0, (int) mContext.getResources()
@@ -1726,8 +1730,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doOnClick(final CommentViewHolder holder, final CommentNode baseNode,
-            final Comment comment) {
+    public void doOnClick(final CommentViewHolder cvh, final CommentNode baseNode,
+            final Comment c) {
+        // Consider if moving this up earlier makes sense.
+        final Comment comment = (SettingValues.collapseParents
+                ? getTopParent(baseNode).getComment()
+                : c);
+        final CommentViewHolder holder = (SettingValues.collapseParents
+                ? topLevels.get(comment.getFullName())
+                : cvh);
+
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
@@ -1789,9 +1801,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     toCollapse.remove(comment.getFullName());
 
                 } else {
-                    int childNumber = getChildNumber(baseNode);
+                    CommentNode topParent = getTopParent(baseNode);
+                    int childNumber = getChildNumber(topParent);
                     if (childNumber > 0) {
-                        hideAll(baseNode, holder.getAdapterPosition() + 1);
+                        hideAll(topParent, holder.getAdapterPosition() + 1);
                         if (!hiddenPersons.contains(comment.getFullName())) {
                             hiddenPersons.add(comment.getFullName());
                         }
@@ -2434,5 +2447,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         Authentication.doVerify(token, reddit, true, mContext);
         return reddit;
+    }
+
+    private CommentNode getTopParent(CommentNode comment) {
+        if (comment.isTopLevel()) {
+            return comment;
+        }
+        return getTopParent(comment.getParent());
     }
 }
