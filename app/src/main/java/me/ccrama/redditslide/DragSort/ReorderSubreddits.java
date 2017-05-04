@@ -802,11 +802,17 @@ public class ReorderSubreddits extends BaseActivityAnim {
             mToolbar.findViewById(R.id.pin).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    List<String> pinned = UserSubscriptions.getPinned();
+                    boolean contained = pinned.containsAll(chosen);
                     for (String s : chosen) {
-                        UserSubscriptions.addPinned(s, ReorderSubreddits.this);
-                        int index = subs.indexOf(s);
-                        subs.remove(index);
-                        subs.add(0, s);
+                        if (contained) {
+                            UserSubscriptions.removePinned(s, ReorderSubreddits.this);
+                        } else {
+                            UserSubscriptions.addPinned(s, ReorderSubreddits.this);
+                            int index = subs.indexOf(s);
+                            subs.remove(index);
+                            subs.add(0, s);
+                        }
                     }
                     isMultiple = false;
                     doOldToolbar();

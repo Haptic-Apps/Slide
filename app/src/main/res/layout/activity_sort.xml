@@ -37,7 +37,7 @@
                 android:theme="@style/Ripple.List"
                 android:paddingTop="12dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/lock"
+                app:srcCompat="@drawable/pin"
                 android:tint="@color/white" />
         <ImageView
             android:id="@+id/delete"
