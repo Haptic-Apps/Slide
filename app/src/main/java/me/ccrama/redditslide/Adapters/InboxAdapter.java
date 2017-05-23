@@ -32,7 +32,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +41,6 @@ import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
-import net.dean.jraw.managers.CaptchaHelper;
 import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.Message;
@@ -58,7 +56,6 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
@@ -159,11 +156,11 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             SpannableStringBuilder titleString = new SpannableStringBuilder();
             String author = comment.getAuthor();
             String direction = "from ";
-            if (!dataSet.where.contains("mod") && comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
-                    comment.getDataNode().get("dest").asText()) && !comment.getDataNode()
-                    .get("dest")
-                    .asText()
-                    .equals("reddit")) {
+            if (!dataSet.where.contains("mod")
+                    && comment.getDataNode().has("dest")
+                    && !Authentication.name.equalsIgnoreCase(
+                    comment.getDataNode().get("dest").asText())
+                    && !comment.getDataNode().get("dest").asText().equals("reddit")) {
                 author = comment.getDataNode().get("dest").asText().replace("#", "/r/");
                 direction = "to ";
             }
@@ -214,22 +211,27 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             messageViewHolder.user.setText(titleString);
             SpannableStringBuilder b = new SpannableStringBuilder();
-            if (mContext instanceof  Inbox && comment.getCreated().getTime() > ((Inbox)mContext).last && !comment.isRead()) {
+            if (mContext instanceof Inbox
+                    && comment.getCreated().getTime() > ((Inbox) mContext).last
+                    && !comment.isRead()) {
                 SpannableStringBuilder tagNew = new SpannableStringBuilder("\u00A0NEW\u00A0");
-                tagNew.setSpan(new RoundedBackgroundSpan(Color.WHITE, mContext.getResources().getColor(R.color.md_green_400), true, mContext), 0, tagNew.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tagNew.setSpan(new RoundedBackgroundSpan(Color.WHITE,
+                                mContext.getResources().getColor(R.color.md_green_400), true, mContext), 0,
+                        tagNew.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 b.append(tagNew);
                 b.append(" ");
             }
 
             b.append(comment.getSubject());
 
-            if(comment.getDataNode().has("link_title")){
-                SpannableStringBuilder link =
-                        new SpannableStringBuilder(" " + Html.fromHtml(comment.getDataNode().get("link_title").asText()) + " ");
-                link.setSpan(
-                        new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                link.setSpan(
-                        new RelativeSizeSpan(0.8f), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (comment.getDataNode().has("link_title")) {
+                SpannableStringBuilder link = new SpannableStringBuilder(" "
+                        + Html.fromHtml(comment.getDataNode().get("link_title").asText())
+                        + " ");
+                link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                link.setSpan(new RelativeSizeSpan(0.8f), 0, link.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 b.append(link);
             }
@@ -272,11 +274,11 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Html.fromHtml(comment.getSubject()));
 
                     String author = comment.getAuthor();
-                    if (!dataSet.where.contains("mod") &&comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
-                            comment.getDataNode().get("dest").asText()) && !comment.getDataNode()
-                            .get("dest")
-                            .asText()
-                            .equals("reddit")) {
+                    if (!dataSet.where.contains("mod")
+                            && comment.getDataNode().has("dest")
+                            && !Authentication.name.equalsIgnoreCase(
+                            comment.getDataNode().get("dest").asText())
+                            && !comment.getDataNode().get("dest").asText().equals("reddit")) {
                         author = comment.getDataNode().get("dest").asText().replace("#", "/r/");
                     }
                     if (comment.getAuthor() != null) {
@@ -372,15 +374,19 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         messageViewHolder.title.setTextColor(
                                 messageViewHolder.content.getCurrentTextColor());
                         {
-                            SpannableStringBuilder b = new SpannableStringBuilder(comment.getSubject());
+                            SpannableStringBuilder b =
+                                    new SpannableStringBuilder(comment.getSubject());
 
                             if (comment.getDataNode().has("link_title")) {
-                                SpannableStringBuilder link = new SpannableStringBuilder(" "
-                                        + Html.fromHtml(comment.getDataNode().get("link_title").asText())
-                                        + " ");
+                                SpannableStringBuilder link = new SpannableStringBuilder(
+                                        " "
+                                                + Html.fromHtml(
+                                                comment.getDataNode().get("link_title").asText())
+                                                + " ");
                                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                link.setSpan(new RelativeSizeSpan(0.8f), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                link.setSpan(new RelativeSizeSpan(0.8f), 0, link.length(),
+                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                                 b.append(link);
                             }
@@ -420,7 +426,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
 
-        DoEditorActions.doActions(e, dialoglayout, ((AppCompatActivity)mContext).getSupportFragmentManager(), (Activity) mContext,
+        DoEditorActions.doActions(e, dialoglayout,
+                ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
                 replyTo.getBody());
 
         builder.setView(dialoglayout);
@@ -450,61 +457,16 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         String trying;
 
         Message replyTo;
-        String text;
+        String  text;
 
-        public AsyncReplyTask(Message replyTo, String text){
+        public AsyncReplyTask(Message replyTo, String text) {
             this.replyTo = replyTo;
             this.text = text;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if (new CaptchaHelper(Authentication.reddit).isNecessary()) {
-                //display capacha
-                final Captcha c;
-                try {
-                    c = new CaptchaHelper(Authentication.reddit).getNew();
-
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
-
-                            final View dialoglayout = inflater.inflate(R.layout.capatcha, null);
-                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-
-                            ((Reddit)((Activity)mContext).getApplication()).getImageLoader().displayImage(c.getImageUrl().toString(),
-                                    (ImageView) dialoglayout.findViewById(R.id.cap));
-
-                            final Dialog dialog = builder.setView(dialoglayout).create();
-                            dialog.show();
-
-                            dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View d) {
-                                    trying = ((EditText) dialoglayout.findViewById(R.id.entry)).getText().toString();
-                                    dialog.dismiss();
-                                    new AsyncTask<Void, Void, Boolean>() {
-                                        @Override
-                                        protected Boolean doInBackground(Void... params) {
-                                            sendMessage(c, trying);
-                                            return true;
-                                        }
-
-
-                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                                }
-                            });
-                        }
-                    });
-                } catch (ApiException e) {
-                    e.printStackTrace();
-                    //todo fail
-                    sendMessage(null, null);
-                }
-            } else {
-                sendMessage(null, null);
-            }
+            sendMessage(null, null);
 
             return null;
         }
@@ -512,27 +474,31 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean sent;
 
         public void sendMessage(Captcha captcha, String captchaAttempt) {
-                try {
-                    new net.dean.jraw.managers.AccountManager(Authentication.reddit).reply(replyTo, text);
-                    sent = true;
-                } catch (ApiException e) {
-                    sent = false;
-                    e.printStackTrace();
-                }
+            try {
+                new net.dean.jraw.managers.AccountManager(Authentication.reddit).reply(replyTo,
+                        text);
+                sent = true;
+            } catch (ApiException e) {
+                sent = false;
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onPostExecute(Void voids) {
             if (sent) {
-                Snackbar s = Snackbar.make(listView,"Reply sent!", Snackbar.LENGTH_LONG);
+                Snackbar s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
                 View view = s.getView();
-                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv =
+                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
             } else {
-                Snackbar s = Snackbar.make(listView,"Sending failed! Reply saved as a draft.", Snackbar.LENGTH_LONG);
+                Snackbar s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
+                        Snackbar.LENGTH_LONG);
                 View view = s.getView();
-                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv =
+                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
                 Drafts.addDraft(text);
@@ -540,7 +506,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
     }
-
 
 
     public class SpacerViewHolder extends RecyclerView.ViewHolder {

@@ -5,9 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,7 +16,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,9 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -37,8 +32,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
-import net.dean.jraw.managers.CaptchaHelper;
-import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 
@@ -57,7 +50,6 @@ import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -425,147 +417,25 @@ public class Submit extends BaseActivity {
                     final String text =
                             ((EditText) findViewById(R.id.bodytext)).getText().toString();
                     try {
-                        if (new CaptchaHelper(Authentication.reddit).isNecessary()) {
-                            //display capacha
-                            final Captcha c = new CaptchaHelper(Authentication.reddit).getNew();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    LayoutInflater inflater = getLayoutInflater();
-
-                                    final View dialoglayout =
-                                            inflater.inflate(R.layout.capatcha, null);
-                                    final AlertDialogWrapper.Builder builder =
-                                            new AlertDialogWrapper.Builder(Submit.this);
-
-                                    ((Reddit) getApplication()).getImageLoader()
-                                            .displayImage(c.getImageUrl().toString(),
-                                                    (ImageView) dialoglayout.findViewById(
-                                                            R.id.cap));
-
-                                    final Dialog dialog = builder.setView(dialoglayout).create();
-                                    dialog.show();
-                                    dialog.setOnDismissListener(
-                                            new DialogInterface.OnDismissListener() {
-                                                @Override
-                                                public void onDismiss(DialogInterface dialog) {
-                                                    ((FloatingActionButton) findViewById(R.id.send))
-                                                            .show();
-                                                }
-                                            });
-                                    dialoglayout.findViewById(R.id.ok)
-                                            .setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View d) {
-                                                    trying = ((EditText) dialoglayout.findViewById(
-                                                            R.id.entry)).getText().toString();
-                                                    dialog.dismiss();
-                                                    new AsyncTask<Void, Void, Boolean>() {
-                                                        @Override
-                                                        protected Boolean doInBackground(
-                                                                Void... params) {
-                                                            try {
-                                                                Submission s = new AccountManager(
-                                                                        Authentication.reddit).submit(
-                                                                        new AccountManager.SubmissionBuilder(
-                                                                                text,
-                                                                                ((AutoCompleteTextView) findViewById(
-                                                                                        R.id.subreddittext))
-                                                                                        .getText()
-                                                                                        .toString(),
-                                                                                ((EditText) findViewById(
-                                                                                        R.id.titletext))
-                                                                                        .getText()
-                                                                                        .toString()),
-                                                                        c, trying);
-                                                                new AccountManager(
-                                                                        Authentication.reddit).sendRepliesToInbox(
-                                                                        s,
-                                                                        inboxReplies.isChecked());
-                                                                new OpenRedditLink(Submit.this,
-                                                                        "reddit.com/r/"
-                                                                                + ((AutoCompleteTextView) findViewById(
-                                                                                R.id.subreddittext))
-                                                                                .getText()
-                                                                                .toString()
-                                                                                + "/comments/"
-                                                                                + s.getFullName()
-                                                                                .substring(3,
-                                                                                        s.getFullName()
-                                                                                                .length()));
-
-                                                                Submit.this.finish();
-                                                            } catch (ApiException e) {
-                                                                Drafts.addDraft(text);
-                                                                runOnUiThread(new Runnable() {
-                                                                    @Override
-                                                                    public void run() {
-                                                                        new AlertDialogWrapper.Builder(
-                                                                                Submit.this).setTitle(
-                                                                                R.string.err_title)
-                                                                                .setMessage(
-                                                                                        R.string.misc_retry_draft)
-                                                                                .setNegativeButton(
-                                                                                        R.string.btn_no,
-                                                                                        new DialogInterface.OnClickListener() {
-                                                                                            @Override
-                                                                                            public void onClick(
-                                                                                                    DialogInterface dialogInterface,
-                                                                                                    int i) {
-                                                                                                finish();
-                                                                                            }
-                                                                                        })
-                                                                                .setPositiveButton(
-                                                                                        R.string.btn_yes,
-                                                                                        new DialogInterface.OnClickListener() {
-                                                                                            @Override
-                                                                                            public void onClick(
-                                                                                                    DialogInterface dialogInterface,
-                                                                                                    int i) {
-                                                                                                ((FloatingActionButton) findViewById(
-                                                                                                        R.id.send))
-                                                                                                        .show();
-                                                                                            }
-                                                                                        })
-                                                                                .create()
-                                                                                .show();
-                                                                    }
-                                                                });
-                                                                return false;
-                                                            }
-                                                            sent = true;
-                                                            Submit.this.finish();
-                                                            return true;
-                                                        }
-
-
-                                                    }.execute();
-                                                }
-                                            });
-                                }
-                            });
-                        } else {
-                            Submission s = new AccountManager(Authentication.reddit).submit(
-                                    new AccountManager.SubmissionBuilder(
-                                            ((EditText) findViewById(R.id.bodytext)).getText()
-                                                    .toString(),
-                                            ((AutoCompleteTextView) findViewById(
-                                                    R.id.subreddittext)).getText().toString(),
-                                            ((EditText) findViewById(R.id.titletext)).getText()
-                                                    .toString()));
-                            new AccountManager(Authentication.reddit).sendRepliesToInbox(s,
-                                    inboxReplies.isChecked());
-                            new OpenRedditLink(Submit.this,
-                                    "reddit.com/r/"
-                                            + ((AutoCompleteTextView) findViewById(
-                                            R.id.subreddittext)).getText().toString()
-                                            + "/comments/"
-                                            + s.getFullName()
-                                            .substring(3, s.getFullName().length()));
-                            Submit.this.finish();
-                        }
+                        Submission s = new AccountManager(Authentication.reddit).submit(
+                                new AccountManager.SubmissionBuilder(
+                                        ((EditText) findViewById(R.id.bodytext)).getText()
+                                                .toString(), ((AutoCompleteTextView) findViewById(
+                                        R.id.subreddittext)).getText().toString(),
+                                        ((EditText) findViewById(R.id.titletext)).getText()
+                                                .toString()));
+                        new AccountManager(Authentication.reddit).sendRepliesToInbox(s,
+                                inboxReplies.isChecked());
+                        new OpenRedditLink(Submit.this,
+                                "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
+                                        R.id.subreddittext)).getText().toString() + "/comments/" + s
+                                        .getFullName()
+                                        .substring(3, s.getFullName().length()));
+                        Submit.this.finish();
                     } catch (final ApiException e) {
                         Drafts.addDraft(text);
+                        e.printStackTrace();
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -627,9 +497,12 @@ public class Submit extends BaseActivity {
 
                         Submit.this.finish();
                     } catch (final ApiException e) {
+                        e.printStackTrace();
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
                                 if (e instanceof ApiException) {
                                     new AlertDialogWrapper.Builder(Submit.this).setTitle(
                                             R.string.err_title)
@@ -804,6 +677,8 @@ public class Submit extends BaseActivity {
                     }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

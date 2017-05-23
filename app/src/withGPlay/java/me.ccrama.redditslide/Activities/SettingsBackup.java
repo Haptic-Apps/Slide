@@ -471,7 +471,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                     String[] list = prefsdir.list();
 
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
-                    File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("MMddyy-hh:mm").format(Calendar.getInstance().getTime()) + (!personal ? "-personal" : "") + ".txt");
+                    File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()) + (!personal ? "-personal" : "") + ".txt");
 
                     file = backedup;
                     FileWriter fw = null;

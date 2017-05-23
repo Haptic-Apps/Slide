@@ -167,69 +167,7 @@ public class SendMessage extends BaseActivity {
                 subjecttext = subject.getText().toString();
                 ((FloatingActionButton)findViewById(R.id.send)).hide();
 
-                new AsyncTask<Void, Void, Captcha>() {
-                    String tried;
-                    @Override
-                    protected Captcha doInBackground(Void... params) {
-                        if (new CaptchaHelper(Authentication.reddit).isNecessary()) {
-                            //display capacha
-                            final Captcha c;
-                            try {
-                                c = new CaptchaHelper(Authentication.reddit).getNew();
-                                return c;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                //todo fail
-                                return null;
-                            }
-                        } else {
-                            return null;
-                        }
-                    }
-
-                    @Override
-                    protected void onPostExecute(final Captcha captcha) {
-                        if(captcha == null) {
-                            new AsyncDo(null, null).execute();
-                        } else {
-                            LayoutInflater inflater = getLayoutInflater();
-
-                            final View dialoglayout = inflater.inflate(R.layout.capatcha, null);
-                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SendMessage.this);
-
-                            ((Reddit) getApplication()).getImageLoader()
-                                    .displayImage(captcha.getImageUrl().toString(), (ImageView) dialoglayout.findViewById(R.id.cap));
-
-                            final Dialog dialog = builder.setView(dialoglayout).show();
-                            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    ((FloatingActionButton) findViewById(R.id.send)).show();
-                                }
-                            });
-                            dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View d) {
-                                    tried = ((EditText) dialoglayout.findViewById(R.id.entry)).getText().toString();
-                                    dialog.dismiss();
-                                    new AsyncTask<Void, Void, Boolean>() {
-                                        @Override
-                                        protected Boolean doInBackground(Void... params) {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    new AsyncDo(captcha, tried).execute();
-                                                }
-                                            });
-                                            return true;
-                                        }
-                                    }.execute();
-                                }
-                            });
-                        }
-                    }
-
-                }.execute();
+                new AsyncDo(null, null).execute();
             }
         });
         DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.area), getSupportFragmentManager(), SendMessage.this, previousMessage==null?null:previousMessage.getBody());
