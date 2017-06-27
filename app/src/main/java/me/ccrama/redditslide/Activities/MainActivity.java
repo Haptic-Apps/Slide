@@ -1355,7 +1355,7 @@ public class MainActivity extends BaseActivity
         }
 
 
-        if (Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this) && !FDroid.isFDroid)
+        if (!FDroid.isFDroid && Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this))
 
         {
             // Display an snackbar that asks the user to rate the app after this
