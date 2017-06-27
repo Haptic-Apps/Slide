@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import net.dean.jraw.ApiException;
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
@@ -303,6 +304,8 @@ public class UserSubscriptions {
                 }
             }
         } catch (ApiException e) {
+            e.printStackTrace();
+        } catch (NetworkException e) {
             e.printStackTrace();
         }
     }
