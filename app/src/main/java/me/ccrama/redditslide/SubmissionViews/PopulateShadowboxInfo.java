@@ -15,7 +15,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
-import android.text.SpannableString;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -550,6 +550,10 @@ public class PopulateShadowboxInfo {
                                         reportReason = input.toString();
                                     }
                                 }).alwaysCallInputCallback()
+                                        .title(R.string.report_post)
+                                        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                                                | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                                                | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                         .positiveText(R.string.btn_report)
                                         .negativeText(R.string.btn_cancel)
                                         .onNegative(null)

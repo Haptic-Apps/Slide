@@ -90,7 +90,7 @@
                     android:hint="@string/mail_hint_subject"
                     android:maxLength="300"
                     android:maxLines="1"
-                    android:inputType="text|textCapSentences"
+                    android:inputType="text|textCapSentences|textAutoComplete"
                     android:textColor="?attr/font">
                 </EditText>
             </android.support.design.widget.TextInputLayout>
@@ -112,7 +112,7 @@
                         android:backgroundTint="?attr/tint"
                         android:hint="@string/mail_hint_body"
                         android:imeOptions="actionDone|flagNoEnterAction"
-                        android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+                        android:inputType="textMultiLine|textAutoCorrect|textCapSentences|textAutoComplete"
                         android:textColor="?attr/font" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>

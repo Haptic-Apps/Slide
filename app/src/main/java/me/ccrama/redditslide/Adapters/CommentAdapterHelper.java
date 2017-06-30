@@ -185,7 +185,10 @@ public class CommentAdapterHelper {
                                         reportReason = input.toString();
                                     }
                                 })
+                                .title(R.string.report_comment)
                                 .alwaysCallInputCallback()
+                                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
                                 .onNegative(null)
