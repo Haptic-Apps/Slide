@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -137,6 +138,9 @@ public class SubredditSearchPosts extends GeneralPosts {
                 // end of submissions
                 nomore = true;
                 adapter.notifyDataSetChanged();
+                if (reset) {
+                    Toast.makeText(adapter.mContext, R.string.no_posts_found, Toast.LENGTH_LONG).show();
+                }
             } else if (!nomore) {
                 // error
                 adapter.setError(true);
