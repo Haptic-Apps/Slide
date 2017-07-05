@@ -527,6 +527,7 @@
     <string name="search_top">Top</string>
     <string name="search_new">New</string>
     <string name="search_comments">Comments</string>
+    <string name="no_posts_found">No posts found</string>
 
 
     <!-- Captcha -->
