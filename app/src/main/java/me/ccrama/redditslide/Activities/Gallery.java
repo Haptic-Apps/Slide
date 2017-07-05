@@ -1,6 +1,8 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Activity;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -196,7 +198,11 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
 
     private int getNumColumns(final int orientation) {
         final int numColumns;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow = Gallery.this.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT
                 && SettingValues.dualPortrait) {

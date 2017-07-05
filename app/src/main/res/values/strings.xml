@@ -103,6 +103,7 @@
     <string name="multi_column_title">Multi-column</string>
     <string name="multi_column_landscape">Landscape</string>
     <string name="multi_column_portrait">Dual columns in portrait mode</string>
+    <string name="single_column_multi_window">Single column in multi-window mode</string>
 
 
     <!-- Drawer items (That's the one on the left) -->

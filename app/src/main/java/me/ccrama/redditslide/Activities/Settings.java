@@ -326,6 +326,17 @@ public class Settings extends BaseActivity {
                                     .apply();
                         }
                     });
+                    SwitchCompat s3 = (SwitchCompat) dialog.findViewById(R.id.singlecolumnmultiwindow);
+                    s3.setChecked(SettingValues.singleColumnMultiWindow);
+                    s3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            SettingValues.singleColumnMultiWindow = isChecked;
+                            SettingValues.prefs.edit()
+                                    .putBoolean(SettingValues.PREF_SINGLE_COLUMN_MULTI, isChecked)
+                                    .apply();
+                        }
+                    });
                 } else {
                     new AlertDialogWrapper.Builder(Settings.this).setTitle(
                             "Mutli-Column Settings are a Pro feature")
