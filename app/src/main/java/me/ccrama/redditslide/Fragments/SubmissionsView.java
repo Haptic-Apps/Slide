@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final CatchStaggeredGridLayoutManager mLayoutManager =
                 (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
+        mLayoutManager.setSpanCount(getNumColumns(currentOrientation, getActivity()));
     }
 
     Runnable mLongPressRunnable;
@@ -107,7 +108,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         final RecyclerView.LayoutManager mLayoutManager;
         mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
+                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, getActivity()));
 
         if (!(getActivity() instanceof SubredditView)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -310,9 +311,13 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 CatchStaggeredGridLayoutManager.VERTICAL);
     }
 
-    public static int getNumColumns(final int orientation) {
+    public static int getNumColumns(final int orientation, Activity context) {
         final int numColumns;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow = context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT
                 && SettingValues.dualPortrait) {

@@ -58,6 +58,20 @@
                         android:max="5" />
 
                     <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/singlecolumnmultiwindow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:backgroundTint="?attr/tint"
+                            android:button="@null"
+                            android:buttonTint="?attr/tint"
+                            android:hapticFeedbackEnabled="true"
+                            android:text="@string/single_column_multi_window"
+                            android:textColor="?attr/font"
+                            android:textColorHint="?attr/font" />
+
+                    <android.support.v7.widget.SwitchCompat
                         android:id="@+id/dualcolumns"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

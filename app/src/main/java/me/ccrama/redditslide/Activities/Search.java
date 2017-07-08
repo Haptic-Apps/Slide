@@ -1,8 +1,11 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -253,7 +256,7 @@ public class Search extends BaseActivityAnim {
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
         mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
+                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, Search.this));
         rv.setLayoutManager(mLayoutManager);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
@@ -322,7 +325,7 @@ public class Search extends BaseActivityAnim {
         final CatchStaggeredGridLayoutManager mLayoutManager =
                 (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
+        mLayoutManager.setSpanCount(getNumColumns(currentOrientation, Search.this));
     }
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
@@ -330,9 +333,13 @@ public class Search extends BaseActivityAnim {
                 CatchStaggeredGridLayoutManager.VERTICAL);
     }
 
-    public static int getNumColumns(final int orientation) {
+    public static int getNumColumns(final int orientation, Context context) {
         final int numColumns;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow = ((Activity)context).isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT
                 && SettingValues.dualPortrait) {

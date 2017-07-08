@@ -72,7 +72,11 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     private int getNumColumns(final int orientation) {
         final int numColumns;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow = getActivity().isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             numColumns = 2;

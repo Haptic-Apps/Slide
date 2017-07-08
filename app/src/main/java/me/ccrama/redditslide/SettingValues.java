@@ -60,6 +60,7 @@ public class SettingValues {
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
     public static final String PREF_RIGHT_HANDED_COMMENT_MENU = "rightHandedCommentMenu";
     public static final String PREF_DUAL_PORTRAIT             = "dualPortrait";
+    public static final String PREF_SINGLE_COLUMN_MULTI       = "singleColumnMultiWindow";
     public static final String PREF_CROP_IMAGE                = "cropImage";
     public static final String PREF_COMMENT_FAB               = "commentFab";
     public static final String PREF_SWITCH_THUMB              = "switchThumb";
@@ -188,6 +189,7 @@ public class SettingValues {
     public static boolean tabletUI;
     public static boolean customtabs;
     public static boolean dualPortrait;
+    public static boolean singleColumnMultiWindow;
     public static boolean nightMode;
     public static boolean imageSubfolders;
     public static boolean autoTime;
@@ -327,6 +329,7 @@ public class SettingValues {
         largeLinks = prefs.getBoolean(PREF_LARGE_LINKS, false);
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
+        singleColumnMultiWindow = prefs.getBoolean(PREF_SINGLE_COLUMN_MULTI, false);
         colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);
 
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);
