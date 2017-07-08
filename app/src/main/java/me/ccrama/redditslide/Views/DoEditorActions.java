@@ -141,6 +141,12 @@ public class DoEditorActions {
                 TextView tv =
                         (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
+                s.setAction(R.string.btn_discard, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Drafts.deleteDraft(Drafts.getDrafts().size() - 1);
+                    }
+                });
                 s.show();
             }
         });
