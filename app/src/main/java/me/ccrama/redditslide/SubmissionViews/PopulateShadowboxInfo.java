@@ -586,7 +586,7 @@ public class PopulateShadowboxInfo {
 
                                 break;
                             case 8:
-                                Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
                                 break;
                             case 6: {
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
