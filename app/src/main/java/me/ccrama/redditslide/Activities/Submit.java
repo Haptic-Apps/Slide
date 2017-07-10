@@ -28,6 +28,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.ApiException;
@@ -393,14 +394,14 @@ public class Submit extends BaseActivity {
         if (uris.size() == 1) {
             // Get the Image from data (single image)
             try {
-                new UploadImgur(this).execute(uris.get(0));
+                new UploadImgur(this, uris.get(0));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             //Multiple images
             try {
-                new UploadImgurAlbum(this).execute(uris.toArray(new Uri[uris.size()]));
+                new UploadImgurAlbum(this, uris.toArray(new Uri[uris.size()]));
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -720,14 +721,41 @@ public class Submit extends BaseActivity {
 
         final         Context        c;
         private final MaterialDialog dialog;
+        private final Uri            uri;
         public        Bitmap         b;
 
-        public UploadImgur(Context c) {
+        public UploadImgur(Context c, Uri u) {
             this.c = c;
+            this.uri = u;
+
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
                     .cancelable(false)
+                    .autoDismiss(false).build();
+
+            new MaterialDialog.Builder(c).title(
+                    c.getString(R.string.editor_upload_image_question))
+                    .cancelable(false)
+                    .autoDismiss(false)
+                    .positiveText(c.getString(R.string.btn_upload))
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog d,
+                                DialogAction w) {
+                            d.dismiss();
+                            dialog.show();
+                            execute(uri);
+                        }
+                    })
+                    .negativeText(c.getString(R.string.btn_cancel))
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog d,
+                                DialogAction w) {
+                            d.dismiss();
+                        }
+                    })
                     .show();
         }
 
@@ -879,14 +907,41 @@ public class Submit extends BaseActivity {
 
         final         Context        c;
         private final MaterialDialog dialog;
+        private final Uri[]          uris;
         public        Bitmap         b;
 
-        public UploadImgurAlbum(Context c) {
+        public UploadImgurAlbum(Context c, Uri... u) {
             this.c = c;
+            this.uris = u;
+
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
                     .cancelable(false)
+                    .build();
+
+            new MaterialDialog.Builder(c).title(
+                    c.getString(R.string.editor_upload_image_question))
+                    .cancelable(false)
+                    .autoDismiss(false)
+                    .positiveText(c.getString(R.string.btn_upload))
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog d,
+                                DialogAction w) {
+                            d.dismiss();
+                            dialog.show();
+                            execute(uris);
+                        }
+                    })
+                    .negativeText(c.getString(R.string.btn_cancel))
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog d,
+                                DialogAction w) {
+                            d.dismiss();
+                        }
+                    })
                     .show();
         }
 
