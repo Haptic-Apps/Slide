@@ -291,10 +291,10 @@ public class ImageDownloadNotificationService extends Service {
                                     .setSmallIcon(R.drawable.save_png)
                                     .setLargeIcon(loadedImage)
                                     .setContentIntent(pContentIntent)
-                                    .addAction(R.drawable.share_png, getString(R.string.share_image),
+                                    .addAction(R.drawable.ic_share, getString(R.string.share_image),
                                             pShareIntent)
                                     //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
-                                    .addAction(R.drawable.delete_png, getString(R.string.btn_delete),
+                                    .addAction(R.drawable.ic_delete, getString(R.string.btn_delete),
                                             pDeleteIntent)
                                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
                                             Bitmap.createScaledBitmap(loadedImage, 400, 400,
