@@ -212,6 +212,7 @@
     <string name="editor_title">Title</string>
     <string name="editor_err_msg">Please try again in a few seconds</string>
     <string name="editor_uploading_image">Uploading image to Imgur</string>
+    <string name="editor_upload_image_question">Upload image to Imgur?</string>
     <string name="editor_self">Selftext</string>
     <string name="editor_select_img">Select picture</string>
     <string name="editor_hint_optional_body">Text (optional)</string>
@@ -418,6 +419,7 @@
     <string name="btn_set">SET</string>
     <string name="btn_create">Create</string>
     <string name="btn_new">New</string>
+    <string name="btn_upload">Upload</string>
 
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
