@@ -114,6 +114,7 @@ public class SubredditNames {
             if (PostMatch.subreddits == null)
                 PostMatch.subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
 
+            try {
             if (subredditPaginators[0].equalsIgnoreCase("trending")) {
                 List<String> trending = Authentication.reddit.getTrendingSubreddits();
 
@@ -170,6 +171,9 @@ public class SubredditNames {
                     }
 
                 }
+            }
+            } catch (Exception e){
+                return null;
             }
             return things;
         }

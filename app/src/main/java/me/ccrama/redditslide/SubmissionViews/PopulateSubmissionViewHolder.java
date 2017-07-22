@@ -55,6 +55,7 @@ import net.dean.jraw.models.Thing;
 import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -371,8 +372,20 @@ public class PopulateSubmissionViewHolder {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
 
-            myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+            if(submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).has("variants") &&submission.getDataNode().get("preview").get("images").get(0).get("variants").has("mp4")) {
+                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission.getDataNode()
+                        .get("preview")
+                        .get("images")
+                        .get(0)
+                        .get("variants")
+                        .get("mp4")
+                        .get("source")
+                        .get("url")
+                        .asText()).replace("&amp;", "&"));
 
+            } else {
+                myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+            }
             if (submission.getDataNode().has("preview") && submission.getDataNode()
                     .get("preview")
                     .get("images")
