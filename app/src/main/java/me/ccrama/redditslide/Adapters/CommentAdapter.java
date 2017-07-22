@@ -126,6 +126,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     long lastSeen = 0;
     public ArrayList<String> approved = new ArrayList<>();
     public ArrayList<String> removed  = new ArrayList<>();
+    private Map<String, CommentViewHolder> topLevels = new HashMap<>();
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView,
             Submission submission, FragmentManager fm) {
@@ -301,6 +302,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final CommentNode baseNode = currentComments.get(datasetPosition).comment;
             final Comment comment = baseNode.getComment();
+            if (baseNode.isTopLevel()) {
+                topLevels.put(comment.getFullName(), holder);
+            }
 
             if (pos == getItemCount() - 1) {
                 holder.itemView.setPadding(0, 0, 0, (int) mContext.getResources()
@@ -1728,38 +1732,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doOnClick(final CommentViewHolder holder, final CommentNode baseNode,
             final Comment comment) {
+
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
-            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.discard_comment_title)
-                    .setMessage(R.string.comment_discard_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            currentlyEditing = null;
-                            editingPosition = -1;
-                            if (SettingValues.fastscroll) {
-                                mPage.fastScroll.setVisibility(View.VISIBLE);
-                            }
-                            if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
-                            mPage.overrideFab = false;
-                            currentlyEditingId = "";
-                            backedText = "";
-                            View view = ((Activity) mContext).getCurrentFocus();
-                            if (view != null) {
-                                InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                            }
-
-                            doOnClick(holder, baseNode, comment);
-
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_no, null)
-                    .show();
+            collapseEditingComment(holder, baseNode, comment);
 
         } else {
             if (isClicking) {
@@ -1768,56 +1745,106 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
             } else {
                 if (hiddenPersons.contains(comment.getFullName())) {
-                    hiddenPersons.remove(comment.getFullName());
-                    unhideAll(baseNode, holder.getAdapterPosition() + 1);
-
-                    if (toCollapse.contains(comment.getFullName())
-                            && SettingValues.collapseComments) {
-                        setViews(comment.getDataNode().get("body_html").asText(),
-                                submission.getSubredditName(), holder);
-                    }
-
-                    CommentAdapterHelper.hideChildrenObject(holder.childrenNumber);
-                    if (!holder.firstTextView.getText().toString().isEmpty()) {
-                        holder.firstTextView.setVisibility(View.VISIBLE);
-                    } else {
-                        holder.firstTextView.setVisibility(View.GONE);
-                    }
-                    holder.commentOverflow.setVisibility(View.VISIBLE);
-
-
-                    toCollapse.remove(comment.getFullName());
+                    unhideComments(holder, baseNode, comment);
 
                 } else {
-                    int childNumber = getChildNumber(baseNode);
-                    if (childNumber > 0) {
-                        hideAll(baseNode, holder.getAdapterPosition() + 1);
-                        if (!hiddenPersons.contains(comment.getFullName())) {
-                            hiddenPersons.add(comment.getFullName());
-                        }
-                        if (childNumber > 0) {
-                            CommentAdapterHelper.showChildrenObject(holder.childrenNumber);
-                            holder.childrenNumber.setText("+" + childNumber);
-                        }
-                    }
-                    toCollapse.add(comment.getFullName());
-                    if ((holder.firstTextView.getVisibility() == View.VISIBLE
-                            || holder.commentOverflow.getVisibility() == View.VISIBLE)
-                            && SettingValues.collapseComments) {
-                        holder.firstTextView.setVisibility(View.GONE);
-                        holder.commentOverflow.setVisibility(View.GONE);
-                    } else if (SettingValues.collapseComments) {
-                        if (!holder.firstTextView.getText().toString().isEmpty()) {
-                            holder.firstTextView.setVisibility(View.VISIBLE);
-                        } else {
-                            holder.firstTextView.setVisibility(View.GONE);
-                        }
-                        holder.commentOverflow.setVisibility(View.VISIBLE);
-                    }
+                    hideComments(holder, baseNode, comment);
                 }
                 clickpos = holder.getAdapterPosition() + 1;
             }
         }
+    }
+
+    private void hideComments(CommentViewHolder cvh, CommentNode cn, Comment c) {
+        final CommentNode node = (SettingValues.collapseParents
+            ? getTopParent(cn)
+            : cn);
+        final Comment comment = (SettingValues.collapseParents
+            ? node.getComment()
+            : c);
+        final CommentViewHolder holder = (SettingValues.collapseParents
+            ? topLevels.get(comment.getFullName())
+            : cvh);
+        int childNumber = getChildNumber(node);
+        if (childNumber > 0) {
+            hideAll(node, holder.getAdapterPosition() + 1);
+            if (!hiddenPersons.contains(comment.getFullName())) {
+                hiddenPersons.add(comment.getFullName());
+            }
+            if (childNumber > 0) {
+                CommentAdapterHelper.showChildrenObject(holder.childrenNumber);
+                holder.childrenNumber.setText("+" + childNumber);
+            }
+        }
+        toCollapse.add(comment.getFullName());
+        if ((holder.firstTextView.getVisibility() == View.VISIBLE
+                || holder.commentOverflow.getVisibility() == View.VISIBLE)
+                && SettingValues.collapseComments) {
+            holder.firstTextView.setVisibility(View.GONE);
+            holder.commentOverflow.setVisibility(View.GONE);
+        } else if (SettingValues.collapseComments) {
+            if (!holder.firstTextView.getText().toString().isEmpty()) {
+                holder.firstTextView.setVisibility(View.VISIBLE);
+            } else {
+                holder.firstTextView.setVisibility(View.GONE);
+            }
+            holder.commentOverflow.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void unhideComments(CommentViewHolder holder, CommentNode baseNode, Comment comment) {
+        hiddenPersons.remove(comment.getFullName());
+        unhideAll(baseNode, holder.getAdapterPosition() + 1);
+
+        if (toCollapse.contains(comment.getFullName())
+                && SettingValues.collapseComments) {
+            setViews(comment.getDataNode().get("body_html").asText(),
+                    submission.getSubredditName(), holder);
+        }
+
+        CommentAdapterHelper.hideChildrenObject(holder.childrenNumber);
+        if (!holder.firstTextView.getText().toString().isEmpty()) {
+            holder.firstTextView.setVisibility(View.VISIBLE);
+        } else {
+            holder.firstTextView.setVisibility(View.GONE);
+        }
+        holder.commentOverflow.setVisibility(View.VISIBLE);
+
+
+        toCollapse.remove(comment.getFullName());
+    }
+
+    private void collapseEditingComment(final CommentViewHolder holder, final CommentNode baseNode,
+            final Comment comment) {
+        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.discard_comment_title)
+                .setMessage(R.string.comment_discard_msg)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        currentlyEditing = null;
+                        editingPosition = -1;
+                        if (SettingValues.fastscroll) {
+                            mPage.fastScroll.setVisibility(View.VISIBLE);
+                        }
+                        if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
+                        mPage.overrideFab = false;
+                        currentlyEditingId = "";
+                        backedText = "";
+                        View view = ((Activity) mContext).getCurrentFocus();
+                        if (view != null) {
+                            InputMethodManager imm =
+                                    (InputMethodManager) mContext.getSystemService(
+                                            Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+
+                        doOnClick(holder, baseNode, comment);
+
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, null)
+                .show();
     }
 
     private int getChildNumber(CommentNode user) {
@@ -2434,5 +2461,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         Authentication.doVerify(token, reddit, true, mContext);
         return reddit;
+    }
+
+    private CommentNode getTopParent(CommentNode comment) {
+        if (comment.isTopLevel()) {
+            return comment;
+        }
+        return getTopParent(comment.getParent());
     }
 }

@@ -58,6 +58,7 @@ public class SettingValues {
     public static final String PREF_COMMENT_PAGER             = "commentPager";
     public static final String PREF_COLLAPSE_COMMENTS         = "collapseCOmments";
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
+    public static final String PREF_COLLAPSE_PARENTS          = "collapseParents";
     public static final String PREF_RIGHT_HANDED_COMMENT_MENU = "rightHandedCommentMenu";
     public static final String PREF_DUAL_PORTRAIT             = "dualPortrait";
     public static final String PREF_SINGLE_COLUMN_MULTI       = "singleColumnMultiWindow";
@@ -217,6 +218,7 @@ public class SettingValues {
     public static boolean colorIcon;
     public static boolean peek;
     public static boolean largeLinks;
+    public static boolean collapseParents;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -272,6 +274,7 @@ public class SettingValues {
         alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
+        collapseParents = prefs.getBoolean(PREF_COLLAPSE_PARENTS, false);
         rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
         commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
 

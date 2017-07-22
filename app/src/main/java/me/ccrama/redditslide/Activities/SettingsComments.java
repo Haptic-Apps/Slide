@@ -120,6 +120,17 @@ public class SettingsComments extends BaseActivityAnim {
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.collapse_parents);
+            single.setChecked(SettingValues.collapseParents);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.collapseParents = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_PARENTS, isChecked).apply();
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.collapse_comments_default);
             single.setChecked(SettingValues.collapseCommentsDefault);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
