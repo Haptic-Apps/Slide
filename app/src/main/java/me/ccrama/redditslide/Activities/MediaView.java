@@ -291,6 +291,10 @@ public class MediaView extends FullScreenActivity
                         if(contentUrl.endsWith("DASH_4_8_M")){
                             newUrl = contentUrl.replace("DASH_4_8_M", "");
                         }
+                        if(contentUrl.endsWith("DASH_9_6_M")){
+                            newUrl = contentUrl.replace("DASH_9_6_M", "");
+                        }
+
                         Intent i = new Intent(MediaView.this, Website.class);
                         i.putExtra(Website.EXTRA_URL, newUrl);
                         startActivity(i);
