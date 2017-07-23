@@ -234,12 +234,18 @@ public class GifUtils {
             }
             if (s.endsWith("/")) s = s.substring(0, s.length() - 1);
             if(s.endsWith("?r")) s = s.substring(0, s.length() - 2);
+            if(s.contains("v.redd.it") && !s.contains("DASH")){
+                if(s.endsWith("/")){
+                    s = s.substring(s.length() - 2);
+                }
+                s = s + "/DASH_4_8_M";
+            }
 
             return s;
         }
 
         public VideoType getVideoType(String url) {
-            if (url.contains(".mp4") || url.contains("webm") || url.contains("redditmedia.com")) return VideoType.DIRECT;
+            if (url.contains(".mp4") || url.contains("webm") || url.contains("redditmedia.com") || url.contains("v.redd.it")) return VideoType.DIRECT;
             if (url.contains("gfycat") && !url.contains("mp4")) return VideoType.GFYCAT;
             if (url.contains("imgur.com")) return VideoType.IMGUR;
             if (url.contains("vid.me")) return VideoType.VID_ME;

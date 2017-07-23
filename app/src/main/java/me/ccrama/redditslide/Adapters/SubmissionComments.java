@@ -181,6 +181,11 @@ public class SubmissionComments {
             args.put("limit", Integer.toString(request.getLimit()));
         if (request.getFocus() != null && request.getFocus().length() >= 3 && !JrawUtils.isFullname(request.getFocus()))
             args.put("comment", request.getFocus());
+        args.put("feature", "link_preview");
+        args.put("sr_detail", "true");
+        args.put("expand_srs", "true");
+        args.put("from_detail", "true");
+        args.put("always_show_media", "1");
 
 
         CommentSort sort = request.getSort();

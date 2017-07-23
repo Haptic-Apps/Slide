@@ -223,12 +223,14 @@ public class MediaView extends FullScreenActivity
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
         Drawable file = getResources().getDrawable(R.drawable.savecontent);
+        Drawable thread = getResources().getDrawable(R.drawable.commentchange);
 
         external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         file.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        thread.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -243,6 +245,7 @@ public class MediaView extends FullScreenActivity
                 && !contentUrl.contains(".mp4")
                 && !contentUrl.contains("streamable.com")
                 && !contentUrl.contains("gfycat.com")
+                && !contentUrl.contains("v.redd.it")
                 && !contentUrl.contains("vid.me")) {
             String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length())
                     .toUpperCase();
@@ -256,6 +259,10 @@ public class MediaView extends FullScreenActivity
                 e.printStackTrace();
             }
             b.sheet(6, file, getString(R.string.mediaview_save, type));
+
+        }
+        if(contentUrl.contains("v.redd.it")){
+            b.sheet(15, thread, "View video thread");
         }
         b.listener(new DialogInterface.OnClickListener() {
             @Override
@@ -277,6 +284,16 @@ public class MediaView extends FullScreenActivity
                     }
                     case (6): {
                         saveFile(contentUrl);
+                    }
+                    break;
+                    case (15): {
+                        String newUrl = contentUrl;
+                        if(contentUrl.endsWith("DASH_4_8_M")){
+                            newUrl = contentUrl.replace("DASH_4_8_M", "");
+                        }
+                        Intent i = new Intent(MediaView.this, Website.class);
+                        i.putExtra(Website.EXTRA_URL, newUrl);
+                        startActivity(i);
                     }
                     break;
                     case (9): {

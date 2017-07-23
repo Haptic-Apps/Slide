@@ -55,7 +55,6 @@ import net.dean.jraw.models.Thing;
 import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,7 +156,8 @@ public class PopulateSubmissionViewHolder {
                                     if (SettingValues.video) {
                                         Intent myIntent =
                                                 new Intent(contextActivity, MediaView.class);
-                                        myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+                                        myIntent.putExtra(MediaView.SUBREDDIT,
+                                                submission.getSubredditName());
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                         addAdaptorPosition(myIntent, submission,
                                                 holder.getAdapterPosition());
@@ -206,11 +206,13 @@ public class PopulateSubmissionViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, AlbumPager.class);
-                                            i.putExtra(AlbumPager.SUBREDDIT, submission.getSubredditName());
+                                            i.putExtra(AlbumPager.SUBREDDIT,
+                                                    submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
-                                            i.putExtra(Album.SUBREDDIT, submission.getSubredditName());
+                                            i.putExtra(Album.SUBREDDIT,
+                                                    submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
                                         addAdaptorPosition(i, submission,
@@ -228,11 +230,13 @@ public class PopulateSubmissionViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, TumblrPager.class);
-                                            i.putExtra(TumblrPager.SUBREDDIT, submission.getSubredditName());
+                                            i.putExtra(TumblrPager.SUBREDDIT,
+                                                    submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Tumblr.class);
-                                            i.putExtra(Tumblr.SUBREDDIT, submission.getSubredditName());
+                                            i.putExtra(Tumblr.SUBREDDIT,
+                                                    submission.getSubredditName());
                                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
                                         addAdaptorPosition(i, submission,
@@ -372,16 +376,38 @@ public class PopulateSubmissionViewHolder {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
 
-            if(submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).has("variants") &&submission.getDataNode().get("preview").get("images").get(0).get("variants").has("mp4")) {
-                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission.getDataNode()
-                        .get("preview")
-                        .get("images")
-                        .get(0)
-                        .get("variants")
-                        .get("mp4")
-                        .get("source")
-                        .get("url")
-                        .asText()).replace("&amp;", "&"));
+            if (submission.getDataNode().has("preview") && submission.getDataNode()
+                    .get("preview")
+                    .get("images")
+                    .get(0)
+                    .has("variants") && submission.getDataNode()
+                    .get("preview")
+                    .get("images")
+                    .get(0)
+                    .get("variants")
+                    .has("mp4")) {
+                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(
+                        submission.getDataNode()
+                                .get("preview")
+                                .get("images")
+                                .get(0)
+                                .get("variants")
+                                .get("mp4")
+                                .get("source")
+                                .get("url")
+                                .asText()).replace("&amp;", "&"));
+            } else if (submission.getDataNode().has("media") && submission.getDataNode()
+                    .get("media")
+                    .has("reddit_video") && submission.getDataNode()
+                    .get("media")
+                    .get("reddit_video")
+                    .has("fallback_url")) {
+                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(
+                        submission.getDataNode()
+                                .get("media")
+                                .get("reddit_video")
+                                .get("fallback_url")
+                                .asText()).replace("&amp;", "&"));
 
             } else {
                 myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
@@ -869,8 +895,10 @@ public class PopulateSubmissionViewHolder {
                                 })
                                 .title(R.string.report_post)
                                 .alwaysCallInputCallback()
-                                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                                .inputType(InputType.TYPE_CLASS_TEXT
+                                        | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                                        | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
                                 .onNegative(null)
@@ -895,13 +923,14 @@ public class PopulateSubmissionViewHolder {
                                                 if (holder.itemView != null) {
                                                     try {
                                                         Snackbar s = Snackbar.make(holder.itemView,
-                                                                R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+                                                                R.string.msg_report_sent,
+                                                                Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
                                                         TextView tv = (TextView) view.findViewById(
                                                                 android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
-                                                    } catch(Exception ignored){
+                                                    } catch (Exception ignored) {
 
                                                     }
                                                 }
@@ -2108,8 +2137,8 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onPostExecute(Boolean b) {
                 if (b) {
-                    Snackbar s =
-                            Snackbar.make(holder.itemView, "Spoiler status set", Snackbar.LENGTH_LONG);
+                    Snackbar s = Snackbar.make(holder.itemView, "Spoiler status set",
+                            Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -2413,8 +2442,10 @@ public class PopulateSubmissionViewHolder {
         holder.title.setText(SubmissionCache.getTitleLine(submission,
                 mContext)); // title is a spoil roboto textview so it will format the html
 
-        if (!offline && UserSubscriptions.modOf != null && submission.getSubredditName() != null &&  UserSubscriptions.modOf.contains(
-                submission.getSubredditName().toLowerCase())) {
+        if (!offline
+                && UserSubscriptions.modOf != null
+                && submission.getSubredditName() != null
+                && UserSubscriptions.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
@@ -2553,8 +2584,9 @@ public class PopulateSubmissionViewHolder {
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
-        if(submissionScore >= 10000 && SettingValues.abbreviateScores) {
-            holder.score.setText(String.format(Locale.getDefault(), "%.1fk",(((double)submissionScore)/1000)));
+        if (submissionScore >= 10000 && SettingValues.abbreviateScores) {
+            holder.score.setText(String.format(Locale.getDefault(), "%.1fk",
+                    (((double) submissionScore) / 1000)));
         } else {
             holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
         }
@@ -2706,7 +2738,8 @@ public class PopulateSubmissionViewHolder {
                 holder.firstTextView.setTypeface(typeface);
 
                 setViews(submission.getDataNode().get("selftext_html").asText(),
-                        submission.getSubredditName() == null ? "all" : submission.getSubredditName(), holder);
+                        submission.getSubredditName() == null ? "all"
+                                : submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
@@ -2908,7 +2941,7 @@ public class PopulateSubmissionViewHolder {
                                 b.sheet(1, edit_drawable,
                                         mContext.getString(R.string.edit_selftext));
                             }
-                            if(submission.isNsfw()){
+                            if (submission.isNsfw()) {
                                 b.sheet(4, nsfw_drawable,
                                         mContext.getString(R.string.mod_btn_unmark_nsfw));
                             } else {
@@ -3300,7 +3333,8 @@ public class PopulateSubmissionViewHolder {
                                                 unNsfwSubmission(mContext, submission, holder);
                                             } else {
                                                 setPostNsfw(mContext, submission, holder);
-                                            }                                            break;
+                                            }
+                                            break;
                                     }
                                 }
                             }).show();
@@ -3351,8 +3385,9 @@ public class PopulateSubmissionViewHolder {
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
-        if(submissionScore >= 10000 && SettingValues.abbreviateScores) {
-            holder.score.setText(String.format(Locale.getDefault(), "%.1fk",(((double)submissionScore)/1000)));
+        if (submissionScore >= 10000 && SettingValues.abbreviateScores) {
+            holder.score.setText(String.format(Locale.getDefault(), "%.1fk",
+                    (((double) submissionScore) / 1000)));
         } else {
             holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
         }
