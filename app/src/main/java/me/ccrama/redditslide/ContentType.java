@@ -45,7 +45,7 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return hostContains(host, "gfycat.com") || hostContains(host, "v.reddit.com") || path.endsWith(".gif") || path.endsWith(
+            return hostContains(host, "gfycat.com") || hostContains(host, "v.reddit.com") || hostContains(host, "v.redd.it") || path.endsWith(".gif") || path.endsWith(
                     ".gifv") || path.endsWith(".webm") || path.endsWith(".mp4");
 
         } catch (NullPointerException e) {

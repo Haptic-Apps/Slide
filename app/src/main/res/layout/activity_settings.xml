@@ -416,7 +416,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/settings_reddit_prefs"
+                        android:text="@string/content_settings"
                         android:textColor="?attr/font"
                         android:textSize="14sp" />
                 </LinearLayout>

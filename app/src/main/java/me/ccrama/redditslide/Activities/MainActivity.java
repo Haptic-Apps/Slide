@@ -1059,6 +1059,12 @@ public class MainActivity extends BaseActivity
             }
         }
         boolean first = false;
+        if (Reddit.colors != null && !Reddit.colors.contains("firstStart53")) {
+            new AlertDialogWrapper.Builder(this).setTitle("Content settings have moved!")
+                    .setMessage("NSFW content is now disabled by default. If you are over the age of 18, to re-enable NSFW content, visit Settings > Content settings")
+                    .setPositiveButton(R.string.btn_ok, null).setCancelable(false).show();
+            Reddit.colors.edit().putBoolean("firstStart53", true).apply();
+        }
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
             if (Reddit.appRestart == null) {
@@ -4869,13 +4875,9 @@ public class MainActivity extends BaseActivity
                         return null;
                     }
                     Authentication.mod = me.isMod();
-                    Reddit.over18 = me.isOver18();
 
                     Authentication.authentication.edit()
                             .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
-                            .apply();
-                    Authentication.authentication.edit()
-                            .putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18)
                             .apply();
 
                     if (Reddit.notificationTime != -1) {

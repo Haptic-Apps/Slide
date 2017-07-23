@@ -159,7 +159,6 @@ public class Authentication {
                                 if (me == null) {
                                     me = reddit.me();
                                 }
-                                Reddit.over18 = me.isOver18();
                                 Authentication.isLoggedIn = true;
 
                             }

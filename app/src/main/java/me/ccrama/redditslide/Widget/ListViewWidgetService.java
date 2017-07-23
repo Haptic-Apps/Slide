@@ -71,13 +71,9 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         new Authentication(mContext.getApplicationContext());
                         Authentication.me = Authentication.reddit.me();
                         Authentication.mod = Authentication.me.isMod();
-                        Reddit.over18 = Authentication.me.isOver18();
 
                         Authentication.authentication.edit()
                                 .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
-                                .apply();
-                        Authentication.authentication.edit()
-                                .putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18)
                                 .apply();
 
                         if (Reddit.notificationTime != -1) {

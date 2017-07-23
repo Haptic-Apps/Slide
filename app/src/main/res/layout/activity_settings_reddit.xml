@@ -118,51 +118,6 @@
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
-                android:id="@+id/contentThumbnailsHeader"
-                android:text="@string/content_thumbnails"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="16dp"
-                android:layout_width="match_parent"
-                android:textColor="?attr/colorAccent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:gravity="center_vertical"
-                android:id="@+id/thumbmode"
-                android:orientation="horizontal"
-                android:background="?android:selectableItemBackground"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_reddit_thumbnail_mode"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:id="@+id/thumbtext"
-                        android:text="@string/settings_general_swipeanywhere_description"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body2"
                 android:id="@+id/redditPrefsHeader"
                 android:text="@string/view_reddit_settings"
                 android:paddingStart="16dp"

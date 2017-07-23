@@ -146,7 +146,7 @@ public class PostMatch {
             if (nsfw) {
                 contentMatch = true;
             }
-            if (!Reddit.over18 && !ignore18) {
+            if (!SettingValues.hideNSFWContent && !ignore18) {
                 contentMatch = true;
             }
         }

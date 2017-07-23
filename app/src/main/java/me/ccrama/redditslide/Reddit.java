@@ -80,7 +80,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static final long   enter_animation_time_original = 600;
     public static final String PREF_LAYOUT                   = "PRESET";
     public static final String SHARED_PREF_IS_MOD            = "is_mod";
-    public static final String SHARED_PREF_IS_OVER_18        = "is_over_18";
 
     public static IabHelper mHelper;
     public static       SubmissionSearchPaginator.SearchSort search                          =
@@ -109,7 +108,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int                currentPosition;
     public static SharedPreferences  cachedData;
     public static final boolean noGapps = true; //for testing
-    public static       boolean over18  = true;
     public static boolean            overrideLanguage;
     public static boolean            isRestarting;
     public static AutoCacheScheduler autoCache;

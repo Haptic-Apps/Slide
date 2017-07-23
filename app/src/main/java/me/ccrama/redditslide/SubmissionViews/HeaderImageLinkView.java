@@ -34,6 +34,7 @@ import net.dean.jraw.models.Submission;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -223,7 +224,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         ContextCompat.getDrawable(getContext(), R.drawable.web));
                 thumbUsed = true;
             } else if (submission.isNsfw()
-                    && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) {
+                    && SettingValues.hideNSFWPreviews) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -424,7 +425,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             } else if (!thumbnail.isNull()
                     && submission.getThumbnail() != null
                     && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!thumbnail
-                    .isNull() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW))) {
+                    .isNull() && submission.isNsfw() && SettingValues.hideNSFWPreviews))) {
 
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
