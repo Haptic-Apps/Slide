@@ -29,8 +29,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
@@ -301,7 +306,7 @@ public class CommentCacheAsync extends AsyncTask {
         for (final String fSub : subs) {
             final String sub;
             final String name = fSub;
-            CommentSort sortType = SettingValues.getCommentSorting(name);
+            final CommentSort sortType = SettingValues.getCommentSorting(name);
 
             if (multiNameToSubsMap.containsKey(fSub)) {
                 sub = multiNameToSubsMap.get(fSub);
@@ -340,21 +345,44 @@ public class CommentCacheAsync extends AsyncTask {
                     }
                 }
 
-                int commentDepth = Integer.valueOf(
+                final int commentDepth = Integer.valueOf(
                         SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "5"));
-                int commentCount = Integer.valueOf(
+                final int commentCount = Integer.valueOf(
                         SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "50"));
 
                 Log.v("CommentCacheAsync", "comment count " + commentCount);
                 int random = (int) (Math.random() * 100);
 
-                for (final Submission s : submissions) {
+                // Fetch all posts' comments concurrently in a thread pool
+                final BlockingQueue<Submission> submissionsFetched = new ArrayBlockingQueue<Submission>(200);
+                final ConcurrentHashMap<Submission, JsonNode> commentFetchResults = new ConcurrentHashMap<>();
+                final ThreadPoolExecutor commentFetchPool = new ThreadPoolExecutor(20, 50, 50,
+                        TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(200));
+                for(final Submission s: submissions) {
+                    commentFetchPool.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            final JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).limit(commentCount)
+                                    .depth(commentDepth)
+                                    .sort(sortType)
+                                    .build());
+                            commentFetchResults.put(s, n);
+                            try {
+                                submissionsFetched.put(s);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
+                while(true) {
                     try {
-                        JsonNode n = getSubmission(
-                                new SubmissionRequest.Builder(s.getId()).limit(commentCount)
-                                        .depth(commentDepth)
-                                        .sort(sortType)
-                                        .build());
+                        final Submission s = submissionsFetched.poll(2, TimeUnit.SECONDS);
+                        if (s == null) {
+                            break;
+                        }
+                        final JsonNode n = commentFetchResults.get(s);
                         Submission s2 =
                                 SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
                         OfflineSubreddit.writeSubmission(n, s2, context);
@@ -362,35 +390,32 @@ public class CommentCacheAsync extends AsyncTask {
                         if (!SettingValues.noImages) loadPhotos(s, context);
                         switch (ContentType.getContentType(s)) {
                             case GIF:
-                                if (otherChoices[0]) {
-                                    if (context instanceof Activity) {
-                                        ((Activity) context).runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ExecutorService service =
-                                                        Executors.newSingleThreadExecutor();
-                                                new GifUtils.AsyncLoadGif().executeOnExecutor(
-                                                        service, s.getUrl());
-                                            }
-                                        });
-                                    }
+                                if (otherChoices != null && otherChoices[0] && context instanceof Activity) {
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ExecutorService service =
+                                                    Executors.newSingleThreadExecutor();
+                                            new GifUtils.AsyncLoadGif().executeOnExecutor(service, s.getUrl());
+                                        }
+                                    });
                                 }
                                 break;
                             case ALBUM:
-                                if (otherChoices[1])
+                                if (otherChoices != null && otherChoices[1])
                                 //todo this AlbumUtils.saveAlbumToCache(context, s.getUrl());
                                 {
                                     break;
                                 }
                         }
-                    } catch (Exception ignored) {
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                     count = count + 1;
                     if (mBuilder != null) {
                         mBuilder.setProgress(submissions.size(), count, false);
                         mNotifyManager.notify(random, mBuilder.build());
                     }
-
                 }
 
                 OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
@@ -407,7 +432,6 @@ public class CommentCacheAsync extends AsyncTask {
             mBuilder.setOngoing(false);
             mNotifyManager.notify(2001, mBuilder.build());
         }
-
         return null;
     }
 
@@ -431,7 +455,7 @@ public class CommentCacheAsync extends AsyncTask {
         args.put("sort", sort.name().toLowerCase());
 
         try {
-
+            // TODO: Remove whatever locks are causing this function to run serially
             RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
                     .path(String.format("/comments/%s", request.getId()))
                     .query(args)
