@@ -48,7 +48,6 @@ section#features {
 .screenshots-container {
   white-space: nowrap;
   overflow-x: auto;
-  padding-left: calc(50% - 120px);
 }
 
 .grid-block {
@@ -164,6 +163,20 @@ section#features {
   }
 }
 
+#architectureSection .mdl-card .mdl-card__title {
+  padding-bottom: 0;
+}
+
 p {
   font-size: 16px;
+}
+
+#changelogSub h1,
+#changelogSub h2,
+#changelogSub h3,
+#changelogSub h4 {
+  font-size: 1em;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
 }

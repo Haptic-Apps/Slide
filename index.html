@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <title>Slide for Reddit &bull; Haptic Apps</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#f1f1f1">
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="favicon.png">
+
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700|Roboto+Mono:400i' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="lib/material.min.css" media="screen">
     <script src="lib/material.min.js"></script>
+    <script src="lib/marked.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="icon" href="favicon.ico">
-    <link rel="icon" href="favicon.png">
+
+    <script src="scripts/logchanger.js"></script>
   </head>
   <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -117,7 +122,7 @@
               <div class="mdl-card__title">
                 <h2 class="mdl-card__title-text">Changelog</h2>
               </div>
-              <div class="mdl-card__supporting-text">
+              <div class="mdl-card__supporting-text" id="changelogSub">
                 Please refer to the changelog.
               </div>
               <div class="mdl-card__actions mdl-card--border">
