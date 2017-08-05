@@ -182,9 +182,11 @@ section#features {
     padding-left: 72px;
     padding-right: 72px;
   }
+
   #architectureSection {
     flex-direction: row;
   }
+
   #architectureSection .mdl-card:not(:last-child) {
     margin-bottom: 0;
     margin-right: 16px;
