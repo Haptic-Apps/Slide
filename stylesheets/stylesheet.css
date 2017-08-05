@@ -66,6 +66,11 @@ section#features {
   width: 100%
 }
 
+.features__row {
+  display: flex;
+  flex-direction: column;
+}
+
 .grid-block picture img {
   width: 100%;
 }
@@ -79,8 +84,12 @@ section#features {
 }
 
 .screenshots-container::-webkit-scrollbar {
+  height: 4px;
+  background-color: transparent;
+}
+
+.screenshots-container::-webkit-scrollbar:hover {
   height: 8px;
-  background-color:transparent;
 }
 
 .screenshots-container::-webkit-scrollbar-thumb {
@@ -150,6 +159,25 @@ section#features {
   .grid-block h2, .grid-block p {
     text-align: left;
   }
+
+  .features__row {
+    flex-direction: row;
+    margin-top: 16px;
+  }
+
+  .features__row h3 {
+    width: 300px;
+    flex-shrink: 0;
+    text-align: left;
+    margin-top: 0;
+    padding-right: 16px;
+  }
+
+  .features__row p {
+    flex-grow: 1;
+    text-align: left;
+  }
+
   .mdl-mini-footer {
     padding-left: 72px;
     padding-right: 72px;
