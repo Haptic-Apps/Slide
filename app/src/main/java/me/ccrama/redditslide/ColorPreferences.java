@@ -471,6 +471,16 @@ public class ColorPreferences {
         };
     }
 
+    public static int getNumColorsFromThemeType(int themeType) {
+        int num = 0;
+        for (Theme theme : Theme.values()) {
+            if (themeType == theme.getThemeType()) {
+                num++;
+            }
+        }
+        return num;
+    }
+
     protected SharedPreferences open() {
         return context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
     }

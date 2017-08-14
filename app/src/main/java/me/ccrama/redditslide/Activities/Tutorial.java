@@ -220,7 +220,7 @@ public class Tutorial extends AppCompatActivity {
 
                     final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
-                    int[] arrs = new int[ColorPreferences.Theme.values().length / 7];
+                    int[] arrs = new int[ColorPreferences.getNumColorsFromThemeType(0)];
                     int i = 0;
                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                         if (type.getThemeType() == 0) {
