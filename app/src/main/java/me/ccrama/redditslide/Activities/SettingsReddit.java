@@ -30,12 +30,12 @@ public class SettingsReddit extends BaseActivityAnim {
         setupAppBar(R.id.toolbar, R.string.settings_reddit_prefs, true, true);
         {
         final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.nsfwcontent);
-        thumbnails.setChecked(SettingValues.hideNSFWContent);
+        thumbnails.setChecked(SettingValues.showNSFWContent);
 
         thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.hideNSFWContent = isChecked;
+                SettingValues.showNSFWContent = isChecked;
                 Settings.changed = true;
 
                 if (isChecked) {
