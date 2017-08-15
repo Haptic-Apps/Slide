@@ -318,7 +318,7 @@ public class SettingValues {
         customtabs = prefs.getBoolean(PREF_CUSTOMTABS, false);
         storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
         upvotePercentage = prefs.getBoolean(PREF_UPVOTE_PERCENTAGE, false);
-        storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, true);
+        storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, false);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");

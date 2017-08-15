@@ -213,7 +213,8 @@ public class HeaderImageLinkView extends RelativeLayout {
                 thumbnailType = Submission.ThumbnailType.NONE;
             }
 
-            if(!SettingValues.ignoreSubSetting && !submission.getDataNode().get("sr_detail").get("show_media").asBoolean()){
+            JsonNode node = submission.getDataNode();
+            if(!SettingValues.ignoreSubSetting && node.has("sr_detail") && node.get("sr_detail").has("show_media") && !node.get("sr_detail").get("show_media").asBoolean()){
                 thumbnailType = Submission.ThumbnailType.NONE;
             }
 
