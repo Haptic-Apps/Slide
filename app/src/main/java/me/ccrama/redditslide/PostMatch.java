@@ -7,6 +7,8 @@ import net.dean.jraw.models.Submission;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * Created by carlo_000 on 1/13/2016.
  */
@@ -146,7 +148,7 @@ public class PostMatch {
             if (nsfw) {
                 contentMatch = true;
             }
-            if (!SettingValues.hideNSFWContent && !ignore18) {
+            if (SettingValues.hideNSFWContent && !ignore18) {
                 contentMatch = true;
             }
         }

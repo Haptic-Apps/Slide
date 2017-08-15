@@ -23,10 +23,14 @@ android {
         versionName androidGitVersion.name()
     }
 
+    flavorDimensions "release"
+
     productFlavors {
         withGPlay {
+            dimension "release"
         }
         noGPlay {
+            dimension "release"
         }
     }
 

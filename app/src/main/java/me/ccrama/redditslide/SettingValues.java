@@ -85,6 +85,8 @@ public class SettingValues {
     public static final String PREF_NIGHT_END                 = "nightEnd";
     public static final String PREF_HIDE_NSFW_CONTENT = "hideNSFWContent";
     public static final String PREF_HIDE_NSFW_PREVIEW = "hideNSFWPreviews";
+    public static final String PREF_HIDE_NSFW_COLLECTION = "hideNSFWPreviewsCollection";
+    public static final String PREF_IGNORE_SUB_SETTINGS = "ignoreSub";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
@@ -185,6 +187,8 @@ public class SettingValues {
     public static String  flairFilters;
     public static String  alwaysExternal;
     public static boolean loadImageLq;
+    public static boolean ignoreSubSetting;
+    public static boolean hideNSFWCollection;
 
     public static boolean fastscroll;
     public static boolean fab     = true;
@@ -239,7 +243,9 @@ public class SettingValues {
         timePeriod = TimePeriod.valueOf(settings.getString("timePeriod", "DAY"));
         defaultCommentSorting =
                 CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
-        hideNSFWContent = prefs.getBoolean(PREF_HIDE_NSFW_CONTENT, false);
+        hideNSFWContent = prefs.getBoolean(PREF_HIDE_NSFW_CONTENT, true);
+        hideNSFWCollection = prefs.getBoolean(PREF_HIDE_NSFW_COLLECTION, true);
+        ignoreSubSetting = prefs.getBoolean(PREF_IGNORE_SUB_SETTINGS, false);
 
         single = prefs.getBoolean(PREF_SINGLE, false);
         readerNight = prefs.getBoolean(PREF_READER_NIGHT, false);

@@ -41,11 +41,21 @@ public class SettingsReddit extends BaseActivityAnim {
                 if (isChecked) {
                     (findViewById(R.id.nsfwrpev)).setEnabled(true);
                     findViewById(R.id.nsfwrpev_text).setAlpha(1f);
-                    ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(true);
+                    ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(SettingValues.hideNSFWPreviews);
+
+                    (findViewById(R.id.nsfwcollection)).setEnabled(true);
+                    findViewById(R.id.nsfwcollection_text).setAlpha(1f);
+                    ((SwitchCompat) findViewById(R.id.nsfwcollection)).setChecked(SettingValues.hideNSFWCollection);
+
                 } else {
-                    ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(true);
+                    ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(false);
                     (findViewById(R.id.nsfwrpev)).setEnabled(false);
                     findViewById(R.id.nsfwrpev_text).setAlpha(0.25f);
+
+                    ((SwitchCompat) findViewById(R.id.nsfwcollection)).setChecked(false);
+                    (findViewById(R.id.nsfwcollection)).setEnabled(false);
+                    findViewById(R.id.nsfwcollection_text).setAlpha(0.25f);
+
                 }
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_CONTENT, isChecked).apply();
             }
@@ -71,6 +81,41 @@ public class SettingsReddit extends BaseActivityAnim {
             }
         });
     }
+        {
+            final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.nsfwcollection);
+
+            if (!((SwitchCompat) findViewById(R.id.nsfwcontent)).isChecked()) {
+                thumbnails.setChecked(true);
+                thumbnails.setEnabled(false);
+                findViewById(R.id.nsfwcollection_text).setAlpha(0.25f);
+            } else {
+                thumbnails.setChecked(SettingValues.hideNSFWCollection);
+            }
+
+            thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Settings.changed = true;
+                    SettingValues.hideNSFWCollection = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_COLLECTION, isChecked).apply();
+                }
+            });
+        }
+
+        {
+            final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.ignorepref);
+
+                thumbnails.setChecked(SettingValues.ignoreSubSetting);
+
+            thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Settings.changed = true;
+                    SettingValues.ignoreSubSetting = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IGNORE_SUB_SETTINGS, isChecked).apply();
+                }
+            });
+        }
         findViewById(R.id.viewRedditPrefs).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

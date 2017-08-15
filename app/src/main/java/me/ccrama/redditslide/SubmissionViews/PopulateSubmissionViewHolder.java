@@ -103,6 +103,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
@@ -376,7 +377,9 @@ public class PopulateSubmissionViewHolder {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
 
-            if (submission.getDataNode().has("preview") && submission.getDataNode()
+            GifUtils.AsyncLoadGif.VideoType t = GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
+
+            if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT && submission.getDataNode().has("preview") && submission.getDataNode()
                     .get("preview")
                     .get("images")
                     .get(0)
@@ -396,7 +399,7 @@ public class PopulateSubmissionViewHolder {
                                 .get("source")
                                 .get("url")
                                 .asText()).replace("&amp;", "&"));
-            } else if (submission.getDataNode().has("media") && submission.getDataNode()
+            } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT && submission.getDataNode().has("media") && submission.getDataNode()
                     .get("media")
                     .has("reddit_video") && submission.getDataNode()
                     .get("media")

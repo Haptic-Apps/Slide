@@ -244,7 +244,7 @@ public class GifUtils {
             return s;
         }
 
-        public VideoType getVideoType(String url) {
+        public static VideoType getVideoType(String url) {
             if (url.contains(".mp4") || url.contains("webm") || url.contains("redditmedia.com") || url.contains("v.redd.it")) return VideoType.DIRECT;
             if (url.contains("gfycat") && !url.contains("mp4")) return VideoType.GFYCAT;
             if (url.contains("imgur.com")) return VideoType.IMGUR;
