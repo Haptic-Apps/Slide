@@ -296,7 +296,7 @@ public class Submit extends BaseActivity {
                 tedBottomPicker.show(getSupportFragmentManager());
                 InputMethodManager imm =
                         (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(findViewById(R.id.selImage).getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(findViewById(R.id.bodytext).getWindowToken(), 0);
             }
         });
 
