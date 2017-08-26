@@ -147,43 +147,47 @@ public class Inbox extends BaseActivityAnim {
                     if (Authentication.reddit == null) {
                         new Authentication(getApplicationContext());
                     }
-                    Authentication.me = Authentication.reddit.me();
-                    Authentication.mod = Authentication.me.isMod();
 
-                    Authentication.authentication.edit()
-                            .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
-                            .apply();
+                    try {
+                        Authentication.me = Authentication.reddit.me();
+                        Authentication.mod = Authentication.me.isMod();
 
-                    if (Reddit.notificationTime != -1) {
-                        Reddit.notifications = new NotificationJobScheduler(Inbox.this);
-                        Reddit.notifications.start(getApplicationContext());
-                    }
+                        Authentication.authentication.edit()
+                                .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
+                                .apply();
 
-                    if (Reddit.cachedData.contains("toCache")) {
-                        Reddit.autoCache = new AutoCacheScheduler(Inbox.this);
-                        Reddit.autoCache.start(getApplicationContext());
-                    }
-
-                    final String name = Authentication.me.getFullName();
-                    Authentication.name = name;
-                    LogUtil.v("AUTHENTICATED");
-                    UserSubscriptions.doCachedModSubs();
-
-                    if (Authentication.reddit.isAuthenticated()) {
-                        final Set<String> accounts =
-                                Authentication.authentication.getStringSet("accounts",
-                                        new HashSet<String>());
-                        if (accounts.contains(name)) { //convert to new system
-                            accounts.remove(name);
-                            accounts.add(name + ":" + Authentication.refresh);
-                            Authentication.authentication.edit()
-                                    .putStringSet("accounts", accounts)
-                                    .apply(); //force commit
+                        if (Reddit.notificationTime != -1) {
+                            Reddit.notifications = new NotificationJobScheduler(Inbox.this);
+                            Reddit.notifications.start(getApplicationContext());
                         }
-                        Authentication.isLoggedIn = true;
-                        Reddit.notFirst = true;
-                    }
 
+                        if (Reddit.cachedData.contains("toCache")) {
+                            Reddit.autoCache = new AutoCacheScheduler(Inbox.this);
+                            Reddit.autoCache.start(getApplicationContext());
+                        }
+
+                        final String name = Authentication.me.getFullName();
+                        Authentication.name = name;
+                        LogUtil.v("AUTHENTICATED");
+                        UserSubscriptions.doCachedModSubs();
+
+                        if (Authentication.reddit.isAuthenticated()) {
+                            final Set<String> accounts =
+                                    Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                            if (accounts.contains(name)) { //convert to new system
+                                accounts.remove(name);
+                                accounts.add(name + ":" + Authentication.refresh);
+                                Authentication.authentication.edit()
+                                        .putStringSet("accounts", accounts)
+                                        .apply(); //force commit
+                            }
+                            Authentication.isLoggedIn = true;
+                            Reddit.notFirst = true;
+                        }
+
+                    } catch (Exception ignored){
+
+                    }
                     return null;
                 }
             }.execute();

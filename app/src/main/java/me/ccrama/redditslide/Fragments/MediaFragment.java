@@ -92,6 +92,7 @@ public class MediaFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         LogUtil.v("Destroying");
+        if(rootView.findViewById(R.id.submission_image) != null)
         ((SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image)).recycle();
     }
 

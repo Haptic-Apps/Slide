@@ -17,8 +17,8 @@ android {
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 280
+        targetSdkVersion 26
+        versionCode 281
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
@@ -63,7 +63,7 @@ android {
 }
 
 ext {
-    supportLibVersion = '25.3.0'
+    supportLibVersion = '26.0.1'
     robolectricVersion = '3.3.1'
 }
 dependencies {
