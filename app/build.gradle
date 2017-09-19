@@ -3,10 +3,11 @@ plugins {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.devspark.robototextview.gradle-plugin'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
     lintOptions {
         quiet true
         abortOnError false
@@ -62,8 +63,21 @@ android {
 
 }
 
+robototextview {
+    include "RobotoSlab-Light",
+            "RobotoSlab",
+            "RobotoCondensed-Light",
+            "RobotoCondensed",
+            "Roboto-Light",
+            "Roboto",
+            "Roboto-Bold",
+            "Roboto-Medium",
+            "RobotoCondensed-Bold"
+    log = true
+}
+
 ext {
-    supportLibVersion = '26.0.1'
+    supportLibVersion = '26.1.0'
     robolectricVersion = '3.3.1'
 }
 dependencies {
@@ -80,7 +94,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
     compile "com.android.support:support-v13:$supportLibVersion"
     compile "com.android.support:cardview-v7:$supportLibVersion"
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.2'
     withGPlayCompile 'com.google.android.gms:play-services-drive:10.2.0'
     compile 'com.github.rey5137:material:1.2.4'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
@@ -90,7 +104,7 @@ dependencies {
     compile 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'jp.wasabeef:blurry:2.1.0'
-    compile 'com.github.ccrama:Android-RobotoTextView:28b71bcd9c'
+    compile 'com.github.johnkil.android-robototextview:robototextview:4.0.0'
     // ↑ minor
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.getbase:floatingactionbutton:1.10.1'

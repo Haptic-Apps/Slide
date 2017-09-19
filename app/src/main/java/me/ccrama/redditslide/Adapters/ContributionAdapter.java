@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
@@ -410,7 +410,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
             Typeface typeface;
             if (type >= 0) {
-                typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+                typeface = RobotoTypefaces.obtainTypeface(mContext, type);
             } else {
                 typeface = Typeface.DEFAULT;
             }

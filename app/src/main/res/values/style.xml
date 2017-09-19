@@ -185,7 +185,7 @@
         <item name="md_background_color">#000000</item>
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="font_color">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -201,7 +201,7 @@
         <item name="md_background_color">#121212</item>
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="font_color">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -215,7 +215,7 @@
         <item name="card_background">#303030</item>
         <item name="list_background">#212121</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="font_color">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -231,7 +231,7 @@
         <item name="md_background_color">#37474F</item>
         <item name="list_background">#263238</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="font_color">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -247,7 +247,7 @@
         <item name="md_background_color">#2d2d2d</item>
         <item name="list_background">#3a3a3a</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.PIXEL</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="font_color">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -263,7 +263,7 @@
         <item name="md_background_color">#402c2c</item>
         <item name="list_background">#261a1a</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Night_Red</item>
-        <item name="font">#defff7ed</item> <!-- 87% white -->
+        <item name="font_color">#defff7ed</item> <!-- 87% white -->
         <item name="tint">#8affebcf</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -279,7 +279,7 @@
         <item name="android:colorBackground">#e2dfd7</item>
         <item name="md_background_color">#e2dfd7</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>
-        <item name="font">#de3e3d36</item> <!-- 87% black -->
+        <item name="font_color">#de3e3d36</item> <!-- 87% black -->
         <item name="tint">#8A3e3d36</item> <!-- 54% black -->
         <item name="android:textColorPrimary">#DE3e3d36</item> <!-- 87% black -->
         <item name="android:textColorSecondary">#8A3e3d36</item> <!-- 54% black -->
@@ -298,7 +298,7 @@
         <item name="card_background">#FFFFFF</item>
         <item name="list_background">#e5e5e5</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
-        <item name="font">#DE000000</item> <!-- 87% black -->
+        <item name="font_color">#DE000000</item> <!-- 87% black -->
         <item name="tint">#8A000000</item> <!-- 54% black -->
         <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
         <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->

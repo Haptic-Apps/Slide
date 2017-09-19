@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -586,7 +586,7 @@ public class AlbumPager extends FullScreenActivity
                         int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
                         Typeface typeface;
                         if (type >= 0) {
-                            typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
+                            typeface = RobotoTypefaces.obtainTypeface(getContext(), type);
                         } else {
                             typeface = Typeface.DEFAULT;
                         }
@@ -597,7 +597,7 @@ public class AlbumPager extends FullScreenActivity
                         int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
                         Typeface typeface;
                         if (type >= 0) {
-                            typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
+                            typeface = RobotoTypefaces.obtainTypeface(getContext(), type);
                         } else {
                             typeface = Typeface.DEFAULT;
                         }

@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
@@ -231,7 +231,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
         Typeface typeface;
         if (type >= 0) {
-            typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+            typeface = RobotoTypefaces.obtainTypeface(mContext, type);
         } else {
             typeface = Typeface.DEFAULT;
         }

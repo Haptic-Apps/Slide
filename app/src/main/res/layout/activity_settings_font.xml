@@ -202,7 +202,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_regular"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_regular"/>
+                        app:robotoTypeface="roboto_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/cslab"
@@ -211,7 +211,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_slab"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_slab_regular"/>
+                        app:robotoTypeface="roboto_slab_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/ccond"
@@ -220,7 +220,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_condensed"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_condensed_regular"/>
+                        app:robotoTypeface="roboto_condensed_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/clight"
@@ -229,7 +229,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_light"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_light"/>
+                        app:robotoTypeface="roboto_light"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/cnone"
@@ -327,7 +327,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_regular"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_regular"/>
+                        app:robotoTypeface="roboto_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/sbold"
@@ -336,7 +336,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_bold"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_bold"/>
+                        app:robotoTypeface="roboto_bold"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/smed"
@@ -345,7 +345,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_medium"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_medium"/>
+                        app:robotoTypeface="roboto_medium"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/sregl"
@@ -354,7 +354,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_light"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_light"/>
+                        app:robotoTypeface="roboto_light"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/sslab"
@@ -363,7 +363,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_slab"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_slab_regular"/>
+                        app:robotoTypeface="roboto_slab_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/sslabl"
@@ -372,7 +372,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_slab_light"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_slab_light"/>
+                        app:robotoTypeface="roboto_slab_light"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/scond"
@@ -381,7 +381,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_condensed"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_condensed_regular"/>
+                        app:robotoTypeface="roboto_condensed_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/scondl"
@@ -390,7 +390,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_condensed_light"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_condensed_light"/>
+                        app:robotoTypeface="roboto_condensed_light"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/scondb"
@@ -399,7 +399,7 @@
                         android:background="?android:selectableItemBackground"
                         android:text="@string/settings_font_condensed_bold"
                         android:textColor="?attr/font"
-                        app:typeface="roboto_condensed_bold"/>
+                        app:robotoTypeface="roboto_condensed_bold"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                         android:id="@+id/snone"
