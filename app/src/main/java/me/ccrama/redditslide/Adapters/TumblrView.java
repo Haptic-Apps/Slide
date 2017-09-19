@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -25,11 +24,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Tumblr;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -134,7 +131,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int type = new FontPreferences(holder.body.getContext()).getFontTypeComment().getTypeface();
                 Typeface typeface;
                 if (type >= 0) {
-                    typeface = RobotoTypefaceManager.obtainTypeface(holder.body.getContext(), type);
+                    typeface = RobotoTypefaces.obtainTypeface(holder.body.getContext(), type);
                 } else {
                     typeface = Typeface.DEFAULT;
                 }
@@ -144,7 +141,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int type = new FontPreferences(holder.body.getContext()).getFontTypeTitle().getTypeface();
                 Typeface typeface;
                 if (type >= 0) {
-                    typeface = RobotoTypefaceManager.obtainTypeface(holder.body.getContext(), type);
+                    typeface = RobotoTypefaces.obtainTypeface(holder.body.getContext(), type);
                 } else {
                     typeface = Typeface.DEFAULT;
                 }

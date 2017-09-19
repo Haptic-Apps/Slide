@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -136,7 +136,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int type = new FontPreferences(holder.body.getContext()).getFontTypeComment().getTypeface();
                 Typeface typeface;
                 if (type >= 0) {
-                    typeface = RobotoTypefaceManager.obtainTypeface(holder.body.getContext(), type);
+                    typeface = RobotoTypefaces.obtainTypeface(holder.body.getContext(), type);
                 } else {
                     typeface = Typeface.DEFAULT;
                 }
@@ -146,7 +146,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int type = new FontPreferences(holder.body.getContext()).getFontTypeTitle().getTypeface();
                 Typeface typeface;
                 if (type >= 0) {
-                    typeface = RobotoTypefaceManager.obtainTypeface(holder.body.getContext(), type);
+                    typeface = RobotoTypefaces.obtainTypeface(holder.body.getContext(), type);
                 } else {
                     typeface = Typeface.DEFAULT;
                 }

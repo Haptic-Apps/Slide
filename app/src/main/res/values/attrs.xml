@@ -16,7 +16,7 @@
     <declare-styleable name="Theme">
         <attr name="activity_background" format="color" />
         <attr name="card_background" format="color" />
-        <attr name="font" format="color" />
+        <attr name="font_color" format="color" />
         <attr name="tint" format="color" />
 
         <attr name="list_background" format="color" />

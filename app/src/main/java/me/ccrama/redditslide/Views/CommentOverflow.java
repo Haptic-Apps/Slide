@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import java.util.List;
 
@@ -88,7 +88,7 @@ public class CommentOverflow extends LinearLayout {
         Context context = getContext();
         int type = new FontPreferences(context).getFontTypeComment().getTypeface();
         if (type >= 0) {
-            typeface = RobotoTypefaceManager.obtainTypeface(context, type);
+            typeface = RobotoTypefaces.obtainTypeface(context, type);
         } else {
             typeface = Typeface.DEFAULT;
         }
