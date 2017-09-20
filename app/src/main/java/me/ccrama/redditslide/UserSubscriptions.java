@@ -323,7 +323,7 @@ public class UserSubscriptions {
         SharedPreferences.Editor editor = Reddit.appRestart.edit();
         editor.putBoolean("back", true);
         editor.putString("subs", "");
-        Authentication.authentication.edit().remove("backedCreds").remove("expires").apply();
+        Authentication.authentication.edit().remove("backedCreds").remove("expires").commit();
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
         editor.putString("name", Authentication.name);
         editor.commit();

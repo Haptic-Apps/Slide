@@ -1541,6 +1541,8 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    public HashMap<String, String> accounts = new HashMap<>();
+
     public void doDrawer() {
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
@@ -1696,7 +1698,6 @@ public class MainActivity extends BaseActivity
 
                 }
             });
-            final HashMap<String, String> accounts = new HashMap<>();
 
             for (String s : Authentication.authentication.getStringSet("accounts",
                     new HashSet<String>())) {
@@ -1717,6 +1718,7 @@ public class MainActivity extends BaseActivity
                         getLayoutInflater().inflate(R.layout.account_textview_white, accountList,
                                 false);
                 ((TextView) t.findViewById(R.id.name)).setText(accName);
+                LogUtil.v("Adding click to " + ((TextView) t.findViewById(R.id.name)).getText());
                 if (!accName.equals(guest)) {
                     t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1754,6 +1756,9 @@ public class MainActivity extends BaseActivity
                                                             if (!s.equalsIgnoreCase(accName)) {
                                                                 d = true;
                                                                 LogUtil.v("Switching to " + s);
+                                                                for(Map.Entry<String, String> e : accounts.entrySet()){
+                                                                    LogUtil.v(e.getKey() + ":" + e.getValue());
+                                                                }
                                                                 if (accounts.containsKey(s)
                                                                         && !accounts.get(s)
                                                                         .isEmpty()) {
@@ -1819,10 +1824,13 @@ public class MainActivity extends BaseActivity
                 t.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String accName = ((TextView) t.findViewById(R.id.name)).getText().toString();
+                        LogUtil.v("Found name is " + accName);
                         if (!accName.equalsIgnoreCase(Authentication.name)) {
                             LogUtil.v("Switching to " + accName);
                             if (!accName.equals(guest)) {
                                 if (!accounts.get(accName).isEmpty()) {
+                                    LogUtil.v("Using token " + accounts.get(accName));
                                     Authentication.authentication.edit()
                                             .putString("lasttoken", accounts.get(accName))
                                             .remove("backedCreds")
