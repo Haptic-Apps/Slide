@@ -54,7 +54,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
                             android:text="43015"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="18sp"
                             android:textStyle="bold"/>
 
@@ -63,7 +63,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/profile_karma_link"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -81,7 +81,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
                             android:text="2034"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="18sp"
                             android:textStyle="bold"/>
 
@@ -90,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/profile_karma_comment"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -103,7 +103,7 @@
                         android:paddingEnd="16dp"
                         android:paddingStart="8dp"
                         android:text="Redditor for 2 years, 3 months of gold remiaing"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="16sp"/>
             </LinearLayout>
         </RelativeLayout>

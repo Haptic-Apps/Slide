@@ -184,7 +184,7 @@
                     android:layout_toEndOf="@+id/proficon"
                     android:gravity="center_vertical"
                     android:text="@string/drawer_profile"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
         </LinearLayout>
@@ -323,7 +323,7 @@
                     android:layout_toEndOf="@+id/inb"
                     android:gravity="center_vertical"
                     android:text="@string/title_inbox"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
         </LinearLayout>
@@ -373,7 +373,7 @@
                     android:layout_toEndOf="@+id/mo"
                     android:gravity="center_vertical"
                     android:text="@string/drawer_moderation"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
         </LinearLayout>
@@ -400,7 +400,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/title_multireddits"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
     </LinearLayout>
@@ -479,7 +479,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/drawer_support"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
     </LinearLayout>
@@ -506,7 +506,7 @@
                 android:gravity="center_vertical"
 
                 android:text="@string/drawer_goto_profile"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
     </LinearLayout>
@@ -532,7 +532,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/discover_title"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
     </LinearLayout>
@@ -565,7 +565,7 @@
                     android:layout_toEndOf="@+id/settingsicon"
                     android:gravity="center_vertical"
                     android:text="@string/title_settings"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
         </LinearLayout>
@@ -600,8 +600,8 @@
                 android:hint="@string/drawer_search"
                 android:imeOptions="actionSearch|flagNoExtractUi"
                 android:singleLine="true"
-                android:textColor="?attr/font"
-                android:textColorHint="?attr/font"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"
                 android:visibility="gone"/>
 
         <ImageView

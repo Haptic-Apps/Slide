@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
     <size android:width="2dp" />
-    <solid android:color="?attr/font"/>
+    <solid android:color="?attr/fontColor"/>
     <!--make sure its a solid tag not stroke or it wont work -->
 </shape>

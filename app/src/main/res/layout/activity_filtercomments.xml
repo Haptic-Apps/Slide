@@ -34,8 +34,8 @@
             android:layout_height="match_parent"
             android:backgroundTint="?attr/tint"
             android:hint="@string/search_comments_hint"
-            android:textColor="?attr/font"
-            android:textColorHint="?attr/font" />
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView

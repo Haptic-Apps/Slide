@@ -44,7 +44,7 @@
         android:layout_marginBottom="6dp"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center_vertical"
-        android:textColor="?attr/font"
+        android:textColor="?attr/fontColor"
         android:textSize="?attr/font_commentinfo" />
 
     <TextView
@@ -74,7 +74,7 @@
         android:layout_marginEnd="-2dp"
         android:paddingRight="10dp"
         android:layout_toRightOf="@id/dot"
-        android:textColor="?attr/font"
+        android:textColor="?attr/fontColor"
         android:textSize="?attr/font_commentbody" />
 
     <me.ccrama.redditslide.Views.CommentOverflow

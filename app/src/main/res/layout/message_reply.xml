@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="[DEV] For the past few weeks I have been working on developing my first app that is completely open source, I would like to share my progress with you today. Meet Munch For Reddit!"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -45,7 +45,7 @@
                 android:paddingBottom="6dp"
                 android:paddingTop="2dp"
                 android:text="4 hours ago"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentinfo" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:paddingBottom="6dp"
                 android:paddingTop="2dp"
                 android:text="@string/submission_properties_seperator"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentinfo" />
 
             <TextView
@@ -64,7 +64,7 @@
                 android:paddingBottom="6dp"
                 android:paddingTop="2dp"
                 android:text="ccrama"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentinfo" />
         </LinearLayout>
 
@@ -74,7 +74,7 @@
             android:text="This is some test content."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="?attr/font_commentbody" />
 
         <me.ccrama.redditslide.Views.CommentOverflow

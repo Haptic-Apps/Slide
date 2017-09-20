@@ -27,7 +27,7 @@
                         android:layout_height="wrap_content"
                         android:padding="18dp"
                         android:text="@string/night_mode"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
@@ -40,8 +40,8 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
             </LinearLayout>
 
             <LinearLayout
@@ -64,7 +64,7 @@
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
                             android:text="@string/theme_dark"
-                            android:textColor="?attr/font"/>
+                            android:textColor="?attr/fontColor"/>
 
                     <RadioButton
                             android:id="@+id/blue"
@@ -72,7 +72,7 @@
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
                             android:text="@string/theme_dark_blue"
-                            android:textColor="?attr/font"/>
+                            android:textColor="?attr/fontColor"/>
 
                     <RadioButton
                             android:id="@+id/amoled"
@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
                             android:text="@string/theme_black"
-                            android:textColor="?attr/font"/>
+                            android:textColor="?attr/fontColor"/>
 
                     <RadioButton
                             android:id="@+id/amoled_contrast"
@@ -88,14 +88,14 @@
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
                             android:text="@string/theme_amoled_contrast"
-                            android:textColor="?attr/font"/>
+                            android:textColor="?attr/fontColor"/>
                     <RadioButton
                             android:id="@+id/red"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
                             android:text="@string/theme_red_shift"
-                            android:textColor="?attr/font"/>
+                            android:textColor="?attr/fontColor"/>
                 </RadioGroup>
 
                 <!--Time selection-->

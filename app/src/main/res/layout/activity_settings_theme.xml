@@ -69,7 +69,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/theme_default_color"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -93,7 +93,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/theme_accent_color"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -117,7 +117,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/theme_base"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -141,7 +141,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/theme_night"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -176,7 +176,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_theme_tinting"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
                     <TextView
@@ -184,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -214,7 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/card_tint_outside"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
                     <TextView
@@ -222,7 +222,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:text="@string/settings_theme_tint_outside_desc"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -235,8 +235,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -264,7 +264,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_colored_navigation_bar"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -277,8 +277,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -306,14 +306,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_colored_icon"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
                             android:text="@string/settings_colored_icon_desc"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp" />
                 </LinearLayout>
 
@@ -326,8 +326,8 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -19,7 +19,7 @@ public class TitleTextView extends SpoilerRobotoTextView {
             int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
             Typeface typeface;
             if (type >= 0) {
-                typeface = RobotoTypefaceManager.obtainTypeface(c, type);
+                typeface = RobotoTypefaces.obtainTypeface(c, type);
             } else {
                 typeface = Typeface.DEFAULT;
             }
@@ -34,7 +34,7 @@ public class TitleTextView extends SpoilerRobotoTextView {
             int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
             Typeface typeface;
             if (type >= 0) {
-                typeface = RobotoTypefaceManager.obtainTypeface(c, type);
+                typeface = RobotoTypefaces.obtainTypeface(c, type);
             } else {
                 typeface = Typeface.DEFAULT;
             }
@@ -48,7 +48,7 @@ public class TitleTextView extends SpoilerRobotoTextView {
             int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
             Typeface typeface;
             if (type >= 0) {
-                typeface = RobotoTypefaceManager.obtainTypeface(c, type);
+                typeface = RobotoTypefaces.obtainTypeface(c, type);
             } else {
                 typeface = Typeface.DEFAULT;
             }

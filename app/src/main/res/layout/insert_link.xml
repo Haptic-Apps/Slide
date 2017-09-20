@@ -13,7 +13,7 @@
         android:hint="@string/editor_url"
         android:inputType="textUri"
         android:enabled="true"
-        android:textColor="?attr/font"
+        android:textColor="?attr/fontColor"
         android:theme="@style/ReplyEditTextTheme"/>
 
     <EditText
@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/editor_text"
         android:enabled="true"
-        android:textColor="?attr/font"
+        android:textColor="?attr/fontColor"
         android:theme="@style/ReplyEditTextTheme"/>
 </LinearLayout>

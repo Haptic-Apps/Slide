@@ -121,8 +121,8 @@
                             android:padding="8dp"
                             android:text="@string/subscribe_caps"
                             android:textAllCaps="true"
-                            android:textColor="?attr/font"
-                            android:textColorHint="?attr/font"
+                            android:textColor="?attr/fontColor"
+                            android:textColorHint="?attr/fontColor"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
@@ -155,8 +155,8 @@
                             android:checked="false"
                             android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
                             android:hapticFeedbackEnabled="true"
-                            android:textColor="?attr/font"
-                            android:textColorHint="?attr/font"/>
+                            android:textColor="?attr/fontColor"
+                            android:textColorHint="?attr/fontColor"/>
 
                     <TextView
                             android:id="@+id/notified_new_posts"
@@ -169,8 +169,8 @@
                             android:padding="8dp"
                             android:text="@string/sub_post_notify"
                             android:textAllCaps="true"
-                            android:textColor="?attr/font"
-                            android:textColorHint="?attr/font"
+                            android:textColor="?attr/fontColor"
+                            android:textColorHint="?attr/fontColor"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
                 </LinearLayout>
@@ -396,7 +396,7 @@
                                                      android:layout_width="match_parent"
                                                      android:layout_height="match_parent"
                                                      android:padding="16dp"
-                                                     android:textColor="?attr/font"
+                                                     android:textColor="?attr/fontColor"
                                                      android:textSize="?attr/font_commentbody"/>
 
         <me.ccrama.redditslide.Views.CommentOverflow

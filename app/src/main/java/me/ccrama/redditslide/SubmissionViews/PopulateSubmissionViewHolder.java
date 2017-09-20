@@ -39,7 +39,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
@@ -2701,7 +2701,7 @@ public class PopulateSubmissionViewHolder {
             int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
             Typeface typeface;
             if (typef >= 0) {
-                typeface = RobotoTypefaceManager.obtainTypeface(mContext, typef);
+                typeface = RobotoTypefaces.obtainTypeface(mContext, typef);
             } else {
                 typeface = Typeface.DEFAULT;
             }
@@ -2734,7 +2734,7 @@ public class PopulateSubmissionViewHolder {
                 int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
                 Typeface typeface;
                 if (typef >= 0) {
-                    typeface = RobotoTypefaceManager.obtainTypeface(mContext, typef);
+                    typeface = RobotoTypefaces.obtainTypeface(mContext, typef);
                 } else {
                     typeface = Typeface.DEFAULT;
                 }

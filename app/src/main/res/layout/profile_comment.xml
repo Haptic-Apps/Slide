@@ -23,7 +23,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="[DEV] For the past few weeks I have been working on developing my first app that is completely open source, I would like to share my progress with you today. Meet Munch For Reddit!"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="?attr/font_cardtitle" />
 
         <LinearLayout
@@ -42,7 +42,7 @@
                 android:paddingBottom="6dp"
                 android:paddingTop="2dp"
                 android:textStyle="bold"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_cardinfo"/>
 
             <TextView
@@ -51,7 +51,7 @@
                 android:paddingBottom="6dp"
                 android:paddingTop="2dp"
                 android:text="@string/submission_properties_seperator"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_cardinfo"/>
 
             <TextView
@@ -61,7 +61,7 @@
                 android:paddingBottom="6dp"
                 android:paddingTop="2dp"
                 android:text="4 hours ago"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_cardinfo"/>
 
             <include
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Alright, fair enough, I see your point. The reason I was open sourcing it was to help other people developing apps with theirs, along with showing demonstrations of libraries I used throughout the project for people wondering about them. I wasn't really going for the whole issue finder aspect of being open sourced, which is why I would wait till the next beta release to do so and allow people to look in and give me feedback before the full release. I'll definitively consider releasing it earlier now, though. Thank you for the response!"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="?attr/font_commentbody" />
 
         <me.ccrama.redditslide.Views.CommentOverflow

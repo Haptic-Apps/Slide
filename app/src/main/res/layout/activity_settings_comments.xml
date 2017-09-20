@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_crop"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -59,8 +59,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_color"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -101,8 +101,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -130,7 +130,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_wide_depth_indicators"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
                 </LinearLayout>
 
@@ -143,8 +143,8 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -172,7 +172,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_fab_create"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -185,8 +185,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -214,7 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_right_handed_comment_menu"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -227,8 +227,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -256,7 +256,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/upvote_percentage"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -269,8 +269,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
 
             </RelativeLayout>
 
@@ -304,7 +304,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_commentnav"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
                     <TextView
@@ -312,7 +312,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:text="@string/settings_commentnav_description"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -325,8 +325,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -355,7 +355,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/auto_hide_the_comment_nav_bar"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -368,8 +368,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -397,7 +397,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_volume_nav_comments"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -410,8 +410,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
             <View
                     android:layout_width="match_parent"
@@ -438,14 +438,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/navigation_bar_vote_gestures"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
                             android:text="@string/nav_gestures_description"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp" />
                 </LinearLayout>
 
@@ -458,8 +458,8 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -491,7 +491,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comments_swap_long"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -504,8 +504,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -533,14 +533,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_collapse"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:text="@string/settings_comment_collapse_description"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -553,8 +553,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -582,7 +582,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_collapse_default"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -595,8 +595,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

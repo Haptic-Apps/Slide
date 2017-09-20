@@ -113,7 +113,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_locked"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="12sp"/>
 
             <TextView

@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_data_enable"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
                     <TextView
@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -93,7 +93,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Image quality when Data Saving enabled"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
 
                     <TextView
@@ -101,7 +101,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>

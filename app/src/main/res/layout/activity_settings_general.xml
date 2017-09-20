@@ -47,7 +47,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_view_type"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -77,7 +77,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_general_expanded_toolbar"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:alpha=".86"
                             android:text="@string/settings_general_expanded_toolbar_desc"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
 
@@ -98,8 +98,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
             </RelativeLayout>
 
             <View
@@ -128,7 +128,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_title_fab"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -136,7 +136,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -167,7 +167,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/subreddit_search_method_title"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -175,7 +175,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -211,7 +211,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/title_inbox"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -219,7 +219,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -250,7 +250,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/title_sub_post_notifs"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -258,7 +258,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -294,7 +294,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_title_sorting"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -302,7 +302,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -333,7 +333,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/sorting_default_comment"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -341,7 +341,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -377,7 +377,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_image_location"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -385,7 +385,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -414,7 +414,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/save_images_to_subreddit_specific_subfolders"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -422,7 +422,7 @@
                             android:layout_height="wrap_content"
                             android:alpha=".86"
                             android:text="@string/description_save_subfolders"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
 
@@ -435,8 +435,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
             </RelativeLayout>
 
             <TextView
@@ -469,7 +469,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_general_force_en"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -477,7 +477,7 @@
                             android:layout_height="wrap_content"
                             android:alpha=".86"
                             android:text="@string/settings_general_force_en_desc"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
 
@@ -493,8 +493,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
             </RelativeLayout>
 
             <View
@@ -522,7 +522,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_general_immersive_mode"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -530,7 +530,7 @@
                             android:layout_height="wrap_content"
                             android:alpha=".86"
                             android:text="@string/settings_general_immersive_mode_desc"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
 
@@ -543,8 +543,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
             </RelativeLayout>
 
             <View
@@ -572,7 +572,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_confirm_exit"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
                 </LinearLayout>
 
@@ -585,8 +585,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

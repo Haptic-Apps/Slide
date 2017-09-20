@@ -46,7 +46,7 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentbody"/>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

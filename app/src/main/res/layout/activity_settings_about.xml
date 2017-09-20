@@ -44,7 +44,7 @@
                     android:gravity="center_vertical"
 
                     android:text="@string/settings_bugs"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -73,7 +73,7 @@
                     android:gravity="center_vertical"
 
                     android:text="@string/settings_changelog"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -101,7 +101,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/rate_slide"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
             </LinearLayout>
             <LinearLayout
@@ -128,7 +128,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="/r/slideforreddit"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:gravity="center_vertical"
 
                     android:text="@string/settings_libs"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -176,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|center_horizontal"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
             </LinearLayout>

@@ -71,7 +71,7 @@
 
                     android:padding="16dp"
                     android:text="@string/btn_ok"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>

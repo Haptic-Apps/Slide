@@ -33,7 +33,7 @@
             android:maxLines="2"
             android:paddingEnd="8dp"
             android:text="Android"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="8dp"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
             <me.ccrama.redditslide.Views.CommentOverflow

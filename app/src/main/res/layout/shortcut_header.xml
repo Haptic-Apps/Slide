@@ -17,6 +17,6 @@
         android:hint="@string/widget_subname_hint"
         android:imeOptions="actionSearch"
         android:singleLine="true"
-        android:textColor="?attr/font"
-        android:textColorHint="?attr/font" />
+        android:textColor="?attr/fontColor"
+        android:textColorHint="?attr/fontColor" />
 </LinearLayout>

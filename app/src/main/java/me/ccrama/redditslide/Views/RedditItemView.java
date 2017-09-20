@@ -23,7 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.models.Account;
 import net.dean.jraw.models.Comment;
@@ -398,7 +398,7 @@ public class RedditItemView extends RelativeLayout {
         int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
         Typeface typeface;
         if (type >= 0) {
-            typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
+            typeface = RobotoTypefaces.obtainTypeface(getContext(), type);
         } else {
             typeface = Typeface.DEFAULT;
         }

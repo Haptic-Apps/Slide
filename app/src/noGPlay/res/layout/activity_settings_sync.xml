@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/backup_btn_file"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="16sp"/>
             </LinearLayout>
 
@@ -62,7 +62,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/backup_btn_restore_file"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>

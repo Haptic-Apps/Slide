@@ -55,7 +55,7 @@
 
                         android:padding="16dp"
                         android:text="@string/settings_mail_check"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
@@ -68,7 +68,7 @@
                             android:buttonTint="?attr/tint"
                             android:padding="16dp"
                             android:text="@string/settings_general_inbox_snd"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"
                             android:textStyle="bold"/>
 
@@ -90,7 +90,7 @@
                         android:alpha=".7"
                         android:padding="16dp"
                         android:text="@string/settings_mail_info"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp"/>
 
                     <RelativeLayout
@@ -106,7 +106,7 @@
                             android:text="@string/btn_done"
                             android:layout_alignParentEnd="true"
                             android:textAllCaps="true"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"
                             android:textStyle="bold"/>
                     </RelativeLayout>

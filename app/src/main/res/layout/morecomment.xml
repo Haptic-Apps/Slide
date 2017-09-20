@@ -31,7 +31,7 @@
         android:layout_toRightOf="@+id/loading"
         android:gravity="center_vertical"
         android:layout_marginStart="11dp"
-        android:textColor="?attr/font"
+        android:textColor="?attr/fontColor"
         android:textSize="?attr/font_commenttitle" />
 
 </RelativeLayout>

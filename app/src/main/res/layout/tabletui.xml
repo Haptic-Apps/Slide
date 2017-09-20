@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/multi_column_landscape"
                         android:id="@+id/progressnumber"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
 
                     <android.support.v7.widget.AppCompatSeekBar
@@ -68,8 +68,8 @@
                             android:buttonTint="?attr/tint"
                             android:hapticFeedbackEnabled="true"
                             android:text="@string/single_column_multi_window"
-                            android:textColor="?attr/font"
-                            android:textColorHint="?attr/font" />
+                            android:textColor="?attr/fontColor"
+                            android:textColorHint="?attr/fontColor" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/dualcolumns"
@@ -82,8 +82,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:text="@string/multi_column_portrait"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/fullcomment"
@@ -96,8 +96,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:text="@string/multi_column_force_full"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

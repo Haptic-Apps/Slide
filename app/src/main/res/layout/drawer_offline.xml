@@ -42,7 +42,7 @@
 
             android:text="@string/drawer_offline"
             android:layout_marginStart="16dp"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -69,7 +69,7 @@
             android:gravity="center_vertical"
 
             android:text="@string/drawer_offline_retry"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -95,7 +95,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/manage_offline_content"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -122,7 +122,7 @@
             android:gravity="center_vertical"
 
             android:text="@string/title_settings"
-            android:textColor="?attr/font"
+            android:textColor="?attr/fontColor"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -154,8 +154,8 @@
             android:hint="@string/drawer_search"
             android:imeOptions="actionSearch"
             android:singleLine="true"
-            android:textColor="?attr/font"
-            android:textColorHint="?attr/font" />
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor" />
 
         <ImageView
             android:id="@+id/close_search_drawer"

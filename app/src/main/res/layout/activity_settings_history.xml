@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_store_history"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -60,8 +60,8 @@
                     android:buttonTint="?attr/tint"
                     android:checked="true"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_store_nsfw_history"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -102,8 +102,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -131,7 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_general_scroll_read"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -144,8 +144,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <TextView
@@ -179,7 +179,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/clear_submission_history"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -210,7 +210,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/clear_subreddit_history"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
             </RelativeLayout>

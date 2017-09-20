@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.InboxManager;
@@ -400,7 +400,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
             Typeface typeface;
             if (type >= 0) {
-                typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+                typeface = RobotoTypefaces.obtainTypeface(mContext, type);
             } else {
                 typeface = Typeface.DEFAULT;
             }

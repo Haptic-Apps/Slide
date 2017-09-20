@@ -23,7 +23,7 @@
         android:text="@string/err_loading_content"
 
         android:textAllCaps="true"
-        android:textColor="?attr/font"
+        android:textColor="?attr/fontColor"
         android:textSize="14sp"
 
 

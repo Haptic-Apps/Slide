@@ -76,7 +76,7 @@
 
                             android:gravity="center_vertical"
                             android:text="/u/ccrama"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
 
                             android:textSize="16sp" />
 
@@ -112,7 +112,7 @@
                             android:gravity="center_vertical"
                             android:text="/r/Android"
 
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
 
                             android:textSize="16sp" />
 
@@ -148,7 +148,7 @@
 
                             android:text="@string/submission_save"
 
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
 
                             android:textSize="16sp" />
 
@@ -180,7 +180,7 @@
 
                             android:text="@string/submission_gild"
 
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
 
                             android:textSize="16sp" />
 
@@ -212,7 +212,7 @@
 
                             android:text="@string/submission_report"
 
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
 
                             android:textSize="16sp" />
 
@@ -241,7 +241,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/misc_copy_text"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -271,7 +271,7 @@
                             android:text="@string/submission_share_permalink"
 
 
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
 
                             android:textSize="16sp" />
 
@@ -302,7 +302,7 @@
                             android:text="@string/submission_hide"
 
 
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
 
                             android:textSize="16sp" />
 

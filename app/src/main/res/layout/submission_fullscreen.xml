@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
                     android:text="@string/example_title"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="?attr/font_cardtitle"/>
 
             <TextView
@@ -99,7 +99,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/example_domain"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="16sp"/>
 
                     <TextView
@@ -108,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:alpha=".56"
                             android:text="@string/example_url"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -128,7 +128,7 @@
                     android:paddingBottom="8dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="?attr/font_commentbody"/>
 
             <me.ccrama.redditslide.Views.CommentOverflow
@@ -316,8 +316,8 @@
                     android:imeOptions="actionDone|flagNoEnterAction"
                     android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                     android:minHeight="30dp"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor"
                     android:textCursorDrawable="@drawable/cursor"/>
 
             <include
@@ -335,7 +335,7 @@
                         android:padding="4dp"
                         android:text="@string/btn_discard"
                         android:textAllCaps="true"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
@@ -349,7 +349,7 @@
                         android:padding="4dp"
                         android:text="@string/btn_preview"
                         android:textAllCaps="true"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
@@ -362,7 +362,7 @@
                         android:padding="4dp"
                         android:text="@string/btn_submit"
                         android:textAllCaps="true"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
             </RelativeLayout>

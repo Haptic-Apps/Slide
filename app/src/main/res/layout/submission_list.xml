@@ -73,7 +73,7 @@
                     android:layout_marginEnd="16dp"
                     android:tag="tint"
                     android:text="@string/example_title"
-                    android:textColor="?attr/font"
+                    android:textColor="?attr/fontColor"
                     android:textSize="?attr/font_cardtitle" />
 
                 <TextView

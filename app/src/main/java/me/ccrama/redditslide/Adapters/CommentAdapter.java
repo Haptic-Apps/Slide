@@ -37,7 +37,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.RobotoTypefaces;
+import com.devspark.robototextview.RobotoTypefaces;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
@@ -405,7 +406,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
             Typeface typeface;
             if (type >= 0) {
-                typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+                typeface = RobotoTypefaces.obtainTypeface(mContext, type);
             } else {
                 typeface = Typeface.DEFAULT;
             }

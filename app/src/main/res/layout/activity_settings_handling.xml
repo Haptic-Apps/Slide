@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/handling_browser"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
                     <TextView
@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_link_reader_night"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 
                     <TextView
@@ -92,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:alpha=".86"
                             android:text="Must have Reader mode selected above and Night mode enabled"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="13sp"/>
                 </LinearLayout>
 
@@ -105,8 +105,8 @@
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
             </RelativeLayout>
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_gif"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -151,8 +151,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -180,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_image"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -193,8 +193,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -222,7 +222,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_album"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -235,8 +235,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -264,7 +264,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_link_peek"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
                 </LinearLayout>
 
@@ -277,8 +277,8 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -312,7 +312,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/download_the_slide_video_player_plugin"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -349,7 +349,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_links_force_external"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
                     <TextView
@@ -357,7 +357,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:text="@string/settings_handling_external_desc"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -390,8 +390,8 @@
                     android:layout_marginStart="12dp"
                     android:hint="@string/settings_handling_enterdomain"
                     android:imeOptions="actionDone"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor"
                     android:inputType="textUri"
                     android:textSize="14sp" />
             </LinearLayout>

@@ -38,14 +38,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="4dp"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="?attr/font_cardtitle" />
 
                     <me.ccrama.redditslide.SpoilerRobotoTextView
                         android:id="@+id/firstTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="?attr/font_commentbody" />
 
                     <me.ccrama.redditslide.Views.CommentOverflow

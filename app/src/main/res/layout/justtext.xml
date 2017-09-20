@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp"
-                android:textColor="?attr/font"
+                android:textColor="?attr/fontColor"
                 android:textIsSelectable="true"
                 android:textSize="16sp" />
 

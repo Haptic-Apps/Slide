@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_redditprefs_over18"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -69,8 +69,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_disable_nsfw_photo"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -112,8 +112,8 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
 
             <View
@@ -142,7 +142,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/nsfwcollection_text"
                             android:text="Hide NSFW previews in collections (like /r/all)"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
                 </LinearLayout>
 
@@ -155,8 +155,8 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
             <View
                     android:layout_width="match_parent"
@@ -183,7 +183,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Ignore subreddit media preferences"
-                            android:textColor="?attr/font"
+                            android:textColor="?attr/fontColor"
                             android:textSize="14sp" />
                 </LinearLayout>
 
@@ -196,8 +196,8 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
             </RelativeLayout>
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -230,7 +230,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_prefs_reddit"
-                        android:textColor="?attr/font"
+                        android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
                 </LinearLayout>
             </RelativeLayout>
