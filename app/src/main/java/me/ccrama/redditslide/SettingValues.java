@@ -2,6 +2,8 @@ package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
 
+import net.dean.jraw.fluent.AuthenticatedUserReference;
+import net.dean.jraw.models.Account;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
@@ -149,7 +151,6 @@ public class SettingValues {
     public static boolean swipeAnywhere;
     public static boolean commentLastVisit;
     public static boolean storeHistory;
-    public static boolean hideNSFWPreviews;
     public static boolean showNSFWContent;
     public static boolean storeNSFWHistory;
     public static boolean scrollSeen;
@@ -328,7 +329,6 @@ public class SettingValues {
         previews = prefs.getInt(PREVIEWS_LEFT, 10);
         nightStart = prefs.getInt(PREF_NIGHT_START, 9);
         nightEnd = prefs.getInt(PREF_NIGHT_END, 5);
-        hideNSFWPreviews = prefs.getBoolean(PREF_HIDE_NSFW_PREVIEW, true);
 
         fabComments = prefs.getBoolean(PREF_COMMENT_FAB, false);
         titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");
@@ -389,6 +389,9 @@ public class SettingValues {
         prefs.edit().putBoolean("cardtextenabled" + sub.toLowerCase(), checked).apply();
     }
 
+    public static boolean getIsNSFWEnabled(){
+        return prefs.getBoolean(PREF_HIDE_NSFW_PREVIEW + Authentication.name, true);
+    }
     public static void resetSelftextEnabled(String subreddit) {
         prefs.edit().remove("cardtextenabled" + subreddit.toLowerCase()).apply();
     }

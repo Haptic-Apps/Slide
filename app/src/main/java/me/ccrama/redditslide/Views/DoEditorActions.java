@@ -787,6 +787,9 @@ public class DoEditorActions {
                                                 + "]("
                                                 + url
                                                 + ")";
+                                        if(descriptionBox.getText().toString().trim().isEmpty()){
+                                            s = url + " ";
+                                        }
                                         int start = Math.max(sStart, 0);
                                         int end = Math.max(sEnd, 0);
                                         if (DoEditorActions.e != null) {

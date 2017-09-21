@@ -5,6 +5,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -41,7 +42,7 @@ public class SettingsReddit extends BaseActivityAnim {
                 if (isChecked) {
                     (findViewById(R.id.nsfwrpev)).setEnabled(true);
                     findViewById(R.id.nsfwrpev_text).setAlpha(1f);
-                    ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(SettingValues.hideNSFWPreviews);
+                    ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(SettingValues.getIsNSFWEnabled());
 
                     (findViewById(R.id.nsfwcollection)).setEnabled(true);
                     findViewById(R.id.nsfwcollection_text).setAlpha(1f);
@@ -69,15 +70,14 @@ public class SettingsReddit extends BaseActivityAnim {
             thumbnails.setEnabled(false);
             findViewById(R.id.nsfwrpev_text).setAlpha(0.25f);
         } else {
-            thumbnails.setChecked(SettingValues.hideNSFWPreviews);
+            thumbnails.setChecked(SettingValues.getIsNSFWEnabled());
         }
 
         thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Settings.changed = true;
-                SettingValues.hideNSFWPreviews = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_PREVIEW, isChecked).apply();
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_PREVIEW + Authentication.name, isChecked).apply();
             }
         });
     }

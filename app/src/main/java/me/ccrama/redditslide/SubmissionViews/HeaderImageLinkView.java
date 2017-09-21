@@ -229,7 +229,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         ContextCompat.getDrawable(getContext(), R.drawable.web));
                 thumbUsed = true;
             } else if (submission.isNsfw()
-                    && SettingValues.hideNSFWPreviews || (baseSub != null && submission.isNsfw() && SettingValues.hideNSFWCollection && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.equals("popular")) )) {
+                    && SettingValues.getIsNSFWEnabled() || (baseSub != null && submission.isNsfw() && SettingValues.hideNSFWCollection && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.equals("popular")) )) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -430,7 +430,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             } else if (!thumbnail.isNull()
                     && submission.getThumbnail() != null
                     && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!thumbnail
-                    .isNull() && submission.isNsfw() && SettingValues.hideNSFWPreviews))) {
+                    .isNull() && submission.isNsfw() && SettingValues.getIsNSFWEnabled()))) {
 
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
