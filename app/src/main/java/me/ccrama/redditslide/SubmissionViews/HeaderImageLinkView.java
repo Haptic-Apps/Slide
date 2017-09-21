@@ -670,7 +670,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         .show((PeekViewActivity) activity, event);
             } else {
                 BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
-                int[] attrs = new int[]{R.attr.tint};
+                int[] attrs = new int[]{R.attr.tintColor};
                 TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
                 int color = ta.getColor(0, Color.WHITE);

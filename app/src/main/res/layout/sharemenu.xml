@@ -60,7 +60,7 @@
                             android:padding="12dp"
 
                             app:srcCompat="@drawable/ic_insert_photo_white_48dp"
-                            android:tint="?attr/tint" />
+                            android:tint="?attr/tintColor" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                             android:padding="12dp"
 
                             app:srcCompat="@drawable/ic_format_size_white_48dp"
-                            android:tint="?attr/tint" />
+                            android:tint="?attr/tintColor" />
 
                         <TextView
                             android:id="@+id/subpopup"

@@ -484,7 +484,7 @@ public class PopulateShadowboxInfo {
 
     public static void showBottomSheet(final Activity mContext, final Submission submission, final View rootView) {
 
-        int[] attrs = new int[]{R.attr.tint};
+        int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);

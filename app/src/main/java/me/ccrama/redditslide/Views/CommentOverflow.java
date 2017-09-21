@@ -97,7 +97,7 @@ public class CommentOverflow extends LinearLayout {
         }
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(R.attr.font, typedValue, true);
+        theme.resolveAttribute(R.attr.fontColor, typedValue, true);
         textColor = typedValue.data;
         TypedValue fontSizeTypedValue = new TypedValue();
         theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);

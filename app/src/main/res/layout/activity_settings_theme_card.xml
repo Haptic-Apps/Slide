@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:id="@+id/picture"
@@ -118,7 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -148,9 +148,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -160,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -191,9 +191,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -203,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:id="@+id/actionbar"
@@ -277,9 +277,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -289,7 +289,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -319,9 +319,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -331,7 +331,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -361,9 +361,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -371,7 +371,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:background="?attr/tint"
+                    android:background="?attr/tintColor"
                     android:alpha=".25"
                     android:layout_height="0.25dp"/>
 
@@ -403,9 +403,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -415,7 +415,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -445,9 +445,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -457,7 +457,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -487,9 +487,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -499,7 +499,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -529,9 +529,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
@@ -541,7 +541,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.25dp"
                         android:alpha=".25"
-                        android:background="?attr/tint" />
+                        android:background="?attr/tintColor" />
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -571,9 +571,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:paddingEnd="16dp"
-                            android:backgroundTint="?attr/tint"
+                            android:backgroundTint="?attr/tintColor"
                             android:button="@null"
-                            android:buttonTint="?attr/tint"
+                            android:buttonTint="?attr/tintColor"
                             android:hapticFeedbackEnabled="true"
                             android:textColor="?attr/fontColor"
                             android:textColorHint="?attr/fontColor" />
@@ -620,9 +620,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:selectableItemBackground"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
@@ -633,7 +633,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tintColor" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -664,9 +664,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:selectableItemBackground"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"

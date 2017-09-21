@@ -30,9 +30,9 @@
 
     <!-- When replying or editing a comment, tint the EditText bar -->
     <style name="ReplyEditTextTheme">
-        <item name="android:colorControlNormal">?attr/tint</item>
-        <item name="android:colorControlActivated">?attr/tint</item>
-        <item name="android:colorControlHighlight">?attr/tint</item>
+        <item name="android:colorControlNormal">?attr/tintColor</item>
+        <item name="android:colorControlActivated">?attr/tintColor</item>
+        <item name="android:colorControlHighlight">?attr/tintColor</item>
     </style>
 
     <!-- When searching for a subreddit in the toolbar, tint the EditText bar -->

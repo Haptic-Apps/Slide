@@ -416,7 +416,7 @@ public class DoEditorActions {
                 final LinearLayout layout =
                         (LinearLayout) inflater.inflate(R.layout.insert_link, null);
 
-                int[] attrs = {R.attr.font};
+                int[] attrs = {R.attr.fontColor};
 
                 TypedArray ta = baseView.getContext()
                         .obtainStyledAttributes(
@@ -440,7 +440,7 @@ public class DoEditorActions {
                         new MaterialDialog.Builder(editText.getContext()).title(
                                 R.string.editor_title_link)
                                 .customView(layout, false)
-                                .positiveColorAttr(R.attr.tint)
+                                .positiveColorAttr(R.attr.tintColor)
                                 .positiveText(R.string.editor_action_link)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
@@ -748,7 +748,7 @@ public class DoEditorActions {
         protected void onPostExecute(final JSONObject result) {
             dialog.dismiss();
             try {
-                int[] attrs = {R.attr.font};
+                int[] attrs = {R.attr.fontColor};
                 TypedArray ta =
                         c.obtainStyledAttributes(new ColorPreferences(c).getFontStyle().getBaseId(),
                                 attrs);
@@ -1001,7 +1001,7 @@ public class DoEditorActions {
         protected void onPostExecute(final String result) {
             dialog.dismiss();
             try {
-                int[] attrs = {R.attr.font};
+                int[] attrs = {R.attr.fontColor};
                 TypedArray ta =
                         c.obtainStyledAttributes(new ColorPreferences(c).getFontStyle().getBaseId(),
                                 attrs);

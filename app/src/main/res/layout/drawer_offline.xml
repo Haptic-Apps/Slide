@@ -61,7 +61,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
             app:srcCompat="@drawable/internet"
-            android:tint="?attr/tint" />
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
             app:srcCompat="@drawable/save"
-            android:tint="?attr/tint" />
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
             app:srcCompat="@drawable/settings"
-            android:tint="?attr/tint" />
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
     <View
         android:id="@+id/drawer_divider"
         android:layout_width="match_parent"
-        android:background="?attr/tint"
+        android:background="?attr/tintColor"
         android:alpha=".25"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -149,7 +149,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="?attr/tint"
+            android:backgroundTint="?attr/tintColor"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
             android:hint="@string/drawer_search"
             android:imeOptions="actionSearch"
@@ -161,7 +161,7 @@
             android:id="@+id/close_search_drawer"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:tint="?attr/tint"
+            android:tint="?attr/tintColor"
             android:layout_alignBottom="@+id/sort"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="8dp"

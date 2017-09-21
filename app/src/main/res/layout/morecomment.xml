@@ -15,7 +15,7 @@
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/loading"
-        android:background="?attr/tint" />
+        android:background="?attr/tintColor" />
 
     <ProgressBar
         android:id="@+id/loading"

@@ -24,7 +24,7 @@
                 android:id="@+id/action"
                 android:layout_width="28dp"
                 android:layout_marginLeft="4dp"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:padding="4dp"
@@ -39,7 +39,7 @@
                 android:layout_marginStart="8dp"
                 android:gravity="center_vertical"
                 android:text="test"
-                android:textColor="?attr/tint"
+                android:textColor="?attr/tintColor"
                 android:textSize="?attr/font_commentbody"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -175,7 +175,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/profile"/>
 
             <TextView
@@ -202,7 +202,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:theme="@style/Ripple.List"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/down"/>
     </RelativeLayout>
 
@@ -314,7 +314,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/sidebar_inbox"/>
 
             <TextView
@@ -364,7 +364,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/mod"/>
 
             <TextView
@@ -392,7 +392,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/collection"/>
 
         <TextView
@@ -471,7 +471,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/crown"/>
 
         <TextView
@@ -497,7 +497,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/profile"/>
 
         <TextView
@@ -524,7 +524,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/world"/>
 
         <TextView
@@ -556,7 +556,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/settings"/>
 
             <TextView
@@ -579,7 +579,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:alpha=".25"
-            android:background="?attr/tint"
+            android:background="?attr/tintColor"
             android:visibility="gone"/>
 
     <RelativeLayout
@@ -595,7 +595,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="?attr/tint"
+                android:backgroundTint="?attr/tintColor"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
                 android:hint="@string/drawer_search"
                 android:imeOptions="actionSearch|flagNoExtractUi"
@@ -614,7 +614,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="8dp"
                 android:theme="@style/Ripple.List"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 android:visibility="gone"
                 app:srcCompat="@drawable/close"/>
     </RelativeLayout>

@@ -198,7 +198,7 @@ public class ManageOfflineContent extends BaseActivityAnim {
                         d.dismiss();
                     }
                 });
-                theme.resolveAttribute(R.attr.font, typedValue, true);
+                theme.resolveAttribute(R.attr.fontColor, typedValue, true);
                 int color2 = typedValue.data;
 
                 d.setTitle(getString(R.string.choose_sync_time));

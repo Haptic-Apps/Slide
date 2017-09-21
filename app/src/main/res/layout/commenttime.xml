@@ -49,7 +49,7 @@
                         android:padding="8dp"
                         app:sl_maxValue="96"
                         app:sl_minValue="1"
-                        app:sl_secondaryColor="?attr/tint"
+                        app:sl_secondaryColor="?attr/tintColor"
                         app:sl_stepValue="15"/>
                     <TextView
                         android:layout_width="match_parent"

@@ -135,7 +135,7 @@
                             android:padding="4dp"
                             android:src="@drawable/collection"
                             android:theme="@style/Ripple.List"
-                            android:tint="?attr/tint"/>
+                            android:tint="?attr/tintColor"/>
                 </RelativeLayout>
 
                 <LinearLayout
@@ -149,7 +149,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="?android:selectableItemBackground"
-                            android:backgroundTint="?attr/tint"
+                            android:backgroundTint="?attr/tintColor"
                             android:button="@null"
                             android:buttonTint="?attr/colorAccent"
                             android:checked="false"
@@ -180,7 +180,7 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
                         android:alpha=".8"
-                        android:background="?attr/tint"/>
+                        android:background="?attr/tintColor"/>
             </LinearLayout>
 
             <LinearLayout
@@ -200,7 +200,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/theme"/>
 
                     <TextView
@@ -227,7 +227,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/wiki"/>
 
                     <TextView
@@ -254,7 +254,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/send"/>
 
                     <TextView
@@ -281,7 +281,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/mod"/>
 
                     <TextView
@@ -309,7 +309,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/fontsizedarker"/>
 
                     <TextView
@@ -337,7 +337,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/image"/>
 
                     <TextView
@@ -364,7 +364,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/sort"/>
 
                     <TextView
@@ -387,7 +387,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
                         android:alpha=".8"
-                        android:background="?attr/tint"/>
+                        android:background="?attr/tintColor"/>
             </LinearLayout>
         </LinearLayout>
 

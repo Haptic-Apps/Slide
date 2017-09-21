@@ -22,6 +22,6 @@
         android:padding="6dp"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/close"
-        android:tint="?attr/tint"
+        android:tint="?attr/tintColor"
         android:layout_height="36dp" />
 </RelativeLayout>

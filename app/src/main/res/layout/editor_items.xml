@@ -19,7 +19,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/savecontent"/>
 
         <ImageButton
@@ -30,7 +30,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/restorefile"/>
 
         <ImageButton
@@ -41,7 +41,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/image"/>
 
         <ImageButton
@@ -52,7 +52,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/draw"/>
 
         <ImageButton
@@ -63,7 +63,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/link"/>
 
         <ImageButton
@@ -74,7 +74,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_bold_white_48dp"/>
 
         <ImageButton
@@ -85,7 +85,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_italic_white_48dp"/>
 
         <ImageButton
@@ -96,7 +96,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"/>
 
         <ImageButton
@@ -107,7 +107,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"/>
 
         <ImageButton
@@ -118,7 +118,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_quote_white_48dp"/>
 
         <ImageButton
@@ -129,7 +129,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/fontsizedarker"/>
 
         <ImageButton
@@ -140,7 +140,7 @@
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:tint="?attr/tint"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/strike"/>
     </LinearLayout>
 </HorizontalScrollView>

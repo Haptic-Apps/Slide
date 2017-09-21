@@ -37,7 +37,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/upload" />
 
                 <TextView
@@ -61,7 +61,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/restorecloud" />
 
                 <TextView
@@ -85,7 +85,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/save" />
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
-                    android:tint="?attr/tint"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/restorefile" />
 
                 <TextView

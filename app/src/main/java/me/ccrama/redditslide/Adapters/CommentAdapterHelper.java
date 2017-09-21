@@ -89,7 +89,7 @@ public class CommentAdapterHelper {
     public static void showOverflowBottomSheet(final CommentAdapter adapter, final Context mContext,
             final CommentViewHolder holder, final CommentNode baseNode) {
 
-        int[] attrs = new int[]{R.attr.tint};
+        int[] attrs = new int[]{R.attr.tintColor};
         final Comment n = baseNode.getComment();
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
@@ -530,7 +530,7 @@ public class CommentAdapterHelper {
             final CommentNode baseNode, final Comment comment, final CommentViewHolder holder,
             final Map<String, Integer> reports, final Map<String, String> reports2) {
 
-        int[] attrs = new int[]{R.attr.tint};
+        int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         //Initialize drawables

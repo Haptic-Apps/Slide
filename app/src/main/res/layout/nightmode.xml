@@ -36,9 +36,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="18dp"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor"/>

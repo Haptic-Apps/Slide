@@ -149,7 +149,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         BottomSheet.Builder b = new BottomSheet.Builder(main)
                                 .title(submission.getUrl())
                                 .grid();
-                        int[] attrs = new int[]{R.attr.tint};
+                        int[] attrs = new int[]{R.attr.tintColor};
                         TypedArray ta = main.obtainStyledAttributes(attrs);
 
                         int color = ta.getColor(0, Color.WHITE);

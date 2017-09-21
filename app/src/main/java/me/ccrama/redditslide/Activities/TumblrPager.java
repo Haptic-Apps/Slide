@@ -425,7 +425,7 @@ public class TumblrPager extends FullScreenActivity
     public void showBottomSheetImage(final String contentUrl, final boolean isGif,
             final int index) {
 
-        int[] attrs = new int[]{R.attr.tint};
+        int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);

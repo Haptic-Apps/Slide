@@ -12,7 +12,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="?attr/tint"
+        android:backgroundTint="?attr/tintColor"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
         android:hint="@string/widget_subname_hint"
         android:imeOptions="actionSearch"

@@ -56,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -93,9 +93,9 @@
                         android:id="@+id/expandedmenu"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
                         android:textColor="?attr/fontColor"
@@ -106,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:id="@+id/fab"
@@ -145,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:id="@+id/subreddit_search_method"
@@ -228,7 +228,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:id="@+id/sub_notifications"
@@ -311,7 +311,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:id="@+id/sorting_comment"
@@ -393,7 +393,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -430,9 +430,9 @@
                         android:id="@+id/subfolder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
                         android:textColor="?attr/fontColor"
@@ -488,9 +488,9 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
                         android:textColor="?attr/fontColor"
@@ -501,7 +501,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -538,9 +538,9 @@
                         android:id="@+id/immersivemode"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
                         android:textColor="?attr/fontColor"
@@ -551,7 +551,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tintColor"/>
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -580,9 +580,9 @@
                         android:id="@+id/exitcheck"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="?attr/tint"
+                        android:backgroundTint="?attr/tintColor"
                         android:button="@null"
-                        android:buttonTint="?attr/tint"
+                        android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:paddingEnd="16dp"
                         android:textColor="?attr/fontColor"

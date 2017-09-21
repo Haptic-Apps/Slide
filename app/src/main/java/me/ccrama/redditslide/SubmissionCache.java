@@ -381,7 +381,7 @@ public class SubmissionCache {
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, false);
             int color = typedValue.data;
-            theme.resolveAttribute(R.attr.font, typedValue, false);
+            theme.resolveAttribute(R.attr.fontColor, typedValue, false);
             int font = typedValue.data;
             String flairString;
             if (flairOverride != null) {

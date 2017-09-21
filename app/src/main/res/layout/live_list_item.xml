@@ -43,7 +43,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:tag="tintsecond"
-            android:textColor="?attr/tint"
+            android:textColor="?attr/tintColor"
             android:layout_toLeftOf="@+id/go"
             android:textSize="?attr/font_cardtitle" />
         <ImageView

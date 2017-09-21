@@ -439,7 +439,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
+        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
 
     }
 
@@ -458,7 +458,7 @@ public class PopulateSubmissionViewHolder {
             final Submission submission, final SubmissionViewHolder holder, final List<T> posts,
             final String baseSub, final RecyclerView recyclerview, final boolean full) {
 
-        int[] attrs = new int[]{R.attr.tint};
+        int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
@@ -1328,7 +1328,7 @@ public class PopulateSubmissionViewHolder {
             final Map<String, String> reports2) {
 
         final Resources res = mContext.getResources();
-        int[] attrs = new int[]{R.attr.tint};
+        int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
@@ -2916,7 +2916,7 @@ public class PopulateSubmissionViewHolder {
                             final boolean flair = (data != null && !data.isEmpty());
 
 
-                            int[] attrs = new int[]{R.attr.tint};
+                            int[] attrs = new int[]{R.attr.tintColor};
                             TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
                             final int color2 = ta.getColor(0, Color.WHITE);

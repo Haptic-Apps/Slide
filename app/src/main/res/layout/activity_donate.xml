@@ -59,7 +59,7 @@
                     app:sl_maxValue="20"
                     app:sl_minValue="2"
                     app:sl_primaryColor="@color/md_light_green_500"
-                    app:sl_secondaryColor="?attr/tint"
+                    app:sl_secondaryColor="?attr/tintColor"
                     app:sl_stepValue="2"
                     app:sl_value="4" />
             </LinearLayout>

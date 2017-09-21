@@ -214,7 +214,7 @@ public class MediaView extends FullScreenActivity
     }
 
     public void showBottomSheetImage() {
-        int[] attrs = new int[]{R.attr.tint};
+        int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);

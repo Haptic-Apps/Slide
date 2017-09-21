@@ -160,7 +160,7 @@ public class CreateCardView {
     }
 
     public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
+        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
 
     }
 
@@ -169,11 +169,11 @@ public class CreateCardView {
     }
 
     public static int getCurrentFontColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.font, Color.WHITE);
+        return getStyleAttribColorValue(v, R.attr.fontColor, Color.WHITE);
     }
 
     public static int getSecondFontColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
+        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
     }
 
     public static int getWhiteFontColor() {

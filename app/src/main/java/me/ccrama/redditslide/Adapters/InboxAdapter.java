@@ -250,7 +250,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             messageViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    int[] attrs = new int[]{R.attr.tint};
+                    int[] attrs = new int[]{R.attr.tintColor};
                     TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
                     final int color = ta.getColor(0, Color.WHITE);

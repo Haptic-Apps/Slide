@@ -13,7 +13,7 @@
         android:layout_height="@dimen/standard_toolbar_height"
         android:minHeight="@dimen/standard_toolbar_height"
         android:elevation="8dp"
-        android:background="?attr/tint"
+        android:background="?attr/tintColor"
         android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways">
 

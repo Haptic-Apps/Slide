@@ -823,7 +823,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             });
         }
 
-        int[]      textColorAttr = new int[]{R.attr.font};
+        int[]      textColorAttr = new int[]{R.attr.fontColor};
         TypedArray ta            = obtainStyledAttributes(textColorAttr);
         int        textColor     = ta.getColor(0, Color.BLACK);
 
@@ -1027,7 +1027,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 
                                 //set the color of the text back to what it should be
-                                int[] textColorAttr = new int[]{R.attr.font};
+                                int[] textColorAttr = new int[]{R.attr.fontColor};
                                 TypedArray ta = obtainStyledAttributes(textColorAttr);
                                 holder.text.setTextColor(ta.getColor(0, Color.BLACK));
                                 ta.recycle();
