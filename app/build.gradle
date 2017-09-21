@@ -63,16 +63,15 @@ android {
 }
 
 robototextview {
-    include "RobotoSlab-Light",
-            "RobotoSlab",
-            "RobotoCondensed-Light",
-            "RobotoCondensed",
-            "Roboto-Light",
-            "Roboto",
+    include "Roboto-Light",
+            "Roboto-Regular",
             "Roboto-Bold",
             "Roboto-Medium",
+            "RobotoSlab-Light",
+            "RobotoSlab-Regular",
+            "RobotoCondensed-Light",
+            "RobotoCondensed-Regular",
             "RobotoCondensed-Bold"
-    log = true
 }
 
 ext {
