@@ -140,6 +140,7 @@ public class CheckForMail extends BroadcastReceiver {
                                                     amount, amount))
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
+                                    .setChannelId(Reddit.CHANNEL_MAIL)
                                     .setContentTitle(
                                             res.getQuantityString(R.plurals.mail_notification_title,
                                                     amount, amount))
@@ -208,6 +209,7 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .setContentTitle(contentTitle)
+                                        .setChannelId(Reddit.CHANNEL_MAIL)
                                         .setContentText(Html.fromHtml(
                                                 StringEscapeUtils.unescapeHtml4(
                                                         m.getDataNode().get("body_html").asText())))
@@ -284,6 +286,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
                                     .setGroupSummary(true)
+                                    .setChannelId(Reddit.CHANNEL_MODMAIL)
                                     .setGroup("MODMAIL")
                                     .setContentTitle(res.getQuantityString(
                                             R.plurals.mod_mail_notification_title, amount, amount))
@@ -314,6 +317,7 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .setGroup("MODMAIL")
+                                        .setChannelId(Reddit.CHANNEL_MODMAIL)
                                         .setContentTitle(
                                                 c.getString(R.string.mail_notification_author,
                                                         m.getSubject(), m.getAuthor()))
@@ -400,6 +404,7 @@ public class CheckForMail extends BroadcastReceiver {
                                                 s.getSubredditName()))
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
+                                        .setChannelId(Reddit.CHANNEL_SUBCHECKING)
                                         .setContentTitle("/r/"
                                                 + s.getSubredditName()
                                                 + c.getString(

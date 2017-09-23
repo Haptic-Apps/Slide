@@ -732,40 +732,6 @@ public class TumblrPager extends FullScreenActivity
 
     }
 
-    public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
-        MediaScannerConnection.scanFile(TumblrPager.this,
-                new String[]{localAbsoluteFilePath.getAbsolutePath()}, null,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    public void onScanCompleted(String path, Uri uri) {
-
-                        final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                        shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
-                        PendingIntent contentIntent =
-                                PendingIntent.getActivity(TumblrPager.this, 0, shareIntent,
-                                        PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-                        Notification notif =
-                                new NotificationCompat.Builder(TumblrPager.this).setContentTitle(
-                                        getString(R.string.info_photo_saved))
-                                        .setSmallIcon(R.drawable.notif)
-                                        .setLargeIcon(loadedImage)
-                                        .setContentIntent(contentIntent)
-                                        .setStyle(
-                                                new NotificationCompat.BigPictureStyle().bigPicture(
-                                                        loadedImage))
-                                        .build();
-
-
-                        NotificationManager mNotificationManager =
-                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                        mNotificationManager.notify(1, notif);
-                        loadedImage.recycle();
-                    }
-
-                });
-    }
-
     private void shareImage(final String finalUrl) {
         ((Reddit) getApplication()).getImageLoader()
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {

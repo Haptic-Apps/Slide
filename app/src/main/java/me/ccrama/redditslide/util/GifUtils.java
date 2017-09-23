@@ -822,6 +822,7 @@ public class GifUtils {
                 new NotificationCompat.Builder(c).setContentTitle(c.getString(R.string.gif_saved))
                         .setSmallIcon(R.drawable.save_png)
                         .setContentIntent(contentIntent)
+                        .setChannelId(Reddit.CHANNEL_IMG)
                         .build();
 
         NotificationManager mNotificationManager =

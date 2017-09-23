@@ -315,6 +315,7 @@ public class CommentCacheAsync extends AsyncTask {
                             Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(context);
                     mBuilder.setOngoing(true);
+                    mBuilder.setChannelId(Reddit.CHANNEL_COMMENT_CACHE);
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
                             sub.equalsIgnoreCase("frontpage") ? name
                                     : (name.contains("/m/") ? name : "/r/" + name)))

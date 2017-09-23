@@ -778,6 +778,7 @@ public class AlbumPager extends FullScreenActivity
                                         getString(R.string.info_photo_saved))
                                         .setSmallIcon(R.drawable.notif)
                                         .setLargeIcon(loadedImage)
+                                        .setChannelId(Reddit.CHANNEL_IMG)
                                         .setContentIntent(contentIntent)
                                         .setStyle(
                                                 new NotificationCompat.BigPictureStyle().bigPicture(
