@@ -278,6 +278,7 @@ public class Website extends BaseActivityAnim {
                             if (url.contains("/")) {
                                 getSupportActionBar().setSubtitle(getDomainName(url));
                             }
+                            currentURL = url;
                         }
                     } else {
                         if (getSupportActionBar() != null) {
@@ -295,6 +296,8 @@ public class Website extends BaseActivityAnim {
 
     public static ArrayList<String> triedURLS;
 
+    public String currentURL;
+
 
     //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
     public class AdBlockWebViewClient extends WebViewClient {
@@ -309,7 +312,7 @@ public class Website extends BaseActivityAnim {
             } else {
                 ad = loadedUrls.get(url);
             }
-            return ad && (v.getUrl().contains("twitter.com")) && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
+            return ad && (!currentURL.contains("twitter.com")) && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
                     : super.shouldInterceptRequest(view, url);
         }
 
