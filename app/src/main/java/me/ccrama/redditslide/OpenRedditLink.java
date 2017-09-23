@@ -68,8 +68,8 @@ public class OpenRedditLink {
                 Intent i = new Intent(context, LiveThread.class);
                 i.putExtra(LiveThread.EXTRA_LIVEURL, parts[2]);
                 context.startActivity(i);
+                break;
             }
-            break;
             case WIKI: {
                 Intent i = new Intent(context, Wiki.class);
                 i.putExtra(Wiki.EXTRA_SUBREDDIT, parts[2]);
