@@ -40,16 +40,6 @@
                     android:textColor="?attr/fontColor"
                     android:textSize="?attr/font_cardtitle"/>
 
-            <TextView
-                    android:id="@+id/information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="2dp"
-                    android:tag="tintsecond"
-                    android:text="@string/example_time"
-                    android:textSize="?attr/font_cardinfo"/>
         </LinearLayout>
 
         <LinearLayout

@@ -1168,5 +1168,6 @@
     <string name="save_images_to_subreddit_specific_subfolders">Save images to subreddit-specific subfolders</string>
     <string name="description_save_subfolders">Works in submission and comment views</string>
     <string name="content_settings">Content settings</string>
+    <string name="setting_titleTop">Show title above info line</string>
 
 </resources>

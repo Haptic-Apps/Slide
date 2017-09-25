@@ -113,6 +113,7 @@ public class SettingValues {
     public static final String PREF_PEEK                   = "peek";
     public static final String PREF_LARGE_LINKS            = "largeLinks";
     public static final String PREF_LARGE_DEPTH            = "largeDepth";
+    public static final String PREF_TITLE_TOP            = "titleTop";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -197,6 +198,7 @@ public class SettingValues {
     public static boolean hideButton;
     public static boolean tabletUI;
     public static boolean customtabs;
+    public static boolean titleTop;
     public static boolean dualPortrait;
     public static boolean singleColumnMultiWindow;
     public static boolean nightMode;
@@ -289,6 +291,7 @@ public class SettingValues {
 
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
+        titleTop = prefs.getBoolean(PREF_TITLE_TOP, true);
 
         lqLow = prefs.getBoolean(PREF_LQ_LOW, false);
         lqMid = prefs.getBoolean(PREF_LQ_MID, true);

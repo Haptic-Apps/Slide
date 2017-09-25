@@ -25,6 +25,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,6 +108,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -377,9 +381,11 @@ public class PopulateSubmissionViewHolder {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
 
-            GifUtils.AsyncLoadGif.VideoType t = GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
+            GifUtils.AsyncLoadGif.VideoType t =
+                    GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
 
-            if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT && submission.getDataNode().has("preview") && submission.getDataNode()
+            if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT && submission.getDataNode()
+                    .has("preview") && submission.getDataNode()
                     .get("preview")
                     .get("images")
                     .get(0)
@@ -399,9 +405,11 @@ public class PopulateSubmissionViewHolder {
                                 .get("source")
                                 .get("url")
                                 .asText()).replace("&amp;", "&"));
-            } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT && submission.getDataNode().has("media") && submission.getDataNode()
-                    .get("media")
-                    .has("reddit_video") && submission.getDataNode()
+            } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT
+                    && submission.getDataNode()
+                    .has("media")
+                    && submission.getDataNode().get("media").has("reddit_video")
+                    && submission.getDataNode()
                     .get("media")
                     .get("reddit_video")
                     .has("fallback_url")) {
@@ -1819,7 +1827,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     if (holder.itemView != null) {
                         SubmissionCache.updateTitleFlair(submission, flair, mContext);
-                        holder.title.setText(SubmissionCache.getTitleLine(submission, mContext));
+                        doText(holder, submission, mContext, submission.getSubredditName());
                     }
                 } else {
                     if (holder.itemView != null) {
@@ -1836,6 +1844,37 @@ public class PopulateSubmissionViewHolder {
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+
+    public void doText(SubmissionViewHolder holder, Submission submission, Context mContext,
+            String baseSub) {
+        SpannableStringBuilder t = SubmissionCache.getTitleLine(submission, mContext);
+        SpannableStringBuilder l = SubmissionCache.getInfoLine(submission, mContext, baseSub);
+
+        int[] textSizeAttr = new int[] { R.attr.font_cardtitle, R.attr.font_cardinfo };
+        TypedArray a = mContext.obtainStyledAttributes(textSizeAttr);
+        int textSizeT = a.getDimensionPixelSize(0, 18);
+        int textSizeI = a.getDimensionPixelSize(1, 14);
+
+        a.recycle();
+
+        t.setSpan(new AbsoluteSizeSpan(textSizeT), 0, t.length(), 0 );
+        l.setSpan(new AbsoluteSizeSpan(textSizeI), 0, l.length(), 0 );
+
+        SpannableStringBuilder s = new SpannableStringBuilder();
+        if(SettingValues.titleTop) {
+            s.append(t);
+            s.append("\n");
+            s.append(l);
+        } else {
+            s.append(l);
+            s.append("\n");
+            s.append(t);
+        }
+
+        holder.title.setText(s);
+
     }
 
     private void stickySubmission(final Activity mContext, final Submission submission,
@@ -2430,10 +2469,6 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    public void doInfoLine(SubmissionViewHolder holder, Submission submission, Context mContext,
-            String baseSub, boolean full) {
-        holder.info.setText(SubmissionCache.getInfoLine(submission, mContext, baseSub));
-    }
 
     public <T extends Contribution> void populateSubmissionViewHolder(
             final SubmissionViewHolder holder, final Submission submission, final Activity mContext,
@@ -2442,8 +2477,6 @@ public class PopulateSubmissionViewHolder {
             final String baseSub, @Nullable final CommentAdapter adapter) {
         holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
 
-        holder.title.setText(SubmissionCache.getTitleLine(submission,
-                mContext)); // title is a spoil roboto textview so it will format the html
 
         if (!offline
                 && UserSubscriptions.modOf != null
@@ -2687,7 +2720,7 @@ public class PopulateSubmissionViewHolder {
 
         });
 
-        doInfoLine(holder, submission, mContext, baseSub, full);
+        doText(holder, submission, mContext, baseSub);
 
         if (!full
                 && SettingValues.isSelftextEnabled(baseSub)

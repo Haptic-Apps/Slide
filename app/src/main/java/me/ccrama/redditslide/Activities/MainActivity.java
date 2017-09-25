@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -132,6 +134,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import me.ccrama.redditslide.Adapters.HistoryPosts;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -142,12 +145,15 @@ import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Constants;
+import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.FDroid;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.ImageFlairs;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -1416,6 +1422,33 @@ public class MainActivity extends BaseActivity
     public void networkUnavailable() {
     }
 
+    public void checkClipboard(){
+        try {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+            if (clipboard.hasPrimaryClip()) {
+                ClipData data = clipboard.getPrimaryClip();
+                final String s = (String) data.getItemAt(0).getText();
+                if (!s.isEmpty()) {
+                    if (ContentType.getContentType(s) == ContentType.Type.REDDIT && !HasSeen.getSeen(s)) {
+                        Snackbar snack =
+                                Snackbar.make(mToolbar, "Reddit link found in your clipboard",
+                                        Snackbar.LENGTH_LONG);
+                        snack.setAction("OPEN", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                OpenRedditLink.openUrl(MainActivity.this, s, false);
+                            }
+                        });
+                        snack.show();
+                    }
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -1428,6 +1461,7 @@ public class MainActivity extends BaseActivity
                 && !SettingValues.isNight())) {
             restartTheme();
         }
+        checkClipboard();
 
         if (pager != null && commentPager) {
             if (pager.getCurrentItem() != toOpenComments && shouldLoad != null) {

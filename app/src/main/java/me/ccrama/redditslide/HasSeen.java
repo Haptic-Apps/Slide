@@ -8,10 +8,14 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import me.ccrama.redditslide.Synccit.SynccitRead;
+
+import static me.ccrama.redditslide.OpenRedditLink.formatRedditUrl;
+import static me.ccrama.redditslide.OpenRedditLink.getRedditLinkType;
 
 /**
  * Created by ccrama on 7/19/2015.
@@ -84,6 +88,47 @@ public class HasSeen {
                 || s.getVote() != VoteDirection.NO_VOTE);
     }
 
+    public static boolean getSeen(String s) {
+        if (hasSeen == null) {
+            hasSeen = new ArrayList<>();
+            seenTimes = new HashMap<>();
+        }
+
+        String url = formatRedditUrl(s);
+        if (!url.isEmpty()) {
+            if (url.startsWith("np")) {
+                url = url.substring(2);
+            }
+        }
+
+        OpenRedditLink.RedditLinkType type = getRedditLinkType(url);
+        String[] parts = url.split("/");
+
+        String fullname = s;
+        switch (type) {
+            case SHORTENED: {
+                fullname = parts[1];
+                break;
+            }
+            case COMMENT_PERMALINK: {
+                fullname = parts[4];
+                break;
+            }
+            case SUBMISSION: {
+                fullname = parts[4];
+                break;
+            }
+            case SUBMISSION_WITHOUT_SUB: {
+                fullname = parts[2];
+                break;
+            }
+        }
+        if (fullname.contains("t3_")) {
+            fullname = fullname.substring(3, fullname.length());
+        }
+        return (hasSeen.contains(fullname) || SynccitRead.visitedIds.contains(fullname));
+    }
+
     public static long getSeenTime(Submission s) {
         if (hasSeen == null) {
             hasSeen = new ArrayList<>();
@@ -108,7 +153,7 @@ public class HasSeen {
         if (hasSeen == null) {
             hasSeen = new ArrayList<>();
         }
-        if(seenTimes == null){
+        if (seenTimes == null) {
             seenTimes = new HashMap<>();
         }
 
@@ -119,8 +164,9 @@ public class HasSeen {
         hasSeen.add(fullname);
         seenTimes.put(fullname, System.currentTimeMillis());
 
-        long result = KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
-        if(result == -1){
+        long result =
+                KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
+        if (result == -1) {
             KVStore.getInstance().update(fullname, String.valueOf(System.currentTimeMillis()));
         }
 
@@ -134,7 +180,7 @@ public class HasSeen {
         if (hasSeen == null) {
             hasSeen = new ArrayList<>();
         }
-        if(seenTimes == null){
+        if (seenTimes == null) {
             seenTimes = new HashMap<>();
         }
 
