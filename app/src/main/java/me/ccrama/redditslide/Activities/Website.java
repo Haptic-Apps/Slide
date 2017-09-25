@@ -312,7 +312,7 @@ public class Website extends BaseActivityAnim {
             } else {
                 ad = loadedUrls.get(url);
             }
-            return ad && (!currentURL.contains("twitter.com")) && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
+            return ad && (currentURL != null && !currentURL.contains("twitter.com")) && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
                     : super.shouldInterceptRequest(view, url);
         }
 

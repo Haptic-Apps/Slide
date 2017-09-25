@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.ccrama.redditslide.Synccit.SynccitRead;
+import me.ccrama.redditslide.util.LogUtil;
 
 import static me.ccrama.redditslide.OpenRedditLink.formatRedditUrl;
 import static me.ccrama.redditslide.OpenRedditLink.getRedditLinkType;
@@ -126,6 +127,7 @@ public class HasSeen {
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
+        hasSeen.add(fullname);
         return (hasSeen.contains(fullname) || SynccitRead.visitedIds.contains(fullname));
     }
 
