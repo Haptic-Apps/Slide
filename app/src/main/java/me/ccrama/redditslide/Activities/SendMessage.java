@@ -111,6 +111,7 @@ public class SendMessage extends BaseActivity {
             if (reply) {
                 b.setTitle(getString(R.string.mail_reply_to, name));
                 previousMessage = DataShare.sharedMessage;
+                if(previousMessage.getSubject() != null)
                 subject.setText(getString(R.string.mail_re, previousMessage.getSubject()));
                 subject.setInputType(InputType.TYPE_NULL);
 

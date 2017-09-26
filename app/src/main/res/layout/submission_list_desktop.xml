@@ -115,7 +115,7 @@
                     android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/information"
+                    android:layout_below="@+id/title"
                     android:layout_gravity="start"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
