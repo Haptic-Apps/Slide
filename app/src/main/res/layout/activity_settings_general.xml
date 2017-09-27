@@ -190,7 +190,81 @@
                     android:paddingTop="16dp"
                     android:text="@string/settings_title_notifications"
                     android:textColor="?attr/colorAccent"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notifications include Inbox replies, Mod Mail, and Subreddit post notifications."
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="12sp"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.25dp"
 
+                    android:alpha=".25"
+                    android:background="?attr/tintColor"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/install_notif_piggyback"
+                    android:paddingEnd="16dp"
+                    android:id="@+id/installreddit"
+                    android:visibility="gone"
+                    android:paddingStart="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="12sp"/>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:id="@+id/redditnotifs"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="64dp"
+                        android:orientation="vertical"
+                        android:id="@+id/linearLayout">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/setting_notification_piggybacking"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="14sp"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".86"
+                            android:text="@string/setting_notification_piggybacking_desc"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="13sp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/piggyback"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignBottom="@+id/linearLayout"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:backgroundTint="?attr/tintColor"
+                        android:button="@null"
+                        android:buttonTint="?attr/tintColor"
+                        android:hapticFeedbackEnabled="true"
+                        android:paddingEnd="16dp"
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
+            </RelativeLayout>
             <RelativeLayout
                     android:id="@+id/notifications"
                     android:layout_width="match_parent"
@@ -210,7 +284,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/title_inbox"
+                            android:text="Notifications"
                             android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
 

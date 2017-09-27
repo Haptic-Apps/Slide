@@ -18,10 +18,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.multidex.MultiDexApplication;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
@@ -736,6 +738,37 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             c.getResources().updateConfiguration(config, null);
         }
     }
+
+    public boolean isAccessibilityEnabled(){
+        int accessibilityEnabled = 0;
+        final String ACCESSIBILITY_SERVICE_NAME = "me.ccrama.redditslide" + (BuildConfig.DEBUG ? ".debug" : "" )+ "/me.ccrama.redditslide.Notifications.NotificationPiggyback";
+        boolean accessibilityFound = false;
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(),android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+
+        if (accessibilityEnabled==1){
+            String settingValue = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (settingValue != null) {
+                TextUtils.SimpleStringSplitter splitter = mStringColonSplitter;
+                splitter.setString(settingValue);
+                while (splitter.hasNext()) {
+                    String accessabilityService = splitter.next();
+                    LogUtil.v(accessabilityService);
+                    if (accessabilityService.equalsIgnoreCase(ACCESSIBILITY_SERVICE_NAME)){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return accessibilityFound;
+    }
+
 
     public static String CHANNEL_IMG = "IMG_DOWNLOADS";
     public static String CHANNEL_COMMENT_CACHE = "POST_SYNC";

@@ -1169,5 +1169,8 @@
     <string name="description_save_subfolders">Works in submission and comment views</string>
     <string name="content_settings">Content settings</string>
     <string name="setting_titleTop">Show title above info line</string>
+    <string name="setting_notification_piggybacking">Notification Piggybacking</string>
+    <string name="setting_notification_piggybacking_desc">Check for mail only when the official Reddit app gets a push notification</string>
+    <string name="install_notif_piggyback">Install the official Reddit app to enable Notification Piggybacking</string>
 
 </resources>
