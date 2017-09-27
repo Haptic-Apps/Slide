@@ -58,10 +58,6 @@ public class CheckForMail extends BroadcastReceiver {
 
         if(!intent.hasExtra("single")) {
             new AsyncGetMail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else if(!((Reddit)context.getApplicationContext()).isAccessibilityEnabled()){
-            new AsyncGetMailSingle().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-        if(!intent.hasExtra("single")) {
             if (Authentication.mod) {
                 new AsyncGetModmail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
@@ -70,6 +66,9 @@ public class CheckForMail extends BroadcastReceiver {
             }
 
             if (Reddit.notificationTime != -1) new NotificationJobScheduler(context).start(context);
+
+        } else if(!((Reddit)context.getApplicationContext()).isAccessibilityEnabled()){
+            new AsyncGetMailSingle().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
