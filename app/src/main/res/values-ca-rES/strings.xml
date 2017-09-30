@@ -7,6 +7,9 @@
   <string name="general_enable_shadowbox">Activar Mode Shadowbox</string>
   <string name="general_open_settings">Obriu la configuració de Subreddits</string>
   <string name="general_sub_sync">Sincronitzant Subscripcions</string>
+  <string name="general_gallerymode_ispro">El mode galeria es una característica de pagament</string>
+  <string name="general_cropdraw_ispro">Retallar i dibuixar en imatges pujades són característiques de pagament</string>
+  <string name="general_nighttheme_ispro">El mode nit és una característica de pagament</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Missatge no desat</string>
   <string name="submission_info_saved">Missatge guardat</string>
@@ -14,43 +17,72 @@
   <string name="submission_info_hidden">Post ocult per sempre.</string>
   <string name="submission_stickied">guardat</string>
   <string name="submission_link_extern">Obrir externament</string>
+  <string name="submission_link_copy">Còpia l\'adressa</string>
   <string name="submission_link_share">Compartir url</string>
   <string name="submission_share_title">Quin enllaç vols comparir?</string>
   <string name="submission_share_reddit">Reddit</string>
   <string name="submission_share_content">Contingut</string>
   <string name="submission_hide">Amagar post</string>
   <string name="submission_report">Reportar post</string>
+  <string name="submission_gild">Obre al navegador</string>
   <string name="submission_save">Desa el post</string>
+  <string name="submission_save_image">Desa la imatge</string>
   <string name="submission_load_full">Carregar tema sencer</string>
   <string name="submission_tap_gif">Prem per carregar GIF</string>
   <string name="submission_not_found">Post no trobat!</string>
   <string name="submission_not_found_msg">Ho sentim, no hem trobat aquest post</string>
+  <string name="submission_copy_text">Còpia el text</string>
+  <string name="submission_comment_saved">S\'ha desat el comentari</string>
+  <string name="submission_comment_unsaved">No s\'ha pogut desar el comentari</string>
+  <string name="submission_share_permalink">Comparteix enllaç</string>
+  <string name="submission_comment_copied">S\'ha copiat el text del comentari</string>
+  <string name="submission_link_copied">S\'ha copiat l\'enllaç</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punts</item>
+  </plurals>
+  <plurals name="new_messages">
+    <item quantity="one">%d missatge nou</item>
+    <item quantity="other">%d missatges nous</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Clar</string>
   <string name="theme_dark">Fosc</string>
   <string name="theme_black">Negre AMOLED</string>
+  <string name="theme_dark_blue">Blau fosc</string>
+  <string name="night_mode">Mode nocturn</string>
+  <string name="theme_default_color">Color primari</string>
   <string name="theme_subreddit_color">Canviar color</string>
   <string name="theme_accent_color">Color d\'èmfasi</string>
   <string name="theme_base">Tema base</string>
   <string name="theme_card">Targeta</string>
+  <string name="theme_sepia">Sèpia</string>
+  <string name="theme_amoled_contrast">AMOLED amb contrast</string>
+  <string name="theme_night">Tema nocturn</string>
   <!-- Font settings -->
   <string name="font_size">Mida de la lletra</string>
+  <string name="font_size_huge">Gegant</string>
+  <string name="font_size_larger">Gran</string>
+  <string name="font_size_large">Gran</string>
+  <string name="font_size_medium">Mitjana</string>
+  <string name="font_size_small">Petita</string>
+  <string name="font_size_smaller">Molt petita</string>
+  <string name="font_size_tiny">Diminuta</string>
   <!-- For editing the submission card layout -->
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Configuració de la multi-columna</string>
   <string name="multi_column_landscape">Apaïsat</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Tú</string>
   <string name="drawer_support">Passar-se a Pro</string>
   <string name="drawer_goto_profile">Anar al perfil</string>
   <string name="drawer_add_account">Afegir un compte</string>
   <string name="drawer_hello">Hola,</string>
   <string name="drawer_search">Buscar un subreddit</string>
   <string name="drawer_moderation">Moderació</string>
+  <string name="drawer_offline">Slide està en el mode fora de línia</string>
   <!-- Sidebar items (That's the one on the right) -->
+  <string name="sidebar_mods">Moderadors del subreddit</string>
   <!-- User profile -->
   <string name="profile_karma_comment">karma de comentari</string>
   <string name="profile_message">Missatge privat</string>
@@ -68,6 +100,7 @@
   <string name="comment_delete_err">Caram, quelcom ha fallat.</string>
   <string name="comment_delete_err_msg">Ho vols tornar a intentar?</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_personalize">Personalitza</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Escull un ordre de classificació</string>
   <string name="sorting_change_sorting">Canvia l\'ordre</string>
@@ -79,6 +112,19 @@
   <string name="sorting_old">Vell</string>
   <string name="sorting_controversial">Polèmic</string>
   <string name="sorting_rising">Creixent</string>
+  <string name="sorting_hour">hora</string>
+  <string name="sorting_day">24 hores</string>
+  <string name="sorting_week">setmana</string>
+  <string name="sorting_month">mes</string>
+  <string name="sorting_year">any</string>
+  <string name="sorting_all">tot el temps</string>
+  <string name="sorting_search_hour">Última hora</string>
+  <string name="sorting_search_day">Últimes 24 hores</string>
+  <string name="sorting_search_week">La passada setmana</string>
+  <string name="sorting_search_month">El passat mes</string>
+  <string name="sorting_search_year">L\'any passat</string>
+  <string name="sorting_search_all">Tot el temps</string>
+  <string name="sorting_defaultfor">Per defecte per a /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -93,6 +139,8 @@
   <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Foto guardada</string>
+  <string name="video_saved">S\'ha desat el vídeo</string>
+  <string name="gif_saved">S\'ha desat el GIF</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Caram, quelcom ha fallat!</string>
   <string name="err_invalid_url">URL invàlida</string>
@@ -101,6 +149,18 @@
   <string name="err_general">Caram, s\'ha produït un error</string>
   <string name="err_no_connection">No hem arribat al Reddit. Vols tornar-ho a intentar?</string>
   <string name="err_retry_later">Reintenta-ho en un minut!</string>
+  <string name="err_permission">Permís denegat</string>
+  <string name="err_authentication">Ha fallat l\'autenticació</string>
+  <string name="error_video_not_found">El vídeo no està disponible</string>
+  <string name="error_album_not_found">No s\'ha trobat l\'àlbum</string>
+  <string name="error_album_not_found_text">Voleu obrir l\'enllaç al navegador?</string>
+  <string name="err_comment_post_nosave_message">\nSi us plau, torneu-ho a intentar d\'aquí un minut</string>
+  <string name="err_something_wrong">Sembla que alguna cosa ha anat mal</string>
+  <string name="err_share_image">S\'ha produït un error al compartir la imatge</string>
+  <string name="err_file_not_found">No s\'ha trobat l\'arxiu</string>
+  <string name="err_comment_post_reason">Raó: %1$s</string>
+  <string name="err_comment_post_message">\n\nEl vostre missatge s\'ha desat com a esborrany. Torneu-ho a intentar després.</string>
+  <string name="err_comment_post_copy">Còpia el comentari</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF no trobat</string>
   <!-- Multireddits -->
@@ -111,6 +171,8 @@
   <string name="type_album">Àlbum</string>
   <string name="type_img">Imatge</string>
   <string name="type_vid">Vídeo</string>
+  <string name="type_imgur">Contingut del Imgur</string>
+  <string name="type_external">Extern</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s ha escrit&#8230;</string>

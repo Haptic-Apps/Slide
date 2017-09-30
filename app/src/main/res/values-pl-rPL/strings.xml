@@ -531,9 +531,12 @@
   <string name="settings_font_comment">Czcionka komentarzy</string>
   <string name="settings_comment_crop">Kadruj obraz w widoku komentarzy</string>
   <string name="settings_general_scroll_read">Oznacz posty jako przeczytane po przewinięciu</string>
+  <string name="settings_link_chrome">Używaj Custom Tabs</string>
   <string name="settings_image_location">Wybierz lokalizację zapisywanie obrazów/GIFów</string>
   <string name="settings_image_location_unset">Jeszcze nie ustawione</string>
   <string name="settings_set_image_location">Obrazy będą zapisywane w %s</string>
+  <string name="settings_general_immersive_mode">Tryb pełnoekranowy</string>
+  <string name="settings_general_immersive_mode_desc">Ukryj paski statusu i nawigacji (eksperymentalne)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Kopia zapasowa i przywracanie</string>
   <string name="settings_title_default_theme">Główny motyw</string>
@@ -878,6 +881,9 @@
   <string name="load_high_quality_image_every_time">W innym przypadku ładuj obrazy wysokiej jakości</string>
   <string name="load_lower_quality_imgur">Jeśli włączone, zostanie podjęta próba załadowania obrazu jeszcze niższej jakości</string>
   <string name="load_medium_quality_imgur_images">Ładuj obrazy Imgur średniej jakości</string>
+  <string name="load_low_quality">Ładuj obrazy w niskiej jakości (maks. 320x320)</string>
+  <string name="load_medium_quality">Ładuj obrazy w średniej jakości (maks. 640x640)</string>
+  <string name="load_high_quality">Ładuj obrazy w wysokiej jakości (maks. 1080x1080)</string>
   <string name="choose_color_title">Wybierz kolor</string>
   <string name="enter_text_to_filter_click_enter_to_add">Wpisz tekst do filtrowania, kliknij enter, aby dodać</string>
   <string name="mode_desktop_compact">Pełny kompaktowy</string>
@@ -1073,4 +1079,5 @@
   <string name="submission_info_contest">Ten wątek jest w trybie konkursu. Nie możesz zmienić sortowania</string>
   <string name="sub_post_notifs_msg">Slide będzie sprawdzał nowe posty podczas sprawdzania skrzynki odbiorczej (powiadomienia muszą być włączone)</string>
   <string name="mod_ban_reason_required">Wymagany powód</string>
+  <string name="settings_abbreviate_post_scores">Skracaj wyniki postów (np. 24.0k)</string>
 </resources>

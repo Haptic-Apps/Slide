@@ -7,6 +7,7 @@
   <string name="general_enable_shadowbox">Aktivera Shadowbox läge</string>
   <string name="general_open_settings">Öppna Subredditinställningar</string>
   <string name="general_sub_sync">Synkronisera prenumerationer</string>
+  <string name="general_gallerymode_ispro">Galleriläget är endast tillgängligt i Pro-versionen</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Inlägg ej sparat</string>
   <string name="submission_info_saved">Inlägg sparat</string>
@@ -24,24 +25,38 @@
   <string name="submission_report">Anmäl inlägg</string>
   <string name="submission_gild">Öppna i webbläsare</string>
   <string name="submission_save">Spara inlägg</string>
+  <string name="submission_save_image">Spara bild</string>
   <string name="submission_load_full">Ladda hela tråden</string>
   <string name="submission_np_link">Detta är en icke-deltagande länk. Vänligen rösta eller kommentera inte.</string>
   <string name="submission_tap_gif">Tryck för att ladda GIF</string>
   <string name="submission_not_found">Inlägget kunde inte hittas!</string>
   <string name="submission_not_found_msg">Detta inlägg kunde inte hittas</string>
+  <string name="submission_copy_text">Kopiera text</string>
+  <string name="submission_comment_saved">Kommentar sparad</string>
+  <string name="submission_share_permalink">Dela länk</string>
+  <string name="submission_comment_copied">Kommentarstext kopierad</string>
+  <string name="submission_link_copied">Länk kopierad</string>
   <plurals name="submission_points">
     <item quantity="one">%d poäng</item>
     <item quantity="other">%d poäng</item>
+  </plurals>
+  <plurals name="new_messages">
+    <item quantity="one">%d nytt meddelande</item>
+    <item quantity="other">%d nytt meddelande</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Ljus</string>
   <string name="theme_dark">Mörk</string>
   <string name="theme_black">AMOLED svart</string>
+  <string name="theme_dark_blue">Mörkblå</string>
+  <string name="night_mode">Nattläge</string>
   <string name="theme_default_color">Primär färg</string>
   <string name="theme_subreddit_color">Byt färg</string>
   <string name="theme_accent_color">Accentfärg</string>
   <string name="theme_base">Bas tema</string>
   <string name="theme_card">Kort</string>
+  <string name="theme_sepia">Sepia</string>
+  <string name="theme_amoled_contrast">AMOLED med kontrast</string>
   <!-- Font settings -->
   <string name="font_size">Teckenstorlek</string>
   <!-- For editing the submission card layout -->

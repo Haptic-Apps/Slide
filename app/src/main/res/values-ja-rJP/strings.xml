@@ -516,6 +516,7 @@
   <string name="settings_font_comment">コメントのフォント</string>
   <string name="settings_comment_crop">コメント表示で先頭画像のトリミング</string>
   <string name="settings_general_scroll_read">スクロールで過ぎたときに既読として投稿をマーク</string>
+  <string name="settings_link_chrome">カスタム タブを使用</string>
   <string name="settings_image_location">画像/GIFの保存先を選択する</string>
   <string name="settings_image_location_unset">未設定です</string>
   <string name="settings_set_image_location">画像が %s に保存されるようになりました</string>

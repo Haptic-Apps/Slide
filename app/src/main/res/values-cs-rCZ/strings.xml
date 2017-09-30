@@ -6,7 +6,12 @@
   <string name="general_confirm_exit_msg">Opravdu chcete zavřít Slide?</string>
   <string name="general_open_settings">Postranní panel</string>
   <string name="general_sub_sync">Probíhá synchronizace odběrů</string>
+  <string name="general_cropdraw_ispro">Oříznutí a kreslení na Nahrané obrázky je Pro funkcí</string>
   <!-- Used when viewing a thread -->
+  <string name="submission_info_unsaved">Příspěvek neuložen</string>
+  <string name="submission_info_saved">Příspěvek uložen</string>
+  <string name="submission_info_cached">Příspěvek uložen v mezipaměti</string>
+  <string name="submission_info_archived">Toto je archivovaný příspěvek. Nebudete moci hlasovat, ani přidávat komentáře.</string>
   <string name="submission_post_saved">Příspěvek uložen</string>
   <string name="submission_info_hidden">Příspěvek navždy skryt.</string>
   <string name="submission_stickied">připnuto</string>
@@ -20,13 +25,19 @@
   <string name="submission_report">Nahlásit příspěvek</string>
   <string name="submission_gild">Otevřít v prohlížeči</string>
   <string name="submission_save">Uložit příspěvek</string>
+  <string name="submission_save_image">Uložit obrázek</string>
   <string name="submission_load_full">Načíst celé vlákno</string>
   <string name="submission_tap_gif">Klikněte pro načtení GIFu</string>
   <string name="submission_not_found">Ale ne, příspěvek nenalezen!</string>
   <string name="submission_not_found_msg">Omlouváme se, tento příspěvek nelze nalézt</string>
   <string name="submission_copy_text">Kopírovat text</string>
   <string name="submission_comment_saved">Komentář uložen</string>
+  <string name="submission_comment_unsaved">Komentář neuložen</string>
   <string name="submission_share_permalink">Sdílet odkaz</string>
+  <string name="submission_comment_copied">Text komentáře zkopírován</string>
+  <string name="submission_nocontent">Příspěvek postrádá obsah</string>
+  <string name="submission_link_copied">Odkaz zkopírován</string>
+  <string name="submission_removed">Příspěvek odstraněn</string>
   <plurals name="submission_points">
     <item quantity="one">%d bod</item>
     <item quantity="few">%d bodů</item>
@@ -36,12 +47,20 @@
   <string name="theme_light">Světlý</string>
   <string name="theme_dark">Tmavý</string>
   <string name="theme_black">AMOLED černý</string>
+  <string name="theme_dark_blue">Tmavě modrá</string>
+  <string name="theme_default_color">Základní barva</string>
   <string name="theme_subreddit_color">Změnit barvu</string>
   <string name="theme_accent_color">Doplňková barva</string>
   <string name="theme_base">Základní téma</string>
   <string name="theme_card">Karta</string>
+  <string name="theme_sepia">Sépiový tón</string>
   <!-- Font settings -->
   <string name="font_size">Velikost písma</string>
+  <string name="font_size_larger">Větší</string>
+  <string name="font_size_large">Velká</string>
+  <string name="font_size_medium">Střední</string>
+  <string name="font_size_small">Malá</string>
+  <string name="font_size_smaller">Menší</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">Tlačítko \"skrýt příspěvek\"v liště</string>
   <!-- Settings for Multi-column view -->
@@ -54,11 +73,15 @@
   <string name="drawer_hello">Ahoj,</string>
   <string name="drawer_search">Přejít na subreddit</string>
   <string name="drawer_moderation">Moderace</string>
+  <string name="drawer_offline">Slide je v offline režimu</string>
   <!-- Sidebar items (That's the one on the right) -->
+  <string name="sidebar_mods">Moderátoři subredditu</string>
   <!-- User profile -->
+  <string name="profile_karma_link">Karma příspěvku</string>
   <string name="profile_karma_comment">karma komentáře</string>
   <string name="profile_message">Soukromá zpráva</string>
   <string name="profile_saved">uloženo</string>
+  <string name="profile_read_later">Číst později</string>
   <string name="profile_err_title">Uživatel nenalezen</string>
   <string name="profile_err_msg">Reddit uživatel nelze načíst.</string>
   <string name="profile_overview">přehled</string>
@@ -93,6 +116,12 @@
   <string name="sorting_month">měsíc</string>
   <string name="sorting_year">rok</string>
   <string name="sorting_all">vše</string>
+  <string name="sorting_search_hour">Poslední hodina</string>
+  <string name="sorting_search_day">Posledních 24 hodin</string>
+  <string name="sorting_search_week">Minulý týden</string>
+  <string name="sorting_search_month">Minulý měsíc</string>
+  <string name="sorting_search_year">Za poslední rok</string>
+  <string name="sorting_search_all">Dlouhodobě</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -105,6 +134,8 @@
   <string name="editor_hint_optional_body">Tělo (volitelné)</string>
   <string name="editor_submit">Odeslat příspěvek</string>
   <string name="editor_hint_subreddit">Subreddit</string>
+  <string name="edit_selftext">Upravit selftext</string>
+  <string name="delete_submission">Odstranit příspěvek</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Fotografie uložená</string>
   <string name="video_saved">Video uloženo</string>
@@ -120,7 +151,15 @@
   <string name="err_permission">Přístup byl odepřen</string>
   <string name="err_permission_msg">Vypadá to, že jste zakázali použití externího úložiště. To způsobí chyby při ukládání obrázků a příspěvků:(. \nChcete povolit přístup do externího úložiště?</string>
   <string name="err_authentication">Ověření se nezdařilo</string>
+  <string name="err_submit_restricted_text">Nemáte povoleno sem přispívat. Prosím, vyberte si jiný subreddit.</string>
+  <string name="err_upload_unaccessible">Ujistěte se, zda je obrázek dostupný a zkuste to znovu! </string>
   <string name="error_video_not_found">Video nebylo nalezeno</string>
+  <string name="error_video_message">Při načítání tohoto videa došlo k chybě.</string>
+  <string name="error_album_not_found">Album nenalezeno</string>
+  <string name="error_album_not_found_text">Přejete si otevřít odkaz v prohlížeči?</string>
+  <string name="err_comment_post_nosave_message">\nProsíme, zkuste po chvíli zopakovat akci</string>
+  <string name="err_could_not_find_content_msg">Reddit nemohl nalézt požadovaný obsah</string>
+  <string name="err_file_not_found">Soubor nenalezen</string>
   <string name="err_comment_post_reason">Důvod: %1$s</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF nebyl nalezen</string>

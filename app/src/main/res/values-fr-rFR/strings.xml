@@ -523,9 +523,12 @@
   <string name="settings_font_comment">Polices de commentaire</string>
   <string name="settings_comment_crop">Rogner l\'image principale en vue de commentaire</string>
   <string name="settings_general_scroll_read">Marquer les articles comme vus après défilement</string>
+  <string name="settings_link_chrome">Utiliser les onglets personnalisés de Chrome</string>
   <string name="settings_image_location">Choisir la destination de l\'image / GIF</string>
   <string name="settings_image_location_unset">Pas encore défini</string>
   <string name="settings_set_image_location">Les images seront enregistrées dans %s</string>
+  <string name="settings_general_immersive_mode">Mode plein écran immersif</string>
+  <string name="settings_general_immersive_mode_desc">Masquer les barres d’état et de la navigation (expérimental)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Sauvegarder &amp; restaurer</string>
   <string name="settings_title_default_theme">Thème principal</string>
@@ -862,6 +865,9 @@
   <string name="load_high_quality_image_every_time">Sinon, charger une image de haute qualité chaque fois</string>
   <string name="load_lower_quality_imgur">Si activé, va tenter de charger une image d\'Imgur de qualité encore plus basse</string>
   <string name="load_medium_quality_imgur_images">Charger des images d\'Imgur de résolution moyenne</string>
+  <string name="load_low_quality">Charger les images de mauvaise qualité (max. 320 x 320)</string>
+  <string name="load_medium_quality">Charger des images de qualité moyenne (max. 640 x 640)</string>
+  <string name="load_high_quality">Charger des images de haute qualité (max. 1080 x 1080)</string>
   <string name="choose_color_title">Choisir une couleur</string>
   <string name="enter_text_to_filter_click_enter_to_add">Entrez le texte à filtrer, cliquez Entrée pour ajouter</string>
   <string name="mode_desktop_compact">Mode compact de bureau</string>
@@ -1054,4 +1060,5 @@
   <string name="submission_info_contest">Ce fil est en mode concours. Vous ne pouvez pas modifier le tri</string>
   <string name="sub_post_notifs_msg">Slide vérifiera pour de nouvelles publications quand il vérifie pour des messages (les notificatons de messages doivent être activées)</string>
   <string name="mod_ban_reason_required">La raison est demandée</string>
+  <string name="settings_abbreviate_post_scores">Abréger les scores des post (ex. 24,0 k)</string>
 </resources>

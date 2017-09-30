@@ -188,7 +188,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="sorting_search_month">Letzten Monat</string>
   <string name="sorting_search_year">Letztes Jahr</string>
   <string name="sorting_search_all">Aller Zeiten</string>
-  <string name="sorting_defaultfor">Standart für /r/%1$s</string>
+  <string name="sorting_defaultfor">Standard für /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -442,6 +442,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="mod_remove_title">Aus welchem Grund soll dieser Beitrag entfernt werden?</string>
   <string name="mod_remove_insert_draft">Entwurf einfügen</string>
   <string name="mod_flair_none_found">Für diesen Subreddit wurde kein Flair gefunden</string>
+  <string name="mod_approved_by">\u00A0Genehmigt von %1$s</string>
   <string name="mod_distinguish">Hervorheben</string>
   <string name="mod_undistinguish">Nicht mehr hervorheben</string>
   <string name="mod_sticky">Anpinnen</string>
@@ -458,12 +459,14 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="undistinguish_comment">Diesen Kommentar wirklich nicht mehr markieren?</string>
   <!-- If he did -->
   <string name="really_pin_submission_message">Beitrag angepinnt</string>
+  <string name="really_unpin_submission_message">Beitrag abgepinnt</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Kein Wiki gefunden</string>
   <string name="wiki_err_msg">Dieses Subreddit hat kein Wiki!</string>
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d Abonnenten</string>
   <string name="subreddit_subscribers_string">%1$s Abonnenten</string>
+  <string name="subreddit_active_users_string_new">%1$s momentan hier</string>
   <string name="subreddit_err_msg">Subreddit %1$s konnte nicht gefunden werden. Vielleicht ist es falsch geschrieben?</string>
   <string name="subreddit_err_msg_new">Subreddit %1$s wurde nicht gefunden. Möglicherweise hast du dich verschrieben, oder du hast keinen Zugang dazu.</string>
   <string name="subreddit_err">Subreddit nicht gefunden</string>
@@ -488,6 +491,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_delete_sub_settings">Möchtest du die Einstellungen für %1$s wirklich löschen?</string>
   <string name="settings_layout_default">Beitragslayout</string>
   <string name="settings_link_album">Interne Albumansicht</string>
+  <string name="settings_link_peek">Inhalts-Vorschau (experimentell)</string>
   <string name="settings_link_gif">Interne GIF-Anzeige</string>
   <string name="settings_link_handling">Umgang mit Links</string>
   <string name="settings_link_image">Interne Bildanzeige</string>
@@ -495,6 +499,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_mail_info">Ein kurzer Abstand führt unter Umständen zu einem erhöhten Stromverbrauch während Slide im Hintergrund läuft!</string>
   <string name="settings_main_color_title">Hauptfarbe bearbeiten</string>
   <string name="settings_notification">Auf neue Nachrichten alle %1$s überprüfen</string>
+  <string name="settings_notification_newline">Auf neue Nachrichten alle\n%1$s überprüfen</string>
   <string name="settings_notification_short">Überprüfe alle %1$s</string>
   <string name="settings_disable_nsfw_photo">NSFW-Bilder ausblenden</string>
   <string name="settings_store_history">Verlauf speichern</string>
@@ -505,6 +510,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="posts_hidden_forever">Beiträge für immer ausgeblendet</string>
   <string name="share_image">Bild teilen</string>
   <string name="settings_libs">Open Source-Bibliotheken</string>
+  <string name="settings_about_libs">Über Libs</string>
   <string name="settings_bugs">Fehler melden</string>
   <string name="settings_changelog">Changelog anzeigen</string>
   <string name="settings_google">Herstellen einer Verbindung zu Google</string>
@@ -524,9 +530,11 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_font_comment">Kommentar-Schriftart</string>
   <string name="settings_comment_crop">Hauptbild in Kommentaransicht zuschneiden</string>
   <string name="settings_general_scroll_read">Beiträge nach Vorbeiscrollen als gelesen markieren</string>
+  <string name="settings_link_chrome">Benutzerdefinierte Tabs nutzen</string>
   <string name="settings_image_location">Bild/GIF Speicher-Verzeichnis auswählen</string>
   <string name="settings_image_location_unset">Noch nicht festgelegt</string>
   <string name="settings_set_image_location">Bilder werden in %s gespeichert</string>
+  <string name="settings_general_immersive_mode_desc">Ausblenden der Status und Navigationsleisten (experimentell)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Sichern &amp; Wiederherstellen</string>
   <string name="settings_title_default_theme">Haupt-Theme</string>
@@ -538,6 +546,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_title_sorting">Standard-Sortierung</string>
   <string name="settings_title_support">Spenden</string>
   <string name="settings_title_about">Über</string>
+  <string name="settings_title_multi_column">Mehrspaltiges Layout</string>
   <string name="settings_title_fab">Schwebender Aktionsknopf</string>
   <string name="settings_title_comments">Kommentare</string>
   <string name="settings_title_filter">Filter</string>
@@ -546,6 +555,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_section_appearance">Darstellung</string>
   <string name="settings_section_other">Weitere Einstellungen</string>
   <string name="settings_section_browser">Browser</string>
+  <string name="settings_section_internal_viewers">Interne Betrachter</string>
   <string name="settings_section_custom_domains">Benutzerdefinierte Domains</string>
   <string name="settings_section_save_history">Verlauf speichern</string>
   <string name="settings_section_clear_history">Verlauf löschen</string>
@@ -569,6 +579,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_comment_collapse_description">Deaktiviert Animationen in den Kommentaren</string>
   <string name="settings_comment_collapse_default">Untergeordnete Kommentare standardmäßig zuklappen</string>
   <string name="settings_data_enable">Aktiviere Datenspar-Einstellungen</string>
+  <string name="settings_backup_occurs">Sicherung wird um %1$s ausgeführt</string>
   <string name="settings_backup_none">Es werden keine Subreddits gesichert</string>
   <string name="settings_backup_will_backup">\u0020wird gesichert</string>
   <string name="settings_backup_comments">\u0020(Kommentare)</string>
@@ -666,9 +677,11 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="unsubscribe_from">/r/%1$s abbestellen</string>
   <string name="btn_add_to_sublist">ZU SUB-LISTE HINZUFÜGEN</string>
   <string name="btn_remove_from_sublist">VON SUB-LISTE ENTFERNEN</string>
+  <string name="just_unsub">NUR ABMELDEN</string>
   <string name="subscribe_caps">ABONNIEREN</string>
   <string name="unsubscribe_caps">DEABONNIEREN</string>
   <string name="reorder_subreddits_title">Wähle einen Subreddit zum Hinzufügen aus</string>
+  <string name="reorder_add_or_search_subreddit">Subreddit suchen oder hinzufügen</string>
   <string name="reorder_subreddit_name">Subreddit-Name</string>
   <string name="reorder_remove_title">Diesen Subreddit entfernen?</string>
   <string name="reorder_remove_msg">Dein Abo wird nicht gelöscht, jedoch wird dieser Subreddit nicht mehr in deiner Seitenleiste angezeigt!</string>
@@ -676,8 +689,10 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="reorder_loading_title">Subreddits werden geladen</string>
   <string name="reorder_url_err">URL ungültig</string>
   <!-- Save categories -->
+  <string name="category_set_name">Name der Kategorie festlegen</string>
   <string name="category_set_name_hint">Kategoriename</string>
   <string name="category_categorize">KATEGORISIEREN</string>
+  <string name="category_set_error">Fehler beim Festlegen der Kategorie</string>
   <string name="category_create_new">Neue Kategorie</string>
   <string name="profile_category_loading">Lade Kategorien</string>
   <string name="profile_category_select">Kategorie auswählen</string>
@@ -795,14 +810,16 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="discover_popular">Beliebt</string>
   <string name="discover_trending">Angesagt</string>
   <!-- Subreddit post notifiactions -->
+  <string name="sub_post_notifs_title">Über neue Posts in\n/r/%1$s benachrichtigt werden?</string>
   <string name="sub_post_notifs_title_settings">Über neue Posts benachrichtigt werden?</string>
   <string name="sub_post_notifs_menu">Werde über neue Posts benachrichtigt</string>
-  <string name="sub_post_notify">Nenachrichtigen</string>
+  <string name="sub_post_notify">Benachrichtigen</string>
   <string name="sub_post_notifs_text">Slide wird alle 10 Minuten auf neue Posts prüfen. Du kannst dies in den Post Benachrichtigungen abstellen</string>
   <string name="sub_post_notifs_err">Du kannst nur für einzelne Subreddits Benachrichtigungen hinzufügen</string>
   <string name="sub_post_notifs_settings_title">Zu überprüfende Subreddits</string>
   <string name="sub_post_notifs_notification_title">Neuer Post in /r/%1$s</string>
   <string name="sub_post_notifs_notification_btn">/r/%1$s nicht mehr verfolgen</string>
+  <string name="title_sub_post_notifs">Subreddit Post Benachrichtigungen</string>
   <!-- Internal browser -->
   <string name="internal_browser_extracting_error">Artikel konnte nicht extrahiert werden</string>
   <string name="internal_browser_extracting_progress">Artikel wird extrahiert&#8230;</string>
@@ -815,6 +832,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <!-- Used when viewing media -->
   <string name="mediaview_notif_title">Lade Bild&#8230;</string>
   <string name="mediaview_notif_text">Download wird ausgeführt</string>
+  <string name="mediaview_converting_fail">Konvertierung des Gif-Bildes durch Gfycat funktionierte nicht</string>
   <string name="mediaview_converting_fail_btn">Im Web öffnen</string>
   <string name="mediaview_save">%1$s speichern</string>
   <string name="mediaview_saving">%1$s speichern</string>
@@ -833,6 +851,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="widget_theme_clear">KLAR</string>
   <string name="widget_posttype_title">Post-Typ</string>
   <string name="widget_posttype_list">LISTE</string>
+  <string name="widget_posttype_compact">KOMPAKT</string>
   <string name="widget_subname_hint">Subreddit-Name</string>
   <string name="widget_content">Inhalt</string>
   <string name="widget_loading">Lädt&#8230;</string>
@@ -842,7 +861,15 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="force_change_subscription">Konnte Abonnement nicht ändern</string>
   <string name="force_change_subscription_desc">Möchtest du es trotzdem lokal ändern?</string>
   <string name="never_load_images">Keine Bilder laden</string>
+  <string name="low_quality_images_in_image_viewer">Niedrige Bildqualität im Bildbetrachter</string>
+  <string name="load_lower_quality_imgur">Wenn aktiviert wird versucht, ein Bild mit noch niedrigerer Qualität von Imgur zu laden</string>
+  <string name="load_medium_quality_imgur_images">Imgur Bilder in mittlerer Qualität laden</string>
+  <string name="load_low_quality">Lade Bilder in niedriger Qualität (max. 320x320)</string>
+  <string name="load_medium_quality">Lade Bilder in mittlerer Qualität (max. 640x640)</string>
+  <string name="load_high_quality">Lade Bilder in hoher Qualität (max. 1080x1080)</string>
   <string name="choose_color_title">Wähle eine Farbe</string>
+  <string name="may_reduce_comment_scroll_performance">Kann Kommentar Scroll Geschwindigkeit reduzieren</string>
+  <string name="comment_shadowbox">Kommentar Schattenbox</string>
   <!-- Sidebar strings (multis, flairs) -->
   <string name="sidebar_select_flair">Flair auswählen</string>
   <string name="sidebar_select_flair_text">Flair-Text setzen</string>
@@ -861,10 +888,13 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <!-- Caching -->
   <string name="cache_no_comments_found">Keine Kommentare gefunden</string>
   <string name="cache_no_comments_found_snackbar">Keine gecachten Kommentare gefunden</string>
+  <string name="cache_no_comments_found_message">Dieser Beitrag hat keine Kommentare im Cache. Um Kommentare in Zukunft zu speichern, klicke auf das 3 Punkt-Menü im Hauptbildschirm und wähle \'Kommentare speichern\', oder stelle das automatische Speichern im Inhalts-Reiter des Navigations-Auszug ein</string>
   <string name="autocache_subreddits">Subreddits automatisch cachen</string>
   <string name="autocache_time">Zeit für automatisches Cachen</string>
   <string name="cache_subreddits_now">Subreddits jetzt cachen</string>
   <string name="cache_wifi_only">Nur bei WLAN cachen</string>
+  <string name="comments_depth">Zu cachende Kommentar Tiefe</string>
+  <string name="comments_count">Anzahl der zu cachenden Kommentare</string>
   <!-- Saving location setting -->
   <string name="set_gif_save_loc">GIF Speicher-Verzeichnis festlegen</string>
   <string name="set_gif_save_loc_msg">Es wurde noch kein GIF Speicher-Verzeichnis ausgewählt. Möchtest du jetzt eines setzen?</string>
@@ -899,6 +929,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="submission_share_reddit_url">Kommentare teilen</string>
   <string name="filter_content">Diesen Inhalt filtern</string>
   <string name="content_to_hide">Folgenden Inhalt ausblenden in %1$s</string>
+  <string name="save_for_offline_viewing">Einreichungen für die Offlineansicht speichern</string>
   <string name="btn_collapse_children_all">Untergeordnete Kommentare zuklappen</string>
   <string name="btn_open_content">Inhalt öffnen</string>
   <string name="btn_report">Melden</string>
@@ -907,6 +938,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="load_videos_internally">Videos intern laden</string>
   <string name="load_videos_internally_content">Möchtest du das Slide Video Plugin ausprobieren? Es erlaubt Dir Videos (z.B. YouTube) in der App anzuzeigen!</string>
   <string name="do_not_show_again">Nicht erneut anzeigen</string>
+  <string name="enter_text_to_filter_click_enter_to_add_flair">Gib den Filtertext ein (subreddit:flair_text), klicke Enter zum Hinzufügen</string>
   <plurals name="landscape_columns">
     <item quantity="one">Eine Spalte im Querformat</item>
     <item quantity="other">%d Spalten im Querformat</item>
@@ -917,6 +949,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="multi_column_force_full">Volle Kommentaransicht erzwingen</string>
   <string name="submission_info_locked">Dies ist ein gesperrter Beitrag. Du kannst nicht Bewerten oder Kommentare abgeben.</string>
   <string name="card_background_tint">Kartenhintergrund</string>
+  <string name="subreddit_name_tint">Subreddit-Name</string>
   <string name="login_failed_err_decline">Stelle sicher, dass du vorher nicht auf \"Ablehnen\" gedrückt hast und versuche es in einer Minute nochmals</string>
   <string name="thumb_type_always">Immer anzeigen</string>
   <string name="thumb_type_off">Nie anzeigen</string>
@@ -940,6 +973,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="guest">Gast</string>
   <string name="album_slide_view">Gleitende Albumansicht</string>
   <string name="album_grid">Alben als Raster</string>
+  <string name="album_saving">Album speichern</string>
+  <string name="open_externally">Extern öffnen</string>
   <string name="vertical_album_view">Vertikale Albumansicht</string>
   <string name="download_album">Album herunterladen</string>
   <string name="compose_message">Nachricht verfassen</string>
@@ -989,14 +1024,22 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="create_folder">Ordner erstellen</string>
   <string name="folder_name">Ordnername</string>
   <string name="sidebar_friends">Freunde</string>
+  <string name="get_lq_imgur_images_through_imgur_api">Rufe Bilder von Imgur mit niedriger Qualität durch die Imgur API ab</string>
+  <string name="open_links_externally">Öffne diesen Host immer extern</string>
+  <string name="hide_read_posts">Gelesene Beiträge ausblenden</string>
   <string name="gallery_mode">Galerie-Modus</string>
+  <string name="friends_sort_error">/ r / Freunde ist unsortierbar</string>
+  <string name="shadowbox_comments_nolinks">Keine Links in den Kommentaren gefunden</string>
   <string name="pro_previews">Vorschau (%d)</string>
   <string name="draw_undo">Rückgängig</string>
   <string name="empty_preview_text">Nichts zu sehen ¯\\_ (ツ) _ / ¯</string>
+  <string name="low_quality_through_imgur_higher_resolution">Niedrige Qualität via Imgur (höhere Auflösung)</string>
   <string name="low_quality_through_reddit_lower_resolution">Niedrige Qualität via Reddit (niedrigere Auflösung)</string>
   <string name="theme_red_shift">Rotverschiebung</string>
   <string name="view_sub_sidebar">Sub-Sidebar ansehen</string>
   <string name="mod_log">Mod Log</string>
+  <string name="navigation_bar_vote_gestures">Navigationsleisten Bewertungs-Gesten</string>
+  <string name="nav_gestures_description">Bewerte positiv und negativ, indem du über die Kommentarnavigations-Pfeile wischst</string>
   <string name="subreddit_sidebar_progress">Sidebar wird geladen...</string>
   <string name="manage_your_subreddits">Deine Subreddits verwalten</string>
   <string name="enlarge_links">Links vergrößern</string>
@@ -1004,5 +1047,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="type_tumblr">Tumblr</string>
   <string name="type_nsfw_tumblr">NSFW Tumblr</string>
   <string name="submission_info_contest">Dieser Thread ist im Wettbewerb-Modus. Sie können die Sortierung nicht ändern.</string>
+  <string name="sub_post_notifs_msg">Slide sucht nach neuen Posts, wenn es die Nachrichten abruft (Benachrichtigungen für Nachrichten müssen an sein)</string>
   <string name="mod_ban_reason_required">Grund ist erforderlich</string>
+  <string name="settings_abbreviate_post_scores">Verkürze Post Punkte (z. B. 24,0 k)</string>
 </resources>

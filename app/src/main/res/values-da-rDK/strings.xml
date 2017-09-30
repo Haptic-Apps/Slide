@@ -24,23 +24,37 @@
   <string name="submission_report">Rapporter indlæg</string>
   <string name="submission_gild">Åbn i browser</string>
   <string name="submission_save">Gem indlæg</string>
+  <string name="submission_save_image">Gem billede</string>
   <string name="submission_load_full">Indlæs hele tråden</string>
   <string name="submission_np_link">Der er ikke noget deltagelseslink. Stem eller kommenter venligst ikke</string>
   <string name="submission_tap_gif">Tryk for at indlæse GIF</string>
   <string name="submission_not_found">Ups! Indlæg ikke fundet!</string>
   <string name="submission_not_found_msg">Beklager. Dette indlæg kunne ikke findes</string>
+  <string name="submission_copy_text">Kopier tekst</string>
+  <string name="submission_comment_saved">Kommentar gemt</string>
+  <string name="submission_comment_unsaved">Kommentar fjernet</string>
+  <string name="submission_share_permalink">Del link</string>
+  <string name="submission_comment_copied">Kommentartekst kopieret</string>
+  <string name="submission_nocontent">Indlæg har ikke noget indholde</string>
+  <string name="submission_link_copied">Link kopieret</string>
+  <string name="submission_removed">Indlæg fjernet</string>
   <!-- Theme settings -->
   <string name="theme_light">Lys</string>
   <string name="theme_dark">Mørk</string>
   <string name="theme_black">AMOLED-sort</string>
   <string name="theme_dark_blue">Mørkeblå</string>
+  <string name="night_mode">Nattilstand</string>
   <string name="theme_default_color">Primær farve</string>
   <string name="theme_subreddit_color">Skift farve</string>
   <string name="theme_accent_color">Sekundær farve</string>
   <string name="theme_base">Basistema</string>
   <string name="theme_card">Kort</string>
+  <string name="theme_sepia">Sepia</string>
+  <string name="theme_amoled_contrast">AMOLED med kontrast</string>
+  <string name="theme_night">Nat tema</string>
   <!-- Font settings -->
   <string name="font_size">Skriftstørrelse</string>
+  <string name="font_size_huge">Stor</string>
   <string name="font_size_larger">Større</string>
   <string name="font_size_large">Stor</string>
   <string name="font_size_medium">Medium</string>
@@ -69,9 +83,11 @@
   <string name="sidebar_wiki">Subreddit-wiki</string>
   <string name="sidebar_mods">Subreddit-moderatorer</string>
   <!-- User profile -->
+  <string name="profile_karma_link">Post karma</string>
   <string name="profile_karma_comment">Kommentarkarma</string>
   <string name="profile_message">Privat besked</string>
   <string name="profile_saved">Gemt</string>
+  <string name="profile_read_later">Læs Senere</string>
   <string name="profile_upvoted">Stemt op</string>
   <string name="profile_err_title">Bruger ikke fundet</string>
   <string name="profile_err_msg">Reddit-brugeren kunne ikke hentes</string>
@@ -96,6 +112,7 @@
   <string name="profile_tag_user_existing">Bruger tagget som \'%s\'</string>
   <string name="profile_btn_tag">Angiv tag</string>
   <string name="profile_btn_untag">Fjern tag</string>
+  <string name="profile_info">Profiloplysninger</string>
   <!-- Comment text options -->
   <string name="comment_gild">Giv kommentar guld</string>
   <string name="comment_share">Del kommentar</string>
@@ -106,6 +123,7 @@
   <string name="comment_deleted">[slettet]</string>
   <string name="comment_unsave">Gem ikke</string>
   <string name="comment_load_more">Indlæs %1$d mere</string>
+  <string name="comment_load_more_string_new">Indlæs %1$s mere</string>
   <string name="comment_loading_more">Indlæser flere kommentarer&#8230;</string>
   <string name="comment_permalink">Indlæs kommentars permalink</string>
   <string name="comment_parent">Vis oprindelig kommentar</string>
@@ -124,12 +142,19 @@
   <string name="sorting_old">Gamle</string>
   <string name="sorting_controversial">Kontroversielle</string>
   <string name="sorting_rising">Stigende</string>
+  <string name="sorting_hour">time</string>
+  <string name="sorting_day">24 timer</string>
+  <string name="sorting_week">uge</string>
+  <string name="sorting_month">måned</string>
+  <string name="sorting_year">år</string>
+  <string name="sorting_all">altid</string>
   <string name="sorting_search_hour">Sidste time</string>
   <string name="sorting_search_day">Sidste 24 timer</string>
   <string name="sorting_search_week">Sidste uge</string>
   <string name="sorting_search_month">Sidste måned</string>
   <string name="sorting_search_year">Sidste år</string>
   <string name="sorting_search_all">For altid</string>
+  <string name="sorting_defaultfor">Standard for /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Tekst</string>
@@ -143,8 +168,11 @@
   <string name="editor_hint_optional_body">Tekst (valgfrit)</string>
   <string name="editor_submit">Indsend et indlæg</string>
   <string name="editor_hint_subreddit">Subreddit</string>
+  <string name="delete_submission">Slet indlæg</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Billede gemt</string>
+  <string name="video_saved">Video gemt</string>
+  <string name="gif_saved">GIF gemt</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Ups! Noget gik galt</string>
   <string name="err_invalid_url">Ugyldig URL</string>
@@ -154,6 +182,10 @@
   <string name="err_no_connection">Kunne ikke forbinde til Reddit. Vil du prøve igen?</string>
   <string name="err_retry_later">Prøv igen om et minut!</string>
   <string name="err_permission">Tilladelse nægtet</string>
+  <string name="err_permission_msg">Det ser ud til at du ikke har givet Slide lov til at bruge eksternt lagering. Dette vil føre til at du ikke kan gemme billede og at billed-/indlægscache vil fejle :(. \nVil du give Slide lov til at bruge ekstern lagring?</string>
+  <string name="err_authentication">Godkendelse fejlede</string>
+  <string name="err_submit_restricted">Dette subreddit er begrænset</string>
+  <string name="err_submit_restricted_text">Du har ikke lov til at skrive her. Vælg et andet subreddit</string>
   <!-- Gif -->
   <!-- Multireddits -->
   <string name="multireddit_title_empty_msg">Angiv venligst en titel til din multireddit</string>

@@ -503,6 +503,7 @@
   <string name="posts_hidden_forever">Post nascosti per sempre</string>
   <string name="share_image">Condividi immagine</string>
   <string name="settings_libs">Librerie open source</string>
+  <string name="settings_about_libs">Librerie</string>
   <string name="settings_bugs">Segnala bug</string>
   <string name="settings_changelog">Visualizza cronologia modifiche</string>
   <string name="settings_google">Connessione a Google</string>
@@ -522,9 +523,12 @@
   <string name="settings_font_comment">Carattere dei commenti</string>
   <string name="settings_comment_crop">Taglia immagine troppo grande nella vista commenti</string>
   <string name="settings_general_scroll_read">Segna post come già letti quando vengono scrollati</string>
+  <string name="settings_link_chrome">Usa le Chrome Custom Tabs</string>
   <string name="settings_image_location">Salva immagini/GIF in</string>
   <string name="settings_image_location_unset">Non ancora impostato</string>
   <string name="settings_set_image_location">Le immagini verranno salvate in %s</string>
+  <string name="settings_general_immersive_mode">Modalità schermo intero immersive</string>
+  <string name="settings_general_immersive_mode_desc">Nascondi le barre di stato e di navigazione (sperimentale)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Backup &amp; ripristino</string>
   <string name="settings_title_default_theme">Tema principale</string>
@@ -861,6 +865,9 @@
   <string name="load_high_quality_image_every_time">Altrimenti, carica immagini di alta qualità ogni volta</string>
   <string name="load_lower_quality_imgur">Se abilitato, proverà a caricare un\'immagine di Imgur di qualità ancora più bassa</string>
   <string name="load_medium_quality_imgur_images">Carica immagini di Imgur di media qualità</string>
+  <string name="load_low_quality">Carica immagini di bassa qualità (max 320x320)</string>
+  <string name="load_medium_quality">Carica immagini di media qualità (max 640x640)</string>
+  <string name="load_high_quality">Carica immagini di alta qualità (max 1080x1080)</string>
   <string name="choose_color_title">Scegli un colore</string>
   <string name="enter_text_to_filter_click_enter_to_add">Immetti il testo da filtrare, premi invio per aggiungerlo</string>
   <string name="mode_desktop_compact">Desktop compatto</string>
@@ -1053,4 +1060,5 @@
   <string name="submission_info_contest">Questo thread è in contest mode. Non puoi cambiare l\'ordinamento</string>
   <string name="sub_post_notifs_msg">Slide cercherà nuovi post quando cerca la posta (le notifiche della posta devono essere abilitate)</string>
   <string name="mod_ban_reason_required">È richiesto il motivo</string>
+  <string name="settings_abbreviate_post_scores">Abbrevia i punteggi dei post (es. 24.0k)</string>
 </resources>
