@@ -261,6 +261,31 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
                 </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/block_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
+
+                    <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/close" />
+
+                    <TextView
+                            android:id="@+id/block"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_block_user"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout

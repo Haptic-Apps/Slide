@@ -154,6 +154,7 @@
     <string name="profile_btn_tag">Set tag</string>
     <string name="profile_btn_untag">Remove tag</string>
     <string name="profile_info">Profile information</string>
+    <string name="profile_block_user">Block user</string>
 
 
     <!-- Comment text options -->
@@ -264,6 +265,7 @@
     <string name="err_comment_post_message">\n\nYour message has been saved as a draft. Please try again later.</string>
     <string name="err_comment_post_copy">Copy comment</string>
     <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
+    <string name="err_block_user">Error blocking user</string>
 
     <!-- Gif -->
     <string name="gif_err_title">GIF not found</string>
@@ -1172,5 +1174,6 @@
     <string name="setting_notification_piggybacking">Notification Piggybacking</string>
     <string name="setting_notification_piggybacking_desc">Check for mail only when the official Reddit app gets a push notification</string>
     <string name="install_notif_piggyback">Install the official Reddit app to enable Notification Piggybacking</string>
+    <string name="success_block_user">User blocked successfully</string>
 
 </resources>

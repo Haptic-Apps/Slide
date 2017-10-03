@@ -29,6 +29,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -42,8 +43,10 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
@@ -717,6 +720,36 @@ public class Profile extends BaseActivityAnim {
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+                            }
+                        });
+
+                        dialoglayout.findViewById(R.id.block_body).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AsyncTask<Void, Void, Boolean>() {
+                                    @Override
+                                    protected Boolean doInBackground(Void... params) {
+                                        Map<String, String> map = new HashMap();
+                                        map.put("account_id", "t2_" + account.getId());
+                                        try {
+                                            Authentication.reddit.execute(Authentication.reddit.request().post(map)
+                                                    .path(String.format("/api/block_user"))
+                                                    .build());
+                                        } catch (Exception ex) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+
+                                    @Override
+                                    public void onPostExecute(Boolean blocked) {
+                                        if (!blocked) {
+                                            Toast.makeText(getBaseContext(), getString(R.string.err_block_user), Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(getBaseContext(), getString(R.string.success_block_user), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                             }
                         });
                     } else {
