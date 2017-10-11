@@ -66,6 +66,7 @@ import net.dean.jraw.paginators.UserRecordPaginator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
@@ -622,8 +623,8 @@ public class SubredditView extends BaseActivity {
                     builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase()).apply();
-                            SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase()).apply();
+                            SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
+                            SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
                             final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
                             if(SettingValues.hasSort(subreddit)) {
                                 Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
@@ -1012,13 +1013,13 @@ public class SubredditView extends BaseActivity {
 
     public void filterContent(final String subreddit) {
         final boolean[] chosen = new boolean[]{
-                PostMatch.isImage(subreddit.toLowerCase()),
-                PostMatch.isAlbums(subreddit.toLowerCase()),
-                PostMatch.isGif(subreddit.toLowerCase()),
-                PostMatch.isVideo(subreddit.toLowerCase()),
-                PostMatch.isUrls(subreddit.toLowerCase()),
-                PostMatch.isSelftext(subreddit.toLowerCase()),
-                PostMatch.isNsfw(subreddit.toLowerCase())
+                PostMatch.isImage(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isAlbums(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isGif(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isVideo(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isUrls(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isSelftext(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isNsfw(subreddit.toLowerCase(Locale.ENGLISH))
         };
 
         final String FILTER_TITLE =
@@ -1229,10 +1230,10 @@ public class SubredditView extends BaseActivity {
 
     private void changeSubscription(Subreddit subreddit, boolean isChecked) {
         if (isChecked) {
-            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(),
+            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
                     SubredditView.this);
         } else {
-            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(),
+            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
                     SubredditView.this);
             pager.setCurrentItem(pager.getCurrentItem() - 1);
             restartTheme();
@@ -1273,7 +1274,7 @@ public class SubredditView extends BaseActivity {
                 for (String s : rawSubs) {
                     try {
                         String[] split = s.split(":");
-                        subThresholds.put(split[0].toLowerCase(), Integer.valueOf(split[1]));
+                        subThresholds.put(split[0].toLowerCase(Locale.ENGLISH), Integer.valueOf(split[1]));
                     } catch (Exception ignored) {
                         //do nothing
                     }
@@ -1281,7 +1282,7 @@ public class SubredditView extends BaseActivity {
 
                 //whether or not this subreddit was in the keySet
                 boolean isNotified =
-                        subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase());
+                        subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
                 ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
             } else {
                 findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -1405,7 +1406,7 @@ public class SubredditView extends BaseActivity {
 
                 currentlySubbed =
                         (!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(this)
-                                .contains(subreddit.getDisplayName().toLowerCase())) || (
+                                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) || (
                                 Authentication.isLoggedIn
                                         && subreddit.isUserSubscriber());
                 doSubscribeButtonText(currentlySubbed, subscribe);
@@ -1748,7 +1749,7 @@ public class SubredditView extends BaseActivity {
             if (!subreddit.getPublicDescription().isEmpty()) {
                 findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
                 setViews(subreddit.getDataNode().get("public_description_html").asText(),
-                        subreddit.getDisplayName().toLowerCase(),
+                        subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
                         ((SpoilerRobotoTextView) findViewById(R.id.sub_title)),
                         (CommentOverflow) findViewById(R.id.sub_title_overflow));
             } else {
@@ -1975,8 +1976,8 @@ public class SubredditView extends BaseActivity {
                             }
 
                             pager.setSwipeLeftOnly(true);
-                            themeSystemBars(openingComments.getSubredditName().toLowerCase());
-                            setRecentBar(openingComments.getSubredditName().toLowerCase());
+                            themeSystemBars(openingComments.getSubredditName().toLowerCase(Locale.ENGLISH));
+                            setRecentBar(openingComments.getSubredditName().toLowerCase(Locale.ENGLISH));
 
                         }
                     }

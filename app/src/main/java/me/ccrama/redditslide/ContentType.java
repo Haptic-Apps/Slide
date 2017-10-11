@@ -11,6 +11,7 @@ import net.dean.jraw.models.Submission;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by ccrama on 5/26/2015.
@@ -42,8 +43,8 @@ public class ContentType {
 
     public static boolean isGif(URI uri) {
         try {
-            final String host = uri.getHost().toLowerCase();
-            final String path = uri.getPath().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return hostContains(host, "gfycat.com")|| hostContains(host, "v.redd.it") || path.endsWith(".gif") || path.endsWith(
                     ".gifv") || path.endsWith(".webm") || path.endsWith(".mp4");
@@ -55,8 +56,8 @@ public class ContentType {
 
     public static boolean isImage(URI uri) {
         try {
-            final String host = uri.getHost().toLowerCase();
-            final String path = uri.getPath().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return host.equals("i.reddituploads.com") || path.endsWith(".png") || path.endsWith(
                     ".jpg") || path.endsWith(".jpeg");
@@ -68,8 +69,8 @@ public class ContentType {
 
     public static boolean isAlbum(URI uri) {
         try {
-            final String host = uri.getHost().toLowerCase();
-            final String path = uri.getPath().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return hostContains(host, "imgur.com", "bildgur.de") && (path.startsWith("/a/")
                     || path.startsWith("/gallery/")
@@ -83,8 +84,8 @@ public class ContentType {
 
     public static boolean isVideo(URI uri) {
         try {
-            final String host = uri.getHost().toLowerCase();
-            final String path = uri.getPath().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return Reddit.videoPlugin && hostContains(host, "youtu.be", "youtube.com",
                     "youtube.co.uk") && !path.contains("/user/") &&!path.contains("/channel/");
@@ -97,7 +98,7 @@ public class ContentType {
     public static boolean isImgurLink(String url) {
         try {
             final URI uri = new URI(url);
-            final String host = uri.getHost().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
 
             return hostContains(host, "imgur.com", "bildgur.de")
                     && !isAlbum(uri)
@@ -137,8 +138,8 @@ public class ContentType {
 
         try {
             final URI uri = new URI(url);
-            final String host = uri.getHost().toLowerCase();
-            final String scheme = uri.getScheme().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String scheme = uri.getScheme().toLowerCase(Locale.ENGLISH);
 
             if (!scheme.equals("http") && !scheme.equals("https")) {
                 return Type.EXTERNAL;
@@ -411,8 +412,8 @@ public class ContentType {
     public static boolean isImgurImage(String lqUrl) {
         try {
             final URI uri = new URI(lqUrl);
-            final String host = uri.getHost().toLowerCase();
-            final String path = uri.getPath().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return (host.contains("imgur.com") || host.contains("bildgur.de")) && ((path.endsWith(
                     ".png") || path.endsWith(".jpg") || path.endsWith(".jpeg")));
@@ -425,8 +426,8 @@ public class ContentType {
     public static boolean isImgurHash(String lqUrl) {
         try {
             final URI uri = new URI(lqUrl);
-            final String host = uri.getHost().toLowerCase();
-            final String path = uri.getPath().toLowerCase();
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return (host.contains("imgur.com")) && (!(path.endsWith(".png") && !path.endsWith(
                     ".jpg") && !path.endsWith(".jpeg")));

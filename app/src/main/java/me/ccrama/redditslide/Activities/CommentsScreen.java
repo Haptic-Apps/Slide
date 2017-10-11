@@ -18,6 +18,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
@@ -153,7 +154,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit, profile);
         } else {
-            baseSubreddit = subreddit.toLowerCase();
+            baseSubreddit = subreddit.toLowerCase(Locale.ENGLISH);
             subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
 

@@ -48,6 +48,7 @@ import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,7 +103,7 @@ public class CreateMulti extends BaseActivityAnim {
                     for (MultiReddit multiReddit : multis) {
                         if (multiReddit.getDisplayName().equals(multi)) {
                             for (MultiSubreddit sub : multiReddit.getSubreddits()) {
-                                subs.add(sub.getDisplayName().toLowerCase());
+                                subs.add(sub.getDisplayName().toLowerCase(Locale.ENGLISH));
                             }
                         }
                     }

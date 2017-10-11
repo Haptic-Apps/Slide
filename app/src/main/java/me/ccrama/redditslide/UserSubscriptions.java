@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Login;
@@ -71,7 +72,7 @@ public class UserSubscriptions {
         Map<String, String> multiNameToSubsMap = new HashMap<>();
 
         for (Map.Entry<String, String> entries : multiNameToSubsMapBase.entrySet()) {
-            multiNameToSubsMap.put(entries.getKey().toLowerCase(), entries.getValue());
+            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH), entries.getValue());
         }
 
         return multiNameToSubsMap;
@@ -98,7 +99,7 @@ public class UserSubscriptions {
             } else {
                 CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
                 for (String s2 : s.split(",")) {
-                    subredditsForHome.add(s2.toLowerCase());
+                    subredditsForHome.add(s2.toLowerCase(Locale.ENGLISH));
                 }
                 c.updateSubs(subredditsForHome);
             }
@@ -109,7 +110,7 @@ public class UserSubscriptions {
             List<String> subredditsForHome = new CaseInsensitiveArrayList();
             if (!s.isEmpty()) {
                 for (String s2 : s.split(",")) {
-                    subredditsForHome.add(s2.toLowerCase());
+                    subredditsForHome.add(s2.toLowerCase(Locale.ENGLISH));
                 }
             }
             CaseInsensitiveArrayList finals = new CaseInsensitiveArrayList();
@@ -135,7 +136,7 @@ public class UserSubscriptions {
             if (!s.isEmpty()) {
                 modOf = new CaseInsensitiveArrayList();
                 for (String s2 : s.split(",")) {
-                    modOf.add(s2.toLowerCase());
+                    modOf.add(s2.toLowerCase(Locale.ENGLISH));
                 }
             }
         }
@@ -209,7 +210,7 @@ public class UserSubscriptions {
         } else {
             CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
             for (String s2 : s.split(",")) {
-                if (!s2.contains("/m/")) subredditsForHome.add(s2.toLowerCase());
+                if (!s2.contains("/m/")) subredditsForHome.add(s2.toLowerCase(Locale.ENGLISH));
             }
             return subredditsForHome;
         }
@@ -265,7 +266,7 @@ public class UserSubscriptions {
             try {
                 while (pag.hasNext()) {
                     for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                        toReturn.add(s.getDisplayName().toLowerCase());
+                        toReturn.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
                     }
                 }
                 if (toReturn.isEmpty() && subscriptions.getString(Authentication.name, "")
@@ -412,7 +413,7 @@ public class UserSubscriptions {
         try {
             while (pag.hasNext()) {
                 for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                    finished.add(s.getDisplayName().toLowerCase());
+                    finished.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
                 }
             }
             modOf = (finished);
@@ -523,7 +524,7 @@ public class UserSubscriptions {
     }
 
     public static CaseInsensitiveArrayList getHistory() {
-        String[] hist = subscriptions.getString("subhistory", "").toLowerCase().split(",");
+        String[] hist = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH).split(",");
         CaseInsensitiveArrayList history = new CaseInsensitiveArrayList();
         Collections.addAll(history, hist);
         return history;
@@ -566,28 +567,28 @@ public class UserSubscriptions {
     //Sets sub as "searched for", will apply to all accounts
     public static void addSubToHistory(String s) {
         String history = subscriptions.getString("subhistory", "");
-        if (!history.contains(s.toLowerCase())) {
-            history += "," + s.toLowerCase();
+        if (!history.contains(s.toLowerCase(Locale.ENGLISH))) {
+            history += "," + s.toLowerCase(Locale.ENGLISH);
             subscriptions.edit().putString("subhistory", history).apply();
         }
     }
 
     //Sets a list of subreddits as "searched for", will apply to all accounts
     public static void addSubsToHistory(ArrayList<Subreddit> s2) {
-        String history = subscriptions.getString("subhistory", "").toLowerCase();
+        String history = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH);
         for (Subreddit s : s2) {
-            if (!history.contains(s.getDisplayName().toLowerCase())) {
-                history += "," + s.getDisplayName().toLowerCase();
+            if (!history.contains(s.getDisplayName().toLowerCase(Locale.ENGLISH))) {
+                history += "," + s.getDisplayName().toLowerCase(Locale.ENGLISH);
             }
         }
         subscriptions.edit().putString("subhistory", history).apply();
     }
 
     public static void addSubsToHistory(CaseInsensitiveArrayList s2, boolean b) {
-        String history = subscriptions.getString("subhistory", "").toLowerCase();
+        String history = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH);
         for (String s : s2) {
-            if (!history.contains(s.toLowerCase())) {
-                history += "," + s.toLowerCase();
+            if (!history.contains(s.toLowerCase(Locale.ENGLISH))) {
+                history += "," + s.toLowerCase(Locale.ENGLISH);
             }
         }
         subscriptions.edit().putString("subhistory", history).apply();
@@ -710,7 +711,7 @@ public class UserSubscriptions {
     }
 
     public static boolean isSubscriber(String s, Context c) {
-        return getSubscriptions(c).contains(s.toLowerCase());
+        return getSubscriptions(c).contains(s.toLowerCase(Locale.ENGLISH));
     }
 
     public static class SubscribeTask extends AsyncTask<String, Void, Void> {

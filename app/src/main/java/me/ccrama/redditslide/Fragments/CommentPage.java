@@ -63,6 +63,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
@@ -1365,7 +1366,7 @@ public class CommentPage extends Fragment {
 
                             currentlySubbed = (!Authentication.isLoggedIn
                                     && UserSubscriptions.getSubscriptions(getActivity())
-                                    .contains(baseSub.getDisplayName().toLowerCase())) || (
+                                    .contains(baseSub.getDisplayName().toLowerCase(Locale.ENGLISH))) || (
                                     Authentication.isLoggedIn
                                             && baseSub.isUserSubscriber());
                             doSubscribeButtonText(currentlySubbed, subscribe);
@@ -1620,7 +1621,7 @@ public class CommentPage extends Fragment {
                         if (!baseSub.getPublicDescription().isEmpty()) {
                             sidebar.findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
                             setViews(baseSub.getDataNode().get("public_description_html").asText(),
-                                    baseSub.getDisplayName().toLowerCase(),
+                                    baseSub.getDisplayName().toLowerCase(Locale.ENGLISH),
                                     ((SpoilerRobotoTextView) sidebar.findViewById(R.id.sub_title)),
                                     (CommentOverflow) sidebar.findViewById(
                                             R.id.sub_title_overflow));
@@ -2249,7 +2250,7 @@ public class CommentPage extends Fragment {
     }
 
     private void changeSubscription(Subreddit subreddit, boolean isChecked) {
-        UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), getContext());
+        UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH), getContext());
 
         Snackbar s = Snackbar.make(toolbar, isChecked ? getString(R.string.misc_subscribed)
                 : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);

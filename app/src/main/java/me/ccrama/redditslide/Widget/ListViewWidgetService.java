@@ -157,7 +157,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         ArrayList<Submission> s = new ArrayList<>(p.next());
                         records = new ArrayList<>();
                         for (Submission subm : s) {
-                            if (!PostMatch.doesMatch(subm)) {
+                            if (!PostMatch.doesMatch(subm) && !subm.isStickied()) {
                                 records.add(subm);
                             }
                         }

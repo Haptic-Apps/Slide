@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.CancelSubNotifs;
 import me.ccrama.redditslide.Activities.Inbox;
@@ -56,8 +57,9 @@ public class CheckForMail extends BroadcastReceiver {
             Reddit.authentication = new Authentication(context);
         }
 
-        if(!intent.hasExtra("single")) {
+        if(!((Reddit)c.getApplicationContext()).isAccessibilityEnabled()) {
             new AsyncGetMail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
             if (Authentication.mod) {
                 new AsyncGetModmail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
@@ -66,10 +68,6 @@ public class CheckForMail extends BroadcastReceiver {
             }
 
             if (Reddit.notificationTime != -1) new NotificationJobScheduler(context).start(context);
-
-        } else if(!((Reddit)context.getApplicationContext()).isAccessibilityEnabled()){
-            new AsyncGetMailSingle().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
     }
 
 
@@ -616,7 +614,7 @@ public class CheckForMail extends BroadcastReceiver {
                 for (String s : rawSubs) {
                     try {
                         String[] split = s.split(":");
-                        subThresholds.put(split[0].toLowerCase(), Integer.valueOf(split[1]));
+                        subThresholds.put(split[0].toLowerCase(Locale.ENGLISH), Integer.valueOf(split[1]));
                     } catch (Exception ignored) {
 
                     }
@@ -649,7 +647,7 @@ public class CheckForMail extends BroadcastReceiver {
                         if (unread.hasNext()) {
                             for (Submission subm : unread.next()) {
                                 if (subm.getScore() >= subThresholds.get(
-                                        subm.getSubredditName().toLowerCase())
+                                        subm.getSubredditName().toLowerCase(Locale.ENGLISH))
                                         && !HasSeen.getSeen(subm)
                                         && subm.getDataNode().get("created").asLong()
                                         + offsetSeconds >= lastTime / 1000) {

@@ -405,7 +405,7 @@ public class Profile extends BaseActivityAnim {
                         return true;
                 }
 
-                Reddit.sorting.put(name.toLowerCase(), profSort);
+                Reddit.sorting.put(name.toLowerCase(Locale.ENGLISH), profSort);
 
                 int current = pager.getCurrentItem();
                 ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
@@ -457,8 +457,8 @@ public class Profile extends BaseActivityAnim {
                         break;
                 }
 
-                Reddit.sorting.put(name.toLowerCase(), profSort);
-                Reddit.times.put(name.toLowerCase(), profTime);
+                Reddit.sorting.put(name.toLowerCase(Locale.ENGLISH), profSort);
+                Reddit.times.put(name.toLowerCase(Locale.ENGLISH), profTime);
 
                 int current = pager.getCurrentItem();
                 ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());

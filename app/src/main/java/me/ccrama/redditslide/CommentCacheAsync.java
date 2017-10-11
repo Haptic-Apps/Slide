@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -429,7 +430,7 @@ public class CommentCacheAsync extends AsyncTask {
         {
             sort = CommentSort.CONFIDENCE;
         }
-        args.put("sort", sort.name().toLowerCase());
+        args.put("sort", sort.name().toLowerCase(Locale.ENGLISH));
 
         try {
 

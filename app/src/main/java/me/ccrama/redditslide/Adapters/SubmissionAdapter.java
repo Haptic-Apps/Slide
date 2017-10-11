@@ -26,6 +26,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
@@ -59,12 +60,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView,
             String subreddit, SubmissionDisplay displayer) {
-        this.subreddit = subreddit.toLowerCase();
+        this.subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         this.listView = listView;
         this.dataSet = dataSet;
         this.context = context;
         this.seen = new ArrayList<>();
-        custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
+        custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase(Locale.ENGLISH));
         this.displayer = displayer;
         MainActivity.randomoverride = "";
     }
@@ -197,7 +198,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView,
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH), holder.itemView,
                     subreddit,
                     (subreddit.equals("frontpage")
                             || subreddit.equals("mod")
@@ -336,7 +337,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             );
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission,
                     context, false, false, dataSet.posts, listView, custom, dataSet.offline,
-                    dataSet.subreddit.toLowerCase(), null);
+                    dataSet.subreddit.toLowerCase(Locale.ENGLISH), null);
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {
             Handler handler = new Handler();

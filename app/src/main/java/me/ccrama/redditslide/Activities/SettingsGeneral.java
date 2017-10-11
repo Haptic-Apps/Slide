@@ -35,6 +35,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
@@ -686,7 +687,7 @@ public class SettingsGeneral extends BaseActivityAnim
         for (String s : rawSubs) {
             try {
                 String[] split = s.split(":");
-                subThresholds.put(split[0].toLowerCase(), Integer.valueOf(split[1]));
+                subThresholds.put(split[0].toLowerCase(Locale.ENGLISH), Integer.valueOf(split[1]));
             } catch (Exception ignored) {
 
             }
@@ -713,7 +714,7 @@ public class SettingsGeneral extends BaseActivityAnim
                     && !s.contains("+")
                     && !s.contains(".")
                     && !s.contains("/m/")) {
-                all[i] = s.toLowerCase();
+                all[i] = s.toLowerCase(Locale.ENGLISH);
                 i++;
             }
         }
@@ -812,7 +813,7 @@ public class SettingsGeneral extends BaseActivityAnim
         final ArrayList<String> subs = new ArrayList<>();
         for (String s : subsRaw) {
             try {
-                subs.add(s.split(":")[0].toLowerCase());
+                subs.add(s.split(":")[0].toLowerCase(Locale.ENGLISH));
             } catch (Exception e) {
 
             }
@@ -820,8 +821,8 @@ public class SettingsGeneral extends BaseActivityAnim
 
         final ArrayList<String> toAdd = new ArrayList<>();
         for (String s : strings) {
-            if (!subs.contains(s.toLowerCase())) {
-                toAdd.add(s.toLowerCase());
+            if (!subs.contains(s.toLowerCase(Locale.ENGLISH))) {
+                toAdd.add(s.toLowerCase(Locale.ENGLISH));
             }
         }
         if (!toAdd.isEmpty()) {
@@ -860,7 +861,7 @@ public class SettingsGeneral extends BaseActivityAnim
             if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase(
                     "mod")) {
                 ArrayList<String> singleSub = new ArrayList<>();
-                singleSub.add(subreddit.getDisplayName().toLowerCase());
+                singleSub.add(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
                 showThresholdDialog(singleSub, true);
             }
         }

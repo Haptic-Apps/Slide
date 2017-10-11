@@ -20,6 +20,7 @@ import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
@@ -141,8 +142,8 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                             int i = 0;
                                             done = 0;
                                             for (Subreddit s : subColors) {
-                                                if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
-                                                    Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), SettingsSubreddit.this));
+                                                if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase(Locale.ENGLISH)) == Palette.getDefaultColor()) {
+                                                    Palette.setColor(s.getDisplayName().toLowerCase(Locale.ENGLISH), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), SettingsSubreddit.this));
                                                     done++;
                                                 }
                                                 d.setProgress(i);
@@ -196,7 +197,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
             if (Palette.getColor(s) != Palette.getDefaultColor()
                     || SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s)
                     || colorPrefs.getFontStyleSubreddit(s).getColor() != defaultFont
-                    || SettingValues.prefs.contains("picsenabled" + s.toLowerCase())) {
+                    || SettingValues.prefs.contains("picsenabled" + s.toLowerCase(Locale.ENGLISH))) {
                 changedSubs.add(s);
             }
         }

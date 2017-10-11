@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import net.dean.jraw.models.Subreddit;
 
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Fragments.SubredditListView;
@@ -40,7 +41,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     SubredditListView displayer;
 
     public SubredditAdapter(Activity context, SubredditNames dataSet, RecyclerView listView, String where, SubredditListView displayer) {
-        String where1 = where.toLowerCase();
+        String where1 = where.toLowerCase(Locale.ENGLISH);
         this.listView = listView;
         this.dataSet = dataSet;
         this.context = context;
@@ -106,7 +107,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.name.setText(sub.getDisplayName());
 
             holder.color.setBackgroundResource(R.drawable.circle);
-            holder.color.getBackground().setColorFilter(Palette.getColor(sub.getDisplayName().toLowerCase()), PorterDuff.Mode.MULTIPLY);
+            holder.color.getBackground().setColorFilter(Palette.getColor(sub.getDisplayName().toLowerCase(Locale.ENGLISH)), PorterDuff.Mode.MULTIPLY);
             holder.itemView.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
@@ -137,7 +138,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else {
                 holder.body.setVisibility(View.VISIBLE);
                 holder.overflow.setVisibility(View.VISIBLE);
-                setViews(sub.getDataNode().get("public_description_html").asText().trim(), sub.getDisplayName().toLowerCase(), holder.body, holder.overflow);
+                setViews(sub.getDataNode().get("public_description_html").asText().trim(), sub.getDisplayName().toLowerCase(Locale.ENGLISH), holder.body, holder.overflow);
             }
 
             try {

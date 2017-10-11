@@ -33,6 +33,7 @@ import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 import net.dean.jraw.models.Submission;
 
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -377,7 +378,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
             OfflineSubreddit o =
-                    OfflineSubreddit.getSubreddit(id.toLowerCase(), false, getActivity());
+                    OfflineSubreddit.getSubreddit(id.toLowerCase(Locale.ENGLISH), false, getActivity());
 
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
                 try {

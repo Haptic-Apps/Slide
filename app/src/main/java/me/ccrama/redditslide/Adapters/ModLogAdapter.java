@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 
 import net.dean.jraw.models.ModAction;
 
+import java.util.Locale;
+
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -142,8 +144,8 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             if (Authentication.name != null && a.getModerator()
-                    .toLowerCase()
-                    .equals(Authentication.name.toLowerCase())) {
+                    .toLowerCase(Locale.ENGLISH)
+                    .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
                 author.replace(0, author.length(), " " + a.getModerator() + " ");
                 author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
                                 R.color.md_deep_orange_300, false), 0, author.length(),

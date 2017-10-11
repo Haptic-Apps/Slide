@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -31,10 +32,10 @@ public class CancelSubNotifs extends Activity {
 
         if (extras != null) {
             subName = extras.getString(EXTRA_SUB, "");
-            subName = subName.toLowerCase();
+            subName = subName.toLowerCase(Locale.ENGLISH);
 
             ArrayList<String> subs = Reddit.stringToArray(
-                    Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").toLowerCase());
+                    Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").toLowerCase(Locale.ENGLISH));
             String toRemove = "";
 
             for(String s : subs){

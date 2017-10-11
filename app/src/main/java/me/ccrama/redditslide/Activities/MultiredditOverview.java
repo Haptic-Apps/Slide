@@ -44,6 +44,7 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
@@ -460,7 +461,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         String id =
                 ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit
                         .getDisplayName()
-                        .toLowerCase();
+                        .toLowerCase(Locale.ENGLISH);
         final Spannable[] base = Reddit.getSortingSpannables(getBaseContext(), "multi" + id);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
@@ -481,35 +482,35 @@ public class MultiredditOverview extends BaseActivityAnim {
                             Reddit.setSorting("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), Sorting.HOT);
+                                    .toLowerCase(Locale.ENGLISH), Sorting.HOT);
                             reloadSubs();
                             break;
                         case 1:
                             Reddit.setSorting("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), Sorting.NEW);
+                                    .toLowerCase(Locale.ENGLISH), Sorting.NEW);
                             reloadSubs();
                             break;
                         case 2:
                             Reddit.setSorting("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), Sorting.RISING);
+                                    .toLowerCase(Locale.ENGLISH), Sorting.RISING);
                             reloadSubs();
                             break;
                         case 3:
                             Reddit.setSorting("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), Sorting.TOP);
+                                    .toLowerCase(Locale.ENGLISH), Sorting.TOP);
                             openPopupTime();
                             break;
                         case 4:
                             Reddit.setSorting("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), Sorting.CONTROVERSIAL);
+                                    .toLowerCase(Locale.ENGLISH), Sorting.CONTROVERSIAL);
                             openPopupTime();
                             break;
                     }
@@ -528,7 +529,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         String id =
                 ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit
                         .getDisplayName()
-                        .toLowerCase();
+                        .toLowerCase(Locale.ENGLISH);
         final Spannable[] base = Reddit.getSortingSpannablesTime(getBaseContext(), "multi" + id);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
@@ -549,42 +550,42 @@ public class MultiredditOverview extends BaseActivityAnim {
                             Reddit.setTime("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), TimePeriod.HOUR);
+                                    .toLowerCase(Locale.ENGLISH), TimePeriod.HOUR);
                             reloadSubs();
                             break;
                         case 1:
                             Reddit.setTime("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), TimePeriod.DAY);
+                                    .toLowerCase(Locale.ENGLISH), TimePeriod.DAY);
                             reloadSubs();
                             break;
                         case 2:
                             Reddit.setTime("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), TimePeriod.WEEK);
+                                    .toLowerCase(Locale.ENGLISH), TimePeriod.WEEK);
                             reloadSubs();
                             break;
                         case 3:
                             Reddit.setTime("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), TimePeriod.MONTH);
+                                    .toLowerCase(Locale.ENGLISH), TimePeriod.MONTH);
                             reloadSubs();
                             break;
                         case 4:
                             Reddit.setTime("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), TimePeriod.YEAR);
+                                    .toLowerCase(Locale.ENGLISH), TimePeriod.YEAR);
                             reloadSubs();
                             break;
                         case 5:
                             Reddit.setTime("multi"
                                     + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
                                     .getCurrentFragment())).posts.multiReddit.getDisplayName()
-                                    .toLowerCase(), TimePeriod.ALL);
+                                    .toLowerCase(Locale.ENGLISH), TimePeriod.ALL);
                             reloadSubs();
                             break;
                     }
@@ -675,7 +676,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         CaseInsensitiveArrayList toSort = new CaseInsensitiveArrayList();
 
         for (MultiSubreddit s : current.getSubreddits()) {
-            toSort.add(s.getDisplayName().toLowerCase());
+            toSort.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
         }
 
         for (String sub : UserSubscriptions.sortNoExtras(toSort)) {

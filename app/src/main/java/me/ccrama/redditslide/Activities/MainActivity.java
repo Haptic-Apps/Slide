@@ -1176,7 +1176,7 @@ public class MainActivity extends BaseActivity
                                     Reddit.appRestart.edit().putString("url", s.getUrl()).apply();
 
                                     String title;
-                                    if (s.getTitle().toLowerCase().contains("release")) {
+                                    if (s.getTitle().toLowerCase(Locale.ENGLISH).contains("release")) {
                                         title = getString(R.string.btn_changelog);
                                     } else {
                                         title = getString(R.string.btn_view);
@@ -2457,7 +2457,7 @@ public class MainActivity extends BaseActivity
             for (String s : rawSubs) {
                 try {
                     String[] split = s.split(":");
-                    subThresholds.put(split[0].toLowerCase(), Integer.valueOf(split[1]));
+                    subThresholds.put(split[0].toLowerCase(Locale.ENGLISH), Integer.valueOf(split[1]));
                 } catch (Exception ignored) {
                     //do nothing
                 }
@@ -2465,7 +2465,7 @@ public class MainActivity extends BaseActivity
 
             //whether or not this subreddit was in the keySet
             boolean isNotified =
-                    subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase());
+                    subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
             ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -2689,7 +2689,7 @@ public class MainActivity extends BaseActivity
         {
             final TextView subscribe = (TextView) findViewById(R.id.subscribe);
             currentlySubbed = (!Authentication.isLoggedIn && usedArray.contains(
-                    subreddit.getDisplayName().toLowerCase())) || subreddit.isUserSubscriber();
+                    subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) || subreddit.isUserSubscriber();
             doSubscribeButtonText(currentlySubbed, subscribe);
 
             assert subscribe != null;
@@ -2915,7 +2915,7 @@ public class MainActivity extends BaseActivity
         if (!subreddit.getPublicDescription().isEmpty()) {
             findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
             setViews(subreddit.getDataNode().get("public_description_html").asText(),
-                    subreddit.getDisplayName().toLowerCase(),
+                    subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
                     ((SpoilerRobotoTextView) findViewById(R.id.sub_title)),
                     (CommentOverflow) findViewById(R.id.sub_title_overflow));
         } else {
@@ -3073,8 +3073,8 @@ public class MainActivity extends BaseActivity
                     builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase()).apply();
-                            SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase()).apply();
+                            SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
+                            SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
                             final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
                             if(SettingValues.hasSort(subreddit)) {
                                 Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
@@ -3599,13 +3599,13 @@ public class MainActivity extends BaseActivity
 
     public void filterContent(final String subreddit) {
         final boolean[] chosen = new boolean[]{
-                PostMatch.isImage(subreddit.toLowerCase()),
-                PostMatch.isAlbums(subreddit.toLowerCase()),
-                PostMatch.isGif(subreddit.toLowerCase()),
-                PostMatch.isVideo(subreddit.toLowerCase()),
-                PostMatch.isUrls(subreddit.toLowerCase()),
-                PostMatch.isSelftext(subreddit.toLowerCase()),
-                PostMatch.isNsfw(subreddit.toLowerCase())
+                PostMatch.isImage(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isAlbums(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isGif(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isVideo(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isUrls(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isSelftext(subreddit.toLowerCase(Locale.ENGLISH)),
+                PostMatch.isNsfw(subreddit.toLowerCase(Locale.ENGLISH))
         };
 
         final String currentSubredditName = usedArray.get(Reddit.currentPosition);
@@ -4051,7 +4051,7 @@ public class MainActivity extends BaseActivity
                         if (sideArrayAdapter.fitems == null
                                 || sideArrayAdapter.openInSubView
                                 || !usedArray.contains(
-                                drawerSearch.getText().toString().toLowerCase())) {
+                                drawerSearch.getText().toString().toLowerCase(Locale.ENGLISH))) {
                             Intent inte = new Intent(MainActivity.this, SubredditView.class);
                             inte.putExtra(SubredditView.EXTRA_SUBREDDIT,
                                     drawerSearch.getText().toString());
@@ -4064,18 +4064,18 @@ public class MainActivity extends BaseActivity
                                         (usedArray.size() + 1);
                                 adapter.notifyDataSetChanged();
                                 if (usedArray.contains(
-                                        drawerSearch.getText().toString().toLowerCase())) {
+                                        drawerSearch.getText().toString().toLowerCase(Locale.ENGLISH))) {
                                     doPageSelectedComments(usedArray.indexOf(
-                                            drawerSearch.getText().toString().toLowerCase()));
+                                            drawerSearch.getText().toString().toLowerCase(Locale.ENGLISH)));
                                 } else {
                                     doPageSelectedComments(
                                             usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
                                 }
                             }
                             if (usedArray.contains(
-                                    drawerSearch.getText().toString().toLowerCase())) {
+                                    drawerSearch.getText().toString().toLowerCase(Locale.ENGLISH))) {
                                 pager.setCurrentItem(usedArray.indexOf(
-                                        drawerSearch.getText().toString().toLowerCase()));
+                                        drawerSearch.getText().toString().toLowerCase(Locale.ENGLISH)));
                             } else {
                                 pager.setCurrentItem(
                                         usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
@@ -4373,10 +4373,10 @@ public class MainActivity extends BaseActivity
     private void changeSubscription(Subreddit subreddit, boolean isChecked) {
         currentlySubbed = isChecked;
         if (isChecked) {
-            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(),
+            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
                     MainActivity.this);
         } else {
-            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(),
+            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
                     MainActivity.this);
             pager.setCurrentItem(pager.getCurrentItem() - 1);
             restartTheme();
@@ -4610,7 +4610,7 @@ public class MainActivity extends BaseActivity
                                                             || !usedArray.contains(
                                                             GO_TO_SUB_FIELD.getText()
                                                                     .toString()
-                                                                    .toLowerCase())) {
+                                                                    .toLowerCase(Locale.ENGLISH))) {
                                                         Intent intent =
                                                                 new Intent(MainActivity.this,
                                                                         SubredditView.class);
@@ -4632,12 +4632,12 @@ public class MainActivity extends BaseActivity
                                                             if (usedArray.contains(
                                                                     GO_TO_SUB_FIELD.getText()
                                                                             .toString()
-                                                                            .toLowerCase())) {
+                                                                            .toLowerCase(Locale.ENGLISH))) {
                                                                 doPageSelectedComments(
                                                                         usedArray.indexOf(
                                                                                 GO_TO_SUB_FIELD.getText()
                                                                                         .toString()
-                                                                                        .toLowerCase()));
+                                                                                        .toLowerCase(Locale.ENGLISH)));
                                                             } else {
                                                                 doPageSelectedComments(
                                                                         usedArray.indexOf(
@@ -4648,11 +4648,11 @@ public class MainActivity extends BaseActivity
                                                         if (usedArray.contains(
                                                                 GO_TO_SUB_FIELD.getText()
                                                                         .toString()
-                                                                        .toLowerCase())) {
+                                                                        .toLowerCase(Locale.ENGLISH))) {
                                                             pager.setCurrentItem(usedArray.indexOf(
                                                                     GO_TO_SUB_FIELD.getText()
                                                                             .toString()
-                                                                            .toLowerCase()));
+                                                                            .toLowerCase(Locale.ENGLISH)));
                                                         } else {
                                                             pager.setCurrentItem(usedArray.indexOf(
                                                                     sideArrayAdapter.fitems.get(
@@ -5260,8 +5260,8 @@ public class MainActivity extends BaseActivity
                                         .setDuration(180);
                             }
                             pager.setSwipeLeftOnly(true);
-                            themeSystemBars(openingComments.getSubredditName().toLowerCase());
-                            setRecentBar(openingComments.getSubredditName().toLowerCase());
+                            themeSystemBars(openingComments.getSubredditName().toLowerCase(Locale.ENGLISH));
+                            setRecentBar(openingComments.getSubredditName().toLowerCase(Locale.ENGLISH));
                         }
                     }
                 }

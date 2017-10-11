@@ -16,6 +16,7 @@ import net.dean.jraw.paginators.MultiRedditPaginator;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
@@ -295,7 +296,7 @@ public class MultiredditPosts implements PostLoader {
                     offline = false;
                 }
                 if (!usedOffline)
-                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), false, context).overwriteSubmissions(posts).writeToMemory(c);
+                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH), false, context).overwriteSubmissions(posts).writeToMemory(c);
 
                 String[] ids = new String[submissions.size()];
                 int i = 0;
@@ -314,13 +315,14 @@ public class MultiredditPosts implements PostLoader {
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
-            } else if (!OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), false, context).submissions.isEmpty() && !nomore && SettingValues.cache) {
+            } else if (!OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(
+                    Locale.ENGLISH), false, context).submissions.isEmpty() && !nomore && SettingValues.cache) {
                 offline = true;
-                final OfflineSubreddit cached = OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), true, context);
+                final OfflineSubreddit cached = OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH), true, context);
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {
-                    if (!PostMatch.doesMatch(s, "multi" + multiReddit.getDisplayName().toLowerCase(), false)) {
+                    if (!PostMatch.doesMatch(s, "multi" + multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH), false)) {
                         finalSubs.add(s);
                     }
                 }
@@ -355,8 +357,8 @@ public class MultiredditPosts implements PostLoader {
                 offline = false;
                 paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
                 paginator.setSorting(SettingValues.getSubmissionSort(
-                        "multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
-                paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod("multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
+                        "multi" + subredditPaginators[0].getDisplayName().toLowerCase(Locale.ENGLISH)));
+                paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod("multi" + subredditPaginators[0].getDisplayName().toLowerCase(Locale.ENGLISH)));
                 paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
             }
 

@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:text="@string/example_domain"
+            android:textStyle="bold"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -56,7 +57,7 @@
             android:paddingBottom="8dp"
             android:text="@string/example_url"
             android:textColor="#8Affffff"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 

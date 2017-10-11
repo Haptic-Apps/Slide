@@ -26,6 +26,8 @@ import net.dean.jraw.paginators.TimePeriod;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Locale;
+
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.ColorPreferences;
@@ -111,7 +113,7 @@ public class Search extends BaseActivityAnim {
                 //When the .name() is returned for both of the ENUMs, it will be in all caps.
                 //So, make it lowercase, then capitalize the first letter of each.
                 getSupportActionBar()
-                        .setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase()) + " › " + StringUtils.capitalize(time.name().toLowerCase()));
+                        .setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
@@ -144,7 +146,7 @@ public class Search extends BaseActivityAnim {
                 //When the .name() is returned for both of the ENUMs, it will be in all caps.
                 //So, make it lowercase, then capitalize the first letter of each.
                 getSupportActionBar()
-                        .setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase()) + " › " + StringUtils.capitalize(time.name().toLowerCase()));
+                        .setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
@@ -234,7 +236,7 @@ public class Search extends BaseActivityAnim {
 
         where = StringEscapeUtils.unescapeHtml4(where);
 
-        setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
+        setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase(Locale.ENGLISH));
 
         time = TimePeriod.ALL;
 
@@ -251,7 +253,7 @@ public class Search extends BaseActivityAnim {
 
         //When the .name() is returned for both of the ENUMs, it will be in all caps.
         //So, make it lowercase, then capitalize the first letter of each.
-        getSupportActionBar().setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase()) + " › " + StringUtils.capitalize(time.name().toLowerCase()));
+        getSupportActionBar().setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
@@ -300,7 +302,7 @@ public class Search extends BaseActivityAnim {
             }
         });
 
-        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(), this);
+        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(Locale.ENGLISH), this);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 

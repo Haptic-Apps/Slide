@@ -264,7 +264,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static Integer getSortingId(String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         Sorting sort =
                 sorting.containsKey(subreddit) ? sorting.get(subreddit) : Reddit.defaultSorting;
 
@@ -289,7 +289,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static Integer getSortingIdTime(String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         TimePeriod time = times.containsKey(subreddit) ? times.get(subreddit) : Reddit.timePeriod;
 
         return getSortingIdTime(time);
@@ -849,13 +849,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void setSorting(String s, Sorting sort) {
-        sorting.put(s.toLowerCase(), sort);
+        sorting.put(s.toLowerCase(Locale.ENGLISH), sort);
     }
 
     public static final Map<String, Sorting> sorting = new HashMap<>();
 
     public static Sorting getSorting(String subreddit, Sorting defaultSort) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         if (sorting.containsKey(subreddit)) {
             return sorting.get(subreddit);
         } else {
@@ -864,7 +864,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static TimePeriod getTime(String subreddit, TimePeriod defaultTime) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         if (times.containsKey(subreddit)) {
             return times.get(subreddit);
         } else {
@@ -873,13 +873,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void setTime(String s, TimePeriod sort) {
-        times.put(s.toLowerCase(), sort);
+        times.put(s.toLowerCase(Locale.ENGLISH), sort);
     }
 
     public static final Map<String, TimePeriod> times = new HashMap<>();
 
     public static TimePeriod getTime(String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         if (times.containsKey(subreddit)) {
             return times.get(subreddit);
         } else {

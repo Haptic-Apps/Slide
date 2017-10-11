@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,7 +51,7 @@ public class ImageFlairs {
                 super.onPostExecute(flairStylesheet);
                 d.dismiss();
                 if (flairStylesheet != null) {
-                    flairs.edit().putBoolean(subreddit.toLowerCase(), true).commit();
+                    flairs.edit().putBoolean(subreddit.toLowerCase(Locale.ENGLISH), true).commit();
                     d = new AlertDialogWrapper.Builder(context).setTitle("Subreddit flairs synced")
                             .setMessage("Slide found and synced "
                                     + flairStylesheet.count
@@ -147,7 +148,7 @@ public class ImageFlairs {
     public static SharedPreferences flairs;
 
     public static boolean isSynced(String subreddit) {
-        return flairs.contains(subreddit.toLowerCase());
+        return flairs.contains(subreddit.toLowerCase(Locale.ENGLISH));
     }
 
     public static class CropTransformation {
@@ -622,7 +623,7 @@ public class ImageFlairs {
                     }
                     try {
                         getFlairImageLoader(context).getDiskCache()
-                                .save(sub.toLowerCase() + ":" + id.toLowerCase(), newBit);
+                                .save(sub.toLowerCase(Locale.ENGLISH) + ":" + id.toLowerCase(Locale.ENGLISH), newBit);
                         count += 1;
                     } catch (Exception e) {
                         e.printStackTrace();

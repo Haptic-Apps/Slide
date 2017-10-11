@@ -238,7 +238,7 @@ public class RedditItemView extends RelativeLayout {
 
     private void doSidebar(Subreddit subreddit, View content) {
         if ((!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(getContext())
-                .contains(subreddit.getDisplayName().toLowerCase())) || (Authentication.isLoggedIn
+                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) || (Authentication.isLoggedIn
                 && subreddit.isUserSubscriber())) {
             ((AppCompatCheckBox) content.findViewById(R.id.subscribed)).setChecked(true);
         }
@@ -248,7 +248,7 @@ public class RedditItemView extends RelativeLayout {
         if (!subreddit.getPublicDescription().isEmpty()) {
             content.findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
             setViews(subreddit.getDataNode().get("public_description_html").asText(),
-                    subreddit.getDisplayName().toLowerCase(),
+                    subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
                     ((SpoilerRobotoTextView) content.findViewById(R.id.sub_title)),
                     (CommentOverflow) content.findViewById(R.id.sub_title_overflow));
         } else {
@@ -441,7 +441,7 @@ public class RedditItemView extends RelativeLayout {
         final SubmissionViewHolder holder = new SubmissionViewHolder(content);
         CreateCardView.resetColorCard(holder.itemView);
         if (submission.getSubredditName() != null) {
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView,
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH), holder.itemView,
                     "no_subreddit", false);
         }
         new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission,

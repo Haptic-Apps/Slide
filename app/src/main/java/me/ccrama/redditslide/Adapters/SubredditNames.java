@@ -11,6 +11,7 @@ import net.dean.jraw.paginators.SubredditStream;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
@@ -79,7 +80,8 @@ public class SubredditNames {
             if (submissions != null && !submissions.isEmpty()) {
                 ArrayList<Subreddit> toRemove = new ArrayList<>();
                 for (Subreddit s : submissions) {
-                    if (!SettingValues.subredditFilters.isEmpty() && PostMatch.contains(s.getDisplayName().toLowerCase(), PostMatch.subreddits, true))
+                    if (!SettingValues.subredditFilters.isEmpty() && PostMatch.contains(s.getDisplayName().toLowerCase(
+                            Locale.ENGLISH), PostMatch.subreddits, true))
                         toRemove.add(s);
                 }
                 submissions.removeAll(toRemove);

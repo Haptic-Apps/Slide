@@ -30,6 +30,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
@@ -300,7 +301,8 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = posts.posts;
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase(), false, getActivity());
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase(
+                    Locale.ENGLISH), false, getActivity());
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(posts.posts.get(i))) {

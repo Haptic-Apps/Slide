@@ -594,16 +594,16 @@ public class PopulateSubmissionViewHolder {
                             };
 
                             chosen = new boolean[]{
-                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase()
+                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
                                             .split(",")).contains(
-                                            submission.getSubredditName().toLowerCase()),
-                                    Arrays.asList(SettingValues.userFilters.toLowerCase()
+                                            submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
+                                    Arrays.asList(SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
                                             .split(",")).contains(
-                                            submission.getAuthor().toLowerCase()), Arrays.asList(
-                                    SettingValues.domainFilters.toLowerCase().split(",")).contains(
-                                    submission.getDomain().toLowerCase()), Arrays.asList(
-                                    SettingValues.alwaysExternal.toLowerCase().split(",")).contains(
-                                    submission.getDomain().toLowerCase())
+                                            submission.getAuthor().toLowerCase(Locale.ENGLISH)), Arrays.asList(
+                                    SettingValues.domainFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
+                                    submission.getDomain().toLowerCase(Locale.ENGLISH)), Arrays.asList(
+                                    SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH).split(",")).contains(
+                                    submission.getDomain().toLowerCase(Locale.ENGLISH))
                             };
                             oldChosen = chosen.clone();
                         } else {
@@ -621,16 +621,16 @@ public class PopulateSubmissionViewHolder {
                         }
                         ;
                         chosen = new boolean[]{
-                                Arrays.asList(SettingValues.subredditFilters.toLowerCase()
+                                Arrays.asList(SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
                                         .split(",")).contains(
-                                        submission.getSubredditName().toLowerCase()), Arrays.asList(
-                                SettingValues.userFilters.toLowerCase().split(",")).contains(
-                                submission.getAuthor().toLowerCase()), Arrays.asList(
-                                SettingValues.domainFilters.toLowerCase().split(",")).contains(
-                                submission.getDomain().toLowerCase()), Arrays.asList(
-                                SettingValues.alwaysExternal.toLowerCase().split(",")).contains(
-                                submission.getDomain().toLowerCase()), Arrays.asList(
-                                SettingValues.flairFilters.toLowerCase().split(",")).contains(
+                                        submission.getSubredditName().toLowerCase(Locale.ENGLISH)), Arrays.asList(
+                                SettingValues.userFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
+                                submission.getAuthor().toLowerCase(Locale.ENGLISH)), Arrays.asList(
+                                SettingValues.domainFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
+                                submission.getDomain().toLowerCase(Locale.ENGLISH)), Arrays.asList(
+                                SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH).split(",")).contains(
+                                submission.getDomain().toLowerCase(Locale.ENGLISH)), Arrays.asList(
+                                SettingValues.flairFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
                                 baseSub + ":" + flair)
                         };
                         oldChosen = chosen.clone();
@@ -761,10 +761,10 @@ public class PopulateSubmissionViewHolder {
                                                     } else if (!chosen[4]
                                                             && chosen[4] != oldChosen[4]) {
                                                         SettingValues.flairFilters =
-                                                                SettingValues.flairFilters.toLowerCase()
+                                                                SettingValues.flairFilters.toLowerCase(Locale.ENGLISH)
                                                                         .replace((baseSub
                                                                                         + ":"
-                                                                                        + flair).toLowerCase(),
+                                                                                        + flair).toLowerCase(Locale.ENGLISH),
                                                                                 "");
                                                         e.putString(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
@@ -985,16 +985,29 @@ public class PopulateSubmissionViewHolder {
                                                         .toString()
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
-                                                ClipboardManager clipboard =
-                                                        (ClipboardManager) mContext.getSystemService(
-                                                                Context.CLIPBOARD_SERVICE);
-                                                ClipData clip =
-                                                        ClipData.newPlainText("Selftext", selected);
-                                                clipboard.setPrimaryClip(clip);
+                                                if(!selected.isEmpty()) {
+                                                    ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
+                                                            Context.CLIPBOARD_SERVICE);
+                                                    ClipData clip = ClipData.newPlainText("Selftext",
+                                                            selected);
+                                                    clipboard.setPrimaryClip(clip);
 
-                                                Toast.makeText(mContext,
-                                                        R.string.submission_comment_copied,
-                                                        Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(mContext, R.string.submission_comment_copied,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    ClipboardManager clipboard =
+                                                            (ClipboardManager) mContext.getSystemService(
+                                                                    Context.CLIPBOARD_SERVICE);
+                                                    ClipData clip = ClipData.newPlainText("Selftext",
+                                                            Html.fromHtml(submission.getTitle()
+                                                                    + "\n\n"
+                                                                    + submission.getSelftext()));
+                                                    clipboard.setPrimaryClip(clip);
+
+                                                    Toast.makeText(mContext,
+                                                            R.string.submission_comment_copied,
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
 
                                             }
                                         })
@@ -2481,7 +2494,7 @@ public class PopulateSubmissionViewHolder {
         if (!offline
                 && UserSubscriptions.modOf != null
                 && submission.getSubredditName() != null
-                && UserSubscriptions.modOf.contains(submission.getSubredditName().toLowerCase())) {
+                && UserSubscriptions.modOf.contains(submission.getSubredditName().toLowerCase(Locale.ENGLISH))) {
             holder.mod.setVisibility(View.VISIBLE);
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
@@ -2914,8 +2927,8 @@ public class PopulateSubmissionViewHolder {
         }
         final View edit = holder.edit;
 
-        if (Authentication.name != null && Authentication.name.toLowerCase()
-                .equals(submission.getAuthor().toLowerCase()) && Authentication.didOnline) {
+        if (Authentication.name != null && Authentication.name.toLowerCase(Locale.ENGLISH)
+                .equals(submission.getAuthor().toLowerCase(Locale.ENGLISH)) && Authentication.didOnline) {
             edit.setVisibility(View.VISIBLE);
             edit.setOnClickListener(new OnSingleClickListener() {
                 @Override

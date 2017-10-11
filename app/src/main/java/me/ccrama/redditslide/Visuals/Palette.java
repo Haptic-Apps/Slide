@@ -3,6 +3,8 @@ package me.ccrama.redditslide.Visuals;
 import android.content.Context;
 import android.graphics.Color;
 
+import java.util.Locale;
+
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Reddit;
 
@@ -56,16 +58,16 @@ public class Palette {
     private int accentColor;
 
     private static int getColorAccent(final String subreddit) {
-        if (Reddit.colors.contains("ACCENT" + subreddit.toLowerCase())) {
-            return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(), getDefaultColor());
+        if (Reddit.colors.contains("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH))) {
+            return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
         } else {
             return getDefaultColor();
         }
     }
 
     public static int getFontColorUser(final String subreddit) {
-        if (Reddit.colors.contains("USER" + subreddit.toLowerCase())) {
-            final int color = Reddit.colors.getInt("USER" + subreddit.toLowerCase(), getDefaultColor());
+        if (Reddit.colors.contains("USER" + subreddit.toLowerCase(Locale.ENGLISH))) {
+            final int color = Reddit.colors.getInt("USER" + subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
 
             if (color == getDefaultColor()) {
                 return 0;
@@ -87,30 +89,30 @@ public class Palette {
     }
 
     public static int getColor(final String subreddit) {
-        if (subreddit != null && Reddit.colors.contains(subreddit.toLowerCase())) {
-            return Reddit.colors.getInt(subreddit.toLowerCase(), getDefaultColor());
+        if (subreddit != null && Reddit.colors.contains(subreddit.toLowerCase(Locale.ENGLISH))) {
+            return Reddit.colors.getInt(subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
         }
         return getDefaultColor();
     }
 
     public static void setColor(final String subreddit, int color) {
-         Reddit.colors.edit().putInt(subreddit.toLowerCase(), color).apply();
+         Reddit.colors.edit().putInt(subreddit.toLowerCase(Locale.ENGLISH), color).apply();
     }
 
     public static void removeColor(final String subreddit) {
-        Reddit.colors.edit().remove(subreddit.toLowerCase()).apply();
+        Reddit.colors.edit().remove(subreddit.toLowerCase(Locale.ENGLISH)).apply();
     }
 
     public static int getColorUser(final String username) {
-        if (Reddit.colors.contains("USER" + username.toLowerCase())) {
-            return Reddit.colors.getInt("USER" + username.toLowerCase(), getDefaultColor());
+        if (Reddit.colors.contains("USER" + username.toLowerCase(Locale.ENGLISH))) {
+            return Reddit.colors.getInt("USER" + username.toLowerCase(Locale.ENGLISH), getDefaultColor());
         } else {
             return getDefaultColor();
         }
     }
 
     public static void setColorUser(final String username, int color) {
-        Reddit.colors.edit().putInt("USER" + username.toLowerCase(), color).apply();
+        Reddit.colors.edit().putInt("USER" + username.toLowerCase(Locale.ENGLISH), color).apply();
     }
 
     public static Palette getSubredditPallete(String subredditname) {

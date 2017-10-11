@@ -9,6 +9,7 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -371,67 +372,67 @@ public class SettingValues {
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
-        prefs.edit().putBoolean("picsenabled" + sub.toLowerCase(), checked).apply();
+        prefs.edit().putBoolean("picsenabled" + sub.toLowerCase(Locale.ENGLISH), checked).apply();
     }
 
     public static void resetPicsEnabled(String sub) {
-        prefs.edit().remove("picsenabled" + sub.toLowerCase()).apply();
+        prefs.edit().remove("picsenabled" + sub.toLowerCase(Locale.ENGLISH)).apply();
     }
 
     public static boolean isPicsEnabled(String subreddit) {
         if (subreddit == null) return bigPicEnabled;
-        return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(), bigPicEnabled);
+        return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(Locale.ENGLISH), bigPicEnabled);
     }
 
     public static boolean isSelftextEnabled(String subreddit) {
         if (subreddit == null) return cardText;
-        return prefs.getBoolean("cardtextenabled" + subreddit.toLowerCase(), cardText);
+        return prefs.getBoolean("cardtextenabled" + subreddit.toLowerCase(Locale.ENGLISH), cardText);
     }
 
     public static void setSelftextEnabled(String sub, boolean checked) {
-        prefs.edit().putBoolean("cardtextenabled" + sub.toLowerCase(), checked).apply();
+        prefs.edit().putBoolean("cardtextenabled" + sub.toLowerCase(Locale.ENGLISH), checked).apply();
     }
 
     public static boolean getIsNSFWEnabled(){
         return prefs.getBoolean(PREF_HIDE_NSFW_PREVIEW + Authentication.name, true);
     }
     public static void resetSelftextEnabled(String subreddit) {
-        prefs.edit().remove("cardtextenabled" + subreddit.toLowerCase()).apply();
+        prefs.edit().remove("cardtextenabled" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
     }
 
     public static void setDefaultCommentSorting(CommentSort commentSorting, String subreddit) {
         prefs.edit()
-                .putString("defaultComment" + subreddit.toLowerCase(), commentSorting.name())
+                .putString("defaultComment" + subreddit.toLowerCase(Locale.ENGLISH), commentSorting.name())
                 .apply();
     }
 
     public static CommentSort getCommentSorting(String sub) {
-        return CommentSort.valueOf(prefs.getString("defaultComment" + sub.toLowerCase(),
+        return CommentSort.valueOf(prefs.getString("defaultComment" + sub.toLowerCase(Locale.ENGLISH),
                 defaultCommentSorting.name()));
     }
 
     public static void setSubSorting(Sorting linkSorting, TimePeriod time, String subreddit) {
-        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), linkSorting.name()).apply();
-        prefs.edit().putString("defaultTime" + subreddit.toLowerCase(), time.name()).apply();
+        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH), linkSorting.name()).apply();
+        prefs.edit().putString("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH), time.name()).apply();
     }
 
     public static Sorting getSubmissionSort(String sub) {
-        String subreddit = sub.toLowerCase();
+        String subreddit = sub.toLowerCase(Locale.ENGLISH);
         if (Reddit.sorting.containsKey(subreddit)) {
             return Reddit.sorting.get(subreddit);
         } else {
-            return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(),
+            return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(Locale.ENGLISH),
                     Reddit.defaultSorting.name()));
         }
     }
 
     public static TimePeriod getSubmissionTimePeriod(String sub) {
-        String subreddit = sub.toLowerCase();
+        String subreddit = sub.toLowerCase(Locale.ENGLISH);
         if (Reddit.times.containsKey(subreddit)) {
             return Reddit.times.get(subreddit);
         } else {
             return TimePeriod.valueOf(
-                    prefs.getString("defaultTime" + sub.toLowerCase(), Reddit.timePeriod.name()));
+                    prefs.getString("defaultTime" + sub.toLowerCase(Locale.ENGLISH), Reddit.timePeriod.name()));
         }
     }
 
@@ -443,18 +444,18 @@ public class SettingValues {
 
     public static Sorting getBaseSubmissionSort(String sub) {
         return Sorting.valueOf(
-                prefs.getString("defaultSort" + sub.toLowerCase(), Reddit.defaultSorting.name()));
+                prefs.getString("defaultSort" + sub.toLowerCase(Locale.ENGLISH), Reddit.defaultSorting.name()));
 
     }
 
     public static TimePeriod getBaseTimePeriod(String sub) {
         return TimePeriod.valueOf(
-                prefs.getString("defaultTime" + sub.toLowerCase(), Reddit.timePeriod.name()));
+                prefs.getString("defaultTime" + sub.toLowerCase(Locale.ENGLISH), Reddit.timePeriod.name()));
 
     }
 
     public static boolean hasSort(String subreddit) {
-        return prefs.contains("defaultSort" + subreddit.toLowerCase());
+        return prefs.contains("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH));
     }
 
     public enum ColorIndicator {

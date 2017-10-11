@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Authentication;
@@ -424,7 +425,7 @@ public class LiveThread extends BaseActivityAnim {
                         startActivity(i);
                     }
                 });
-                final String host = URI.create(url).getHost().toLowerCase();
+                final String host = URI.create(url).getHost().toLowerCase(Locale.ENGLISH);
 
                 if (ContentType.hostContains(host, "imgur.com")) {
                     LogUtil.v("Imgur");

@@ -6,6 +6,8 @@ import android.os.Build;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 
+import java.util.Locale;
+
 /**
  * Gen
  */
@@ -38,7 +40,7 @@ public class NavigationUtils {
         boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
 
         if (hasBackKey && hasHomeKey) {
-            if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !Build.MODEL.toLowerCase().contains("nexus")) {
+            if (Build.MANUFACTURER.toLowerCase(Locale.ENGLISH).contains("samsung") && !Build.MODEL.toLowerCase(Locale.ENGLISH).contains("nexus")) {
                 return false;
             }
 

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Activities.SetupWidget;
@@ -111,7 +112,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                     final Bitmap src;
                     final Bitmap bm2;
                     Intent shortcutIntent  = new Intent(getContext(), OpenContent.class);
-                    if (subreddit.toLowerCase().equals("androidcirclejerk")) {
+                    if (subreddit.toLowerCase(Locale.ENGLISH).equals("androidcirclejerk")) {
                         bm2 = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
                         Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
                     } else {
@@ -160,7 +161,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            String prefix = constraint.toString().toLowerCase();
+            String prefix = constraint.toString().toLowerCase(Locale.ENGLISH);
 
             if (prefix == null || prefix.length() == 0) {
                 ArrayList<String> list = new ArrayList<>(baseItems);

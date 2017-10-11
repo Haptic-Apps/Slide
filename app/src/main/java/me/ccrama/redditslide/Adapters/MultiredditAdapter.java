@@ -23,6 +23,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
@@ -139,7 +140,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
             final Submission submission = dataSet.posts.get(i);
 
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "multi" + dataSet.multiReddit.getDisplayName(), true);
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH), holder.itemView, "multi" + dataSet.multiReddit.getDisplayName(), true);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
@@ -170,7 +171,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             });
             final boolean saved = submission.isSaved();
 
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, true, false, "multi" + dataSet.multiReddit.getDisplayName().toLowerCase(), null);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, true, false, "multi" + dataSet.multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH), null);
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {
             Handler handler = new Handler();

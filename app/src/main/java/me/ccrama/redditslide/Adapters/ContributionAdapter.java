@@ -198,7 +198,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final Submission submission = (Submission) dataSet.posts.get(i);
             CreateCardView.resetColorCard(holder.itemView);
             if (submission.getSubredditName() != null)
-                CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "no_subreddit", false);
+                CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH), holder.itemView, "no_subreddit", false);
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -192,7 +193,7 @@ public class SubmissionComments {
         if (sort == null)
             // Reddit sorts by confidence by default
             sort = CommentSort.CONFIDENCE;
-        args.put("sort", sort.name().toLowerCase());
+        args.put("sort", sort.name().toLowerCase(Locale.ENGLISH));
 
         RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
                 .path(String.format("/comments/%s", request.getId()))

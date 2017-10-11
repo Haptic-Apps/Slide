@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -78,7 +79,7 @@ public class OfflineSubreddit {
     public void writeToMemory(Context c) {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
-            String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
+            String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
             String fullNames = "";
             cache.put(title, this);
             for (Submission sub : new ArrayList<>(submissions)) {
@@ -101,7 +102,7 @@ public class OfflineSubreddit {
     public void writeToMemoryNoStorage() {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
-            String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
+            String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
             String fullNames = "";
             for (Submission sub : submissions) {
                 fullNames += sub.getFullName() + ",";
@@ -127,7 +128,7 @@ public class OfflineSubreddit {
 
     public void writeToMemory(ArrayList<String> names) {
         if (subreddit != null && !names.isEmpty()) {
-            String title = subreddit.toLowerCase() + "," + (time);
+            String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (time);
             String fullNames = "";
             for (String sub : names) {
                 fullNames += sub + ",";
@@ -156,7 +157,7 @@ public class OfflineSubreddit {
 
     public void deleteFromMemory(String name) {
         if (subreddit != null) {
-            String title = subreddit.toLowerCase() + "," + (time);
+            String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (time);
             if (subreddit.equals(CommentCacheAsync.SAVED_SUBMISSIONS)) {
                 Map<String, ?> offlineSubs = Reddit.cachedData.getAll();
                 for (String offlineSub : offlineSubs.keySet()) {
@@ -186,10 +187,10 @@ public class OfflineSubreddit {
     }
 
     public static OfflineSubreddit getSubNoLoad(String s) {
-        s = s.toLowerCase();
+        s = s.toLowerCase(Locale.ENGLISH);
 
         OfflineSubreddit o = new OfflineSubreddit();
-        o.subreddit = s.toLowerCase();
+        o.subreddit = s.toLowerCase(Locale.ENGLISH);
         o.base = true;
         o.time = 0;
         o.submissions = new ArrayList<>();
@@ -203,7 +204,7 @@ public class OfflineSubreddit {
         if (cache == null) cache = new HashMap<>();
         String title;
         if (subreddit != null) {
-            title = subreddit.toLowerCase() + "," + time;
+            title = subreddit.toLowerCase(Locale.ENGLISH) + "," + time;
         } else {
             title = "";
             subreddit = "";
@@ -211,10 +212,10 @@ public class OfflineSubreddit {
         if (cache.containsKey(title)) {
             return cache.get(title);
         } else {
-            subreddit = subreddit.toLowerCase();
+            subreddit = subreddit.toLowerCase(Locale.ENGLISH);
 
             OfflineSubreddit o = new OfflineSubreddit();
-            o.subreddit = subreddit.toLowerCase();
+            o.subreddit = subreddit.toLowerCase(Locale.ENGLISH);
 
             if (time == 0) {
                 o.base = true;
@@ -222,7 +223,7 @@ public class OfflineSubreddit {
 
             o.time = time;
 
-            String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + "," + time, "")
+            String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(Locale.ENGLISH) + "," + time, "")
                     .split(",");
             if (split.length > 0) {
                 o.time = time;
@@ -290,10 +291,10 @@ public class OfflineSubreddit {
     }
 
     public static OfflineSubreddit newSubreddit(String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
 
         OfflineSubreddit o = new OfflineSubreddit();
-        o.subreddit = subreddit.toLowerCase();
+        o.subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         o.base = false;
         o.time = System.currentTimeMillis();
         o.submissions = new ArrayList<>();
@@ -346,7 +347,7 @@ public class OfflineSubreddit {
     }
 
     public static ArrayList<String> getAll(String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         ArrayList<String> base = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {
             if (s.startsWith(subreddit) && s.contains(",")) {

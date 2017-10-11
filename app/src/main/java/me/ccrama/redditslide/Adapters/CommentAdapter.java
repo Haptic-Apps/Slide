@@ -64,6 +64,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -384,8 +385,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 boolean set = false;
                 for(String s : comment.getAuthorFlair().getCssClass().split(" ")) {
                    File file = DiskCacheUtils.findInCache(
-                           comment.getSubredditName().toLowerCase() + ":" + s
-                                   .toLowerCase(),
+                           comment.getSubredditName().toLowerCase(Locale.ENGLISH) + ":" + s
+                                   .toLowerCase(Locale.ENGLISH),
                            ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
                    if (file != null && file.exists()) {
                        set = true;
@@ -1129,7 +1130,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (UserSubscriptions.modOf != null && UserSubscriptions.modOf.contains(
-                    submission.getSubredditName().toLowerCase())) {
+                    submission.getSubredditName().toLowerCase(Locale.ENGLISH))) {
                 baseView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 final Map<String, Integer> reports = comment.getUserReports();
                 final Map<String, String> reports2 = comment.getModeratorReports();
@@ -1153,8 +1154,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
-            if (Authentication.name != null && Authentication.name.toLowerCase()
-                    .equals(comment.getAuthor().toLowerCase()) && Authentication.didOnline) {
+            if (Authentication.name != null && Authentication.name.toLowerCase(Locale.ENGLISH)
+                    .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH)) && Authentication.didOnline) {
                 edit.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
@@ -1169,8 +1170,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
-            if (Authentication.name != null && Authentication.name.toLowerCase()
-                    .equals(comment.getAuthor().toLowerCase()) && Authentication.didOnline) {
+            if (Authentication.name != null && Authentication.name.toLowerCase(Locale.ENGLISH)
+                    .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH)) && Authentication.didOnline) {
                 delete.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
@@ -1800,6 +1801,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             CommentAdapterHelper.showChildrenObject(holder.childrenNumber);
                             holder.childrenNumber.setText("+" + childNumber);
                         }
+                    }  else {
+                        doLongClick(holder, comment, baseNode);
                     }
                     toCollapse.add(comment.getFullName());
                     if ((holder.firstTextView.getVisibility() == View.VISIBLE

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
+import java.util.Locale;
+
 import me.ccrama.redditslide.Activities.Slide;
 
 /**
@@ -514,7 +516,7 @@ public class ColorPreferences {
 
     public int getThemeSubreddit(String s) {
         int back = getFontStyle().getThemeType();
-        String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
+        String str = open().getString(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle());
 
         if (Theme.valueOf(str).getThemeType() != back) {
             String[] names = str.split("_");
@@ -540,7 +542,7 @@ public class ColorPreferences {
             s = "Promoted";
         }
         int back = getFontStyle().getThemeType();
-        String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
+        String str = open().getString(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle());
         try {
             if (Theme.valueOf(str).getThemeType() != back) {
                 String[] names = str.split("_");
@@ -565,7 +567,7 @@ public class ColorPreferences {
     }
 
     public int getDarkThemeSubreddit(String s) {
-        return getColoredTheme(4, open().getString(s.toLowerCase(), getFontStyle().getTitle()), getFontStyle()).baseId;
+        return getColoredTheme(4, open().getString(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle()), getFontStyle()).baseId;
     }
 
     private Theme getColoredTheme(int i, String base, Theme defaultTheme) {
@@ -588,7 +590,7 @@ public class ColorPreferences {
     }
 
     public void setFontStyle(Theme style, String s) {
-        edit().putString(s.toLowerCase(), style.name()).commit();
+        edit().putString(s.toLowerCase(Locale.ENGLISH), style.name()).commit();
     }
 
     public void removeFontStyle(String subreddit) {

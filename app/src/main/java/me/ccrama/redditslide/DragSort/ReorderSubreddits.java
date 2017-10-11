@@ -57,6 +57,7 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.SettingsTheme;
@@ -223,7 +224,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     }
 
                     for (Subreddit s : subs) {
-                        isSubscribed.put(s.getDisplayName().toLowerCase(), true);
+                        isSubscribed.put(s.getDisplayName().toLowerCase(Locale.ENGLISH), true);
                     }
 
                     if(UserSubscriptions.multireddits == null){
@@ -584,7 +585,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
     public void doAddSub(String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         List<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
 
         if (sortedSubs.equals(subs)) {
@@ -769,7 +770,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         new UserSubscriptions.UnsubscribeTask().execute(
                                                 chosen.toArray(new String[chosen.size()]));
                                         for (String s : chosen) {
-                                            isSubscribed.put(s.toLowerCase(), false);
+                                            isSubscribed.put(s.toLowerCase(Locale.ENGLISH), false);
                                         }
                                         isMultiple = false;
                                         chosen = new ArrayList<>();
@@ -862,8 +863,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }
                         });
                 holder.check.setChecked(
-                        isSubscribed.containsKey(origPos.toLowerCase()) && isSubscribed.get(
-                                origPos.toLowerCase()));
+                        isSubscribed.containsKey(origPos.toLowerCase(Locale.ENGLISH)) && isSubscribed.get(
+                                origPos.toLowerCase(Locale.ENGLISH)));
                 holder.check.setOnCheckedChangeListener(
                         new CompoundButton.OnCheckedChangeListener() {
                             @Override
@@ -881,7 +882,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             getString(R.string.reorder_subscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();
                                 }
-                                isSubscribed.put(origPos.toLowerCase(), isChecked);
+                                isSubscribed.put(origPos.toLowerCase(Locale.ENGLISH), isChecked);
                             }
                         });
                 holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
@@ -988,7 +989,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                     new UserSubscriptions.UnsubscribeTask()
                                                                             .execute(sub);
                                                                     isSubscribed.put(
-                                                                            sub.toLowerCase(),
+                                                                            sub.toLowerCase(Locale.ENGLISH),
                                                                             false);
                                                                 }
                                                             });

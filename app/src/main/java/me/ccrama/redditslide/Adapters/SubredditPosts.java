@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -269,6 +270,7 @@ public class SubredditPosts implements PostLoader {
     }
 
     public boolean skipOne;
+    boolean authedOnce = false;
     boolean usedOffline;
     public long              currentid;
     public SubmissionDisplay displayer;
@@ -294,10 +296,23 @@ public class SubredditPosts implements PostLoader {
             if (error != null) {
                 if (error instanceof NetworkException) {
                     NetworkException e = (NetworkException) error;
-                    Toast.makeText(context, "Loading failed, " + e.getResponse().getStatusCode() + (
-                                    e.getResponse().getStatusMessage().isEmpty() ? ""
-                                            : ": " + e.getResponse().getStatusMessage()),
-                            Toast.LENGTH_SHORT).show();
+                    if (e.getResponse().getStatusCode() == 403 && !authedOnce) {
+                        if (Reddit.authentication != null && Authentication.didOnline) {
+                            Reddit.authentication.updateToken(context);
+                        } else if (NetworkUtil.isConnected(context)
+                                && Reddit.authentication == null) {
+                            Reddit.authentication = new Authentication(context);
+                        }
+                        authedOnce = true;
+                        loadMore(context, displayer, reset, subreddit);
+                        return;
+                    } else {
+                        Toast.makeText(context,
+                                "A server error occurred, " + e.getResponse().getStatusCode() + (
+                                        e.getResponse().getStatusMessage().isEmpty() ? ""
+                                                : ": " + e.getResponse().getStatusMessage()),
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
                 if (error.getCause() instanceof UnknownHostException) {
                     Toast.makeText(context, "Loading failed, please check your internet connection",
@@ -390,7 +405,7 @@ public class SubredditPosts implements PostLoader {
             if (reset || paginator == null) {
                 offline = false;
                 nomore = false;
-                String sub = subredditPaginators[0].toLowerCase();
+                String sub = subredditPaginators[0].toLowerCase(Locale.ENGLISH);
                 if ((sub.equals("random") || sub.equals("randnsfw"))
                         && MainActivity.randomoverride != null
                         && !MainActivity.randomoverride.isEmpty()) {
@@ -433,7 +448,7 @@ public class SubredditPosts implements PostLoader {
             }
 
             if (!usedOffline) {
-                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase())
+                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase(Locale.ENGLISH))
                         .overwriteSubmissions(posts)
                         .writeToMemory(context);
             }

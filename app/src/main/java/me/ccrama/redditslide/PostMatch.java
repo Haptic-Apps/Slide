@@ -6,6 +6,7 @@ import net.dean.jraw.models.Submission;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 
 /**
  * Created by carlo_000 on 1/13/2016.
@@ -13,7 +14,7 @@ import java.net.URL;
 public class PostMatch {
     public static boolean contains(String target, String[] strings, boolean totalMatch) {
         for (String s : strings) {
-            s = s.toLowerCase().trim();
+            s = s.toLowerCase(Locale.ENGLISH).trim();
             if (!s.isEmpty() && !s.equals("\n") && totalMatch ? target.equals(s) : target.contains(s)) {
                 return true;
             }
@@ -46,7 +47,7 @@ public class PostMatch {
             }
 
             try {
-                URL comparison = new URL(s.toLowerCase());
+                URL comparison = new URL(s.toLowerCase(Locale.ENGLISH));
 
                 if (ContentType.hostContains(domain.getHost(), comparison.getHost())
                         && domain.getPath().startsWith(comparison.getPath())) {
@@ -63,7 +64,7 @@ public class PostMatch {
             externalDomain = SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+");
         }
         try {
-            return !SettingValues.alwaysExternal.isEmpty() && isDomain(url.toLowerCase(), externalDomain);
+            return !SettingValues.alwaysExternal.isEmpty() && isDomain(url.toLowerCase(Locale.ENGLISH), externalDomain);
         } catch (MalformedURLException e) {
             return false;
         }
@@ -112,19 +113,19 @@ public class PostMatch {
             users = SettingValues.userFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
         }
 
-        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), titles, false);
+        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(Locale.ENGLISH), titles, false);
 
-        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(), texts, false);
+        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(Locale.ENGLISH), texts, false);
 
-        userc = !SettingValues.userFilters.isEmpty() && contains(s.getAuthor().toLowerCase(), users, false);
+        userc = !SettingValues.userFilters.isEmpty() && contains(s.getAuthor().toLowerCase(Locale.ENGLISH), users, false);
 
         try {
-            domainc = !SettingValues.domainFilters.isEmpty() && isDomain(domain.toLowerCase(), domains);
+            domainc = !SettingValues.domainFilters.isEmpty() && isDomain(domain.toLowerCase(Locale.ENGLISH), domains);
         } catch (MalformedURLException e) {
             domainc = false;
         }
 
-        subredditc = !subreddit.equalsIgnoreCase(baseSubreddit) && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
+        subredditc = !subreddit.equalsIgnoreCase(baseSubreddit) && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(Locale.ENGLISH), subreddits, true);
 
         boolean contentMatch = false;
 
@@ -132,7 +133,7 @@ public class PostMatch {
             baseSubreddit = "frontpage";
         }
 
-        baseSubreddit = baseSubreddit.toLowerCase();
+        baseSubreddit = baseSubreddit.toLowerCase(Locale.ENGLISH);
         boolean gifs = isGif(baseSubreddit);
         boolean images = isImage(baseSubreddit);
         boolean nsfw = isNsfw(baseSubreddit);
@@ -196,7 +197,7 @@ public class PostMatch {
 
         if(!flair.isEmpty())
         for(String flairText : flairs){
-            if(flairText.toLowerCase().startsWith(baseSubreddit)){
+            if(flairText.toLowerCase(Locale.ENGLISH).startsWith(baseSubreddit)){
                 String[] split = flairText.split(":");
                 if(split[0].equalsIgnoreCase(baseSubreddit)){
                     if(flair.equalsIgnoreCase(split[1].trim())){
@@ -234,19 +235,19 @@ public class PostMatch {
             subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
         }
 
-        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), titles, false);
+        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(Locale.ENGLISH), titles, false);
 
-        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(), texts, false);
+        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(Locale.ENGLISH), texts, false);
 
-        domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(), domains, false);
+        domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(Locale.ENGLISH), domains, false);
 
-        subredditc = subreddit != null && !subreddit.isEmpty() && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
+        subredditc = subreddit != null && !subreddit.isEmpty() && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(Locale.ENGLISH), subreddits, true);
 
         return (titlec || bodyc || domainc || subredditc);
     }
 
     public static void setChosen(boolean[] values, String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         SharedPreferences.Editor e = filters.edit();
         e.putBoolean(subreddit + "_gifsFilter", values[2]);
         e.putBoolean(subreddit + "_albumsFilter", values[1]);

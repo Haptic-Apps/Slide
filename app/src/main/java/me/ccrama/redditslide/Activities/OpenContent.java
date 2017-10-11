@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.util.LogUtil;
@@ -35,7 +37,7 @@ public class OpenContent extends Activity {
             finish();
             return;
         }
-        url = url.toLowerCase();
+        url = url.toLowerCase(Locale.ENGLISH);
 
         Log.v(LogUtil.getTag(), url);
 

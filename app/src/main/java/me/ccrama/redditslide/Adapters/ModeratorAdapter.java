@@ -46,6 +46,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.ActionStates;
@@ -195,7 +196,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             SubmissionViewHolder holder = (SubmissionViewHolder) firstHold;
             final Submission submission = (Submission) dataSet.posts.get(i);
             CreateCardView.resetColorCard(holder.itemView);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "no_subreddit", false);
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH), holder.itemView, "no_subreddit", false);
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -375,8 +376,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             }
 
-            if (UserSubscriptions.modOf != null && UserSubscriptions.modOf.contains(
-                    comment.getSubredditName().toLowerCase())) {
+            if ((UserSubscriptions.modOf != null) && UserSubscriptions.modOf.contains(
+                    comment.getSubredditName().toLowerCase(Locale.ENGLISH))) {
                 holder.itemView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 final Map<String, Integer> reports = comment.getUserReports();
                 final Map<String, String> reports2 = comment.getModeratorReports();

@@ -78,7 +78,7 @@ public class PopulateShadowboxInfo {
 
             SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + s.getSubredditName() + " ");
 
-            String subname = s.getSubredditName().toLowerCase();
+            String subname = s.getSubredditName().toLowerCase(Locale.ENGLISH);
             if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
                 subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -302,7 +302,7 @@ public class PopulateShadowboxInfo {
             SpannableStringBuilder author = new SpannableStringBuilder(" /u/" + s.getAuthor() + " ");
             int authorcolor = Palette.getFontColorUser(s.getAuthor());
 
-            if (Authentication.name != null && s.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+            if (Authentication.name != null && s.getAuthor().toLowerCase(Locale.ENGLISH).equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
                 author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || s.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
                 author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

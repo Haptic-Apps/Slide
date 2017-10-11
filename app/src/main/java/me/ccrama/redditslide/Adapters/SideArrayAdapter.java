@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -298,7 +299,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            String prefix = constraint.toString().toLowerCase();
+            String prefix = constraint.toString().toLowerCase(Locale.ENGLISH);
 
             if (prefix == null || prefix.isEmpty()) {
                 CaseInsensitiveArrayList list = new CaseInsensitiveArrayList(baseItems);

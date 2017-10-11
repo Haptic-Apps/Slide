@@ -115,15 +115,15 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (Authentication.name != null && comment.getAuthor()
-                .toLowerCase()
-                .equals(Authentication.name.toLowerCase())) {
+                .toLowerCase(Locale.ENGLISH)
+                .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
                             false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } /* todoelse if (submission != null && comment.getAuthor()
-                .toLowerCase()
-                .equals(submission.getAuthor().toLowerCase()) && !comment.getAuthor().equals("[deleted]")) {
+                .toLowerCase(Locale.ENGLISH)
+                .equals(submission.getAuthor().toLowerCase(Locale.ENGLISH)) && !comment.getAuthor().equals("[deleted]")) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false),
@@ -357,10 +357,10 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             if (constraint.length() == 0) {
                 filteredList.addAll(originalList);
             } else {
-                final String filterPattern = constraint.toString().toLowerCase().trim();
+                final String filterPattern = constraint.toString().toLowerCase(Locale.ENGLISH).trim();
 
                 for (final CommentNode user : originalList) {
-                    if (user.getComment().getBody().toLowerCase().contains(filterPattern)) {
+                    if (user.getComment().getBody().toLowerCase(Locale.ENGLISH).contains(filterPattern)) {
                         filteredList.add(user);
                     }
                 }

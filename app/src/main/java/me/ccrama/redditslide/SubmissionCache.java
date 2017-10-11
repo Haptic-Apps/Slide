@@ -89,7 +89,7 @@ public class SubmissionCache {
         }
         String subname;
         if (submission.getSubredditName() != null) {
-            subname = submission.getSubredditName().toLowerCase();
+            subname = submission.getSubredditName().toLowerCase(Locale.ENGLISH);
         } else {
             subname = "";
         }
@@ -132,8 +132,8 @@ public class SubmissionCache {
 
         if (submission.getAuthor() != null) {
             if (Authentication.name != null && submission.getAuthor()
-                    .toLowerCase()
-                    .equals(Authentication.name.toLowerCase())) {
+                    .toLowerCase(Locale.ENGLISH)
+                    .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
                 author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
                                 R.color.md_deep_orange_300, false), 0, author.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

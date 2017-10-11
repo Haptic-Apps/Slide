@@ -31,6 +31,7 @@ import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import me.ccrama.redditslide.Authentication;
@@ -120,7 +121,7 @@ public class Login extends BaseActivityAnim {
     private void doSubStrings(ArrayList<Subreddit> subs) {
         subNames = new CaseInsensitiveArrayList();
         for (Subreddit s : subs) {
-            subNames.add(s.getDisplayName().toLowerCase());
+            subNames.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
         }
         subNames = UserSubscriptions.sort(subNames);
         if (!subNames.contains("slideforreddit")) {
@@ -166,9 +167,9 @@ public class Login extends BaseActivityAnim {
                                     .get("key_color")
                                     .asText()
                                     .isEmpty()
-                                    && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette
+                                    && Palette.getColor(s.getDisplayName().toLowerCase(Locale.ENGLISH)) == Palette
                                     .getDefaultColor()) {
-                                Palette.setColor(s.getDisplayName().toLowerCase(),
+                                Palette.setColor(s.getDisplayName().toLowerCase(Locale.ENGLISH),
                                         GetClosestColor.getClosestColor(
                                                 s.getDataNode().get("key_color").asText(),
                                                 Login.this));

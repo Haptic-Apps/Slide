@@ -48,6 +48,7 @@ public class BaseActivity extends PeekViewActivity
     protected boolean overrideRedditSwipeAnywhere = false;
     protected boolean enableSwipeBackLayout       = true;
     protected boolean overrideSwipeFromAnywhere   = false;
+    protected boolean verticalExit = false;
     NfcAdapter mNfcAdapter;
 
     /**
@@ -147,7 +148,13 @@ public class BaseActivity extends PeekViewActivity
                 if (overrideSwipeFromAnywhere) {
                     shouldInterceptAlways = true;
                 } else {
-                    mHelper.getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+                    if(verticalExit){
+                        mHelper.getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_BOTTOM | SwipeBackLayout.EDGE_TOP);
+                    } else {
+                        mHelper.getSwipeBackLayout()
+                                .setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT
+                                        | SwipeBackLayout.EDGE_TOP);
+                    }
                     mHelper.getSwipeBackLayout().setFullScreenSwipeEnabled(true);
                 }
             } else {
@@ -201,6 +208,10 @@ public class BaseActivity extends PeekViewActivity
 
     protected void overrideSwipeFromAnywhere() {
         overrideSwipeFromAnywhere = true;
+    }
+
+    protected void swipeVerticalExit(){
+        verticalExit = true;
     }
 
     protected void overrideRedditSwipeAnywhere() {

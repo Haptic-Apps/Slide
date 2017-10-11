@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import java.util.Locale;
+
 /**
  * Created by ccrama on 9/17/2015.
  */
@@ -25,7 +27,7 @@ public class ContentGrabber {
         }
 
         public String getWhereName() {
-            return this.name().toLowerCase();
+            return this.name().toLowerCase(Locale.ENGLISH);
         }
 
     }
@@ -43,7 +45,7 @@ public class ContentGrabber {
         }
 
         public String getWhereName() {
-            return displayName.toLowerCase();
+            return displayName.toLowerCase(Locale.ENGLISH);
         }
 
     }
