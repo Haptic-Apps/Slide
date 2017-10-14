@@ -491,7 +491,7 @@
   <string name="settings_mail_check">Rafraîchir les messages</string>
   <string name="settings_mail_info">Plus le rafraîchissement est fréquent, plus Slide risque de consommer de la batterie en arrière plan !</string>
   <string name="settings_main_color_title">Modifier la couleur principale</string>
-  <string name="settings_notification">Rafraîchir les messages toutes les</string>
+  <string name="settings_notification">Rafraîchir les messages toutes les %1$s</string>
   <string name="settings_notification_newline">Recherchez de nouveaux messages chaque\n%1$s</string>
   <string name="settings_notification_short">Vérifier chaque %1$s</string>
   <string name="settings_disable_nsfw_photo">Masquer toutes les photos NSFW</string>
