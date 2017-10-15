@@ -2,8 +2,6 @@ package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
 
-import net.dean.jraw.fluent.AuthenticatedUserReference;
-import net.dean.jraw.models.Account;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
@@ -79,17 +77,17 @@ public class SettingValues {
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
     public static final String PREF_READER                    = "readerDefault";
-    public static final String PREF_LQ_LOW                    = "lqLow";
-    public static final String PREF_LQ_MID                    = "lqMid";
-    public static final String PREF_LQ_HIGH                   = "lqHigh";
-    public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
-    public static final String PREF_COOKIES                   = "storeCookies";
-    public static final String PREF_NIGHT_START               = "nightStart";
-    public static final String PREF_NIGHT_END                 = "nightEnd";
-    public static final String PREF_HIDE_NSFW_CONTENT = "showNSFWContent";
-    public static final String PREF_HIDE_NSFW_PREVIEW = "hideNSFWPreviews";
+    public static final String PREF_LQ_LOW               = "lqLow";
+    public static final String PREF_LQ_MID               = "lqMid";
+    public static final String PREF_LQ_HIGH              = "lqHigh";
+    public static final String PREF_SOUND_NOTIFS         = "soundNotifs";
+    public static final String PREF_COOKIES              = "storeCookies";
+    public static final String PREF_NIGHT_START          = "nightStart";
+    public static final String PREF_NIGHT_END            = "nightEnd";
+    public static final String PREF_SHOW_NSFW_CONTENT    = "showNSFWContent";
+    public static final String PREF_HIDE_NSFW_PREVIEW    = "hideNSFWPreviews";
     public static final String PREF_HIDE_NSFW_COLLECTION = "hideNSFWPreviewsCollection";
-    public static final String PREF_IGNORE_SUB_SETTINGS = "ignoreSub";
+    public static final String PREF_IGNORE_SUB_SETTINGS  = "ignoreSub";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
@@ -247,7 +245,7 @@ public class SettingValues {
         timePeriod = TimePeriod.valueOf(settings.getString("timePeriod", "DAY"));
         defaultCommentSorting =
                 CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
-        showNSFWContent = prefs.getBoolean(PREF_HIDE_NSFW_CONTENT, true);
+        showNSFWContent = prefs.getBoolean(PREF_SHOW_NSFW_CONTENT, false);
         hideNSFWCollection = prefs.getBoolean(PREF_HIDE_NSFW_COLLECTION, true);
         ignoreSubSetting = prefs.getBoolean(PREF_IGNORE_SUB_SETTINGS, false);
 

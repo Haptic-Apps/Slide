@@ -58,7 +58,7 @@ public class SettingsReddit extends BaseActivityAnim {
                     findViewById(R.id.nsfwcollection_text).setAlpha(0.25f);
 
                 }
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_CONTENT, isChecked).apply();
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_NSFW_CONTENT, isChecked).apply();
             }
         });
     }
