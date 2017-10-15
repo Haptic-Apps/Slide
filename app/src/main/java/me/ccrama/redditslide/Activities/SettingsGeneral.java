@@ -592,7 +592,7 @@ public class SettingsGeneral extends BaseActivityAnim
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                             single.setChecked(false);
-                            Snackbar s = Snackbar.make(single,"Give Slide accessibility access", Snackbar.LENGTH_INDEFINITE);
+                            Snackbar s = Snackbar.make(single,"Give Slide accessibility access", Snackbar.LENGTH_LONG);
                             s.setAction("Go to settings", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
