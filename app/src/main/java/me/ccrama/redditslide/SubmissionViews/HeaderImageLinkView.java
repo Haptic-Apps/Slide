@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,7 +35,6 @@ import net.dean.jraw.models.Submission;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -48,6 +48,7 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -57,12 +58,13 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by carlo_000 on 2/7/2016.
  */
 public class HeaderImageLinkView extends RelativeLayout {
-    public String    loadedUrl;
-    public boolean   lq;
-    public ImageView thumbImage2;
-    public TextView  secondTitle;
-    public TextView  secondSubTitle;
-    public View      wrapArea;
+    public String         loadedUrl;
+    public boolean        lq;
+    public ImageView      thumbImage2;
+    public MediaVideoView videoContainer;
+    public TextView       secondTitle;
+    public TextView       secondSubTitle;
+    public View           wrapArea;
     boolean done;
     String lastDone = "";
     ContentType.Type type;
@@ -81,6 +83,8 @@ public class HeaderImageLinkView extends RelativeLayout {
     private TextView  title;
     private TextView  info;
     public  ImageView backdrop;
+    public boolean canLoadVideo;
+    public String videoURL;
 
     public HeaderImageLinkView(Context context) {
         super(context);
@@ -106,6 +110,10 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         setVisibility(View.VISIBLE);
         String url = "";
+        canLoadVideo = false;
+
+        videoContainer = (MediaVideoView) findViewById(R.id.leadvideo);
+
         boolean forceThumb = false;
         thumbImage2.setImageResource(android.R.color.transparent);
 
@@ -364,6 +372,19 @@ public class HeaderImageLinkView extends RelativeLayout {
                     } else {
                         wrapArea.setVisibility(View.GONE);
                     }
+                    if(submission.getDataNode().has("preview") && submission.getDataNode()
+                            .get("preview")
+                            .get("images")
+                            .get(0).has("variants") && submission.getDataNode()
+                            .get("preview")
+                            .get("images")
+                            .get(0).get("variants").has("mp4")){
+                        canLoadVideo = true;
+                        videoURL = submission.getDataNode()
+                                .get("preview")
+                                .get("images")
+                                .get(0).get("variants").get("mp4").get("source").get("url").asText();
+                    }
                 }
             } else if (submission.getThumbnails() != null) {
 
@@ -425,6 +446,19 @@ public class HeaderImageLinkView extends RelativeLayout {
                         thumbImage2.setVisibility(View.GONE);
                     } else {
                         wrapArea.setVisibility(View.GONE);
+                    }
+                    if(submission.getDataNode().has("preview") && submission.getDataNode()
+                            .get("preview")
+                            .get("images")
+                            .get(0).has("variants") && submission.getDataNode()
+                            .get("preview")
+                            .get("images")
+                            .get(0).get("variants").has("mp4")){
+                        canLoadVideo = true;
+                        videoURL = submission.getDataNode()
+                                .get("preview")
+                                .get("images")
+                                .get(0).get("variants").get("mp4").get("source").get("url").asText();
                     }
                 }
             } else if (!thumbnail.isNull()

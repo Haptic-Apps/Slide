@@ -37,6 +37,7 @@ import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionViews.AutoPlayManager;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -58,6 +59,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int SPACER          = 6;
     SubmissionDisplay displayer;
 
+    private AutoPlayManager mAutoPlayManager;
+
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView,
             String subreddit, SubmissionDisplay displayer) {
         this.subreddit = subreddit.toLowerCase(Locale.ENGLISH);
@@ -68,6 +71,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase(Locale.ENGLISH));
         this.displayer = displayer;
         MainActivity.randomoverride = "";
+
+        mAutoPlayManager = new AutoPlayManager(listView);
     }
 
     @Override
@@ -338,6 +343,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission,
                     context, false, false, dataSet.posts, listView, custom, dataSet.offline,
                     dataSet.subreddit.toLowerCase(Locale.ENGLISH), null);
+
+            mAutoPlayManager.registerPlayer(holder.id, holder);
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {
             Handler handler = new Handler();

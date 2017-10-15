@@ -6,6 +6,21 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_marginTop="-7dp"
+            android:layout_height="10dp"/>
+
+    <me.ccrama.redditslide.Views.MediaVideoView
+            android:id="@+id/leadvideo"
+            android:layout_width="match_parent"
+            android:layout_height="500px"
+            android:adjustViewBounds="true"
+            />
 
     <me.ccrama.redditslide.Views.MaxHeightImageView
         android:id="@+id/leadimage"
