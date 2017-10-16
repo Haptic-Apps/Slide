@@ -1802,7 +1802,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             holder.childrenNumber.setText("+" + childNumber);
                         }
                     }  else {
-                        doLongClick(holder, comment, baseNode);
+                        if (!SettingValues.collapseComments) {
+                            doLongClick(holder, comment, baseNode);
+                        }
                     }
                     toCollapse.add(comment.getFullName());
                     if ((holder.firstTextView.getVisibility() == View.VISIBLE
