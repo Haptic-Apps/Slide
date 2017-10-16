@@ -92,6 +92,7 @@
   <string name="multi_column_title">複数列</string>
   <string name="multi_column_landscape">横向き</string>
   <string name="multi_column_portrait">ポートレート モードで二列表示</string>
+  <string name="single_column_multi_window">マルチウィンドウモードで一つの列</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">あなた</string>
   <string name="drawer_support">Pro 版</string>
@@ -186,6 +187,7 @@
   <string name="editor_title">タイトル</string>
   <string name="editor_err_msg">数秒してからやり直してください。</string>
   <string name="editor_uploading_image">Imgur に画像をアップロード中</string>
+  <string name="editor_upload_image_question">Imgur に画像をアップロードしますか?</string>
   <string name="editor_self">自己投稿文</string>
   <string name="editor_select_img">画像選択</string>
   <string name="editor_hint_optional_body">本文 (省略可能)</string>
@@ -373,6 +375,7 @@
   <string name="btn_set">セット</string>
   <string name="btn_create">作成</string>
   <string name="btn_new">新規</string>
+  <string name="btn_upload">アップロード</string>
   <!-- Backup -->
   <string name="backup_success">正常にバックアップしました!</string>
   <string name="backup_restoring">設定を復元します</string>
@@ -468,6 +471,7 @@
   <string name="search_top">トップ</string>
   <string name="search_new">新規</string>
   <string name="search_comments">コメント</string>
+  <string name="no_posts_found">投稿が見つかりません</string>
   <!-- Captcha -->
   <string name="captcha">上記のコードを入力してください</string>
   <string name="captcha_title">あなたがロボットではないことを証明します</string>
@@ -927,6 +931,8 @@
   <string name="btn_collapse_children_all">子コメントを畳む</string>
   <string name="btn_open_content">コンテンツを開く</string>
   <string name="btn_report">報告する</string>
+  <string name="report_post">投稿を報告</string>
+  <string name="report_comment">コメントを報告</string>
   <string name="input_reason_for_report">報告する理由</string>
   <string name="msg_report_sent">報告を送信しました</string>
   <string name="load_videos_internally">動画をアプリ内で読み込む</string>
@@ -1044,4 +1050,15 @@
   <string name="sub_post_notifs_msg">メールをチェックするとき、Slide が新しい投稿をチェックします (メール通知を有効にする必要があります)</string>
   <string name="mod_ban_reason_required">理由が必要です</string>
   <string name="settings_abbreviate_post_scores">投稿スコアを省略 (例 24.0k)</string>
+  <string name="settings_wide_depth_indicators">ワイドなコメントの深さインジケーター</string>
+  <string name="handling_reader_mode">リーダーモードを使用する</string>
+  <string name="settings_link_reader_night">読書モードと夜間モードをリンク</string>
+  <string name="theme_pixel">ピクセル</string>
+  <string name="save_images_to_subreddit_specific_subfolders">Subreddit 固有のサブフォルダーに画像を保存</string>
+  <string name="description_save_subfolders">提出とコメント表示で動作します</string>
+  <string name="content_settings">コンテンツの設定</string>
+  <string name="setting_titleTop">情報行の上にタイトルを表示</string>
+  <string name="setting_notification_piggybacking">通知のピギーバック</string>
+  <string name="setting_notification_piggybacking_desc">Reddit の公式アプリがプッシュ通知を取得した場合のみメールを確認します</string>
+  <string name="install_notif_piggyback">通知のピギーバックができるように公式の Reddit アプリをインストール</string>
 </resources>

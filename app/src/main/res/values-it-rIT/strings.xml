@@ -96,6 +96,7 @@
   <string name="multi_column_title">Multi-colonna</string>
   <string name="multi_column_landscape">Orizzontale</string>
   <string name="multi_column_portrait">Due colonne in modalità ritratto</string>
+  <string name="single_column_multi_window">Colonna singola in modalità multi-finestra</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Tu</string>
   <string name="drawer_support">Passa alla versione Pro</string>
@@ -190,6 +191,7 @@
   <string name="editor_title">Titolo</string>
   <string name="editor_err_msg">Riprova tra pochi secondi</string>
   <string name="editor_uploading_image">Caricando l\'immagine su imgur</string>
+  <string name="editor_upload_image_question">Caricare l\'immagine su imgur?</string>
   <string name="editor_self">Post di testo</string>
   <string name="editor_select_img">Seleziona un\'immagine</string>
   <string name="editor_hint_optional_body">Corpo (opzionale)</string>
@@ -379,6 +381,7 @@
   <string name="btn_set">IMPOSTA</string>
   <string name="btn_create">Crea</string>
   <string name="btn_new">Nuovi</string>
+  <string name="btn_upload">Carica</string>
   <!-- Backup -->
   <string name="backup_success">Backup riuscito!</string>
   <string name="backup_restoring">Ripristino delle tue impostazioni in corso</string>
@@ -475,6 +478,7 @@
   <string name="search_top">Migliori</string>
   <string name="search_new">Nuovi</string>
   <string name="search_comments">Commenti</string>
+  <string name="no_posts_found">Nessun post trovato</string>
   <!-- Captcha -->
   <string name="captcha">Inserisci il codice mostrato sopra</string>
   <string name="captcha_title">Dimostra di non essere un robot</string>
@@ -943,6 +947,8 @@
   <string name="btn_collapse_children_all">Collassa commenti figli</string>
   <string name="btn_open_content">Apri contenuto</string>
   <string name="btn_report">Segnala</string>
+  <string name="report_post">Segnala post</string>
+  <string name="report_comment">Segnala commento</string>
   <string name="input_reason_for_report">Motivazione della segnalazione</string>
   <string name="msg_report_sent">Segnalazione inviata</string>
   <string name="load_videos_internally">Carica video internamente</string>
@@ -1061,4 +1067,9 @@
   <string name="sub_post_notifs_msg">Slide cercherà nuovi post quando cerca la posta (le notifiche della posta devono essere abilitate)</string>
   <string name="mod_ban_reason_required">È richiesto il motivo</string>
   <string name="settings_abbreviate_post_scores">Abbrevia i punteggi dei post (es. 24.0k)</string>
+  <string name="handling_reader_mode">Usa modalità lettura</string>
+  <string name="theme_pixel">Pixel</string>
+  <string name="content_settings">Opzioni contenuti</string>
+  <string name="setting_titleTop">Mostra il titolo sopra la riga di informazioni</string>
+  <string name="setting_notification_piggybacking_desc">Controlla la posta solo quando l\'app ufficiale di Reddit riceve una notifica push</string>
 </resources>

@@ -96,6 +96,7 @@
   <string name="multi_column_title">Paramètres multi-colonnes</string>
   <string name="multi_column_landscape">Paysage</string>
   <string name="multi_column_portrait">Deux colonnes en mode portrait</string>
+  <string name="single_column_multi_window">Une seule colonne en mode multi-fenêtres</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Vous</string>
   <string name="drawer_support">Passez à la version Pro</string>
@@ -190,6 +191,7 @@
   <string name="editor_title">Titre </string>
   <string name="editor_err_msg">Veuillez réessayer dans quelques secondes.</string>
   <string name="editor_uploading_image">Envoi de l\'image sur imgur</string>
+  <string name="editor_upload_image_question">Envoyer l\'image sur imgur ?</string>
   <string name="editor_self">Publication texte</string>
   <string name="editor_select_img">Sélectionner une image</string>
   <string name="editor_hint_optional_body">Corps de texte (facultatif)</string>
@@ -379,6 +381,7 @@
   <string name="btn_set">Appliquer</string>
   <string name="btn_create">Créer</string>
   <string name="btn_new">Nouveau</string>
+  <string name="btn_upload">Envoyer</string>
   <!-- Backup -->
   <string name="backup_success">Sauvegarde réussie!</string>
   <string name="backup_restoring">Restauration de vous paramètres</string>
@@ -475,6 +478,7 @@
   <string name="search_top">Le meilleur</string>
   <string name="search_new">Nouveau</string>
   <string name="search_comments">Commentaires</string>
+  <string name="no_posts_found">Aucun post</string>
   <!-- Captcha -->
   <string name="captcha">Entrez le code ci-dessus</string>
   <string name="captcha_title">Prouvez que vous n\'êtes pas un robot</string>
@@ -491,7 +495,7 @@
   <string name="settings_mail_check">Rafraîchir les messages</string>
   <string name="settings_mail_info">Plus le rafraîchissement est fréquent, plus Slide risque de consommer de la batterie en arrière plan !</string>
   <string name="settings_main_color_title">Modifier la couleur principale</string>
-  <string name="settings_notification">Rafraîchir les messages toutes les</string>
+  <string name="settings_notification">Recherchez de nouveaux messages chaque %1$s</string>
   <string name="settings_notification_newline">Recherchez de nouveaux messages chaque\n%1$s</string>
   <string name="settings_notification_short">Vérifier chaque %1$s</string>
   <string name="settings_disable_nsfw_photo">Masquer toutes les photos NSFW</string>
@@ -943,6 +947,8 @@
   <string name="btn_collapse_children_all">Réduire les réponses aux commentaires</string>
   <string name="btn_open_content">Ouvrir le contenu</string>
   <string name="btn_report">Rapport</string>
+  <string name="report_post">Signaler la publication</string>
+  <string name="report_comment">Signaler le commentaire</string>
   <string name="input_reason_for_report">Raison du signalement</string>
   <string name="msg_report_sent">Signalement envoyé</string>
   <string name="load_videos_internally">Charger les vidéos en interne</string>
@@ -1061,4 +1067,12 @@
   <string name="sub_post_notifs_msg">Slide vérifiera pour de nouvelles publications quand il vérifie pour des messages (les notificatons de messages doivent être activées)</string>
   <string name="mod_ban_reason_required">La raison est demandée</string>
   <string name="settings_abbreviate_post_scores">Abréger les scores des post (ex. 24,0 k)</string>
+  <string name="settings_wide_depth_indicators">Larges indicateurs de la profondeur des commentaires</string>
+  <string name="handling_reader_mode">Utiliser le mode lecture</string>
+  <string name="settings_link_reader_night">Lier le mode lecture au mode nuit</string>
+  <string name="theme_pixel">Pixel</string>
+  <string name="save_images_to_subreddit_specific_subfolders">Enregistrer les images dans des sous-dossiers spécifiques aux subreddits</string>
+  <string name="content_settings">Paramètres des contenus</string>
+  <string name="setting_titleTop">Afficher le titre au-dessus de la ligne d\'info</string>
+  <string name="setting_notification_piggybacking_desc">Rafraîchir les messages uniquement quand l\'app officielle Reddit reçoit une notification</string>
 </resources>

@@ -197,6 +197,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="editor_title">Titel</string>
   <string name="editor_err_msg">Bitte versuch es in ein paar Sekunden erneut.</string>
   <string name="editor_uploading_image">Lade Bild auf imgur hoch</string>
+  <string name="editor_upload_image_question">Bild auf Imgur hochladen?</string>
   <string name="editor_self">Textbeitrag</string>
   <string name="editor_select_img">Bild auswählen</string>
   <string name="editor_hint_optional_body">Text (optional) </string>
@@ -534,6 +535,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_image_location">Bild/GIF Speicher-Verzeichnis auswählen</string>
   <string name="settings_image_location_unset">Noch nicht festgelegt</string>
   <string name="settings_set_image_location">Bilder werden in %s gespeichert</string>
+  <string name="settings_general_immersive_mode">Vollbildmodus</string>
   <string name="settings_general_immersive_mode_desc">Ausblenden der Status und Navigationsleisten (experimentell)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Sichern &amp; Wiederherstellen</string>
@@ -588,7 +590,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_font_system">System</string>
   <string name="settings_manage_subscriptions">Verwalte deine Abonnenten</string>
   <string name="settings_comments_swap_long">Vertausche \'Langes Drücken\' und Tippen</string>
-  <string name="settings_redditprefs_over18">Ich bin über 18 und möchte NSFW-Inhalte sehen</string>
+  <string name="settings_redditprefs_over18">Ich bin älter als 18 und möchte NSFW-Inhalte sehen</string>
   <string name="settings_layout_view">Ansichtsmodus</string>
   <string name="settings_data_lowqaul_desc">Andernfalls immer Bilder mit hoher Qualität öffnen</string>
   <string name="settings_data_lowqaul">Lade Bilder wenn möglich mit niedriger Bildqualität</string>
@@ -868,6 +870,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="load_medium_quality">Lade Bilder in mittlerer Qualität (max. 640x640)</string>
   <string name="load_high_quality">Lade Bilder in hoher Qualität (max. 1080x1080)</string>
   <string name="choose_color_title">Wähle eine Farbe</string>
+  <string name="enter_text_to_filter_click_enter_to_add">Füge Text zum Filtern hinzu, mit Enter bestätigen</string>
   <string name="may_reduce_comment_scroll_performance">Kann Kommentar Scroll Geschwindigkeit reduzieren</string>
   <string name="comment_shadowbox">Kommentar Schattenbox</string>
   <!-- Sidebar strings (multis, flairs) -->
@@ -884,6 +887,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="filter_posts_sub">Beiträge von /r/%1$s</string>
   <string name="filter_posts_user">Beiträge von /u/%1$s</string>
   <string name="filter_open_externally">URLs von %s extern öffnen</string>
+  <string name="filter_posts_flair">Flair \"%1$s\" von %2$s</string>
   <string name="filter_btn">Filter</string>
   <!-- Caching -->
   <string name="cache_no_comments_found">Keine Kommentare gefunden</string>
@@ -1050,4 +1054,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="sub_post_notifs_msg">Slide sucht nach neuen Posts, wenn es die Nachrichten abruft (Benachrichtigungen für Nachrichten müssen an sein)</string>
   <string name="mod_ban_reason_required">Grund ist erforderlich</string>
   <string name="settings_abbreviate_post_scores">Verkürze Post Punkte (z. B. 24,0 k)</string>
+  <string name="handling_reader_mode">Lesemodus verwenden</string>
+  <string name="save_images_to_subreddit_specific_subfolders">Bilder in Subreddit-spezifische Ordner speichern</string>
+  <string name="content_settings">Inhaltseinstellungen</string>
 </resources>
