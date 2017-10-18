@@ -6,9 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceActivity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
@@ -24,7 +24,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rey.material.widget.Slider;
-import com.rey.material.widget.SnackBar;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Subreddit;
@@ -576,11 +575,11 @@ public class SettingsGeneral extends BaseActivityAnim
     public void doNotifText(){
         {
             View notifs = findViewById(R.id.redditnotifs);
-            if(!Reddit.isPackageInstalled(this, "com.reddit.frontpage")){
+            if(!Reddit.isPackageInstalled(this, "com.reddit.frontpage") || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
                 notifs.setVisibility(View.GONE);
                 findViewById(R.id.installreddit).setVisibility(View.VISIBLE);
             } else {
-                if(((Reddit)getApplication()).isAccessibilityEnabled()){
+                if(((Reddit)getApplication()).isNotificationAccessEnabled()){
                     SwitchCompat single = (SwitchCompat) findViewById(R.id.piggyback);
                     single.setChecked(true);
                     single.setEnabled(false);
@@ -592,13 +591,11 @@ public class SettingsGeneral extends BaseActivityAnim
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                             single.setChecked(false);
-                            Snackbar s = Snackbar.make(single,"Give Slide accessibility access", Snackbar.LENGTH_LONG);
+                            Snackbar s = Snackbar.make(single,"Give Slide notification access", Snackbar.LENGTH_LONG);
                             s.setAction("Go to settings", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-
-                                    Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                                    startActivityForResult(intent, 0);
+                                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
 
                                 }
                             });

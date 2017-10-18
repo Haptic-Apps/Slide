@@ -205,7 +205,10 @@ public class SettingsBackup extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("text/plain");
+                    intent.setType("file/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    String[] mimeTypes = { "text/plain"};
+                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
                     startActivityForResult(intent, 42);
 
                 }

@@ -1,6 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -63,6 +64,7 @@ import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.Notifications.NotificationPiggyback;
 import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
@@ -739,34 +741,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-    public boolean isAccessibilityEnabled(){
-        int accessibilityEnabled = 0;
-        final String ACCESSIBILITY_SERVICE_NAME = "me.ccrama.redditslide" + (BuildConfig.DEBUG ? ".debug" : "" )+ "/me.ccrama.redditslide.Notifications.NotificationPiggyback";
-        boolean accessibilityFound = false;
-        try {
-            accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(),android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
-        } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
-        }
+    public boolean isNotificationAccessEnabled(){
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
-        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
-
-        if (accessibilityEnabled==1){
-            String settingValue = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-            if (settingValue != null) {
-                TextUtils.SimpleStringSplitter splitter = mStringColonSplitter;
-                splitter.setString(settingValue);
-                while (splitter.hasNext()) {
-                    String accessabilityService = splitter.next();
-                    LogUtil.v(accessabilityService);
-                    if (accessabilityService.equalsIgnoreCase(ACCESSIBILITY_SERVICE_NAME)){
-                        return true;
-                    }
-                }
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (NotificationPiggyback.class.getName().equals(service.service.getClassName())) {
+                return true;
             }
         }
 
-        return accessibilityFound;
+        return false;
     }
 
 

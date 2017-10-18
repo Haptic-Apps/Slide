@@ -57,7 +57,7 @@ public class CheckForMail extends BroadcastReceiver {
             Reddit.authentication = new Authentication(context);
         }
 
-        if(!((Reddit)c.getApplicationContext()).isAccessibilityEnabled()) {
+        if(!((Reddit)c.getApplicationContext()).isNotificationAccessEnabled()) {
             new AsyncGetMail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
             if (Authentication.mod) {
