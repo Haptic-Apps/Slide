@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerimage"
-            android:paddingTop="12dp">
+            android:paddingTop="10dp">
 
             <me.ccrama.redditslide.Views.RoundImageTriangleView
                 android:id="@+id/thumbimage2"
@@ -60,7 +60,7 @@
             <RelativeLayout
                 android:id="@+id/inside"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="8dp"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/secondMenu"
                 android:layout_toRightOf="@+id/thumbimage2">
