@@ -1052,7 +1052,7 @@ public class PopulateSubmissionViewHolder {
                         ActionStates.setSaved(submission, true);
                     }
 
-                } catch (ApiException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
