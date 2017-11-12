@@ -71,6 +71,8 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
+import static me.ccrama.redditslide.UserSubscriptions.setPinned;
+
 public class ReorderSubreddits extends BaseActivityAnim {
 
     private CaseInsensitiveArrayList subs;
@@ -292,6 +294,16 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 String item = subs.remove(from);
                 subs.add(to, item);
                 adapter.notifyDataSetChanged();
+
+                CaseInsensitiveArrayList pinned = UserSubscriptions.getPinned();
+                if (pinned.contains(item) && pinned.size() != 1) {
+                    pinned.remove(item);
+                    if (to > pinned.size()) {
+                        to = pinned.size();
+                    }
+                    pinned.add(to, item);
+                    setPinned(pinned);
+                }
             }
         });
 
