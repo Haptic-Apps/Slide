@@ -149,11 +149,8 @@ public class GifUtils {
         protected void onPreExecute() {
             super.onPreExecute();
             gson = new Gson();
-            apiKey = SecretConstants.getGyfcatAPIKey(c);
 
         }
-
-        String apiKey;
         Gson   gson;
 
         public void showGif(final URL url, final int tries, final String subreddit) {
@@ -519,57 +516,17 @@ public class GifUtils {
                     break;
 
                 case OTHER:
-                    try {
-                        loadGfycatTranscode(url);
-                    } catch (Exception e) {
-                        LogUtil.e(e, "Error loading media url = [" + url + "]");
+                   LogUtil.e("We shouldn't be here!");
+                    if (closeIfNull) {
+                        Intent web = new Intent(c, Website.class);
+                        web.putExtra(Website.EXTRA_URL, url);
+                        web.putExtra(Website.EXTRA_COLOR, Color.BLACK);
+                        c.startActivity(web);
+                        c.finish();
                     }
                     break;
             }
             return null;
-        }
-
-        public void loadGfycatTranscode(final String url) throws Exception {
-            JsonObject result = HttpUtil.transcodeGfycatGetJsonObject(c, client, gson, url);
-            String obj = "";
-            if (result == null || !result.has("mp4Url") || result.get("mp4Url").isJsonNull()) {
-                onError();
-                if (closeIfNull) {
-                    c.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                new AlertDialogWrapper.Builder(c).setTitle(R.string.gif_err_title)
-                                        .setMessage(R.string.gif_err_msg)
-                                        .setCancelable(false)
-                                        .setPositiveButton(R.string.btn_ok,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        c.finish();
-                                                    }
-                                                })
-                                        .create()
-                                        .show();
-                            } catch (Exception e) {
-
-                            }
-                        }
-                    });
-                }
-
-
-            } else {
-                if (result.has("mobileUrl")) {
-                    obj = result.get("mobileUrl").getAsString();
-                } else {
-                    obj = result.get("mp4Url").getAsString();
-                }
-            }
-            showProgressBar(c, progressBar, false);
-            final URL finalUrl = new URL(obj);
-            writeGif(finalUrl, progressBar, c, subreddit);
         }
 
         public static String readableFileSize(long size) {
