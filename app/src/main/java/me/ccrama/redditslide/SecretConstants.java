@@ -11,6 +11,7 @@ import java.util.Properties;
  */
 public class SecretConstants {
     private static String apiKey;
+    private static String gfycatAPIKey;
 
     private static String base64EncodedPublicKey;
 
@@ -62,4 +63,22 @@ public class SecretConstants {
         }
         return apiKey;
     }
+
+    public static String getGyfcatAPIKey(Context context) {
+        if (gfycatAPIKey == null) {
+            InputStream input;
+            try {
+                input = context.getAssets().open("secretconstants.properties");
+                Properties properties = new Properties();
+                properties.load(input);
+                gfycatAPIKey = properties.getProperty("gfycat");
+            } catch (IOException e) {
+                // file not found
+                gfycatAPIKey = ""; //Testing key, will not work in production
+            }
+
+        }
+        return gfycatAPIKey;
+    }
+
 }

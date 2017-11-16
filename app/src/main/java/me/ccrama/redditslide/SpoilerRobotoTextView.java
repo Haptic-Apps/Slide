@@ -69,6 +69,7 @@ import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
+import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -465,7 +466,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     openImage(url, subreddit);
                     break;
                 case GIF:
-                    openGif(url, subreddit);
+                    openGif(url, subreddit, activity);
                     break;
                 case NONE:
                     break;
@@ -637,12 +638,16 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
     }
 
-    private void openGif(String url, String subreddit) {
+    private void openGif(String url, String subreddit, Activity activity) {
         if (SettingValues.gif) {
-            Intent myIntent = new Intent(getContext(), MediaView.class);
-            myIntent.putExtra(MediaView.EXTRA_URL, url);
-            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
-            getContext().startActivity(myIntent);
+            if(GifUtils.AsyncLoadGif.getVideoType(url).shouldLoadPreview()){
+                LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
+            } else {
+                Intent myIntent = new Intent(getContext(), MediaView.class);
+                myIntent.putExtra(MediaView.EXTRA_URL, url);
+                myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                getContext().startActivity(myIntent);
+            }
         } else {
             Reddit.defaultShare(url, getContext());
         }
