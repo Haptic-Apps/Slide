@@ -68,19 +68,19 @@ public class GifUtils {
 
     public static class AsyncLoadGif extends AsyncTask<String, Void, Void> {
 
-        public Activity       c;
-        public MediaVideoView video;
-        public ProgressBar    progressBar;
-        public View           placeholder;
-        public View           gifSave;
-        public boolean        closeIfNull;
-        public boolean        hideControls;
-        public boolean        autostart;
-        public Runnable       doOnClick;
+        private  Activity       c;
+        private MediaVideoView video;
+        private  ProgressBar    progressBar;
+        private  View           placeholder;
+        private  View           gifSave;
+        private  boolean        closeIfNull;
+        private  boolean        hideControls;
+        private  boolean        autostart;
+        private  Runnable       doOnClick;
         public String subreddit = "";
-        public boolean cacheOnly;
+        private boolean cacheOnly;
 
-        public TextView size;
+        private TextView size;
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
@@ -136,23 +136,17 @@ public class GifUtils {
 
         public void cancel() {
             LogUtil.v("cancelling");
-            getProxy().shutdown();
-        }
-
-        @Override
-        public void onCancelled() {
-            super.onCancelled();
-            cancel();
+                video.suspend();
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             gson = new Gson();
-
         }
         Gson   gson;
 
+        //Now deprecated, this happens in writeGif now
         public void showGif(final URL url, final int tries, final String subreddit) {
             if (tries < 2) {
                 c.runOnUiThread(new Runnable() {
@@ -580,7 +574,6 @@ public class GifUtils {
                 public void run() {
 
                     String toLoad = getProxy().getProxyUrl(url.toString());
-                    video.setVideoPath(toLoad);
 
                     if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
                         MediaController mediaController = new MediaController(c);
@@ -588,6 +581,7 @@ public class GifUtils {
                         video.setMediaController(mediaController);
                     }
 
+                    video.setVideoPath(toLoad);
 
                     video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
@@ -615,8 +609,6 @@ public class GifUtils {
                                         progressBar.setVisibility(View.GONE);
                                         getProxy().unregisterCacheListener(this);
                                         if (size != null) size.setVisibility(View.GONE);
-
-                                        showProgressBar(c, progressBar, false);
                                         if (gifSave != null) {
                                             gifSave.setOnClickListener(new View.OnClickListener() {
                                                 @Override
@@ -641,9 +633,7 @@ public class GifUtils {
 
                                     }
                                 }
-                                if (percent == 100)
-
-                                {
+                                if (percent == 100) {
                                     MediaView.didLoadGif = true;
                                 }
 

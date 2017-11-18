@@ -229,7 +229,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         ContextCompat.getDrawable(getContext(), R.drawable.web));
                 thumbUsed = true;
             } else if (submission.isNsfw()
-                    && SettingValues.getIsNSFWEnabled() || (baseSub != null && submission.isNsfw() && SettingValues.hideNSFWCollection && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.equals("popular")) )) {
+                    && SettingValues.getIsNSFWEnabled() || (baseSub != null && submission.isNsfw() && SettingValues.hideNSFWCollection && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.contains("+") || baseSub.equals("popular")) )) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
                     thumbImage2.setVisibility(View.VISIBLE);
