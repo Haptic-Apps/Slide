@@ -113,7 +113,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     private int currentState = STATE_IDLE;
     private int targetState  = STATE_IDLE;
     // Stuff we need for playing and showing a video
-    private MediaPlayer                      mediaPlayer;
+    public MediaPlayer                      mediaPlayer;
     private int                              videoWidth;
     private int                              videoHeight;
     private int                              surfaceWidth;

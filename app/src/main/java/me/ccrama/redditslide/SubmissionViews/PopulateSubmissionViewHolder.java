@@ -384,7 +384,7 @@ public class PopulateSubmissionViewHolder {
             GifUtils.AsyncLoadGif.VideoType t =
                     GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
 
-            if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT && submission.getDataNode()
+            if (t.shouldLoadPreview() && submission.getDataNode()
                     .has("preview") && submission.getDataNode()
                     .get("preview")
                     .get("images")
@@ -420,8 +420,14 @@ public class PopulateSubmissionViewHolder {
                                 .get("fallback_url")
                                 .asText()).replace("&amp;", "&"));
 
-            } else {
+            } else if(t != GifUtils.AsyncLoadGif.VideoType.OTHER) {
                 myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+            } else {
+                LinkUtil.openUrl(submission.getUrl(),
+                        Palette.getColor(submission.getSubredditName()),
+                        contextActivity, adapterPosition,
+                        submission);
+                return;
             }
             if (submission.getDataNode().has("preview") && submission.getDataNode()
                     .get("preview")

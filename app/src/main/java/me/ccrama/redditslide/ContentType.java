@@ -46,13 +46,33 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
             final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
-            return hostContains(host, "gfycat.com")|| hostContains(host, "v.redd.it") || path.endsWith(".gif") || path.endsWith(
-                    ".gifv") || path.endsWith(".webm") || path.endsWith(".mp4");
+            return hostContains(host, "gfycat.com")
+                    || hostContains(host, "v.redd.it")
+                    || path.endsWith(".gif")
+                    || path.endsWith(".gifv")
+                    || path.endsWith(".webm")
+                    || path.endsWith(".mp4");
 
         } catch (NullPointerException e) {
             return false;
         }
     }
+
+    public static boolean isGifLoadInstantly(URI uri) {
+        try {
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
+
+            return hostContains(host, "gfycat.com") || hostContains(host, "v.redd.it") || (
+                    hostContains(host, "imgur.com")
+                            && (path.endsWith(".gif") || path.endsWith(".gifv") || path.endsWith(
+                            ".webm"))) || path.endsWith(".mp4");
+
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
 
     public static boolean isImage(URI uri) {
         try {
@@ -88,7 +108,7 @@ public class ContentType {
             final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return Reddit.videoPlugin && hostContains(host, "youtu.be", "youtube.com",
-                    "youtube.co.uk") && !path.contains("/user/") &&!path.contains("/channel/");
+                    "youtube.co.uk") && !path.contains("/user/") && !path.contains("/channel/");
 
         } catch (NullPointerException e) {
             return false;
@@ -117,14 +137,9 @@ public class ContentType {
      * @return ContentType of the URL
      */
     public static Type getContentType(String url) {
-        if (!url.startsWith("//") && ((url.startsWith("/") && url.length() < 4)
-                || url.startsWith("#spoiler")
-                || url.startsWith("/spoiler")
-                || url.startsWith("#s-")
-                || url.equals("#s")
-                || url.equals("#ln")
-                || url.equals("#b")
-                || url.equals("#sp"))) {
+        if (!url.startsWith("//") && ((url.startsWith("/") && url.length() < 4) || url.startsWith(
+                "#spoiler") || url.startsWith("/spoiler") || url.startsWith("#s-") || url.equals(
+                "#s") || url.equals("#ln") || url.equals("#b") || url.equals("#sp"))) {
             return Type.SPOILER;
         }
 
@@ -186,9 +201,8 @@ public class ContentType {
 
         } catch (URISyntaxException | NullPointerException e) {
             if (e.getMessage() != null && (e.getMessage().contains("Illegal character in fragment")
+                    || e.getMessage().contains("Illegal character in query")
                     || e.getMessage()
-                    .contains(
-                            "Illegal character in query")|| e.getMessage()
                     .contains(
                             "Illegal character in path"))) //a valid link but something un-encoded in the URL
             {
@@ -438,22 +452,6 @@ public class ContentType {
     }
 
     public enum Type {
-        ALBUM,
-        DEVIANTART,
-        EMBEDDED,
-        EXTERNAL,
-        GIF,
-        IMAGE,
-        IMGUR,
-        LINK,
-        NONE,
-        REDDIT,
-        SELF,
-        SPOILER,
-        STREAMABLE,
-        VIDEO,
-        XKCD,
-        TUMBLR,
-        VID_ME
+        ALBUM, DEVIANTART, EMBEDDED, EXTERNAL, GIF, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR, VID_ME
     }
 }

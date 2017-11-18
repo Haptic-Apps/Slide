@@ -503,7 +503,9 @@ public class MediaView extends FullScreenActivity
     public void onDestroy() {
         super.onDestroy();
         ((SubsamplingScaleImageView) findViewById(R.id.submission_image)).recycle();
-        if (gif != null) gif.cancel(true);
+        if (gif != null) {gif.cancel(true);
+        gif.cancel();}
+
         doOnClick = null;
         if (!didLoadGif && fileLoc != null && !fileLoc.isEmpty()) {
             new File(fileLoc).delete();

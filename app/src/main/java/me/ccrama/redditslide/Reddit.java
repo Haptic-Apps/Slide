@@ -19,12 +19,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.support.multidex.MultiDexApplication;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
@@ -33,6 +31,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.danikula.videocache.HttpProxyCacheServer;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -87,6 +86,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static final long   enter_animation_time_original = 600;
     public static final String PREF_LAYOUT                   = "PRESET";
     public static final String SHARED_PREF_IS_MOD            = "is_mod";
+    public static HttpProxyCacheServer proxy;
 
     public static IabHelper mHelper;
     public static       SubmissionSearchPaginator.SearchSort search                          =
@@ -646,6 +646,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (ProcessPhoenix.isPhoenixProcess(this)) {
             return;
         }
+
+        proxy = new HttpProxyCacheServer.Builder(this).maxCacheSize(5*1024).maxCacheFilesCount(20).build();
+
         UpgradeUtil.upgrade(getApplicationContext());
         doMainStuff();
     }
@@ -741,10 +744,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-    public boolean isNotificationAccessEnabled(){
+    public boolean isNotificationAccessEnabled() {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
+                Integer.MAX_VALUE)) {
             if (NotificationPiggyback.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
@@ -754,11 +758,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
 
-    public static String CHANNEL_IMG = "IMG_DOWNLOADS";
+    public static String CHANNEL_IMG           = "IMG_DOWNLOADS";
     public static String CHANNEL_COMMENT_CACHE = "POST_SYNC";
-    public static String CHANNEL_MAIL = "MAIL";
-    public static String CHANNEL_MODMAIL = "MODMAIL";
-    public static String CHANNEL_SUBCHECKING = "SUB_CHECK";
+    public static String CHANNEL_MAIL          = "MAIL";
+    public static String CHANNEL_MODMAIL       = "MODMAIL";
+    public static String CHANNEL_SUBCHECKING   = "SUB_CHECK";
 
     public void setupNotificationChannels() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -820,8 +824,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 String channelId = CHANNEL_SUBCHECKING;
                 int importance = NotificationManager.IMPORTANCE_HIGH;
                 NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Submission post checking",
-                                importance);
+                        new NotificationChannel(channelId, "Submission post checking", importance);
                 notificationChannel.enableLights(true);
                 notificationChannel.setLightColor(Palette.getColor(""));
                 notificationChannel.setShowBadge(false);
