@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Views;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -7,6 +8,7 @@ import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -127,6 +129,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     private MediaPlayer.OnErrorListener      onErrorListener;
     private MediaPlayer.OnInfoListener       onInfoListener;
     private int                              mSeekWhenPrepared;
+    private int                              mSeekMode;
     // recording the seek position while preparing
     private boolean                          mCanPause;
     private boolean                          mCanSeekBack;
@@ -339,7 +342,12 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     @Override
     public void seekTo(int msec) {
         if (isInPlaybackState()) {
-            mediaPlayer.seekTo(msec);
+            if (Build.VERSION.SDK_INT >= 26) {
+                mediaPlayer.seekTo(msec, mSeekMode);
+            } else {
+                mediaPlayer.seekTo(msec);
+            }
+
             mSeekWhenPrepared = 0;
         } else {
             mSeekWhenPrepared = msec;
@@ -392,6 +400,22 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         setFocusable(false);
         setSurfaceTextureListener(surfaceTextureListener);
         //todo make this work better! setOnTouchListener(new ZoomOnTouchListeners());
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            ActivityManager am =
+                    (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+
+            // Only seek to seek-points if low ram device, otherwise seek to frame
+            if (am.isLowRamDevice()) {
+                LogUtil.d("MediaVideoView: using SEEK_CLOSEST_SYNC (low ram device)");
+                mSeekMode = MediaPlayer.SEEK_CLOSEST_SYNC;
+            } else {
+                LogUtil.d("MediaVideoView: using SEEK_CLOSEST");
+                mSeekMode = MediaPlayer.SEEK_CLOSEST;
+            }
+        } else {
+            LogUtil.d("MediaVideoView: using SEEK_PREVIOUS_SYNC (API<26)");
+        }
     }
 
     public void openVideo() {
