@@ -613,14 +613,14 @@ public class GifUtils {
                                             gifSave.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    saveGif(cacheFile, c, subreddit);
+                                                    saveGif(getProxy().getCacheFile(url), c, subreddit);
                                                 }
                                             });
                                         } else if (doOnClick != null) {
                                             MediaView.doOnClick = new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    saveGif(cacheFile, c, subreddit);
+                                                    saveGif(getProxy().getCacheFile(url), c, subreddit);
                                                     try {
                                                         Toast.makeText(c, "Downloading image...",
                                                                 Toast.LENGTH_SHORT).show();
@@ -682,6 +682,8 @@ public class GifUtils {
     }
 
     public static void saveGif(File from, Activity a, String subreddit) {
+
+        LogUtil.v(from.getAbsolutePath());
         try {
             Toast.makeText(a, "Downloading image...", Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
@@ -711,6 +713,7 @@ public class GifUtils {
                 in = new FileInputStream(from);
                 out = new FileOutputStream(f);
 
+
                 // Transfer bytes from in to out
                 byte[] buf = new byte[1024];
                 int len;
@@ -719,6 +722,7 @@ public class GifUtils {
                 }
                 out.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 LogUtil.e("Error saving GIF called with: "
                         + "from = ["
                         + from
