@@ -105,7 +105,7 @@ public class PopMediaView {
         v.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) v.findViewById(R.id.gifprogress);
         v.findViewById(R.id.progress).setVisibility(View.GONE);
-        GifUtils.AsyncLoadGif gif = new GifUtils.AsyncLoadGif(((Activity) v.getContext()), (MediaVideoView) v.findViewById(R.id.gif), loader, v.findViewById(R.id.placeholder), null, false, true, true, "");
+        GifUtils.AsyncLoadGif gif = new GifUtils.AsyncLoadGif(((Activity) v.getContext()), (MediaVideoView) v.findViewById(R.id.gif), loader, null, null, false, true, true, "");
         gif.execute(dat);
     }
 

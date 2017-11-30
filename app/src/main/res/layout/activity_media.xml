@@ -16,9 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:layout_gravity="center"
-        android:id="@+id/gifarea"
-        android:gravity="center">
+        android:id="@+id/gifarea">
 
         <me.ccrama.redditslide.Views.MediaVideoView
             android:id="@+id/gif"
