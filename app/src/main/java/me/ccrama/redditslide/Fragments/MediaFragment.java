@@ -147,42 +147,39 @@ public class MediaFragment extends Fragment {
 
         ImageView typeImage = (ImageView) rootView.findViewById(R.id.type);
         typeImage.setVisibility(View.VISIBLE);
-        View img = rootView.findViewById(R.id.submission_image);
+        SubsamplingScaleImageView img = rootView.findViewById(R.id.submission_image);
         final SlidingUpPanelLayout slideLayout =
                 ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
         ContentType.Type type = ContentType.getContentType(s);
 
         img.setAlpha(1f);
 
+        if (s.getThumbnail().isEmpty() || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
+            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
+            ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
+            addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
+                    type, getActivity(), s);
+            (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
 
-        if (!ContentType.fullImage(type) || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-            if (!s.getDataNode().has("preview") || !s.getDataNode()
-                    .get("preview")
-                    .get("images")
-                    .get(0)
-                    .get("source")
-                    .has("height") || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-                (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
+            if ((s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
-                        R.drawable.web);
-                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
-                        type, getActivity(), s);
-                (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
-                if ((s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-                    ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
-                            R.drawable.nsfw);
+                        R.drawable.nsfw);
 
-                }
-            } else {
-                addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,
-                        rootView, type, getActivity(), s);
             }
+
         } else {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
+            addClickFunctions(img, slideLayout, rootView,
                     type, getActivity(), s);
         }
 
+        if(!s.isNsfw() ||  !SettingValues.getIsNSFWEnabled()) {
+            if (type == ContentType.Type.EXTERNAL || type == ContentType.Type.LINK || type == ContentType.Type.VIDEO) {
+                doLoad(firstUrl, type);
+            } else {
+                doLoad(contentUrl, type);
+            }
+        }
 
         switch (type) {
             case ALBUM:
@@ -191,14 +188,8 @@ public class MediaFragment extends Fragment {
             case EXTERNAL:
             case LINK:
             case REDDIT:
-                if(s.getThumbnail() != null){
-                    ((Reddit) getContext().getApplicationContext()).getImageLoader()
-                            .displayImage(s.getThumbnail(), typeImage);
-
-                } else {
-                    typeImage.setImageResource(R.drawable.world);
-                    rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
-                }
+                typeImage.setImageResource(R.drawable.world);
+                rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
                 break;
             case SELF:
                 typeImage.setImageResource(R.drawable.fontsizedarker);
@@ -211,7 +202,7 @@ public class MediaFragment extends Fragment {
                 typeImage.setVisibility(View.GONE);
                 break;
         }
-        if (!(s.isNsfw() && SettingValues.getIsNSFWEnabled())) doLoad(contentUrl, type);
+
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -296,7 +287,7 @@ public class MediaFragment extends Fragment {
                 doLoadDeviantArt(contentUrl);
                 break;
             case IMAGE:
-                doLoadImage(contentUrl);
+                 doLoadImage(contentUrl);
                 break;
             case IMGUR:
                 doLoadImgur(contentUrl);
@@ -308,6 +299,10 @@ public class MediaFragment extends Fragment {
             case STREAMABLE:
             case GIF:
                 doLoadGif(contentUrl);
+                break;
+            case LINK:
+            case REDDIT:
+                doLoadImage(contentUrl);
                 break;
         }
     }
