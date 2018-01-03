@@ -113,6 +113,7 @@ public class SettingValues {
     public static final String PREF_LARGE_LINKS            = "largeLinks";
     public static final String PREF_LARGE_DEPTH            = "largeDepth";
     public static final String PREF_TITLE_TOP            = "titleTop";
+    public static final String PREF_HIGHLIGHT_COMMENT_OP            = "commentOP";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -227,6 +228,7 @@ public class SettingValues {
     public static boolean colorIcon;
     public static boolean peek;
     public static boolean largeLinks;
+    public static boolean highlightCommentOP;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -287,6 +289,7 @@ public class SettingValues {
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
         rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
         commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
+        highlightCommentOP = prefs.getBoolean(PREF_HIGHLIGHT_COMMENT_OP, false);
 
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);

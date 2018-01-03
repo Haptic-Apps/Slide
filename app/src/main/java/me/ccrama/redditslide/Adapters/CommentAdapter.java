@@ -460,26 +460,27 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.dot.setLayoutParams(params2);
             if (baseNode.getDepth() - 1 > 0) {
                 int i22 = baseNode.getDepth() - 2;
-                if (i22 % 5 == 0) {
+                if(SettingValues.highlightCommentOP && dataSet.commentOPs.get(datasetPosition) != null && comment != null && dataSet.commentOPs.get(datasetPosition).equals(comment.getAuthor())){
                     holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                            !SettingValues.colorCommentDepth ? R.color.md_grey_700
-                                    : R.color.md_blue_500));
-                } else if (i22 % 4 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                            !SettingValues.colorCommentDepth ? R.color.md_grey_600
-                                    : R.color.md_green_500));
-                } else if (i22 % 3 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                            !SettingValues.colorCommentDepth ? R.color.md_grey_500
-                                    : R.color.md_yellow_500));
-                } else if (i22 % 2 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                            !SettingValues.colorCommentDepth ? R.color.md_grey_400
-                                    : R.color.md_orange_500));
+                             R.color.md_purple_500));
+
                 } else {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                            !SettingValues.colorCommentDepth ? R.color.md_grey_300
-                                    : R.color.md_red_500));
+                    if (i22 % 5 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_700 : R.color.md_blue_500));
+                    } else if (i22 % 4 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_600 : R.color.md_green_500));
+                    } else if (i22 % 3 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_500 : R.color.md_yellow_500));
+                    } else if (i22 % 2 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_400 : R.color.md_orange_500));
+                    } else {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_300 : R.color.md_red_500));
+                    }
                 }
             } else {
                 holder.dot.setVisibility(View.GONE);
