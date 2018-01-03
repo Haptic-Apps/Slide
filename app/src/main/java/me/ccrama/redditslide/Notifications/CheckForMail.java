@@ -57,17 +57,17 @@ public class CheckForMail extends BroadcastReceiver {
             Reddit.authentication = new Authentication(context);
         }
 
-        if(!((Reddit)c.getApplicationContext()).isNotificationAccessEnabled()) {
+        if (!((Reddit) c.getApplicationContext()).isNotificationAccessEnabled()) {
             new AsyncGetMail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
-            if (Authentication.mod) {
-                new AsyncGetModmail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-            if (!Reddit.appRestart.getString(SUBS_TO_GET, "").isEmpty()) {
-                new AsyncGetSubs(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
+        if (Authentication.mod) {
+            new AsyncGetModmail().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        if (!Reddit.appRestart.getString(SUBS_TO_GET, "").isEmpty()) {
+            new AsyncGetSubs(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
 
-            if (Reddit.notificationTime != -1) new NotificationJobScheduler(context).start(context);
+        if (Reddit.notificationTime != -1) new NotificationJobScheduler(context).start(context);
     }
 
 
@@ -144,20 +144,20 @@ public class CheckForMail extends BroadcastReceiver {
                                                     amount, amount))
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
-                                    .setChannelId(Reddit.CHANNEL_MAIL)
+                                    .setChannelId(
+                                            SettingValues.notifSound ? Reddit.CHANNEL_MAIL_SOUND
+                                                    : Reddit.CHANNEL_MAIL)
                                     .setContentTitle(
                                             res.getQuantityString(R.plurals.mail_notification_title,
                                                     amount, amount))
                                     .setStyle(notiStyle)
                                     .setGroup("MESSAGES")
                                     .setGroupSummary(true)
+                                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+
                                     .addAction(R.drawable.ic_check_all_black,
                                             c.getString(R.string.mail_mark_read), readPI)
                                     .build();
-                    if (SettingValues.notifSound) {
-                        notification.defaults |= Notification.DEFAULT_SOUND;
-                        notification.defaults |= Notification.DEFAULT_VIBRATE;
-                    }
 
                     notificationManager.notify(0, notification);
                 }
@@ -213,19 +213,18 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .setContentTitle(contentTitle)
-                                        .setChannelId(Reddit.CHANNEL_MAIL)
+                                        .setChannelId(
+                                                SettingValues.notifSound ? Reddit.CHANNEL_MAIL_SOUND
+                                                        : Reddit.CHANNEL_MAIL)
                                         .setContentText(Html.fromHtml(
                                                 StringEscapeUtils.unescapeHtml4(
                                                         m.getDataNode().get("body_html").asText())))
                                         .setStyle(notiStyle)
                                         .setGroup("MESSAGES")
+                                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                                         .addAction(R.drawable.ic_check_all_black,
                                                 c.getString(R.string.mail_mark_read), readPISingle)
                                         .build();
-                        if (SettingValues.notifSound) {
-                            notification.defaults |= Notification.DEFAULT_SOUND;
-                            notification.defaults |= Notification.DEFAULT_VIBRATE;
-                        }
                         notificationManager.notify((int) m.getCreated().getTime(), notification);
                     }
                 }
@@ -290,22 +289,22 @@ public class CheckForMail extends BroadcastReceiver {
                 PendingIntent intent = PendingIntent.getActivity(c, 0, notificationIntent, 0);
 
                 //Intent for mark as read notification action
-                PendingIntent readPI = MarkAsReadService.getMarkAsReadIntent(2, c, new String[]{message.getFullName()});
+                PendingIntent readPI = MarkAsReadService.getMarkAsReadIntent(2, c,
+                        new String[]{message.getFullName()});
 
                 {
 
                     NotificationCompat.InboxStyle notiStyle = new NotificationCompat.InboxStyle();
                     notiStyle.setBigContentTitle(
-                            res.getQuantityString(R.plurals.mail_notification_title, 1,
-                                    1));
+                            res.getQuantityString(R.plurals.mail_notification_title, 1, 1));
                     notiStyle.setSummaryText("");
-                        if (message.getAuthor() != null) {
-                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_from,
-                                    message.getAuthor()));
-                        } else {
-                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_via,
-                                    message.getSubreddit()));
-                        }
+                    if (message.getAuthor() != null) {
+                        notiStyle.addLine(c.getString(R.string.mail_notification_msg_from,
+                                message.getAuthor()));
+                    } else {
+                        notiStyle.addLine(c.getString(R.string.mail_notification_msg_via,
+                                message.getSubreddit()));
+                    }
 
                     Notification notification =
                             new NotificationCompat.Builder(c).setContentIntent(intent)
@@ -315,88 +314,85 @@ public class CheckForMail extends BroadcastReceiver {
                                                     1, 1))
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
-                                    .setChannelId(Reddit.CHANNEL_MAIL)
+                                    .setChannelId(
+                                            SettingValues.notifSound ? Reddit.CHANNEL_MAIL_SOUND
+                                                    : Reddit.CHANNEL_MAIL)
                                     .setContentTitle(
                                             res.getQuantityString(R.plurals.mail_notification_title,
                                                     1, 1))
                                     .setStyle(notiStyle)
                                     .setGroup("MESSAGES")
                                     .setGroupSummary(true)
+                                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                                     .addAction(R.drawable.ic_check_all_black,
                                             c.getString(R.string.mail_mark_read), readPI)
                                     .build();
-                    if (SettingValues.notifSound) {
-                        notification.defaults |= Notification.DEFAULT_SOUND;
-                        notification.defaults |= Notification.DEFAULT_VIBRATE;
-                    }
 
                     notificationManager.notify(0, notification);
                 }
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                        NotificationCompat.BigTextStyle notiStyle =
-                                new NotificationCompat.BigTextStyle();
-                        String contentTitle;
-                        if (message.getAuthor() != null) {
-                            notiStyle.setBigContentTitle(
-                                    c.getString(R.string.mail_notification_msg_from,
-                                            message.getAuthor()));
-                            contentTitle =
-                                    c.getString(R.string.mail_notification_author, message.getSubject(),
-                                            message.getAuthor());
-                        } else {
-                            notiStyle.setBigContentTitle(
-                                    c.getString(R.string.mail_notification_msg_via,
-                                            message.getSubreddit()));
-                            contentTitle = c.getString(R.string.mail_notification_subreddit,
-                                    message.getSubject(), message.getSubreddit());
-                        }
-                        Intent openPIBase;
-                        if (message.isComment()) {
-                            openPIBase = new Intent(c, OpenContent.class);
-                            String context = message.getDataNode().get("context").asText();
-                            openPIBase.putExtra(OpenContent.EXTRA_URL,
-                                    "https://reddit.com" + context.substring(0,
-                                            context.lastIndexOf("/")));
-                        } else {
-                            openPIBase = new Intent(c, Inbox.class);
-                            openPIBase.putExtra(Inbox.EXTRA_UNREAD, true);
-                        }
-                        openPIBase.setFlags(
-                                Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    NotificationCompat.BigTextStyle notiStyle =
+                            new NotificationCompat.BigTextStyle();
+                    String contentTitle;
+                    if (message.getAuthor() != null) {
+                        notiStyle.setBigContentTitle(
+                                c.getString(R.string.mail_notification_msg_from,
+                                        message.getAuthor()));
+                        contentTitle =
+                                c.getString(R.string.mail_notification_author, message.getSubject(),
+                                        message.getAuthor());
+                    } else {
+                        notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg_via,
+                                message.getSubreddit()));
+                        contentTitle = c.getString(R.string.mail_notification_subreddit,
+                                message.getSubject(), message.getSubreddit());
+                    }
+                    Intent openPIBase;
+                    if (message.isComment()) {
+                        openPIBase = new Intent(c, OpenContent.class);
+                        String context = message.getDataNode().get("context").asText();
+                        openPIBase.putExtra(OpenContent.EXTRA_URL,
+                                "https://reddit.com" + context.substring(0,
+                                        context.lastIndexOf("/")));
+                    } else {
+                        openPIBase = new Intent(c, Inbox.class);
+                        openPIBase.putExtra(Inbox.EXTRA_UNREAD, true);
+                    }
+                    openPIBase.setFlags(
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                        PendingIntent openPi =
-                                PendingIntent.getActivity(c, 3 + (int) message.getCreated().getTime(),
-                                        openPIBase, 0);
-                        notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                                message.getDataNode().get("body_html").asText())));
+                    PendingIntent openPi =
+                            PendingIntent.getActivity(c, 3 + (int) message.getCreated().getTime(),
+                                    openPIBase, 0);
+                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
+                            message.getDataNode().get("body_html").asText())));
 
-                        PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
-                                2 + (int) message.getCreated().getTime(), c,
-                                new String[]{message.getFullName()});
+                    PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
+                            2 + (int) message.getCreated().getTime(), c,
+                            new String[]{message.getFullName()});
 
-                        Notification notification =
-                                new NotificationCompat.Builder(c).setContentIntent(openPi)
-                                        .setSmallIcon(R.drawable.notif)
-                                        .setTicker(res.getQuantityString(
-                                                R.plurals.mail_notification_title, 1, 1))
-                                        .setWhen(System.currentTimeMillis())
-                                        .setAutoCancel(true)
-                                        .setContentTitle(contentTitle)
-                                        .setChannelId(Reddit.CHANNEL_MAIL)
-                                        .setContentText(Html.fromHtml(
-                                                StringEscapeUtils.unescapeHtml4(
-                                                        message.getDataNode().get("body_html").asText())))
-                                        .setStyle(notiStyle)
-                                        .setGroup("MESSAGES")
-                                        .addAction(R.drawable.ic_check_all_black,
-                                                c.getString(R.string.mail_mark_read), readPISingle)
-                                        .build();
-                        if (SettingValues.notifSound) {
-                            notification.defaults |= Notification.DEFAULT_SOUND;
-                            notification.defaults |= Notification.DEFAULT_VIBRATE;
-                        }
-                        notificationManager.notify((int) message.getCreated().getTime(), notification);
+                    Notification notification =
+                            new NotificationCompat.Builder(c).setContentIntent(openPi)
+                                    .setSmallIcon(R.drawable.notif)
+                                    .setTicker(
+                                            res.getQuantityString(R.plurals.mail_notification_title,
+                                                    1, 1))
+                                    .setWhen(System.currentTimeMillis())
+                                    .setAutoCancel(true)
+                                    .setContentTitle(contentTitle)
+                                    .setChannelId(
+                                            SettingValues.notifSound ? Reddit.CHANNEL_MAIL_SOUND
+                                                    : Reddit.CHANNEL_MAIL)
+                                    .setContentText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
+                                            message.getDataNode().get("body_html").asText())))
+                                    .setStyle(notiStyle)
+                                    .setGroup("MESSAGES")
+                                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                                    .addAction(R.drawable.ic_check_all_black,
+                                            c.getString(R.string.mail_mark_read), readPISingle)
+                                    .build();
+                    notificationManager.notify((int) message.getCreated().getTime(), notification);
                 }
             }
         }
@@ -459,16 +455,15 @@ public class CheckForMail extends BroadcastReceiver {
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
                                     .setGroupSummary(true)
-                                    .setChannelId(Reddit.CHANNEL_MODMAIL)
+                                    .setChannelId(
+                                            SettingValues.notifSound ? Reddit.CHANNEL_MODMAIL_SOUND
+                                                    : Reddit.CHANNEL_MODMAIL)
                                     .setGroup("MODMAIL")
+                                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                                     .setContentTitle(res.getQuantityString(
                                             R.plurals.mod_mail_notification_title, amount, amount))
                                     .setStyle(notiStyle)
                                     .build();
-                    if (SettingValues.notifSound) {
-                        notification.defaults |= Notification.DEFAULT_SOUND;
-                        notification.defaults |= Notification.DEFAULT_VIBRATE;
-                    }
 
                     notificationManager.notify(1, notification);
                 }
@@ -490,18 +485,16 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .setGroup("MODMAIL")
-                                        .setChannelId(Reddit.CHANNEL_MODMAIL)
+                                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                                        .setChannelId(SettingValues.notifSound
+                                                ? Reddit.CHANNEL_MODMAIL_SOUND
+                                                : Reddit.CHANNEL_MODMAIL)
                                         .setContentTitle(
                                                 c.getString(R.string.mail_notification_author,
                                                         m.getSubject(), m.getAuthor()))
                                         .setContentText(Html.fromHtml(m.getBody()))
                                         .setStyle(notiStyle)
                                         .build();
-                        if (SettingValues.notifSound) {
-                            notification.defaults |= Notification.DEFAULT_SOUND;
-                            notification.defaults |= Notification.DEFAULT_VIBRATE;
-                        }
-
                         notificationManager.notify((int) m.getCreated().getTime(), notification);
                     }
                 }
@@ -614,7 +607,8 @@ public class CheckForMail extends BroadcastReceiver {
                 for (String s : rawSubs) {
                     try {
                         String[] split = s.split(":");
-                        subThresholds.put(split[0].toLowerCase(Locale.ENGLISH), Integer.valueOf(split[1]));
+                        subThresholds.put(split[0].toLowerCase(Locale.ENGLISH),
+                                Integer.valueOf(split[1]));
                     } catch (Exception ignored) {
 
                     }

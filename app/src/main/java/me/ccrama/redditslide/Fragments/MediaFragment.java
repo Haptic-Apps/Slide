@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -152,27 +153,7 @@ public class MediaFragment extends Fragment {
         ContentType.Type type = ContentType.getContentType(s);
 
         img.setAlpha(1f);
-        switch (type) {
-            case ALBUM:
-                typeImage.setImageResource(R.drawable.album);
-                break;
-            case EXTERNAL:
-            case LINK:
-            case REDDIT:
-                typeImage.setImageResource(R.drawable.world);
-                rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
-                break;
-            case SELF:
-                typeImage.setImageResource(R.drawable.fontsizedarker);
-                break;
-            case EMBEDDED:
-                typeImage.setImageResource(R.drawable.play);
-                rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
-                break;
-            default:
-                typeImage.setVisibility(View.GONE);
-                break;
-        }
+
 
         if (!ContentType.fullImage(type) || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
             if (!s.getDataNode().has("preview") || !s.getDataNode()
@@ -202,6 +183,34 @@ public class MediaFragment extends Fragment {
                     type, getActivity(), s);
         }
 
+
+        switch (type) {
+            case ALBUM:
+                typeImage.setImageResource(R.drawable.album);
+                break;
+            case EXTERNAL:
+            case LINK:
+            case REDDIT:
+                if(s.getThumbnail() != null){
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader()
+                            .displayImage(s.getThumbnail(), typeImage);
+
+                } else {
+                    typeImage.setImageResource(R.drawable.world);
+                    rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
+                }
+                break;
+            case SELF:
+                typeImage.setImageResource(R.drawable.fontsizedarker);
+                break;
+            case EMBEDDED:
+                typeImage.setImageResource(R.drawable.play);
+                rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
+                break;
+            default:
+                typeImage.setVisibility(View.GONE);
+                break;
+        }
         if (!(s.isNsfw() && SettingValues.getIsNSFWEnabled())) doLoad(contentUrl, type);
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
@@ -229,7 +238,9 @@ public class MediaFragment extends Fragment {
                     @Override
                     public void onGlobalLayout() {
                         slideLayout.setPanelHeight(title.getMeasuredHeight());
-                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
                     }
                 });
         slideLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
