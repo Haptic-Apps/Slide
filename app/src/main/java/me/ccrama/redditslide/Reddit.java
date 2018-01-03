@@ -676,6 +676,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
         UserSubscriptions.multiNameToSubs = getSharedPreferences("MULTITONAME", 0);
+        UserSubscriptions.newsNameToSubs = getSharedPreferences("NEWSMULTITONAME", 0);
+        UserSubscriptions.news = getSharedPreferences("NEWS", 0);
+
+        UserSubscriptions.newsNameToSubs.edit().putString("android", "android+androidapps+googlepixel").putString("news","worldnews+news+politics").apply();
+
         UserSubscriptions.pinned = getSharedPreferences("PINNED", 0);
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
         ImageFlairs.flairs = getSharedPreferences("FLAIRS", 0);
@@ -760,9 +765,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static String CHANNEL_IMG           = "IMG_DOWNLOADS";
     public static String CHANNEL_COMMENT_CACHE = "POST_SYNC";
-    public static String CHANNEL_MAIL          = "MAIL";
-    public static String CHANNEL_MODMAIL       = "MODMAIL";
-    public static String CHANNEL_SUBCHECKING   = "SUB_CHECK";
+    public static String CHANNEL_MAIL          = "MAIL_NOTIFY";
+    public static String CHANNEL_MAIL_SOUND          = "MAIL_NOTIFY_SOUND";
+    public static String CHANNEL_MODMAIL       = "MODMAIL_NOTIFY";
+    public static String CHANNEL_MODMAIL_SOUND       = "MODMAIL_NOTIFY_SOUND";
+    public static String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
 
     public void setupNotificationChannels() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -777,7 +784,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         new NotificationChannel(channelId, "Image downloads", importance);
                 notificationChannel.enableLights(true);
                 notificationChannel.setShowBadge(false);
-
                 notificationChannel.setLightColor(Palette.getColor(""));
                 if (notificationManager != null) {
                     notificationManager.createNotificationChannel(notificationChannel);
@@ -790,7 +796,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         new NotificationChannel(channelId, "Comment caching", importance);
                 notificationChannel.enableLights(true);
                 notificationChannel.setShowBadge(false);
-
                 notificationChannel.setLightColor(Palette.getColor(""));
                 if (notificationManager != null) {
                     notificationManager.createNotificationChannel(notificationChannel);
@@ -802,7 +807,21 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 NotificationChannel notificationChannel =
                         new NotificationChannel(channelId, "Reddit mail", importance);
                 notificationChannel.enableLights(true);
+                notificationChannel.setSound(null, null);
                 notificationChannel.setShowBadge(true);
+                notificationChannel.setLightColor(Palette.getColor(""));
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel(notificationChannel);
+                }
+            }
+            {
+                String channelId = CHANNEL_MAIL_SOUND;
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel notificationChannel =
+                        new NotificationChannel(channelId, "Reddit mail", importance);
+                notificationChannel.enableLights(true);
+                notificationChannel.setShowBadge(true);
+                notificationChannel.enableVibration(true);
                 notificationChannel.setLightColor(Palette.getColor(""));
                 if (notificationManager != null) {
                     notificationManager.createNotificationChannel(notificationChannel);
@@ -814,6 +833,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 NotificationChannel notificationChannel =
                         new NotificationChannel(channelId, "Reddit modmail", importance);
                 notificationChannel.enableLights(true);
+                notificationChannel.setSound(null, null);
                 notificationChannel.setShowBadge(true);
                 notificationChannel.setLightColor(getResources().getColor(R.color.md_red_500));
                 if (notificationManager != null) {
@@ -821,11 +841,25 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 }
             }
             {
-                String channelId = CHANNEL_SUBCHECKING;
+                String channelId = CHANNEL_MODMAIL_SOUND;
                 int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel notificationChannel =
+                        new NotificationChannel(channelId, "Reddit modmail", importance);
+                notificationChannel.enableLights(true);
+                notificationChannel.setShowBadge(true);
+                notificationChannel.enableVibration(true);
+                notificationChannel.setLightColor(getResources().getColor(R.color.md_red_500));
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel(notificationChannel);
+                }
+            }
+            {
+                String channelId = CHANNEL_SUBCHECKING;
+                int importance = NotificationManager.IMPORTANCE_LOW;
                 NotificationChannel notificationChannel =
                         new NotificationChannel(channelId, "Submission post checking", importance);
                 notificationChannel.enableLights(true);
+                notificationChannel.setSound(null, null);
                 notificationChannel.setLightColor(Palette.getColor(""));
                 notificationChannel.setShowBadge(false);
                 if (notificationManager != null) {

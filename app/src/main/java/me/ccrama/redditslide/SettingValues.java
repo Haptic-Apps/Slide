@@ -77,17 +77,17 @@ public class SettingValues {
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
     public static final String PREF_READER                    = "readerDefault";
-    public static final String PREF_LQ_LOW               = "lqLow";
-    public static final String PREF_LQ_MID               = "lqMid";
-    public static final String PREF_LQ_HIGH              = "lqHigh";
-    public static final String PREF_SOUND_NOTIFS         = "soundNotifs";
-    public static final String PREF_COOKIES              = "storeCookies";
-    public static final String PREF_NIGHT_START          = "nightStart";
-    public static final String PREF_NIGHT_END            = "nightEnd";
-    public static final String PREF_SHOW_NSFW_CONTENT    = "showNSFWContent";
-    public static final String PREF_HIDE_NSFW_PREVIEW    = "hideNSFWPreviews";
-    public static final String PREF_HIDE_NSFW_COLLECTION = "hideNSFWPreviewsCollection";
-    public static final String PREF_IGNORE_SUB_SETTINGS  = "ignoreSub";
+    public static final String PREF_LQ_LOW                    = "lqLow";
+    public static final String PREF_LQ_MID                    = "lqMid";
+    public static final String PREF_LQ_HIGH                   = "lqHigh";
+    public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
+    public static final String PREF_COOKIES                   = "storeCookies";
+    public static final String PREF_NIGHT_START               = "nightStart";
+    public static final String PREF_NIGHT_END                 = "nightEnd";
+    public static final String PREF_SHOW_NSFW_CONTENT         = "showNSFWContent";
+    public static final String PREF_HIDE_NSFW_PREVIEW         = "hideNSFWPreviews";
+    public static final String PREF_HIDE_NSFW_COLLECTION      = "hideNSFWPreviewsCollection";
+    public static final String PREF_IGNORE_SUB_SETTINGS       = "ignoreSub";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
@@ -142,29 +142,29 @@ public class SettingValues {
     public static boolean                 colorNavBar;
     public static boolean                 actionbarVisible;
     public static boolean                 actionbarTap;
-    public static boolean commentAutoHide;
-    public static boolean fullCommentOverride;
-    public static boolean lowResAlways;
-    public static boolean noImages;
-    public static boolean lowResMobile;
-    public static boolean blurCheck;
-    public static boolean readerNight;
-    public static boolean swipeAnywhere;
-    public static boolean commentLastVisit;
-    public static boolean storeHistory;
-    public static boolean showNSFWContent;
-    public static boolean storeNSFWHistory;
-    public static boolean scrollSeen;
-    public static boolean saveButton;
-    public static boolean voteGestures;
-    public static boolean colorEverywhere;
-    public static boolean gif;
-    public static boolean colorCommentDepth;
-    public static boolean web;
-    public static boolean commentVolumeNav;
-    public static boolean postNav;
-    public static boolean exit;
-    public static boolean cropImage;
+    public static boolean                 commentAutoHide;
+    public static boolean                 fullCommentOverride;
+    public static boolean                 lowResAlways;
+    public static boolean                 noImages;
+    public static boolean                 lowResMobile;
+    public static boolean                 blurCheck;
+    public static boolean                 readerNight;
+    public static boolean                 swipeAnywhere;
+    public static boolean                 commentLastVisit;
+    public static boolean                 storeHistory;
+    public static boolean                 showNSFWContent;
+    public static boolean                 storeNSFWHistory;
+    public static boolean                 scrollSeen;
+    public static boolean                 saveButton;
+    public static boolean                 voteGestures;
+    public static boolean                 colorEverywhere;
+    public static boolean                 gif;
+    public static boolean                 colorCommentDepth;
+    public static boolean                 web;
+    public static boolean                 commentVolumeNav;
+    public static boolean                 postNav;
+    public static boolean                 exit;
+    public static boolean                 cropImage;
     public static boolean                 smallTag;
     public static boolean                 typeInfoLine;
     public static boolean                 votesInfoLine;
@@ -382,39 +382,51 @@ public class SettingValues {
 
     public static boolean isPicsEnabled(String subreddit) {
         if (subreddit == null) return bigPicEnabled;
-        return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(Locale.ENGLISH), bigPicEnabled);
+        return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(Locale.ENGLISH),
+                bigPicEnabled);
     }
 
     public static boolean isSelftextEnabled(String subreddit) {
         if (subreddit == null) return cardText;
-        return prefs.getBoolean("cardtextenabled" + subreddit.toLowerCase(Locale.ENGLISH), cardText);
+        return prefs.getBoolean("cardtextenabled" + subreddit.toLowerCase(Locale.ENGLISH),
+                cardText);
     }
 
     public static void setSelftextEnabled(String sub, boolean checked) {
-        prefs.edit().putBoolean("cardtextenabled" + sub.toLowerCase(Locale.ENGLISH), checked).apply();
+        prefs.edit()
+                .putBoolean("cardtextenabled" + sub.toLowerCase(Locale.ENGLISH), checked)
+                .apply();
     }
 
-    public static boolean getIsNSFWEnabled(){
+    public static boolean getIsNSFWEnabled() {
         return prefs.getBoolean(PREF_HIDE_NSFW_PREVIEW + Authentication.name, true);
     }
+
     public static void resetSelftextEnabled(String subreddit) {
         prefs.edit().remove("cardtextenabled" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
     }
 
     public static void setDefaultCommentSorting(CommentSort commentSorting, String subreddit) {
         prefs.edit()
-                .putString("defaultComment" + subreddit.toLowerCase(Locale.ENGLISH), commentSorting.name())
+                .putString("defaultComment" + subreddit.toLowerCase(Locale.ENGLISH),
+                        commentSorting.name())
                 .apply();
     }
 
     public static CommentSort getCommentSorting(String sub) {
-        return CommentSort.valueOf(prefs.getString("defaultComment" + sub.toLowerCase(Locale.ENGLISH),
-                defaultCommentSorting.name()));
+        return CommentSort.valueOf(
+                prefs.getString("defaultComment" + sub.toLowerCase(Locale.ENGLISH),
+                        defaultCommentSorting.name()));
     }
 
     public static void setSubSorting(Sorting linkSorting, TimePeriod time, String subreddit) {
-        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH), linkSorting.name()).apply();
-        prefs.edit().putString("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH), time.name()).apply();
+        prefs.edit()
+                .putString("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH),
+                        linkSorting.name())
+                .apply();
+        prefs.edit()
+                .putString("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH), time.name())
+                .apply();
     }
 
     public static Sorting getSubmissionSort(String sub) {
@@ -433,7 +445,8 @@ public class SettingValues {
             return Reddit.times.get(subreddit);
         } else {
             return TimePeriod.valueOf(
-                    prefs.getString("defaultTime" + sub.toLowerCase(Locale.ENGLISH), Reddit.timePeriod.name()));
+                    prefs.getString("defaultTime" + sub.toLowerCase(Locale.ENGLISH),
+                            Reddit.timePeriod.name()));
         }
     }
 
@@ -444,14 +457,14 @@ public class SettingValues {
     }
 
     public static Sorting getBaseSubmissionSort(String sub) {
-        return Sorting.valueOf(
-                prefs.getString("defaultSort" + sub.toLowerCase(Locale.ENGLISH), Reddit.defaultSorting.name()));
+        return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(Locale.ENGLISH),
+                Reddit.defaultSorting.name()));
 
     }
 
     public static TimePeriod getBaseTimePeriod(String sub) {
-        return TimePeriod.valueOf(
-                prefs.getString("defaultTime" + sub.toLowerCase(Locale.ENGLISH), Reddit.timePeriod.name()));
+        return TimePeriod.valueOf(prefs.getString("defaultTime" + sub.toLowerCase(Locale.ENGLISH),
+                Reddit.timePeriod.name()));
 
     }
 

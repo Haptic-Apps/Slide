@@ -99,7 +99,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     boolean thumbUsed;
 
-    public void doImageAndText(final Submission submission, boolean full, String baseSub) {
+    public void doImageAndText(final Submission submission, boolean full, String baseSub, boolean news) {
 
         boolean fullImage = ContentType.fullImage(type);
         thumbUsed = false;
@@ -398,7 +398,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
                             .toString(); //unescape url characters
                 }
-                if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb) {
+                if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb || (news && submission.getScore() < 5000)) {
 
                     if (!full) {
                         thumbImage2.setVisibility(View.VISIBLE);
@@ -482,8 +482,8 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
 
 
-            if (SettingValues.smallTag && !full) {
-                title = findViewById(R.id.tag);
+            if (SettingValues.smallTag && !full && !news) {
+                title = (TextView) findViewById(R.id.tag);
                 findViewById(R.id.tag).setVisibility(View.VISIBLE);
                 info = null;
             } else {
@@ -492,7 +492,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 info.setVisibility(View.VISIBLE);
             }
 
-            if (SettingValues.smallTag && !full) {
+            if (SettingValues.smallTag && !full && !news) {
                 ((TransparentTagTextView) title).init(getContext());
             }
 
@@ -728,7 +728,20 @@ public class HeaderImageLinkView extends RelativeLayout {
             backdrop.setImageResource(
                     android.R.color.transparent); //reset the image view in case the placeholder is still visible
             thumbImage2.setImageResource(android.R.color.transparent);
-            doImageAndText(submission, full, baseSub);
+            doImageAndText(submission, full, baseSub, false);
+        }
+    }
+
+    public void setSubmissionNews(final Submission submission, final boolean full, String baseSub,
+            ContentType.Type type) {
+        this.type = type;
+        if (!lastDone.equals(submission.getFullName())) {
+            lq = false;
+            lastDone = submission.getFullName();
+            backdrop.setImageResource(
+                    android.R.color.transparent); //reset the image view in case the placeholder is still visible
+            thumbImage2.setImageResource(android.R.color.transparent);
+            doImageAndText(submission, full, baseSub, true);
         }
     }
 

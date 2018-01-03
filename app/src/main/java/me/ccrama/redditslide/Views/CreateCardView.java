@@ -27,6 +27,10 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 9/18/2015.
  */
 public class CreateCardView {
+
+    public static View CreateViewNews(ViewGroup viewGroup){
+        return LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_news, viewGroup, false);
+    }
     public static View CreateView(ViewGroup viewGroup) {
         CardEnum cardEnum = SettingValues.defaultCardView;
         View v = null;

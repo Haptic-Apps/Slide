@@ -29,6 +29,7 @@ import java.util.Map;
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
+import me.ccrama.redditslide.Activities.NewsActivity;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -53,6 +54,8 @@ public class UserSubscriptions {
                     "popular");
     public static SharedPreferences subscriptions;
     public static SharedPreferences multiNameToSubs;
+    public static SharedPreferences newsNameToSubs;
+    public static SharedPreferences news;
     public static SharedPreferences pinned;
 
     public static void setSubNameToProperties(String name, String descrption) {
@@ -77,6 +80,26 @@ public class UserSubscriptions {
 
         return multiNameToSubsMap;
     }
+
+    public static Map<String, String> getNewsNameToSubs(boolean all) {
+        Map<String, String> multiNameToSubsMapBase = new HashMap<>();
+
+        Map<String, ?> multiNameToSubsObject = newsNameToSubs.getAll();
+
+        for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
+            multiNameToSubsMapBase.put(entry.getKey(), entry.getValue().toString());
+        }
+        if (all) multiNameToSubsMapBase.putAll(getSubsNameToMulti());
+
+        Map<String, String> multiNameToSubsMap = new HashMap<>();
+
+        for (Map.Entry<String, String> entries : multiNameToSubsMapBase.entrySet()) {
+            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH), entries.getValue());
+        }
+
+        return multiNameToSubsMap;
+    }
+
 
     private static Map<String, String> getSubsNameToMulti() {
         Map<String, String> multiNameToSubsMap = new HashMap<>();
@@ -107,6 +130,46 @@ public class UserSubscriptions {
 
         } else {
             String s = subscriptions.getString(Authentication.name, "");
+            List<String> subredditsForHome = new CaseInsensitiveArrayList();
+            if (!s.isEmpty()) {
+                for (String s2 : s.split(",")) {
+                    subredditsForHome.add(s2.toLowerCase(Locale.ENGLISH));
+                }
+            }
+            CaseInsensitiveArrayList finals = new CaseInsensitiveArrayList();
+            List<String> offline = OfflineSubreddit.getAllFormatted();
+            for (String subs : subredditsForHome) {
+                if (offline.contains(subs)) {
+                    finals.add(subs);
+                }
+            }
+            for (String subs : offline) {
+                if (!finals.contains(subs)) {
+                    finals.add(subs);
+                }
+            }
+            c.updateSubs(finals);
+            c.updateMultiNameToSubs(getMultiNameToSubs(false));
+        }
+    }
+
+    public static void doNewsSubs(NewsActivity c) {
+        if (NetworkUtil.isConnected(c)) {
+            String s = news.getString("subs", "news,android");
+            if (s.isEmpty()) {
+                //get online subs
+                c.updateSubs(syncSubscriptionsOverwrite(c));
+            } else {
+                CaseInsensitiveArrayList subredditsForHome = new CaseInsensitiveArrayList();
+                for (String s2 : s.split(",")) {
+                    subredditsForHome.add(s2.toLowerCase(Locale.ENGLISH));
+                }
+                c.updateSubs(subredditsForHome);
+            }
+            c.updateMultiNameToSubs(getNewsNameToSubs(false));
+
+        } else {
+            String s = news.getString("subs", "news,android");
             List<String> subredditsForHome = new CaseInsensitiveArrayList();
             if (!s.isEmpty()) {
                 for (String s2 : s.split(",")) {

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -146,12 +147,46 @@ public class MediaFragment extends Fragment {
 
         ImageView typeImage = (ImageView) rootView.findViewById(R.id.type);
         typeImage.setVisibility(View.VISIBLE);
-        View img = rootView.findViewById(R.id.submission_image);
+        SubsamplingScaleImageView img = rootView.findViewById(R.id.submission_image);
         final SlidingUpPanelLayout slideLayout =
                 ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
         ContentType.Type type = ContentType.getContentType(s);
 
         img.setAlpha(1f);
+
+        if (s.getThumbnail().isEmpty() || firstUrl.isEmpty() || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
+            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
+            ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
+            addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
+                    type, getActivity(), s);
+            (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+
+            if ((s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
+                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
+                        R.drawable.nsfw);
+            } else {
+                if(firstUrl.isEmpty() && !s.getThumbnail().isEmpty()){
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader()
+                            .displayImage(s.getThumbnail(), ((ImageView) rootView.findViewById(R.id.thumbimage2)));
+
+                }
+            }
+
+        } else {
+
+            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
+            addClickFunctions(img, slideLayout, rootView,
+                    type, getActivity(), s);
+        }
+
+        if(!s.isNsfw() ||  !SettingValues.getIsNSFWEnabled()) {
+            if (type == ContentType.Type.EXTERNAL || type == ContentType.Type.LINK || type == ContentType.Type.VIDEO) {
+                doLoad(firstUrl, type);
+            } else {
+                doLoad(contentUrl, type);
+            }
+        }
+
         switch (type) {
             case ALBUM:
                 typeImage.setImageResource(R.drawable.album);
@@ -166,6 +201,7 @@ public class MediaFragment extends Fragment {
                 typeImage.setImageResource(R.drawable.fontsizedarker);
                 break;
             case EMBEDDED:
+            case VIDEO:
                 typeImage.setImageResource(R.drawable.play);
                 rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
                 break;
@@ -174,35 +210,6 @@ public class MediaFragment extends Fragment {
                 break;
         }
 
-        if (!ContentType.fullImage(type) || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-            if (!s.getDataNode().has("preview") || !s.getDataNode()
-                    .get("preview")
-                    .get("images")
-                    .get(0)
-                    .get("source")
-                    .has("height") || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-                (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
-                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
-                        R.drawable.web);
-                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
-                        type, getActivity(), s);
-                (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
-                if ((s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-                    ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
-                            R.drawable.nsfw);
-
-                }
-            } else {
-                addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,
-                        rootView, type, getActivity(), s);
-            }
-        } else {
-            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
-                    type, getActivity(), s);
-        }
-
-        if (!(s.isNsfw() && SettingValues.getIsNSFWEnabled())) doLoad(contentUrl, type);
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,7 +236,9 @@ public class MediaFragment extends Fragment {
                     @Override
                     public void onGlobalLayout() {
                         slideLayout.setPanelHeight(title.getMeasuredHeight());
-                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
                     }
                 });
         slideLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -285,7 +294,7 @@ public class MediaFragment extends Fragment {
                 doLoadDeviantArt(contentUrl);
                 break;
             case IMAGE:
-                doLoadImage(contentUrl);
+                 doLoadImage(contentUrl);
                 break;
             case IMGUR:
                 doLoadImgur(contentUrl);
@@ -296,7 +305,11 @@ public class MediaFragment extends Fragment {
             case VID_ME:
             case STREAMABLE:
             case GIF:
-                doLoadGif(contentUrl);
+                doLoadGif(s);
+                break;
+            case LINK:
+            case REDDIT:
+                doLoadImage(contentUrl);
                 break;
         }
     }
@@ -426,7 +439,7 @@ public class MediaFragment extends Fragment {
         });
     }
 
-    public void doLoadGif(final String dat) {
+    public void doLoadGif(final Submission s) {
         isGif = true;
         videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
         videoView.clearFocus();
@@ -439,7 +452,71 @@ public class MediaFragment extends Fragment {
                 rootView.findViewById(R.id.placeholder), false, false,
                 !(getActivity() instanceof Shadowbox)
                         || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
-        gif.execute(dat);
+        GifUtils.AsyncLoadGif.VideoType t =
+                GifUtils.AsyncLoadGif.getVideoType(s.getUrl());
+
+        String toLoadURL;
+        if (t.shouldLoadPreview() && s.getDataNode()
+                .has("preview") && s.getDataNode()
+                .get("preview")
+                .get("images")
+                .get(0)
+                .has("variants") && s.getDataNode()
+                .get("preview")
+                .get("images")
+                .get(0)
+                .get("variants")
+                .has("mp4")) {
+            toLoadURL =
+            StringEscapeUtils.unescapeJson(
+                    s.getDataNode()
+                            .get("preview")
+                            .get("images")
+                            .get(0)
+                            .get("variants")
+                            .get("mp4")
+                            .get("source")
+                            .get("url")
+                            .asText()).replace("&amp;", "&");
+        } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT
+                && s.getDataNode()
+                .has("media")
+                && s.getDataNode().get("media").has("reddit_video")
+                && s.getDataNode()
+                .get("media")
+                .get("reddit_video")
+                .has("fallback_url")) {
+            toLoadURL = StringEscapeUtils.unescapeJson(
+                    s.getDataNode()
+                            .get("media")
+                            .get("reddit_video")
+                            .get("fallback_url")
+                            .asText()).replace("&amp;", "&");
+
+        } else if(t != GifUtils.AsyncLoadGif.VideoType.OTHER) {
+           toLoadURL = s.getUrl();
+        } else {
+            doLoadImage(firstUrl);
+            return;
+        }
+        gif.execute(toLoadURL);
+        rootView.findViewById(R.id.progress).setVisibility(View.GONE);
+    }
+    public void doLoadGifDirect(final String s) {
+        isGif = true;
+        videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
+        videoView.clearFocus();
+        videoView.setZOrderOnTop(true);
+        rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
+        final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
+        gif = new GifUtils.AsyncLoadGif(getActivity(),
+                (MediaVideoView) rootView.findViewById(R.id.gif), loader,
+                rootView.findViewById(R.id.placeholder), false, false,
+                !(getActivity() instanceof Shadowbox)
+                        || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
+
+        gif.execute(s);
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
     }
 
@@ -515,7 +592,7 @@ public class MediaFragment extends Fragment {
                                         .getAsString();
 
                                 if (type.contains("gif")) {
-                                    doLoadGif(urls);
+                                    doLoadGifDirect(urls);
                                 } else if (!imageShown) { //only load if there is no image
                                     doLoadImage(urls);
                                 }
@@ -537,7 +614,7 @@ public class MediaFragment extends Fragment {
                                 }
 
                                 if (type.contains("gif")) {
-                                    doLoadGif(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
+                                    doLoadGifDirect(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
                                 } else if (!imageShown) { //only load if there is no image
                                     doLoadImage(urls);
                                 }
@@ -664,7 +741,7 @@ public class MediaFragment extends Fragment {
                                             && type.startsWith("image/")) {
                                         //is image
                                         if (type.contains("gif")) {
-                                            doLoadGif(finalUrl2.replace(".jpg", ".gif")
+                                            doLoadGifDirect(finalUrl2.replace(".jpg", ".gif")
                                                     .replace(".png", ".gif"));
                                         } else if (!imageShown) {
                                             displayImage(finalUrl2);

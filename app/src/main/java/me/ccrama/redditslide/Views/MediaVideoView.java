@@ -69,7 +69,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         @Override
         public void onSurfaceTextureAvailable(final SurfaceTexture surface, final int width,
                 final int height) {
-            LogUtil.v("Surface texture now avaialble.");
             surfaceTexture = surface;
             openVideo();
         }
@@ -77,7 +76,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         @Override
         public void onSurfaceTextureSizeChanged(final SurfaceTexture surface, final int width,
                 final int height) {
-            LogUtil.v("Resized surface texture: " + width + '/' + height);
             surfaceWidth = width;
             surfaceHeight = height;
             boolean isValidState = (targetState == STATE_PLAYING);
@@ -280,21 +278,16 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         // Will resize the view if the video dimensions have been found.
         // video dimensions are found after onPrepared has been called by MediaPlayer
-        LogUtil.v("onMeasure number " + number);
         int width = getDefaultSize(videoWidth, widthMeasureSpec);
         int height = getDefaultSize(videoHeight, heightMeasureSpec);
         if ((videoWidth > 0) && (videoHeight > 0)) {
             if ((videoWidth * height) > (width * videoHeight)) {
-                LogUtil.v("Image too tall, correcting.");
                 height = (width * videoHeight) / videoWidth;
             } else if ((videoWidth * height) < (width * videoHeight)) {
-                LogUtil.v("Image too wide, correcting.");
                 width = (height * videoWidth) / videoHeight;
             } else {
-                LogUtil.v("Aspect ratio is correct.");
             }
         }
-        LogUtil.v("Setting size: " + width + '/' + height + " for number " + number);
         setMeasuredDimension((int) (width * widthScale), (int) (height * heightScale));
     }
 
@@ -427,23 +420,17 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
         // Tell the music playback service to pause
 
-        LogUtil.v("Opening video.");
         release(false);
         try {
             surface = new Surface(surfaceTexture);
-            LogUtil.v("Creating media player number " + number);
             mediaPlayer = new MediaPlayer();
             if (mAudioSession != 0) {
                 mediaPlayer.setAudioSessionId(mAudioSession);
             } else {
                 mAudioSession = mediaPlayer.getAudioSessionId();
             }
-            LogUtil.v("Setting surface.");
             mediaPlayer.setSurface(surface);
-            LogUtil.v("Setting data source.");
             mediaPlayer.setDataSource(mContext, uri);
-            LogUtil.v("Setting media player listeners.");
-
             mediaPlayer.setOnBufferingUpdateListener(bufferingUpdateListener);
             mediaPlayer.setOnPreparedListener(preparedListener);
             mediaPlayer.setOnErrorListener(errorListener);
