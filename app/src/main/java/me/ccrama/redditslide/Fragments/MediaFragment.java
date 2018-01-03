@@ -305,7 +305,7 @@ public class MediaFragment extends Fragment {
             case VID_ME:
             case STREAMABLE:
             case GIF:
-                doLoadGif(contentUrl);
+                doLoadGif(s);
                 break;
             case LINK:
             case REDDIT:
@@ -439,7 +439,7 @@ public class MediaFragment extends Fragment {
         });
     }
 
-    public void doLoadGif(final String dat) {
+    public void doLoadGif(final Submission s) {
         isGif = true;
         videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
         videoView.clearFocus();
@@ -452,7 +452,71 @@ public class MediaFragment extends Fragment {
                 rootView.findViewById(R.id.placeholder), false, false,
                 !(getActivity() instanceof Shadowbox)
                         || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
-        gif.execute(dat);
+        GifUtils.AsyncLoadGif.VideoType t =
+                GifUtils.AsyncLoadGif.getVideoType(s.getUrl());
+
+        String toLoadURL;
+        if (t.shouldLoadPreview() && s.getDataNode()
+                .has("preview") && s.getDataNode()
+                .get("preview")
+                .get("images")
+                .get(0)
+                .has("variants") && s.getDataNode()
+                .get("preview")
+                .get("images")
+                .get(0)
+                .get("variants")
+                .has("mp4")) {
+            toLoadURL =
+            StringEscapeUtils.unescapeJson(
+                    s.getDataNode()
+                            .get("preview")
+                            .get("images")
+                            .get(0)
+                            .get("variants")
+                            .get("mp4")
+                            .get("source")
+                            .get("url")
+                            .asText()).replace("&amp;", "&");
+        } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT
+                && s.getDataNode()
+                .has("media")
+                && s.getDataNode().get("media").has("reddit_video")
+                && s.getDataNode()
+                .get("media")
+                .get("reddit_video")
+                .has("fallback_url")) {
+            toLoadURL = StringEscapeUtils.unescapeJson(
+                    s.getDataNode()
+                            .get("media")
+                            .get("reddit_video")
+                            .get("fallback_url")
+                            .asText()).replace("&amp;", "&");
+
+        } else if(t != GifUtils.AsyncLoadGif.VideoType.OTHER) {
+           toLoadURL = s.getUrl();
+        } else {
+            doLoadImage(firstUrl);
+            return;
+        }
+        gif.execute(toLoadURL);
+        rootView.findViewById(R.id.progress).setVisibility(View.GONE);
+    }
+    public void doLoadGifDirect(final String s) {
+        isGif = true;
+        videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
+        videoView.clearFocus();
+        videoView.setZOrderOnTop(true);
+        rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
+        final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
+        gif = new GifUtils.AsyncLoadGif(getActivity(),
+                (MediaVideoView) rootView.findViewById(R.id.gif), loader,
+                rootView.findViewById(R.id.placeholder), false, false,
+                !(getActivity() instanceof Shadowbox)
+                        || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
+
+        gif.execute(s);
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
     }
 
@@ -528,7 +592,7 @@ public class MediaFragment extends Fragment {
                                         .getAsString();
 
                                 if (type.contains("gif")) {
-                                    doLoadGif(urls);
+                                    doLoadGifDirect(urls);
                                 } else if (!imageShown) { //only load if there is no image
                                     doLoadImage(urls);
                                 }
@@ -550,7 +614,7 @@ public class MediaFragment extends Fragment {
                                 }
 
                                 if (type.contains("gif")) {
-                                    doLoadGif(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
+                                    doLoadGifDirect(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
                                 } else if (!imageShown) { //only load if there is no image
                                     doLoadImage(urls);
                                 }
@@ -677,7 +741,7 @@ public class MediaFragment extends Fragment {
                                             && type.startsWith("image/")) {
                                         //is image
                                         if (type.contains("gif")) {
-                                            doLoadGif(finalUrl2.replace(".jpg", ".gif")
+                                            doLoadGifDirect(finalUrl2.replace(".jpg", ".gif")
                                                     .replace(".png", ".gif"));
                                         } else if (!imageShown) {
                                             displayImage(finalUrl2);
