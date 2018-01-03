@@ -154,7 +154,7 @@ public class MediaFragment extends Fragment {
 
         img.setAlpha(1f);
 
-        if (s.getThumbnail().isEmpty() || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
+        if (s.getThumbnail().isEmpty() || firstUrl.isEmpty() || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
             ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
             addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
@@ -164,10 +164,16 @@ public class MediaFragment extends Fragment {
             if ((s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
                         R.drawable.nsfw);
+            } else {
+                if(firstUrl.isEmpty() && !s.getThumbnail().isEmpty()){
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader()
+                            .displayImage(s.getThumbnail(), ((ImageView) rootView.findViewById(R.id.thumbimage2)));
 
+                }
             }
 
         } else {
+
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
             addClickFunctions(img, slideLayout, rootView,
                     type, getActivity(), s);
@@ -195,6 +201,7 @@ public class MediaFragment extends Fragment {
                 typeImage.setImageResource(R.drawable.fontsizedarker);
                 break;
             case EMBEDDED:
+            case VIDEO:
                 typeImage.setImageResource(R.drawable.play);
                 rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
                 break;
