@@ -582,7 +582,7 @@ class SlideVideoControls extends VideoControls {
             public void run() {
                 controlsContainer.setVisibility(View.VISIBLE);
             }
-        }, 300);
+        }, 600);
     }
 
     @Override
