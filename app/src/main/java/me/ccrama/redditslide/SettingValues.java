@@ -289,7 +289,7 @@ public class SettingValues {
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
         rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
         commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
-        highlightCommentOP = prefs.getBoolean(PREF_HIGHLIGHT_COMMENT_OP, false);
+        highlightCommentOP = prefs.getBoolean(PREF_HIGHLIGHT_COMMENT_OP, true);
 
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
