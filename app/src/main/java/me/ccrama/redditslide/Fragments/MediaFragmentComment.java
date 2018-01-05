@@ -70,7 +70,7 @@ public class MediaFragmentComment extends Fragment {
     private boolean               imageShown;
     private float                 previous;
     private boolean               hidden;
-    private int                   stopPosition;
+    private long                   stopPosition;
     public  boolean               isGif;
     private GifUtils.AsyncLoadGif gif;
     private CommentUrlObject      s;
@@ -98,7 +98,7 @@ public class MediaFragmentComment extends Fragment {
     public void onResume() {
         super.onResume();
         if (videoView != null) {
-            videoView.seekTo(stopPosition);
+            videoView.seekTo((int) stopPosition);
             videoView.start();
         }
     }
@@ -111,7 +111,7 @@ public class MediaFragmentComment extends Fragment {
             videoView.pause();
             ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(
                     SlidingUpPanelLayout.PanelState.COLLAPSED);
-            outState.putInt("position", stopPosition);
+            outState.putLong("position", stopPosition);
         }
     }
 
@@ -120,7 +120,7 @@ public class MediaFragmentComment extends Fragment {
             Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.submission_mediacard, container, false);
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
-            stopPosition = savedInstanceState.getInt("position");
+            stopPosition = savedInstanceState.getLong("position");
         }
         final SlidingUpPanelLayout slideLayout =
                 ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
@@ -333,7 +333,6 @@ public class MediaFragmentComment extends Fragment {
         isGif = true;
         videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
         videoView.clearFocus();
-        videoView.setZOrderOnTop(true);
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);

@@ -101,7 +101,6 @@ public class PopMediaView {
         MediaVideoView videoView = (MediaVideoView) v.findViewById(R.id.gif);
 
         videoView.clearFocus();
-        videoView.setZOrderOnTop(true);
         v.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) v.findViewById(R.id.gifprogress);
         v.findViewById(R.id.progress).setVisibility(View.GONE);

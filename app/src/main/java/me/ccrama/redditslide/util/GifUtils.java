@@ -13,7 +13,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.danikula.videocache.CacheListener;
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.assist.ContentLengthInputStream;
@@ -146,70 +147,8 @@ public class GifUtils {
         }
         Gson   gson;
 
-        //Now deprecated, this happens in writeGif now
-        public void showGif(final URL url, final int tries, final String subreddit) {
-            if (tries < 2) {
-                c.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final File downloaded = GifCache.getGif(url);
-                        LogUtil.v("Path is " + "file://" + downloaded);
-                        video.setVideoPath("file://" + downloaded);
-                        //videoView.set
-
-                        if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
-                            MediaController mediaController = new MediaController(c);
-                            mediaController.setAnchorView(placeholder);
-                            video.setMediaController(mediaController);
-                        }
-                        showProgressBar(c, progressBar, false);
-                        if (gifSave != null) {
-                            gifSave.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    saveGif(downloaded, c, subreddit);
-                                }
-                            });
-                        } else if (doOnClick != null) {
-                            MediaView.doOnClick = new Runnable() {
-                                @Override
-                                public void run() {
-                                    saveGif(downloaded, c, subreddit);
-                                    try {
-                                        Toast.makeText(c, "Downloading image...",
-                                                Toast.LENGTH_SHORT).show();
-                                    } catch (Exception ignored) {
-
-                                    }
-                                }
-                            };
-                        }
-
-
-                        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                if (placeholder != null) placeholder.setVisibility(View.GONE);
-                                mp.setLooping(true);
-                            }
-
-                        });
-                        if (autostart) {
-                            video.start();
-                            if (!video.isPlaying()) {
-                                showGif(url, tries + 1, subreddit);
-                            }
-                        }
-
-
-                    }
-                });
-            }
-
-        }
-
         public enum VideoType {
-            IMGUR, VID_ME, STREAMABLE, GFYCAT, DIRECT, OTHER;
+            IMGUR, VID_ME, STREAMABLE, GFYCAT, DIRECT, OTHER, VREDDIT;
 
             public boolean shouldLoadPreview() {
                 return this == OTHER;
@@ -234,17 +173,23 @@ public class GifUtils {
                 if (s.endsWith("/")) {
                     s = s.substring(s.length() - 2);
                 }
-                s = s + "/DASH_4_8_M";
+                s = s + "/DASHPlaylist.mpd";
+            } else if(s.contains("v.redd.it")){
+                s = s.substring(0, s.indexOf("DASH") - 2);
+                s = s + "/DASHPlaylist.mpd";
             }
 
             return s;
         }
 
         public static VideoType getVideoType(String url) {
+            if(url.contains("v.redd.it")){
+                return VideoType.VREDDIT;
+            }
             if (url.contains(".mp4")
                     || url.contains("webm")
                     || url.contains("redditmedia.com")
-                    || url.contains("v.redd.it")) {
+                    ) {
                 return VideoType.DIRECT;
             }
             if (url.contains("gfycat") && !url.contains("mp4")) return VideoType.GFYCAT;
@@ -314,6 +259,34 @@ public class GifUtils {
             VideoType videoType = getVideoType(url);
             LogUtil.v(url + ", VideoType: " + videoType);
             switch (videoType) {
+                case VREDDIT:
+                    try {
+                        writeGifHSL(new URL(url), progressBar, c, subreddit);
+                    } catch (Exception e) {
+                        LogUtil.e(e,
+                                "Error loading URL " + url); //Most likely is an image, not a gif!
+                        if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
+                                ".mp4")) {
+                            c.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    (c).startActivity(new Intent(c, MediaView.class).putExtra(
+                                            MediaView.EXTRA_URL, url.replace(".mp4",
+                                                    ".png"))); //Link is likely an image and not a gif
+                                    (c).finish();
+                                }
+                            });
+                        } else {
+                            if (closeIfNull) {
+                                Intent web = new Intent(c, Website.class);
+                                web.putExtra(Website.EXTRA_URL, url);
+                                web.putExtra(Website.EXTRA_COLOR, Color.BLACK);
+                                c.startActivity(web);
+                                c.finish();
+                            }
+                        }
+                    }
+                    break;
                 case GFYCAT:
                     String name = url.substring(url.lastIndexOf("/", url.length()));
                     String gfycatUrl = "https://gfycat.com/cajax/get" + name;
@@ -575,19 +548,13 @@ public class GifUtils {
 
                     String toLoad = getProxy().getProxyUrl(url.toString());
 
-                    if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
-                        MediaController mediaController = new MediaController(c);
-                        mediaController.setAnchorView(placeholder);
-                        video.setMediaController(mediaController);
-                    }
-
                     video.setVideoPath(toLoad);
 
-                    video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    video.setOnPreparedListener(new OnPreparedListener() {
                         @Override
-                        public void onPrepared(MediaPlayer mp) {
+                        public void onPrepared() {
                             if (placeholder != null) placeholder.setVisibility(View.GONE);
-                            mp.setLooping(true);
+                            LogUtil.v("Prepared");
                         }
 
                     });
@@ -645,6 +612,23 @@ public class GifUtils {
             });
 
         }
+
+        public void writeGifHSL(final URL url, final ProgressBar progressBar, final Activity c,
+                final String subreddit) throws Exception {
+            c.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    video.setVideoDASH(url);
+                    if (autostart) {
+                        video.start();
+                    }
+                    progressBar.setVisibility(View.GONE);
+
+                }
+            });
+
+        }
+
     }
 
     public static void showErrorDialog(final Activity a) {
@@ -801,7 +785,7 @@ public class GifUtils {
         }
     }
 
-    private static HttpProxyCacheServer getProxy() {
+    public static HttpProxyCacheServer getProxy() {
         return Reddit.proxy;
     }
 

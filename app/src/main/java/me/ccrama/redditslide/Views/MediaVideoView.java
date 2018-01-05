@@ -1,26 +1,60 @@
 package me.ccrama.redditslide.Views;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.graphics.SurfaceTexture;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.Surface;
-import android.view.TextureView;
 import android.view.View;
-import android.widget.MediaController;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
-import java.io.IOException;
+import com.devbrackets.android.exomedia.listener.OnBufferUpdateListener;
+import com.devbrackets.android.exomedia.listener.OnCompletionListener;
+import com.devbrackets.android.exomedia.listener.OnErrorListener;
+import com.devbrackets.android.exomedia.listener.OnPreparedListener;
+import com.devbrackets.android.exomedia.listener.OnVideoSizeChangedListener;
+import com.devbrackets.android.exomedia.ui.animation.BottomViewHideShowAnimation;
+import com.devbrackets.android.exomedia.ui.animation.TopViewHideShowAnimation;
+import com.devbrackets.android.exomedia.ui.widget.VideoControls;
+import com.devbrackets.android.exomedia.ui.widget.VideoView;
+import com.devbrackets.android.exomedia.util.TimeFormatUtil;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.FileDataSource;
+import com.google.android.exoplayer2.upstream.cache.CacheDataSink;
+import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
+import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
+import com.google.android.exoplayer2.upstream.cache.SimpleCache;
+import com.google.android.exoplayer2.util.Util;
 
+import java.io.File;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
+
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -34,23 +68,23 @@ import me.ccrama.redditslide.util.LogUtil;
 //Modified to accept a Matrix by Wiseman Designs
 //
 
-public class MediaVideoView extends TextureView implements MediaController.MediaPlayerControl {
+public class MediaVideoView extends VideoView {
 
-    static final int NONE  = 0;
-    static final int DRAG  = 1;
-    static final int ZOOM  = 2;
-    static final int CLICK = 3;
-    private static final String LOG_TAG = "VideoView";
+    static final         int    NONE                     = 0;
+    static final         int    DRAG                     = 1;
+    static final         int    ZOOM                     = 2;
+    static final         int    CLICK                    = 3;
+    private static final String LOG_TAG                  = "VideoView";
     // all possible internal states
-    private static final int STATE_ERROR              = -1;
-    private static final int STATE_IDLE               = 0;
-    private static final int STATE_PREPARING          = 1;
-    private static final int STATE_PREPARED           = 2;
-    private static final int STATE_PLAYING            = 3;
-    private static final int STATE_PAUSED             = 4;
-    private static final int STATE_PLAYBACK_COMPLETED = 5;
+    private static final int    STATE_ERROR              = -1;
+    private static final int    STATE_IDLE               = 0;
+    private static final int    STATE_PREPARING          = 1;
+    private static final int    STATE_PREPARED           = 2;
+    private static final int    STATE_PLAYING            = 3;
+    private static final int    STATE_PAUSED             = 4;
+    private static final int    STATE_PLAYBACK_COMPLETED = 5;
     public int number;
-    int mode = NONE;
+    int    mode   = NONE;
     Matrix matrix = new Matrix();
     ScaleGestureDetector mScaleDetector;
     float minScale = 1f;
@@ -62,49 +96,10 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     float width, height;
     float saveScale = 1f;
     float right, bottom, origWidth, origHeight, bmWidth, bmHeight;
-    MediaPlayer.OnPreparedListener mOnPreparedListener;
-    float lastFocusX;
-    float lastFocusY;
-    SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(final SurfaceTexture surface, final int width,
-                final int height) {
-            surfaceTexture = surface;
-            openVideo();
-        }
+    OnPreparedListener mOnPreparedListener;
+    float              lastFocusX;
+    float              lastFocusY;
 
-        @Override
-        public void onSurfaceTextureSizeChanged(final SurfaceTexture surface, final int width,
-                final int height) {
-            surfaceWidth = width;
-            surfaceHeight = height;
-            boolean isValidState = (targetState == STATE_PLAYING);
-            boolean hasValidSize = (videoWidth == width && videoHeight == height);
-            if (mediaPlayer != null && isValidState && hasValidSize) {
-                start();
-            }
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(final SurfaceTexture surface) {
-            Log.i(LOG_TAG, "Destroyed surface number " + number);
-
-            if (mediaController != null) mediaController.hide();
-
-            if (mediaPlayer != null) {
-                mediaPlayer.reset();
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(final SurfaceTexture surface) {
-
-        }
-    };
     // currentState is a VideoView object's current state.
     // targetState is the state that a method caller intends to reach.
     // For instance, regardless the VideoView object's current state,
@@ -113,14 +108,8 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     private int currentState = STATE_IDLE;
     private int targetState  = STATE_IDLE;
     // Stuff we need for playing and showing a video
-    public MediaPlayer                      mediaPlayer;
-    private int                              videoWidth;
-    private int                              videoHeight;
     private int                              surfaceWidth;
     private int                              surfaceHeight;
-    private SurfaceTexture                   surfaceTexture;
-    private Surface                          surface;
-    private MediaController                  mediaController;
     private MediaPlayer.OnCompletionListener onCompletionListener;
     private MediaPlayer.OnPreparedListener   onPreparedListener;
     private int                              currentBufferPercentage;
@@ -137,65 +126,51 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     private float widthScale  = 1.0f;
     private float heightScale = 1.0f;
     private Context mContext;
-    private int mAudioSession;
+    private int     mAudioSession;
     // Listeners
-    private MediaPlayer.OnBufferingUpdateListener bufferingUpdateListener =
-            new MediaPlayer.OnBufferingUpdateListener() {
-                @Override
-                public void onBufferingUpdate(final MediaPlayer mp, final int percent) {
-                    currentBufferPercentage = percent;
-                }
-            };
-    private MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {
+    private OnBufferUpdateListener bufferingUpdateListener = new OnBufferUpdateListener() {
         @Override
-        public void onPrepared(final MediaPlayer mp) {
+        public void onBufferingUpdate(int percent) {
+            currentBufferPercentage = percent;
+        }
+    };
+    private OnPreparedListener     preparedListener        = new OnPreparedListener() {
+        @Override
+        public void onPrepared() {
             currentState = STATE_PREPARED;
             LogUtil.v("Video prepared for " + number);
-            videoWidth = mp.getVideoWidth();
-            videoHeight = mp.getVideoHeight();
 
 
             mCanPause = mCanSeekBack = mCanSeekForward = true;
 
-            if (mediaController != null) {
-                mediaController.setEnabled(true);
-            }
             if (mOnPreparedListener != null) {
-                mOnPreparedListener.onPrepared(mediaPlayer);
+                mOnPreparedListener.onPrepared();
             }
 
             requestLayout();
             invalidate();
-            if ((videoWidth != 0) && (videoHeight != 0)) {
-                LogUtil.v(
-                        "Video size for number " + number + ": " + videoWidth + '/' + videoHeight);
-                if (targetState == STATE_PLAYING) {
-                    mediaPlayer.start();
-                }
-            } else {
-                if (targetState == STATE_PLAYING) {
-                    mediaPlayer.start();
-                }
+            if (targetState == STATE_PLAYING) {
+                start();
             }
         }
     };
-    private MediaPlayer.OnVideoSizeChangedListener videoSizeChangedListener =
-            new MediaPlayer.OnVideoSizeChangedListener() {
-                @Override
-                public void onVideoSizeChanged(final MediaPlayer mp, final int width,
-                        final int height) {
-                    LogUtil.v("Video size changed " + width + '/' + height + " number " + number);
-                }
-            };
-    private MediaPlayer.OnErrorListener errorListener = new MediaPlayer.OnErrorListener() {
+
+    private OnVideoSizeChangedListener videoSizeChangedListener = new OnVideoSizeChangedListener() {
         @Override
-        public boolean onError(final MediaPlayer mp, final int what, final int extra) {
+        public void onVideoSizeChanged(final int width, final int height) {
+            LogUtil.v("Video size changed " + width + '/' + height + " number " + number);
+        }
+    };
+    private OnErrorListener            errorListener            = new OnErrorListener() {
+        @Override
+        public boolean onError(Exception e) {
             currentState = STATE_ERROR;
             targetState = STATE_ERROR;
             Log.e(LOG_TAG, "There was an error during video playback.");
             return true;
         }
     };
+
 
     public MediaVideoView(final Context context) {
         super(context);
@@ -217,35 +192,35 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean isKeyCodeSupported = keyCode != KeyEvent.KEYCODE_BACK &&
-                keyCode != KeyEvent.KEYCODE_VOLUME_UP &&
-                keyCode != KeyEvent.KEYCODE_VOLUME_DOWN &&
-                keyCode != KeyEvent.KEYCODE_VOLUME_MUTE &&
-                keyCode != KeyEvent.KEYCODE_MENU &&
-                keyCode != KeyEvent.KEYCODE_CALL &&
-                keyCode != KeyEvent.KEYCODE_ENDCALL;
-        if (isInPlaybackState() && isKeyCodeSupported && mediaController != null) {
+        boolean isKeyCodeSupported = keyCode != KeyEvent.KEYCODE_BACK
+                && keyCode != KeyEvent.KEYCODE_VOLUME_UP
+                && keyCode != KeyEvent.KEYCODE_VOLUME_DOWN
+                && keyCode != KeyEvent.KEYCODE_VOLUME_MUTE
+                && keyCode != KeyEvent.KEYCODE_MENU
+                && keyCode != KeyEvent.KEYCODE_CALL
+                && keyCode != KeyEvent.KEYCODE_ENDCALL;
+        if (isPlaying() && isKeyCodeSupported) {
             if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK
                     || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                if (mediaPlayer.isPlaying()) {
+                if (isPlaying()) {
                     pause();
-                    mediaController.show();
+                    getVideoControls().show();
                 } else {
                     start();
-                    mediaController.hide();
+                    getVideoControls().hide();
                 }
                 return true;
             } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
-                if (!mediaPlayer.isPlaying()) {
+                if (!isPlaying()) {
                     start();
-                    mediaController.hide();
+                    getVideoControls().hide();
                 }
                 return true;
             } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
                     || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
-                if (mediaPlayer.isPlaying()) {
+                if (isPlaying()) {
                     pause();
-                    mediaController.show();
+                    getVideoControls().show();
                 }
                 return true;
             } else {
@@ -258,7 +233,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
     @Override
     public boolean onTrackballEvent(MotionEvent ev) {
-        if (isInPlaybackState() && mediaController != null) {
+        if (isPlaying()) {
             toggleMediaControlsVisiblity();
         }
         return false;
@@ -266,133 +241,23 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (isInPlaybackState()
-                && mediaController != null
-                && ev.getAction() == MotionEvent.ACTION_UP) {
+        if (isPlaying() && ev.getAction() == MotionEvent.ACTION_UP) {
             toggleMediaControlsVisiblity();
         }
         return true;
     }
 
-    @Override
-    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-        // Will resize the view if the video dimensions have been found.
-        // video dimensions are found after onPrepared has been called by MediaPlayer
-        int width = getDefaultSize(videoWidth, widthMeasureSpec);
-        int height = getDefaultSize(videoHeight, heightMeasureSpec);
-        if ((videoWidth > 0) && (videoHeight > 0)) {
-            if ((videoWidth * height) > (width * videoHeight)) {
-                height = (width * videoHeight) / videoWidth;
-            } else if ((videoWidth * height) < (width * videoHeight)) {
-                width = (height * videoWidth) / videoHeight;
-            } else {
-            }
-        }
-        setMeasuredDimension((int) (width * widthScale), (int) (height * heightScale));
-    }
-
-    public void setSurfaceTexture(SurfaceTexture _surfaceTexture) {
-        surfaceTexture = _surfaceTexture;
-    }
-
-    @Override
-    public void start() {
-        if (isInPlaybackState()) {
-            mediaPlayer.start();
-            currentState = STATE_PLAYING;
-        }
-        targetState = STATE_PLAYING;
-    }
-
-    @Override
-    public void pause() {
-        if (isInPlaybackState()) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-                currentState = STATE_PAUSED;
-            }
-        }
-        targetState = STATE_PAUSED;
-    }
-
-    @Override
-    public int getDuration() {
-        if (isInPlaybackState()) {
-            return mediaPlayer.getDuration();
-        }
-
-        return -1;
-    }
-
-    @Override
-    public int getCurrentPosition() {
-        if (isInPlaybackState()) {
-            return mediaPlayer.getCurrentPosition();
-        }
-        return 0;
-    }
-
-    @Override
-    public void seekTo(int msec) {
-        if (isInPlaybackState()) {
-            if (Build.VERSION.SDK_INT >= 26) {
-                mediaPlayer.seekTo(msec, mSeekMode);
-            } else {
-                mediaPlayer.seekTo(msec);
-            }
-
-            mSeekWhenPrepared = 0;
-        } else {
-            mSeekWhenPrepared = msec;
-        }
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return isInPlaybackState() && mediaPlayer.isPlaying();
-    }
 
     @Override
     public int getBufferPercentage() {
-        if (mediaPlayer != null) {
-            return currentBufferPercentage;
-        }
-        return 0;
+        return currentBufferPercentage;
     }
 
-    @Override
-    public boolean canPause() {
-        return mCanPause;
-    }
-
-    @Override
-    public boolean canSeekBackward() {
-        return mCanSeekBack;
-    }
-
-    @Override
-    public boolean canSeekForward() {
-        return mCanSeekForward;
-    }
-
-    @Override
-    public int getAudioSessionId() {
-        if (mAudioSession == 0) {
-            MediaPlayer foo = new MediaPlayer();
-            mAudioSession = foo.getAudioSessionId();
-            foo.release();
-        }
-        return mAudioSession;
-    }
 
     public void initVideoView() {
         LogUtil.v("Initializing video view.");
         setAlpha(0);
-        videoHeight = 0;
-        videoWidth = 0;
         setFocusable(false);
-        setSurfaceTextureListener(surfaceTextureListener);
-        //todo make this work better! setOnTouchListener(new ZoomOnTouchListeners());
 
         if (Build.VERSION.SDK_INT >= 26) {
             ActivityManager am =
@@ -412,7 +277,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     }
 
     public void openVideo() {
-        if ((uri == null) || (surfaceTexture == null)) {
+        if ((uri == null) && dashURL == null) {
             LogUtil.v("Cannot open video, uri or surface is null number " + number);
             return;
         }
@@ -420,37 +285,38 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
         // Tell the music playback service to pause
 
-        release(false);
         try {
-            surface = new Surface(surfaceTexture);
-            mediaPlayer = new MediaPlayer();
-            if (mAudioSession != 0) {
-                mediaPlayer.setAudioSessionId(mAudioSession);
+            setHandleAudioFocus(false);
+            attachMediaControls();
+            setOnBufferUpdateListener(bufferingUpdateListener);
+            setOnPreparedListener(preparedListener);
+            setOnErrorListener(errorListener);
+            setOnCompletionListener(new OnCompletionListener() {
+                @Override
+                public void onCompletion() {
+                    restart();
+                }
+            });
+            setKeepScreenOn(true);
+            setOnVideoSizedChangedListener(videoSizeChangedListener);
+            if(dashURL == null) {
+                setVideoURI(uri, null);
             } else {
-                mAudioSession = mediaPlayer.getAudioSessionId();
+                DataSource.Factory dataSourceFactory = new CacheDataSourceFactory(getContext(), 100 * 1024 * 1024, 5 * 1024 * 1024);
+                DashMediaSource video = new DashMediaSource(Uri.parse(dashURL.toString()), dataSourceFactory, new DefaultDashChunkSource.Factory(dataSourceFactory), null, null);
+                setVideoURI(uri, video);
             }
-            mediaPlayer.setSurface(surface);
-            mediaPlayer.setDataSource(mContext, uri);
-            mediaPlayer.setOnBufferingUpdateListener(bufferingUpdateListener);
-            mediaPlayer.setOnPreparedListener(preparedListener);
-            mediaPlayer.setOnErrorListener(errorListener);
-
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setScreenOnWhilePlaying(true);
-            mediaPlayer.setOnVideoSizeChangedListener(videoSizeChangedListener);
             LogUtil.v("Preparing media player.");
-            mediaPlayer.prepareAsync();
             currentState = STATE_PREPARING;
-            attachMediaController();
         } catch (IllegalStateException e) {
             currentState = STATE_ERROR;
             targetState = STATE_ERROR;
             e.printStackTrace();
-        } catch (IOException e) {
-            currentState = STATE_ERROR;
-            targetState = STATE_ERROR;
-            e.printStackTrace();
         }
+    }
+
+    public void attachMediaControls() {
+        setControls(new SlideVideoControls(mContext));
     }
 
     public int resolveAdjustedSize(int desiredSize, int measureSpec) {
@@ -487,20 +353,17 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         openVideo();
     }
 
-    public void setMatrix(Matrix mMatrix) {
-        this.setTransform(mMatrix);
-    }
-
-    public void setMediaController(MediaController controller) {
-        if (mediaController != null) {
-            mediaController.hide();
-        }
-        mediaController = controller;
-        attachMediaController();
-    }
-
-    public void setOnPreparedListener(MediaPlayer.OnPreparedListener onPreparedListener) {
+    public void setOnPreparedListener(OnPreparedListener onPreparedListener) {
         this.mOnPreparedListener = onPreparedListener;
+    }
+
+    URL dashURL;
+
+    public void setVideoDASH(URL url) {
+        dashURL = url;
+        openVideo();
+        requestLayout();
+        invalidate();
     }
 
     public void setVideoPath(String path) {
@@ -515,223 +378,324 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         invalidate();
     }
 
-    public void setViewScale(float width, float height) {
-        this.widthScale = width;
-        this.heightScale = height;
-        this.invalidate();
-    }
-
-    public void setZOrderOnTop(boolean b) {
-    }
-
-    public void stopPlayback() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
-
-    public void suspend() {
-        release(false);
-    }
-
-    private void attachMediaController() {
-        if (mediaPlayer != null && mediaController != null) {
-            mediaController.setMediaPlayer(this);
-            View anchorView = this.getParent() instanceof View ? (View) this.getParent() : this;
-            mediaController.setAnchorView(anchorView);
-            mediaController.setEnabled(isInPlaybackState());
-
-        }
-    }
-
-    private boolean isInPlaybackState() {
-        return (mediaPlayer != null &&
-                currentState != STATE_ERROR &&
-                currentState != STATE_IDLE &&
-                currentState != STATE_PREPARING);
-    }
-
-    /*
-     * release the media player in any state
-     */
-    private void release(boolean cleartargetstate) {
-        LogUtil.v("Releasing media player.");
-        if (mediaPlayer != null) {
-            mediaPlayer.reset();
-            mediaPlayer.release();
-            mediaPlayer = null;
-            currentState = STATE_IDLE;
-            if (cleartargetstate) {
-                targetState = STATE_IDLE;
-            }
-            LogUtil.v("Released media player.");
-        } else {
-            LogUtil.v("Media player was null, did not release.");
-        }
-    }
-
     private void toggleMediaControlsVisiblity() {
-        if (mediaController.isShowing()) {
-            mediaController.hide();
+        if (getVideoControls().isVisible()) {
+            getVideoControls().hide();
         } else {
-            mediaController.show();
+            getVideoControls().show();
+        }
+    }
+}
+
+class SlideVideoControls extends VideoControls {
+    protected SeekBar      seekBar;
+    protected LinearLayout extraViewsContainer;
+
+    protected boolean userInteracting = false;
+
+    public SlideVideoControls(Context context) {
+        super(context);
+    }
+
+    public SlideVideoControls(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public SlideVideoControls(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public SlideVideoControls(Context context, AttributeSet attrs, int defStyleAttr,
+            int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.media_controls;
+    }
+
+    @Override
+    public void setPosition(@IntRange(from = 0) long position) {
+        currentTimeTextView.setText(TimeFormatUtil.formatMs(position));
+        seekBar.setProgress((int) position);
+    }
+
+    @Override
+    public void setDuration(@IntRange(from = 0) long duration) {
+        if (duration != seekBar.getMax()) {
+            endTimeTextView.setText(TimeFormatUtil.formatMs(duration));
+            seekBar.setMax((int) duration);
         }
     }
 
-    private class ZoomOnTouchListeners implements View.OnTouchListener {
+    @Override
+    public void updateProgress(@IntRange(from = 0) long position, @IntRange(from = 0) long duration,
+            @IntRange(from = 0, to = 100) int bufferPercent) {
+        if (!userInteracting) {
+            seekBar.setSecondaryProgress((int) (seekBar.getMax() * ((float) bufferPercent / 100)));
+            seekBar.setProgress((int) position);
+            currentTimeTextView.setText(TimeFormatUtil.formatMs(position));
+        }
+    }
 
+    @Override
+    protected void retrieveViews() {
+        super.retrieveViews();
+        seekBar = findViewById(com.devbrackets.android.exomedia.R.id.exomedia_controls_video_seek);
+        extraViewsContainer = findViewById(
+                com.devbrackets.android.exomedia.R.id.exomedia_controls_extra_container);
+    }
 
-        public ZoomOnTouchListeners() {
-            super();
-            m = new float[9];
-            mScaleDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
+    @Override
+    protected void registerListeners() {
+        super.registerListeners();
+        seekBar.setOnSeekBarChangeListener(new SlideVideoControls.SeekBarChanged());
+    }
 
+    @Override
+    public void addExtraView(@NonNull View view) {
+        extraViewsContainer.addView(view);
+    }
+
+    @Override
+    public void removeExtraView(@NonNull View view) {
+        extraViewsContainer.removeView(view);
+    }
+
+    @NonNull
+    @Override
+    public List<View> getExtraViews() {
+        int childCount = extraViewsContainer.getChildCount();
+        if (childCount <= 0) {
+            return super.getExtraViews();
         }
 
+        //Retrieves the layouts children
+        List<View> children = new LinkedList<>();
+        for (int i = 0; i < childCount; i++) {
+            children.add(extraViewsContainer.getChildAt(i));
+        }
+
+        return children;
+    }
+
+    @Override
+    public void hideDelayed(long delay) {
+        hideDelay = delay;
+
+        LogUtil.v("Hiding delayed");
+
+        if (delay < 0 || !canViewHide || isLoading ) {
+            return;
+        }
+
+        //If the user is interacting with controls we don't want to start the delayed hide yet
+        if (!userInteracting) {
+            visibilityHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    animateVisibility(false);
+                }
+            }, delay);
+        }
+    }
+
+    @Override
+    protected void animateVisibility(boolean toVisible) {
+        if (isVisible == toVisible) {
+            return;
+        }
+
+        if (!hideEmptyTextContainer || !isTextContainerEmpty()) {
+            textContainer.startAnimation(new FadeInAnimation(textContainer, toVisible,
+                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
+        }
+
+        if (!isLoading) {
+            controlsContainer.startAnimation(
+                    new FadeInAnimation(controlsContainer, toVisible,
+                            CONTROL_VISIBILITY_ANIMATION_LENGTH));
+        }
+
+        isVisible = toVisible;
+        onVisibilityChanged();
+    }
+
+    @Override
+    protected void updateTextContainerVisibility() {
+        if (!isVisible) {
+            return;
+        }
+
+        boolean emptyText = isTextContainerEmpty();
+        if (hideEmptyTextContainer && emptyText && textContainer.getVisibility() == VISIBLE) {
+            textContainer.clearAnimation();
+            textContainer.startAnimation(new FadeInAnimation(textContainer, false,
+                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
+        } else if ((!hideEmptyTextContainer || !emptyText)
+                && textContainer.getVisibility() != VISIBLE) {
+            textContainer.clearAnimation();
+            textContainer.startAnimation(new FadeInAnimation(textContainer, true,
+                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
+        }
+    }
+
+    @Override
+    public void showLoading(boolean initialLoad) {
+        if (isLoading) {
+            return;
+        }
+
+        isLoading = true;
+        loadingProgressBar.setVisibility(View.GONE);
+
+        if (initialLoad) {
+            controlsContainer.setVisibility(View.GONE);
+        } else {
+            playPauseButton.setEnabled(false);
+            previousButton.setEnabled(false);
+            nextButton.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void finishLoading() {
+        if (!isLoading) {
+            return;
+        }
+
+        isLoading = false;
+        loadingProgressBar.setVisibility(View.GONE);
+
+
+        playPauseButton.setEnabled(true);
+        previousButton.setEnabled(true);
+        nextButton.setEnabled(true);
+
+        updatePlaybackState(true);
+        hide();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                controlsContainer.setVisibility(View.VISIBLE);
+            }
+        }, 600);
+    }
+
+    @Override
+    public void updatePlaybackState(boolean isPlaying) {
+        updatePlayPauseImage(isPlaying);
+        progressPollRepeater.start();
+
+        if (isPlaying) {
+        } else {
+            show();
+        }
+    }
+
+    /**
+     * Listens to the seek bar change events and correctly handles the changes
+     */
+    protected class SeekBarChanged implements SeekBar.OnSeekBarChangeListener {
+        private long seekToTime;
 
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-
-            mScaleDetector.onTouchEvent(motionEvent);
-
-            matrix.getValues(m);
-            float x = m[Matrix.MTRANS_X];
-            float y = m[Matrix.MTRANS_Y];
-            PointF curr = new PointF(motionEvent.getX(), motionEvent.getY());
-
-
-            switch (motionEvent.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-                    last.set(motionEvent.getX(), motionEvent.getY());
-                    start.set(last);
-                    mode = DRAG;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    mode = NONE;
-                    int xDiff = (int) Math.abs(curr.x - start.x);
-                    int yDiff = (int) Math.abs(curr.y - start.y);
-                    //if (xDiff < CLICK && yDiff < CLICK)//TODO click event?
-                    // performClick();
-                    break;
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    last.set(motionEvent.getX(), motionEvent.getY());
-                    start.set(last);
-                    mode = ZOOM;
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    //if the mode is ZOOM or
-                    //if the mode is DRAG and already zoomed
-                    if (mode == ZOOM || (mode == DRAG && saveScale > minScale)) {
-                        float deltaX = curr.x - last.x;// x difference
-                        float deltaY = curr.y - last.y;// y difference
-                        float scaleWidth = Math.round(
-                                origWidth * saveScale);// width after applying current scale
-                        float scaleHeight = Math.round(
-                                origHeight * saveScale);// height after applying current scale
-                        //if scaleWidth is smaller than the views width
-                        //in other words if the image width fits in the view
-                        //limit left and right movement
-                        if (scaleWidth < width) {
-                            deltaX = 0;
-                            if (y + deltaY > 0) {
-                                deltaY = -y;
-                            } else if (y + deltaY < -bottom) deltaY = -(y + bottom);
-                        }
-                        //if scaleHeight is smaller than the views height
-                        //in other words if the image height fits in the view
-                        //limit up and down movement
-                        else if (scaleHeight < height) {
-                            deltaY = 0;
-                            if (x + deltaX > 0) {
-                                deltaX = -x;
-                            } else if (x + deltaX < -right) deltaX = -(x + right);
-                        }
-                        //if the image doesnt fit in the width or height
-                        //limit both up and down and left and right
-                        else {
-                            if (x + deltaX > 0) {
-                                deltaX = -x;
-                            } else if (x + deltaX < -right) deltaX = -(x + right);
-
-                            if (y + deltaY > 0) {
-                                deltaY = -y;
-                            } else if (y + deltaY < -bottom) deltaY = -(y + bottom);
-                        }
-                        //move the image with the matrix
-                        matrix.postTranslate(deltaX, deltaY);
-                        //set the last touch location to the current
-                        last.set(curr.x, curr.y);
-                    }
-                    break;
-
-                case MotionEvent.ACTION_POINTER_UP:
-                    mode = NONE;
-                    break;
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (!fromUser) {
+                return;
             }
-            MediaVideoView.this.setTransform(matrix);
-            MediaVideoView.this.invalidate();
-            return true;
+
+            seekToTime = progress;
+            if (currentTimeTextView != null) {
+                currentTimeTextView.setText(TimeFormatUtil.formatMs(seekToTime));
+            }
         }
 
-        private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-
-            @Override
-            public boolean onScale(ScaleGestureDetector detector) {
-                float mScaleFactor = detector.getScaleFactor();
-                float origScale = saveScale;
-                saveScale *= mScaleFactor;
-                if (saveScale > maxScale) {
-                    saveScale = maxScale;
-                    mScaleFactor = maxScale / origScale;
-                } else if (saveScale < minScale) {
-                    saveScale = minScale;
-                    mScaleFactor = minScale / origScale;
-                }
-                right = width * saveScale - width - (2 * redundantXSpace * saveScale);
-                bottom = height * saveScale - height - (2 * redundantYSpace * saveScale);
-                if (origWidth * saveScale <= width || origHeight * saveScale <= height) {
-                    matrix.postScale(mScaleFactor, mScaleFactor, width / 2, height / 2);
-                    if (mScaleFactor < 1) {
-                        matrix.getValues(m);
-                        float x = m[Matrix.MTRANS_X];
-                        float y = m[Matrix.MTRANS_Y];
-                        if (mScaleFactor < 1) {
-                            if (Math.round(origWidth * saveScale) < width) {
-                                if (y < -bottom) {
-                                    matrix.postTranslate(0, -(y + bottom));
-                                } else if (y > 0) matrix.postTranslate(0, -y);
-                            } else {
-                                if (x < -right) {
-                                    matrix.postTranslate(-(x + right), 0);
-                                } else if (x > 0) matrix.postTranslate(-x, 0);
-                            }
-                        }
-                    }
-                } else {
-                    matrix.postScale(mScaleFactor, mScaleFactor, detector.getFocusX(),
-                            detector.getFocusY());
-                    matrix.getValues(m);
-                    float x = m[Matrix.MTRANS_X];
-                    float y = m[Matrix.MTRANS_Y];
-                    if (mScaleFactor < 1) {
-                        if (x < -right) {
-                            matrix.postTranslate(-(x + right), 0);
-                        } else if (x > 0) matrix.postTranslate(-x, 0);
-                        if (y < -bottom) {
-                            matrix.postTranslate(0, -(y + bottom));
-                        } else if (y > 0) matrix.postTranslate(0, -y);
-                    }
-                }
-                return true;
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            userInteracting = true;
+            if (seekListener == null || !seekListener.onSeekStarted()) {
+                internalListener.onSeekStarted();
             }
+        }
 
-            @Override
-            public boolean onScaleBegin(ScaleGestureDetector detector) {
-                mode = ZOOM;
-                return true;
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            userInteracting = false;
+            if (seekListener == null || !seekListener.onSeekEnded(seekToTime)) {
+                internalListener.onSeekEnded(seekToTime);
             }
+        }
+    }
+}
+
+class CacheDataSourceFactory implements DataSource.Factory {
+    private final Context context;
+    private final DefaultDataSourceFactory defaultDatasourceFactory;
+    private final long maxFileSize, maxCacheSize;
+
+    CacheDataSourceFactory(Context context, long maxCacheSize, long maxFileSize) {
+        super();
+        this.context = context;
+        this.maxCacheSize = maxCacheSize;
+        this.maxFileSize = maxFileSize;
+        String userAgent = Util.getUserAgent(context, context.getString(R.string.app_name));
+        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        defaultDatasourceFactory = new DefaultDataSourceFactory(this.context,
+                bandwidthMeter,
+                new DefaultHttpDataSourceFactory(userAgent, bandwidthMeter));
+    }
+
+    @Override
+    public DataSource createDataSource() {
+        LeastRecentlyUsedCacheEvictor evictor = new LeastRecentlyUsedCacheEvictor(maxCacheSize);
+        SimpleCache simpleCache = new SimpleCache(new File(context.getCacheDir(), "media"), evictor);
+        return new CacheDataSource(simpleCache, defaultDatasourceFactory.createDataSource(),
+                new FileDataSource(), new CacheDataSink(simpleCache, maxFileSize),
+                CacheDataSource.FLAG_BLOCK_ON_CACHE | CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR, null);
+    }
+}
+
+class FadeInAnimation extends AnimationSet {
+    private View animationView;
+    private boolean toVisible;
+
+    public FadeInAnimation(View view, boolean toVisible, long duration) {
+        super(false);
+        this.toVisible = toVisible;
+        this.animationView = view;
+
+        //Creates the Alpha animation for the transition
+        float startAlpha = toVisible ? 0 : 1;
+        float endAlpha = toVisible ? 1 : 0;
+
+        AlphaAnimation alphaAnimation = new AlphaAnimation(startAlpha, endAlpha) ;
+        alphaAnimation.setDuration(duration);
+
+
+        addAnimation(alphaAnimation);
+
+        setAnimationListener(new FadeInAnimation.Listener());
+    }
+
+    private class Listener implements AnimationListener {
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+            animationView.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            animationView.setVisibility(toVisible ? View.VISIBLE : View.GONE);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+            //Purposefully left blank
         }
     }
 }

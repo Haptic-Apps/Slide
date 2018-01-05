@@ -1445,7 +1445,6 @@ public class MainActivity extends BaseActivity
                 }
             }
         } catch (Exception e){
-            e.printStackTrace();
         }
     }
 
