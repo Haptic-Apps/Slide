@@ -15,7 +15,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 
 import net.dean.jraw.models.Message;

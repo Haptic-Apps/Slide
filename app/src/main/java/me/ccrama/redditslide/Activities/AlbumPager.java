@@ -21,9 +21,9 @@ import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -414,7 +414,6 @@ public class AlbumPager extends FullScreenActivity
 
                 }
             }, false, true, true, (TextView) rootView.findViewById(R.id.size), ((AlbumPager)getActivity()).subreddit).execute(url);
-            ((MediaVideoView) rootView.findViewById(R.id.gif)).setZOrderOnTop(true);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

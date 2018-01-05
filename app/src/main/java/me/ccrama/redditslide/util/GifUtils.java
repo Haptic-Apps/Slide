@@ -13,7 +13,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.danikula.videocache.CacheListener;
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.assist.ContentLengthInputStream;
@@ -160,7 +161,6 @@ public class GifUtils {
                         if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
                             MediaController mediaController = new MediaController(c);
                             mediaController.setAnchorView(placeholder);
-                            video.setMediaController(mediaController);
                         }
                         showProgressBar(c, progressBar, false);
                         if (gifSave != null) {
@@ -186,11 +186,11 @@ public class GifUtils {
                         }
 
 
-                        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        video.setOnPreparedListener(new OnPreparedListener() {
                             @Override
-                            public void onPrepared(MediaPlayer mp) {
+                            public void onPrepared() {
                                 if (placeholder != null) placeholder.setVisibility(View.GONE);
-                                mp.setLooping(true);
+                                LogUtil.v("Prepared");
                             }
 
                         });
@@ -575,19 +575,13 @@ public class GifUtils {
 
                     String toLoad = getProxy().getProxyUrl(url.toString());
 
-                    if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
-                        MediaController mediaController = new MediaController(c);
-                        mediaController.setAnchorView(placeholder);
-                        video.setMediaController(mediaController);
-                    }
-
                     video.setVideoPath(toLoad);
 
-                    video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    video.setOnPreparedListener(new OnPreparedListener() {
                         @Override
-                        public void onPrepared(MediaPlayer mp) {
+                        public void onPrepared() {
                             if (placeholder != null) placeholder.setVisibility(View.GONE);
-                            mp.setLooping(true);
+                            LogUtil.v("Prepared");
                         }
 
                     });

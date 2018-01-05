@@ -22,7 +22,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -108,7 +108,7 @@ public class MediaView extends FullScreenActivity
 
     private NotificationManager        mNotifyManager;
     private NotificationCompat.Builder mBuilder;
-    private int                        stopPosition;
+    private long                        stopPosition;
     private GifUtils.AsyncLoadGif      gif;
     private String                     contentUrl;
     private MediaVideoView             videoView;
@@ -208,7 +208,7 @@ public class MediaView extends FullScreenActivity
     public void onResume() {
         super.onResume();
         if (videoView != null) {
-            videoView.seekTo(stopPosition);
+            videoView.seekTo((int) stopPosition);
             videoView.start();
         }
     }
@@ -518,7 +518,7 @@ public class MediaView extends FullScreenActivity
         if (videoView != null) {
             stopPosition = videoView.getCurrentPosition();
             videoView.pause();
-            outState.putInt("position", stopPosition);
+            outState.putLong("position", stopPosition);
         }
     }
 
@@ -608,7 +608,7 @@ public class MediaView extends FullScreenActivity
         mashapeKey = SecretConstants.getImgurApiKey(this);
 
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
-            stopPosition = savedInstanceState.getInt("position");
+            stopPosition = savedInstanceState.getLong("position");
         }
 
         doOnClick = new Runnable() {
