@@ -1,28 +1,19 @@
 package me.ccrama.redditslide.Views;
 
 import android.annotation.TargetApi;
-import android.app.ActivityManager;
 import android.content.Context;
-import android.graphics.Matrix;
-import android.graphics.PointF;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
@@ -31,8 +22,6 @@ import com.devbrackets.android.exomedia.listener.OnCompletionListener;
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.devbrackets.android.exomedia.listener.OnVideoSizeChangedListener;
-import com.devbrackets.android.exomedia.ui.animation.BottomViewHideShowAnimation;
-import com.devbrackets.android.exomedia.ui.animation.TopViewHideShowAnimation;
 import com.devbrackets.android.exomedia.ui.widget.VideoControls;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.devbrackets.android.exomedia.util.TimeFormatUtil;
@@ -70,78 +59,24 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class MediaVideoView extends VideoView {
 
-    static final         int    NONE                     = 0;
-    static final         int    DRAG                     = 1;
-    static final         int    ZOOM                     = 2;
-    static final         int    CLICK                    = 3;
-    private static final String LOG_TAG                  = "VideoView";
-    // all possible internal states
-    private static final int    STATE_ERROR              = -1;
-    private static final int    STATE_IDLE               = 0;
-    private static final int    STATE_PREPARING          = 1;
-    private static final int    STATE_PREPARED           = 2;
-    private static final int    STATE_PLAYING            = 3;
-    private static final int    STATE_PAUSED             = 4;
-    private static final int    STATE_PLAYBACK_COMPLETED = 5;
+    private static final String LOG_TAG         = "VideoView";
     public int number;
-    int    mode   = NONE;
-    Matrix matrix = new Matrix();
-    ScaleGestureDetector mScaleDetector;
-    float minScale = 1f;
-    float maxScale = 5f;
-    float[] m;
-    PointF last  = new PointF();
-    PointF start = new PointF();
-    float redundantXSpace, redundantYSpace;
-    float width, height;
-    float saveScale = 1f;
-    float right, bottom, origWidth, origHeight, bmWidth, bmHeight;
     OnPreparedListener mOnPreparedListener;
-    float              lastFocusX;
-    float              lastFocusY;
-
-    // currentState is a VideoView object's current state.
-    // targetState is the state that a method caller intends to reach.
-    // For instance, regardless the VideoView object's current state,
-    // calling pause() intends to bring the object to a target state
-    // of STATE_PAUSED.
-    private int currentState = STATE_IDLE;
-    private int targetState  = STATE_IDLE;
-    // Stuff we need for playing and showing a video
-    private int                              surfaceWidth;
-    private int                              surfaceHeight;
-    private MediaPlayer.OnCompletionListener onCompletionListener;
-    private MediaPlayer.OnPreparedListener   onPreparedListener;
-    private int                              currentBufferPercentage;
-    private MediaPlayer.OnErrorListener      onErrorListener;
-    private MediaPlayer.OnInfoListener       onInfoListener;
-    private int                              mSeekWhenPrepared;
-    private int                              mSeekMode;
-    // recording the seek position while preparing
-    private boolean                          mCanPause;
-    private boolean                          mCanSeekBack;
-    private boolean                          mCanSeekForward;
-    private Uri                              uri;
-    //scale stuff
-    private float widthScale  = 1.0f;
-    private float heightScale = 1.0f;
+    URL                dashURL;
+    private int     currentBufferPercentage;
+    private Uri     uri;
     private Context mContext;
-    private int     mAudioSession;
     // Listeners
-    private OnBufferUpdateListener bufferingUpdateListener = new OnBufferUpdateListener() {
+    private OnBufferUpdateListener     bufferingUpdateListener  = new OnBufferUpdateListener() {
         @Override
         public void onBufferingUpdate(int percent) {
             currentBufferPercentage = percent;
         }
     };
-    private OnPreparedListener     preparedListener        = new OnPreparedListener() {
+    private OnPreparedListener         preparedListener         = new OnPreparedListener() {
         @Override
         public void onPrepared() {
-            currentState = STATE_PREPARED;
             LogUtil.v("Video prepared for " + number);
-
-
-            mCanPause = mCanSeekBack = mCanSeekForward = true;
 
             if (mOnPreparedListener != null) {
                 mOnPreparedListener.onPrepared();
@@ -149,12 +84,9 @@ public class MediaVideoView extends VideoView {
 
             requestLayout();
             invalidate();
-            if (targetState == STATE_PLAYING) {
-                start();
-            }
+            start();
         }
     };
-
     private OnVideoSizeChangedListener videoSizeChangedListener = new OnVideoSizeChangedListener() {
         @Override
         public void onVideoSizeChanged(final int width, final int height) {
@@ -164,13 +96,10 @@ public class MediaVideoView extends VideoView {
     private OnErrorListener            errorListener            = new OnErrorListener() {
         @Override
         public boolean onError(Exception e) {
-            currentState = STATE_ERROR;
-            targetState = STATE_ERROR;
             Log.e(LOG_TAG, "There was an error during video playback.");
             return true;
         }
     };
-
 
     public MediaVideoView(final Context context) {
         super(context);
@@ -247,33 +176,36 @@ public class MediaVideoView extends VideoView {
         return true;
     }
 
+    public void setVideoURI(Uri _videoURI) {
+        uri = _videoURI;
+        openVideo();
+        requestLayout();
+        invalidate();
+    }
+
+    public void setVideoPath(String path) {
+        LogUtil.v("Setting video path to: " + path);
+        setVideoURI(Uri.parse(path));
+    }
 
     @Override
     public int getBufferPercentage() {
         return currentBufferPercentage;
     }
 
+    public void setOnPreparedListener(OnPreparedListener onPreparedListener) {
+        this.mOnPreparedListener = onPreparedListener;
+    }
+
+    public void attachMediaControls() {
+        setControls(new SlideVideoControls(mContext));
+    }
 
     public void initVideoView() {
         LogUtil.v("Initializing video view.");
         setAlpha(0);
+        setHandleAudioFocus(false);
         setFocusable(false);
-
-        if (Build.VERSION.SDK_INT >= 26) {
-            ActivityManager am =
-                    (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-
-            // Only seek to seek-points if low ram device, otherwise seek to frame
-            if (am.isLowRamDevice()) {
-                LogUtil.d("MediaVideoView: using SEEK_CLOSEST_SYNC (low ram device)");
-                mSeekMode = MediaPlayer.SEEK_CLOSEST_SYNC;
-            } else {
-                LogUtil.d("MediaVideoView: using SEEK_CLOSEST");
-                mSeekMode = MediaPlayer.SEEK_CLOSEST;
-            }
-        } else {
-            LogUtil.d("MediaVideoView: using SEEK_PREVIOUS_SYNC (API<26)");
-        }
     }
 
     public void openVideo() {
@@ -286,7 +218,7 @@ public class MediaVideoView extends VideoView {
         // Tell the music playback service to pause
 
         try {
-            setHandleAudioFocus(false);
+
             attachMediaControls();
             setOnBufferUpdateListener(bufferingUpdateListener);
             setOnPreparedListener(preparedListener);
@@ -299,24 +231,23 @@ public class MediaVideoView extends VideoView {
             });
             setKeepScreenOn(true);
             setOnVideoSizedChangedListener(videoSizeChangedListener);
-            if(dashURL == null) {
+            if (dashURL == null) {
                 setVideoURI(uri, null);
             } else {
-                DataSource.Factory dataSourceFactory = new CacheDataSourceFactory(getContext(), 100 * 1024 * 1024, 5 * 1024 * 1024);
-                DashMediaSource video = new DashMediaSource(Uri.parse(dashURL.toString()), dataSourceFactory, new DefaultDashChunkSource.Factory(dataSourceFactory), null, null);
+                DataSource.Factory dataSourceFactory =
+                        new CacheDataSourceFactory(getContext(), 100 * 1024 * 1024,
+                                5 * 1024 * 1024);
+                DashMediaSource video =
+                        new DashMediaSource(Uri.parse(dashURL.toString()), dataSourceFactory,
+                                new DefaultDashChunkSource.Factory(dataSourceFactory), null, null);
                 setVideoURI(uri, video);
             }
+            audioFocusHelper.abandonFocus();
+
             LogUtil.v("Preparing media player.");
-            currentState = STATE_PREPARING;
         } catch (IllegalStateException e) {
-            currentState = STATE_ERROR;
-            targetState = STATE_ERROR;
             e.printStackTrace();
         }
-    }
-
-    public void attachMediaControls() {
-        setControls(new SlideVideoControls(mContext));
     }
 
     public int resolveAdjustedSize(int desiredSize, int measureSpec) {
@@ -353,26 +284,8 @@ public class MediaVideoView extends VideoView {
         openVideo();
     }
 
-    public void setOnPreparedListener(OnPreparedListener onPreparedListener) {
-        this.mOnPreparedListener = onPreparedListener;
-    }
-
-    URL dashURL;
-
     public void setVideoDASH(URL url) {
         dashURL = url;
-        openVideo();
-        requestLayout();
-        invalidate();
-    }
-
-    public void setVideoPath(String path) {
-        LogUtil.v("Setting video path to: " + path);
-        setVideoURI(Uri.parse(path));
-    }
-
-    public void setVideoURI(Uri _videoURI) {
-        uri = _videoURI;
         openVideo();
         requestLayout();
         invalidate();
@@ -383,6 +296,75 @@ public class MediaVideoView extends VideoView {
             getVideoControls().hide();
         } else {
             getVideoControls().show();
+        }
+    }
+}
+
+class CacheDataSourceFactory implements DataSource.Factory {
+    private final Context                  context;
+    private final DefaultDataSourceFactory defaultDatasourceFactory;
+    private final long                     maxFileSize, maxCacheSize;
+
+    @Override
+    public DataSource createDataSource() {
+        LeastRecentlyUsedCacheEvictor evictor = new LeastRecentlyUsedCacheEvictor(maxCacheSize);
+        SimpleCache simpleCache =
+                new SimpleCache(new File(context.getCacheDir(), "media"), evictor);
+        return new CacheDataSource(simpleCache, defaultDatasourceFactory.createDataSource(),
+                new FileDataSource(), new CacheDataSink(simpleCache, maxFileSize),
+                CacheDataSource.FLAG_BLOCK_ON_CACHE | CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR,
+                null);
+    }
+
+    CacheDataSourceFactory(Context context, long maxCacheSize, long maxFileSize) {
+        super();
+        this.context = context;
+        this.maxCacheSize = maxCacheSize;
+        this.maxFileSize = maxFileSize;
+        String userAgent = Util.getUserAgent(context, context.getString(R.string.app_name));
+        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        defaultDatasourceFactory = new DefaultDataSourceFactory(this.context, bandwidthMeter,
+                new DefaultHttpDataSourceFactory(userAgent, bandwidthMeter));
+    }
+}
+
+class FadeInAnimation extends AnimationSet {
+    private View    animationView;
+    private boolean toVisible;
+
+    public FadeInAnimation(View view, boolean toVisible, long duration) {
+        super(false);
+        this.toVisible = toVisible;
+        this.animationView = view;
+
+        //Creates the Alpha animation for the transition
+        float startAlpha = toVisible ? 0 : 1;
+        float endAlpha = toVisible ? 1 : 0;
+
+        AlphaAnimation alphaAnimation = new AlphaAnimation(startAlpha, endAlpha);
+        alphaAnimation.setDuration(duration);
+
+
+        addAnimation(alphaAnimation);
+
+        setAnimationListener(new FadeInAnimation.Listener());
+    }
+
+    private class Listener implements AnimationListener {
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+            animationView.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            animationView.setVisibility(toVisible ? View.VISIBLE : View.GONE);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+            //Purposefully left blank
         }
     }
 }
@@ -412,11 +394,6 @@ class SlideVideoControls extends VideoControls {
     }
 
     @Override
-    protected int getLayoutResource() {
-        return R.layout.media_controls;
-    }
-
-    @Override
     public void setPosition(@IntRange(from = 0) long position) {
         currentTimeTextView.setText(TimeFormatUtil.formatMs(position));
         seekBar.setProgress((int) position);
@@ -441,65 +418,8 @@ class SlideVideoControls extends VideoControls {
     }
 
     @Override
-    protected void retrieveViews() {
-        super.retrieveViews();
-        seekBar = findViewById(com.devbrackets.android.exomedia.R.id.exomedia_controls_video_seek);
-        extraViewsContainer = findViewById(
-                com.devbrackets.android.exomedia.R.id.exomedia_controls_extra_container);
-    }
-
-    @Override
-    protected void registerListeners() {
-        super.registerListeners();
-        seekBar.setOnSeekBarChangeListener(new SlideVideoControls.SeekBarChanged());
-    }
-
-    @Override
-    public void addExtraView(@NonNull View view) {
-        extraViewsContainer.addView(view);
-    }
-
-    @Override
-    public void removeExtraView(@NonNull View view) {
-        extraViewsContainer.removeView(view);
-    }
-
-    @NonNull
-    @Override
-    public List<View> getExtraViews() {
-        int childCount = extraViewsContainer.getChildCount();
-        if (childCount <= 0) {
-            return super.getExtraViews();
-        }
-
-        //Retrieves the layouts children
-        List<View> children = new LinkedList<>();
-        for (int i = 0; i < childCount; i++) {
-            children.add(extraViewsContainer.getChildAt(i));
-        }
-
-        return children;
-    }
-
-    @Override
-    public void hideDelayed(long delay) {
-        hideDelay = delay;
-
-        LogUtil.v("Hiding delayed");
-
-        if (delay < 0 || !canViewHide || isLoading ) {
-            return;
-        }
-
-        //If the user is interacting with controls we don't want to start the delayed hide yet
-        if (!userInteracting) {
-            visibilityHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    animateVisibility(false);
-                }
-            }, delay);
-        }
+    protected int getLayoutResource() {
+        return R.layout.media_controls;
     }
 
     @Override
@@ -514,9 +434,8 @@ class SlideVideoControls extends VideoControls {
         }
 
         if (!isLoading) {
-            controlsContainer.startAnimation(
-                    new FadeInAnimation(controlsContainer, toVisible,
-                            CONTROL_VISIBILITY_ANIMATION_LENGTH));
+            controlsContainer.startAnimation(new FadeInAnimation(controlsContainer, toVisible,
+                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
         }
 
         isVisible = toVisible;
@@ -532,13 +451,13 @@ class SlideVideoControls extends VideoControls {
         boolean emptyText = isTextContainerEmpty();
         if (hideEmptyTextContainer && emptyText && textContainer.getVisibility() == VISIBLE) {
             textContainer.clearAnimation();
-            textContainer.startAnimation(new FadeInAnimation(textContainer, false,
-                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
+            textContainer.startAnimation(
+                    new FadeInAnimation(textContainer, false, CONTROL_VISIBILITY_ANIMATION_LENGTH));
         } else if ((!hideEmptyTextContainer || !emptyText)
                 && textContainer.getVisibility() != VISIBLE) {
             textContainer.clearAnimation();
-            textContainer.startAnimation(new FadeInAnimation(textContainer, true,
-                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
+            textContainer.startAnimation(
+                    new FadeInAnimation(textContainer, true, CONTROL_VISIBILITY_ANIMATION_LENGTH));
         }
     }
 
@@ -569,31 +488,92 @@ class SlideVideoControls extends VideoControls {
         isLoading = false;
         loadingProgressBar.setVisibility(View.GONE);
 
-
         playPauseButton.setEnabled(true);
         previousButton.setEnabled(true);
         nextButton.setEnabled(true);
-
         updatePlaybackState(true);
         hide();
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                controlsContainer.setVisibility(View.VISIBLE);
-            }
-        }, 600);
     }
 
     @Override
     public void updatePlaybackState(boolean isPlaying) {
         updatePlayPauseImage(isPlaying);
         progressPollRepeater.start();
+    }
 
-        if (isPlaying) {
-        } else {
-            show();
+    @Override
+    public void addExtraView(@NonNull View view) {
+        extraViewsContainer.addView(view);
+    }
+
+    @Override
+    public void removeExtraView(@NonNull View view) {
+        extraViewsContainer.removeView(view);
+    }
+
+    @NonNull
+    @Override
+    public List<View> getExtraViews() {
+        int childCount = extraViewsContainer.getChildCount();
+        if (childCount <= 0) {
+            return super.getExtraViews();
         }
+
+        //Retrieves the layouts children
+        List<View> children = new LinkedList<>();
+        for (int i = 0; i < childCount; i++) {
+            children.add(extraViewsContainer.getChildAt(i));
+        }
+
+        return children;
+    }
+
+    @Override
+    public void show() {
+        controlsContainer.setVisibility(View.VISIBLE);
+        super.show();
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        controlsContainer.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void hideDelayed(long delay) {
+        hideDelay = delay;
+
+        LogUtil.v("Hiding delayed");
+
+        if (delay < 0 || !canViewHide || isLoading) {
+            return;
+        }
+
+        //If the user is interacting with controls we don't want to start the delayed hide yet
+        if (!userInteracting) {
+            visibilityHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    animateVisibility(false);
+                }
+            }, delay);
+        }
+    }
+
+    @Override
+    protected void retrieveViews() {
+        super.retrieveViews();
+        seekBar = findViewById(com.devbrackets.android.exomedia.R.id.exomedia_controls_video_seek);
+        extraViewsContainer = findViewById(
+                com.devbrackets.android.exomedia.R.id.exomedia_controls_extra_container);
+    }
+
+    @Override
+    protected void registerListeners() {
+        super.registerListeners();
+        seekBar.setOnSeekBarChangeListener(new SlideVideoControls.SeekBarChanged());
     }
 
     /**
@@ -628,74 +608,6 @@ class SlideVideoControls extends VideoControls {
             if (seekListener == null || !seekListener.onSeekEnded(seekToTime)) {
                 internalListener.onSeekEnded(seekToTime);
             }
-        }
-    }
-}
-
-class CacheDataSourceFactory implements DataSource.Factory {
-    private final Context context;
-    private final DefaultDataSourceFactory defaultDatasourceFactory;
-    private final long maxFileSize, maxCacheSize;
-
-    CacheDataSourceFactory(Context context, long maxCacheSize, long maxFileSize) {
-        super();
-        this.context = context;
-        this.maxCacheSize = maxCacheSize;
-        this.maxFileSize = maxFileSize;
-        String userAgent = Util.getUserAgent(context, context.getString(R.string.app_name));
-        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        defaultDatasourceFactory = new DefaultDataSourceFactory(this.context,
-                bandwidthMeter,
-                new DefaultHttpDataSourceFactory(userAgent, bandwidthMeter));
-    }
-
-    @Override
-    public DataSource createDataSource() {
-        LeastRecentlyUsedCacheEvictor evictor = new LeastRecentlyUsedCacheEvictor(maxCacheSize);
-        SimpleCache simpleCache = new SimpleCache(new File(context.getCacheDir(), "media"), evictor);
-        return new CacheDataSource(simpleCache, defaultDatasourceFactory.createDataSource(),
-                new FileDataSource(), new CacheDataSink(simpleCache, maxFileSize),
-                CacheDataSource.FLAG_BLOCK_ON_CACHE | CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR, null);
-    }
-}
-
-class FadeInAnimation extends AnimationSet {
-    private View animationView;
-    private boolean toVisible;
-
-    public FadeInAnimation(View view, boolean toVisible, long duration) {
-        super(false);
-        this.toVisible = toVisible;
-        this.animationView = view;
-
-        //Creates the Alpha animation for the transition
-        float startAlpha = toVisible ? 0 : 1;
-        float endAlpha = toVisible ? 1 : 0;
-
-        AlphaAnimation alphaAnimation = new AlphaAnimation(startAlpha, endAlpha) ;
-        alphaAnimation.setDuration(duration);
-
-
-        addAnimation(alphaAnimation);
-
-        setAnimationListener(new FadeInAnimation.Listener());
-    }
-
-    private class Listener implements AnimationListener {
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-            animationView.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            animationView.setVisibility(toVisible ? View.VISIBLE : View.GONE);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-            //Purposefully left blank
         }
     }
 }

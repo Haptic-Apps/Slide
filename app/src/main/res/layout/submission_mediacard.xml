@@ -36,7 +36,7 @@
                 android:id="@+id/placeholder"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#000000" />
+                android:background="#00000000" />
 
             <ProgressBar
                 android:id="@+id/gifprogress"
