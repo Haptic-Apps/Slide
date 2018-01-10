@@ -42,7 +42,7 @@ public class SubmissionComments {
     private final String fullName;
     private final CommentPage page;
     public ArrayList<CommentObject> comments;
-    public HashMap<Integer, String> commentOPs;
+    public HashMap<String, String> commentOPs;
     public Submission submission;
     private String context;
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
@@ -255,14 +255,12 @@ public class SubmissionComments {
                 Map<Integer, MoreChildItem> waiting = new HashMap<>();
                 commentOPs = new HashMap<>();
                 String currentOP = "";
-                int currentIndex = 0;
 
                 for (CommentNode n : baseComment.walkTree()) {
                     if(n.getDepth() == 1){
                         currentOP = n.getComment().getAuthor();
                     }
-                    commentOPs.put(currentIndex, currentOP);
-                    currentIndex += 1;
+                    commentOPs.put(n.getComment().getId(), currentOP);
                     CommentObject obj = new CommentItem(n);
                     List<Integer> removed = new ArrayList<>();
                     Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());

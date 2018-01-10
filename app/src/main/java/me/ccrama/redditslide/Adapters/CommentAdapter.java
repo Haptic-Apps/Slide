@@ -460,7 +460,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.dot.setLayoutParams(params2);
             if (baseNode.getDepth() - 1 > 0) {
                 int i22 = baseNode.getDepth() - 2;
-                if(SettingValues.highlightCommentOP && dataSet.commentOPs.get(datasetPosition) != null && comment != null && dataSet.commentOPs.get(datasetPosition).equals(comment.getAuthor())){
+                String commentOp = dataSet.commentOPs.get(comment.getId());
+                if(SettingValues.highlightCommentOP && commentOp != null && comment != null && commentOp.equals(comment.getAuthor())){
                     holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
                              R.color.md_purple_500));
 

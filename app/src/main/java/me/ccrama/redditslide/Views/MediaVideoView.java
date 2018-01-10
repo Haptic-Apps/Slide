@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +18,8 @@ import android.view.animation.AnimationSet;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
+import com.devbrackets.android.exomedia.ExoMedia;
+import com.devbrackets.android.exomedia.core.video.exo.ExoSurfaceVideoView;
 import com.devbrackets.android.exomedia.listener.OnBufferUpdateListener;
 import com.devbrackets.android.exomedia.listener.OnCompletionListener;
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
@@ -25,20 +28,38 @@ import com.devbrackets.android.exomedia.listener.OnVideoSizeChangedListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoControls;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.devbrackets.android.exomedia.util.TimeFormatUtil;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.LoopingMediaSource;
+import com.google.android.exoplayer2.source.SingleSampleMediaSource;
+import com.google.android.exoplayer2.source.TrackGroup;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.upstream.AssetDataSource;
+import com.google.android.exoplayer2.upstream.ContentDataSource;
 import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.FileDataSource;
+import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSink;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,7 +80,7 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class MediaVideoView extends VideoView {
 
-    private static final String LOG_TAG         = "VideoView";
+    private static final String LOG_TAG = "VideoView";
     public int number;
     OnPreparedListener mOnPreparedListener;
     URL                dashURL;
@@ -223,20 +244,16 @@ public class MediaVideoView extends VideoView {
             setOnBufferUpdateListener(bufferingUpdateListener);
             setOnPreparedListener(preparedListener);
             setOnErrorListener(errorListener);
-            setOnCompletionListener(new OnCompletionListener() {
-                @Override
-                public void onCompletion() {
-                    restart();
-                }
-            });
             setKeepScreenOn(true);
             setOnVideoSizedChangedListener(videoSizeChangedListener);
+
+            DataSource.Factory dataSourceFactory =
+                    new CacheDataSourceFactory(getContext(), 100 * 1024 * 1024, 5 * 1024 * 1024);
+
             if (dashURL == null) {
                 setVideoURI(uri, null);
             } else {
-                DataSource.Factory dataSourceFactory =
-                        new CacheDataSourceFactory(getContext(), 100 * 1024 * 1024,
-                                5 * 1024 * 1024);
+
                 DashMediaSource video =
                         new DashMediaSource(Uri.parse(dashURL.toString()), dataSourceFactory,
                                 new DefaultDashChunkSource.Factory(dataSourceFactory), null, null);
@@ -429,13 +446,12 @@ class SlideVideoControls extends VideoControls {
         }
 
         if (!hideEmptyTextContainer || !isTextContainerEmpty()) {
-            textContainer.startAnimation(new FadeInAnimation(textContainer, toVisible,
-                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
+            textContainer.startAnimation(new FadeInAnimation(textContainer, toVisible, 100));
         }
 
         if (!isLoading) {
-            controlsContainer.startAnimation(new FadeInAnimation(controlsContainer, toVisible,
-                    CONTROL_VISIBILITY_ANIMATION_LENGTH));
+            controlsContainer.startAnimation(
+                    new FadeInAnimation(controlsContainer, toVisible, 100));
         }
 
         isVisible = toVisible;
