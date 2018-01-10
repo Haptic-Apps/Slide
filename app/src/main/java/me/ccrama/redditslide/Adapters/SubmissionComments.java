@@ -42,7 +42,7 @@ public class SubmissionComments {
     private final String fullName;
     private final CommentPage page;
     public ArrayList<CommentObject> comments;
-    public HashMap<String, String> commentOPs;
+    public HashMap<String, String> commentOPs = new HashMap<>();
     public Submission submission;
     private String context;
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
