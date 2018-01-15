@@ -70,6 +70,18 @@ public class SettingsComments extends BaseActivityAnim {
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.colored_time);
+            single.setChecked(SettingValues.highlightTime);
+            single.setEnabled(SettingValues.commentLastVisit);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.highlightTime = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIGHLIGHT_TIME, isChecked).apply();
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.gestures);
             single.setChecked(SettingValues.voteGestures);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

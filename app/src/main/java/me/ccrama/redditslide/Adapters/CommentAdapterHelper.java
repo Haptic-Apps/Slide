@@ -44,6 +44,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.rey.material.util.ColorUtil;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
@@ -70,6 +71,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
@@ -1171,8 +1173,22 @@ public class CommentAdapterHelper {
         titleString.append((comment.isControversial() ? " †" : ""));
 
         titleString.append(spacer);
-        String timeAgo = TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext);
-        titleString.append((timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo);
+
+        Long time = comment.getCreated().getTime();
+        String timeAgo = TimeUtils.getTimeAgo(time, mContext);
+
+        SpannableStringBuilder timeSpan = new SpannableStringBuilder().append((timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo);
+
+        if(SettingValues.highlightTime && adapter.lastSeen != 0
+                && adapter.lastSeen < time
+                && !adapter.dataSet.single
+                && SettingValues.commentLastVisit){
+            timeSpan.setSpan(
+                    new RoundedBackgroundSpan( Color.WHITE, Palette.getColor(comment.getSubredditName()), false, mContext),
+                    0, timeSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        }
+        titleString.append(timeSpan);
 
         titleString.append(((comment.getEditDate() != null) ? " (edit " + TimeUtils.getTimeAgo(
                 comment.getEditDate().getTime(), mContext) + ")" : ""));

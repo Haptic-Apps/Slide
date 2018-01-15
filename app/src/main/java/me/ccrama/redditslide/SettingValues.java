@@ -88,6 +88,7 @@ public class SettingValues {
     public static final String PREF_HIDE_NSFW_PREVIEW         = "hideNSFWPreviews";
     public static final String PREF_HIDE_NSFW_COLLECTION      = "hideNSFWPreviewsCollection";
     public static final String PREF_IGNORE_SUB_SETTINGS       = "ignoreSub";
+    public static final String PREF_HIGHLIGHT_TIME            = "highlightTime";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
@@ -112,8 +113,8 @@ public class SettingValues {
     public static final String PREF_PEEK                   = "peek";
     public static final String PREF_LARGE_LINKS            = "largeLinks";
     public static final String PREF_LARGE_DEPTH            = "largeDepth";
-    public static final String PREF_TITLE_TOP            = "titleTop";
-    public static final String PREF_HIGHLIGHT_COMMENT_OP            = "commentOP";
+    public static final String PREF_TITLE_TOP              = "titleTop";
+    public static final String PREF_HIGHLIGHT_COMMENT_OP   = "commentOP";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -229,6 +230,7 @@ public class SettingValues {
     public static boolean peek;
     public static boolean largeLinks;
     public static boolean highlightCommentOP;
+    public static boolean highlightTime;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -276,6 +278,9 @@ public class SettingValues {
             subredditSearchMethod = 1;
             prefs.edit().putInt(PREF_SUBREDDIT_SEARCH_METHOD, 1).apply();
         }
+
+        highlightTime = prefs.getBoolean(PREF_HIGHLIGHT_TIME, true);
+
         nightMode = prefs.getBoolean(PREF_NIGHT_MODE, false);
         nightTheme = prefs.getInt(PREF_NIGHT_THEME, 0);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
