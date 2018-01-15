@@ -240,6 +240,11 @@ public class OpenRedditLink {
             return "";
         }
 
+
+        if(url.contains("amp.reddit.com")){
+            url = url.substring(url.indexOf("amp.reddit.com") + 14, url.length());
+        }
+
         // Strip unused prefixes that don't require special handling
         url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay|amp)\\.)?", "");
 

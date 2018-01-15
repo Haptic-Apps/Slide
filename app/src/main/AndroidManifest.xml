@@ -459,6 +459,10 @@
                         android:pathPattern=".*"
                         android:scheme="https"/>
                 <data
+                        android:host="amp.reddit.com"
+                        android:pathPattern=".*"
+                        android:scheme="https"/>
+                <data
                         android:host="*reddit.com"
                         android:pathPattern=".*"
                         android:scheme="http"/>
@@ -466,6 +470,8 @@
                         android:host="redd.it"
                         android:pathPattern=".*"
                         android:scheme="https"/>
+
+
                 <data
                         android:host="redd.it"
                         android:pathPattern=".*"
@@ -473,6 +479,12 @@
                 <data android:scheme="https"/>
                 <data android:host="*reddit.com"/>
                 <data android:host="redd.it"/>
+                <data android:host="amp.reddit.com"/>
+                <data
+                        android:host="www.google.com"
+                        android:pathPrefix="/amp/s/amp.reddit.com"
+                        android:scheme="https"/>
+
             </intent-filter>
         </activity>
         <activity
