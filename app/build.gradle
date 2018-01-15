@@ -130,10 +130,6 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.8.1@aar') {
         transitive = true
     }
-    compile('com.devbrackets.android:exomedia:4.1.0'){
-        exclude module: 'design'
-        exclude module: 'appcompat-v7'
-    }
 
 
     testCompile 'junit:junit:4.12'
