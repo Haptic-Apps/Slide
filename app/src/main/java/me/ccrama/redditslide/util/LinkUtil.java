@@ -239,4 +239,13 @@ public class LinkUtil {
         }
         return mCustomTabsSession;
     }
+
+    public static void copyUrl(String url, Context context) {
+        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        ClipboardManager clipboard =
+                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Link", url);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+    }
 }

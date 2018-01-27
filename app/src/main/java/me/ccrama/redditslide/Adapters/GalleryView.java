@@ -1,8 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -17,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
 
@@ -177,11 +173,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         Reddit.defaultShareText("", submission.getUrl(), main);
                                         break;
                                     case R.id.copy_link:
-                                        ClipboardManager clipboard = (ClipboardManager) main.getSystemService(Context.CLIPBOARD_SERVICE);
-                                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                        clipboard.setPrimaryClip(clip);
-
-                                        Toast.makeText(main, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+                                        LinkUtil.copyUrl(submission.getUrl(), main);
                                         break;
                                 }
                             }
