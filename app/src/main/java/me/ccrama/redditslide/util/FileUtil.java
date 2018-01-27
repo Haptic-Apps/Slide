@@ -21,7 +21,7 @@ public class FileUtil {
      * application
      */
     public static Intent getFileIntent(File file, Intent intent, Context context) {
-        String packageName = context.getApplicationContext().getPackageName() + ".MediaView";
+        String packageName = context.getApplicationContext().getPackageName() + ".provider";
 
         Uri selectedUri = FileProvider.getUriForFile(context, packageName, file);
 
