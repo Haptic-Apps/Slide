@@ -61,91 +61,55 @@ public class LinkUtil {
     }
 
     /**
-     * Opens the {@code url} using the method the user has set in their preferences (custom tabs,
-     * internal, external) falling back as needed
-     * @param url URL to open
-     * @param color Color to provide to the browser UI if applicable
+     * Attempts to open the {@code url} in a custom tab. If no custom tab activity can be found,
+     * falls back to opening externally
+     *
+     * @param url             URL to open
+     * @param color           Color to provide to the browser UI if applicable
      * @param contextActivity The current activity
+     * @param packageName     The package name recommended to use for connecting to custom tabs
+     *                        related components.
      */
-    public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
-        if (!SettingValues.web) {
-            // External browser
-            LinkUtil.openExternally(url, contextActivity);
-            return;
-        }
+    public static void openCustomTab(@NonNull String url, int color,
+            @NonNull Activity contextActivity, @NonNull String packageName) {
+        Intent intent = new Intent(contextActivity, MakeExternal.class);
+        intent.putExtra(Website.EXTRA_URL, url);
+        PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
 
-        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
+        CustomTabsIntent.Builder builder =
+                new CustomTabsIntent.Builder(getSession()).setToolbarColor(color)
+                        .setShowTitle(true)
+                        .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
+                        .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
+                        .addDefaultShareMenuItem()
+                        .addMenuItem(contextActivity.getString(R.string.open_links_externally),
+                                pendingIntent)
+                        .setCloseButtonIcon(drawableToBitmap(
+                                ContextCompat.getDrawable(contextActivity,
+                                        R.drawable.ic_arrow_back_white_24dp)));
+        try {
+            CustomTabsIntent customTabsIntent = builder.build();
 
-        if (packageName != null) {
-            Intent intent = new Intent(contextActivity, MakeExternal.class);
-            intent.putExtra(Website.EXTRA_URL, url);
-            PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
-
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
-                    .setToolbarColor(color)
-                    .setShowTitle(true)
-                    .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
-                    .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
-                    .addDefaultShareMenuItem()
-                    .addMenuItem(contextActivity.getString(R.string.open_links_externally), pendingIntent)
-                    .setCloseButtonIcon(drawableToBitmap(ContextCompat.getDrawable(contextActivity, R.drawable.ic_arrow_back_white_24dp)));
-            try {
-                CustomTabsIntent customTabsIntent = builder.build();
-
-                customTabsIntent.intent.setPackage(packageName);
-                customTabsIntent.launchUrl(contextActivity, formatURL(url));
-            } catch (ActivityNotFoundException anfe) {
-                Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-                LinkUtil.openExternally(url, contextActivity);
-            }
-        } else {
-            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
-                //Reader mode
-                Intent i = new Intent(contextActivity, ReaderMode.class);
-                i.putExtra(ReaderMode.EXTRA_URL, url);
-                i.putExtra(ReaderMode.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
-            } else {
-                // Internal browser
-                Intent i = new Intent(contextActivity, Website.class);
-                i.putExtra(Website.EXTRA_URL, url);
-                i.putExtra(Website.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
-            }
+            customTabsIntent.intent.setPackage(packageName);
+            customTabsIntent.launchUrl(contextActivity,
+                    formatURL(StringEscapeUtils.unescapeHtml4(url)));
+        } catch (ActivityNotFoundException anfe) {
+            Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
+            openExternally(url, contextActivity);
         }
     }
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity, int adapterPosition, Submission submission) {
         if (!SettingValues.web) {
             // External browser
-            LinkUtil.openExternally(url, contextActivity);
+            openExternally(url, contextActivity);
             return;
         }
 
         String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
         if (packageName != null) {
-            Intent intent = new Intent(contextActivity, MakeExternal.class);
-            intent.putExtra(Website.EXTRA_URL, url);
-            PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
-
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
-                    .setToolbarColor(color)
-                    .setShowTitle(true)
-                    .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
-                    .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
-                    .addDefaultShareMenuItem()
-                    .addMenuItem(contextActivity.getString(R.string.open_links_externally), pendingIntent)
-                    .setCloseButtonIcon(drawableToBitmap(ContextCompat.getDrawable(contextActivity, R.drawable.ic_arrow_back_white_24dp)));
-            try {
-                CustomTabsIntent customTabsIntent = builder.build();
-
-                customTabsIntent.intent.setPackage(packageName);
-                customTabsIntent.launchUrl(contextActivity, formatURL(url));
-            } catch (ActivityNotFoundException anfe) {
-                Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-                LinkUtil.openExternally(url, contextActivity);
-            }
+            openCustomTab(url, color, contextActivity, packageName);
         } else {
             if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
                 //Reader mode
@@ -192,6 +156,41 @@ public class LinkUtil {
             toReturn = uri;
         }
         return toReturn;
+    }
+
+    /**
+     * Opens the {@code url} using the method the user has set in their preferences (custom tabs,
+     * internal, external) falling back as needed
+     * @param url URL to open
+     * @param color Color to provide to the browser UI if applicable
+     * @param contextActivity The current activity
+     */
+    public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
+        if (!SettingValues.web) {
+            // External browser
+            openExternally(url, contextActivity);
+            return;
+        }
+
+        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
+
+        if (packageName != null) {
+            openCustomTab(url, color, contextActivity, packageName);
+        } else {
+            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
+                //Reader mode
+                Intent i = new Intent(contextActivity, ReaderMode.class);
+                i.putExtra(ReaderMode.EXTRA_URL, url);
+                i.putExtra(ReaderMode.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+            } else {
+                // Internal browser
+                Intent i = new Intent(contextActivity, Website.class);
+                i.putExtra(Website.EXTRA_URL, url);
+                i.putExtra(Website.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+            }
+        }
     }
 
     /**
