@@ -20,9 +20,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -73,6 +73,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -383,14 +384,13 @@ public class MediaView extends FullScreenActivity
                                 new String[]{f.getAbsolutePath()}, null,
                                 new MediaScannerConnection.OnScanCompletedListener() {
                                     public void onScanCompleted(String path, Uri uri) {
-                                        Intent mediaScanIntent =
-                                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                        Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
-                                        mediaScanIntent.setData(contentUri);
+                                        Intent mediaScanIntent = FileUtil.getFileIntent(f,
+                                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE),
+                                                MediaView.this);
                                         MediaView.this.sendBroadcast(mediaScanIntent);
 
                                         final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                                        shareIntent.setDataAndType(contentUri, "image/gif");
+                                        shareIntent.setType("image/gif");
                                         PendingIntent contentIntent =
                                                 PendingIntent.getActivity(MediaView.this, 0,
                                                         shareIntent,
@@ -472,14 +472,13 @@ public class MediaView extends FullScreenActivity
                                 new String[]{f.getAbsolutePath()}, null,
                                 new MediaScannerConnection.OnScanCompletedListener() {
                                     public void onScanCompleted(String path, Uri uri) {
-                                        Intent mediaScanIntent =
-                                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                        Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
-                                        mediaScanIntent.setData(contentUri);
+                                        Intent mediaScanIntent = FileUtil.getFileIntent(f,
+                                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE),
+                                                MediaView.this);
                                         MediaView.this.sendBroadcast(mediaScanIntent);
 
                                         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                        shareIntent.setDataAndType(contentUri, "image/gif");
+                                        shareIntent.setType("image/gif");
                                         startActivity(
                                                 Intent.createChooser(shareIntent, "Share GIF"));
                                         NotificationManager mNotificationManager =
