@@ -20,9 +20,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -269,8 +269,8 @@ public class MediaView extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(StringEscapeUtils.unescapeHtml4(contentUrl),
-                                MediaView.this, true);
+                        LinkUtil.openExternally(contentUrl,
+                                MediaView.this);
                         break;
                     }
                     case (3): {

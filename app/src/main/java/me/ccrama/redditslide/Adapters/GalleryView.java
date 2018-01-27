@@ -171,7 +171,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case R.id.open_link:
-                                        LinkUtil.openExternally(submission.getUrl(), main, true);
+                                        LinkUtil.openExternally(submission.getUrl(), main);
                                         break;
                                     case R.id.share_link:
                                         Reddit.defaultShareText("", submission.getUrl(), main);
@@ -206,7 +206,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                     main.startActivity(myIntent);
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
                                 }
                                 break;
                             case IMGUR:
@@ -221,7 +221,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
                                 }
                                 break;
                             case REDDIT:
@@ -244,7 +244,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
 
                                 }
                                 break;
@@ -262,7 +262,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
 
                                 }
                                 break;
@@ -288,15 +288,15 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(sharingIntent);
 
                                     } catch (Exception e) {
-                                        Reddit.defaultShare(submission.getUrl(), main);
+                                        LinkUtil.openExternally(submission.getUrl(), main);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
                                 }
                                 break;
                         }
                     } else {
-                        Reddit.defaultShare(submission.getUrl(), main);
+                        LinkUtil.openExternally(submission.getUrl(), main);
                     }
                 }
             });

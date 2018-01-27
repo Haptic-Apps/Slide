@@ -3,6 +3,8 @@ package me.ccrama.redditslide.util;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,17 +23,17 @@ import android.support.customtabs.CustomTabsSession;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.dean.jraw.models.Submission;
 
-import java.util.Set;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.ReaderMode;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 
@@ -68,7 +70,7 @@ public class LinkUtil {
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
         if (!SettingValues.web) {
             // External browser
-            Reddit.defaultShare(url, contextActivity);
+            LinkUtil.openExternally(url, contextActivity);
             return;
         }
 
@@ -94,7 +96,7 @@ public class LinkUtil {
                 customTabsIntent.launchUrl(contextActivity, formatURL(url));
             } catch (ActivityNotFoundException anfe) {
                 Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-                Reddit.defaultShare(url, contextActivity);
+                LinkUtil.openExternally(url, contextActivity);
             }
         } else {
             if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
@@ -116,7 +118,7 @@ public class LinkUtil {
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity, int adapterPosition, Submission submission) {
         if (!SettingValues.web) {
             // External browser
-            Reddit.defaultShare(url, contextActivity);
+            LinkUtil.openExternally(url, contextActivity);
             return;
         }
 
@@ -142,7 +144,7 @@ public class LinkUtil {
                 customTabsIntent.launchUrl(contextActivity, formatURL(url));
             } catch (ActivityNotFoundException anfe) {
                 Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-                Reddit.defaultShare(url, contextActivity);
+                LinkUtil.openExternally(url, contextActivity);
             }
         } else {
             if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
@@ -193,25 +195,15 @@ public class LinkUtil {
     }
 
     /**
-     * Opens the {@code url} externally or shows an application chooser if it is set to open in this
-     * application
-     * @param url URL to open
-     * @param context Current context
-     * @param encoded If the URL is HTML encoded (e.g. includes {@code &amp;amp;})
-     */
-    public static void openExternally(String url, Context context, Boolean encoded) {
-        if (encoded) url = Html.fromHtml(url).toString();
-        Uri uri = formatURL(url);
-        openExternally(uri, context);
-    }
-
-    /**
      * Opens the {@code uri} externally or shows an application chooser if it is set to open in this
      * application
      * @param uri URI to open
      * @param context Current context
      */
-    public static void openExternally(Uri uri, Context context) {
+    public static void openExternally(String url, Context context) {
+        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        Uri uri = formatURL(url);
+
         final String id = BuildConfig.APPLICATION_ID;
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         final PackageManager packageManager = context.getPackageManager();

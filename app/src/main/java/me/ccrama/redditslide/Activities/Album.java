@@ -1,15 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -53,6 +47,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.util.LinkUtil;
 
 /**
  * Created by ccrama on 3/5/2015. <p/> This class is responsible for accessing the Imgur api to get
@@ -104,7 +99,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             finish();
         }
         if (id == R.id.external) {
-            Reddit.defaultShare(url, this);
+            LinkUtil.openExternally(url, this);
         }
         if (id == R.id.download) {
             for (final Image elem : images) {

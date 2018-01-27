@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import java.net.MalformedURLException;
 import java.util.Arrays;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
@@ -38,7 +37,7 @@ public class OpenRedditLink {
         LogUtil.v("Link is " + url);
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
-            LinkUtil.openExternally(oldUrl, context, false);
+            LinkUtil.openExternally(oldUrl, context);
             return false;
         } else if (url.startsWith("np")) {
             np = true;

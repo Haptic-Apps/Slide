@@ -6,11 +6,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.URLSpan;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +30,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -187,7 +182,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                         main.startActivity(myIntent);
                     } else {
-                        Reddit.defaultShare(user.getImageUrl(), main);
+                        LinkUtil.openExternally(user.getImageUrl(), main);
                     }
                 }
             };

@@ -44,7 +44,6 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
-import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -125,7 +124,7 @@ public class AlbumPager extends FullScreenActivity
             mToolbar.findViewById(R.id.grid).callOnClick();
         }
         if (id == R.id.external) {
-            Reddit.defaultShare(getIntent().getExtras().getString("url", ""), this);
+            LinkUtil.openExternally(getIntent().getExtras().getString("url", ""), this);
         }
 
         if (id == R.id.comments) {
@@ -469,7 +468,7 @@ public class AlbumPager extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(contentUrl, AlbumPager.this, false);
+                        LinkUtil.openExternally(contentUrl, AlbumPager.this);
                     }
                     break;
                     case (3): {

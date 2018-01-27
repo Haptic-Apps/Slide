@@ -335,13 +335,13 @@ public class MediaFragment extends Fragment {
                                 contextActivity.startActivity(myIntent);
 
                             } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
                             }
 
                         case EMBEDDED:
 
                             if (SettingValues.video) {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                 String data = submission.getDataNode()
                                         .get("media_embed")
                                         .get("content")
@@ -352,7 +352,7 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(i);
                                 }
                             } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
                             }
                             break;
                         case REDDIT:
@@ -385,7 +385,7 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(i);
                                 }
                             } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
                             }
                             break;
                         case TUMBLR:
@@ -403,7 +403,7 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(i);
                                 }
                             } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
                             }
                             break;
                         case DEVIANTART:
@@ -428,10 +428,10 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(sharingIntent);
 
                                 } catch (Exception e) {
-                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                    LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                 }
                             } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
                             }
                     }
                 }

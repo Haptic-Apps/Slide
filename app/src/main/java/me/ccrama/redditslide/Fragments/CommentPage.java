@@ -784,7 +784,7 @@ public class CommentPage extends Fragment {
                                             getActivity().startActivity(myIntent);
 
                                         } else {
-                                            Reddit.defaultShare(adapter.submission.getUrl(),
+                                            LinkUtil.openExternally(adapter.submission.getUrl(),
                                                     getActivity());
                                         }
                                         break;
@@ -827,7 +827,7 @@ public class CommentPage extends Fragment {
                                                 getActivity().startActivity(i);
                                             }
                                         } else {
-                                            Reddit.defaultShare(adapter.submission.getUrl(),
+                                            LinkUtil.openExternally(adapter.submission.getUrl(),
                                                     getActivity());
                                         }
                                         break;
@@ -894,7 +894,7 @@ public class CommentPage extends Fragment {
                                                         R.anim.slideright, R.anim.fade_out);
                                             }
                                         } else {
-                                            Reddit.defaultShare(adapter.submission.getUrl(),
+                                            LinkUtil.openExternally(adapter.submission.getUrl(),
                                                     getActivity());
 
                                         }
@@ -920,7 +920,7 @@ public class CommentPage extends Fragment {
                                                         R.anim.slideright, R.anim.fade_out);
                                             }
                                         } else {
-                                            Reddit.defaultShare(adapter.submission.getUrl(),
+                                            LinkUtil.openExternally(adapter.submission.getUrl(),
                                                     getActivity());
 
                                         }
@@ -946,17 +946,17 @@ public class CommentPage extends Fragment {
                                                 getActivity().startActivity(sharingIntent);
 
                                             } catch (Exception e) {
-                                                Reddit.defaultShare(adapter.submission.getUrl(),
+                                                LinkUtil.openExternally(adapter.submission.getUrl(),
                                                         getActivity());
                                             }
                                         } else {
-                                            Reddit.defaultShare(adapter.submission.getUrl(),
+                                            LinkUtil.openExternally(adapter.submission.getUrl(),
                                                     getActivity());
                                         }
 
                                 }
                             } else {
-                                Reddit.defaultShare(adapter.submission.getUrl(), getActivity());
+                                LinkUtil.openExternally(adapter.submission.getUrl(), getActivity());
                             }
                         }
                     }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LinkUtil;
 
 
 /**
@@ -69,7 +69,7 @@ public class SettingsAbout extends BaseActivityAnim {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Reddit.defaultShare("https://github.com/ccrama/Slide/issues", SettingsAbout.this);
+                LinkUtil.openExternally("https://github.com/ccrama/Slide/issues", SettingsAbout.this);
             }
         });
         findViewById(R.id.sub).setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class SettingsAbout extends BaseActivityAnim {
         changelog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Reddit.defaultShare("https://github.com/ccrama/Slide/blob/master/CHANGELOG.md", SettingsAbout.this);
+                LinkUtil.openExternally("https://github.com/ccrama/Slide/blob/master/CHANGELOG.md", SettingsAbout.this);
             }
         });
 

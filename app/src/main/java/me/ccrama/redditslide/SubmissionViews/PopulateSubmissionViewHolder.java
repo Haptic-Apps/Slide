@@ -26,7 +26,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -108,7 +107,6 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -168,7 +166,7 @@ public class PopulateSubmissionViewHolder {
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(myIntent);
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                     }
                                     break;
                                 case IMGUR:
@@ -188,7 +186,7 @@ public class PopulateSubmissionViewHolder {
                                             contextActivity.startActivity(i);
                                         }
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                     }
                                     break;
                                 case REDDIT:
@@ -226,7 +224,7 @@ public class PopulateSubmissionViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
 
                                     }
                                     break;
@@ -250,7 +248,7 @@ public class PopulateSubmissionViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
 
                                     }
                                     break;
@@ -280,16 +278,16 @@ public class PopulateSubmissionViewHolder {
                                             contextActivity.startActivity(sharingIntent);
 
                                         } catch (Exception e) {
-                                            Reddit.defaultShare(submission.getUrl(),
+                                            LinkUtil.openExternally(submission.getUrl(),
                                                     contextActivity);
                                         }
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                     }
                                     break;
                             }
                         } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            LinkUtil.openExternally(submission.getUrl(), contextActivity);
                         }
                     }
                 } else {
@@ -357,7 +355,7 @@ public class PopulateSubmissionViewHolder {
             contextActivity.startActivity(myIntent);
 
         } else {
-            Reddit.defaultShare(submission.getUrl(), contextActivity);
+            LinkUtil.openExternally(submission.getUrl(), contextActivity);
         }
 
     }
@@ -447,7 +445,7 @@ public class PopulateSubmissionViewHolder {
             addAdaptorPosition(myIntent, submission, adapterPosition);
             contextActivity.startActivity(myIntent);
         } else {
-            Reddit.defaultShare(submission.getUrl(), contextActivity);
+            LinkUtil.openExternally(submission.getUrl(), contextActivity);
         }
 
     }
@@ -823,7 +821,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 7:
-                        LinkUtil.openExternally(submission.getUrl(), mContext, true);
+                        LinkUtil.openExternally(submission.getUrl(), mContext);
                         if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                             //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                         } else if (SettingValues.storeHistory) {
