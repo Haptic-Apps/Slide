@@ -20,10 +20,9 @@
             android:resizeableActivity="true"
             android:roundIcon="@mipmap/icon_round"
             android:theme="@style/yellow_dark">
-
         <provider
                 android:name="android.support.v4.content.FileProvider"
-                android:authorities="${applicationId}.MediaView"
+                android:authorities="${applicationId}.provider"
                 android:exported="false"
                 android:grantUriPermissions="true">
             <meta-data
