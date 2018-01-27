@@ -31,6 +31,7 @@ import java.util.Calendar;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -328,10 +329,9 @@ public class SettingsBackup extends BaseActivityAnim {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Uri selectedUri =
-                                                Uri.parse("file://" + file.getAbsolutePath());
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setData(selectedUri);
+                                        Intent intent = FileUtil.getFileIntent(file,
+                                                new Intent(Intent.ACTION_VIEW),
+                                                SettingsBackup.this);
                                         if (intent.resolveActivityInfo(getPackageManager(), 0)
                                                 != null) {
                                             startActivity(

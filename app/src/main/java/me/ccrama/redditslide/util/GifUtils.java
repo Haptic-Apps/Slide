@@ -7,15 +7,12 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +23,6 @@ import com.danikula.videocache.HttpProxyCacheServer;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.nostra13.universalimageloader.core.assist.ContentLengthInputStream;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,17 +32,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import okhttp3.OkHttpClient;
@@ -65,6 +58,136 @@ public class GifUtils {
         gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs");
         if (!gfyUrl.endsWith("-mobile.mp4")) gfyUrl = gfyUrl.replaceAll("\\.mp4", "-mobile.mp4");
         return gfyUrl;
+    }
+
+    public static void doNotifGif(File f, Activity c) {
+        Intent mediaScanIntent =
+                FileUtil.getFileIntent(f, new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE), c);
+        c.sendBroadcast(mediaScanIntent);
+
+
+        final Intent shareIntent = FileUtil.getFileIntent(f, new Intent(Intent.ACTION_VIEW), c);
+        shareIntent.setType("video/*");
+        PendingIntent contentIntent =
+                PendingIntent.getActivity(c, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+        Notification notif =
+                new NotificationCompat.Builder(c).setContentTitle(c.getString(R.string.gif_saved))
+                        .setSmallIcon(R.drawable.save_png)
+                        .setContentIntent(contentIntent)
+                        .setChannelId(Reddit.CHANNEL_IMG)
+                        .build();
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) c.getSystemService(Activity.NOTIFICATION_SERVICE);
+        mNotificationManager.notify((int) System.currentTimeMillis(), notif);
+    }
+
+    public static void showErrorDialog(final Activity a) {
+        new AlertDialogWrapper.Builder(a).setTitle(R.string.err_something_wrong)
+                .setMessage(R.string.err_couldnt_save_choose_new)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
+                                R.string.btn_select)  // changes label of the choose button
+                                .initialPath(Environment.getExternalStorageDirectory()
+                                        .getPath())  // changes initial path, defaults to external storage directory
+                                .show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, null)
+                .show();
+    }
+
+    public static void showFirstDialog(final Activity a) {
+        new AlertDialogWrapper.Builder(a).setTitle(R.string.set_gif_save_loc)
+                .setMessage(R.string.set_gif_save_loc_msg)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
+                                R.string.btn_select)  // changes label of the choose button
+                                .initialPath(Environment.getExternalStorageDirectory()
+                                        .getPath())  // changes initial path, defaults to external storage directory
+                                .show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, null)
+                .show();
+    }
+
+    public static void saveGif(File from, Activity a, String subreddit) {
+
+        LogUtil.v(from.getAbsolutePath());
+        try {
+            Toast.makeText(a, a.getString(R.string.mediaview_notif_title), Toast.LENGTH_SHORT)
+                    .show();
+        } catch (Exception ignored) {
+
+        }
+        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+            showFirstDialog(a);
+        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+            showErrorDialog(a);
+        } else {
+            if (SettingValues.imageSubfolders && !subreddit.isEmpty()) {
+                File directory = new File(Reddit.appRestart.getString("imagelocation", "") + (
+                        SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator
+                                + subreddit : ""));
+                directory.mkdirs();
+            }
+            File f = new File(Reddit.appRestart.getString("imagelocation", "")
+                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator
+                    + subreddit : "")
+                    + File.separator
+                    + UUID.randomUUID().toString()
+                    + ".mp4");
+
+            FileOutputStream out = null;
+            InputStream in = null;
+            try {
+                in = new FileInputStream(from);
+                out = new FileOutputStream(f);
+
+
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                LogUtil.e("Error saving GIF called with: "
+                        + "from = ["
+                        + from
+                        + "], in = ["
+                        + in
+                        + "]");
+                showErrorDialog(a);
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                        doNotifGif(f, a);
+                    }
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (IOException e) {
+                    LogUtil.e("Error closing GIF called with: "
+                            + "from = ["
+                            + from
+                            + "], out = ["
+                            + out
+                            + "]");
+                    showErrorDialog(a);
+                }
+            }
+        }
     }
 
     public static class AsyncLoadGif extends AsyncTask<String, Void, Void> {
@@ -589,7 +712,8 @@ public class GifUtils {
                                                 public void run() {
                                                     saveGif(getProxy().getCacheFile(url), c, subreddit);
                                                     try {
-                                                        Toast.makeText(c, "Downloading image...",
+                                                        Toast.makeText(c, c.getString(
+                                                                R.string.mediaview_notif_title),
                                                                 Toast.LENGTH_SHORT).show();
                                                     } catch (Exception ignored) {
 
@@ -629,136 +753,6 @@ public class GifUtils {
 
         }
 
-    }
-
-    public static void showErrorDialog(final Activity a) {
-        new AlertDialogWrapper.Builder(a).setTitle(R.string.err_something_wrong)
-                .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
-                .setNegativeButton(R.string.btn_no, null)
-                .show();
-    }
-
-    public static void showFirstDialog(final Activity a) {
-        new AlertDialogWrapper.Builder(a).setTitle(R.string.set_gif_save_loc)
-                .setMessage(R.string.set_gif_save_loc_msg)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
-                .setNegativeButton(R.string.btn_no, null)
-                .show();
-    }
-
-    public static void saveGif(File from, Activity a, String subreddit) {
-
-        LogUtil.v(from.getAbsolutePath());
-        try {
-            Toast.makeText(a, "Downloading image...", Toast.LENGTH_SHORT).show();
-        } catch (Exception ignored) {
-
-        }
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog(a);
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog(a);
-        } else {
-            if (SettingValues.imageSubfolders && !subreddit.isEmpty()) {
-                File directory = new File(Reddit.appRestart.getString("imagelocation", "") + (
-                        SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator
-                                + subreddit : ""));
-                directory.mkdirs();
-            }
-            File f = new File(Reddit.appRestart.getString("imagelocation", "")
-                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator
-                    + subreddit : "")
-                    + File.separator
-                    + UUID.randomUUID().toString()
-                    + ".mp4");
-
-            FileOutputStream out = null;
-            InputStream in = null;
-            try {
-                in = new FileInputStream(from);
-                out = new FileOutputStream(f);
-
-
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-                out.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                LogUtil.e("Error saving GIF called with: "
-                        + "from = ["
-                        + from
-                        + "], in = ["
-                        + in
-                        + "]");
-                showErrorDialog(a);
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                        doNotifGif(f.getAbsolutePath(), a);
-                    }
-                    if (in != null) {
-                        in.close();
-                    }
-                } catch (IOException e) {
-                    LogUtil.e("Error closing GIF called with: "
-                            + "from = ["
-                            + from
-                            + "], out = ["
-                            + out
-                            + "]");
-                    showErrorDialog(a);
-                }
-            }
-        }
-    }
-
-    public static void doNotifGif(String s, Activity c) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.parse("file://" + s);
-        mediaScanIntent.setData(contentUri);
-        c.sendBroadcast(mediaScanIntent);
-
-
-        final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-        shareIntent.setDataAndType(Uri.parse(s), "video/*");
-        PendingIntent contentIntent =
-                PendingIntent.getActivity(c, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-        Notification notif =
-                new NotificationCompat.Builder(c).setContentTitle(c.getString(R.string.gif_saved))
-                        .setSmallIcon(R.drawable.save_png)
-                        .setContentIntent(contentIntent)
-                        .setChannelId(Reddit.CHANNEL_IMG)
-                        .build();
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) c.getSystemService(Activity.NOTIFICATION_SERVICE);
-        mNotificationManager.notify((int) System.currentTimeMillis(), notif);
     }
 
     /**

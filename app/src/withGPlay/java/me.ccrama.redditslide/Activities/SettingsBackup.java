@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.graphics.Color;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -523,9 +523,9 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                         .setPositiveButton(R.string.btn_view, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Uri selectedUri = Uri.parse("file://" + file.getAbsolutePath());
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(selectedUri);
+                                Intent intent =
+                                        FileUtil.getFileIntent(file, new Intent(Intent.ACTION_VIEW),
+                                                SettingsBackup.this);
                                 if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
                                     startActivity(Intent.createChooser(intent, "View backup"));
                                 } else {
