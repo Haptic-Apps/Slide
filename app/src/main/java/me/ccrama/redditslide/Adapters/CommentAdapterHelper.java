@@ -44,7 +44,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.rey.material.util.ColorUtil;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
@@ -1056,6 +1055,20 @@ public class CommentAdapterHelper {
         }.execute();
     }
 
+    public static SpannableStringBuilder createApprovedLine(String approvedBy, Context c) {
+        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
+        SpannableStringBuilder mod = new SpannableStringBuilder("Approved by ");
+        mod.append(approvedBy);
+        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_green_300)), 0,
+                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removedString.append(mod);
+        return removedString;
+    }
+
     public static SpannableStringBuilder createRemovedLine(String removedBy, Context c) {
         SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
         SpannableStringBuilder mod = new SpannableStringBuilder("Removed by ");
@@ -1064,23 +1077,11 @@ public class CommentAdapterHelper {
         } else {
             mod.append(removedBy);
         }
-        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_red_300)), 0,
-                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        removedString.append(mod);
-        return removedString;
-    }
-
-    public static SpannableStringBuilder createApprovedLine(String removedBy, Context c) {
-        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
-        SpannableStringBuilder mod = new SpannableStringBuilder("Approved by ");
-        mod.append(removedBy);
         mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_green_300)), 0,
+        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_red_300)), 0,
                 mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         removedString.append(mod);
         return removedString;
