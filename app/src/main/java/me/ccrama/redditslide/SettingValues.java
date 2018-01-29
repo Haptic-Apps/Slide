@@ -458,7 +458,7 @@ public class SettingValues {
 
     public static boolean isNight() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return (hour >= nightStart + 12 || hour <= nightEnd) && tabletUI && nightMode;
+        return (hour >= nightStart + 12 || hour < nightEnd) && tabletUI && nightMode;
     }
 
     public static Sorting getBaseSubmissionSort(String sub) {
