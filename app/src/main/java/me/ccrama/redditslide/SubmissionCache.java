@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.WeakHashMap;
 
+import me.ccrama.redditslide.Adapters.CommentAdapterHelper;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -312,12 +312,12 @@ public class SubmissionCache {
         }
         if (removed.contains(submission.getFullName()) || (submission.getBannedBy() != null
                 && !approved.contains(submission.getFullName()))) {
-            titleString.append(createRemovedLine(
+            titleString.append(CommentAdapterHelper.createRemovedLine(
                     (submission.getBannedBy() == null) ? Authentication.name : submission.getBannedBy(),
                     mContext));
         } else if (approved.contains(submission.getFullName()) || (submission.getApprovedBy()
                 != null && !removed.contains(submission.getFullName()))) {
-            titleString.append(createApprovedLine(
+            titleString.append(CommentAdapterHelper.createApprovedLine(
                     (submission.getApprovedBy() == null) ? Authentication.name
                             : submission.getApprovedBy(), mContext));
         }
@@ -402,34 +402,6 @@ public class SubmissionCache {
         }
         return titleString;
 
-    }
-
-    public static SpannableStringBuilder createRemovedLine(String removedBy, Context c) {
-        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
-        SpannableStringBuilder mod = new SpannableStringBuilder("Removed by ");
-        mod.append(removedBy);
-        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_red_300)), 0,
-                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        removedString.append(mod);
-        return removedString;
-    }
-
-    public static SpannableStringBuilder createApprovedLine(String removedBy, Context c) {
-        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
-        SpannableStringBuilder mod = new SpannableStringBuilder("Approved by ");
-        mod.append(removedBy);
-        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_green_300)), 0,
-                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        removedString.append(mod);
-        return removedString;
     }
 
     public static ArrayList<String> removed  = new ArrayList<>();
