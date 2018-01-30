@@ -712,7 +712,20 @@ public class ColorPreferences {
         pixel_cyan(R.style.cyan_pixel, "pixel_cyan", R.color.md_cyan_A400, 7),
         pixel_lightblue(R.style.lightblue_pixel, "pixel_lightblue", R.color.md_light_blue_A400, 7),
         pixel_blue(R.style.blue_pixel, "pixel_blue", R.color.md_blue_A400, 7),
-        pixel_indigo(R.style.indigo_pixel, "pixel_indigo", R.color.md_indigo_A400, 7);
+        pixel_indigo(R.style.indigo_pixel, "pixel_indigo", R.color.md_indigo_A400, 7),
+
+        deep_white(R.style.white_deep, "deep_white", R.color.md_blue_grey_200, 8),
+        deep_pink(R.style.pink_deep, "deep_pink", R.color.md_pink_A200, 8),
+        deep_deeporange(R.style.deeporange_deep, "deep_deeporange", R.color.md_deep_orange_A400, 8),
+        deep_amber(R.style.amber_deep, "deep_amber", R.color.md_amber_A400, 8),
+        deep_yellow(R.style.yellow_deep, "deep_yellow", R.color.md_yellow_A400, 8),
+        deep_lime(R.style.lime_deep, "deep_lime", R.color.md_lime_A400, 8),
+        deep_green(R.style.green_deep, "deep_green", R.color.md_green_A400, 8),
+        deep_teal(R.style.teal_deep, "deep_teal", R.color.md_teal_A700, 8),
+        deep_cyan(R.style.cyan_deep, "deep_cyan", R.color.md_cyan_A400, 8),
+        deep_lightblue(R.style.lightblue_deep, "deep_lightblue", R.color.md_light_blue_A400, 8),
+        deep_blue(R.style.blue_deep, "deep_blue", R.color.md_blue_A400, 8),
+        deep_indigo(R.style.indigo_deep, "deep_indigo", R.color.md_indigo_A400, 8);
 
         private int baseId;
         private String title;

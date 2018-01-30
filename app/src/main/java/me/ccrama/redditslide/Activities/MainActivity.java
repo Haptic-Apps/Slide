@@ -656,6 +656,28 @@ public class MainActivity extends BaseActivity
                                 }
                             }
                         });
+                dialoglayout.findViewById(R.id.deep)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String[] names =
+                                        new ColorPreferences(MainActivity.this).getFontStyle()
+                                                .getTitle()
+                                                .split("_");
+                                String name = names[names.length - 1];
+                                final String newName = name.replace("(", "");
+                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                    if (theme.toString().contains(newName)
+                                            && theme.getThemeType() == 8) {
+                                        back = theme.getThemeType();
+                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                                        d.dismiss();
+                                        restartTheme();
+                                        break;
+                                    }
+                                }
+                            }
+                        });
                 dialoglayout.findViewById(R.id.sepia)
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
