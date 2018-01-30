@@ -70,7 +70,7 @@ public class OpenRedditLinkTest {
     }
 
     @Test
-    public void detectHome() {
+    public void detectsHome() {
         assertThat(getType(formatURL("https://www.reddit.com/")), is(RedditLinkType.HOME));
     }
 
