@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import java.net.MalformedURLException;
 import java.util.Arrays;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.LiveThread;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SendMessage;
@@ -202,6 +202,11 @@ public class OpenRedditLink {
                 context.startActivity(myIntent);
                 break;
             }
+            case HOME: {
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+                break;
+            }
             case OTHER: {
                 if (openIfOther) {
                     if (context instanceof Activity) {
@@ -318,6 +323,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/u(?:ser)?/[a-z0-9-_]+.*")) {
             // User. Format: reddit.com/u [or user]/$username/$page [optional]
             return RedditLinkType.USER;
+        } else if (url.matches("^reddit\\.com$")) {
+            // Reddit home link
+            return RedditLinkType.HOME;
         } else {
             //Open all links that we can't open in another app
             return RedditLinkType.OTHER;
@@ -336,6 +344,7 @@ public class OpenRedditLink {
         MESSAGE,
         MULTIREDDIT,
         LIVE,
+        HOME,
         OTHER
     }
 
