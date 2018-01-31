@@ -2,9 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -13,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,7 +19,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,15 +61,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Adapters.ImageGridAdapter;
 import me.ccrama.redditslide.Adapters.ImageGridAdapterTumblr;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
-import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -130,7 +122,7 @@ public class TumblrPager extends FullScreenActivity
             mToolbar.findViewById(R.id.grid).callOnClick();
         }
         if (id == R.id.external) {
-            Reddit.defaultShare(getIntent().getExtras().getString("url", ""), this);
+            LinkUtil.openExternally(getIntent().getExtras().getString("url", ""), this);
         }
 
         if (id == R.id.comments) {
@@ -450,7 +442,7 @@ public class TumblrPager extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(contentUrl, TumblrPager.this, false);
+                        LinkUtil.openExternally(contentUrl, TumblrPager.this);
                     }
                     break;
                     case (3): {

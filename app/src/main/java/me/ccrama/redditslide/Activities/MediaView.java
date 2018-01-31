@@ -270,8 +270,8 @@ public class MediaView extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(StringEscapeUtils.unescapeHtml4(contentUrl),
-                                MediaView.this, true);
+                        LinkUtil.openExternally(contentUrl,
+                                MediaView.this);
                         break;
                     }
                     case (3): {

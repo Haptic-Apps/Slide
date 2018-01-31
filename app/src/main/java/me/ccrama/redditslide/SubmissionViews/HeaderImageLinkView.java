@@ -1,8 +1,6 @@
 package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -21,7 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,7 +31,6 @@ import net.dean.jraw.models.Submission;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -623,19 +619,13 @@ public class HeaderImageLinkView extends RelativeLayout {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case R.id.open_link:
-                                LinkUtil.openExternally(url, context, false);
+                                LinkUtil.openExternally(url, context);
                                 break;
                             case R.id.share_link:
                                 Reddit.defaultShareText("", url, finalActivity);
                                 break;
                             case R.id.copy_link:
-                                ClipboardManager clipboard =
-                                        (ClipboardManager) finalActivity.getSystemService(
-                                                Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Link", url);
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(finalActivity, R.string.submission_link_copied,
-                                        Toast.LENGTH_SHORT).show();
+                                LinkUtil.copyUrl(url, finalActivity);
                                 break;
                         }
                     }

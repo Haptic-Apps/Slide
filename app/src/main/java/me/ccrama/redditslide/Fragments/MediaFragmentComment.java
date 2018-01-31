@@ -51,6 +51,7 @@ import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
@@ -318,7 +319,7 @@ public class MediaFragmentComment extends Fragment {
 
                                 contextActivity.startActivity(myIntent);
                             } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
                             }
 
                             break;

@@ -537,7 +537,7 @@ public class PopulateShadowboxInfo {
                             }
                             break;
                             case 7:
-                                LinkUtil.openExternally(submission.getUrl(), mContext, true);
+                                LinkUtil.openExternally(submission.getUrl(), mContext);
                                 break;
                             case 4:
                                 Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);

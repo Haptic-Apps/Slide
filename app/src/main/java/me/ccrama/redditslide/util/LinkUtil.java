@@ -3,6 +3,8 @@ package me.ccrama.redditslide.util;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,17 +23,17 @@ import android.support.customtabs.CustomTabsSession;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.dean.jraw.models.Submission;
 
-import java.util.Set;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.ReaderMode;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 
@@ -59,91 +61,55 @@ public class LinkUtil {
     }
 
     /**
-     * Opens the {@code url} using the method the user has set in their preferences (custom tabs,
-     * internal, external) falling back as needed
-     * @param url URL to open
-     * @param color Color to provide to the browser UI if applicable
+     * Attempts to open the {@code url} in a custom tab. If no custom tab activity can be found,
+     * falls back to opening externally
+     *
+     * @param url             URL to open
+     * @param color           Color to provide to the browser UI if applicable
      * @param contextActivity The current activity
+     * @param packageName     The package name recommended to use for connecting to custom tabs
+     *                        related components.
      */
-    public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
-        if (!SettingValues.web) {
-            // External browser
-            Reddit.defaultShare(url, contextActivity);
-            return;
-        }
+    public static void openCustomTab(@NonNull String url, int color,
+            @NonNull Activity contextActivity, @NonNull String packageName) {
+        Intent intent = new Intent(contextActivity, MakeExternal.class);
+        intent.putExtra(Website.EXTRA_URL, url);
+        PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
 
-        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
+        CustomTabsIntent.Builder builder =
+                new CustomTabsIntent.Builder(getSession()).setToolbarColor(color)
+                        .setShowTitle(true)
+                        .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
+                        .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
+                        .addDefaultShareMenuItem()
+                        .addMenuItem(contextActivity.getString(R.string.open_links_externally),
+                                pendingIntent)
+                        .setCloseButtonIcon(drawableToBitmap(
+                                ContextCompat.getDrawable(contextActivity,
+                                        R.drawable.ic_arrow_back_white_24dp)));
+        try {
+            CustomTabsIntent customTabsIntent = builder.build();
 
-        if (packageName != null) {
-            Intent intent = new Intent(contextActivity, MakeExternal.class);
-            intent.putExtra(Website.EXTRA_URL, url);
-            PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
-
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
-                    .setToolbarColor(color)
-                    .setShowTitle(true)
-                    .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
-                    .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
-                    .addDefaultShareMenuItem()
-                    .addMenuItem(contextActivity.getString(R.string.open_links_externally), pendingIntent)
-                    .setCloseButtonIcon(drawableToBitmap(ContextCompat.getDrawable(contextActivity, R.drawable.ic_arrow_back_white_24dp)));
-            try {
-                CustomTabsIntent customTabsIntent = builder.build();
-
-                customTabsIntent.intent.setPackage(packageName);
-                customTabsIntent.launchUrl(contextActivity, formatURL(url));
-            } catch (ActivityNotFoundException anfe) {
-                Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-                Reddit.defaultShare(url, contextActivity);
-            }
-        } else {
-            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
-                //Reader mode
-                Intent i = new Intent(contextActivity, ReaderMode.class);
-                i.putExtra(ReaderMode.EXTRA_URL, url);
-                i.putExtra(ReaderMode.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
-            } else {
-                // Internal browser
-                Intent i = new Intent(contextActivity, Website.class);
-                i.putExtra(Website.EXTRA_URL, url);
-                i.putExtra(Website.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
-            }
+            customTabsIntent.intent.setPackage(packageName);
+            customTabsIntent.launchUrl(contextActivity,
+                    formatURL(StringEscapeUtils.unescapeHtml4(url)));
+        } catch (ActivityNotFoundException anfe) {
+            Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
+            openExternally(url, contextActivity);
         }
     }
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity, int adapterPosition, Submission submission) {
         if (!SettingValues.web) {
             // External browser
-            Reddit.defaultShare(url, contextActivity);
+            openExternally(url, contextActivity);
             return;
         }
 
         String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
         if (packageName != null) {
-            Intent intent = new Intent(contextActivity, MakeExternal.class);
-            intent.putExtra(Website.EXTRA_URL, url);
-            PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
-
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
-                    .setToolbarColor(color)
-                    .setShowTitle(true)
-                    .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
-                    .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
-                    .addDefaultShareMenuItem()
-                    .addMenuItem(contextActivity.getString(R.string.open_links_externally), pendingIntent)
-                    .setCloseButtonIcon(drawableToBitmap(ContextCompat.getDrawable(contextActivity, R.drawable.ic_arrow_back_white_24dp)));
-            try {
-                CustomTabsIntent customTabsIntent = builder.build();
-
-                customTabsIntent.intent.setPackage(packageName);
-                customTabsIntent.launchUrl(contextActivity, formatURL(url));
-            } catch (ActivityNotFoundException anfe) {
-                Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-                Reddit.defaultShare(url, contextActivity);
-            }
+            openCustomTab(url, color, contextActivity, packageName);
         } else {
             if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
                 //Reader mode
@@ -193,16 +159,38 @@ public class LinkUtil {
     }
 
     /**
-     * Opens the {@code url} externally or shows an application chooser if it is set to open in this
-     * application
+     * Opens the {@code url} using the method the user has set in their preferences (custom tabs,
+     * internal, external) falling back as needed
      * @param url URL to open
-     * @param context Current context
-     * @param encoded If the URL is HTML encoded (e.g. includes {@code &amp;amp;})
+     * @param color Color to provide to the browser UI if applicable
+     * @param contextActivity The current activity
      */
-    public static void openExternally(String url, Context context, Boolean encoded) {
-        if (encoded) url = Html.fromHtml(url).toString();
-        Uri uri = formatURL(url);
-        openExternally(uri, context);
+    public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
+        if (!SettingValues.web) {
+            // External browser
+            openExternally(url, contextActivity);
+            return;
+        }
+
+        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
+
+        if (packageName != null) {
+            openCustomTab(url, color, contextActivity, packageName);
+        } else {
+            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
+                //Reader mode
+                Intent i = new Intent(contextActivity, ReaderMode.class);
+                i.putExtra(ReaderMode.EXTRA_URL, url);
+                i.putExtra(ReaderMode.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+            } else {
+                // Internal browser
+                Intent i = new Intent(contextActivity, Website.class);
+                i.putExtra(Website.EXTRA_URL, url);
+                i.putExtra(Website.EXTRA_COLOR, color);
+                contextActivity.startActivity(i);
+            }
+        }
     }
 
     /**
@@ -211,7 +199,10 @@ public class LinkUtil {
      * @param uri URI to open
      * @param context Current context
      */
-    public static void openExternally(Uri uri, Context context) {
+    public static void openExternally(String url, Context context) {
+        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        Uri uri = formatURL(url);
+
         final String id = BuildConfig.APPLICATION_ID;
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         final PackageManager packageManager = context.getPackageManager();
@@ -246,5 +237,14 @@ public class LinkUtil {
             });
         }
         return mCustomTabsSession;
+    }
+
+    public static void copyUrl(String url, Context context) {
+        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        ClipboardManager clipboard =
+                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Link", url);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
     }
 }

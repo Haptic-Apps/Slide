@@ -14,7 +14,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,7 +69,6 @@ import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.GifCache;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
-import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
@@ -183,15 +181,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
-    }
-
-    public static void defaultShare(String url, Context c) {
-        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
-        Uri webpage = LinkUtil.formatURL(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        if (intent.resolveActivity(c.getPackageManager()) != null) {
-            c.startActivity(intent);
-        }
     }
 
     public static boolean isPackageInstalled(final Context ctx, String s) {

@@ -47,6 +47,7 @@ import me.ccrama.redditslide.Tumblr.Photo;
 import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.util.LinkUtil;
 
 /**
  * Created by ccrama on 9/7/2016. <p/> This class is responsible for accessing the Tumblr api to get
@@ -102,7 +103,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
             finish();
         }
         if (id == R.id.external) {
-            Reddit.defaultShare(url, this);
+            LinkUtil.openExternally(url, this);
         }
         if (id == R.id.download) {
             for (final Photo elem : images) {

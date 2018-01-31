@@ -1,8 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -17,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
 
@@ -171,17 +167,13 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case R.id.open_link:
-                                        LinkUtil.openExternally(submission.getUrl(), main, true);
+                                        LinkUtil.openExternally(submission.getUrl(), main);
                                         break;
                                     case R.id.share_link:
                                         Reddit.defaultShareText("", submission.getUrl(), main);
                                         break;
                                     case R.id.copy_link:
-                                        ClipboardManager clipboard = (ClipboardManager) main.getSystemService(Context.CLIPBOARD_SERVICE);
-                                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                        clipboard.setPrimaryClip(clip);
-
-                                        Toast.makeText(main, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+                                        LinkUtil.copyUrl(submission.getUrl(), main);
                                         break;
                                 }
                             }
@@ -206,7 +198,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                     main.startActivity(myIntent);
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
                                 }
                                 break;
                             case IMGUR:
@@ -221,7 +213,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
                                 }
                                 break;
                             case REDDIT:
@@ -244,7 +236,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
 
                                 }
                                 break;
@@ -262,7 +254,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
 
                                 }
                                 break;
@@ -288,15 +280,15 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(sharingIntent);
 
                                     } catch (Exception e) {
-                                        Reddit.defaultShare(submission.getUrl(), main);
+                                        LinkUtil.openExternally(submission.getUrl(), main);
                                     }
                                 } else {
-                                    Reddit.defaultShare(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl(), main);
                                 }
                                 break;
                         }
                     } else {
-                        Reddit.defaultShare(submission.getUrl(), main);
+                        LinkUtil.openExternally(submission.getUrl(), main);
                     }
                 }
             });

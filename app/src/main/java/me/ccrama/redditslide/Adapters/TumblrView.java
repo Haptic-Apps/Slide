@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,17 +24,16 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Tumblr;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Tumblr.Photo;
 import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -175,7 +173,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getOriginalSize().getUrl());
                         main.startActivity(myIntent);
                     } else {
-                        Reddit.defaultShare(user.getOriginalSize().getUrl(), main);
+                        LinkUtil.openExternally(user.getOriginalSize().getUrl(), main);
                     }
                 }
             };

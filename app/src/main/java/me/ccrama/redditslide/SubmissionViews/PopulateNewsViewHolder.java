@@ -2,38 +2,29 @@ package me.ccrama.redditslide.SubmissionViews;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,20 +32,11 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.ApiException;
-import net.dean.jraw.fluent.FlairReference;
-import net.dean.jraw.fluent.FluentRedditClient;
-import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
-import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Contribution;
-import net.dean.jraw.models.DistinguishedStatus;
-import net.dean.jraw.models.FlairTemplate;
 import net.dean.jraw.models.Submission;
-import net.dean.jraw.models.Thing;
-import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -62,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
@@ -70,24 +51,20 @@ import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.PostReadLater;
 import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Reauthenticate;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Tumblr;
 import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.NewsViewHolder;
-import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.Fragments.NewsView;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
@@ -100,18 +77,12 @@ import me.ccrama.redditslide.ReadLater;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
-import me.ccrama.redditslide.UserSubscriptions;
-import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Views.DoEditorActions;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
-import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -165,7 +136,7 @@ public class PopulateNewsViewHolder {
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                         contextActivity.startActivity(myIntent);
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                     }
                                     break;
                                 case IMGUR:
@@ -185,7 +156,7 @@ public class PopulateNewsViewHolder {
                                             contextActivity.startActivity(i);
                                         }
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                     }
                                     break;
                                 case REDDIT:
@@ -223,7 +194,7 @@ public class PopulateNewsViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
 
                                     }
                                     break;
@@ -247,7 +218,7 @@ public class PopulateNewsViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
 
                                     }
                                     break;
@@ -277,16 +248,16 @@ public class PopulateNewsViewHolder {
                                             contextActivity.startActivity(sharingIntent);
 
                                         } catch (Exception e) {
-                                            Reddit.defaultShare(submission.getUrl(),
+                                            LinkUtil.openExternally(submission.getUrl(),
                                                     contextActivity);
                                         }
                                     } else {
-                                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
                                     }
                                     break;
                             }
                         } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            LinkUtil.openExternally(submission.getUrl(), contextActivity);
                         }
                     }
                 } else {
@@ -354,7 +325,7 @@ public class PopulateNewsViewHolder {
             contextActivity.startActivity(myIntent);
 
         } else {
-            Reddit.defaultShare(submission.getUrl(), contextActivity);
+            LinkUtil.openExternally(submission.getUrl(), contextActivity);
         }
 
     }
@@ -438,7 +409,7 @@ public class PopulateNewsViewHolder {
             addAdaptorPosition(myIntent, submission, adapterPosition);
             contextActivity.startActivity(myIntent);
         } else {
-            Reddit.defaultShare(submission.getUrl(), contextActivity);
+            LinkUtil.openExternally(submission.getUrl(), contextActivity);
         }
 
     }
@@ -824,7 +795,7 @@ public class PopulateNewsViewHolder {
                     }
                     break;
                     case 7:
-                        LinkUtil.openExternally(submission.getUrl(), mContext, true);
+                        LinkUtil.openExternally(submission.getUrl(), mContext);
                         if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                             //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                         } else if (SettingValues.storeHistory) {
