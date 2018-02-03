@@ -47,6 +47,7 @@ import java.util.Calendar;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.FileUtil;
 
 
 /**
