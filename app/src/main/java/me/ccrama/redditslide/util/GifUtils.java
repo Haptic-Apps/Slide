@@ -778,7 +778,8 @@ public class GifUtils {
                     String fileName = "video.mp4"; //temporary location for video
                     File videoOutput = new File(downloadsPath, fileName);
                     HttpURLConnection cona = (HttpURLConnection) new URL(
-                            url.toString().substring(0, url.toString().lastIndexOf("/") + 1) + "audio").openConnection();
+                            url.toString().substring(0, url.toString().lastIndexOf("/") + 1)
+                                    + "audio").openConnection();
                     cona.setRequestMethod("GET");
 
                     if (!videoOutput.exists()) {
@@ -893,8 +894,7 @@ public class GifUtils {
                                 saveGif(getProxy().getCacheFile(url.toString()), c, subreddit);
 
                                 try {
-                                    Toast.makeText(c,
-                                            c.getString(R.string.mediaview_notif_title),
+                                    Toast.makeText(c, c.getString(R.string.mediaview_notif_title),
                                             Toast.LENGTH_SHORT).show();
                                 } catch (Exception ignored) {
 
@@ -916,6 +916,7 @@ public class GifUtils {
                         if (percent == 100) {
                             progressBar.setVisibility(View.GONE);
                             if (size != null) size.setVisibility(View.GONE);
+
                         }
                     }
                     if (percent == 100) {
@@ -1080,7 +1081,7 @@ public class GifUtils {
     public static final String AUDIO_RECORDING_FILE_NAME       =
             "audio_Capturing-190814-034638.422.wav";// Input PCM file
     public static final String COMPRESSED_AUDIO_FILE_NAME      = "convertedmp4.m4a";
-            // Output MP4/M4A file
+    // Output MP4/M4A file
     public static final String COMPRESSED_AUDIO_FILE_MIME_TYPE = "audio/mp4a-latm";
     public static final int    COMPRESSED_AUDIO_FILE_BIT_RATE  = 64000; // 64kbps
     public static final int    SAMPLING_RATE                   = 48000;
