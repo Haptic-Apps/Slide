@@ -131,6 +131,8 @@ dependencies {
         transitive = true
     }
 
+    compile 'com.googlecode.mp4parser:isoparser:1.1.21'
+
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-all:1.3'

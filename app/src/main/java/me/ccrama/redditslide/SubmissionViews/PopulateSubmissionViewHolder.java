@@ -382,7 +382,16 @@ public class PopulateSubmissionViewHolder {
             GifUtils.AsyncLoadGif.VideoType t =
                     GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
 
-            if (t.shouldLoadPreview() && submission.getDataNode()
+            if(t == GifUtils.AsyncLoadGif.VideoType.VREDDIT){
+                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(
+                        submission.getDataNode()
+                                .get("media")
+                                .get("reddit_video")
+                                .get("fallback_url")
+                                .asText()).replace("&amp;", "&"));
+
+            }
+            else if (t.shouldLoadPreview() && submission.getDataNode()
                     .has("preview") && submission.getDataNode()
                     .get("preview")
                     .get("images")

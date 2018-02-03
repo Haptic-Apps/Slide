@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.util;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -7,31 +8,52 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Movie;
+import android.media.MediaCodec;
+import android.media.MediaCodecInfo;
+import android.media.MediaFormat;
+import android.media.MediaMuxer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.coremedia.iso.boxes.Container;
 import com.danikula.videocache.CacheListener;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
+import com.google.android.exoplayer2.extractor.mp4.Track;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
+import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
@@ -192,15 +214,15 @@ public class GifUtils {
 
     public static class AsyncLoadGif extends AsyncTask<String, Void, Void> {
 
-        private  Activity       c;
+        private Activity       c;
         private MediaVideoView video;
-        private  ProgressBar    progressBar;
-        private  View           placeholder;
-        private  View           gifSave;
-        private  boolean        closeIfNull;
-        private  boolean        hideControls;
-        private  boolean        autostart;
-        private  Runnable       doOnClick;
+        private ProgressBar    progressBar;
+        private View           placeholder;
+        private View           gifSave;
+        private boolean        closeIfNull;
+        private boolean        hideControls;
+        private boolean        autostart;
+        private Runnable       doOnClick;
         public String subreddit = "";
         private boolean cacheOnly;
 
@@ -260,7 +282,7 @@ public class GifUtils {
 
         public void cancel() {
             LogUtil.v("cancelling");
-                video.suspend();
+            video.suspend();
         }
 
         @Override
@@ -268,7 +290,8 @@ public class GifUtils {
             super.onPreExecute();
             gson = new Gson();
         }
-        Gson   gson;
+
+        Gson gson;
 
         public enum VideoType {
             IMGUR, VID_ME, STREAMABLE, GFYCAT, DIRECT, OTHER, VREDDIT;
@@ -296,23 +319,17 @@ public class GifUtils {
                 if (s.endsWith("/")) {
                     s = s.substring(s.length() - 2);
                 }
-                s = s + "/DASHPlaylist.mpd";
-            } else if(s.contains("v.redd.it")){
-                s = s.substring(0, s.indexOf("DASH") - 2);
-                s = s + "/DASHPlaylist.mpd";
+                s = s + "/DASH_9_6_M";
             }
 
             return s;
         }
 
         public static VideoType getVideoType(String url) {
-            if(url.contains("v.redd.it")){
+            if (url.contains("v.redd.it")) {
                 return VideoType.VREDDIT;
             }
-            if (url.contains(".mp4")
-                    || url.contains("webm")
-                    || url.contains("redditmedia.com")
-                    ) {
+            if (url.contains(".mp4") || url.contains("webm") || url.contains("redditmedia.com")) {
                 return VideoType.DIRECT;
             }
             if (url.contains("gfycat") && !url.contains("mp4")) return VideoType.GFYCAT;
@@ -606,7 +623,7 @@ public class GifUtils {
                     break;
 
                 case OTHER:
-                   LogUtil.e("We shouldn't be here!");
+                    LogUtil.e("We shouldn't be here!");
                     if (closeIfNull) {
                         Intent web = new Intent(c, Website.class);
                         web.putExtra(Website.EXTRA_URL, url);
@@ -661,7 +678,7 @@ public class GifUtils {
         }
 
         public void writeGif(final URL url, final ProgressBar progressBar, final Activity c,
-                 final String subreddit) throws Exception {
+                final String subreddit) throws Exception {
             if (size != null && c != null && !getProxy().isCached(url.toString())) {
                 getRemoteFileSize(url.toString(), client, size, c);
             }
@@ -703,14 +720,16 @@ public class GifUtils {
                                             gifSave.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    saveGif(getProxy().getCacheFile(url), c, subreddit);
+                                                    saveGif(getProxy().getCacheFile(url), c,
+                                                            subreddit);
                                                 }
                                             });
                                         } else if (doOnClick != null) {
                                             MediaView.doOnClick = new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    saveGif(getProxy().getCacheFile(url), c, subreddit);
+                                                    saveGif(getProxy().getCacheFile(url), c,
+                                                            subreddit);
                                                     try {
                                                         Toast.makeText(c, c.getString(
                                                                 R.string.mediaview_notif_title),
@@ -739,21 +758,196 @@ public class GifUtils {
 
         public void writeGifHSL(final URL url, final ProgressBar progressBar, final Activity c,
                 final String subreddit) throws Exception {
+            if (size != null && c != null && !getProxy().isCached(url.toString())) {
+                getRemoteFileSize(url.toString(), client, size, c);
+            }
+
+            File videoFile = getProxy().getCacheFile(url.toString());
+
+            if (videoFile.length() <= 0) {
+
+                try {
+
+                    HttpURLConnection conv = (HttpURLConnection) url.openConnection();
+                    conv.setRequestMethod("GET");
+
+                    //c.setDoOutput(true);
+                    conv.connect();
+
+                    String downloadsPath = c.getCacheDir().getAbsolutePath();
+                    String fileName = "video.mp4"; //temporary location for video
+                    File videoOutput = new File(downloadsPath, fileName);
+                    HttpURLConnection cona = (HttpURLConnection) new URL(
+                            url.toString().substring(0, url.toString().lastIndexOf("/") + 1) + "audio").openConnection();
+                    cona.setRequestMethod("GET");
+
+                    if (!videoOutput.exists()) {
+                        videoOutput.createNewFile();
+                    }
+
+                    FileOutputStream fos = new FileOutputStream(videoOutput);
+                    InputStream is = conv.getInputStream();
+                    int fileLength = conv.getContentLength() + cona.getContentLength();
+
+                    byte data[] = new byte[4096];
+                    long total = 0;
+                    int count;
+                    while ((count = is.read(data)) != -1) {
+                        // allow canceling with back button
+                        if (isCancelled()) {
+                            is.close();
+                        }
+                        total += count;
+                        // publishing the progress....
+                        if (fileLength > 0) // only if total length is known
+                        {
+                            publishProgress((int) (total * 100 / fileLength), url);
+                        }
+                        fos.write(data, 0, count);
+                    }
+                    fos.close();
+                    is.close();
+
+
+                    //c.setDoOutput(true);
+                    cona.connect();
+
+                    String fileNameAudio = "audio.mp4"; //temporary location for audio
+                    File audioOutput = new File(downloadsPath, fileNameAudio);
+                    File muxedPath = new File(downloadsPath, "muxedvideo.mp4");
+                    muxedPath.createNewFile();
+
+                    if (!audioOutput.exists()) {
+                        audioOutput.createNewFile();
+                    }
+
+                    fos = new FileOutputStream(audioOutput);
+
+                    int stat = cona.getResponseCode();
+                    if (stat != 403) {
+                        InputStream isa = cona.getInputStream();
+
+                        byte dataa[] = new byte[4096];
+                        int counta;
+                        while ((counta = isa.read(dataa)) != -1) {
+                            // allow canceling with back button
+                            if (isCancelled()) {
+                                isa.close();
+                            }
+                            total += counta;
+                            // publishing the progress....
+                            if (fileLength > 0) // only if total length is known
+                            {
+                                publishProgress((int) (total * 100 / fileLength), url);
+                            }
+                            fos.write(dataa, 0, counta);
+                        }
+                        fos.close();
+                        isa.close();
+
+                        GifUtils.mux(videoOutput.getAbsolutePath(), audioOutput.getAbsolutePath(),
+                                muxedPath.getAbsolutePath());
+
+                        copy(muxedPath, videoFile);
+
+                    } else {
+                        copy(videoOutput, videoFile);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
             c.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    video.setVideoDASH(url);
+
+                    String toLoad = getProxy().getCacheFile(url.toString()).getAbsolutePath();
+
+                    video.setVideoPath(toLoad);
+
+                    video.setOnPreparedListener(new OnPreparedListener() {
+                        @Override
+                        public void onPrepared() {
+                            if (placeholder != null) placeholder.setVisibility(View.GONE);
+                            LogUtil.v("Prepared");
+                        }
+
+                    });
+
                     if (autostart) {
                         video.start();
                     }
                     progressBar.setVisibility(View.GONE);
+                    if (gifSave != null) {
+                        gifSave.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                saveGif(getProxy().getCacheFile(url.toString()), c, subreddit);
+                            }
+                        });
+                    } else if (doOnClick != null) {
+                        MediaView.doOnClick = new Runnable() {
+                            @Override
+                            public void run() {
+                                saveGif(getProxy().getCacheFile(url.toString()), c, subreddit);
 
+                                try {
+                                    Toast.makeText(c,
+                                            c.getString(R.string.mediaview_notif_title),
+                                            Toast.LENGTH_SHORT).show();
+                                } catch (Exception ignored) {
+
+                                }
+                            }
+                        };
+                    }
                 }
             });
 
         }
 
+        private void publishProgress(final int percent, final URL url) {
+            c.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (progressBar != null && c != null) {
+                        progressBar.setProgress(percent);
+                        if (percent == 100) {
+                            progressBar.setVisibility(View.GONE);
+                            if (size != null) size.setVisibility(View.GONE);
+                        }
+                    }
+                    if (percent == 100) {
+                        MediaView.didLoadGif = true;
+                    }
+
+                }
+            });
+        }
+
+
+        //Code from https://stackoverflow.com/a/9293885/3697225
+        public static void copy(File src, File dst) throws IOException {
+            InputStream in = new FileInputStream(src);
+            try {
+                OutputStream out = new FileOutputStream(dst);
+                try {
+                    // Transfer bytes from in to out
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                } finally {
+                    out.close();
+                }
+            } finally {
+                in.close();
+            }
+        }
     }
+
 
     /**
      * Shows a ProgressBar in the UI. If this method is called from a non-main thread, it will run
@@ -782,6 +976,235 @@ public class GifUtils {
     public static HttpProxyCacheServer getProxy() {
         return Reddit.proxy;
     }
+
+
+    public static boolean mux(String videoFile, String audioFile, String outputFile) {
+        com.googlecode.mp4parser.authoring.Movie video;
+        try {
+            video = new MovieCreator().build(videoFile);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        com.googlecode.mp4parser.authoring.Movie audio;
+        try {
+            audio = new MovieCreator().build(audioFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        com.googlecode.mp4parser.authoring.Track audioTrack = audio.getTracks().get(0);
+        video.addTrack(audioTrack);
+
+        Container out = new DefaultMp4Builder().build(video);
+
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(outputFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        BufferedWritableFileByteChannel byteBufferByteChannel =
+                new BufferedWritableFileByteChannel(fos);
+        try {
+            out.writeContainer(byteBufferByteChannel);
+            byteBufferByteChannel.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private static class BufferedWritableFileByteChannel implements WritableByteChannel {
+        private static final int BUFFER_CAPACITY = 1000000;
+
+        private boolean isOpen = true;
+        private final OutputStream outputStream;
+        private final ByteBuffer   byteBuffer;
+        private final byte[] rawBuffer = new byte[BUFFER_CAPACITY];
+
+        private BufferedWritableFileByteChannel(OutputStream outputStream) {
+            this.outputStream = outputStream;
+            this.byteBuffer = ByteBuffer.wrap(rawBuffer);
+        }
+
+        @Override
+        public int write(ByteBuffer inputBuffer) throws IOException {
+            int inputBytes = inputBuffer.remaining();
+
+            if (inputBytes > byteBuffer.remaining()) {
+                dumpToFile();
+                byteBuffer.clear();
+
+                if (inputBytes > byteBuffer.remaining()) {
+                    throw new BufferOverflowException();
+                }
+            }
+
+            byteBuffer.put(inputBuffer);
+
+            return inputBytes;
+        }
+
+        @Override
+        public boolean isOpen() {
+            return isOpen;
+        }
+
+        @Override
+        public void close() throws IOException {
+            dumpToFile();
+            isOpen = false;
+        }
+
+        private void dumpToFile() {
+            try {
+                outputStream.write(rawBuffer, 0, byteBuffer.position());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static final String AUDIO_RECORDING_FILE_NAME       =
+            "audio_Capturing-190814-034638.422.wav";// Input PCM file
+    public static final String COMPRESSED_AUDIO_FILE_NAME      = "convertedmp4.m4a";
+            // Output MP4/M4A file
+    public static final String COMPRESSED_AUDIO_FILE_MIME_TYPE = "audio/mp4a-latm";
+    public static final int    COMPRESSED_AUDIO_FILE_BIT_RATE  = 64000; // 64kbps
+    public static final int    SAMPLING_RATE                   = 48000;
+    public static final int    BUFFER_SIZE                     = 48000;
+    public static final int    CODEC_TIMEOUT_IN_MS             = 5000;
+    String   LOGTAG  = "CONVERT AUDIO";
+    Runnable convert = new Runnable() {
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        @Override
+        public void run() {
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+            try {
+                String filePath = Environment.getExternalStorageDirectory().getPath()
+                        + "/"
+                        + AUDIO_RECORDING_FILE_NAME;
+                File inputFile = new File(filePath);
+                FileInputStream fis = new FileInputStream(inputFile);
+
+                File outputFile = new File(
+                        Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + "/"
+                                + COMPRESSED_AUDIO_FILE_NAME);
+                if (outputFile.exists()) outputFile.delete();
+
+                MediaMuxer mux = new MediaMuxer(outputFile.getAbsolutePath(),
+                        MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+
+                MediaFormat outputFormat =
+                        MediaFormat.createAudioFormat(COMPRESSED_AUDIO_FILE_MIME_TYPE,
+                                SAMPLING_RATE, 1);
+                outputFormat.setInteger(MediaFormat.KEY_AAC_PROFILE,
+                        MediaCodecInfo.CodecProfileLevel.AACObjectLC);
+                outputFormat.setInteger(MediaFormat.KEY_BIT_RATE, COMPRESSED_AUDIO_FILE_BIT_RATE);
+                outputFormat.setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, 16384);
+
+                MediaCodec codec = MediaCodec.createEncoderByType(COMPRESSED_AUDIO_FILE_MIME_TYPE);
+                codec.configure(outputFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+                codec.start();
+
+                ByteBuffer[] codecInputBuffers = codec.getInputBuffers(); // Note: Array of buffers
+                ByteBuffer[] codecOutputBuffers = codec.getOutputBuffers();
+
+                MediaCodec.BufferInfo outBuffInfo = new MediaCodec.BufferInfo();
+                byte[] tempBuffer = new byte[BUFFER_SIZE];
+                boolean hasMoreData = true;
+                double presentationTimeUs = 0;
+                int audioTrackIdx = 0;
+                int totalBytesRead = 0;
+                int percentComplete = 0;
+                do {
+                    int inputBufIndex = 0;
+                    while (inputBufIndex != -1 && hasMoreData) {
+                        inputBufIndex = codec.dequeueInputBuffer(CODEC_TIMEOUT_IN_MS);
+
+                        if (inputBufIndex >= 0) {
+                            ByteBuffer dstBuf = codecInputBuffers[inputBufIndex];
+                            dstBuf.clear();
+
+                            int bytesRead = fis.read(tempBuffer, 0, dstBuf.limit());
+                            Log.e("bytesRead", "Readed " + bytesRead);
+                            if (bytesRead == -1) { // -1 implies EOS
+                                hasMoreData = false;
+                                codec.queueInputBuffer(inputBufIndex, 0, 0,
+                                        (long) presentationTimeUs,
+                                        MediaCodec.BUFFER_FLAG_END_OF_STREAM);
+                            } else {
+                                totalBytesRead += bytesRead;
+                                dstBuf.put(tempBuffer, 0, bytesRead);
+                                codec.queueInputBuffer(inputBufIndex, 0, bytesRead,
+                                        (long) presentationTimeUs, 0);
+                                presentationTimeUs =
+                                        1000000l * (totalBytesRead / 2) / SAMPLING_RATE;
+                            }
+                        }
+                    }
+                    // Drain audio
+                    int outputBufIndex = 0;
+                    while (outputBufIndex != MediaCodec.INFO_TRY_AGAIN_LATER) {
+                        outputBufIndex =
+                                codec.dequeueOutputBuffer(outBuffInfo, CODEC_TIMEOUT_IN_MS);
+                        if (outputBufIndex >= 0) {
+                            ByteBuffer encodedData = codecOutputBuffers[outputBufIndex];
+                            encodedData.position(outBuffInfo.offset);
+                            encodedData.limit(outBuffInfo.offset + outBuffInfo.size);
+                            if ((outBuffInfo.flags & MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != 0
+                                    && outBuffInfo.size != 0) {
+                                codec.releaseOutputBuffer(outputBufIndex, false);
+                            } else {
+                                mux.writeSampleData(audioTrackIdx,
+                                        codecOutputBuffers[outputBufIndex], outBuffInfo);
+                                codec.releaseOutputBuffer(outputBufIndex, false);
+                            }
+                        } else if (outputBufIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                            outputFormat = codec.getOutputFormat();
+                            Log.v(LOGTAG, "Output format changed - " + outputFormat);
+                            audioTrackIdx = mux.addTrack(outputFormat);
+                            mux.start();
+                        } else if (outputBufIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                            Log.e(LOGTAG, "Output buffers changed during encode!");
+                        } else if (outputBufIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
+                            // NO OP
+                        } else {
+                            Log.e(LOGTAG, "Unknown return code from dequeueOutputBuffer - "
+                                    + outputBufIndex);
+                        }
+                    }
+                    percentComplete = (int) Math.round(
+                            ((float) totalBytesRead / (float) inputFile.length()) * 100.0);
+                    Log.v(LOGTAG, "Conversion % - " + percentComplete);
+                } while (outBuffInfo.flags != MediaCodec.BUFFER_FLAG_END_OF_STREAM);
+                fis.close();
+                mux.stop();
+                mux.release();
+                Log.v(LOGTAG, "Compression done ...");
+            } catch (FileNotFoundException e) {
+                Log.e(LOGTAG, "File not found!", e);
+            } catch (IOException e) {
+                Log.e(LOGTAG, "IO exception!", e);
+            }
+
+            //mStop = false;
+            // Notify UI thread...
+        }
+    };
 
 
 }

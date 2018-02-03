@@ -309,10 +309,12 @@ public class MediaVideoView extends VideoView {
     }
 
     private void toggleMediaControlsVisiblity() {
-        if (getVideoControls().isVisible()) {
-            getVideoControls().hide();
-        } else {
-            getVideoControls().show();
+        if (getVideoControls() != null) {
+            if (getVideoControls().isVisible()) {
+                getVideoControls().hide();
+            } else {
+                getVideoControls().show();
+            }
         }
     }
 }
