@@ -929,6 +929,8 @@ public class CommentPage extends Fragment {
                                         PopulateSubmissionViewHolder.openImage(type, getActivity(),
                                                 adapter.submission, null, -1);
                                         break;
+                                    case VREDDIT_REDIRECT:
+                                    case VREDDIT_DIRECT:
                                     case GIF:
                                         PopulateSubmissionViewHolder.openGif(getActivity(),
                                                 adapter.submission, -1);

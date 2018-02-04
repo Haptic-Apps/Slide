@@ -156,6 +156,14 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
             final String scheme = uri.getScheme().toLowerCase(Locale.ENGLISH);
 
+            if(hostContains(host, "v.redd.it") || (host.equals("reddit.com") && url.contains("reddit.com/video/"))){
+                if(url.contains("DASH_")){
+                    return Type.VREDDIT_DIRECT;
+                } else {
+                    return Type.VREDDIT_REDIRECT;
+                }
+            }
+
             if (!scheme.equals("http") && !scheme.equals("https")) {
                 return Type.EXTERNAL;
             }
@@ -272,6 +280,8 @@ public class ContentType {
             case XKCD:
             case VIDEO:
             case SELF:
+            case VREDDIT_DIRECT:
+            case VREDDIT_REDIRECT:
             case VID_ME:
                 return true;
 
@@ -296,6 +306,8 @@ public class ContentType {
             case TUMBLR:
             case XKCD:
             case IMGUR:
+            case VREDDIT_DIRECT:
+            case VREDDIT_REDIRECT:
             case STREAMABLE:
             case VID_ME:
                 return true;
@@ -335,6 +347,8 @@ public class ContentType {
                 case LINK:
                     return R.string.type_nsfw_link;
                 case VIDEO:
+                case VREDDIT_DIRECT:
+                case VREDDIT_REDIRECT:
                 case VID_ME:
                     return R.string.type_nsfw_video;
             }
@@ -372,6 +386,10 @@ public class ContentType {
                     return R.string.type_youtube;
                 case VID_ME:
                     return R.string.type_vidme;
+                case VREDDIT_REDIRECT:
+                case VREDDIT_DIRECT:
+                    return R.string.type_vreddit;
+
             }
         }
         return R.string.type_link;
@@ -452,6 +470,6 @@ public class ContentType {
     }
 
     public enum Type {
-        ALBUM, DEVIANTART, EMBEDDED, EXTERNAL, GIF, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR, VID_ME
+        ALBUM, DEVIANTART, EMBEDDED, EXTERNAL, GIF, VREDDIT_DIRECT, VREDDIT_REDIRECT, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR, VID_ME
     }
 }

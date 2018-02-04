@@ -70,6 +70,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionViews.OpenVRedditTask;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
@@ -288,17 +289,7 @@ public class MediaView extends FullScreenActivity
                     }
                     break;
                     case (15): {
-                        String newUrl = contentUrl;
-                        if(contentUrl.endsWith("DASH_4_8_M")){
-                            newUrl = contentUrl.replace("DASH_4_8_M", "");
-                        }
-                        if(contentUrl.endsWith("DASH_9_6_M")){
-                            newUrl = contentUrl.replace("DASH_9_6_M", "");
-                        }
-
-                        Intent i = new Intent(MediaView.this, Website.class);
-                        i.putExtra(Website.EXTRA_URL, newUrl);
-                        startActivity(i);
+                        new OpenVRedditTask(MediaView.this, subreddit).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, contentUrl);
                     }
                     break;
                     case (9): {
@@ -730,6 +721,8 @@ public class MediaView extends FullScreenActivity
                 break;
             case VID_ME:
             case STREAMABLE:
+            case VREDDIT_DIRECT:
+            case VREDDIT_REDIRECT:
             case GIF:
                 doLoadGif(contentUrl);
                 break;

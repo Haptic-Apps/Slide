@@ -58,6 +58,11 @@ import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,6 +72,7 @@ import java.util.Map;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
+import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
@@ -166,7 +172,8 @@ public class PopulateSubmissionViewHolder {
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(myIntent);
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(),
+                                                contextActivity);
                                     }
                                     break;
                                 case IMGUR:
@@ -186,7 +193,8 @@ public class PopulateSubmissionViewHolder {
                                             contextActivity.startActivity(i);
                                         }
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(),
+                                                contextActivity);
                                     }
                                     break;
                                 case REDDIT:
@@ -224,7 +232,8 @@ public class PopulateSubmissionViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(),
+                                                contextActivity);
 
                                     }
                                     break;
@@ -248,7 +257,8 @@ public class PopulateSubmissionViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(),
+                                                contextActivity);
 
                                     }
                                     break;
@@ -258,7 +268,9 @@ public class PopulateSubmissionViewHolder {
                                     openImage(type, contextActivity, submission, holder.leadImage,
                                             holder.getAdapterPosition());
                                     break;
+                                case VREDDIT_REDIRECT:
                                 case GIF:
+                                case VREDDIT_DIRECT:
                                     openGif(contextActivity, submission,
                                             holder.getAdapterPosition());
                                     break;
@@ -282,7 +294,8 @@ public class PopulateSubmissionViewHolder {
                                                     contextActivity);
                                         }
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl(),
+                                                contextActivity);
                                     }
                                     break;
                             }
@@ -382,21 +395,31 @@ public class PopulateSubmissionViewHolder {
             GifUtils.AsyncLoadGif.VideoType t =
                     GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
 
-            if(t == GifUtils.AsyncLoadGif.VideoType.VREDDIT){
-                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(
-                        submission.getDataNode()
-                                .get("media")
-                                .get("reddit_video")
-                                .get("fallback_url")
-                                .asText()).replace("&amp;", "&"));
+            if (t == GifUtils.AsyncLoadGif.VideoType.VREDDIT) {
+                if (submission.getDataNode().has("media") && submission.getDataNode()
+                        .get("media")
+                        .has("reddit_video")) {
+                    myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
+                            .getDataNode()
+                            .get("media")
+                            .get("reddit_video")
+                            .get("fallback_url")
+                            .asText()).replace("&amp;", "&"));
+                } else if (submission.getDataNode().has("crosspost_parent_list")) {
+                    myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
+                            .getDataNode()
+                            .get("crosspost_parent_list")
+                            .get(0)
+                            .get("media")
+                            .get("reddit_video")
+                            .get("fallback_url")
+                            .asText()).replace("&amp;", "&"));
+                }
 
-            }
-            else if (t.shouldLoadPreview() && submission.getDataNode()
-                    .has("preview") && submission.getDataNode()
-                    .get("preview")
-                    .get("images")
-                    .get(0)
-                    .has("variants") && submission.getDataNode()
+            } else if (t.shouldLoadPreview()
+                    && submission.getDataNode().has("preview")
+                    && submission.getDataNode().get("preview").get("images").get(0).has("variants")
+                    && submission.getDataNode()
                     .get("preview")
                     .get("images")
                     .get(0)
@@ -427,13 +450,12 @@ public class PopulateSubmissionViewHolder {
                                 .get("fallback_url")
                                 .asText()).replace("&amp;", "&"));
 
-            } else if(t != GifUtils.AsyncLoadGif.VideoType.OTHER) {
+            } else if (t != GifUtils.AsyncLoadGif.VideoType.OTHER) {
                 myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
             } else {
                 LinkUtil.openUrl(submission.getUrl(),
-                        Palette.getColor(submission.getSubredditName()),
-                        contextActivity, adapterPosition,
-                        submission);
+                        Palette.getColor(submission.getSubredditName()), contextActivity,
+                        adapterPosition, submission);
                 return;
             }
             if (submission.getDataNode().has("preview") && submission.getDataNode()
@@ -607,16 +629,21 @@ public class PopulateSubmissionViewHolder {
                             };
 
                             chosen = new boolean[]{
-                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
+                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase(
+                                            Locale.ENGLISH).split(",")).contains(
+                                            submission.getSubredditName()
+                                                    .toLowerCase(Locale.ENGLISH)), Arrays.asList(
+                                    SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
                                             .split(",")).contains(
-                                            submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                            .split(",")).contains(
-                                            submission.getAuthor().toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                    SettingValues.domainFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
-                                    submission.getDomain().toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                    SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH).split(",")).contains(
-                                    submission.getDomain().toLowerCase(Locale.ENGLISH))
+                                    submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                    Arrays.asList(
+                                            SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
+                                                    .split(",")).contains(
+                                            submission.getDomain().toLowerCase(Locale.ENGLISH)),
+                                    Arrays.asList(
+                                            SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
+                                                    .split(",")).contains(
+                                            submission.getDomain().toLowerCase(Locale.ENGLISH))
                             };
                             oldChosen = chosen.clone();
                         } else {
@@ -634,17 +661,23 @@ public class PopulateSubmissionViewHolder {
                         }
                         ;
                         chosen = new boolean[]{
-                                Arrays.asList(SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
+                                Arrays.asList(
+                                        SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
+                                                .split(",")).contains(
+                                        submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
+                                Arrays.asList(SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
                                         .split(",")).contains(
-                                        submission.getSubredditName().toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                SettingValues.userFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
-                                submission.getAuthor().toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                SettingValues.domainFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
-                                submission.getDomain().toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH).split(",")).contains(
-                                submission.getDomain().toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                SettingValues.flairFilters.toLowerCase(Locale.ENGLISH).split(",")).contains(
-                                baseSub + ":" + flair)
+                                        submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                Arrays.asList(
+                                        SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
+                                                .split(",")).contains(
+                                        submission.getDomain().toLowerCase(Locale.ENGLISH)),
+                                Arrays.asList(
+                                        SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
+                                                .split(",")).contains(
+                                        submission.getDomain().toLowerCase(Locale.ENGLISH)),
+                                Arrays.asList(SettingValues.flairFilters.toLowerCase(Locale.ENGLISH)
+                                        .split(",")).contains(baseSub + ":" + flair)
                         };
                         oldChosen = chosen.clone();
 
@@ -774,10 +807,12 @@ public class PopulateSubmissionViewHolder {
                                                     } else if (!chosen[4]
                                                             && chosen[4] != oldChosen[4]) {
                                                         SettingValues.flairFilters =
-                                                                SettingValues.flairFilters.toLowerCase(Locale.ENGLISH)
+                                                                SettingValues.flairFilters.toLowerCase(
+                                                                        Locale.ENGLISH)
                                                                         .replace((baseSub
                                                                                         + ":"
-                                                                                        + flair).toLowerCase(Locale.ENGLISH),
+                                                                                        + flair).toLowerCase(
+                                                                                Locale.ENGLISH),
                                                                                 "");
                                                         e.putString(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
@@ -998,23 +1033,28 @@ public class PopulateSubmissionViewHolder {
                                                         .toString()
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
-                                                if(!selected.isEmpty()) {
-                                                    ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
-                                                            Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip = ClipData.newPlainText("Selftext",
-                                                            selected);
+                                                if (!selected.isEmpty()) {
+                                                    ClipboardManager clipboard =
+                                                            (ClipboardManager) mContext.getSystemService(
+                                                                    Context.CLIPBOARD_SERVICE);
+                                                    ClipData clip =
+                                                            ClipData.newPlainText("Selftext",
+                                                                    selected);
                                                     clipboard.setPrimaryClip(clip);
 
-                                                    Toast.makeText(mContext, R.string.submission_comment_copied,
+                                                    Toast.makeText(mContext,
+                                                            R.string.submission_comment_copied,
                                                             Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     ClipboardManager clipboard =
                                                             (ClipboardManager) mContext.getSystemService(
                                                                     Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip = ClipData.newPlainText("Selftext",
-                                                            Html.fromHtml(submission.getTitle()
-                                                                    + "\n\n"
-                                                                    + submission.getSelftext()));
+                                                    ClipData clip =
+                                                            ClipData.newPlainText("Selftext",
+                                                                    Html.fromHtml(
+                                                                            submission.getTitle()
+                                                                                    + "\n\n"
+                                                                                    + submission.getSelftext()));
                                                     clipboard.setPrimaryClip(clip);
 
                                                     Toast.makeText(mContext,
@@ -1878,18 +1918,18 @@ public class PopulateSubmissionViewHolder {
         SpannableStringBuilder t = SubmissionCache.getTitleLine(submission, mContext);
         SpannableStringBuilder l = SubmissionCache.getInfoLine(submission, mContext, baseSub);
 
-        int[] textSizeAttr = new int[] { R.attr.font_cardtitle, R.attr.font_cardinfo };
+        int[] textSizeAttr = new int[]{R.attr.font_cardtitle, R.attr.font_cardinfo};
         TypedArray a = mContext.obtainStyledAttributes(textSizeAttr);
         int textSizeT = a.getDimensionPixelSize(0, 18);
         int textSizeI = a.getDimensionPixelSize(1, 14);
 
         a.recycle();
 
-        t.setSpan(new AbsoluteSizeSpan(textSizeT), 0, t.length(), 0 );
-        l.setSpan(new AbsoluteSizeSpan(textSizeI), 0, l.length(), 0 );
+        t.setSpan(new AbsoluteSizeSpan(textSizeT), 0, t.length(), 0);
+        l.setSpan(new AbsoluteSizeSpan(textSizeI), 0, l.length(), 0);
 
         SpannableStringBuilder s = new SpannableStringBuilder();
-        if(SettingValues.titleTop) {
+        if (SettingValues.titleTop) {
             s.append(t);
             s.append("\n");
             s.append(l);
@@ -2507,7 +2547,8 @@ public class PopulateSubmissionViewHolder {
         if (!offline
                 && UserSubscriptions.modOf != null
                 && submission.getSubredditName() != null
-                && UserSubscriptions.modOf.contains(submission.getSubredditName().toLowerCase(Locale.ENGLISH))) {
+                && UserSubscriptions.modOf.contains(
+                submission.getSubredditName().toLowerCase(Locale.ENGLISH))) {
             holder.mod.setVisibility(View.VISIBLE);
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
@@ -2940,8 +2981,10 @@ public class PopulateSubmissionViewHolder {
         }
         final View edit = holder.edit;
 
-        if (Authentication.name != null && Authentication.name.toLowerCase(Locale.ENGLISH)
-                .equals(submission.getAuthor().toLowerCase(Locale.ENGLISH)) && Authentication.didOnline) {
+        if (Authentication.name != null
+                && Authentication.name.toLowerCase(Locale.ENGLISH)
+                .equals(submission.getAuthor().toLowerCase(Locale.ENGLISH))
+                && Authentication.didOnline) {
             edit.setVisibility(View.VISIBLE);
             edit.setOnClickListener(new OnSingleClickListener() {
                 @Override

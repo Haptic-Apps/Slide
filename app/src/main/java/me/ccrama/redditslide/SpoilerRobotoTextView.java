@@ -15,6 +15,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -48,13 +49,17 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
+import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.ForceTouch.PeekView;
@@ -65,6 +70,7 @@ import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
 import me.ccrama.redditslide.ForceTouch.callback.OnPop;
 import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
 import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
+import me.ccrama.redditslide.SubmissionViews.OpenVRedditTask;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -465,7 +471,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case IMAGE:
                     openImage(url, subreddit);
                     break;
+                case VREDDIT_REDIRECT:
+                    openVReddit(url, subreddit, activity);
+                    break;
                 case GIF:
+                case VREDDIT_DIRECT:
                     openGif(url, subreddit, activity);
                     break;
                 case NONE:
@@ -631,6 +641,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             }
         }
     }
+
+    private void openVReddit(String url, String subreddit, Activity activity) {
+        new OpenVRedditTask(activity, subreddit).executeOnExecutor(
+                AsyncTask.THREAD_POOL_EXECUTOR, url);
+    }
+
 
     private void openGif(String url, String subreddit, Activity activity) {
         if (SettingValues.gif) {
