@@ -13,7 +13,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.v4.content.FileProvider;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +36,7 @@ import me.ccrama.redditslide.Activities.DeleteFile;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -214,10 +214,8 @@ public class ImageDownloadNotificationService extends Service {
                     new MediaScannerConnection.OnScanCompletedListener() {
                         public void onScanCompleted(String path, Uri uri) {
                             PendingIntent pContentIntent, pShareIntent, pDeleteIntent, pEditIntent;
-                            Uri photoURI = FileProvider.getUriForFile(
-                                    ImageDownloadNotificationService.this,
-                                    getApplicationContext().getPackageName() + ".MediaView",
-                                    localAbsoluteFilePath);
+                            Uri photoURI = FileUtil.getFileUri(localAbsoluteFilePath,
+                                    ImageDownloadNotificationService.this);
 
                             {
                                 final Intent shareIntent = new Intent(Intent.ACTION_VIEW);

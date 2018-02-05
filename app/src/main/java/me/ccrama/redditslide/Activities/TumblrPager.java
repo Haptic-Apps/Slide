@@ -10,14 +10,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,14 +43,11 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -82,6 +77,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.ShareUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -446,7 +442,7 @@ public class TumblrPager extends FullScreenActivity
                     }
                     break;
                     case (3): {
-                        shareImage(contentUrl);
+                        ShareUtil.shareImage(contentUrl, TumblrPager.this);
                     }
                     break;
                     case (5): {
@@ -721,90 +717,6 @@ public class TumblrPager extends FullScreenActivity
             }
         });
 
-    }
-
-    private void shareImage(final String finalUrl) {
-        ((Reddit) getApplication()).getImageLoader()
-                .loadImage(finalUrl, new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        shareImage(loadedImage);
-                    }
-                });
-    }
-
-    /**
-     * Deletes all files in a folder
-     *
-     * @param dir to clear contents
-     */
-    private void deleteFilesInDir(File dir) {
-        for (File child : dir.listFiles()) {
-            child.delete();
-        }
-    }
-
-    /**
-     * Converts an image to a PNG, stores it to the cache, then shares it. Saves the image to
-     * /cache/shared_image for easy deletion. If the /cache/shared_image folder already exists, we
-     * clear it's contents as to avoid increasing the cache size unnecessarily.
-     *
-     * @param bitmap image to share
-     */
-    private void shareImage(final Bitmap bitmap) {
-        File image; //image to share
-
-        //check to see if the cache/shared_images directory is present
-        final File imagesDir =
-                new File(this.getCacheDir().toString() + File.separator + "shared_image");
-        if (!imagesDir.exists()) {
-            imagesDir.mkdir(); //create the folder if it doesn't exist
-        } else {
-            deleteFilesInDir(imagesDir);
-        }
-
-        try {
-            //creates a file in the cache; filename will be prefixed with "img" and end with ".png"
-            image = File.createTempFile("img", ".png", imagesDir);
-            FileOutputStream out = null;
-
-            try {
-                //convert image to png
-                out = new FileOutputStream(image);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } finally {
-                if (out != null) {
-                    out.close();
-
-                    /**
-                     * If a user has both a debug build and a release build installed, the authority name needs to be unique
-                     */
-                    final String authority = (this.getPackageName()).concat(".")
-                            .concat(MediaView.class.getSimpleName());
-
-                    final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
-
-                    if (contentUri != null) {
-                        final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
-                        shareImageIntent.addFlags(
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
-                        shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                        shareImageIntent.setDataAndType(contentUri,
-                                getContentResolver().getType(contentUri));
-
-                        //Select a share option
-                        startActivity(Intent.createChooser(shareImageIntent,
-                                getString(R.string.misc_img_share)));
-                    } else {
-                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG)
-                                .show();
-                    }
-                }
-            }
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
-            Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
-        }
     }
 
     public void showErrorDialog() {

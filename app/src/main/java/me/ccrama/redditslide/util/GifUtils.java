@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Movie;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
@@ -30,7 +29,6 @@ import com.coremedia.iso.boxes.Container;
 import com.danikula.videocache.CacheListener;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
-import com.google.android.exoplayer2.extractor.mp4.Track;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
@@ -46,14 +44,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
@@ -89,7 +83,6 @@ public class GifUtils {
 
 
         final Intent shareIntent = FileUtil.getFileIntent(f, new Intent(Intent.ACTION_VIEW), c);
-        shareIntent.setType("video/*");
         PendingIntent contentIntent =
                 PendingIntent.getActivity(c, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
