@@ -12,8 +12,14 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +33,7 @@ import me.ccrama.redditslide.util.OkHttpImageDownloader;
 
 public class ImageLoaderUtils {
 
-    public static ImageLoader imageLoader;
+    public static ImageLoaderUnescape imageLoader;
 
     private ImageLoaderUtils() {
     }
@@ -83,10 +89,36 @@ public class ImageLoaderUtils {
             ImageLoader.getInstance().destroy();
         }
 
-        imageLoader = ImageLoader.getInstance();
+        imageLoader = ImageLoaderUnescape.getInstance();
         imageLoader.init(config);
 
     }
     public static DisplayImageOptions options;
+
+}
+
+class ImageLoaderUnescape extends  ImageLoader {
+
+    @Override
+    public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options,
+            ImageSize targetSize, ImageLoadingListener listener, ImageLoadingProgressListener progressListener) {
+        String newUri = StringEscapeUtils.unescapeHtml4(uri);
+        super.displayImage(newUri, imageAware, options, targetSize, listener, progressListener);
+    }
+
+    private volatile static ImageLoaderUnescape instance;
+
+    public static ImageLoaderUnescape getInstance() {
+        if (instance == null) {
+            synchronized (ImageLoader.class) {
+                if (instance == null) {
+                    instance = new ImageLoaderUnescape();
+                }
+            }
+        }
+        return instance;
+    }
+
+
 
 }
