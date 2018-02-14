@@ -102,6 +102,55 @@
                             android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/crosspost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:maxHeight="82dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/crossthumb"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginEnd="8dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        app:riv_corner_radius="2dp"
+                        app:srcCompat="@drawable/chameleon"/>
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/crosstitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Crosspost"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="16sp"/>
+
+                    <TextView
+                            android:id="@+id/crossinfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".56"
+                            android:text="@string/example_url"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

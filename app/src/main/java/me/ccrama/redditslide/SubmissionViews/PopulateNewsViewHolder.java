@@ -305,13 +305,13 @@ public class PopulateNewsViewHolder {
                     .has("height")
                     && type
                     != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                previewUrl = submission.getDataNode()
+                previewUrl = StringEscapeUtils.escapeHtml4(submission.getDataNode()
                         .get("preview")
                         .get("images")
                         .get(0)
                         .get("source")
                         .get("url")
-                        .asText();
+                        .asText());
                 if (baseView == null || (!SettingValues.loadImageLq && baseView.lq)) {
                     myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
                 } else {
@@ -397,13 +397,13 @@ public class PopulateNewsViewHolder {
                     .get(0)
                     .get("source")
                     .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                String previewUrl = submission.getDataNode()
+                String previewUrl = StringEscapeUtils.escapeHtml4(submission.getDataNode()
                         .get("preview")
                         .get("images")
                         .get(0)
                         .get("source")
                         .get("url")
-                        .asText();
+                        .asText());
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
             addAdaptorPosition(myIntent, submission, adapterPosition);

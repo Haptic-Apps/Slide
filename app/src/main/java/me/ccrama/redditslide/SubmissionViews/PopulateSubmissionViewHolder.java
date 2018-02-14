@@ -1893,7 +1893,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     if (holder.itemView != null) {
                         SubmissionCache.updateTitleFlair(submission, flair, mContext);
-                        doText(holder, submission, mContext, submission.getSubredditName());
+                        doText(holder, submission, mContext, submission.getSubredditName(), false);
                     }
                 } else {
                     if (holder.itemView != null) {
@@ -1914,16 +1914,16 @@ public class PopulateSubmissionViewHolder {
 
 
     public void doText(SubmissionViewHolder holder, Submission submission, Context mContext,
-            String baseSub) {
+            String baseSub, boolean full) {
         SpannableStringBuilder t = SubmissionCache.getTitleLine(submission, mContext);
         SpannableStringBuilder l = SubmissionCache.getInfoLine(submission, mContext, baseSub);
+        SpannableStringBuilder c = SubmissionCache.getCrosspostLine(submission, mContext);
 
         int[] textSizeAttr = new int[]{R.attr.font_cardtitle, R.attr.font_cardinfo};
         TypedArray a = mContext.obtainStyledAttributes(textSizeAttr);
         int textSizeT = a.getDimensionPixelSize(0, 18);
         int textSizeI = a.getDimensionPixelSize(1, 14);
 
-        a.recycle();
 
         t.setSpan(new AbsoluteSizeSpan(textSizeT), 0, t.length(), 0);
         l.setSpan(new AbsoluteSizeSpan(textSizeI), 0, l.length(), 0);
@@ -1938,6 +1938,12 @@ public class PopulateSubmissionViewHolder {
             s.append("\n");
             s.append(t);
         }
+        if(!full && c != null){
+            c.setSpan(new AbsoluteSizeSpan(textSizeI), 0, c.length(), 0);
+            s.append("\n");
+            s.append(c);
+        }
+        a.recycle();
 
         holder.title.setText(s);
 
@@ -2759,6 +2765,20 @@ public class PopulateSubmissionViewHolder {
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
         }
 
+        boolean crosspost = submission.getDataNode().has("crosspost_parent_list");
+        if(full && crosspost){
+            holder.itemView.findViewById(R.id.crosspost).setVisibility(View.VISIBLE);
+            ((TextView)holder.itemView.findViewById(R.id.crossinfo)).setText(SubmissionCache.getCrosspostLine(submission, mContext));
+            ((Reddit) mContext.getApplicationContext()).getImageLoader()
+                    .displayImage(submission.getDataNode().get("crosspost_parent_list").get(0).get("thumbnail").asText(), ((ImageView)holder.itemView.findViewById(R.id.crossthumb)));
+            holder.itemView.findViewById(R.id.crosspost).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OpenRedditLink.openUrl(mContext, submission.getDataNode().get("crosspost_parent_list").get(0).get("permalink").asText(), true);
+                }
+            });
+        }
+
 
         holder.leadImage.setSubmission(submission, full, baseSub, type);
 
@@ -2787,7 +2807,7 @@ public class PopulateSubmissionViewHolder {
 
         });
 
-        doText(holder, submission, mContext, baseSub);
+        doText(holder, submission, mContext, baseSub, full);
 
         if (!full
                 && SettingValues.isSelftextEnabled(baseSub)

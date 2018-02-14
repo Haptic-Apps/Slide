@@ -15,6 +15,8 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 
@@ -34,23 +36,36 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class SubmissionCache {
     private static WeakHashMap<String, SpannableStringBuilder> titles;
     private static WeakHashMap<String, SpannableStringBuilder> info;
+    private static WeakHashMap<String, SpannableStringBuilder> crosspost;
 
     public static void cacheSubmissions(List<Submission> submissions, Context mContext,
             String baseSub) {
         cacheInfo(submissions, mContext, baseSub);
     }
 
+    public static SpannableStringBuilder getCrosspostLine(Submission s, Context mContext) {
+        if (crosspost == null) crosspost = new WeakHashMap<>();
+        if (crosspost.containsKey(s.getFullName())) {
+            return crosspost.get(s.getFullName());
+        } else {
+            return getCrosspostSpannable(s, mContext);
+        }
+    }
+
     private static void cacheInfo(List<Submission> submissions, Context mContext, String baseSub) {
         if (titles == null) titles = new WeakHashMap<>();
         if (info == null) info = new WeakHashMap<>();
+        if (crosspost == null) crosspost = new WeakHashMap<>();
+
         for (Submission submission : submissions) {
             titles.put(submission.getFullName(), getTitleSpannable(submission, mContext));
             info.put(submission.getFullName(), getInfoSpannable(submission, mContext, baseSub));
+            crosspost.put(submission.getFullName(), getCrosspostLine(submission, mContext));
         }
     }
-    
-    public static void updateInfoSpannable(Submission changed, Context mContext, String baseSub){
-        info.put(changed.getFullName(), getInfoSpannable(changed,mContext, baseSub));
+
+    public static void updateInfoSpannable(Submission changed, Context mContext, String baseSub) {
+        info.put(changed.getFullName(), getInfoSpannable(changed, mContext, baseSub));
     }
 
     public static void updateTitleFlair(Submission s, String flair, Context c) {
@@ -77,6 +92,64 @@ public class SubmissionCache {
         }
     }
 
+    private static SpannableStringBuilder getCrosspostSpannable(Submission s, Context mContext) {
+        SpannableStringBuilder titleString = new SpannableStringBuilder("Crossposted from ");
+        JsonNode json = s.getDataNode();
+        if (!json.has("crosspost_parent_list")) { //is a crosspost
+            return null;
+        }
+        json = json.get("crosspost_parent_list").get(0);
+        String spacer = mContext.getString(R.string.submission_properties_seperator);
+
+        String subname = json.get("subreddit").asText().toLowerCase(Locale.ENGLISH);
+        SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + subname + " ");
+
+        if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())
+                || (SettingValues.colorSubName
+                && Palette.getColor(subname) != Palette.getDefaultColor())) {
+            if (!SettingValues.colorEverywhere) {
+                subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0,
+                        subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+        titleString.append(subreddit);
+
+        SpannableStringBuilder author =
+                new SpannableStringBuilder("by " + json.get("author").asText() + " ");
+
+        int authorcolor = Palette.getFontColorUser(json.get("author").asText());
+
+        if (authorcolor != 0) {
+            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        titleString.append(author);
+
+        if (UserTags.isUserTagged(json.get("author").asText())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(
+                    " " + UserTags.getUserTag(json.get("author").asText()) + " ");
+            pinned.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
+        }
+
+        if (UserSubscriptions.friends.contains(json.get("author").asText())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(
+                    " " + mContext.getString(R.string.profile_friend) + " ");
+            pinned.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                            false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
+        }
+        return titleString;
+    }
+
     private static SpannableStringBuilder getInfoSpannable(Submission submission, Context mContext,
             String baseSub) {
         String spacer = mContext.getString(R.string.submission_properties_seperator);
@@ -84,7 +157,7 @@ public class SubmissionCache {
 
         SpannableStringBuilder subreddit =
                 new SpannableStringBuilder(" /r/" + submission.getSubredditName() + " ");
-        if(submission.getSubredditName() == null){
+        if (submission.getSubredditName() == null) {
             subreddit = new SpannableStringBuilder("Promoted ");
         }
         String subname;
@@ -313,14 +386,15 @@ public class SubmissionCache {
         if (removed.contains(submission.getFullName()) || (submission.getBannedBy() != null
                 && !approved.contains(submission.getFullName()))) {
             titleString.append(CommentAdapterHelper.createRemovedLine(
-                    (submission.getBannedBy() == null) ? Authentication.name : submission.getBannedBy(),
-                    mContext));
+                    (submission.getBannedBy() == null) ? Authentication.name
+                            : submission.getBannedBy(), mContext));
         } else if (approved.contains(submission.getFullName()) || (submission.getApprovedBy()
                 != null && !removed.contains(submission.getFullName()))) {
             titleString.append(CommentAdapterHelper.createApprovedLine(
                     (submission.getApprovedBy() == null) ? Authentication.name
                             : submission.getApprovedBy(), mContext));
         }
+
         return titleString;
     }
 
@@ -341,18 +415,24 @@ public class SubmissionCache {
         }
         if (submission.getTimesGilded() > 0) {
             //if the post has only been gilded once, don't show a number
-            final String timesGilded = (submission.getTimesGilded() == 1) ? "" : "\u200Ax" + Integer.toString(submission.getTimesGilded());
-            SpannableStringBuilder gilded = new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-            TypedArray a = mContext.obtainStyledAttributes(new FontPreferences(mContext).getPostFontStyle().getResId(), R.styleable.FontStyle);
-            int fontsize = (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1)*.75);
+            final String timesGilded = (submission.getTimesGilded() == 1) ? ""
+                    : "\u200Ax" + Integer.toString(submission.getTimesGilded());
+            SpannableStringBuilder gilded =
+                    new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+            TypedArray a = mContext.obtainStyledAttributes(
+                    new FontPreferences(mContext).getPostFontStyle().getResId(),
+                    R.styleable.FontStyle);
+            int fontsize =
+                    (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
             a.recycle();
             Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
             float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image,
-                    (int) Math.ceil(fontsize * aspectRatio),
+            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
                     (int) Math.ceil(fontsize), true);
-            gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(gilded);
         }
@@ -367,8 +447,8 @@ public class SubmissionCache {
         if (submission.getDataNode().get("spoiler").asBoolean()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0SPOILER\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_grey_600, true), 0,
-                    pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_grey_600, true),
+                    0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
@@ -400,6 +480,8 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
+
+
         return titleString;
 
     }
