@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +28,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CanvasView;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.FileUtil;
 
 
 /**
@@ -76,7 +76,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
             if (!imagesDir.exists()) {
                 imagesDir.mkdir(); //create the folder if it doesn't exist
             } else {
-                deleteFilesInDir(imagesDir);
+                FileUtil.deleteFilesInDir(imagesDir);
             }
 
             try {
@@ -94,18 +94,9 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
                     if (out != null) {
                         out.close();
 
-                        /**
-                         * If a user has both a debug build and a release build installed, the authority name needs to be unique
-                         */
-                        final String authority = (Draw.this.getPackageName()).concat(".")
-                                .concat(MediaView.class.getSimpleName());
-
-                        final Uri contentUri =
-                                FileProvider.getUriForFile(Draw.this, authority, image);
-
+                        final Uri contentUri = FileUtil.getFileUri(image, this);
                         if (contentUri != null) {
-                            Intent intent = new Intent();
-                            intent.setData(contentUri);
+                            Intent intent = FileUtil.getFileIntent(image, new Intent(), this);
                             setResult(RESULT_OK, intent);
                         } else {
                             //todo error Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
@@ -165,12 +156,6 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
             }
         } else {
             finish();
-        }
-    }
-
-    private void deleteFilesInDir(File dir) {
-        for (File child : dir.listFiles()) {
-            child.delete();
         }
     }
 
