@@ -155,18 +155,17 @@ public class ImageDownloadNotificationService extends Service {
                                                 Files.copy(f, f_out);
                                                 showNotifPhoto(f_out, loadedImage);
                                             } catch (IOException e) {
-                                                e.printStackTrace();
                                                 try {
                                                     saveImageGallery(loadedImage, finalUrl1);
                                                 } catch (IOException ignored) {
-                                                    ignored.printStackTrace();
+                                                    onError(e);
                                                 }
                                             }
                                         } else {
                                             try {
                                                 saveImageGallery(loadedImage, finalUrl1);
                                             } catch (IOException e) {
-                                                e.printStackTrace();
+                                                onError(e);
                                             }
                                         }
                                     }
@@ -186,9 +185,19 @@ public class ImageDownloadNotificationService extends Service {
                                     }
                                 });
             } catch (Exception e) {
+                onError(e);
                 Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
             }
             return null;
+        }
+
+        public void onError(Exception e){
+            e.printStackTrace();
+            mNotifyManager.cancel(id);
+            stopSelf();
+            try {
+                Toast.makeText(getBaseContext(), "Error saving image", Toast.LENGTH_LONG).show();
+            } catch (Exception ignored) {}
         }
 
         private String getFileName(URL url) {
@@ -203,9 +212,8 @@ public class ImageDownloadNotificationService extends Service {
 
         @Override
         protected void onPostExecute(Void result) {
-            // handle your data
             super.onPostExecute(result);
-            stopSelf();
+            mNotifyManager.cancel(id);
         }
 
         public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
@@ -307,6 +315,7 @@ public class ImageDownloadNotificationService extends Service {
                             notif.flags |= Notification.FLAG_AUTO_CANCEL;
                             mNotificationManager.notify(id, notif);
                             loadedImage.recycle();
+                            stopSelf();
                         }
                     });
         }
@@ -333,6 +342,7 @@ public class ImageDownloadNotificationService extends Service {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    onError(e);
                 }
             }
         }
