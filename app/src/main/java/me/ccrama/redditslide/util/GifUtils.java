@@ -782,6 +782,14 @@ public class GifUtils {
 
                 try {
 
+
+                    if(!videoFile.exists()){
+                        if(!videoFile.getParentFile().exists()){
+                            videoFile.getParentFile().mkdirs();
+                        }
+                       videoFile.createNewFile();
+                    }
+
                     HttpURLConnection conv = (HttpURLConnection) url.openConnection();
                     conv.setRequestMethod("GET");
 
