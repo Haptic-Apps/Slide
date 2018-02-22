@@ -258,12 +258,12 @@ public class GifUtils {
 
         }
 
-        public void setMuteVisibility(final boolean hide) {
+        public void setMuteVisibility(final boolean visible) {
             if (mute != null) {
                 c.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (hide) {
+                        if (!visible) {
                             mute.setVisibility(View.GONE);
                         } else {
                             mute.setVisibility(View.VISIBLE);
@@ -864,6 +864,7 @@ public class GifUtils {
                                 muxedPath.getAbsolutePath());
 
                         copy(muxedPath, videoFile);
+                        new File(videoFile.getAbsolutePath() + ".a").createNewFile();
                         setMuteVisibility(true);
 
                     } else {
@@ -875,6 +876,11 @@ public class GifUtils {
                     e.printStackTrace();
                 }
 
+            } else {
+                File isAudio = new File(videoFile.getAbsolutePath() + ".a");
+                if(isAudio.exists()) {
+                    setMuteVisibility(true);
+                }
             }
             c.runOnUiThread(new Runnable() {
                 @Override
