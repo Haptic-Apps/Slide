@@ -89,6 +89,7 @@ public class SettingValues {
     public static final String PREF_HIDE_NSFW_COLLECTION      = "hideNSFWPreviewsCollection";
     public static final String PREF_IGNORE_SUB_SETTINGS       = "ignoreSub";
     public static final String PREF_HIGHLIGHT_TIME            = "highlightTime";
+    public static final String PREF_MUTE                      = "muted";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
@@ -165,18 +166,19 @@ public class SettingValues {
     public static boolean                 commentVolumeNav;
     public static boolean                 postNav;
     public static boolean                 exit;
-    public static boolean                 cropImage;
-    public static boolean                 smallTag;
-    public static boolean                 typeInfoLine;
-    public static boolean                 votesInfoLine;
-    public static boolean                 reader;
-    public static boolean                 collapseComments;
-    public static boolean                 collapseCommentsDefault;
-    public static boolean                 rightHandedCommentMenu;
-    public static boolean                 abbreviateScores;
-    public static int                     subredditSearchMethod;
-    public static int                     nightStart;
-    public static int                     nightEnd;
+    public static boolean cropImage;
+    public static boolean smallTag;
+    public static boolean typeInfoLine;
+    public static boolean votesInfoLine;
+    public static boolean reader;
+    public static boolean collapseComments;
+    public static boolean collapseCommentsDefault;
+    public static boolean rightHandedCommentMenu;
+    public static boolean abbreviateScores;
+    public static boolean isMuted;
+    public static int     subredditSearchMethod;
+    public static int     nightStart;
+    public static int     nightEnd;
 
     public static int previews;
 
@@ -261,6 +263,7 @@ public class SettingValues {
         largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
         reader = prefs.getBoolean(PREF_READER, false);
         imageSubfolders = prefs.getBoolean(PREF_IMAGE_SUBFOLDERS, false);
+        isMuted = prefs.getBoolean(PREF_MUTE, false);
 
         commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;

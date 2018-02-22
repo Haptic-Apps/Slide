@@ -108,7 +108,7 @@ public class MediaView extends FullScreenActivity
 
     private NotificationManager        mNotifyManager;
     private NotificationCompat.Builder mBuilder;
-    private long                        stopPosition;
+    private long                       stopPosition;
     private GifUtils.AsyncLoadGif      gif;
     private String                     contentUrl;
     private MediaVideoView             videoView;
@@ -261,7 +261,7 @@ public class MediaView extends FullScreenActivity
             b.sheet(6, file, getString(R.string.mediaview_save, type));
 
         }
-        if(contentUrl.contains("v.redd.it")){
+        if (contentUrl.contains("v.redd.it")) {
             b.sheet(15, thread, "View video thread");
         }
         b.listener(new DialogInterface.OnClickListener() {
@@ -269,8 +269,7 @@ public class MediaView extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(contentUrl,
-                                MediaView.this);
+                        LinkUtil.openExternally(contentUrl, MediaView.this);
                         break;
                     }
                     case (3): {
@@ -287,7 +286,8 @@ public class MediaView extends FullScreenActivity
                     }
                     break;
                     case (15): {
-                        new OpenVRedditTask(MediaView.this, subreddit).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, contentUrl);
+                        new OpenVRedditTask(MediaView.this, subreddit).executeOnExecutor(
+                                AsyncTask.THREAD_POOL_EXECUTOR, contentUrl);
                     }
                     break;
                     case (9): {
@@ -489,8 +489,10 @@ public class MediaView extends FullScreenActivity
     public void onDestroy() {
         super.onDestroy();
         ((SubsamplingScaleImageView) findViewById(R.id.submission_image)).recycle();
-        if (gif != null) {gif.cancel(true);
-        gif.cancel();}
+        if (gif != null) {
+            gif.cancel(true);
+            gif.cancel();
+        }
 
         doOnClick = null;
         if (!didLoadGif && fileLoc != null && !fileLoc.isEmpty()) {
@@ -636,6 +638,7 @@ public class MediaView extends FullScreenActivity
         if (getIntent().hasExtra(SUBREDDIT)) {
             subreddit = getIntent().getExtras().getString(SUBREDDIT);
         }
+        findViewById(R.id.mute).setVisibility(View.GONE);
 
         if (getIntent().hasExtra(EXTRA_LQ)) {
             String lqUrl = getIntent().getStringExtra(EXTRA_DISPLAY_URL);
@@ -701,8 +704,11 @@ public class MediaView extends FullScreenActivity
         hideOnLongClick();
     }
 
+    private ContentType.Type contentType = ContentType.Type.IMAGE;
+
     public void doLoad(final String contentUrl) {
-        switch (ContentType.getContentType(contentUrl)) {
+        contentType = ContentType.getContentType(contentUrl);
+        switch (contentType) {
             case DEVIANTART:
                 doLoadDeviantArt(contentUrl);
                 break;
@@ -746,6 +752,11 @@ public class MediaView extends FullScreenActivity
         gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader,
                 findViewById(R.id.placeholder), doOnClick, true, false, true,
                 ((TextView) findViewById(R.id.size)), subreddit);
+        if (contentType != ContentType.Type.GIF) {
+            videoView.mute = findViewById(R.id.mute);
+            videoView.mute.setVisibility(View.VISIBLE);
+            gif.setMute(videoView.mute);
+        }
         gif.execute(dat);
         findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override

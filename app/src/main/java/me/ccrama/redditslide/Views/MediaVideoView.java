@@ -2,6 +2,9 @@ package me.ccrama.redditslide.Views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.IntRange;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
@@ -24,6 +28,7 @@ import com.devbrackets.android.exomedia.listener.OnVideoSizeChangedListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoControls;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.devbrackets.android.exomedia.util.TimeFormatUtil;
+import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -40,6 +45,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -57,6 +63,7 @@ public class MediaVideoView extends VideoView {
 
     private static final String LOG_TAG = "VideoView";
     public int number;
+    public View mute;
     OnPreparedListener mOnPreparedListener;
     private int     currentBufferPercentage;
     private Uri     uri;
@@ -209,8 +216,31 @@ public class MediaVideoView extends VideoView {
             return;
         }
         animate().alpha(1);
-
-        // Tell the music playback service to pause
+        if(mute != null){
+            if(!SettingValues.isMuted){
+                setVolume(1f);
+                ((ImageView)mute).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+            } else {
+                setVolume(0);
+                ((ImageView)mute).setColorFilter(getResources().getColor(R.color.md_red_500), PorterDuff.Mode.SRC_ATOP);
+            }
+            mute.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(SettingValues.isMuted){
+                        setVolume(1f);
+                        SettingValues.isMuted = false;
+                        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MUTE, false).apply();
+                        ((ImageView)mute).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                    } else {
+                        setVolume(0);
+                        SettingValues.isMuted = true;
+                        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MUTE, true).apply();
+                        ((ImageView)mute).setColorFilter(getResources().getColor(R.color.md_red_500), PorterDuff.Mode.SRC_ATOP);
+                    }
+                }
+            });
+        }
 
         try {
 

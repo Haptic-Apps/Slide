@@ -43,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.BufferOverflowException;
@@ -216,6 +217,7 @@ public class GifUtils {
         private boolean        hideControls;
         private boolean        autostart;
         private Runnable       doOnClick;
+        private View           mute;
         public String subreddit = "";
         private boolean cacheOnly;
 
@@ -254,6 +256,21 @@ public class GifUtils {
 
         public void onError() {
 
+        }
+
+        public void hideMute() {
+            if (mute !=null){
+                c.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mute.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }
+
+        public void setMute(View muteView) {
+            mute = muteView;
         }
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
@@ -394,7 +411,7 @@ public class GifUtils {
             switch (videoType) {
                 case VREDDIT:
                     try {
-                        writeGifHSL(new URL(url), progressBar, c, subreddit);
+                        WriteGifMuxed(new URL(url), progressBar, c, subreddit);
                     } catch (Exception e) {
                         LogUtil.e(e,
                                 "Error loading URL " + url); //Most likely is an image, not a gif!
@@ -749,7 +766,7 @@ public class GifUtils {
 
         }
 
-        public void writeGifHSL(final URL url, final ProgressBar progressBar, final Activity c,
+        public void WriteGifMuxed(final URL url, final ProgressBar progressBar, final Activity c,
                 final String subreddit) throws Exception {
             if (size != null && c != null && !getProxy().isCached(url.toString())) {
                 getRemoteFileSize(url.toString(), client, size, c);
@@ -846,6 +863,8 @@ public class GifUtils {
 
                     } else {
                         copy(videoOutput, videoFile);
+                        //no audio!
+                        hideMute();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -940,6 +959,7 @@ public class GifUtils {
                 in.close();
             }
         }
+
     }
 
 
