@@ -258,12 +258,16 @@ public class GifUtils {
 
         }
 
-        public void hideMute() {
-            if (mute !=null){
+        public void setMuteVisibility(final boolean hide) {
+            if (mute != null) {
                 c.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mute.setVisibility(View.GONE);
+                        if (hide) {
+                            mute.setVisibility(View.GONE);
+                        } else {
+                            mute.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
             }
@@ -860,11 +864,12 @@ public class GifUtils {
                                 muxedPath.getAbsolutePath());
 
                         copy(muxedPath, videoFile);
+                        setMuteVisibility(true);
 
                     } else {
                         copy(videoOutput, videoFile);
                         //no audio!
-                        hideMute();
+                        setMuteVisibility(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

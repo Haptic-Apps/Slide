@@ -754,7 +754,9 @@ public class MediaView extends FullScreenActivity
                 ((TextView) findViewById(R.id.size)), subreddit);
         if (contentType != ContentType.Type.GIF) {
             videoView.mute = findViewById(R.id.mute);
-            videoView.mute.setVisibility(View.VISIBLE);
+            if(contentType != ContentType.Type.VREDDIT_DIRECT){
+                videoView.mute.setVisibility(View.VISIBLE);
+            }
             gif.setMute(videoView.mute);
         }
         gif.execute(dat);
