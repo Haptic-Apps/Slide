@@ -38,6 +38,7 @@ import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -52,6 +53,7 @@ import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -223,8 +225,8 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        String body = StringEscapeUtils.unescapeHtml4(comment.getDataNode().get("body_html").asText());
-        if(!search.isEmpty()){
+        String body = comment.getDataNode().get("body_html").asText();
+        if(!search.isEmpty() && StringUtils.isAlphanumericSpace(search)){
             body = body.replaceAll(search, "[[h[" + search + "]h]]");
         }
 
@@ -360,7 +362,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 final String filterPattern = constraint.toString().toLowerCase(Locale.ENGLISH).trim();
 
                 for (final CommentNode user : originalList) {
-                    if (user.getComment().getBody().toLowerCase(Locale.ENGLISH).contains(filterPattern)) {
+                    if (StringEscapeUtils.unescapeHtml4(user.getComment().getBody().toLowerCase(Locale.ENGLISH)).contains(filterPattern)) {
                         filteredList.add(user);
                     }
                 }
