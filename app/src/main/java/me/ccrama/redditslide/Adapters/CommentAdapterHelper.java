@@ -1326,7 +1326,7 @@ public class CommentAdapterHelper {
         e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
         DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext,
-                StringEscapeUtils.unescapeHtml4(replyText));
+                StringEscapeUtils.unescapeHtml4(replyText), null);
 
         builder.setCancelable(false).setView(dialoglayout);
         final Dialog d = builder.create();

@@ -429,7 +429,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         DoEditorActions.doActions(e, dialoglayout,
                 ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
-                replyTo.getBody());
+                replyTo.getBody(), null);
 
         builder.setView(dialoglayout);
         final Dialog d = builder.create();

@@ -81,7 +81,8 @@ import okio.Sink;
 public class DoEditorActions {
 
     public static void doActions(final EditText editText, final View baseView,
-            final FragmentManager fm, final Activity a, final String oldComment) {
+            final FragmentManager fm, final Activity a, final String oldComment,
+            @Nullable final String author) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +98,19 @@ public class DoEditorActions {
                 }
             }
         });
+
+        if(baseView.findViewById(R.id.author) != null) {
+            if (author != null && author.isEmpty()) {
+                baseView.setVisibility(View.GONE);
+            } else {
+                baseView.findViewById(R.id.author).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editText.setText(editText.getText().toString() + "/u/" + author);
+                    }
+                });
+            }
+        }
 
         baseView.findViewById(R.id.italics).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +147,6 @@ public class DoEditorActions {
         baseView.findViewById(R.id.savedraft).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtil.v("Saving draft");
                 Drafts.addDraft(editText.getText().toString());
                 Snackbar s = Snackbar.make(baseView.findViewById(R.id.savedraft), "Draft saved",
                         Snackbar.LENGTH_SHORT);
@@ -787,7 +800,7 @@ public class DoEditorActions {
                                                 + "]("
                                                 + url
                                                 + ")";
-                                        if(descriptionBox.getText().toString().trim().isEmpty()){
+                                        if (descriptionBox.getText().toString().trim().isEmpty()) {
                                             s = url + " ";
                                         }
                                         int start = Math.max(sStart, 0);
