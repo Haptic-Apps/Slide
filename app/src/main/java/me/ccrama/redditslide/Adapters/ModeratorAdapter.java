@@ -6,14 +6,14 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -30,15 +30,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.PublicContribution;
@@ -62,6 +61,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
@@ -155,7 +155,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -171,7 +172,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -203,7 +205,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(Html.fromHtml(submission.getTitle()));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
@@ -259,23 +261,28 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             if (submission.isSelfPost())
                                 Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
                             else {
-                                new BottomSheet.Builder(mContext)
-                                        .title(R.string.submission_share_title)
-                                        .grid()
-                                        .sheet(R.menu.share_menu)
-                                        .listener(new DialogInterface.OnClickListener() {
+                                final BottomSheetHelper bottomSheetHelper =
+                                        new BottomSheetHelper(mContext);
+                                bottomSheetHelper.header(R.string.submission_share_title);
+                                bottomSheetHelper.textView(R.string.submission_share_reddit,
+                                        R.drawable.commentchange, new View.OnClickListener() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case R.id.reddit_url:
-                                                        Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
-                                                        break;
-                                                    case R.id.link_url:
-                                                        Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
-                                                        break;
-                                                }
+                                            public void onClick(View v) {
+                                                Reddit.defaultShareText("", "https://reddit.com"
+                                                        + submission.getPermalink(), mContext);
+                                                bottomSheetHelper.dismiss();
                                             }
-                                        }).show();
+                                        });
+                                bottomSheetHelper.textView(R.string.submission_share_content,
+                                        R.drawable.ic_share_link, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Reddit.defaultShareText(submission.getTitle(),
+                                                        submission.getUrl(), mContext);
+                                                bottomSheetHelper.dismiss();
+                                            }
+                                        });
+                                bottomSheetHelper.build().show();
                             }
                         }
                     });
@@ -309,7 +316,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 }
                             });
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
 
@@ -321,7 +329,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, null, null);
 
-            final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
+            final ImageView hideButton = holder.itemView.findViewById(R.id.hide);
             if (hideButton != null) {
                 hideButton.setVisibility(View.GONE);
             }
@@ -362,7 +370,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             titleString.append(spacer);
 
             {
-                final ImageView mod = (ImageView) holder.itemView.findViewById(R.id.mod);
+                final ImageView mod = holder.itemView.findViewById(R.id.mod);
                 try {
                     if (UserSubscriptions.modOf.contains(comment.getSubredditName())) {
                         //todo
@@ -490,101 +498,96 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            final Comment comment, final ProfileCommentViewHolder holder,
             final Map<String, Integer> reports, final Map<String, String> reports2) {
 
-        int[] attrs = new int[]{R.attr.tintColor};
-        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+        final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(mContext);
 
-        //Initialize drawables
-        int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
-        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable pin = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
-        final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
-        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
-        final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
-
-        //Tint drawables
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        approve.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        nsfw.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-        ta.recycle();
-
-        //Bottom sheet builder
-        BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                Html.fromHtml(comment.getBody()));
-
+        bottomSheetHelper.header(Html.fromHtml(comment.getBody()));
         int reportCount = reports.size() + reports2.size();
-
-        if (reportCount == 0) {
-            b.sheet(0, report, mContext.getString(R.string.mod_no_reports));
-        } else {
-            b.sheet(0, report, mContext.getResources()
-                    .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
-        }
-
-        b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
-        // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
-
-
-        final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
-        if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
-            if (!distinguished) {
-                b.sheet(9, distinguish, mContext.getString(R.string.mod_distinguish));
-            } else {
-                b.sheet(9, distinguish, mContext.getString(R.string.mod_undistinguish));
-            }
-        }
-
-        b.sheet(23, ban, mContext.getString(R.string.mod_ban_user));
-
-        b.sheet(6, remove, mContext.getString(R.string.btn_remove))
-                .sheet(10, spam, "Mark as spam")
-                .sheet(8, profile, mContext.getString(R.string.mod_btn_author))
-                .listener(new DialogInterface.OnClickListener() {
+        bottomSheetHelper.textView(reportCount == 0 ? mContext.getString(R.string.mod_no_reports)
+                        : mContext.getResources()
+                                .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount),
+                R.drawable.report, new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                CommentAdapterHelper.viewReports(mContext, reports, reports2);
-                                break;
-                            case 1:
-                                doApproval(mContext, holder, comment);
-                                break;
-                            case 9:
-                                if (distinguished) {
-                                    unDistinguishComment(mContext, holder, comment);
-                                } else {
-                                    distinguishComment(mContext, holder, comment);
-                                }
-                                break;
-                            case 6:
-                                removeComment(mContext, holder, comment,  false);
-                                break;
-                            case 10:
-                                removeComment(mContext, holder, comment,  true);
-                                break;
-                            case 8:
-                                Intent i = new Intent(mContext, Profile.class);
-                                i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
-                                mContext.startActivity(i);
-                                break;
-                            case 23:
-                                CommentAdapterHelper.showBan(mContext, holder.itemView, comment, "", "", "", "");
-                                break;
+                    public void onClick(View v) {
+                        CommentAdapterHelper.viewReports(mContext, reports, reports2);
 
-                        }
                     }
                 });
-        b.show();
+        bottomSheetHelper.textView(R.string.mod_btn_approve, R.drawable.support,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doApproval(mContext, holder, comment);
+
+                    }
+                });
+        if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
+            final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
+            bottomSheetHelper.textView(
+                    distinguished ? R.string.mod_distinguish : R.string.mod_undistinguish,
+                    R.drawable.iconstarfilled, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (distinguished) {
+                                unDistinguishComment(mContext, holder, comment);
+                            } else {
+                                distinguishComment(mContext, holder, comment);
+                            }
+                        }
+                    });
+        }
+        bottomSheetHelper.textView(R.string.mod_ban_user, R.drawable.ban,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CommentAdapterHelper.showBan(mContext, holder.itemView, comment, "", "", "",
+                                "");
+
+                    }
+                });
+        bottomSheetHelper.textView(R.string.btn_remove, R.drawable.close,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeComment(mContext, holder, comment, false);
+
+                    }
+                });
+        bottomSheetHelper.textView("Mark as spam", R.drawable.spam, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeComment(mContext, holder, comment, true);
+
+            }
+        });
+        bottomSheetHelper.textView("/u/" + comment.getAuthor(), R.drawable.profile,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
+                        mContext.startActivity(i);
+
+                    }
+                }, new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
+                                Context.CLIPBOARD_SERVICE);
+                        ClipData clip =
+                                ClipData.newPlainText("Comment text", "/u/" + comment.getAuthor());
+                        if (clipboard != null) {
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(mContext, R.string.submission_author_copied,
+                                    Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            return false;
+                        }
+                        return true;
+                    }
+                });
+        bottomSheetHelper.build().show();
     }
     public static void doApproval(final Context mContext, final ProfileCommentViewHolder holder,
             final Comment comment) {
@@ -627,8 +630,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_distinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -663,8 +665,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_undistinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -699,8 +700,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 

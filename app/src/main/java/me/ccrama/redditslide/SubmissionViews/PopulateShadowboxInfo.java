@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -28,7 +25,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.ApiException;
@@ -51,6 +47,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -62,8 +59,8 @@ import me.ccrama.redditslide.util.LinkUtil;
  */
 public class PopulateShadowboxInfo {
     public static void doActionbar(final Submission s, final View rootView, final Activity c, boolean extras) {
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
+        TextView title = rootView.findViewById(R.id.title);
+        TextView desc = rootView.findViewById(R.id.desc);
         String distingush = "";
         if(s != null) {
             if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
@@ -95,8 +92,8 @@ public class PopulateShadowboxInfo {
             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
 
             if (extras) {
-                final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
-                final ImageView upvotebutton = (ImageView) rootView.findViewById(R.id.upvote);
+                final ImageView downvotebutton = rootView.findViewById(R.id.downvote);
+                final ImageView upvotebutton = rootView.findViewById(R.id.upvote);
 
                 if (s.isArchived() || s.isLocked()) {
                     downvotebutton.setVisibility(View.GONE);
@@ -185,8 +182,8 @@ public class PopulateShadowboxInfo {
                     rootView.findViewById(R.id.save).setVisibility(View.GONE);
                 }
                 try {
-                    final TextView points = ((TextView) rootView.findViewById(R.id.score));
-                    final TextView comments = ((TextView) rootView.findViewById(R.id.comments));
+                    final TextView points = rootView.findViewById(R.id.score);
+                    final TextView comments = rootView.findViewById(R.id.comments);
                     if (Authentication.isLoggedIn && Authentication.didOnline) {
                         {
 
@@ -275,8 +272,8 @@ public class PopulateShadowboxInfo {
 
     public static void doActionbar(final CommentNode node, final View rootView, final Activity c, boolean extras) {
         final Comment s = node.getComment();
-        TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
+        TitleTextView title = rootView.findViewById(R.id.title);
+        TextView desc = rootView.findViewById(R.id.desc);
         String distingush = "";
         if(s != null) {
             if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
@@ -320,8 +317,8 @@ public class PopulateShadowboxInfo {
             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
 
             if (extras) {
-                final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
-                final ImageView upvotebutton = (ImageView) rootView.findViewById(R.id.upvote);
+                final ImageView downvotebutton = rootView.findViewById(R.id.downvote);
+                final ImageView upvotebutton = rootView.findViewById(R.id.upvote);
 
                 if (s.isArchived()) {
                     downvotebutton.setVisibility(View.GONE);
@@ -410,8 +407,8 @@ public class PopulateShadowboxInfo {
                     rootView.findViewById(R.id.save).setVisibility(View.GONE);
                 }
                 try {
-                    final TextView points = ((TextView) rootView.findViewById(R.id.score));
-                    final TextView comments = ((TextView) rootView.findViewById(R.id.comments));
+                    final TextView points = rootView.findViewById(R.id.score);
+                    final TextView comments = rootView.findViewById(R.id.comments);
                     if (Authentication.isLoggedIn && Authentication.didOnline) {
                         {
 
@@ -484,74 +481,49 @@ public class PopulateShadowboxInfo {
 
     public static void showBottomSheet(final Activity mContext, final Submission submission, final View rootView) {
 
-        int[] attrs = new int[]{R.attr.tintColor};
-        TypedArray ta = mContext.obtainStyledAttributes(attrs);
-
-        int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-        Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
-        Drawable link = mContext.getResources().getDrawable(R.drawable.link);
-        Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
-
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        link.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-        ta.recycle();
-
-        BottomSheet.Builder b = new BottomSheet.Builder(mContext)
-                .title(Html.fromHtml(submission.getTitle()));
-
-
+        final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(mContext);
+        bottomSheetHelper.header(Html.fromHtml(submission.getTitle()));
         if (Authentication.didOnline) {
-            b.sheet(1, profile, "/u/" + submission.getAuthor())
-                    .sheet(2, sub, "/r/" + submission.getSubredditName());
+            bottomSheetHelper.textView("/u/" + submission.getAuthor(), R.drawable.profile,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(mContext, Profile.class);
+                            i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
+                            mContext.startActivity(i);
+                            bottomSheetHelper.dismiss();
+                        }
+                    });
+            bottomSheetHelper.textView("/r/" + submission.getSubredditName(), R.drawable.sub,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(mContext, SubredditView.class);
+                            i.putExtra(SubredditView.EXTRA_SUBREDDIT,
+                                    submission.getSubredditName());
+                            mContext.startActivityForResult(i, 14);
+                            bottomSheetHelper.dismiss();
+                        }
+                    });
             if (Authentication.isLoggedIn) {
-                b.sheet(12, report, mContext.getString(R.string.btn_report));
-            }
-        }
-        b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
-                .sheet(4, link, mContext.getString(R.string.submission_share_permalink))
-                .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
-                .listener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 1: {
-                                Intent i = new Intent(mContext, Profile.class);
-                                i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
-                                mContext.startActivity(i);
-                            }
-                            break;
-                            case 2: {
-                                Intent i = new Intent(mContext, SubredditView.class);
-                                i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
-                                mContext.startActivityForResult(i, 14);
-                            }
-                            break;
-                            case 7:
-                                LinkUtil.openExternally(submission.getUrl(), mContext);
-                                break;
-                            case 4:
-                                Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
-                                break;
-                            case 12:
+                bottomSheetHelper.textView(R.string.btn_report, R.drawable.report,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
                                 reportReason = "";
-                                new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                                        reportReason = input.toString();
-                                    }
-                                }).alwaysCallInputCallback()
+                                new MaterialDialog.Builder(mContext).input(
+                                        mContext.getString(R.string.input_reason_for_report), null,
+                                        true, new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(MaterialDialog dialog,
+                                                    CharSequence input) {
+                                                reportReason = input.toString();
+                                            }
+                                        })
+                                        .alwaysCallInputCallback()
                                         .title(R.string.report_post)
-                                        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                                        .inputType(InputType.TYPE_CLASS_TEXT
+                                                | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
                                                 | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
                                                 | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                         .positiveText(R.string.btn_report)
@@ -559,12 +531,15 @@ public class PopulateShadowboxInfo {
                                         .onNegative(null)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
-                                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                            public void onClick(MaterialDialog dialog,
+                                                    DialogAction which) {
                                                 new AsyncTask<Void, Void, Void>() {
                                                     @Override
                                                     protected Void doInBackground(Void... params) {
                                                         try {
-                                                            new AccountManager(Authentication.reddit).report(submission, reportReason);
+                                                            new AccountManager(
+                                                                    Authentication.reddit).report(
+                                                                    submission, reportReason);
                                                         } catch (ApiException e) {
                                                             e.printStackTrace();
                                                         }
@@ -573,9 +548,12 @@ public class PopulateShadowboxInfo {
 
                                                     @Override
                                                     protected void onPostExecute(Void aVoid) {
-                                                        Snackbar s = Snackbar.make(rootView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+                                                        Snackbar s = Snackbar.make(rootView,
+                                                                R.string.msg_report_sent,
+                                                                Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        TextView tv = view.findViewById(
+                                                                android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
                                                     }
@@ -583,24 +561,51 @@ public class PopulateShadowboxInfo {
                                             }
                                         })
                                         .show();
-
-                                break;
-                            case 8:
-                                Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
-                                break;
-                            case 6: {
-                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+                                bottomSheetHelper.dismiss();
                             }
-                            break;
-                        }
+                        });
+            }
+        }
+        bottomSheetHelper.textView(R.string.submission_link_copy, R.drawable.ic_content_copy,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
+                                Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(mContext, R.string.submission_link_copied,
+                                Toast.LENGTH_SHORT).show();
+                        bottomSheetHelper.dismiss();
                     }
                 });
-
-
-        b.show();
+        bottomSheetHelper.textView(R.string.submission_link_extern, R.drawable.openexternal,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LinkUtil.openExternally(submission.getUrl(), mContext);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.submission_share_permalink, R.drawable.link,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reddit.defaultShareText(submission.getTitle(), submission.getUrl(),
+                                mContext);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.submission_share_reddit_url, R.drawable.commentchange,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reddit.defaultShareText(submission.getTitle(),
+                                "https://reddit.com" + submission.getPermalink(), mContext);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.build().show();
     }
 
 }

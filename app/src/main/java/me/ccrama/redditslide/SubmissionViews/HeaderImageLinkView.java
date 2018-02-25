@@ -3,12 +3,7 @@ package me.ccrama.redditslide.SubmissionViews;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -20,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cocosw.bottomsheet.BottomSheet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -32,19 +26,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.ForceTouch.PeekView;
-import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.ForceTouch.builder.Peek;
-import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
-import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
-import me.ccrama.redditslide.ForceTouch.callback.OnPop;
-import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
-import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.PeekMediaView;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -479,7 +465,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
 
             if (SettingValues.smallTag && !full && !news) {
-                title = (TextView) findViewById(R.id.tag);
+                title = findViewById(R.id.tag);
                 findViewById(R.id.tag).setVisibility(View.VISIBLE);
                 info = null;
             } else {
@@ -542,96 +528,40 @@ public class HeaderImageLinkView extends RelativeLayout {
             throw new RuntimeException("Could not find activity from context:" + context);
         }
 
-        if (activity != null && !activity.isFinishing()) {
-            if (SettingValues.peek) {
-                Peek.into(R.layout.peek_view_submission, new SimpleOnPeek() {
-                    @Override
-                    public void onInflated(final PeekView peekView, final View rootView) {
-                        //do stuff
-                        TextView text = ((TextView) rootView.findViewById(R.id.title));
-                        text.setText(url);
-                        text.setTextColor(Color.WHITE);
-                        ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
-
-                        peekView.addButton((R.id.share), new OnButtonUp() {
-                            @Override
-                            public void onButtonUp() {
-                                Reddit.defaultShareText("", url, rootView.getContext());
-                            }
-                        });
-
-                        peekView.addButton((R.id.upvoteb), new OnButtonUp() {
-                            @Override
-                            public void onButtonUp() {
-                                ((View) getParent()).findViewById(R.id.upvote).callOnClick();
-                            }
-                        });
-
-                        peekView.setOnRemoveListener(new OnRemove() {
-                            @Override
-                            public void onRemove() {
-                                ((PeekMediaView) rootView.findViewById(R.id.peek)).doClose();
-                            }
-                        });
-
-                        peekView.addButton((R.id.comments), new OnButtonUp() {
-                            @Override
-                            public void onButtonUp() {
-                                ((View) getParent().getParent()).callOnClick();
-                            }
-                        });
-
-                        peekView.setOnPop(new OnPop() {
-                            @Override
-                            public void onPop() {
-                                popped = true;
-                                callOnClick();
-                            }
-                        });
-                    }
-
-                })
-                        .with(new PeekViewOptions().setFullScreenPeek(true))
-                        .show((PeekViewActivity) activity, event);
-            } else {
-                BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
-                int[] attrs = new int[]{R.attr.tintColor};
-                TypedArray ta = getContext().obtainStyledAttributes(attrs);
-
-                int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
-                open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                Drawable share = getResources().getDrawable(R.drawable.ic_share);
-                share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-                copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-                ta.recycle();
-
-                b.sheet(R.id.open_link, open,
-                        getResources().getString(R.string.submission_link_extern));
-                b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
-                b.sheet(R.id.copy_link, copy,
-                        getResources().getString(R.string.submission_link_copy));
-                final Activity finalActivity = activity;
-                b.listener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case R.id.open_link:
-                                LinkUtil.openExternally(url, context);
-                                break;
-                            case R.id.share_link:
-                                Reddit.defaultShareText("", url, finalActivity);
-                                break;
-                            case R.id.copy_link:
-                                LinkUtil.copyUrl(url, finalActivity);
-                                break;
-                        }
-                    }
-                }).show();
+        final Activity finalActivity = activity;
+        final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(finalActivity);
+        bottomSheetHelper.header(url, new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LinkUtil.copyUrl(url, finalActivity);
+                bottomSheetHelper.dismiss();
+                return true;
             }
-        }
+        });
+        bottomSheetHelper.textView(R.string.submission_link_extern, R.drawable.ic_open_in_browser,
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LinkUtil.openExternally(url, context);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.share_link, R.drawable.ic_share, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Reddit.defaultShareText("", url, finalActivity);
+                bottomSheetHelper.dismiss();
+            }
+        });
+        bottomSheetHelper.textView(R.string.submission_link_copy, R.drawable.ic_content_copy,
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LinkUtil.copyUrl(url, finalActivity);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.build().show();
     }
 
     public void setBottomSheet(View v, final Submission submission, final boolean full) {
@@ -762,8 +692,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     private void init() {
         inflate(getContext(), R.layout.header_image_title_view, this);
-        this.title = (TextView) findViewById(R.id.textimage);
-        this.info = (TextView) findViewById(R.id.subtextimage);
-        this.backdrop = (ImageView) findViewById(R.id.leadimage);
+        this.title = findViewById(R.id.textimage);
+        this.info = findViewById(R.id.subtextimage);
+        this.backdrop = findViewById(R.id.leadimage);
     }
 }

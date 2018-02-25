@@ -1,11 +1,6 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.HapticFeedbackConstants;
@@ -14,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
@@ -36,6 +29,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 
@@ -141,45 +135,40 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public boolean onLongClick(View v) {
 
-                    if (main != null) {
-                        BottomSheet.Builder b = new BottomSheet.Builder(main)
-                                .title(submission.getUrl())
-                                .grid();
-                        int[] attrs = new int[]{R.attr.tintColor};
-                        TypedArray ta = main.obtainStyledAttributes(attrs);
-
-                        int color = ta.getColor(0, Color.WHITE);
-                        Drawable open = main.getResources().getDrawable(R.drawable.ic_open_in_browser);
-                        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                        Drawable share = main.getResources().getDrawable(R.drawable.ic_share);
-                        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                        Drawable copy = main.getResources().getDrawable(R.drawable.ic_content_copy);
-                        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-                        ta.recycle();
-
-                        b.sheet(R.id.open_link, open, main.getResources().getString(R.string.submission_link_extern));
-                        b.sheet(R.id.share_link, share, main.getResources().getString(R.string.share_link));
-                        b.sheet(R.id.copy_link, copy, main.getResources().getString(R.string.submission_link_copy));
-
-                        b.listener(new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case R.id.open_link:
-                                        LinkUtil.openExternally(submission.getUrl(), main);
-                                        break;
-                                    case R.id.share_link:
-                                        Reddit.defaultShareText("", submission.getUrl(), main);
-                                        break;
-                                    case R.id.copy_link:
-                                        LinkUtil.copyUrl(submission.getUrl(), main);
-                                        break;
+                    final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(main);
+                    bottomSheetHelper.header(submission.getUrl(), new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            LinkUtil.copyUrl(submission.getUrl(), main);
+                            bottomSheetHelper.dismiss();
+                            return true;
+                        }
+                    });
+                    bottomSheetHelper.textView(R.string.submission_link_extern,
+                            R.drawable.ic_open_in_browser, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    LinkUtil.openExternally(submission.getUrl(), main);
+                                    bottomSheetHelper.dismiss();
                                 }
-                            }
-                        }).show();
-                        return true;
-                    }
+                            });
+                    bottomSheetHelper.textView(R.string.share_link, R.drawable.ic_share,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Reddit.defaultShareText("", submission.getUrl(), main);
+                                    bottomSheetHelper.dismiss();
+                                }
+                            });
+                    bottomSheetHelper.textView(R.string.submission_link_copy,
+                            R.drawable.ic_content_copy, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    LinkUtil.copyUrl(submission.getUrl(), main);
+                                    bottomSheetHelper.dismiss();
+                                }
+                            });
+                    bottomSheetHelper.build().show();
                     return true;
                 }
             });
@@ -315,8 +304,8 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public AlbumViewHolder(View itemView) {
             super(itemView);
             comments = itemView.findViewById(R.id.comments);
-            image = (ImageView) itemView.findViewById(R.id.image);
-            type = (ImageView) itemView.findViewById(R.id.type);
+            image = itemView.findViewById(R.id.image);
+            type = itemView.findViewById(R.id.type);
         }
     }
 

@@ -5,15 +5,11 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -42,24 +38,19 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.ForceTouch.PeekView;
@@ -71,6 +62,7 @@ import me.ccrama.redditslide.ForceTouch.callback.OnPop;
 import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
 import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
 import me.ccrama.redditslide.SubmissionViews.OpenVRedditTask;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -546,7 +538,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     @Override
                     public void onInflated(final PeekView peekView, final View rootView) {
                         //do stuff
-                        TextView text = ((TextView) rootView.findViewById(R.id.title));
+                        TextView text = rootView.findViewById(R.id.title);
                         text.setText(url);
                         text.setTextColor(Color.WHITE);
                         ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
@@ -602,42 +594,42 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         .with(new PeekViewOptions().setFullScreenPeek(true))
                         .show((PeekViewActivity) activity, event);
             } else {
-                BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
-                int[] attrs = new int[]{R.attr.tintColor};
-                TypedArray ta = getContext().obtainStyledAttributes(attrs);
-
-                int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
-                open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                Drawable share = getResources().getDrawable(R.drawable.ic_share);
-                share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-                copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-                ta.recycle();
-
-                b.sheet(R.id.open_link, open,
-                        getResources().getString(R.string.submission_link_extern));
-                b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
-                b.sheet(R.id.copy_link, copy,
-                        getResources().getString(R.string.submission_link_copy));
                 final Activity finalActivity = activity;
-                b.listener(new DialogInterface.OnClickListener() {
+
+                final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(finalActivity);
+                bottomSheetHelper.header(url, new OnLongClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case R.id.open_link:
-                                LinkUtil.openExternally(url, context);
-                                break;
-                            case R.id.share_link:
-                                Reddit.defaultShareText("", url, finalActivity);
-                                break;
-                            case R.id.copy_link:
-                                LinkUtil.copyUrl(url, finalActivity);
-                                break;
-                        }
+                    public boolean onLongClick(View v) {
+                        LinkUtil.copyUrl(url, finalActivity);
+                        bottomSheetHelper.dismiss();
+                        return true;
                     }
-                }).show();
+                });
+                bottomSheetHelper.textView(R.string.submission_link_extern,
+                        R.drawable.ic_open_in_browser, new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                LinkUtil.openExternally(url, context);
+                                bottomSheetHelper.dismiss();
+                            }
+                        });
+                bottomSheetHelper.textView(R.string.share_link, R.drawable.ic_share,
+                        new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Reddit.defaultShareText("", url, finalActivity);
+                                bottomSheetHelper.dismiss();
+                            }
+                        });
+                bottomSheetHelper.textView(R.string.submission_link_copy,
+                        R.drawable.ic_content_copy, new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                LinkUtil.copyUrl(url, finalActivity);
+                                bottomSheetHelper.dismiss();
+                            }
+                        });
+                bottomSheetHelper.build().show();
             }
         }
     }

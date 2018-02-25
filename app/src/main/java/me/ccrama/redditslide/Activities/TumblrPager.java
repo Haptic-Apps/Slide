@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,7 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -69,6 +65,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Tumblr.Photo;
 import me.ccrama.redditslide.Tumblr.TumblrUtils;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
@@ -221,7 +218,7 @@ public class TumblrPager extends FullScreenActivity
                     LayoutInflater l = getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(TumblrPager.this);
-                    GridView gridview = (GridView) body.findViewById(R.id.images);
+                    GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapterTumblr(TumblrPager.this, images));
 
 
@@ -365,7 +362,7 @@ public class TumblrPager extends FullScreenActivity
                 Bundle savedInstanceState) {
             rootView = (ViewGroup) inflater.inflate(R.layout.submission_gifcard_album, container,
                     false);
-            loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
+            loader = rootView.findViewById(R.id.gifprogress);
 
 
             gif = rootView.findViewById(R.id.gif);
@@ -412,53 +409,48 @@ public class TumblrPager extends FullScreenActivity
     public void showBottomSheetImage(final String contentUrl, final boolean isGif,
             final int index) {
 
-        int[] attrs = new int[]{R.attr.tintColor};
-        TypedArray ta = obtainStyledAttributes(attrs);
-
-        int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
-
-        external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-        ta.recycle();
-        BottomSheet.Builder b = new BottomSheet.Builder(this).title(contentUrl);
-
-        b.sheet(2, external, getString(R.string.submission_link_extern));
-        b.sheet(5, share, getString(R.string.submission_link_share));
-        if (!isGif) b.sheet(3, image, getString(R.string.share_image));
-        b.sheet(4, save, getString(R.string.submission_save_image));
-        b.listener(new DialogInterface.OnClickListener() {
+        final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(this);
+        bottomSheetHelper.header(contentUrl, new View.OnLongClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case (2): {
-                        LinkUtil.openExternally(contentUrl, TumblrPager.this);
-                    }
-                    break;
-                    case (3): {
-                        ShareUtil.shareImage(contentUrl, TumblrPager.this);
-                    }
-                    break;
-                    case (5): {
-                        Reddit.defaultShareText("", contentUrl, TumblrPager.this);
-                    }
-                    break;
-                    case (4): {
-                        doImageSave(isGif, contentUrl, index);
-                    }
-                    break;
-                }
+            public boolean onLongClick(View v) {
+                LinkUtil.copyUrl(contentUrl, TumblrPager.this);
+                bottomSheetHelper.dismiss();
+                return true;
             }
         });
-
-        b.show();
-
+        bottomSheetHelper.textView(R.string.submission_link_extern, R.drawable.openexternal,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LinkUtil.openExternally(contentUrl, TumblrPager.this);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.submission_link_share, R.drawable.share,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShareUtil.shareImage(contentUrl, TumblrPager.this);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.share_image, R.drawable.image,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reddit.defaultShareText("", contentUrl, TumblrPager.this);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.submission_save_image, R.drawable.save,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doImageSave(isGif, contentUrl, index);
+                        bottomSheetHelper.dismiss();
+                    }
+        });
+        bottomSheetHelper.build().show();
     }
 
     public void doImageSave(boolean isGif, String contentUrl, int index) {
@@ -566,8 +558,7 @@ public class TumblrPager extends FullScreenActivity
                     }
                     ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTypeface(typeface);
                 }
-                final SlidingUpPanelLayout l =
-                        (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
+                final SlidingUpPanelLayout l = rootView.findViewById(R.id.sliding_layout);
                 rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -640,12 +631,11 @@ public class TumblrPager extends FullScreenActivity
     }
 
     private static void loadImage(final View rootView, Fragment f, String url) {
-        final SubsamplingScaleImageView image =
-                (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
+        final SubsamplingScaleImageView image = rootView.findViewById(R.id.image);
         image.setMinimumDpi(70);
         image.setMinimumTileDpi(240);
         ImageView fakeImage = new ImageView(f.getActivity());
-        final TextView size = (TextView) rootView.findViewById(R.id.size);
+        final TextView size = rootView.findViewById(R.id.size);
         fakeImage.setLayoutParams(
                 new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);

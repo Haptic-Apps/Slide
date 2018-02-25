@@ -9,11 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -34,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -68,6 +63,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.OpenVRedditTask;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
@@ -214,33 +210,50 @@ public class MediaView extends FullScreenActivity
     }
 
     public void showBottomSheetImage() {
-        int[] attrs = new int[]{R.attr.tintColor};
-        TypedArray ta = obtainStyledAttributes(attrs);
-
-        int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
-        Drawable file = getResources().getDrawable(R.drawable.savecontent);
-        Drawable thread = getResources().getDrawable(R.drawable.commentchange);
-
-        external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        file.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        thread.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-        ta.recycle();
-
-        BottomSheet.Builder b = new BottomSheet.Builder(this).title(contentUrl);
-
-        b.sheet(2, external, getString(R.string.submission_link_extern));
-        b.sheet(5, share, getString(R.string.submission_link_share));
-
-        if (!isGif) b.sheet(3, image, getString(R.string.share_image));
-        b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
+        final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(this);
+        bottomSheetHelper.header(contentUrl, new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LinkUtil.copyUrl(contentUrl, MediaView.this);
+                bottomSheetHelper.dismiss();
+                return true;
+            }
+        });
+        bottomSheetHelper.textView(R.string.submission_link_extern, R.drawable.openexternal,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LinkUtil.openExternally(contentUrl, MediaView.this);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.submission_link_share, R.drawable.share,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reddit.defaultShareText("", StringEscapeUtils.unescapeHtml4(contentUrl),
+                                MediaView.this);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        if (!isGif) {
+            bottomSheetHelper.textView(R.string.share_image, R.drawable.image,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ShareUtil.shareImage(actuallyLoaded, MediaView.this);
+                            bottomSheetHelper.dismiss();
+                        }
+                    });
+        }
+        bottomSheetHelper.textView("Save " + (isGif ? "MP4" : "image"), R.drawable.save,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doImageSave();
+                        bottomSheetHelper.dismiss();
+                    }
+                });
         if (isGif
                 && !contentUrl.contains(".mp4")
                 && !contentUrl.contains("streamable.com")
@@ -258,50 +271,28 @@ public class MediaView extends FullScreenActivity
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            b.sheet(6, file, getString(R.string.mediaview_save, type));
 
+            bottomSheetHelper.textView(R.string.mediaview_save, R.drawable.savecontent,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            saveFile(contentUrl);
+                            bottomSheetHelper.dismiss();
+                        }
+                    });
         }
-        if(contentUrl.contains("v.redd.it")){
-            b.sheet(15, thread, "View video thread");
+        if (contentUrl.contains("v.redd.it")) {
+            bottomSheetHelper.textView("View video thread", R.drawable.commentchange,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new OpenVRedditTask(MediaView.this, subreddit).executeOnExecutor(
+                                    AsyncTask.THREAD_POOL_EXECUTOR, contentUrl);
+                            bottomSheetHelper.dismiss();
+                        }
+                    });
         }
-        b.listener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case (2): {
-                        LinkUtil.openExternally(contentUrl,
-                                MediaView.this);
-                        break;
-                    }
-                    case (3): {
-                        ShareUtil.shareImage(actuallyLoaded, MediaView.this);
-                        break;
-                    }
-                    case (5): {
-                        Reddit.defaultShareText("", StringEscapeUtils.unescapeHtml4(contentUrl),
-                                MediaView.this);
-                        break;
-                    }
-                    case (6): {
-                        saveFile(contentUrl);
-                    }
-                    break;
-                    case (15): {
-                        new OpenVRedditTask(MediaView.this, subreddit).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, contentUrl);
-                    }
-                    break;
-                    case (9): {
-                        shareGif(contentUrl);
-                    }
-                    break;
-                    case (4): {
-                        doImageSave();
-                        break;
-                    }
-                }
-            }
-        });
-        b.show();
+        bottomSheetHelper.build().show();
     }
 
     public void doImageSave() {
