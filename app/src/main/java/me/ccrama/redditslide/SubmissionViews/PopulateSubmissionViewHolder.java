@@ -3024,7 +3024,7 @@ public class PopulateSubmissionViewHolder {
 
                                                 DoEditorActions.doActions(e, dialoglayout,
                                                         ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                                                        mContext, null);
+                                                        mContext, null, null);
 
                                                 builder.setCancelable(false).setView(dialoglayout);
                                                 final Dialog d = builder.create();
