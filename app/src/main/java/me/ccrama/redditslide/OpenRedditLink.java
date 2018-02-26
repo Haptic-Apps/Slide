@@ -10,6 +10,7 @@ import java.util.Arrays;
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.LiveThread;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SendMessage;
@@ -54,24 +55,23 @@ public class OpenRedditLink {
             parts = Arrays.copyOf(parts, parts.length - 1);
         }
 
+        Intent i = null;
         switch (type) {
             case SHORTENED: {
-                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i = new Intent(context, CommentsScreenSingle.class);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, Reddit.EMPTY_STRING);
                 i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[1]);
-                context.startActivity(i);
                 break;
             }
             case LIVE: {
-                Intent i = new Intent(context, LiveThread.class);
+                i = new Intent(context, LiveThread.class);
                 i.putExtra(LiveThread.EXTRA_LIVEURL, parts[2]);
-                context.startActivity(i);
                 break;
             }
             case WIKI: {
-                Intent i = new Intent(context, Wiki.class);
+                i = new Intent(context, Wiki.class);
                 i.putExtra(Wiki.EXTRA_SUBREDDIT, parts[2]);
                 String page;
                 if (parts.length >= 5) {
@@ -81,11 +81,10 @@ public class OpenRedditLink {
                     }
                     i.putExtra(Wiki.EXTRA_PAGE, page);
                 }
-                context.startActivity(i);
                 break;
             }
             case SEARCH: {
-                Intent i = new Intent(context, Search.class);
+                i = new Intent(context, Search.class);
                 String end = parts[parts.length - 1];
                 end = end.replace(":", "%3A");
 
@@ -117,11 +116,10 @@ public class OpenRedditLink {
                 if (urlParams.getQueryParameterNames().contains("site")) {
                     i.putExtra(Search.EXTRA_SITE, urlParams.getQueryParameter("site"));
                 }
-                context.startActivity(i);
                 break;
             }
             case COMMENT_PERMALINK: {
-                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i = new Intent(context, CommentsScreenSingle.class);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
@@ -148,35 +146,31 @@ public class OpenRedditLink {
                         }
                     }
                 }
-                context.startActivity(i);
                 break;
             }
             case SUBMISSION: {
-                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i = new Intent(context, CommentsScreenSingle.class);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
                 i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
-                context.startActivity(i);
                 break;
             }
             case SUBMISSION_WITHOUT_SUB: {
-                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i = new Intent(context, CommentsScreenSingle.class);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, Reddit.EMPTY_STRING);
                 i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[2]);
-                context.startActivity(i);
                 break;
             }
             case SUBREDDIT: {
-                Intent intent = new Intent(context, SubredditView.class);
-                intent.putExtra(SubredditView.EXTRA_SUBREDDIT, parts[2]);
-                context.startActivity(intent);
+                i = new Intent(context, SubredditView.class);
+                i.putExtra(SubredditView.EXTRA_SUBREDDIT, parts[2]);
                 break;
             }
             case MESSAGE: {
-                Intent i = new Intent(context, SendMessage.class);
+                i = new Intent(context, SendMessage.class);
                 try {
                     Uri urlParams = Uri.parse(oldUrl);
                     if (urlParams.getQueryParameterNames().contains("to")) {
@@ -188,7 +182,6 @@ public class OpenRedditLink {
                     if (urlParams.getQueryParameterNames().contains("message")) {
                         i.putExtra(SendMessage.EXTRA_MESSAGE, urlParams.getQueryParameter("message"));
                     }
-                    context.startActivity(i);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -197,14 +190,12 @@ public class OpenRedditLink {
             case USER: {
                 String name = parts[2];
                 if (name.equals("me") && Authentication.isLoggedIn) name = Authentication.name;
-                Intent myIntent = new Intent(context, Profile.class);
-                myIntent.putExtra(Profile.EXTRA_PROFILE, name);
-                context.startActivity(myIntent);
+                i = new Intent(context, Profile.class);
+                i.putExtra(Profile.EXTRA_PROFILE, name);
                 break;
             }
             case HOME: {
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
+                i = new Intent(context, MainActivity.class);
                 break;
             }
             case OTHER: {
@@ -212,15 +203,20 @@ public class OpenRedditLink {
                     if (context instanceof Activity) {
                         LinkUtil.openUrl(oldUrl, Palette.getStatusBarColor(), (Activity) context);
                     } else {
-                        Intent i = new Intent(context, Website.class);
+                        i = new Intent(context, Website.class);
                         i.putExtra(Website.EXTRA_URL, oldUrl);
-                        context.startActivity(i);
                     }
                 } else {
                     return false;
                 }
                 break;
             }
+        }
+        if (i != null) {
+            if (context instanceof OpenContent) {
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            }
+            context.startActivity(i);
         }
         return true;
     }

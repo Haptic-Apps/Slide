@@ -301,7 +301,7 @@ public class Submit extends BaseActivity {
         });
 
         DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)),
-                findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this, null);
+                findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this, null, null);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras()
                 .getString(Intent.EXTRA_TEXT, "")
                 .isEmpty()) {

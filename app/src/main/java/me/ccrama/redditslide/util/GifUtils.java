@@ -43,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.BufferOverflowException;
@@ -216,6 +217,7 @@ public class GifUtils {
         private boolean        hideControls;
         private boolean        autostart;
         private Runnable       doOnClick;
+        private View           mute;
         public String subreddit = "";
         private boolean cacheOnly;
 
@@ -254,6 +256,25 @@ public class GifUtils {
 
         public void onError() {
 
+        }
+
+        public void setMuteVisibility(final boolean visible) {
+            if (mute != null) {
+                c.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!visible) {
+                            mute.setVisibility(View.GONE);
+                        } else {
+                            mute.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        }
+
+        public void setMute(View muteView) {
+            mute = muteView;
         }
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
@@ -394,7 +415,7 @@ public class GifUtils {
             switch (videoType) {
                 case VREDDIT:
                     try {
-                        writeGifHSL(new URL(url), progressBar, c, subreddit);
+                        WriteGifMuxed(new URL(url), progressBar, c, subreddit);
                     } catch (Exception e) {
                         LogUtil.e(e,
                                 "Error loading URL " + url); //Most likely is an image, not a gif!
@@ -749,7 +770,7 @@ public class GifUtils {
 
         }
 
-        public void writeGifHSL(final URL url, final ProgressBar progressBar, final Activity c,
+        public void WriteGifMuxed(final URL url, final ProgressBar progressBar, final Activity c,
                 final String subreddit) throws Exception {
             if (size != null && c != null && !getProxy().isCached(url.toString())) {
                 getRemoteFileSize(url.toString(), client, size, c);
@@ -760,6 +781,14 @@ public class GifUtils {
             if (videoFile.length() <= 0) {
 
                 try {
+
+
+                    if(!videoFile.exists()){
+                        if(!videoFile.getParentFile().exists()){
+                            videoFile.getParentFile().mkdirs();
+                        }
+                       videoFile.createNewFile();
+                    }
 
                     HttpURLConnection conv = (HttpURLConnection) url.openConnection();
                     conv.setRequestMethod("GET");
@@ -843,14 +872,23 @@ public class GifUtils {
                                 muxedPath.getAbsolutePath());
 
                         copy(muxedPath, videoFile);
+                        new File(videoFile.getAbsolutePath() + ".a").createNewFile();
+                        setMuteVisibility(true);
 
                     } else {
                         copy(videoOutput, videoFile);
+                        //no audio!
+                        setMuteVisibility(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
+            } else {
+                File isAudio = new File(videoFile.getAbsolutePath() + ".a");
+                if(isAudio.exists()) {
+                    setMuteVisibility(true);
+                }
             }
             c.runOnUiThread(new Runnable() {
                 @Override
@@ -940,6 +978,7 @@ public class GifUtils {
                 in.close();
             }
         }
+
     }
 
 

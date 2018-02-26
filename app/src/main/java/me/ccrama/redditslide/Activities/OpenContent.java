@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class OpenContent extends Activity {
 
 
         new OpenRedditLink(this, url);
+
         finish();
     }
 }

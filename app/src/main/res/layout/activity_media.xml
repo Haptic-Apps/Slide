@@ -65,6 +65,15 @@
             android:textSize="12sp"
             android:layout_height="match_parent" />
         <ImageView
+                android:id="@+id/mute"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:theme="@style/Ripple.List"
+                android:layout_toLeftOf="@+id/hq"
+                android:padding="15dp"
+                app:srcCompat="@drawable/mute"
+                android:tint="#e1e1e1" />
+        <ImageView
             android:id="@+id/hq"
             android:layout_width="56dp"
             android:layout_height="56dp"

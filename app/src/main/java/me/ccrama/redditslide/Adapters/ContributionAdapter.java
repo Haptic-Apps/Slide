@@ -260,7 +260,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText("", "https://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
                             else {
                                 final BottomSheetHelper bottomSheetHelper =
                                         new BottomSheetHelper(mContext);

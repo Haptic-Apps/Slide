@@ -259,7 +259,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
                             else {
                                 final BottomSheetHelper bottomSheetHelper =
                                         new BottomSheetHelper(mContext);

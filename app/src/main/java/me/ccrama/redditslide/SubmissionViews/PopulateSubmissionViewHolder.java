@@ -764,7 +764,6 @@ public class PopulateSubmissionViewHolder {
                                                                 R.string.submission_comment_copied,
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
-
                                                 }
                                             })
                                     .setNegativeButton(R.string.btn_cancel, null)

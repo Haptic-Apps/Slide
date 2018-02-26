@@ -104,7 +104,7 @@ public class MediaView extends FullScreenActivity
 
     private NotificationManager        mNotifyManager;
     private NotificationCompat.Builder mBuilder;
-    private long                        stopPosition;
+    private long                       stopPosition;
     private GifUtils.AsyncLoadGif      gif;
     private String                     contentUrl;
     private MediaVideoView             videoView;
@@ -480,8 +480,10 @@ public class MediaView extends FullScreenActivity
     public void onDestroy() {
         super.onDestroy();
         ((SubsamplingScaleImageView) findViewById(R.id.submission_image)).recycle();
-        if (gif != null) {gif.cancel(true);
-        gif.cancel();}
+        if (gif != null) {
+            gif.cancel(true);
+            gif.cancel();
+        }
 
         doOnClick = null;
         if (!didLoadGif && fileLoc != null && !fileLoc.isEmpty()) {
@@ -627,6 +629,7 @@ public class MediaView extends FullScreenActivity
         if (getIntent().hasExtra(SUBREDDIT)) {
             subreddit = getIntent().getExtras().getString(SUBREDDIT);
         }
+        findViewById(R.id.mute).setVisibility(View.GONE);
 
         if (getIntent().hasExtra(EXTRA_LQ)) {
             String lqUrl = getIntent().getStringExtra(EXTRA_DISPLAY_URL);
@@ -692,8 +695,11 @@ public class MediaView extends FullScreenActivity
         hideOnLongClick();
     }
 
+    private ContentType.Type contentType = ContentType.Type.IMAGE;
+
     public void doLoad(final String contentUrl) {
-        switch (ContentType.getContentType(contentUrl)) {
+        contentType = ContentType.getContentType(contentUrl);
+        switch (contentType) {
             case DEVIANTART:
                 doLoadDeviantArt(contentUrl);
                 break;
@@ -737,6 +743,13 @@ public class MediaView extends FullScreenActivity
         gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader,
                 findViewById(R.id.placeholder), doOnClick, true, false, true,
                 ((TextView) findViewById(R.id.size)), subreddit);
+        if (contentType != ContentType.Type.GIF) {
+            videoView.mute = findViewById(R.id.mute);
+            if(contentType != ContentType.Type.VREDDIT_DIRECT){
+                videoView.mute.setVisibility(View.VISIBLE);
+            }
+            gif.setMute(videoView.mute);
+        }
         gif.execute(dat);
         findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override

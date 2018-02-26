@@ -637,7 +637,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             EditText replyLine =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
             DoEditorActions.doActions(replyLine, submissionViewHolder.itemView, fm,
-                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null);
+                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null, submission.getAuthor());
 
             currentlyEditing =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
@@ -1219,7 +1219,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     replyArea.setVisibility(View.VISIBLE);
                     menu.setVisibility(View.GONE);
                     DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext,
-                            comment.getBody());
+                            comment.getBody(), comment.getAuthor());
                     currentlyEditing = replyLine;
                     currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
@@ -1340,7 +1340,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         menu.setVisibility(View.GONE);
                         currentlyEditing = replyLine;
                         DoEditorActions.doActions(currentlyEditing, replyArea, fm,
-                                (Activity) mContext, comment.getBody());
+                                (Activity) mContext, comment.getBody(), comment.getAuthor());
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {
