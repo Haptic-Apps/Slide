@@ -637,7 +637,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             EditText replyLine =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
             DoEditorActions.doActions(replyLine, submissionViewHolder.itemView, fm,
-                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null, submission.getAuthor());
+                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null, new String[]{submission.getAuthor()});
 
             currentlyEditing =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
@@ -1218,8 +1218,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     baseView.setLayoutParams(params2);
                     replyArea.setVisibility(View.VISIBLE);
                     menu.setVisibility(View.GONE);
-                    DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext,
-                            comment.getBody(), comment.getAuthor());
                     currentlyEditing = replyLine;
                     currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
@@ -1331,7 +1329,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.strike)).setColorFilter(
                                     Color.WHITE);
-
+                            ((TextView) replyArea.findViewById(R.id.author)).setTextColor(
+                                    Color.WHITE);
                             replyLine.getBackground()
                                     .setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
                         }
@@ -1340,7 +1339,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         menu.setVisibility(View.GONE);
                         currentlyEditing = replyLine;
                         DoEditorActions.doActions(currentlyEditing, replyArea, fm,
-                                (Activity) mContext, comment.getBody(), comment.getAuthor());
+                                (Activity) mContext, comment.getBody(), getParents(baseNode));
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {
@@ -2001,6 +2000,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         return i;
+    }
+
+    public String[] getParents(CommentNode comment){
+        String[] bodies = new String[comment.getDepth()+ 2];
+        bodies[0] = submission.getAuthor();
+
+        CommentNode parent = comment.getParent();
+        int index = 1;
+        while(parent != null){
+            bodies[index] = parent.getComment().getAuthor();
+            index ++;
+            parent = parent.getParent();
+        }
+        bodies[index] = comment.getComment().getAuthor();
+
+        return bodies;
     }
 
     public int getRealPosition(int position) {

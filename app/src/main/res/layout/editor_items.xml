@@ -140,7 +140,7 @@
                 android:text=" @ "
                 android:textStyle="bold"
                 android:textSize="25sp"
-                android:textColor="?attr/fontColor"
+                android:textColor="?attr/tintColor"
                 android:gravity="center"
                 android:paddingBottom="5dp"
                 android:tint="?attr/tintColor"

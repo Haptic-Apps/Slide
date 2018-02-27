@@ -82,7 +82,7 @@ public class DoEditorActions {
 
     public static void doActions(final EditText editText, final View baseView,
             final FragmentManager fm, final Activity a, final String oldComment,
-            @Nullable final String author) {
+            @Nullable final String authors[]) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,16 +99,29 @@ public class DoEditorActions {
             }
         });
 
-        if(baseView.findViewById(R.id.author) != null) {
-            if (author != null && author.isEmpty()) {
-                baseView.setVisibility(View.GONE);
-            } else {
+        if (baseView.findViewById(R.id.author) != null) {
+            if (authors != null && authors.length > 0) {
                 baseView.findViewById(R.id.author).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        editText.setText(editText.getText().toString() + "/u/" + author);
+                        if (authors.length == 1) {
+                            editText.setText(editText.getText().toString() + authors[0]);
+                        } else {
+                            new AlertDialogWrapper.Builder(a).setTitle(R.string.authors_above)
+                                    .setItems(authors, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            editText.setText(
+                                                    editText.getText().toString() + authors[which]);
+                                        }
+                                    })
+                                    .setNeutralButton(R.string.btn_cancel, null)
+                                    .show();
+                        }
                     }
                 });
+            } else {
+                baseView.findViewById(R.id.author).setVisibility(View.GONE);
             }
         }
 

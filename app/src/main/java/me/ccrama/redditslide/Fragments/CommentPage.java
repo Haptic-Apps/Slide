@@ -348,7 +348,7 @@ public class CommentPage extends Fragment {
                     DoEditorActions.doActions(e, dialoglayout,
                             getActivity().getSupportFragmentManager(), getActivity(),
                             adapter.submission.isSelfPost() ? adapter.submission.getSelftext()
-                                    : null, adapter.submission.getAuthor());
+                                    : null, new String[]{adapter.submission.getAuthor()});
 
                     builder.setCancelable(false).setView(dialoglayout);
                     final Dialog d = builder.create();

@@ -1179,5 +1179,6 @@
     <string name="settings_colored_time">Colored time bubble for new comments</string>
     <string name="theme_deep">Deep</string>
     <string name="type_vreddit">Reddit Video</string>
+    <string name="authors_above">Authors above</string>
 
 </resources>
