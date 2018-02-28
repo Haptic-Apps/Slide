@@ -414,6 +414,11 @@ public class PopulateSubmissionViewHolder {
                             .get("reddit_video")
                             .get("fallback_url")
                             .asText()).replace("&amp;", "&"));
+                } else {
+                    new OpenVRedditTask(contextActivity, submission.getSubredditName()).executeOnExecutor(
+                            AsyncTask.THREAD_POOL_EXECUTOR, submission.getUrl());
+                    return;
+
                 }
 
             } else if (t.shouldLoadPreview()

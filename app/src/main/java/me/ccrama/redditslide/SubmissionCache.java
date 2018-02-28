@@ -93,16 +93,16 @@ public class SubmissionCache {
     }
 
     private static SpannableStringBuilder getCrosspostSpannable(Submission s, Context mContext) {
-        SpannableStringBuilder titleString = new SpannableStringBuilder("Crossposted from ");
+        String spacer = mContext.getString(R.string.submission_properties_seperator);
+        SpannableStringBuilder titleString = new SpannableStringBuilder("Crosspost" + spacer);
         JsonNode json = s.getDataNode();
         if (!json.has("crosspost_parent_list")) { //is a crosspost
             return null;
         }
         json = json.get("crosspost_parent_list").get(0);
-        String spacer = mContext.getString(R.string.submission_properties_seperator);
 
         String subname = json.get("subreddit").asText().toLowerCase(Locale.ENGLISH);
-        SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + subname + " ");
+        SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname + spacer);
 
         if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())
                 || (SettingValues.colorSubName
@@ -118,7 +118,7 @@ public class SubmissionCache {
         titleString.append(subreddit);
 
         SpannableStringBuilder author =
-                new SpannableStringBuilder("by " + json.get("author").asText() + " ");
+                new SpannableStringBuilder( json.get("author").asText() + " ");
 
         int authorcolor = Palette.getFontColorUser(json.get("author").asText());
 
@@ -135,7 +135,6 @@ public class SubmissionCache {
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
-            titleString.append(" ");
         }
 
         if (UserSubscriptions.friends.contains(json.get("author").asText())) {
@@ -145,7 +144,6 @@ public class SubmissionCache {
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
-            titleString.append(" ");
         }
         return titleString;
     }

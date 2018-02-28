@@ -381,25 +381,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-            if(ImageFlairs.isSynced(comment.getSubredditName()) && comment.getAuthorFlair() != null && comment.getAuthorFlair().getCssClass() != null &&  !comment.getAuthorFlair().getCssClass().isEmpty()){
+            if (ImageFlairs.isSynced(comment.getSubredditName())
+                    && comment.getAuthorFlair() != null
+                    && comment.getAuthorFlair().getCssClass() != null
+                    && !comment.getAuthorFlair().getCssClass().isEmpty()) {
                 boolean set = false;
-                for(String s : comment.getAuthorFlair().getCssClass().split(" ")) {
-                   File file = DiskCacheUtils.findInCache(
-                           comment.getSubredditName().toLowerCase(Locale.ENGLISH) + ":" + s
-                                   .toLowerCase(Locale.ENGLISH),
-                           ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
-                   if (file != null && file.exists()) {
-                       set = true;
-                       holder.imageFlair.setVisibility(View.VISIBLE);
-                       String decodedImgUri = Uri.fromFile(file).toString();
-                       ImageFlairs.getFlairImageLoader(mContext).displayImage(decodedImgUri, holder.imageFlair);
-                       break;
-                   }
-               }
-               if(!set){
-                   holder.imageFlair.setImageDrawable(null);
-                   holder.imageFlair.setVisibility(View.GONE);
-               }
+                for (String s : comment.getAuthorFlair().getCssClass().split(" ")) {
+                    File file = DiskCacheUtils.findInCache(
+                            comment.getSubredditName().toLowerCase(Locale.ENGLISH)
+                                    + ":"
+                                    + s.toLowerCase(Locale.ENGLISH),
+                            ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
+                    if (file != null && file.exists()) {
+                        set = true;
+                        holder.imageFlair.setVisibility(View.VISIBLE);
+                        String decodedImgUri = Uri.fromFile(file).toString();
+                        ImageFlairs.getFlairImageLoader(mContext)
+                                .displayImage(decodedImgUri, holder.imageFlair);
+                        break;
+                    }
+                }
+                if (!set) {
+                    holder.imageFlair.setImageDrawable(null);
+                    holder.imageFlair.setVisibility(View.GONE);
+                }
             } else {
                 holder.imageFlair.setVisibility(View.GONE);
             }
@@ -443,7 +448,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.dot.setVisibility(View.VISIBLE);
 
-            int dwidth = (int) ((SettingValues.largeDepth?5:3) * Resources.getSystem().getDisplayMetrics().density);
+            int dwidth = (int) ((SettingValues.largeDepth ? 5 : 3) * Resources.getSystem()
+                    .getDisplayMetrics().density);
             int width = 0;
 
             //Padding on the left, starting with the third comment
@@ -461,26 +467,34 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (baseNode.getDepth() - 1 > 0) {
                 int i22 = baseNode.getDepth() - 2;
                 String commentOp = dataSet.commentOPs.get(comment.getId());
-                if(SettingValues.highlightCommentOP && commentOp != null && comment != null && commentOp.equals(comment.getAuthor())){
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                             R.color.md_purple_500));
+                if (SettingValues.highlightCommentOP
+                        && commentOp != null
+                        && comment != null
+                        && commentOp.equals(comment.getAuthor())) {
+                    holder.dot.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.md_purple_500));
 
                 } else {
                     if (i22 % 5 == 0) {
                         holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_700 : R.color.md_blue_500));
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_700
+                                        : R.color.md_blue_500));
                     } else if (i22 % 4 == 0) {
                         holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_600 : R.color.md_green_500));
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_600
+                                        : R.color.md_green_500));
                     } else if (i22 % 3 == 0) {
                         holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_500 : R.color.md_yellow_500));
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_500
+                                        : R.color.md_yellow_500));
                     } else if (i22 % 2 == 0) {
                         holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_400 : R.color.md_orange_500));
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_400
+                                        : R.color.md_orange_500));
                     } else {
                         holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_300 : R.color.md_red_500));
+                                !SettingValues.colorCommentDepth ? R.color.md_grey_300
+                                        : R.color.md_red_500));
                     }
                 }
             } else {
@@ -572,7 +586,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 try {
                     holder.content.setText(mContext.getString(R.string.comment_load_more_string_new,
                             baseNode.children.getLocalizedCount()));
-                } catch(Exception e){
+                } catch (Exception e) {
                     holder.content.setText(R.string.comment_load_more_number_unknown);
                 }
             } else if (!baseNode.children.getChildrenIds().isEmpty()) {
@@ -581,7 +595,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.content.setText(R.string.thread_continue);
             }
 
-            int dwidth = (int) ((SettingValues.largeDepth?5:3) * Resources.getSystem().getDisplayMetrics().density);
+            int dwidth = (int) ((SettingValues.largeDepth ? 5 : 3) * Resources.getSystem()
+                    .getDisplayMetrics().density);
             int width = 0;
             for (int i = 1; i < baseNode.comment.getDepth(); i++) {
                 width += dwidth;
@@ -628,7 +643,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     AsyncLoadMore currentLoading;
-    String changedProfile;
+    String        changedProfile;
 
     private void doReplySubmission(RecyclerView.ViewHolder submissionViewHolder) {
         final View replyArea = submissionViewHolder.itemView.findViewById(R.id.innerSend);
@@ -637,12 +652,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             EditText replyLine =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
             DoEditorActions.doActions(replyLine, submissionViewHolder.itemView, fm,
-                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null, new String[]{submission.getAuthor()});
+                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null,
+                    new String[]{submission.getAuthor()});
 
             currentlyEditing =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
 
-            final TextView profile = (TextView) submissionViewHolder.itemView.findViewById(R.id.profile);
+            final TextView profile =
+                    (TextView) submissionViewHolder.itemView.findViewById(R.id.profile);
             changedProfile = Authentication.name;
             profile.setText("/u/" + changedProfile);
             profile.setOnClickListener(new View.OnClickListener() {
@@ -663,13 +680,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     builder.setTitle("Switch to another account");
-                    builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            changedProfile = keys.get(which);
-                            profile.setText("/u/" + changedProfile);
-                        }
-                    });
+                    builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    changedProfile = keys.get(which);
+                                    profile.setText("/u/" + changedProfile);
+                                }
+                            });
                     builder.alwaysCallSingleChoiceCallback();
                     builder.setNegativeButton(R.string.btn_cancel, null);
                     builder.show();
@@ -1160,8 +1178,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
-            if (Authentication.name != null && Authentication.name.toLowerCase(Locale.ENGLISH)
-                    .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH)) && Authentication.didOnline) {
+            if (Authentication.name != null
+                    && Authentication.name.toLowerCase(Locale.ENGLISH)
+                    .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH))
+                    && Authentication.didOnline) {
                 edit.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
@@ -1176,8 +1196,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
-            if (Authentication.name != null && Authentication.name.toLowerCase(Locale.ENGLISH)
-                    .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH)) && Authentication.didOnline) {
+            if (Authentication.name != null
+                    && Authentication.name.toLowerCase(Locale.ENGLISH)
+                    .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH))
+                    && Authentication.didOnline) {
                 delete.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
@@ -1256,15 +1278,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                             final int i = keys.indexOf(changedProfile);
 
-                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                            AlertDialogWrapper.Builder builder =
+                                    new AlertDialogWrapper.Builder(mContext);
                             builder.setTitle(R.string.sorting_choose);
-                            builder.setSingleChoiceItems( keys.toArray(new String[keys.size()]), i, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    changedProfile = keys.get(which);
-                                    profile.setText("/u/" + changedProfile);
-                                }
-                            });
+                            builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            changedProfile = keys.get(which);
+                                            profile.setText("/u/" + changedProfile);
+                                        }
+                                    });
                             builder.alwaysCallSingleChoiceCallback();
                             builder.setNegativeButton(R.string.btn_cancel, null);
                             builder.show();
@@ -1362,8 +1386,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             public void onClick(View v) {
                                 final HashMap<String, String> accounts = new HashMap<>();
 
-                                for (String s : Authentication.authentication.getStringSet("accounts",
-                                        new HashSet<String>())) {
+                                for (String s : Authentication.authentication.getStringSet(
+                                        "accounts", new HashSet<String>())) {
                                     if (s.contains(":")) {
                                         accounts.put(s.split(":")[0], s.split(":")[1]);
                                     } else {
@@ -1373,15 +1397,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                                 final int i = keys.indexOf(changedProfile);
 
-                                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                                AlertDialogWrapper.Builder builder =
+                                        new AlertDialogWrapper.Builder(mContext);
                                 builder.setTitle(R.string.sorting_choose);
-                                builder.setSingleChoiceItems( keys.toArray(new String[keys.size()]), i, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        changedProfile = keys.get(which);
-                                        profile.setText("/u/" + changedProfile);
-                                    }
-                                });
+                                builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]),
+                                        i, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                changedProfile = keys.get(which);
+                                                profile.setText("/u/" + changedProfile);
+                                            }
+                                        });
                                 builder.alwaysCallSingleChoiceCallback();
                                 builder.setNegativeButton(R.string.btn_cancel, null);
                                 builder.show();
@@ -1428,7 +1454,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                         }
                         dataSet.refreshLayout.setRefreshing(true);
-                        if(currentlyEditing != null) {
+                        if (currentlyEditing != null) {
                             String text = currentlyEditing.getText().toString();
                             new ReplyTaskComment(n, baseNode, holder, changedProfile).execute(text);
                             currentlyEditing = null;
@@ -1464,14 +1490,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (reply.getVisibility() == View.VISIBLE) {
                     reply.setVisibility(View.GONE);
                 }
-                if ((submission.isArchived() || deleted.contains(n.getFullName())
+                if ((submission.isArchived()
+                        || deleted.contains(n.getFullName())
                         || comment.getAuthor().equals("[deleted]"))
                         && Authentication.isLoggedIn
                         && Authentication.didOnline
                         && upvote.getVisibility() == View.VISIBLE) {
                     upvote.setVisibility(View.GONE);
                 }
-                if ((submission.isArchived() || deleted.contains(n.getFullName())
+                if ((submission.isArchived()
+                        || deleted.contains(n.getFullName())
                         || comment.getAuthor().equals("[deleted]"))
                         && Authentication.isLoggedIn
                         && Authentication.didOnline
@@ -1806,7 +1834,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             CommentAdapterHelper.showChildrenObject(holder.childrenNumber);
                             holder.childrenNumber.setText("+" + childNumber);
                         }
-                    }  else {
+                    } else {
                         if (!SettingValues.collapseComments) {
                             doLongClick(holder, comment, baseNode);
                         }
@@ -2002,18 +2030,28 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return i;
     }
 
-    public String[] getParents(CommentNode comment){
-        String[] bodies = new String[comment.getDepth()+ 2];
-        bodies[0] = submission.getAuthor();
+    public String[] getParents(CommentNode comment) {
+        String[] bodies = new String[comment.getDepth() + 1];
+        bodies[0] = comment.getComment().getAuthor();
 
         CommentNode parent = comment.getParent();
         int index = 1;
-        while(parent != null){
+
+        while (parent != null) {
             bodies[index] = parent.getComment().getAuthor();
-            index ++;
+            index++;
             parent = parent.getParent();
         }
-        bodies[index] = comment.getComment().getAuthor();
+
+        bodies[index - 1] = submission.getAuthor();
+
+        //Reverse the array so Submission > Author > ... > Current OP
+        for (int i = 0; i < bodies.length / 2; i++) {
+            String temp = bodies[i];
+            bodies[i] = bodies[bodies.length - i - 1];
+            bodies[bodies.length - i - 1] = temp;
+        }
+
 
         return bodies;
     }
@@ -2345,9 +2383,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CommentNode       node;
         CommentViewHolder holder;
         boolean           isSubmission;
-        String profileName;
+        String            profileName;
 
-        public ReplyTaskComment(Contribution n, CommentNode node, CommentViewHolder holder, String profileName) {
+        public ReplyTaskComment(Contribution n, CommentNode node, CommentViewHolder holder,
+                String profileName) {
             sub = n;
             this.holder = holder;
             this.node = node;
@@ -2407,11 +2446,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (Authentication.me != null) {
                 try {
                     commentBack = comment[0];
-                    if(profileName.equals(Authentication.name)) {
+                    if (profileName.equals(Authentication.name)) {
                         return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
                     } else {
                         LogUtil.v("Switching to " + profileName);
-                        return new AccountManager(getAuthenticatedClient(profileName)).reply(sub, comment[0]);
+                        return new AccountManager(getAuthenticatedClient(profileName)).reply(sub,
+                                comment[0]);
                     }
                 } catch (Exception e) {
                     if (e instanceof ApiException) {
@@ -2440,24 +2480,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
-        if (accounts.containsKey(profileName)
-                && !accounts.get(profileName)
-                .isEmpty()) {
+        if (accounts.containsKey(profileName) && !accounts.get(profileName).isEmpty()) {
             token = accounts.get(profileName);
         } else {
-            ArrayList<String> tokens =
-                    new ArrayList<>(
-                            Authentication.authentication
-                                    .getStringSet(
-                                            "tokens",
-                                            new HashSet<String>()));
+            ArrayList<String> tokens = new ArrayList<>(
+                    Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
             int index = keys.indexOf(profileName);
-            if (keys.indexOf(profileName)
-                    > tokens.size()) {
+            if (keys.indexOf(profileName) > tokens.size()) {
                 index -= 1;
             }
-            token = tokens.get(
-                    index);
+            token = tokens.get(index);
         }
         Authentication.doVerify(token, reddit, true, mContext);
         return reddit;

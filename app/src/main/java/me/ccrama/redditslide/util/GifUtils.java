@@ -32,7 +32,9 @@ import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
+import com.googlecode.mp4parser.authoring.builder.Mp4Builder;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
+import com.googlecode.mp4parser.authoring.tracks.CroppedTrack;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -1014,7 +1016,8 @@ public class GifUtils {
     public static boolean mux(String videoFile, String audioFile, String outputFile) {
         com.googlecode.mp4parser.authoring.Movie video;
         try {
-            video = new MovieCreator().build(videoFile);
+            new MovieCreator();
+            video = MovieCreator.build(videoFile);
         } catch (RuntimeException e) {
             e.printStackTrace();
             return false;
@@ -1025,7 +1028,8 @@ public class GifUtils {
 
         com.googlecode.mp4parser.authoring.Movie audio;
         try {
-            audio = new MovieCreator().build(audioFile);
+            new MovieCreator();
+            audio = MovieCreator.build(audioFile);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -1035,8 +1039,9 @@ public class GifUtils {
         }
 
         com.googlecode.mp4parser.authoring.Track audioTrack = audio.getTracks().get(0);
-        video.addTrack(audioTrack);
 
+        CroppedTrack croppedTrack = new CroppedTrack(audioTrack,0, audioTrack.getSamples().size());
+        video.addTrack(croppedTrack);
         Container out = new DefaultMp4Builder().build(video);
 
         FileOutputStream fos;

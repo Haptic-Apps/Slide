@@ -105,14 +105,20 @@ public class DoEditorActions {
                     @Override
                     public void onClick(View v) {
                         if (authors.length == 1) {
-                            editText.setText(editText.getText().toString() + authors[0]);
+                            int pos = editText.getSelectionStart();
+                            String author =  "/u/" + authors[0];
+                            editText.setText(editText.getText().toString() + author);
+                            editText.setSelection(pos + author.length()); //put the cursor between the symbols
+
                         } else {
                             new AlertDialogWrapper.Builder(a).setTitle(R.string.authors_above)
                                     .setItems(authors, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            editText.setText(
-                                                    editText.getText().toString() + authors[which]);
+                                            int pos = editText.getSelectionStart();
+                                            String author =  "/u/" + authors[which];
+                                            editText.setText(editText.getText().toString() + author);
+                                            editText.setSelection(pos + author.length()); //put the cursor between the symbols
                                         }
                                     })
                                     .setNeutralButton(R.string.btn_cancel, null)
@@ -569,11 +575,13 @@ public class DoEditorActions {
         @Override
         public void onActivityResult(int requestCode, int resultCode, final Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
-            handleImageIntent(new ArrayList<Uri>() {{
-                add(data.getData());
-            }}, e, getContext());
+            if(data != null && data.getData() != null) {
+                handleImageIntent(new ArrayList<Uri>() {{
+                    add(data.getData());
+                }}, e, getContext());
 
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            }
 
         }
     }

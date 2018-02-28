@@ -88,6 +88,19 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_italic_white_48dp"/>
 
+        <TextView
+                android:id="@+id/author"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text=" @ "
+                android:textColor="?attr/tintColor"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                />
+
         <ImageButton
                 android:id="@+id/bulletlist"
                 android:layout_width="48dp"
@@ -132,19 +145,6 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/fontsizedarker"/>
 
-        <TextView
-                android:id="@+id/author"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:text=" @ "
-                android:textStyle="bold"
-                android:textSize="25sp"
-                android:textColor="?attr/tintColor"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:tint="?attr/tintColor"
-                />
 
         <ImageButton
                 android:id="@+id/strike"
