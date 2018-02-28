@@ -6,7 +6,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -31,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.managers.AccountManager;
@@ -56,6 +54,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -156,7 +155,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -172,7 +172,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -205,7 +206,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(Html.fromHtml(submission.getTitle()));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
@@ -261,23 +262,28 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (submission.isSelfPost())
                                 Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
                             else {
-                                new BottomSheet.Builder(mContext)
-                                        .title(R.string.submission_share_title)
-                                        .grid()
-                                        .sheet(R.menu.share_menu)
-                                        .listener(new DialogInterface.OnClickListener() {
+                                final BottomSheetHelper bottomSheetHelper =
+                                        new BottomSheetHelper(mContext);
+                                bottomSheetHelper.header(R.string.submission_share_title);
+                                bottomSheetHelper.textView(R.string.submission_share_reddit,
+                                        R.drawable.commentchange, new View.OnClickListener() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case R.id.reddit_url:
-                                                        Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
-                                                        break;
-                                                    case R.id.link_url:
-                                                        Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
-                                                        break;
-                                                }
+                                            public void onClick(View v) {
+                                                Reddit.defaultShareText("", "https://reddit.com"
+                                                        + submission.getPermalink(), mContext);
+                                                bottomSheetHelper.dismiss();
                                             }
-                                        }).show();
+                                        });
+                                bottomSheetHelper.textView(R.string.submission_share_content,
+                                        R.drawable.ic_share_link, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Reddit.defaultShareText(submission.getTitle(),
+                                                        submission.getUrl(), mContext);
+                                                bottomSheetHelper.dismiss();
+                                            }
+                                        });
+                                bottomSheetHelper.build().show();
                             }
                         }
                     });
@@ -311,7 +317,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 }
                             });
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
 
@@ -323,7 +330,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, null, null);
 
-            final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
+            final ImageView hideButton = holder.itemView.findViewById(R.id.hide);
             if (hideButton != null && isHiddenPost) {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override

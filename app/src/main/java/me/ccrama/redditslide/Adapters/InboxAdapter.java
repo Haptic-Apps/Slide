@@ -9,13 +9,9 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -37,7 +33,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.ApiException;
@@ -61,6 +56,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -251,29 +247,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             messageViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    int[] attrs = new int[]{R.attr.tintColor};
-                    TypedArray ta = mContext.obtainStyledAttributes(attrs);
-
-                    final int color = ta.getColor(0, Color.WHITE);
-                    Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.reply);
-                    Drawable unhide = mContext.getResources().getDrawable(R.drawable.ic_visibility);
-                    Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
-                    Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
-
-                    profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    reply.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    unhide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-                    ta.recycle();
-
-                    BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                            Html.fromHtml(comment.getSubject()));
-
+                    final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(mContext);
+                    bottomSheetHelper.header(Html.fromHtml(comment.getSubject()));
                     String author = comment.getAuthor();
                     if (!dataSet.where.contains("mod")
                             && comment.getDataNode().has("dest")
@@ -282,35 +257,44 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             && !comment.getDataNode().get("dest").asText().equals("reddit")) {
                         author = comment.getDataNode().get("dest").asText().replace("#", "/r/");
                     }
-                    if (comment.getAuthor() != null) {
-                        b.sheet(1, profile, "/u/" + author);
-                    }
-
-                    String read = mContext.getString(R.string.mail_mark_read);
-                    Drawable rDrawable = hide;
-                    if (comment.isRead()) {
-                        read = mContext.getString(R.string.mail_mark_unread);
-                        rDrawable = unhide;
-                    }
-                    b.sheet(2, rDrawable, read);
-                    b.sheet(3, reply, mContext.getString(R.string.btn_reply));
-                    b.sheet(25, copy, mContext.getString(R.string.misc_copy_text));
-                    if (comment.isComment()) {
-                        b.sheet(30, reddit, mContext.getString(R.string.mail_view_full_thread));
-                    }
                     final String finalAuthor = author;
-                    b.listener(new DialogInterface.OnClickListener() {
+                    bottomSheetHelper.textView("/u/" + author, R.drawable.profile,
+                            new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case 1: {
-                                    Intent i = new Intent(mContext, Profile.class);
-                                    i.putExtra(Profile.EXTRA_PROFILE, finalAuthor);
-                                    mContext.startActivity(i);
+                        public void onClick(View v) {
+                            Intent i = new Intent(mContext, Profile.class);
+                            i.putExtra(Profile.EXTRA_PROFILE, finalAuthor);
+                            mContext.startActivity(i);
+
+                        }
+                            }, new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View v) {
+                                    ClipboardManager clipboard =
+                                            (ClipboardManager) mContext.getSystemService(
+                                                    Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("Comment text",
+                                            "/u/" + finalAuthor);
+                                    if (clipboard != null) {
+                                        clipboard.setPrimaryClip(clip);
+                                        Toast.makeText(mContext, R.string.submission_author_copied,
+                                                Toast.LENGTH_SHORT).show();
+
+                                        bottomSheetHelper.dismiss();
+                                    } else {
+                                        return false;
+                                    }
+                                    return true;
                                 }
-                                break;
-                                case 2: {
-                                    if (comment.isRead()) {
+                            });
+                    final boolean isRead = comment.isRead();
+                    bottomSheetHelper.textView(
+                            isRead ? R.string.mail_mark_unread : R.string.mail_mark_read,
+                            isRead ? R.drawable.ic_visibility : R.drawable.hide,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (isRead) {
                                         comment.read = false;
                                         new AsyncSetRead(false).execute(comment);
                                         messageViewHolder.title.setTextColor(
@@ -322,34 +306,53 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         messageViewHolder.title.setTextColor(
                                                 messageViewHolder.content.getCurrentTextColor());
                                     }
+                                    bottomSheetHelper.dismiss();
                                 }
-                                break;
-                                case 3: {
+                            });
+                    bottomSheetHelper.textView(R.string.btn_reply, R.drawable.reply,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     doInboxReply(comment);
+                                    bottomSheetHelper.dismiss();
                                 }
-                                break;
-                                case 25: {
+                            });
+                    bottomSheetHelper.textView(R.string.misc_copy_text, R.drawable.ic_content_copy,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     ClipboardManager clipboard =
                                             (ClipboardManager) mContext.getSystemService(
                                                     Context.CLIPBOARD_SERVICE);
                                     ClipData clip =
                                             ClipData.newPlainText("Message", comment.getBody());
-                                    clipboard.setPrimaryClip(clip);
-                                    Toast.makeText(mContext,
-                                            mContext.getString(R.string.mail_message_copied),
-                                            Toast.LENGTH_SHORT).show();
+                                    if (clipboard != null) {
+                                        clipboard.setPrimaryClip(clip);
+                                        Toast.makeText(mContext, R.string.submission_author_copied,
+                                                Toast.LENGTH_SHORT).show();
+
+                                        bottomSheetHelper.dismiss();
+                                    } else {
+                                        Toast.makeText(mContext, R.string.submission_copy_failed,
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                                break;
-                                case 30: {
-                                    String context = comment.getDataNode().get("context").asText();
-                                    new OpenRedditLink(mContext,
-                                            "https://reddit.com" + context.substring(0,
-                                                    context.lastIndexOf("/")));
-                                }
-                                break;
-                            }
-                        }
-                    }).show();
+                            });
+                    if (comment.isComment()) {
+                        bottomSheetHelper.textView(R.string.mail_view_full_thread,
+                                R.drawable.commentchange, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String context =
+                                                comment.getDataNode().get("context").asText();
+                                        new OpenRedditLink(mContext,
+                                                "https://reddit.com" + context.substring(0,
+                                                        context.lastIndexOf("/")));
+                                        bottomSheetHelper.dismiss();
+                                    }
+                                });
+                    }
+                    bottomSheetHelper.build().show();
                     return true;
                 }
             });
@@ -425,7 +428,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
-        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+        final EditText e = dialoglayout.findViewById(R.id.entry);
 
         DoEditorActions.doActions(e, dialoglayout,
                 ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
@@ -490,16 +493,14 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (sent) {
                 Snackbar s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
                 View view = s.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
             } else {
                 Snackbar s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
                         Snackbar.LENGTH_LONG);
                 View view = s.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
                 Drafts.addDraft(text);

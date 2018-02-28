@@ -14,9 +14,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -43,7 +41,6 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
@@ -75,6 +72,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
+import me.ccrama.redditslide.Views.BottomSheetHelper;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
@@ -90,93 +88,51 @@ public class CommentAdapterHelper {
     public static void showOverflowBottomSheet(final CommentAdapter adapter, final Context mContext,
             final CommentViewHolder holder, final CommentNode baseNode) {
 
-        int[] attrs = new int[]{R.attr.tintColor};
         final Comment n = baseNode.getComment();
-        TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
-        int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
-        Drawable gild = mContext.getResources().getDrawable(R.drawable.gild);
-        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-        Drawable share = mContext.getResources().getDrawable(R.drawable.share);
-        Drawable parent = mContext.getResources().getDrawable(R.drawable.commentchange);
-        Drawable permalink = mContext.getResources().getDrawable(R.drawable.link);
-        Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        gild.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        parent.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        permalink.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-        ta.recycle();
-
-        BottomSheet.Builder b =
-                new BottomSheet.Builder((Activity) mContext).title(Html.fromHtml(n.getBody()));
-
-        if (Authentication.didOnline) {
-            b.sheet(1, profile, "/u/" + n.getAuthor());
-            String save = mContext.getString(R.string.btn_save);
-            if (ActionStates.isSaved(n)) {
-                save = mContext.getString(R.string.comment_unsave);
-            }
-            if (Authentication.isLoggedIn) {
-                b.sheet(3, saved, save);
-                b.sheet(16, report, mContext.getString(R.string.btn_report));
-
-            }
-        }
-        b.sheet(5, gild, mContext.getString(R.string.comment_gild))
-                .sheet(7, copy, mContext.getString(R.string.misc_copy_text))
-                .sheet(23, permalink, mContext.getString(R.string.comment_permalink))
-                .sheet(4, share, mContext.getString(R.string.comment_share));
-        if (!adapter.currentBaseNode.isTopLevel()) {
-            b.sheet(10, parent, mContext.getString(R.string.comment_parent));
-        }
-        b.listener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 1: {
-                        //Go to author
+        final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(mContext);
+        bottomSheetHelper.header(Html.fromHtml(n.getBody()));
+        bottomSheetHelper.textView("/u/" + n.getAuthor(), R.drawable.profile,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         Intent i = new Intent(mContext, Profile.class);
                         i.putExtra(Profile.EXTRA_PROFILE, n.getAuthor());
                         mContext.startActivity(i);
+
                     }
-                    break;
-                    case 3:
-                        //Save comment
+                }, new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
+                                Context.CLIPBOARD_SERVICE);
+                        ClipData clip =
+                                ClipData.newPlainText("Comment text", "/u/" + n.getAuthor());
+                        if (clipboard != null) {
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(mContext, R.string.submission_author_copied,
+                                    Toast.LENGTH_SHORT).show();
+
+                            bottomSheetHelper.dismiss();
+                        } else {
+                            return false;
+                        }
+                        return true;
+                    }
+                });
+        bottomSheetHelper.textView(
+                ActionStates.isSaved(n) ? R.string.comment_unsave : R.string.btn_save,
+                R.drawable.save, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         saveComment(n, mContext, holder);
-                        break;
-                    case 23: {
-                        //Go to comment permalink
-                        String s = "https://reddit.com"
-                                + adapter.submission.getPermalink()
-                                +
-                                n.getFullName().substring(3, n.getFullName().length())
-                                + "?context=3";
-                        new OpenRedditLink(mContext, s);
+                        bottomSheetHelper.dismiss();
                     }
-                    break;
-                    case 5: {
-                        //Gild comment
-                        Intent i = new Intent(mContext, Website.class);
-                        i.putExtra(Website.EXTRA_URL,
-                                "https://reddit.com"
-                                        + adapter.submission.getPermalink()
-                                        +
-                                        n.getFullName().substring(3, n.getFullName().length())
-                                        + "?context=3&inapp=false");
-                        i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
-                        mContext.startActivity(i);
-                    }
-                    break;
-                    case 16:
-                        //report
+                });
+        bottomSheetHelper.textView(R.string.btn_report, R.drawable.report,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         reportReason = "";
                         new MaterialDialog.Builder(mContext).input(
                                 mContext.getString(R.string.input_reason_for_report), null, true,
@@ -188,8 +144,10 @@ public class CommentAdapterHelper {
                                 })
                                 .title(R.string.report_comment)
                                 .alwaysCallInputCallback()
-                                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                                .inputType(InputType.TYPE_CLASS_TEXT
+                                        | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                                        | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
                                 .onNegative(null)
@@ -201,13 +159,27 @@ public class CommentAdapterHelper {
                                     }
                                 })
                                 .show();
-                        break;
-                    case 10:
-                        //View comment parent
-                        viewCommentParent(adapter, holder, mContext, baseNode);
-                        break;
-                    case 7:
-                        //Show select and copy text to clipboard
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.comment_gild, R.drawable.gild,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, Website.class);
+                        i.putExtra(Website.EXTRA_URL, "https://reddit.com"
+                                + adapter.submission.getPermalink()
+                                + n.getFullName().substring(3, n.getFullName().length())
+                                + "?context=3&inapp=false");
+                        i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
+                        mContext.startActivity(i);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.misc_copy_text, R.drawable.ic_content_copy,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         final TextView showText = new TextView(mContext);
                         showText.setText(StringEscapeUtils.unescapeHtml4(n.getBody()));
                         showText.setTextIsSelectable(true);
@@ -256,20 +228,34 @@ public class CommentAdapterHelper {
                                             }
                                         })
                                 .show();
-                        break;
-                    case 4:
-                        //Share comment
-                        Reddit.defaultShareText(adapter.submission.getTitle(),
-                                "https://reddit.com"
-                                        + adapter.submission.getPermalink()
-                                        +
-                                        n.getFullName().substring(3, n.getFullName().length())
-                                        + "?context=3", mContext);
-                        break;
-                }
-            }
-        });
-        b.show();
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.comment_permalink, R.drawable.link,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String s = "https://reddit.com"
+                                + adapter.submission.getPermalink()
+                                + n.getFullName().substring(3, n.getFullName().length())
+                                + "?context=3";
+                        new OpenRedditLink(mContext, s);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+        bottomSheetHelper.textView(R.string.comment_share, R.drawable.share,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reddit.defaultShareText(adapter.submission.getTitle(), "https://reddit.com"
+                                + adapter.submission.getPermalink()
+                                + n.getFullName().substring(3, n.getFullName().length())
+                                + "?context=3", mContext);
+                        bottomSheetHelper.dismiss();
+                    }
+                });
+
+        bottomSheetHelper.build().show();
     }
 
     private static void viewCommentParent(CommentAdapter adapter, CommentViewHolder holder,
@@ -338,7 +324,7 @@ public class CommentAdapterHelper {
                                     Snackbar.LENGTH_SHORT);
                         }
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -440,9 +426,8 @@ public class CommentAdapterHelper {
                                                                                 View view =
                                                                                         s.getView();
                                                                                 TextView tv =
-                                                                                        (TextView) view
-                                                                                                .findViewById(
-                                                                                                        android.support.design.R.id.snackbar_text);
+                                                                                        view.findViewById(
+                                                                                                android.support.design.R.id.snackbar_text);
                                                                                 tv.setTextColor(
                                                                                         Color.WHITE);
                                                                                 s.show();
@@ -456,9 +441,8 @@ public class CommentAdapterHelper {
                                                                                 View view =
                                                                                         s.getView();
                                                                                 TextView tv =
-                                                                                        (TextView) view
-                                                                                                .findViewById(
-                                                                                                        android.support.design.R.id.snackbar_text);
+                                                                                        view.findViewById(
+                                                                                                android.support.design.R.id.snackbar_text);
                                                                                 tv.setTextColor(
                                                                                         Color.WHITE);
                                                                                 s.show();
@@ -494,7 +478,7 @@ public class CommentAdapterHelper {
                                                                 R.string.submission_info_saved,
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(
+                                                        TextView tv = view.findViewById(
                                                                 android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
@@ -505,7 +489,7 @@ public class CommentAdapterHelper {
                                                                 R.string.category_set_error,
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(
+                                                        TextView tv = view.findViewById(
                                                                 android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
@@ -531,119 +515,110 @@ public class CommentAdapterHelper {
             final CommentNode baseNode, final Comment comment, final CommentViewHolder holder,
             final Map<String, Integer> reports, final Map<String, String> reports2) {
 
-        int[] attrs = new int[]{R.attr.tintColor};
-        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+        final BottomSheetHelper bottomSheetHelper = new BottomSheetHelper(mContext);
 
-        //Initialize drawables
-        int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
-        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable pin = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
-        final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
-        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
-        final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
-
-        //Tint drawables
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        approve.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        nsfw.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-        ta.recycle();
-
-        //Bottom sheet builder
-        BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                Html.fromHtml(comment.getBody()));
-
+        bottomSheetHelper.header(Html.fromHtml(comment.getBody()));
         int reportCount = reports.size() + reports2.size();
+        bottomSheetHelper.textView(reportCount == 0 ? mContext.getString(R.string.mod_no_reports)
+                        : mContext.getResources()
+                                .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount),
+                R.drawable.report, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewReports(mContext, reports, reports2);
 
-        if (reportCount == 0) {
-            b.sheet(0, report, mContext.getString(R.string.mod_no_reports));
-        } else {
-            b.sheet(0, report, mContext.getResources()
-                    .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
-        }
+                    }
+                });
+        bottomSheetHelper.textView(R.string.mod_btn_approve, R.drawable.support,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doApproval(mContext, holder, comment, adapter);
 
-        b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
-        // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
-
-
+                    }
+                });
         final boolean stickied = comment.getDataNode().has("stickied") && comment.getDataNode()
                 .get("stickied")
                 .asBoolean();
-        if (baseNode.isTopLevel()) {
-            if (!stickied) {
-                b.sheet(4, pin, mContext.getString(R.string.mod_sticky));
-            } else {
-                b.sheet(4, pin, mContext.getString(R.string.mod_unsticky));
-            }
-        }
-
-        final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
-        if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
-            if (!distinguished) {
-                b.sheet(9, distinguish, mContext.getString(R.string.mod_distinguish));
-            } else {
-                b.sheet(9, distinguish, mContext.getString(R.string.mod_undistinguish));
-            }
-        }
-
-        b.sheet(23, ban, mContext.getString(R.string.mod_ban_user));
-
-        b.sheet(6, remove, mContext.getString(R.string.btn_remove))
-                .sheet(10, spam, "Mark as spam")
-                .sheet(8, profile, mContext.getString(R.string.mod_btn_author))
-                .listener(new DialogInterface.OnClickListener() {
+        bottomSheetHelper.textView(stickied ? R.string.mod_sticky : R.string.mod_unsticky,
+                R.drawable.sub, new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                viewReports(mContext, reports, reports2);
-                                break;
-                            case 1:
-                                doApproval(mContext, holder, comment, adapter);
-                                break;
-                            case 4:
-                                if (stickied) {
-                                    unStickyComment(mContext, holder, comment);
-                                } else {
-                                    stickyComment(mContext, holder, comment);
-                                }
-                                break;
-                            case 9:
-                                if (distinguished) {
-                                    unDistinguishComment(mContext, holder, comment);
-                                } else {
-                                    distinguishComment(mContext, holder, comment);
-                                }
-                                break;
-                            case 6:
-                                removeComment(mContext, holder, comment, adapter, false);
-                                break;
-                            case 10:
-                                removeComment(mContext, holder, comment, adapter, true);
-                                break;
-                            case 8:
-                                Intent i = new Intent(mContext, Profile.class);
-                                i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
-                                mContext.startActivity(i);
-                                break;
-                            case 23:
-                                showBan(mContext, adapter.listView, comment, "", "", "", "");
-                                break;
-
+                    public void onClick(View v) {
+                        if (stickied) {
+                            unStickyComment(mContext, holder, comment);
+                        } else {
+                            stickyComment(mContext, holder, comment);
                         }
+
                     }
                 });
-        b.show();
+        if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
+            final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
+            bottomSheetHelper.textView(
+                    distinguished ? R.string.mod_distinguish : R.string.mod_undistinguish,
+                    R.drawable.iconstarfilled, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (distinguished) {
+                                unDistinguishComment(mContext, holder, comment);
+                            } else {
+                                distinguishComment(mContext, holder, comment);
+                            }
+                        }
+                    });
+        }
+        bottomSheetHelper.textView(R.string.mod_ban_user, R.drawable.ban,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showBan(mContext, adapter.listView, comment, "", "", "", "");
+
+                    }
+                });
+        bottomSheetHelper.textView(R.string.btn_remove, R.drawable.close,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeComment(mContext, holder, comment, adapter, false);
+
+                    }
+                });
+        bottomSheetHelper.textView("Mark as spam", R.drawable.spam, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeComment(mContext, holder, comment, adapter, true);
+
+            }
+        });
+        bottomSheetHelper.textView("/u/" + comment.getAuthor(), R.drawable.profile,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
+                        mContext.startActivity(i);
+
+                    }
+                }, new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
+                                Context.CLIPBOARD_SERVICE);
+                        ClipData clip =
+                                ClipData.newPlainText("Comment text", "/u/" + comment.getAuthor());
+                        if (clipboard != null) {
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(mContext, R.string.submission_author_copied,
+                                    Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            return false;
+                        }
+                        return true;
+                    }
+                });
+        bottomSheetHelper.build().show();
     }
 
     public static void showBan(final Context mContext, final View mToolbar,
@@ -785,7 +760,7 @@ public class CommentAdapterHelper {
 
                                             {
                                                 View view = s.getView();
-                                                TextView tv = (TextView) view.findViewById(
+                                                TextView tv = view.findViewById(
                                                         android.support.design.R.id.snackbar_text);
                                                 tv.setTextColor(Color.WHITE);
                                                 s.show();
@@ -812,8 +787,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_distinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -848,8 +822,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_undistinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -884,8 +857,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_stickied,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -989,8 +961,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_unstickied,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1024,8 +995,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -1322,7 +1292,7 @@ public class CommentAdapterHelper {
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
-        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+        final EditText e = dialoglayout.findViewById(R.id.entry);
         e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
         DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext,
@@ -1507,7 +1477,7 @@ public class CommentAdapterHelper {
             Snackbar s =
                     Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
             View view = s.getView();
-            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+            TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
             tv.setTextColor(Color.WHITE);
             s.show();
         }

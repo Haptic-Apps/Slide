@@ -103,85 +103,61 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style parent="BottomSheet.Dialog" name="BottomSheet.StyleDialog.Light">
+    <style parent="Theme.Design.Light.BottomSheetDialog" name="BottomSheet.StyleDialog.Light">
         <item name="android:textColorPrimary">#DE000000</item>
         <item name="android:textColorSecondary">#8A000000</item>
         <item name="android:textColorHint">#8A000000</item>
-        <item name="bs_dialogBackground">#FFFFFF</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetLight.StyleList</item>
+        <item name="android:colorBackground">#FFFFFF</item>
     </style>
 
-    <style parent="BottomSheet.Dialog" name="BottomSheet.StyleDialog.Sepia">
+    <style parent="Theme.Design.Light.BottomSheetDialog" name="BottomSheet.StyleDialog.Sepia">
         <item name="android:textColorPrimary">#DE3e3d36</item>
         <item name="android:textColorSecondary">#8A3e3d36</item>
         <item name="android:textColorHint">#8A3e3d36</item>
-        <item name="bs_dialogBackground">#b1ad9b</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetLight.StyleList</item>
+        <item name="android:colorBackground">#b1ad9b</item>
     </style>
 
-    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.AMOLED">
+    <style parent="Theme.Design.BottomSheetDialog" name="BottomSheet.StyleDialog.AMOLED">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
         <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">#000000</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+        <item name="android:colorBackground">#000000</item>
     </style>
 
-    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Dark">
+    <style parent="Theme.Design.BottomSheetDialog" name="BottomSheet.StyleDialog.Dark">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
         <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">#424242</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+        <item name="android:colorBackground">#424242</item>
     </style>
 
-    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Deep">
+    <style parent="Theme.Design.BottomSheetDialog" name="BottomSheet.StyleDialog.Deep">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
         <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">#1f1e26</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+        <item name="android:colorBackground">#1f1e26</item>
     </style>
 
-    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Dark_Blue">
+    <style parent="Theme.Design.BottomSheetDialog" name="BottomSheet.StyleDialog.Dark_Blue">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
         <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">#37474F</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+        <item name="android:colorBackground">#37474F</item>
     </style>
 
 
-    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.PIXEL">
+    <style parent="Theme.Design.BottomSheetDialog" name="BottomSheet.StyleDialog.PIXEL">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
         <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">#3a3a3a</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+        <item name="android:colorBackground">#3a3a3a</item>
     </style>
-    
-    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Night_Red">
+
+    <style parent="Theme.Design.BottomSheetDialog" name="BottomSheet.StyleDialog.Night_Red">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
         <item name="android:textColorHint">#42ffd4d4</item>
-        <item name="bs_dialogBackground">#44302f</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
-    </style>
-
-    <style parent="BottomSheet.List" name="BottomSheetLight.StyleList">
-        <item name="android:layoutAnimation">@null</item>
-    </style>
-
-    <style parent="BottomSheet.List.Dark" name="BottomSheetDark.StyleList">
-        <item name="android:layoutAnimation">@null</item>
+        <item name="android:colorBackground">#44302f</item>
     </style>
 
     <style parent="swipestyle" name="AppTheme">
@@ -194,7 +170,7 @@
         <item name="android:colorBackground">#000000</item>
         <item name="md_background_color">#000000</item>
         <item name="list_background">#000000</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
         <item name="fontColor">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tintColor">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -210,7 +186,7 @@
         <item name="android:colorBackground">#121212</item>
         <item name="md_background_color">#121212</item>
         <item name="list_background">#000000</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
         <item name="fontColor">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tintColor">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -224,7 +200,7 @@
         <item name="activity_background">#212121</item>
         <item name="card_background">#303030</item>
         <item name="list_background">#212121</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
         <item name="fontColor">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tintColor">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -240,7 +216,7 @@
         <item name="android:colorBackground">#37474F</item>
         <item name="md_background_color">#37474F</item>
         <item name="list_background">#263238</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
         <item name="fontColor">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tintColor">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -256,7 +232,7 @@
         <item name="android:colorBackground">#1f1e26</item>
         <item name="md_background_color">#1f1e26</item>
         <item name="list_background">#1C1B21</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Deep</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.Deep</item>
         <item name="fontColor">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tintColor">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -272,7 +248,7 @@
         <item name="android:colorBackground">#2d2d2d</item>
         <item name="md_background_color">#2d2d2d</item>
         <item name="list_background">#3a3a3a</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.PIXEL</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.PIXEL</item>
         <item name="fontColor">#DEFFFFFF</item> <!-- 87% white -->
         <item name="tintColor">#8AFFFFFF</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -288,7 +264,7 @@
         <item name="android:colorBackground">#402c2c</item>
         <item name="md_background_color">#402c2c</item>
         <item name="list_background">#261a1a</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Night_Red</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.Night_Red</item>
         <item name="fontColor">#defff7ed</item> <!-- 87% white -->
         <item name="tintColor">#8affebcf</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
@@ -304,7 +280,7 @@
         <item name="list_background">#cac5ad</item>
         <item name="android:colorBackground">#e2dfd7</item>
         <item name="md_background_color">#e2dfd7</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>
         <item name="fontColor">#de3e3d36</item> <!-- 87% black -->
         <item name="tintColor">#8A3e3d36</item> <!-- 54% black -->
         <item name="android:textColorPrimary">#DE3e3d36</item> <!-- 87% black -->
@@ -323,7 +299,7 @@
         <item name="activity_background">#e5e5e5</item>
         <item name="card_background">#FFFFFF</item>
         <item name="list_background">#e5e5e5</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
         <item name="fontColor">#DE000000</item> <!-- 87% black -->
         <item name="tintColor">#8A000000</item> <!-- 54% black -->
         <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
