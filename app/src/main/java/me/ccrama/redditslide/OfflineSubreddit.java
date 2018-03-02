@@ -116,16 +116,6 @@ public class OfflineSubreddit {
         }
     }
 
-    public void writeToMemoryAsync(final Context c) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                writeToMemory(c);
-                return null;
-            }
-        }.execute();
-    }
-
     public void writeToMemory(ArrayList<String> names) {
         if (subreddit != null && !names.isEmpty()) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (time);

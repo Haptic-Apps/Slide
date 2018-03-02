@@ -154,7 +154,7 @@ public class MediaFragment extends Fragment {
 
         img.setAlpha(1f);
 
-        if (s.getThumbnail().isEmpty() || firstUrl.isEmpty() || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
+        if (s.getThumbnail().isEmpty() || (firstUrl == null || firstUrl.isEmpty()) || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
             ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
             addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,

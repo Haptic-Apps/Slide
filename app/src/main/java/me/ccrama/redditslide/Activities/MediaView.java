@@ -613,6 +613,10 @@ public class MediaView extends FullScreenActivity
         final String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
+        if(contentUrl == null || contentUrl.isEmpty()){
+            finish();
+            return;
+        }
         setShareUrl(contentUrl);
 
         if (contentUrl.contains("reddituploads.com")) {

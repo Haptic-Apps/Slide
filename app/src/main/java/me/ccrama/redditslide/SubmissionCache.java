@@ -101,21 +101,23 @@ public class SubmissionCache {
         }
         json = json.get("crosspost_parent_list").get(0);
 
-        String subname = json.get("subreddit").asText().toLowerCase(Locale.ENGLISH);
-        SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname + spacer);
+        if(json.has("subreddit")){
+            String subname = json.get("subreddit").asText().toLowerCase(Locale.ENGLISH);
+            SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname + spacer);
 
-        if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())
-                || (SettingValues.colorSubName
-                && Palette.getColor(subname) != Palette.getDefaultColor())) {
-            if (!SettingValues.colorEverywhere) {
-                subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0,
-                        subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())
+                    || (SettingValues.colorSubName
+                    && Palette.getColor(subname) != Palette.getDefaultColor())) {
+                if (!SettingValues.colorEverywhere) {
+                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0,
+                            subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
             }
-        }
 
-        titleString.append(subreddit);
+            titleString.append(subreddit);
+        }
 
         SpannableStringBuilder author =
                 new SpannableStringBuilder( json.get("author").asText() + " ");

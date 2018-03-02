@@ -76,7 +76,11 @@ public class PeekViewActivity extends AppCompatActivity {
             return false;
         }
 
-        return super.dispatchTouchEvent(event);
+        try {
+            return super.dispatchTouchEvent(event);
+        } catch(Exception e){
+            return false;
+        }
     }
 
     public boolean isPeeking() {

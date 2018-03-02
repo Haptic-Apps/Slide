@@ -28,7 +28,7 @@ public class LastComments {
                     commentsSince.put(fullname, Integer.valueOf(m.get("comments" + fullname)));
                 }
             }
-        } catch(ConcurrentModificationException ignored){
+        } catch(Exception ignored){
 
         }
     }
