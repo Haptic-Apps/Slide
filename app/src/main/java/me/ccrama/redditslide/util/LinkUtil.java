@@ -29,6 +29,7 @@ import net.dean.jraw.models.Submission;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import me.ccrama.redditslide.Activities.Crosspost;
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.ReaderMode;
 import me.ccrama.redditslide.Activities.Website;
@@ -246,5 +247,10 @@ public class LinkUtil {
         ClipData clip = ClipData.newPlainText("Link", url);
         clipboard.setPrimaryClip(clip);
         Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void crosspost(Submission submission, Activity mContext) {
+        Crosspost.toCrosspost = submission;
+        mContext.startActivity(new Intent(mContext, Crosspost.class));
     }
 }

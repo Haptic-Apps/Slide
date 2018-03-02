@@ -132,9 +132,9 @@ public class SettingsBackup extends BaseActivityAnim {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 ProcessPhoenix.triggerRebirth(SettingsBackup.this);
-
                                             }
                                         })
+                                .setCancelable(false)
                                 .show();
 
                     } else {
@@ -143,6 +143,7 @@ public class SettingsBackup extends BaseActivityAnim {
                                 R.string.err_not_valid_backup)
                                 .setMessage(R.string.err_not_valid_backup_msg)
                                 .setPositiveButton(R.string.btn_ok, null)
+                                .setCancelable(false)
                                 .show();
                     }
                 } catch (Exception e) {
@@ -161,6 +162,7 @@ public class SettingsBackup extends BaseActivityAnim {
                         R.string.err_file_not_found)
                         .setMessage(R.string.err_file_not_found_msg)
                         .setPositiveButton(R.string.btn_ok, null)
+                        .setCancelable(false)
                         .show();
             }
 
@@ -180,8 +182,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 public void onClick(View v) {
                     new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
                             R.string.settings_backup_include_personal_title)
-                            .setMessage(
-                                    R.string.settings_backup_include_personal_text)
+                            .setMessage(R.string.settings_backup_include_personal_text)
                             .setPositiveButton(R.string.btn_yes,
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -197,6 +198,7 @@ public class SettingsBackup extends BaseActivityAnim {
                                         }
                                     })
                             .setNeutralButton(R.string.btn_cancel, null)
+                            .setCancelable(false)
                             .show();
                 }
             });
@@ -208,35 +210,35 @@ public class SettingsBackup extends BaseActivityAnim {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("file/*");
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    String[] mimeTypes = { "text/plain"};
+                    String[] mimeTypes = {"text/plain"};
                     intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
                     startActivityForResult(intent, 42);
 
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle(
-                    "Settings Backup is a Pro feature")
+            new AlertDialogWrapper.Builder(this).setTitle("Settings Backup is a Pro feature")
                     .setMessage(R.string.pro_upgrade_msg)
                     .setPositiveButton(R.string.btn_yes_exclaim,
 
                             new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                        "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                            } catch (android.content.ActivityNotFoundException anfe) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                        "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                            }
-                        }
-                    })
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            })
                     .setNegativeButton(R.string.btn_no_danks,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     finish();
                                 }
                             })
+                    .setCancelable(false)
                     .show();
         }
     }
@@ -246,7 +248,7 @@ public class SettingsBackup extends BaseActivityAnim {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPreExecute() {
-                progress = new MaterialDialog.Builder(SettingsBackup.this)
+                progress = new MaterialDialog.Builder(SettingsBackup.this).cancelable(false)
                         .title(R.string.backup_backing_up)
                         .progress(false, 40)
                         .cancelable(false)
@@ -261,7 +263,8 @@ public class SettingsBackup extends BaseActivityAnim {
                 if (prefsdir.exists() && prefsdir.isDirectory()) {
                     String[] list = prefsdir.list();
 
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                            .mkdirs();
 
                     File backedup = new File(Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_DOWNLOADS)
@@ -334,12 +337,13 @@ public class SettingsBackup extends BaseActivityAnim {
                                                 SettingsBackup.this);
                                         if (intent.resolveActivityInfo(getPackageManager(), 0)
                                                 != null) {
-                                            startActivity(
-                                                    Intent.createChooser(intent, getString(R.string.settings_backup_view)));
+                                            startActivity(Intent.createChooser(intent,
+                                                    getString(R.string.settings_backup_view)));
                                         } else {
                                             Snackbar s =
                                                     Snackbar.make(findViewById(R.id.restorefile),
-                                                            getString(R.string.settings_backup_err_no_explorer,
+                                                            getString(
+                                                                    R.string.settings_backup_err_no_explorer,
                                                                     file.getAbsolutePath() + file),
                                                             Snackbar.LENGTH_INDEFINITE);
                                             View view = s.getView();
@@ -351,6 +355,7 @@ public class SettingsBackup extends BaseActivityAnim {
                                     }
                                 })
                         .setNegativeButton(R.string.btn_close, null)
+                        .setCancelable(false)
                         .show();
             }
         }.execute();

@@ -276,7 +276,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             infos.putBoolean("popup", true);
             final Intent activityIntent = new Intent();
             activityIntent.putExtras(infos);
-
+            activityIntent.setAction(data.getTitle());
             rv.setOnClickFillInIntent(R.id.card, activityIntent);
         } catch (Exception e) {
 

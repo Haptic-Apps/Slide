@@ -533,6 +533,8 @@ public class PopulateSubmissionViewHolder {
                         null);
         Drawable filter =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.filter, null);
+        Drawable crosspost =
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.forward, null);
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -545,6 +547,7 @@ public class PopulateSubmissionViewHolder {
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         readLater.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        crosspost.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -576,6 +579,7 @@ public class PopulateSubmissionViewHolder {
         if (Authentication.didOnline) {
             if (Authentication.isLoggedIn) {
                 b.sheet(12, report, mContext.getString(R.string.btn_report));
+                b.sheet(13, crosspost, mContext.getString(R.string.btn_crosspost));
             }
         }
 
@@ -876,6 +880,9 @@ public class PopulateSubmissionViewHolder {
                         } else if (SettingValues.storeHistory) {
                             HasSeen.addSeen(submission.getFullName());
                         }
+                        break;
+                    case 13:
+                        LinkUtil.crosspost(submission, mContext);
                         break;
                     case 28:
                         if (!isAddedToReadLaterList) {

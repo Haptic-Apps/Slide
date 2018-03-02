@@ -40,11 +40,31 @@ public class OpenContent extends Activity {
         }
         url = url.toLowerCase(Locale.ENGLISH);
 
+        finish();
+        new OpenRedditLink(this, url);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        Uri data = intent.getData();
+        Bundle extras = intent.getExtras();
+        String url;
+
+        if (data != null) {
+            url = data.toString();
+        } else if (extras != null) {
+            url = extras.getString(EXTRA_URL, "");
+        } else {
+            Toast.makeText(OpenContent.this, R.string.err_invalid_url, Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        url = url.toLowerCase(Locale.ENGLISH);
+
         Log.v(LogUtil.getTag(), url);
 
 
         new OpenRedditLink(this, url);
-
-        finish();
     }
 }

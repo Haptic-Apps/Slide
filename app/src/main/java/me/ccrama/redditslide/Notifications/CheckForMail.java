@@ -82,11 +82,8 @@ public class CheckForMail extends BroadcastReceiver {
                     try {
 
                         ContentValues cv = new ContentValues();
-
                         cv.put("tag", "me.ccrama.redditslide/me.ccrama.redditslide.MainActivity");
-
                         cv.put("count", messages.size());
-
                         c.getContentResolver()
                                 .insert(Uri.parse(
                                         "content://com.teslacoilsw.notifier/unread_count"), cv);
@@ -108,10 +105,6 @@ public class CheckForMail extends BroadcastReceiver {
 
                 Intent notificationIntent = new Intent(c, Inbox.class);
                 notificationIntent.putExtra(Inbox.EXTRA_UNREAD, true);
-
-                notificationIntent.setFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
                 PendingIntent intent = PendingIntent.getActivity(c, 0, notificationIntent, 0);
 
                 //Intent for mark as read notification action
@@ -188,12 +181,14 @@ public class CheckForMail extends BroadcastReceiver {
                             openPIBase.putExtra(OpenContent.EXTRA_URL,
                                     "https://reddit.com" + context.substring(0,
                                             context.lastIndexOf("/")));
+                            openPIBase.setAction(m.getSubject());
+
                         } else {
                             openPIBase = new Intent(c, Inbox.class);
                             openPIBase.putExtra(Inbox.EXTRA_UNREAD, true);
                         }
-                        openPIBase.setFlags(
-                                Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                      //  openPIBase.setFlags(
+                        //        Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                         PendingIntent openPi =
                                 PendingIntent.getActivity(c, 3 + (int) m.getCreated().getTime(),
@@ -251,172 +246,6 @@ public class CheckForMail extends BroadcastReceiver {
         }
     }
 
-    private class AsyncGetMailSingle extends AsyncTask<Void, Void, List<Message>> {
-
-        @Override
-        public void onPostExecute(List<Message> messages) {
-            Resources res = c.getResources();
-            if (messages != null && !messages.isEmpty()) {
-                Collections.reverse(messages);
-                if (Reddit.isPackageInstalled(c, "com.teslacoilsw.notifier")) {
-                    try {
-
-                        ContentValues cv = new ContentValues();
-
-                        cv.put("tag", "me.ccrama.redditslide/me.ccrama.redditslide.MainActivity");
-
-                        cv.put("count", messages.size());
-
-                        c.getContentResolver()
-                                .insert(Uri.parse(
-                                        "content://com.teslacoilsw.notifier/unread_count"), cv);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                Message message = messages.get(0);
-
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(c);
-
-
-                Intent notificationIntent = new Intent(c, Inbox.class);
-                notificationIntent.putExtra(Inbox.EXTRA_UNREAD, true);
-
-                notificationIntent.setFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                PendingIntent intent = PendingIntent.getActivity(c, 0, notificationIntent, 0);
-
-                //Intent for mark as read notification action
-                PendingIntent readPI = MarkAsReadService.getMarkAsReadIntent(2, c,
-                        new String[]{message.getFullName()});
-
-                {
-
-                    NotificationCompat.InboxStyle notiStyle = new NotificationCompat.InboxStyle();
-                    notiStyle.setBigContentTitle(
-                            res.getQuantityString(R.plurals.mail_notification_title, 1, 1));
-                    notiStyle.setSummaryText("");
-                    if (message.getAuthor() != null) {
-                        notiStyle.addLine(c.getString(R.string.mail_notification_msg_from,
-                                message.getAuthor()));
-                    } else {
-                        notiStyle.addLine(c.getString(R.string.mail_notification_msg_via,
-                                message.getSubreddit()));
-                    }
-
-                    Notification notification =
-                            new NotificationCompat.Builder(c).setContentIntent(intent)
-                                    .setSmallIcon(R.drawable.notif)
-                                    .setTicker(
-                                            res.getQuantityString(R.plurals.mail_notification_title,
-                                                    1, 1))
-                                    .setWhen(System.currentTimeMillis())
-                                    .setAutoCancel(true)
-                                    .setChannelId(
-                                            SettingValues.notifSound ? Reddit.CHANNEL_MAIL_SOUND
-                                                    : Reddit.CHANNEL_MAIL)
-                                    .setContentTitle(
-                                            res.getQuantityString(R.plurals.mail_notification_title,
-                                                    1, 1))
-                                    .setStyle(notiStyle)
-                                    .setGroup("MESSAGES")
-                                    .setGroupSummary(true)
-                                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                    .addAction(R.drawable.ic_check_all_black,
-                                            c.getString(R.string.mail_mark_read), readPI)
-                                    .build();
-
-                    notificationManager.notify(0, notification);
-                }
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    NotificationCompat.BigTextStyle notiStyle =
-                            new NotificationCompat.BigTextStyle();
-                    String contentTitle;
-                    if (message.getAuthor() != null) {
-                        notiStyle.setBigContentTitle(
-                                c.getString(R.string.mail_notification_msg_from,
-                                        message.getAuthor()));
-                        contentTitle =
-                                c.getString(R.string.mail_notification_author, message.getSubject(),
-                                        message.getAuthor());
-                    } else {
-                        notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg_via,
-                                message.getSubreddit()));
-                        contentTitle = c.getString(R.string.mail_notification_subreddit,
-                                message.getSubject(), message.getSubreddit());
-                    }
-                    Intent openPIBase;
-                    if (message.isComment()) {
-                        openPIBase = new Intent(c, OpenContent.class);
-                        String context = message.getDataNode().get("context").asText();
-                        openPIBase.putExtra(OpenContent.EXTRA_URL,
-                                "https://reddit.com" + context.substring(0,
-                                        context.lastIndexOf("/")));
-                    } else {
-                        openPIBase = new Intent(c, Inbox.class);
-                        openPIBase.putExtra(Inbox.EXTRA_UNREAD, true);
-                    }
-                    openPIBase.setFlags(
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                    PendingIntent openPi =
-                            PendingIntent.getActivity(c, 3 + (int) message.getCreated().getTime(),
-                                    openPIBase, 0);
-                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                            message.getDataNode().get("body_html").asText())));
-
-                    PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
-                            2 + (int) message.getCreated().getTime(), c,
-                            new String[]{message.getFullName()});
-
-                    Notification notification =
-                            new NotificationCompat.Builder(c).setContentIntent(openPi)
-                                    .setSmallIcon(R.drawable.notif)
-                                    .setTicker(
-                                            res.getQuantityString(R.plurals.mail_notification_title,
-                                                    1, 1))
-                                    .setWhen(System.currentTimeMillis())
-                                    .setAutoCancel(true)
-                                    .setContentTitle(contentTitle)
-                                    .setChannelId(
-                                            SettingValues.notifSound ? Reddit.CHANNEL_MAIL_SOUND
-                                                    : Reddit.CHANNEL_MAIL)
-                                    .setContentText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                                            message.getDataNode().get("body_html").asText())))
-                                    .setStyle(notiStyle)
-                                    .setGroup("MESSAGES")
-                                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                    .addAction(R.drawable.ic_check_all_black,
-                                            c.getString(R.string.mail_mark_read), readPISingle)
-                                    .build();
-                    notificationManager.notify((int) message.getCreated().getTime(), notification);
-                }
-            }
-        }
-
-        @Override
-        protected List<Message> doInBackground(Void... params) {
-            try {
-                if (Authentication.isLoggedIn && Authentication.didOnline) {
-                    InboxPaginator unread = new InboxPaginator(Authentication.reddit, "unread");
-
-                    List<Message> messages = new ArrayList<>();
-                    if (unread.hasNext()) {
-                        messages.addAll(unread.next());
-                    }
-
-                    return messages;
-                }
-            } catch (Exception ignored) {
-                ignored.printStackTrace();
-            }
-            return null;
-        }
-    }
-
     private class AsyncGetModmail extends AsyncTask<Void, Void, List<Message>> {
 
         @Override
@@ -429,8 +258,8 @@ public class CheckForMail extends BroadcastReceiver {
 
                 Intent notificationIntent = new Intent(c, ModQueue.class);
 
-                notificationIntent.setFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+              //  notificationIntent.setFlags(
+              //          Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 PendingIntent intent = PendingIntent.getActivity(c, 0, notificationIntent, 0);
 
@@ -542,15 +371,15 @@ public class CheckForMail extends BroadcastReceiver {
                         Intent readIntent = new Intent(c, OpenContent.class);
                         readIntent.putExtra(OpenContent.EXTRA_URL,
                                 "https://reddit.com" + s.getPermalink());
+                        readIntent.setAction(s.getTitle());
                         PendingIntent readPI = PendingIntent.getActivity(c,
                                 (int) (s.getCreated().getTime() / 1000), readIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT);
-
+                                0);
 
                         Intent cancelIntent = new Intent(c, CancelSubNotifs.class);
                         cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB, s.getSubredditName());
-                        PendingIntent cancelPi = PendingIntent.getActivity(c, 2, cancelIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent cancelPi = PendingIntent.getActivity(c,  (int)s.getCreated().getTime() / 1000, cancelIntent,
+                                0);
 
 
                         NotificationCompat.BigTextStyle notiStyle =

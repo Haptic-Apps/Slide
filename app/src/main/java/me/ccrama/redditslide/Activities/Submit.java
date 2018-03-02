@@ -474,19 +474,16 @@ public class Submit extends BaseActivity {
                             public void run() {
 
                                 if (e instanceof ApiException) {
-                                    showErrorRetryDialog(
-                                            getString(R.string.misc_err)
-                                                    + ": "
-                                                    + e.getExplanation()
-                                                    + "\n"
-                                                    + getString(R.string.misc_retry));
+                                    showErrorRetryDialog(getString(R.string.misc_err)
+                                            + ": "
+                                            + e.getExplanation()
+                                            + "\n"
+                                            + getString(R.string.misc_retry));
                                 } else {
                                     showErrorRetryDialog(
-                                            getString(R.string.misc_err)
-                                                    + ": "
-                                                    + getString(R.string.err_invalid_url)
-                                                    + "\n"
-                                                    + getString(R.string.misc_retry));
+                                            getString(R.string.misc_err) + ": " + getString(
+                                                    R.string.err_invalid_url) + "\n" + getString(
+                                                    R.string.misc_retry));
                                 }
                             }
                         });
@@ -514,18 +511,14 @@ public class Submit extends BaseActivity {
                             public void run() {
                                 if (e instanceof ApiException) {
                                     showErrorRetryDialog(
-                                            getString(R.string.misc_err)
-                                                    + ": "
-                                                    + ((ApiException) e).getExplanation()
-                                                    + "\n"
-                                                    + getString(R.string.misc_retry));
+                                            getString(R.string.misc_err) + ": " + ((ApiException) e)
+                                                    .getExplanation() + "\n" + getString(
+                                                    R.string.misc_retry));
                                 } else {
                                     showErrorRetryDialog(
-                                            getString(R.string.misc_err)
-                                                    + ": "
-                                                    + getString(R.string.err_invalid_url)
-                                                    + "\n"
-                                                    + getString(R.string.misc_retry));
+                                            getString(R.string.misc_err) + ": " + getString(
+                                                    R.string.err_invalid_url) + "\n" + getString(
+                                                    R.string.misc_retry));
                                 }
                             }
                         });
@@ -560,17 +553,16 @@ public class Submit extends BaseActivity {
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
                     .cancelable(false)
-                    .autoDismiss(false).build();
+                    .autoDismiss(false)
+                    .build();
 
-            new MaterialDialog.Builder(c).title(
-                    c.getString(R.string.editor_upload_image_question))
+            new MaterialDialog.Builder(c).title(c.getString(R.string.editor_upload_image_question))
                     .cancelable(false)
                     .autoDismiss(false)
                     .positiveText(c.getString(R.string.btn_upload))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d,
-                                DialogAction w) {
+                        public void onClick(MaterialDialog d, DialogAction w) {
                             d.dismiss();
                             dialog.show();
                             execute(uri);
@@ -579,8 +571,7 @@ public class Submit extends BaseActivity {
                     .negativeText(c.getString(R.string.btn_cancel))
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d,
-                                DialogAction w) {
+                        public void onClick(MaterialDialog d, DialogAction w) {
                             d.dismiss();
                         }
                     })
@@ -748,15 +739,13 @@ public class Submit extends BaseActivity {
                     .cancelable(false)
                     .build();
 
-            new MaterialDialog.Builder(c).title(
-                    c.getString(R.string.editor_upload_image_question))
+            new MaterialDialog.Builder(c).title(c.getString(R.string.editor_upload_image_question))
                     .cancelable(false)
                     .autoDismiss(false)
                     .positiveText(c.getString(R.string.btn_upload))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d,
-                                DialogAction w) {
+                        public void onClick(MaterialDialog d, DialogAction w) {
                             d.dismiss();
                             dialog.show();
                             execute(uris);
@@ -765,8 +754,7 @@ public class Submit extends BaseActivity {
                     .negativeText(c.getString(R.string.btn_cancel))
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d,
-                                DialogAction w) {
+                        public void onClick(MaterialDialog d, DialogAction w) {
                             d.dismiss();
                         }
                     })

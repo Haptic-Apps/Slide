@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/standard_toolbar_height"
+        android:minHeight="@dimen/standard_toolbar_height"
+        android:background="@color/md_amber_500"
+        android:elevation="8dp"
+        android:paddingEnd="16dp"
+        android:theme="@style/Theme.AppCompat"
+        android:title="@string/editor_submit">
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="72dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/subreddittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/tintColor"
+                    android:textCursorDrawable="@drawable/cursor"
+                    android:hint="@string/editor_hint_subreddit"
+                    android:inputType="textFilter"
+                    android:maxLength="21"
+                    android:maxLines="1"
+                    android:imeOptions="flagNavigateNext"
+                    android:textColor="?attr/fontColor"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/titletext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/tintColor"
+                    android:textCursorDrawable="@drawable/cursor"
+                    android:hint="@string/editor_title"
+                    android:inputType="text|textCapSentences"
+                    android:maxLines="1"
+                    android:maxLength="300" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/selftext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/crossposttext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textCursorDrawable="@drawable/cursor"
+                        android:backgroundTint="?attr/tintColor"
+                        android:hint="@string/btn_crosspost" />
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/suggest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:padding="16dp"
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/btn_suggest_title"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/fontColor"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <me.ccrama.redditslide.SpoilerRobotoTextView
+                android:id="@+id/submittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="?attr/fontColor"
+                android:textSize="?attr/font_commentbody" />
+
+            <me.ccrama.redditslide.Views.CommentOverflow
+                android:id="@+id/commentOverflow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/replies"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="?attr/tintColor"
+        android:button="@null"
+        android:buttonTint="?attr/tintColor"
+        android:checked="true"
+        android:hapticFeedbackEnabled="true"
+        android:text="@string/submit_replies_to_inbox"
+        android:textColor="?attr/fontColor"
+        android:textColorHint="?attr/fontColor" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/send" />
+</RelativeLayout>

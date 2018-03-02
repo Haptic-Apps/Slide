@@ -780,6 +780,7 @@
     <string name="title_subreddit_settings">Subreddit themes &amp; layouts</string>
     <string name="title_edit_theme">Edit theme</string>
     <string name="title_submit_post">Submit post</string>
+    <string name="title_crosspost">Crosspost</string>
     <string name="title_settings">Settings</string>
     <string name="title_share">Share using</string>
     <string name="title_login">Log into Reddit</string>
@@ -1180,5 +1181,6 @@
     <string name="theme_deep">Deep</string>
     <string name="type_vreddit">Reddit Video</string>
     <string name="authors_above">Authors above</string>
+    <string name="btn_crosspost">Crosspost</string>
 
 </resources>

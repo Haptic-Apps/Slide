@@ -78,7 +78,7 @@ ext {
     robolectricVersion = '3.3.1'
 }
 dependencies {
-    compile 'com.github.ccrama:JRAW:26a4ab8e9a'
+    compile 'com.github.ccrama:JRAW:386e2bcc2c'
     //JRAW uses Guava, update to 20 to prevent conflicts with Robolectric
     implementation "com.google.guava:guava:23.0-android"
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper

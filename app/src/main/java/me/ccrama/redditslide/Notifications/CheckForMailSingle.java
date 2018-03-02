@@ -5,7 +5,6 @@ package me.ccrama.redditslide.Notifications;
  */
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -19,29 +18,20 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 
 import net.dean.jraw.models.Message;
-import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.InboxPaginator;
-import net.dean.jraw.paginators.SubmissionSearchPaginator;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.CancelSubNotifs;
 import me.ccrama.redditslide.Activities.Inbox;
-import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Adapters.MarkAsReadService;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class CheckForMailSingle extends BroadcastReceiver {
 
@@ -158,6 +148,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                         openPIBase.putExtra(OpenContent.EXTRA_URL,
                                 "https://reddit.com" + context.substring(0,
                                         context.lastIndexOf("/")));
+                        openPIBase.setAction(message.getSubject());
                     } else {
                         openPIBase = new Intent(c, Inbox.class);
                         openPIBase.putExtra(Inbox.EXTRA_UNREAD, true);
