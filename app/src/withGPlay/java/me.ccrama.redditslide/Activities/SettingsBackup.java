@@ -72,7 +72,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                     }
                     progress = new MaterialDialog.Builder(SettingsBackup.this)
-                            .cancelable(false)
+                            .setCancelable(false)
                             .title(R.string.backup_restoring)
                             .progress(false, i)
                             .build();
@@ -199,7 +199,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                             finish();
                                                         }
                                                     })
-                                            .cancelable(false)
+                                            .setCancelable(false)
                                             .show();
                                 }
                             }
@@ -232,7 +232,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                 finish();
                                             }
                                         })
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .show();
                     }
                 }
@@ -249,9 +249,9 @@ public class SettingsBackup extends BaseActivityAnim
             progress =
                     new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring)
                             .content(R.string.misc_please_wait)
-                            .cancelable(false)
+                            .setCancelable(false)
                             .progress(true, 1)
-                            .cancelable(false)
+                            .setCancelable(false)
                             .build();
             progress.show();
 
@@ -277,7 +277,7 @@ public class SettingsBackup extends BaseActivityAnim
                         progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                 R.string.backup_restoring)
                                 .progress(false, files.length - 1)
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .build();
                         progress.show();
                         for (int i = 1; i < files.length; i++) {
@@ -304,7 +304,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                         }
                         new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .setTitle(R.string.backup_restore_settings)
                                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                     @Override
@@ -328,7 +328,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                                             }
                                         })
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .show();
 
                     } else {
@@ -338,7 +338,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setMessage(getString(
                                         me.ccrama.redditslide.R.string.err_not_valid_backup_msg))
                                 .setPositiveButton(R.string.btn_ok, null)
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .show();
                     }
                 } catch (Exception e) {
@@ -349,7 +349,7 @@ public class SettingsBackup extends BaseActivityAnim
                             .setMessage(getString(
                                     me.ccrama.redditslide.R.string.err_file_not_found_msg))
                             .setPositiveButton(R.string.btn_ok, null)
-                            .cancelable(false)
+                            .setCancelable(false)
                             .show();
                 }
             } else {
@@ -359,7 +359,7 @@ public class SettingsBackup extends BaseActivityAnim
                         .setMessage(
                                 getString(me.ccrama.redditslide.R.string.err_file_not_found_msg))
                         .setPositiveButton(R.string.btn_ok, null)
-                        .cancelable(false)
+                        .setCancelable(false)
                         .show();
             }
 
@@ -398,7 +398,7 @@ public class SettingsBackup extends BaseActivityAnim
                             progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                     R.string.backup_backing_up)
                                     .progress(false, list.length)
-                                    .cancelable(false)
+                                    .setCancelable(false)
                                     .build();
                             progress.show();
                             appFolder.listChildren(mGoogleApiClient)
@@ -422,7 +422,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                                             }
                                         })
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .show();
                     }
                 }
@@ -436,7 +436,7 @@ public class SettingsBackup extends BaseActivityAnim
                         progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                 R.string.backup_restoring)
                                 .content(R.string.misc_please_wait)
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .progress(true, 1)
                                 .build();
                         progress.show();
@@ -458,7 +458,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                                             }
                                         })
-                                .cancelable(false)
+                                .setCancelable(false)
                                 .show();
                     }
 
@@ -486,7 +486,7 @@ public class SettingsBackup extends BaseActivityAnim
                                         }
                                     })
                             .setNeutralButton(R.string.btn_cancel, null)
-                            .cancelable(false)
+                            .setCancelable(false)
                             .show();
                 }
             });
@@ -531,7 +531,7 @@ public class SettingsBackup extends BaseActivityAnim
                                     finish();
                                 }
                             })
-                    .cancelable(false)
+                    .setCancelable(false)
                     .show();
         }
     }
@@ -543,10 +543,10 @@ public class SettingsBackup extends BaseActivityAnim
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPreExecute() {
-                progress = new MaterialDialog.Builder(SettingsBackup.this).cancelable(false)
+                progress = new MaterialDialog.Builder(SettingsBackup.this).setCancelable(false)
                         .title(R.string.backup_backing_up)
                         .progress(false, 40)
-                        .cancelable(false)
+                        .setCancelable(false)
                         .build();
 
                 progress.show();
@@ -651,7 +651,7 @@ public class SettingsBackup extends BaseActivityAnim
                                     }
                                 })
                         .setNegativeButton(R.string.btn_close, null)
-                        .cancelable(false)
+                        .setCancelable(false)
                         .show();
             }
         }.execute();
@@ -770,7 +770,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 ProcessPhoenix.triggerRebirth(SettingsBackup.this);
                             }
                         })
-                        .cancelable(false)
+                        .setCancelable(false)
                         .show();
             }
             if (result == null) {
