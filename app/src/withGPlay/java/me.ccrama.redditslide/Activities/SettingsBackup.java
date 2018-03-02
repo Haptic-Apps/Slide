@@ -72,7 +72,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                     }
                     progress = new MaterialDialog.Builder(SettingsBackup.this)
-                            .setCancelable(false)
+                            .cancelable(false)
                             .title(R.string.backup_restoring)
                             .progress(false, i)
                             .build();
@@ -249,9 +249,8 @@ public class SettingsBackup extends BaseActivityAnim
             progress =
                     new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring)
                             .content(R.string.misc_please_wait)
-                            .setCancelable(false)
+                            .cancelable(false)
                             .progress(true, 1)
-                            .setCancelable(false)
                             .build();
             progress.show();
 
@@ -277,7 +276,7 @@ public class SettingsBackup extends BaseActivityAnim
                         progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                 R.string.backup_restoring)
                                 .progress(false, files.length - 1)
-                                .setCancelable(false)
+                                .cancelable(false)
                                 .build();
                         progress.show();
                         for (int i = 1; i < files.length; i++) {
@@ -398,7 +397,7 @@ public class SettingsBackup extends BaseActivityAnim
                             progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                     R.string.backup_backing_up)
                                     .progress(false, list.length)
-                                    .setCancelable(false)
+                                    .cancelable(false)
                                     .build();
                             progress.show();
                             appFolder.listChildren(mGoogleApiClient)
@@ -436,7 +435,7 @@ public class SettingsBackup extends BaseActivityAnim
                         progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                 R.string.backup_restoring)
                                 .content(R.string.misc_please_wait)
-                                .setCancelable(false)
+                                .cancelable(false)
                                 .progress(true, 1)
                                 .build();
                         progress.show();
@@ -543,10 +542,10 @@ public class SettingsBackup extends BaseActivityAnim
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPreExecute() {
-                progress = new MaterialDialog.Builder(SettingsBackup.this).setCancelable(false)
+                progress = new MaterialDialog.Builder(SettingsBackup.this).cancelable(false)
                         .title(R.string.backup_backing_up)
                         .progress(false, 40)
-                        .setCancelable(false)
+                        .cancelable(false)
                         .build();
 
                 progress.show();
