@@ -458,6 +458,7 @@ public class GifUtils {
                     }
                     break;
                 case DIRECT:
+                    setMuteVisibility(true);
                 case IMGUR:
                     try {
                         writeGif(new URL(url), progressBar, c, subreddit);
@@ -869,6 +870,10 @@ public class GifUtils {
                         }
                         fos.close();
                         isa.close();
+
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setIndeterminate(true);
+                        progressBar.setProgress(0);
 
                         GifUtils.mux(videoOutput.getAbsolutePath(), audioOutput.getAbsolutePath(),
                                 muxedPath.getAbsolutePath());
