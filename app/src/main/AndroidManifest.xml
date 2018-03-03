@@ -36,8 +36,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:icon="@mipmap/ic_launcher"
                 android:label="@string/app_name"
-                android:roundIcon="@mipmap/icon_round"
-                android:taskAffinity=".SlideTask">
+                android:roundIcon="@mipmap/icon_round">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -294,7 +293,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_INSTALL"/>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
-
                 <data android:scheme="package"/>
             </intent-filter>
         </receiver>
