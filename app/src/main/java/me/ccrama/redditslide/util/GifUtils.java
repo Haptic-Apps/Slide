@@ -786,11 +786,11 @@ public class GifUtils {
                 try {
 
 
-                    if(!videoFile.exists()){
-                        if(!videoFile.getParentFile().exists()){
+                    if (!videoFile.exists()) {
+                        if (!videoFile.getParentFile().exists()) {
                             videoFile.getParentFile().mkdirs();
                         }
-                       videoFile.createNewFile();
+                        videoFile.createNewFile();
                     }
 
                     HttpURLConnection conv = (HttpURLConnection) url.openConnection();
@@ -871,9 +871,7 @@ public class GifUtils {
                         fos.close();
                         isa.close();
 
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.setIndeterminate(true);
-                        progressBar.setProgress(0);
+                        publishProgressInd();
 
                         GifUtils.mux(videoOutput.getAbsolutePath(), audioOutput.getAbsolutePath(),
                                 muxedPath.getAbsolutePath());
@@ -893,7 +891,7 @@ public class GifUtils {
 
             } else {
                 File isAudio = new File(videoFile.getAbsolutePath() + ".a");
-                if(isAudio.exists()) {
+                if (isAudio.exists()) {
                     setMuteVisibility(true);
                 }
             }
@@ -943,6 +941,18 @@ public class GifUtils {
                 }
             });
 
+        }
+
+        private void publishProgressInd() {
+            c.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (progressBar != null && c != null) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setIndeterminate(true);
+                    }
+                }
+            });
         }
 
         private void publishProgress(final int percent, final URL url) {
@@ -1045,7 +1055,7 @@ public class GifUtils {
 
         com.googlecode.mp4parser.authoring.Track audioTrack = audio.getTracks().get(0);
 
-        CroppedTrack croppedTrack = new CroppedTrack(audioTrack,0, audioTrack.getSamples().size());
+        CroppedTrack croppedTrack = new CroppedTrack(audioTrack, 0, audioTrack.getSamples().size());
         video.addTrack(croppedTrack);
         Container out = new DefaultMp4Builder().build(video);
 

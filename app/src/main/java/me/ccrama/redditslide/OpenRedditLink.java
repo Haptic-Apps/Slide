@@ -214,8 +214,9 @@ public class OpenRedditLink {
         }
         if (i != null) {
             if (context instanceof OpenContent) {
-                i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+               // i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+               // i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
             context.startActivity(i);
         }

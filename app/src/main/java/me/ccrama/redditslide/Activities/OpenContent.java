@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -24,6 +25,7 @@ public class OpenContent extends Activity {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        setContentView(R.layout.clear);
         Intent intent = getIntent();
         Uri data = intent.getData();
         Bundle extras = intent.getExtras();
@@ -39,9 +41,23 @@ public class OpenContent extends Activity {
             return;
         }
         url = url.toLowerCase(Locale.ENGLISH);
-
-        finish();
         new OpenRedditLink(this, url);
+    }
+
+    boolean second = false;
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(second){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAndRemoveTask();
+            } else {
+                finish();
+            }
+        } else {
+            second = true;
+        }
     }
 
     @Override
