@@ -134,7 +134,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import me.ccrama.redditslide.Adapters.HistoryPosts;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -461,7 +460,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putStringArrayList(SUBS, (ArrayList<String>) usedArray);
+        savedInstanceState.putStringArrayList(SUBS, usedArray);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
         savedInstanceState.putBoolean(IS_ONLINE, Authentication.didOnline);
         savedInstanceState.putString(USERNAME, Authentication.name);
@@ -603,7 +602,7 @@ public class MainActivity extends BaseActivity
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
                 AlertDialogWrapper.Builder builder =
                         new AlertDialogWrapper.Builder(MainActivity.this);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
                 builder.setView(dialoglayout);
@@ -813,8 +812,7 @@ public class MainActivity extends BaseActivity
                     Snackbar s = Snackbar.make(findViewById(R.id.anchor),
                             getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1214,7 +1212,7 @@ public class MainActivity extends BaseActivity
                                                 }
                                             });
                                     View view = snack.getView();
-                                    TextView tv = (TextView) view.findViewById(
+                                    TextView tv = view.findViewById(
                                             android.support.design.R.id.snackbar_text);
                                     tv.setTextColor(Color.WHITE);
                                     snack.show();
@@ -1738,7 +1736,7 @@ public class MainActivity extends BaseActivity
             }
 //update notification badge
 
-            final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);
+            final LinearLayout profStuff = header.findViewById(R.id.accountsarea);
             profStuff.setVisibility(View.GONE);
             findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1766,7 +1764,7 @@ public class MainActivity extends BaseActivity
 
             final String guest = getString(R.string.guest);
             keys.add(guest);
-            final LinearLayout accountList = (LinearLayout) header.findViewById(R.id.accountsarea);
+            final LinearLayout accountList = header.findViewById(R.id.accountsarea);
             for (final String accName : keys) {
                 LogUtil.v(accName);
                 final View t =
@@ -1923,7 +1921,7 @@ public class MainActivity extends BaseActivity
             header.findViewById(R.id.godown).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    LinearLayout body = (LinearLayout) header.findViewById(R.id.expand_profile);
+                    LinearLayout body = header.findViewById(R.id.expand_profile);
                     if (body.getVisibility() == View.GONE) {
                         expand(body);
                         flipAnimator(false, view).start();
@@ -1969,7 +1967,7 @@ public class MainActivity extends BaseActivity
             headerMain = header;
             hea = header.findViewById(R.id.back);
 
-            final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);
+            final LinearLayout profStuff = header.findViewById(R.id.accountsarea);
             profStuff.setVisibility(View.GONE);
             findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1998,7 +1996,7 @@ public class MainActivity extends BaseActivity
 
             final String guest = getString(R.string.guest);
             keys.add(guest);
-            final LinearLayout accountList = (LinearLayout) header.findViewById(R.id.accountsarea);
+            final LinearLayout accountList = header.findViewById(R.id.accountsarea);
             for (final String accName : keys) {
                 LogUtil.v(accName);
                 final View t =
@@ -2558,9 +2556,8 @@ public class MainActivity extends BaseActivity
                                                                                             multiName),
                                                                                     Snackbar.LENGTH_LONG);
                                                                     View view = s.getView();
-                                                                    TextView tv =
-                                                                            (TextView) view.findViewById(
-                                                                                    android.support.design.R.id.snackbar_text);
+                                                                    TextView tv = view.findViewById(
+                                                                            android.support.design.R.id.snackbar_text);
                                                                     tv.setTextColor(Color.WHITE);
                                                                     s.show();
                                                                 }
@@ -2752,7 +2749,7 @@ public class MainActivity extends BaseActivity
                                                                                     View view =
                                                                                             s.getView();
                                                                                     TextView tv =
-                                                                                            (TextView) view
+                                                                                            view
                                                                                                     .findViewById(
                                                                                                             android.support.design.R.id.snackbar_text);
                                                                                     tv.setTextColor(
@@ -2804,7 +2801,7 @@ public class MainActivity extends BaseActivity
                                                         Snackbar.make(mToolbar, R.string.sub_added,
                                                                 Snackbar.LENGTH_LONG);
                                                 View view = s.getView();
-                                                TextView tv = (TextView) view.findViewById(
+                                                TextView tv = view.findViewById(
                                                         android.support.design.R.id.snackbar_text);
                                                 tv.setTextColor(Color.WHITE);
                                                 s.show();
@@ -2854,7 +2851,7 @@ public class MainActivity extends BaseActivity
                                                                                     View view =
                                                                                             s.getView();
                                                                                     TextView tv =
-                                                                                            (TextView) view
+                                                                                            view
                                                                                                     .findViewById(
                                                                                                             android.support.design.R.id.snackbar_text);
                                                                                     tv.setTextColor(
@@ -2905,7 +2902,7 @@ public class MainActivity extends BaseActivity
                                                         R.string.misc_unsubscribed,
                                                         Snackbar.LENGTH_LONG);
                                                 View view = s.getView();
-                                                TextView tv = (TextView) view.findViewById(
+                                                TextView tv = view.findViewById(
                                                         android.support.design.R.id.snackbar_text);
                                                 tv.setTextColor(Color.WHITE);
                                                 s.show();
@@ -3038,7 +3035,7 @@ public class MainActivity extends BaseActivity
                 }
             });
 
-            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+            final TextView sort = dialoglayout.findViewById(R.id.sort);
             Sorting sortingis = Sorting.HOT;
             if(SettingValues.hasSort(subreddit)) {
                 sortingis = SettingValues.getBaseSubmissionSort(subreddit);
@@ -3096,7 +3093,7 @@ public class MainActivity extends BaseActivity
                         public void onClick(DialogInterface dialog, int which) {
                             SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
                             SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
-                            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                            final TextView sort = dialoglayout.findViewById(R.id.sort);
                             if(SettingValues.hasSort(subreddit)) {
                                 Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
                                 sort.setText(sortingis.name()
@@ -3349,7 +3346,7 @@ public class MainActivity extends BaseActivity
                                                                                                     s.getView();
                                                                                             TextView
                                                                                                     tv =
-                                                                                                    (TextView) view
+                                                                                                    view
                                                                                                             .findViewById(
                                                                                                                     android.support.design.R.id.snackbar_text);
                                                                                             tv.setTextColor(
@@ -3414,9 +3411,8 @@ public class MainActivity extends BaseActivity
                                                                 }
                                                                 if (s != null) {
                                                                     View view = s.getView();
-                                                                    TextView tv =
-                                                                            (TextView) view.findViewById(
-                                                                                    android.support.design.R.id.snackbar_text);
+                                                                    TextView tv = view.findViewById(
+                                                                            android.support.design.R.id.snackbar_text);
                                                                     tv.setTextColor(Color.WHITE);
                                                                     s.show();
                                                                 }
@@ -3472,7 +3468,7 @@ public class MainActivity extends BaseActivity
                 SettingValues.setSubSorting(sort, time, sub);
                 Reddit.setSorting(sub, sort);
                 Reddit.setTime(sub, time);
-                final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                final TextView sort = dialoglayout.findViewById(R.id.sort);
                 if(SettingValues.hasSort(sub)) {
                     Sorting sortingis = SettingValues.getBaseSubmissionSort(sub);
                     sort.setText(sortingis.name()
@@ -4037,7 +4033,7 @@ public class MainActivity extends BaseActivity
                 || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH
                 || SettingValues.subredditSearchMethod
                 != Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)) {
-            drawerSearch = ((EditText) headerMain.findViewById(R.id.sort));
+            drawerSearch = headerMain.findViewById(R.id.sort);
             drawerSearch.setVisibility(View.VISIBLE);
 
             drawerSubList.setFocusable(false);
@@ -4989,7 +4985,7 @@ public class MainActivity extends BaseActivity
                 return;
             }
             if (Authentication.mod && Authentication.didOnline) {
-                RelativeLayout mod = (RelativeLayout) headerMain.findViewById(R.id.mod);
+                RelativeLayout mod = headerMain.findViewById(R.id.mod);
                 mod.setVisibility(View.VISIBLE);
 
                 mod.setOnClickListener(new OnSingleClickListener() {
@@ -5018,8 +5014,7 @@ public class MainActivity extends BaseActivity
                             });
 
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 }
