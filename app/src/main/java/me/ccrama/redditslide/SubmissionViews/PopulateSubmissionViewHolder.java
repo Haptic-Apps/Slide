@@ -58,11 +58,6 @@ import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +67,6 @@ import java.util.Map;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
@@ -310,7 +304,7 @@ public class PopulateSubmissionViewHolder {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(
+                        TextView tv = view.findViewById(
                                 android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
@@ -668,7 +662,6 @@ public class PopulateSubmissionViewHolder {
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
                         }
-                        ;
                         chosen = new boolean[]{
                                 Arrays.asList(
                                         SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
@@ -890,7 +883,7 @@ public class PopulateSubmissionViewHolder {
                             Snackbar s = Snackbar.make(holder.itemView, "Added to read later!",
                                     Snackbar.LENGTH_SHORT);
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(
+                            TextView tv = view.findViewById(
                                     android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.setAction(R.string.btn_undo, new View.OnClickListener() {
@@ -900,7 +893,7 @@ public class PopulateSubmissionViewHolder {
                                     Snackbar s2 = Snackbar.make(holder.itemView,
                                             "Removed from read later", Snackbar.LENGTH_SHORT);
                                     View view2 = s2.getView();
-                                    TextView tv2 = (TextView) view2.findViewById(
+                                    TextView tv2 = view2.findViewById(
                                             android.support.design.R.id.snackbar_text);
                                     tv2.setTextColor(Color.WHITE);
                                     s2.show();
@@ -926,7 +919,7 @@ public class PopulateSubmissionViewHolder {
                                         Snackbar.make(holder.itemView, "Removed from read later",
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
-                                TextView tv2 = (TextView) view2.findViewById(
+                                TextView tv2 = view2.findViewById(
                                         android.support.design.R.id.snackbar_text);
                                 tv2.setTextColor(Color.WHITE);
                                 s2.setAction(R.string.btn_undo, new View.OnClickListener() {
@@ -941,7 +934,7 @@ public class PopulateSubmissionViewHolder {
                                         Snackbar.make(holder.itemView, "Removed from read later",
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
-                                TextView tv2 = (TextView) view2.findViewById(
+                                TextView tv2 = view2.findViewById(
                                         android.support.design.R.id.snackbar_text);
                                 s2.show();
                             }
@@ -997,7 +990,7 @@ public class PopulateSubmissionViewHolder {
                                                                 R.string.msg_report_sent,
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(
+                                                        TextView tv = view.findViewById(
                                                                 android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
@@ -1156,8 +1149,7 @@ public class PopulateSubmissionViewHolder {
                                         : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                     }
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } catch (Exception ignored) {
@@ -1260,9 +1252,8 @@ public class PopulateSubmissionViewHolder {
                                                                                 View view =
                                                                                         s.getView();
                                                                                 TextView tv =
-                                                                                        (TextView) view
-                                                                                                .findViewById(
-                                                                                                        android.support.design.R.id.snackbar_text);
+                                                                                        view.findViewById(
+                                                                                                android.support.design.R.id.snackbar_text);
                                                                                 tv.setTextColor(
                                                                                         Color.WHITE);
                                                                                 s.show();
@@ -1276,9 +1267,8 @@ public class PopulateSubmissionViewHolder {
                                                                                 View view =
                                                                                         s.getView();
                                                                                 TextView tv =
-                                                                                        (TextView) view
-                                                                                                .findViewById(
-                                                                                                        android.support.design.R.id.snackbar_text);
+                                                                                        view.findViewById(
+                                                                                                android.support.design.R.id.snackbar_text);
                                                                                 tv.setTextColor(
                                                                                         Color.WHITE);
                                                                                 s.show();
@@ -1315,7 +1305,7 @@ public class PopulateSubmissionViewHolder {
                                                                 R.string.submission_info_saved,
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(
+                                                        TextView tv = view.findViewById(
                                                                 android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
@@ -1326,7 +1316,7 @@ public class PopulateSubmissionViewHolder {
                                                                 R.string.category_set_error,
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(
+                                                        TextView tv = view.findViewById(
                                                                 android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
@@ -1359,8 +1349,7 @@ public class PopulateSubmissionViewHolder {
                 Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_unhidden,
                         Snackbar.LENGTH_LONG);
                 View view = snack.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 snack.show();
             } else {
@@ -1399,8 +1388,7 @@ public class PopulateSubmissionViewHolder {
                             }
                         });
                 View view = snack.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 snack.show();
             }
@@ -1708,8 +1696,7 @@ public class PopulateSubmissionViewHolder {
                             Snackbar.LENGTH_LONG);
 
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -1723,11 +1710,11 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    String toGet =
-                            new AccountManager(Authentication.reddit).reply(submission, reason);
+                    new AccountManager(Authentication.reddit).reply(submission, reason);
                     new ModerationManager(Authentication.reddit).remove(submission, false);
                     new ModerationManager(Authentication.reddit).setDistinguishedStatus(
-                            Authentication.reddit.get(toGet).get(0), DistinguishedStatus.MODERATOR);
+                            Authentication.reddit.get(submission.getFullName()).get(0),
+                            DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();
                     return false;
@@ -1770,8 +1757,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -1915,8 +1901,7 @@ public class PopulateSubmissionViewHolder {
                 }
                 if (s != null) {
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 }
@@ -1972,8 +1957,7 @@ public class PopulateSubmissionViewHolder {
                             Snackbar.make(holder.itemView, R.string.really_pin_submission_message,
                                     Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2009,8 +1993,7 @@ public class PopulateSubmissionViewHolder {
                             Snackbar.make(holder.itemView, R.string.really_unpin_submission_message,
                                     Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2045,8 +2028,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, "Thread locked", Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2081,8 +2063,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, "Thread unlocked", Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2117,8 +2098,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, "Submission distinguished",
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2154,8 +2134,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, "Submission distinguish removed",
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2191,8 +2170,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, "NSFW status set", Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2229,8 +2207,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, "NSFW status removed",
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2266,8 +2243,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, "Spoiler status set",
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2304,8 +2280,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, "Spoiler status removed",
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -2361,7 +2336,7 @@ public class PopulateSubmissionViewHolder {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.mod_approved,
                                 Snackbar.LENGTH_LONG);
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(
+                        TextView tv = view.findViewById(
                                 android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
@@ -2536,7 +2511,7 @@ public class PopulateSubmissionViewHolder {
 
                                             {
                                                 View view = s.getView();
-                                                TextView tv = (TextView) view.findViewById(
+                                                TextView tv = view.findViewById(
                                                         android.support.design.R.id.snackbar_text);
                                                 tv.setTextColor(Color.WHITE);
                                                 s.show();
@@ -2613,7 +2588,7 @@ public class PopulateSubmissionViewHolder {
                                 + "%)" : "";
 
         if (!scoreRatio.isEmpty()) {
-            TextView percent = ((TextView) holder.itemView.findViewById(R.id.percent));
+            TextView percent = holder.itemView.findViewById(R.id.percent);
             percent.setVisibility(View.VISIBLE);
             percent.setText(scoreRatio);
 
@@ -2803,8 +2778,7 @@ public class PopulateSubmissionViewHolder {
                             Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg),
                                     Snackbar.LENGTH_SHORT);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -3070,8 +3044,7 @@ public class PopulateSubmissionViewHolder {
 
                             ta.recycle();
 
-                            BottomSheet.Builder b =
-                                    new BottomSheet.Builder((Activity) mContext).title(
+                            BottomSheet.Builder b = new BottomSheet.Builder(mContext).title(
                                             Html.fromHtml(submission.getTitle()));
 
                             if (submission.isSelfPost()) {
@@ -3101,22 +3074,21 @@ public class PopulateSubmissionViewHolder {
                                 public void onClick(DialogInterface dialog, int which) {
                                     switch (which) {
                                         case 1: {
-                                            LayoutInflater inflater =
-                                                    ((Activity) mContext).getLayoutInflater();
+                                            LayoutInflater inflater = mContext.getLayoutInflater();
 
                                             final View dialoglayout =
                                                     inflater.inflate(R.layout.edit_comment, null);
                                             final AlertDialogWrapper.Builder builder =
                                                     new AlertDialogWrapper.Builder(mContext);
 
-                                            final EditText e = (EditText) dialoglayout.findViewById(
+                                            final EditText e = dialoglayout.findViewById(
                                                     R.id.entry);
                                             e.setText(StringEscapeUtils.unescapeHtml4(
                                                     submission.getSelftext()));
 
                                             DoEditorActions.doActions(e, dialoglayout,
                                                     ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                                                    (Activity) mContext, null, null);
+                                                    mContext, null, null);
 
                                             builder.setCancelable(false).setView(dialoglayout);
                                             final Dialog d = builder.create();
@@ -3375,7 +3347,7 @@ public class PopulateSubmissionViewHolder {
                                                                                                                     s.getView();
                                                                                                             TextView
                                                                                                                     tv =
-                                                                                                                    (TextView) view
+                                                                                                                    view
                                                                                                                             .findViewById(
                                                                                                                                     android.support.design.R.id.snackbar_text);
                                                                                                             tv.setTextColor(
@@ -3449,7 +3421,7 @@ public class PopulateSubmissionViewHolder {
                                                                                     View view =
                                                                                             s.getView();
                                                                                     TextView tv =
-                                                                                            (TextView) view
+                                                                                            view
                                                                                                     .findViewById(
                                                                                                             android.support.design.R.id.snackbar_text);
                                                                                     tv.setTextColor(
