@@ -5,8 +5,6 @@ plugins {
 apply plugin: 'com.android.application'
 apply plugin: 'com.devspark.robototextview.gradle-plugin'
 android {
-    compileSdkVersion 27
-    buildToolsVersion '26.0.2'
     lintOptions {
         quiet true
         abortOnError false
@@ -16,21 +14,33 @@ android {
     }
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        minSdkVersion 15
-        targetSdkVersion 27
         versionCode 300
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
 
-    flavorDimensions "release"
+    flavorDimensions "api", "variant"
 
     productFlavors {
         withGPlay {
-            dimension "release"
+            dimension "variant"
         }
         noGPlay {
-            dimension "release"
+            dimension "variant"
+        }
+        apiStable {
+            minSdkVersion 15
+            targetSdkVersion 27
+            compileSdkVersion 27
+
+            dimension "api"
+        }
+        apiPreview {
+            minSdkVersion "P"
+            targetSdkVersion "P"
+            compileSdkVersion "android-P"
+
+            dimension "api"
         }
     }
 
@@ -78,65 +88,67 @@ ext {
     robolectricVersion = '3.3.1'
 }
 dependencies {
-    compile 'com.github.ccrama:JRAW:386e2bcc2c'
-    //JRAW uses Guava, update to 20 to prevent conflicts with Robolectric
-    implementation "com.google.guava:guava:23.0-android"
-    //Updating material-dialogs to any newer version will break all AlertDialogWrapper
-    compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
-    compile 'com.jakewharton:process-phoenix:2.0.0'
-    compile 'org.ligi:snackengage:0.5'
-    compile "com.android.support:design:$supportLibVersion"
-    compile "com.android.support:customtabs:$supportLibVersion"
-    compile "com.android.support:recyclerview-v7:$supportLibVersion"
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
-    compile "com.android.support:support-v13:$supportLibVersion"
-    compile "com.android.support:cardview-v7:$supportLibVersion"
-    compile 'com.android.support:multidex:1.0.2'
-    withGPlayCompile 'com.google.android.gms:play-services-drive:10.2.0'
-    compile 'com.github.rey5137:material:1.2.4'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
-    // ↑ minor
-       compile 'com.cocosw:bottomsheet:1.3.0@aar'
-    compile 'com.github.ccrama:AndroidVideoCache:483e44579d'
-    compile 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'jp.wasabeef:blurry:2.1.0'
-    compile 'com.github.johnkil.android-robototextview:robototextview:4.0.0'
-    // ↑ minor
-    compile 'com.makeramen:roundedimageview:2.2.1'
-    compile 'com.getbase:floatingactionbutton:1.10.1'
-    compile 'com.sothree.slidinguppanel:library:3.3.1'
-    compile 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
-    compile 'com.github.dasar:shiftcolorpicker:v0.5'
-    compile 'com.squareup.okhttp3:okhttp:3.7.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.github.ccrama:TedBottomPicker:496623c9b6'
-    compile 'commons-io:commons-io:2.5'
-    compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') { // ↑ major
-        transitive = true;
-    }
-    compile 'com.github.ccrama:exomedia:34c0d1d0b9'
+    withGPlayImplementation (
+            'com.google.android.gms:play-services-drive:10.2.0',
+    )
 
-    compile 'com.github.ccrama:commonmark-java:07b304b575'
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile "com.mikepenz:itemanimators:1.0.0@aar"
-    compile 'com.neovisionaries:nv-websocket-client:1.31'
-    // ↑ minor
-    compile 'com.github.ccrama:PeekAndPop:09adee29f1'
-    compile 'com.theartofdev.edmodo:android-image-cropper:2.3.1'
-    compile 'com.github.ccrama:JReadability:bb291880a5'
-    compile 'me.everything:overscroll-decor-android:1.0.4'
-    compile('com.mikepenz:aboutlibraries:5.8.1@aar') {
-        transitive = true
-    }
+    implementation (
+            'com.github.ccrama:JRAW:386e2bcc2c',
+            //JRAW uses Guava, update to 20 to prevent conflicts with Robolectric
+            "com.google.guava:guava:23.0-android",
+            //Updating material-dialogs to any newer version will break all AlertDialogWrapper
+            'com.afollestad.material-dialogs:commons:0.8.6.2',
+            'com.jakewharton:process-phoenix:2.0.0',
+            'org.ligi:snackengage:0.5',
+            "com.android.support:design:$supportLibVersion",
+            "com.android.support:customtabs:$supportLibVersion",
+            "com.android.support:recyclerview-v7:$supportLibVersion",
+            "com.android.support:appcompat-v7:$supportLibVersion",
+            "com.android.support:support-v13:$supportLibVersion",
+            "com.android.support:cardview-v7:$supportLibVersion",
+            'com.android.support:multidex:1.0.2',
+            'com.github.rey5137:material:1.2.4',
+            'com.nostra13.universalimageloader:universal-image-loader:1.9.5',
+            'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0',
+            // ↑ minor
+            'com.cocosw:bottomsheet:1.3.0@aar',
+            'com.github.ccrama:AndroidVideoCache:483e44579d',
+            'com.lusfold.androidkeyvaluestore:library:0.1.0@aar',
+            'org.apache.commons:commons-lang3:3.5',
+            'jp.wasabeef:blurry:2.1.0',
+            'com.github.johnkil.android-robototextview:robototextview:4.0.0',
+            // ↑ minor
+            'com.makeramen:roundedimageview:2.2.1',
+            'com.getbase:floatingactionbutton:1.10.1',
+            'com.sothree.slidinguppanel:library:3.3.1',
+            'com.github.suckgamony.RapidDecoder:library:7cdfca47fa',
+            'com.github.dasar:shiftcolorpicker:v0.5',
+            'com.squareup.okhttp3:okhttp:3.7.0',
+            'com.google.code.gson:gson:2.8.0',
+            'com.github.ccrama:TedBottomPicker:496623c9b6',
+            'commons-io:commons-io:2.5',
+            'com.github.ozodrukh:CircularReveal:1.3.1',
+            // ↑ major
+            'com.github.ccrama:exomedia:34c0d1d0b9',
+            'com.github.ccrama:commonmark-java:07b304b575',
+            'org.jetbrains:annotations-java5:15.0',
+            "com.mikepenz:itemanimators:1.0.0@aar",
+            'com.neovisionaries:nv-websocket-client:1.31',
+            // ↑ minor
+            'com.github.ccrama:PeekAndPop:09adee29f1',
+            'com.theartofdev.edmodo:android-image-cropper:2.3.1',
+            'com.github.ccrama:JReadability:bb291880a5',
+            'me.everything:overscroll-decor-android:1.0.4',
+            'com.mikepenz:aboutlibraries:5.8.1',
+            'com.googlecode.mp4parser:isoparser:1.1.21',
+    )
 
-    compile 'com.googlecode.mp4parser:isoparser:1.1.21'
 
-
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.hamcrest:hamcrest-all:1.3'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "org.robolectric:robolectric:$robolectricVersion"
-    testCompile "org.robolectric:shadows-multidex:$robolectricVersion"
+    testImplementation (
+            'junit:junit:4.12' ,
+            'org.hamcrest:hamcrest-all:1.3',
+            'org.mockito:mockito-core:1.10.19',
+            "org.robolectric:robolectric:$robolectricVersion",
+            "org.robolectric:shadows-multidex:$robolectricVersion",
+    )
 }
