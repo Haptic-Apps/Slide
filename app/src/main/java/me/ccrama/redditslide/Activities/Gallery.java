@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
