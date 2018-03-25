@@ -443,7 +443,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     public void forceRefresh() {
-        rv.scrollToPosition(0);
+        toolbarScroll.toolbarShow();
+        rv.getLayoutManager().scrollToPosition(0);
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -540,6 +541,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             }
         }
+    }
+
+    @Override
+    public void onAdapterUpdated() {
+        adapter.notifyDataSetChanged();
     }
 
     public void resetScroll() {

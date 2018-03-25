@@ -309,6 +309,11 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     }
 
+    @Override
+    public void onAdapterUpdated() {
+        comments.notifyDataSetChanged();
+    }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private CommentPage   mCurrentFragment;
         public  BlankFragment blankPage;

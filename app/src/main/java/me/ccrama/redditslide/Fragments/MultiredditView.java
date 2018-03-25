@@ -390,4 +390,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         }
     }
+
+    @Override
+    public void onAdapterUpdated() {
+        adapter.notifyDataSetChanged();
+    }
 }

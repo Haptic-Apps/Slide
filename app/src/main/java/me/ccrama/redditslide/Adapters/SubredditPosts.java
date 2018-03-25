@@ -291,6 +291,15 @@ public class SubredditPosts implements PostLoader {
         public int start;
 
         @Override
+        public void onPreExecute()
+        {
+            if(reset) {
+                posts.clear();
+                displayer.onAdapterUpdated();
+            }
+        }
+
+        @Override
         public void onPostExecute(final List<Submission> submissions) {
             loading = false;
             if (error != null) {

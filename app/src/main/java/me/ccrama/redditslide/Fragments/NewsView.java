@@ -550,6 +550,11 @@ public class NewsView extends Fragment implements SubmissionDisplay {
         }
     }
 
+    @Override
+    public void onAdapterUpdated() {
+        adapter.notifyDataSetChanged();
+    }
+
     public void resetScroll() {
         if (toolbarScroll == null) {
             toolbarScroll =

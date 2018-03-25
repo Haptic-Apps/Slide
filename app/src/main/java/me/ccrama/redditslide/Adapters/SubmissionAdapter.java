@@ -356,7 +356,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dataSet.loadMore(context, displayer, true);
+                                ((SubmissionsView)displayer).forceRefresh();
                             }
                         });
 
