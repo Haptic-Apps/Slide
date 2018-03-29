@@ -195,7 +195,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+        if (!comment.getAuthorFlair().getText().isEmpty() && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);

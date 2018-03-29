@@ -156,8 +156,7 @@ public class CommentAdapterHelper {
                         //Go to comment permalink
                         String s = "https://reddit.com"
                                 + adapter.submission.getPermalink()
-                                +
-                                n.getFullName().substring(3, n.getFullName().length())
+                                + n.getFullName().substring(3, n.getFullName().length())
                                 + "?context=3";
                         new OpenRedditLink(mContext, s);
                     }
@@ -165,12 +164,10 @@ public class CommentAdapterHelper {
                     case 5: {
                         //Gild comment
                         Intent i = new Intent(mContext, Website.class);
-                        i.putExtra(Website.EXTRA_URL,
-                                "https://reddit.com"
-                                        + adapter.submission.getPermalink()
-                                        +
-                                        n.getFullName().substring(3, n.getFullName().length())
-                                        + "?context=3&inapp=false");
+                        i.putExtra(Website.EXTRA_URL, "https://reddit.com"
+                                + adapter.submission.getPermalink()
+                                + n.getFullName().substring(3, n.getFullName().length())
+                                + "?context=3&inapp=false");
                         i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
                         mContext.startActivity(i);
                     }
@@ -188,8 +185,10 @@ public class CommentAdapterHelper {
                                 })
                                 .title(R.string.report_comment)
                                 .alwaysCallInputCallback()
-                                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                                .inputType(InputType.TYPE_CLASS_TEXT
+                                        | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                                        | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
                                 .onNegative(null)
@@ -259,12 +258,10 @@ public class CommentAdapterHelper {
                         break;
                     case 4:
                         //Share comment
-                        Reddit.defaultShareText(adapter.submission.getTitle(),
-                                "https://reddit.com"
-                                        + adapter.submission.getPermalink()
-                                        +
-                                        n.getFullName().substring(3, n.getFullName().length())
-                                        + "?context=3", mContext);
+                        Reddit.defaultShareText(adapter.submission.getTitle(), "https://reddit.com"
+                                + adapter.submission.getPermalink()
+                                + n.getFullName().substring(3, n.getFullName().length())
+                                + "?context=3", mContext);
                         break;
                 }
             }
@@ -326,23 +323,25 @@ public class CommentAdapterHelper {
                             s = Snackbar.make(holder.itemView, R.string.submission_comment_saved,
                                     Snackbar.LENGTH_LONG);
                             if (Authentication.me != null && Authentication.me.hasGold()) {
-                                s.setAction(R.string.category_categorize, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        categorizeComment(comment, mContext);
-                                    }
-                                });
+                                s.setAction(R.string.category_categorize,
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                categorizeComment(comment, mContext);
+                                            }
+                                        });
                             }
                         } else {
                             s = Snackbar.make(holder.itemView, R.string.submission_comment_unsaved,
                                     Snackbar.LENGTH_SHORT);
                         }
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        TextView tv = (TextView) view.findViewById(
+                                android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
-                } catch (Exception ignored){
+                } catch (Exception ignored) {
 
                 }
             }
@@ -1072,7 +1071,8 @@ public class CommentAdapterHelper {
     public static SpannableStringBuilder createRemovedLine(String removedBy, Context c) {
         SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
         SpannableStringBuilder mod = new SpannableStringBuilder("Removed by ");
-        if(removedBy.equalsIgnoreCase("true")) {//Probably shadowbanned or removed not by mod action
+        if (removedBy.equalsIgnoreCase(
+                "true")) {//Probably shadowbanned or removed not by mod action
             mod = new SpannableStringBuilder("Removed by Reddit");
         } else {
             mod.append(removedBy);
@@ -1178,15 +1178,17 @@ public class CommentAdapterHelper {
         Long time = comment.getCreated().getTime();
         String timeAgo = TimeUtils.getTimeAgo(time, mContext);
 
-        SpannableStringBuilder timeSpan = new SpannableStringBuilder().append((timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo);
+        SpannableStringBuilder timeSpan = new SpannableStringBuilder().append(
+                (timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo);
 
-        if(SettingValues.highlightTime && adapter.lastSeen != 0
+        if (SettingValues.highlightTime
+                && adapter.lastSeen != 0
                 && adapter.lastSeen < time
                 && !adapter.dataSet.single
-                && SettingValues.commentLastVisit){
-            timeSpan.setSpan(
-                    new RoundedBackgroundSpan( Color.WHITE, Palette.getColor(comment.getSubredditName()), false, mContext),
-                    0, timeSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                && SettingValues.commentLastVisit) {
+            timeSpan.setSpan(new RoundedBackgroundSpan(Color.WHITE,
+                            Palette.getColor(comment.getSubredditName()), false, mContext), 0,
+                    timeSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         }
         titleString.append(timeSpan);
@@ -1246,9 +1248,9 @@ public class CommentAdapterHelper {
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getAuthorFlair() != null
-                && comment.getAuthorFlair().getText() != null
-                && !comment.getAuthorFlair().getText().isEmpty()) {
+        if (!comment.getAuthorFlair().getText().isEmpty() && !comment.getAuthorFlair()
+                .getText()
+                .isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
@@ -1260,7 +1262,7 @@ public class CommentAdapterHelper {
                             false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
-        } else if (comment.getAuthorFlair() != null) {
+        } else if (!comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
