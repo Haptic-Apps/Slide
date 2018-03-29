@@ -1182,5 +1182,8 @@
     <string name="type_vreddit">Reddit Video</string>
     <string name="authors_above">Authors above</string>
     <string name="btn_crosspost">Crosspost</string>
+    <string name="btn_reset_color">RESET COLOR</string>
+    <string name="settings_shortlink_description">Links will be shared as \'https://redd.it/\'</string>
+    <string name="settings_shortlink">Share Reddit shortlink where possible</string>
 
 </resources>

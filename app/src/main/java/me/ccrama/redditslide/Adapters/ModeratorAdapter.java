@@ -38,7 +38,6 @@ import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.PublicContribution;
@@ -256,8 +255,13 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (submission.isSelfPost())
-                                Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
+                            if (submission.isSelfPost()){
+                                if(SettingValues.shareLongLink){
+                                    Reddit.defaultShareText("", "htts://reddit.com" + submission.getPermalink(), mContext);
+                                } else {
+                                    Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
+                                }
+                            }
                             else {
                                 new BottomSheet.Builder(mContext)
                                         .title(R.string.submission_share_title)
@@ -268,7 +272,11 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
+                                                        if(SettingValues.shareLongLink){
+                                                            Reddit.defaultShareText(submission.getTitle(), "htts://reddit.com" + submission.getPermalink(), mContext);
+                                                        } else {
+                                                            Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
+                                                        }
                                                         break;
                                                     case R.id.link_url:
                                                         Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);

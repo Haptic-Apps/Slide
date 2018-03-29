@@ -1248,9 +1248,9 @@ public class CommentAdapterHelper {
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (!comment.getAuthorFlair().getText().isEmpty() && !comment.getAuthorFlair()
-                .getText()
-                .isEmpty()) {
+        if (comment.getAuthorFlair() != null
+                && !comment.getAuthorFlair().getText().isEmpty()
+                && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
@@ -1262,7 +1262,8 @@ public class CommentAdapterHelper {
                             false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
-        } else if (!comment.getAuthorFlair().getText().isEmpty()) {
+        } else if (comment.getAuthorFlair() != null
+                && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);

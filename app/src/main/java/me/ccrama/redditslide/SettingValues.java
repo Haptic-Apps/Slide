@@ -116,6 +116,7 @@ public class SettingValues {
     public static final String PREF_LARGE_DEPTH            = "largeDepth";
     public static final String PREF_TITLE_TOP              = "titleTop";
     public static final String PREF_HIGHLIGHT_COMMENT_OP   = "commentOP";
+    public static final String PREF_LONG_LINK              = "shareLongLink";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -175,6 +176,7 @@ public class SettingValues {
     public static boolean collapseCommentsDefault;
     public static boolean rightHandedCommentMenu;
     public static boolean abbreviateScores;
+    public static boolean shareLongLink;
     public static boolean isMuted;
     public static int     subredditSearchMethod;
     public static int     nightStart;
@@ -290,6 +292,7 @@ public class SettingValues {
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
         cardText = prefs.getBoolean(PREF_CARD_TEXT, false);
         colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
+        shareLongLink = prefs.getBoolean(PREF_LONG_LINK, false);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, true);

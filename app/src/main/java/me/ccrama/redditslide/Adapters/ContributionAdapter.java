@@ -258,8 +258,13 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (submission.isSelfPost())
-                                Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
+                            if (submission.isSelfPost()){
+                                if(SettingValues.shareLongLink){
+                                    Reddit.defaultShareText("", "htts://reddit.com" + submission.getPermalink(), mContext);
+                                } else {
+                                    Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
+                                }
+                            }
                             else {
                                 new BottomSheet.Builder(mContext)
                                         .title(R.string.submission_share_title)
@@ -270,7 +275,11 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
+                                                        if(SettingValues.shareLongLink){
+                                                            Reddit.defaultShareText(submission.getTitle(), "htts://reddit.com" + submission.getPermalink(), mContext);
+                                                        } else {
+                                                            Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
+                                                        }
                                                         break;
                                                     case R.id.link_url:
                                                         Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);

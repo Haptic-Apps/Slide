@@ -14,13 +14,7 @@ android {
     }
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-<<<<<<< HEAD
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 301
-=======
-        versionCode 300
->>>>>>> Updated gradle to 4.5
+        versionCode 302
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
@@ -42,7 +36,7 @@ android {
             dimension "api"
         }
         apiPreview {
-            minSdkVersion "P"
+            minSdkVersion 15
             targetSdkVersion "P"
             compileSdkVersion "android-P"
 

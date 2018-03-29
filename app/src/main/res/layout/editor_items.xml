@@ -88,6 +88,17 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_italic_white_48dp"/>
 
+        <ImageButton
+                android:id="@+id/quote"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:cropToPadding="true"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/ic_format_quote_white_48dp"/>
+
         <TextView
                 android:id="@+id/author"
                 android:layout_width="48dp"
@@ -123,16 +134,6 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"/>
 
-        <ImageButton
-                android:id="@+id/quote"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:cropToPadding="true"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_quote_white_48dp"/>
 
         <ImageButton
                 android:id="@+id/size"

@@ -76,10 +76,12 @@
                     tools:ignore="RtlHardcoded"
                     tools:text="1:06:29"/>
 
-            <SeekBar
+            <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/exomedia_controls_video_seek"
                     style="?android:seekBarStyle"
                     android:layout_width="0dp"
+                    android:minHeight="5dip"
+                    android:maxHeight="5dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     tools:ignore="RtlHardcoded"/>

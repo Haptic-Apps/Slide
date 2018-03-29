@@ -108,6 +108,50 @@
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor"/>
             </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="64dp"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_shortlink"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="14sp"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".86"
+                            android:text="@string/settings_shortlink_description"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="13sp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/shortlink"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="?attr/tintColor"
+                        android:button="@null"
+                        android:buttonTint="?attr/tintColor"
+                        android:hapticFeedbackEnabled="true"
+                        android:paddingEnd="16dp"
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"/>
+            </RelativeLayout>
+
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:id="@+id/internalViewersHeader"

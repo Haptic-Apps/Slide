@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,6 +42,8 @@ import net.dean.jraw.models.Account;
 import net.dean.jraw.models.Trophy;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
+
+import org.ligi.snackengage.snacks.Snack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -866,6 +869,46 @@ public class Profile extends BaseActivityAnim {
 
 
                     }
+                    {
+                        final TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
+
+                        // if button is clicked, close the custom dialog
+                        dialogButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Palette.removeUserColor(name);
+
+                                Snackbar.make(dialogButton, "User color removed", Snackbar.LENGTH_SHORT).show();
+
+                                int cx = center.getWidth() / 2;
+                                int cy = center.getHeight() / 2;
+
+                                int initialRadius = body.getWidth();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                                    Animator anim =
+                                            ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
+
+                                    anim.addListener(new AnimatorListenerAdapter() {
+                                        @Override
+                                        public void onAnimationEnd(Animator animation) {
+                                            super.onAnimationEnd(animation);
+                                            body.setVisibility(View.GONE);
+                                        }
+                                    });
+                                    anim.start();
+
+                                } else {
+                                    body.setVisibility(View.GONE);
+
+                                }
+
+                            }
+                        });
+
+
+                    }
+
                     ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma()));
                     ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
 

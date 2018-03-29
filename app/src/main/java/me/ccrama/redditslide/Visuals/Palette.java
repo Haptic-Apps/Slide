@@ -115,6 +115,10 @@ public class Palette {
         Reddit.colors.edit().putInt("USER" + username.toLowerCase(Locale.ENGLISH), color).apply();
     }
 
+    public static void removeUserColor(final String username) {
+        Reddit.colors.edit().remove("USER" + username.toLowerCase(Locale.ENGLISH)).apply();
+    }
+
     public static Palette getSubredditPallete(String subredditname) {
         Palette p = new Palette();
 

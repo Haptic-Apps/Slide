@@ -52,6 +52,10 @@ public class SettingsHandling extends BaseActivityAnim
                 SettingValues.album = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM, isChecked).apply();
                 break;
+            case R.id.shortlink:
+                SettingValues.shareLongLink = !isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LONG_LINK, !isChecked).apply();
+                break;
             case R.id.peek:
                 SettingValues.peek = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_PEEK, isChecked).apply();
@@ -73,16 +77,19 @@ public class SettingsHandling extends BaseActivityAnim
         SwitchCompat gif = (SwitchCompat) findViewById(R.id.gif);
         SwitchCompat album = (SwitchCompat) findViewById(R.id.album);
         SwitchCompat peek = (SwitchCompat) findViewById(R.id.peek);
+        SwitchCompat shortlink = (SwitchCompat) findViewById(R.id.shortlink);
 
         image.setChecked(SettingValues.image);
         gif.setChecked(SettingValues.gif);
         album.setChecked(SettingValues.album);
         peek.setChecked(SettingValues.peek);
+        shortlink.setChecked(!SettingValues.shareLongLink);
 
         image.setOnCheckedChangeListener(this);
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
         peek.setOnCheckedChangeListener(this);
+        shortlink.setOnCheckedChangeListener(this);
 
         if (!Reddit.videoPlugin) {
             findViewById(R.id.video).setOnClickListener(new View.OnClickListener() {
