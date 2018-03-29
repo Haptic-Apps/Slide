@@ -208,7 +208,7 @@ public class LinkUtil {
             }
         }
     }
-    
+
     /**
      * Opens the {@code uri} externally or shows an application chooser if it is set to open in this
      * application
