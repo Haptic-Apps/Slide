@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -54,7 +55,9 @@ public class SettingsHandling extends BaseActivityAnim
                 break;
             case R.id.shortlink:
                 SettingValues.shareLongLink = !isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LONG_LINK, !isChecked).apply();
+                SettingValues.prefs.edit()
+                        .putBoolean(SettingValues.PREF_LONG_LINK, !isChecked)
+                        .apply();
                 break;
             case R.id.peek:
                 SettingValues.peek = isChecked;
@@ -107,35 +110,66 @@ public class SettingsHandling extends BaseActivityAnim
         } else {
             findViewById(R.id.video).setVisibility(View.GONE);
         }
-        ((TextView) findViewById(R.id.browser)).setText(
-                SettingValues.web ? (SettingValues.reader ? getString(R.string.handling_reader_mode) : (SettingValues.customtabs ? getString(
-                        R.string.settings_link_chrome)
-                        : getString(R.string.handling_internal_browser)))
+        ((TextView) findViewById(R.id.browser)).setText(SettingValues.firefox ? getString(R.string.firefox) :
+                SettingValues.web ? SettingValues.reader ? getString(
+                        R.string.handling_reader_mode)
+                        : (SettingValues.customtabs ? getString(
+                                R.string.settings_link_chrome)
+                                : getString(R.string.handling_internal_browser))
                         : getString(R.string.handling_external_browser));
 
+
         final SwitchCompat readernight = (SwitchCompat) findViewById(R.id.readernight);
-        readernight.setEnabled(SettingValues.nightMode && SettingValues.web && SettingValues.reader);
+        readernight.setEnabled(
+                SettingValues.nightMode && SettingValues.web && SettingValues.reader);
         readernight.setChecked(SettingValues.readerNight);
         readernight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingValues.readerNight = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_READER_NIGHT, isChecked).apply();
+                SettingValues.prefs.edit()
+                        .putBoolean(SettingValues.PREF_READER_NIGHT, isChecked)
+                        .apply();
             }
         });
         findViewById(R.id.select_browser).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsHandling.this, v);
-                popup.getMenuInflater().inflate(R.menu.browser_type, popup.getMenu());
+
+                if(Reddit.firefox) {
+                    popup.getMenuInflater().inflate(R.menu.browser_type_firefox, popup.getMenu());
+                } else {
+                    popup.getMenuInflater().inflate(R.menu.browser_type, popup.getMenu());
+                }
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
+                            case R.id.firefox:
+                                SettingValues.customtabs = false;
+                                SettingValues.web = true;
+                                SettingValues.reader = false;
+                                SettingValues.firefox = true;
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREFS_WEB, true)
+                                        .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_READER, false)
+                                        .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
+                                        .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .apply();
+                                break;
+
                             case R.id.chrome:
                                 SettingValues.customtabs = true;
                                 SettingValues.web = true;
                                 SettingValues.reader = false;
+                                SettingValues.firefox = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -145,11 +179,15 @@ public class SettingsHandling extends BaseActivityAnim
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, true)
                                         .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .apply();
                                 break;
                             case R.id.internal:
                                 SettingValues.customtabs = false;
                                 SettingValues.web = true;
                                 SettingValues.reader = false;
+                                SettingValues.firefox = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -159,11 +197,15 @@ public class SettingsHandling extends BaseActivityAnim
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
                                         .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .apply();
                                 break;
                             case R.id.reader:
                                 SettingValues.customtabs = false;
                                 SettingValues.web = true;
                                 SettingValues.reader = true;
+                                SettingValues.firefox = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -173,24 +215,35 @@ public class SettingsHandling extends BaseActivityAnim
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
                                         .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .apply();
                                 break;
                             case R.id.external:
                                 SettingValues.web = false;
                                 SettingValues.reader = false;
+                                SettingValues.firefox = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, false)
                                         .apply();
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_READER, false)
                                         .apply();
+                                SettingValues.prefs.edit()
+                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .apply();
                                 break;
                         }
-                        ((TextView) findViewById(R.id.browser)).setText(
-                                SettingValues.web ? SettingValues.reader?  getString(R.string.handling_reader_mode) : (SettingValues.customtabs ? getString(
-                                        R.string.settings_link_chrome)
-                                        : getString(R.string.handling_internal_browser))
+                        ((TextView) findViewById(R.id.browser)).setText(SettingValues.firefox ? getString(R.string.firefox) :
+                                SettingValues.web ? SettingValues.reader ? getString(
+                                        R.string.handling_reader_mode)
+                                        : (SettingValues.customtabs ? getString(
+                                                R.string.settings_link_chrome)
+                                                : getString(R.string.handling_internal_browser))
                                         : getString(R.string.handling_external_browser));
-                        readernight.setEnabled(SettingValues.nightMode && SettingValues.web && SettingValues.reader);
+                        readernight.setEnabled(SettingValues.nightMode
+                                && SettingValues.web
+                                && SettingValues.reader);
 
                         return true;
                     }

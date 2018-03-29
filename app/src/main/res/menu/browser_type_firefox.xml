@@ -4,6 +4,9 @@
             android:id="@+id/chrome"
             android:title="@string/settings_link_chrome"/>
     <item
+            android:id="@+id/firefox"
+            android:title="@string/firefox"/>
+    <item
             android:id="@+id/internal"
             android:title="@string/handling_internal_browser"/>
     <item

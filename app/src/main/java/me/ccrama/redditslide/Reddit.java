@@ -105,6 +105,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int                      dpWidth;
     public static int                      notificationTime;
     public static boolean                  videoPlugin;
+    public static boolean                  firefox;
     public static NotificationJobScheduler notifications;
     public static       boolean isLoading = false;
     public static final long    time      = System.currentTimeMillis();
@@ -207,6 +208,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         try {
             final PackageManager pm = ctx.getPackageManager();
             final PackageInfo pi = pm.getPackageInfo("ccrama.me.slideyoutubeplugin", 0);
+            if (pi != null && pi.applicationInfo.enabled) return true;
+        } catch (final Throwable ignored) {
+        }
+        return false;
+    }
+
+    private static boolean isFirefoxInstalled(final Context ctx) {
+        try {
+            final PackageManager pm = ctx.getPackageManager();
+            final PackageInfo pi = pm.getPackageInfo("org.mozilla.firefox", 0);
             if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
@@ -636,7 +647,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             return;
         }
 
-        proxy = new HttpProxyCacheServer.Builder(this).maxCacheSize(5*1024).maxCacheFilesCount(20).build();
+        proxy = new HttpProxyCacheServer.Builder(this).maxCacheSize(5 * 1024)
+                .maxCacheFilesCount(20)
+                .build();
 
         UpgradeUtil.upgrade(getApplicationContext());
         doMainStuff();
@@ -668,7 +681,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         UserSubscriptions.newsNameToSubs = getSharedPreferences("NEWSMULTITONAME", 0);
         UserSubscriptions.news = getSharedPreferences("NEWS", 0);
 
-        UserSubscriptions.newsNameToSubs.edit().putString("android", "android+androidapps+googlepixel").putString("news","worldnews+news+politics").apply();
+        UserSubscriptions.newsNameToSubs.edit()
+                .putString("android", "android+androidapps+googlepixel")
+                .putString("news", "worldnews+news+politics")
+                .apply();
 
         UserSubscriptions.pinned = getSharedPreferences("PINNED", 0);
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
@@ -722,6 +738,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         SettingValues.tabletUI = isPackageInstalled(this) || FDroid.isFDroid;
         videoPlugin = isVideoPluginInstalled(this);
+        firefox = isFirefoxInstalled(this);
 
         GifCache.init(this);
 
@@ -755,9 +772,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String CHANNEL_IMG           = "IMG_DOWNLOADS";
     public static String CHANNEL_COMMENT_CACHE = "POST_SYNC";
     public static String CHANNEL_MAIL          = "MAIL_NOTIFY";
-    public static String CHANNEL_MAIL_SOUND          = "MAIL_NOTIFY_SOUND";
+    public static String CHANNEL_MAIL_SOUND    = "MAIL_NOTIFY_SOUND";
     public static String CHANNEL_MODMAIL       = "MODMAIL_NOTIFY";
-    public static String CHANNEL_MODMAIL_SOUND       = "MODMAIL_NOTIFY_SOUND";
+    public static String CHANNEL_MODMAIL_SOUND = "MODMAIL_NOTIFY_SOUND";
     public static String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
 
     public void setupNotificationChannels() {

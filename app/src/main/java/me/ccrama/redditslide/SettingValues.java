@@ -42,6 +42,7 @@ public class SettingValues {
     public static final String PREF_SMALL_TAG                 = "smallTag";
     public static final String PREF_ACTIONBAR_TAP             = "actionbarTap";
     public static final String PREF_CUSTOMTABS                = "customtabs";
+    public static final String PREF_FIREFOX                   = "firefox";
     public static final String PREF_STORE_HISTORY             = "storehistory";
     public static final String PREF_STORE_NSFW_HISTORY        = "storensfw";
     public static final String PREF_SCROLL_SEEN               = "scrollSeen";
@@ -167,20 +168,20 @@ public class SettingValues {
     public static boolean                 commentVolumeNav;
     public static boolean                 postNav;
     public static boolean                 exit;
-    public static boolean cropImage;
-    public static boolean smallTag;
-    public static boolean typeInfoLine;
-    public static boolean votesInfoLine;
-    public static boolean reader;
-    public static boolean collapseComments;
-    public static boolean collapseCommentsDefault;
-    public static boolean rightHandedCommentMenu;
-    public static boolean abbreviateScores;
-    public static boolean shareLongLink;
-    public static boolean isMuted;
-    public static int     subredditSearchMethod;
-    public static int     nightStart;
-    public static int     nightEnd;
+    public static boolean                 cropImage;
+    public static boolean                 smallTag;
+    public static boolean                 typeInfoLine;
+    public static boolean                 votesInfoLine;
+    public static boolean                 reader;
+    public static boolean                 collapseComments;
+    public static boolean                 collapseCommentsDefault;
+    public static boolean                 rightHandedCommentMenu;
+    public static boolean                 abbreviateScores;
+    public static boolean                 shareLongLink;
+    public static boolean                 isMuted;
+    public static int                     subredditSearchMethod;
+    public static int                     nightStart;
+    public static int                     nightEnd;
 
     public static int previews;
 
@@ -219,6 +220,7 @@ public class SettingValues {
     public static boolean overrideLanguage;
     public static boolean immersiveMode;
     public static boolean showDomain;
+    public static boolean firefox;
     public static boolean cardText;
     public static boolean alwaysZoom;
     public static boolean lqLow  = false;
@@ -367,6 +369,7 @@ public class SettingValues {
         swipeAnywhere = true; //override this always now
         album = prefs.getBoolean(PREF_ALBUM, true);
         albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
+        firefox = prefs.getBoolean(PREF_FIREFOX, false);
 
         commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);

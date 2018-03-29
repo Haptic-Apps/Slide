@@ -1185,5 +1185,6 @@
     <string name="btn_reset_color">RESET COLOR</string>
     <string name="settings_shortlink_description">Links will be shared as \'https://redd.it/\'</string>
     <string name="settings_shortlink">Share Reddit shortlink where possible</string>
+    <string name="firefox">Firefox</string>
 
 </resources>

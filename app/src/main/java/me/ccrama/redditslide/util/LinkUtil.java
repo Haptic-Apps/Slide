@@ -40,8 +40,8 @@ import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 
 public class LinkUtil {
 
-    private static CustomTabsSession mCustomTabsSession;
-    private static CustomTabsClient mClient;
+    private static CustomTabsSession           mCustomTabsSession;
+    private static CustomTabsClient            mClient;
     private static CustomTabsServiceConnection mConnection;
 
     private LinkUtil() {
@@ -53,7 +53,9 @@ public class LinkUtil {
             return ((BitmapDrawable) drawable).getBitmap();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap =
+                Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                        Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
@@ -100,33 +102,39 @@ public class LinkUtil {
         }
     }
 
-    public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity, int adapterPosition, Submission submission) {
+    public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity,
+            int adapterPosition, Submission submission) {
         if (!SettingValues.web) {
             // External browser
             openExternally(url, contextActivity);
             return;
         }
 
-        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
-
-        if (packageName != null) {
-            openCustomTab(url, color, contextActivity, packageName);
+        if (SettingValues.firefox) {
+            openCustomTab(url, color, contextActivity, "com.mozilla.firefox");
         } else {
-            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
-                //Reader mode
-                Intent i = new Intent(contextActivity, ReaderMode.class);
-                i.putExtra(ReaderMode.EXTRA_URL, url);
-                PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
-                i.putExtra(ReaderMode.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
+            String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
+            if (packageName != null) {
+                openCustomTab(url, color, contextActivity, packageName);
             } else {
-                // Internal browser
-                Intent i = new Intent(contextActivity, Website.class);
-                i.putExtra(Website.EXTRA_URL, url);
-                PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
-                i.putExtra(Website.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
+                if (SettingValues.reader && (!SettingValues.readerNight
+                        || SettingValues.isNight())) {
+                    //Reader mode
+                    Intent i = new Intent(contextActivity, ReaderMode.class);
+                    i.putExtra(ReaderMode.EXTRA_URL, url);
+                    PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
+                    i.putExtra(ReaderMode.EXTRA_COLOR, color);
+                    contextActivity.startActivity(i);
+
+                } else {
+                    // Internal browser
+                    Intent i = new Intent(contextActivity, Website.class);
+                    i.putExtra(Website.EXTRA_URL, url);
+                    PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
+                    i.putExtra(Website.EXTRA_COLOR, color);
+                    contextActivity.startActivity(i);
+                }
             }
         }
     }
@@ -135,6 +143,7 @@ public class LinkUtil {
     /**
      * Corrects mistakes users might make when typing URLs, e.g. case sensitivity in the scheme
      * and converts to Uri
+     *
      * @param url URL to correct
      * @return corrected as a Uri
      */
@@ -145,7 +154,7 @@ public class LinkUtil {
         if (url.startsWith("/")) {
             url = "https://reddit.com" + url;
         }
-        if (!url.contains("://")  && !url.startsWith("mailto:")) {
+        if (!url.contains("://") && !url.startsWith("mailto:")) {
             url = "http://" + url;
         }
 
@@ -153,7 +162,7 @@ public class LinkUtil {
         Uri toReturn;
         try {
             toReturn = uri.normalizeScheme();
-        } catch(NoSuchMethodError e){
+        } catch (NoSuchMethodError e) {
             toReturn = uri;
         }
         return toReturn;
@@ -162,8 +171,9 @@ public class LinkUtil {
     /**
      * Opens the {@code url} using the method the user has set in their preferences (custom tabs,
      * internal, external) falling back as needed
-     * @param url URL to open
-     * @param color Color to provide to the browser UI if applicable
+     *
+     * @param url             URL to open
+     * @param color           Color to provide to the browser UI if applicable
      * @param contextActivity The current activity
      */
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
@@ -173,31 +183,37 @@ public class LinkUtil {
             return;
         }
 
-        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
-
-        if (packageName != null) {
-            openCustomTab(url, color, contextActivity, packageName);
+        if (SettingValues.firefox) {
+            openCustomTab(url, color, contextActivity, "com.mozilla.firefox");
         } else {
-            if(SettingValues.reader && (!SettingValues.readerNight || SettingValues.isNight())){
-                //Reader mode
-                Intent i = new Intent(contextActivity, ReaderMode.class);
-                i.putExtra(ReaderMode.EXTRA_URL, url);
-                i.putExtra(ReaderMode.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
+            String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
+
+            if (packageName != null) {
+                openCustomTab(url, color, contextActivity, packageName);
             } else {
-                // Internal browser
-                Intent i = new Intent(contextActivity, Website.class);
-                i.putExtra(Website.EXTRA_URL, url);
-                i.putExtra(Website.EXTRA_COLOR, color);
-                contextActivity.startActivity(i);
+                if (SettingValues.reader && (!SettingValues.readerNight
+                        || SettingValues.isNight())) {
+                    //Reader mode
+                    Intent i = new Intent(contextActivity, ReaderMode.class);
+                    i.putExtra(ReaderMode.EXTRA_URL, url);
+                    i.putExtra(ReaderMode.EXTRA_COLOR, color);
+                    contextActivity.startActivity(i);
+                } else {
+                    // Internal browser
+                    Intent i = new Intent(contextActivity, Website.class);
+                    i.putExtra(Website.EXTRA_URL, url);
+                    i.putExtra(Website.EXTRA_COLOR, color);
+                    contextActivity.startActivity(i);
+                }
             }
         }
     }
-
+    
     /**
      * Opens the {@code uri} externally or shows an application chooser if it is set to open in this
      * application
-     * @param uri URI to open
+     *
+     * @param uri     URI to open
      * @param context Current context
      */
     public static void openExternally(String url, Context context) {
@@ -210,16 +226,14 @@ public class LinkUtil {
         String resolvedName;
         try {
             resolvedName = intent.resolveActivity(packageManager).getPackageName();
-        } catch(Exception e){
+        } catch (Exception e) {
             resolvedName = context.getPackageName();
         }
-        if (resolvedName == null)
-            return;
+        if (resolvedName == null) return;
 
         if (resolvedName.matches(id)) {
             context.startActivity(
-                    Intent.createChooser(intent, context.getString(R.string.misc_link_chooser))
-            );
+                    Intent.createChooser(intent, context.getString(R.string.misc_link_chooser)));
             return;
         }
 
