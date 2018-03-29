@@ -39,7 +39,6 @@ import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
-import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -92,13 +91,13 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        rv = v.findViewById(R.id.vertical_content);
         final RecyclerView.LayoutManager mLayoutManager =
                 createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
 
         rv.setLayoutManager(mLayoutManager);
         if (SettingValues.fab) {
-            fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
+            fab = v.findViewById(R.id.post_floating_action_button);
 
             if (SettingValues.fabType == Constants.FAB_POST) {
                 fab.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +175,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                         };*/
                         Snackbar s = Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG);
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
 
@@ -187,7 +186,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         } else {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
-        refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        refreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
 
         /**
          * If using List view mode, we need to remove the start margin from the SwipeRefreshLayout.
@@ -389,5 +388,10 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         } catch(Exception e){
 
         }
+    }
+
+    @Override
+    public void onAdapterUpdated() {
+        adapter.notifyDataSetChanged();
     }
 }

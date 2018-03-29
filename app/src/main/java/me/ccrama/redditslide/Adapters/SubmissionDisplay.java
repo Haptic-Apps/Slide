@@ -34,4 +34,6 @@ public interface SubmissionDisplay {
     void updateError();
 
     void updateViews();
+
+    void onAdapterUpdated();
 }

@@ -39,7 +39,6 @@ import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubmissionNewsAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPostsRealm;
@@ -104,7 +103,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
         if (getActivity() instanceof MainActivity) {
             v.findViewById(R.id.back).setBackgroundResource(0);
         }
-        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        rv = v.findViewById(R.id.vertical_content);
 
         rv.setHasFixedSize(true);
 
@@ -123,8 +122,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
         rv.setItemAnimator(new SlideUpAlphaAnimator());
         rv.getLayoutManager().scrollToPosition(0);
 
-        mSwipeRefreshLayout =
-                (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
 
         /**
@@ -158,7 +156,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                 HEADER_OFFSET + Constants.PTR_OFFSET_BOTTOM);
 
         if (SettingValues.fab) {
-            fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
+            fab = v.findViewById(R.id.post_floating_action_button);
 
             if (SettingValues.fabType == Constants.FAB_POST) {
                 fab.setImageResource(R.drawable.add);
@@ -257,7 +255,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                             }
                         });*/
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(
+                        TextView tv = view.findViewById(
                                 android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
@@ -548,6 +546,11 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                 }
             }
         }
+    }
+
+    @Override
+    public void onAdapterUpdated() {
+        adapter.notifyDataSetChanged();
     }
 
     public void resetScroll() {

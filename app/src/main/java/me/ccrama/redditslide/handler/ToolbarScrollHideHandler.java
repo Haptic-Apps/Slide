@@ -116,6 +116,11 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         }
     }
 
+    public void toolbarShow()
+    {
+        mAppBar.setTranslationY(0);
+    }
+
     private void toolbarAnimateShow(final int verticalOffset) {
         mAppBar.animate()
                 .translationY(0)

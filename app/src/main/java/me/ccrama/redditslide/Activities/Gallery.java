@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -187,6 +186,11 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
 
     @Override
     public void updateViews() {
+        recyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAdapterUpdated() {
         recyclerAdapter.notifyDataSetChanged();
     }
 
