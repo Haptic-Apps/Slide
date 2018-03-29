@@ -15,11 +15,14 @@ android {
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         versionCode 302
+        minSdkVersion 15
+        targetSdkVersion 27
+        compileSdkVersion 27
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
 
-    flavorDimensions "api", "variant"
+    flavorDimensions "variant"
 
     productFlavors {
         withGPlay {
@@ -27,20 +30,6 @@ android {
         }
         noGPlay {
             dimension "variant"
-        }
-        apiStable {
-            minSdkVersion 15
-            targetSdkVersion 27
-            compileSdkVersion 27
-
-            dimension "api"
-        }
-        apiPreview {
-            minSdkVersion 15
-            targetSdkVersion "P"
-            compileSdkVersion "android-P"
-
-            dimension "api"
         }
     }
 
