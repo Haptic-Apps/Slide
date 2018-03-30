@@ -1248,34 +1248,29 @@ public class CommentAdapterHelper {
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getAuthorFlair() != null
-                && !comment.getAuthorFlair().getText().isEmpty()
-                && !comment.getAuthorFlair().getText().isEmpty()) {
+        if (comment.getAuthorFlair() != null)
+        {
+            String flairText;
+            if(comment.getAuthorFlair().getText() != null
+                    && !comment.getAuthorFlair().getText().isEmpty()) {
+                flairText = comment.getAuthorFlair().getText();
+            } else {
+                flairText = comment.getAuthorFlair().getCssClass();
+            }
+
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    "\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
-            pinned.setSpan(
-                    new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color,
-                            false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
-            titleString.append(" ");
-        } else if (comment.getAuthorFlair() != null
-                && !comment.getAuthorFlair().getText().isEmpty()) {
-            TypedValue typedValue = new TypedValue();
-            Resources.Theme theme = mContext.getTheme();
-            theme.resolveAttribute(R.attr.activity_background, typedValue, true);
-            int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    "\u00A0" + Html.fromHtml(comment.getAuthorFlair().getCssClass()) + "\u00A0");
+                    "\u00A0" + Html.fromHtml(flairText) + "\u00A0");
             pinned.setSpan(
                     new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color,
                             false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
+
         if (adapter.removed.contains(comment.getFullName()) || (comment.getBannedBy() != null
                 && !adapter.approved.contains(comment.getFullName()))) {
             titleString.append(CommentAdapterHelper.createRemovedLine(
