@@ -50,26 +50,6 @@
   <string name="submission_link_copied">Link skopiowany</string>
   <string name="submission_text_copied">Tekst skopiowany</string>
   <string name="submission_removed">Post usunięty</string>
-  <plurals name="submission_points">
-    <item quantity="one">%d punkt</item>
-    <item quantity="few">%d punkty</item>
-    <item quantity="other">%d punktów</item>
-  </plurals>
-  <plurals name="new_messages">
-    <item quantity="one">%d nowa wiadomość</item>
-    <item quantity="few">%d nowe wiadomości</item>
-    <item quantity="other">%d nowych wiadomości</item>
-  </plurals>
-  <plurals name="points">
-    <item quantity="one">pkt</item>
-    <item quantity="few">pkt</item>
-    <item quantity="other">pkt</item>
-  </plurals>
-  <plurals name="comments">
-    <item quantity="one">kmt</item>
-    <item quantity="few">kmt</item>
-    <item quantity="other">kmt</item>
-  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Jasny</string>
   <string name="theme_dark">Ciemny</string>
@@ -195,6 +175,7 @@
   <string name="editor_title">Tytuł</string>
   <string name="editor_err_msg">Spróbuj ponownie w ciągu kilku sekund</string>
   <string name="editor_uploading_image">Przesyłanie obrazu do Imgur</string>
+  <string name="editor_upload_image_question">Przesłać obraz na Imgur?</string>
   <string name="editor_self">Tekst</string>
   <string name="editor_select_img">Wybierz obraz</string>
   <string name="editor_hint_optional_body">Tekst (opcjonalnie)</string>
@@ -314,16 +295,6 @@
   <string name="mail_mark_unread">Oznacz jako nieprzeczytane</string>
   <string name="mail_view_full_thread">Zobacz pełny wątek</string>
   <string name="mail_message_copied">Wiadomość skopiowana</string>
-  <plurals name="mail_notification_title">
-    <item quantity="one">Masz %d nową wiadomość!</item>
-    <item quantity="few">Masz %d nowe wiadomości!</item>
-    <item quantity="other">Masz %d nowych wiadomości!</item>
-  </plurals>
-  <plurals name="mod_mail_notification_title">
-    <item quantity="one">Masz %d nowy modmail!</item>
-    <item quantity="few">Masz %d nowe modmaile!</item>
-    <item quantity="other">Masz %d nowych modmaili!</item>
-  </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Błąd</string>
   <string name="misc_none">Brak</string>
@@ -386,6 +357,7 @@
   <string name="btn_set">USTAW</string>
   <string name="btn_create">Utwórz</string>
   <string name="btn_new">Nowe</string>
+  <string name="btn_upload">Prześlij</string>
   <!-- Backup -->
   <string name="backup_success">Kopia zapasowa wykonana pomyślnie!</string>
   <string name="backup_restoring">Przywracanie ustawień</string>
@@ -448,11 +420,6 @@
   <string name="mod_sticky">Przypnij</string>
   <string name="mod_unsticky">Odepnij</string>
   <string name="reauth_complete">Reautentyfikacja ukończona!</string>
-  <plurals name="mod_btn_reports">
-    <item quantity="one">Przejrzyj %d zgłoszenie</item>
-    <item quantity="few">Przejrzyj %d zgłoszenia</item>
-    <item quantity="other">Przejrzyj %d zgłoszeń</item>
-  </plurals>
   <!-- Pleasantly asking the user if he made his mind up -->
   <string name="really_remove_submission">Naprawdę usunąć ten post?</string>
   <string name="really_pin_submission">Naprawdę przypiąć ten post?</string>
@@ -752,43 +719,8 @@
   <!-- Website -->
   <string name="website_back">Wstecz</string>
   <string name="website_external">Otwórz w zewnętrznej przeglądarce</string>
-  <plurals name="reorder_subs_added">
-    <item quantity="one">%d subreddit dodany</item>
-    <item quantity="few">%d subreddity dodane</item>
-    <item quantity="other">%d subredditów dodanych</item>
-  </plurals>
   <!-- Time -->
   <string name="time_just_now">Teraz</string>
-  <plurals name="time_years">
-    <item quantity="one">%d roku</item>
-    <item quantity="few">%d lat</item>
-    <item quantity="other">%d lat</item>
-  </plurals>
-  <plurals name="time_months">
-    <item quantity="one">%d miesiąca</item>
-    <item quantity="few">%d miesięcy</item>
-    <item quantity="other">%d miesięcy</item>
-  </plurals>
-  <plurals name="time_days">
-    <item quantity="one">%d dnia</item>
-    <item quantity="few">%d dni</item>
-    <item quantity="other">%d dni</item>
-  </plurals>
-  <plurals name="time_hours">
-    <item quantity="one">%d godzinę</item>
-    <item quantity="few">%d godziny</item>
-    <item quantity="other">%d godzin</item>
-  </plurals>
-  <plurals name="time_minutes">
-    <item quantity="one">%d minutę</item>
-    <item quantity="few">%d minuty</item>
-    <item quantity="other">%d minut</item>
-  </plurals>
-  <plurals name="time_seconds">
-    <item quantity="one">%d sekundy</item>
-    <item quantity="few">%d sekund</item>
-    <item quantity="other">%d sekund</item>
-  </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <string name="time_years_short">%dr</string>
   <string name="time_days_short">%dd</string>
@@ -810,11 +742,6 @@
   <string name="over18_desc_loggedin">Możesz to wyłączyć permamentnie w Ustawienia → Preferencje Reddita → Pokazuj obrazy NSFW</string>
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Synchronizacja zakończona</string>
-  <plurals name="color_sync_colored">
-    <item quantity="one">%d subreddit zmieniony</item>
-    <item quantity="few">%d subreddity zmienione</item>
-    <item quantity="other">%d subredditów zmienionych</item>
-  </plurals>
   <!-- Discover section: find -->
   <string name="discover_title">Odkrywaj</string>
   <string name="discover_search">Szukaj frazy lub tematu</string>
@@ -899,11 +826,6 @@
   <string name="sidebar_submods">Moderatorzy /r/%s</string>
   <string name="sidebar_flair">Flair: %1$s</string>
   <string name="sidebar_notfound">Nie znaleziono sidebara</string>
-  <plurals name="reorder_selected">
-    <item quantity="one">"%d wybrany"</item>
-    <item quantity="few">"%d wybrane"</item>
-    <item quantity="other">"%d wybranych"</item>
-  </plurals>
   <!--Filtering dialog -->
   <string name="filter_title">Co chciałbyś filtrować?</string>
   <string name="filter_posts_sub">Posty z /r/%1$s</string>
@@ -960,17 +882,14 @@
   <string name="btn_collapse_children_all">Zwiń komentarze</string>
   <string name="btn_open_content">Otwórz zawartość</string>
   <string name="btn_report">Zgłoś</string>
+  <string name="report_post">Zgłoś post</string>
+  <string name="report_comment">Zgłoś komentarz</string>
   <string name="input_reason_for_report">Powód zgłoszenia</string>
   <string name="msg_report_sent">Zgłoszenie wysłane</string>
   <string name="load_videos_internally">Ładuj filmy w aplikacji</string>
   <string name="load_videos_internally_content">Chcesz wypróbować Video Plugin? Pozwala na oglądanie filmów (np. YouTube) w aplikacji!</string>
   <string name="do_not_show_again">Nie pokazuj ponownie</string>
   <string name="enter_text_to_filter_click_enter_to_add_flair">Wpisz tekst do filtrowania (subreddit:tekst_flary), kliknij enter, aby dodać</string>
-  <plurals name="landscape_columns">
-    <item quantity="one">%d kolumna horyzontalnie</item>
-    <item quantity="few">%d kolumny horyzontalnie</item>
-    <item quantity="other">%d kolumn horyzontalnie</item>
-  </plurals>
   <string name="datasave_always">Dane mobilne i Wi-Fi</string>
   <string name="datasave_mobile">Dane mobilne</string>
   <string name="never">Nigdy</string>
@@ -1080,4 +999,5 @@
   <string name="sub_post_notifs_msg">Slide będzie sprawdzał nowe posty podczas sprawdzania skrzynki odbiorczej (powiadomienia muszą być włączone)</string>
   <string name="mod_ban_reason_required">Wymagany powód</string>
   <string name="settings_abbreviate_post_scores">Skracaj wyniki postów (np. 24.0k)</string>
+  <string name="theme_pixel">Piksel</string>
 </resources>

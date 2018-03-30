@@ -355,7 +355,7 @@
   <string name="btn_close">Fermer</string>
   <string name="btn_open">Ouvrir</string>
   <string name="btn_discard">Supprimer</string>
-  <string name="btn_done">Finit</string>
+  <string name="btn_done">OK</string>
   <string name="btn_go_back">Retour</string>
   <string name="btn_no_danks">Non merci</string>
   <string name="btn_no">Non</string>
@@ -1072,7 +1072,10 @@
   <string name="settings_link_reader_night">Lier le mode lecture au mode nuit</string>
   <string name="theme_pixel">Pixel</string>
   <string name="save_images_to_subreddit_specific_subfolders">Enregistrer les images dans des sous-dossiers spécifiques aux subreddits</string>
+  <string name="description_save_subfolders">Fonctionne en publication et dans les vues de commentaire</string>
   <string name="content_settings">Paramètres des contenus</string>
   <string name="setting_titleTop">Afficher le titre au-dessus de la ligne d\'info</string>
+  <string name="setting_notification_piggybacking">MAJ des messages par notification de l\'app officielle</string>
   <string name="setting_notification_piggybacking_desc">Rafraîchir les messages uniquement quand l\'app officielle Reddit reçoit une notification</string>
+  <string name="install_notif_piggyback">Installez l\'app Reddit officielle pour activer les Notification push</string>
 </resources>

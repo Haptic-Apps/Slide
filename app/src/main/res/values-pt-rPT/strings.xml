@@ -17,7 +17,7 @@
   <string name="general_nighttheme_ispro">Modo noturno automático é uma funcionalidade Pro</string>
   <string name="general_backup_ispro">Copia de segurança das definições é uma funcionalidade Pro</string>
   <!-- Used when viewing a thread -->
-  <string name="submission_info_unsaved">Envio não salvo</string>
+  <string name="submission_info_unsaved">Publicação removida</string>
   <string name="submission_info_saved">Publicação gravada</string>
   <string name="submission_info_cached">Publicação em cache</string>
   <string name="submission_info_archived">Esta é uma publicação arquivada. Não poderá votar ou comentar.</string>
@@ -96,6 +96,7 @@
   <string name="multi_column_title">Multicolunas</string>
   <string name="multi_column_landscape">Horizontal</string>
   <string name="multi_column_portrait">Duas colunas em modo retrato</string>
+  <string name="single_column_multi_window">Única coluna no modo de janela multi-janela</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Você</string>
   <string name="drawer_support">Adquira a versão Pro</string>
@@ -190,6 +191,7 @@
   <string name="editor_title">Título</string>
   <string name="editor_err_msg">Por favor, tente novamente em alguns segundos</string>
   <string name="editor_uploading_image">Upload de imagem para Imgur</string>
+  <string name="editor_upload_image_question">Enviar imagem para Imgur?</string>
   <string name="editor_self">Selftext</string>
   <string name="editor_select_img">Selecionar imagem</string>
   <string name="editor_hint_optional_body">Texto (opcional)</string>
@@ -379,6 +381,7 @@
   <string name="btn_set">DEFINIR</string>
   <string name="btn_create">Criar</string>
   <string name="btn_new">Novo</string>
+  <string name="btn_upload">Enviar</string>
   <!-- Backup -->
   <string name="backup_success">Cópia de segurança efetuada com sucesso!</string>
   <string name="backup_restoring">Restaurar as suas definições</string>
@@ -475,6 +478,7 @@
   <string name="search_top">No Topo</string>
   <string name="search_new">Novo</string>
   <string name="search_comments">Comentários</string>
+  <string name="no_posts_found">Nenhum publicação encontrada</string>
   <!-- Captcha -->
   <string name="captcha">Escreva o código acima</string>
   <string name="captcha_title">Prove que não é um robô</string>
@@ -943,6 +947,8 @@
   <string name="btn_collapse_children_all">Retrair comentários subsequentes</string>
   <string name="btn_open_content">Abrir conteúdo</string>
   <string name="btn_report">Reportar</string>
+  <string name="report_post">Denunciar publicação</string>
+  <string name="report_comment">Denunciar comentário</string>
   <string name="input_reason_for_report">Razão para emissão de relatório</string>
   <string name="msg_report_sent">Relatório enviado</string>
   <string name="load_videos_internally">Abrir vídeos internamente</string>
@@ -991,7 +997,7 @@
   <string name="compose_message">Compor mensagem</string>
   <string name="mark_all_as_read">Marcar tudo como lido</string>
   <string name="clear_subreddit_history">Limpar histórico do subreddit</string>
-  <string name="clear_submission_history">Limpar histórico de envios</string>
+  <string name="clear_submission_history">Limpar histórico de publicações</string>
   <string name="alert_history_cleared">Histórico apagado!</string>
   <string name="manage_offline_content">Gerir conteúdo offline</string>
   <string name="go_offline">Ficar off-line</string>
@@ -1061,4 +1067,15 @@
   <string name="sub_post_notifs_msg">Slide irá verificar se há novas publicações quando verificar o correio (notificações de correio devem estar ativadas)</string>
   <string name="mod_ban_reason_required">Razão pela qual é necessário</string>
   <string name="settings_abbreviate_post_scores">Abreviar das pontuações de publicações (ex. 24.0k)</string>
+  <string name="settings_wide_depth_indicators">Indicadores coloridos para comentários grandes</string>
+  <string name="handling_reader_mode">Utilizar modo de Leitura</string>
+  <string name="settings_link_reader_night">Juntar modo de leitora e modo Noturno</string>
+  <string name="theme_pixel">Pixel</string>
+  <string name="save_images_to_subreddit_specific_subfolders">Guardar imagens em sub-pastas específicas do subreddit</string>
+  <string name="description_save_subfolders">Funciona em vistas de publicação e comentário</string>
+  <string name="content_settings">Definições do Conteúdo</string>
+  <string name="setting_titleTop">Mostrar título acima da linha de informação</string>
+  <string name="setting_notification_piggybacking">Notificação Piggybacking</string>
+  <string name="setting_notification_piggybacking_desc">Verificar por correio somente quando a aplicação oficial do Reddit recebe uma notificação push</string>
+  <string name="install_notif_piggyback">Instalar a aplicação oficial do Reddit para ativar a notificação Piggybacking</string>
 </resources>

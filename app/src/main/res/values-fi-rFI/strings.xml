@@ -5,9 +5,22 @@
   <string name="general_confirm_exit">Vahvista poistuminen</string>
   <string name="general_confirm_exit_msg">Haluatko varmasti poistua?</string>
   <string name="general_enable_shadowbox">Ota Shadowbox-tila käyttöön</string>
+  <string name="pro_upgrade_msg">Päivitä Slide for Reddit Pro:hon nauttiaksesi mahtavia uusia ominaisuuksia kuten esimerkiksi:\n\n-Mainosten Esto ja Lukijatila\n- Kuvien Rajaaminen ja Piirtäminen\n- Tabletin sarakkeiden muokkaaminen\n- Automaattinen yötila\n- Varjolaatikkon ja Gallerian sisältönäkymä\n Kommentin Varjolaatikon Näkymä\n- Tiedostoon/Google Driveen Varmuuskopiointi ja Palauttaminen\n- Mainosvapaan ja avoin lähdekoodin ohjelmiston tukeminen!\n\nHaluaisitko tukea Slide for Reddit:ta?</string>
+  <string name="general_pro_msg">Minä haluan ottaa jotkut Sliden ominaisuukset käyttöön ostamalla Pro:n avain Play Kaupasta. \n\nTämä mahdollistaa kehityksen jatkaa ja estää mainoksia Sliden ilmaisessa versiossa!\n\nSinä saat monisarakkeiden, varjolaatikkojen (kuvasubredditeille), galleriatilan, tiedostoon/Google Driveen varmuskopioinnin ja palauttamisen, ja kuvien piirtäminen/rajaaminen!\n\n Haluaisitko avata Slide for Reddit Pro?</string>
+  <string name="general_pro_msg_crop">Minä haluan ottaa jotkut Sliden ominaisuukset käyttöön (kuvien piirtäminen ja rajaaminen mukaan lukien) ostamalla Pro:n avain Play Kaupasta. \n\nTämä mahdollistaa kehityksen jatkaa ja estää mainoksia Sliden ilmaisessa versiossa!\n\nSinä saat monisarakkeiden, varjolaatikkojen (kuvasubredditeille), galleriatilan, tiedostoon/Google Driveen varmuskopioinnin ja palauttamisen, ja kuvien piirtäminen/rajaaminen!\n\n Haluaisitko avata Slide for Reddit Pro?</string>
   <string name="general_open_settings">Avaa Subreddit asetukset</string>
   <string name="general_sub_sync">Synkronoidaan tilauksia</string>
+  <string name="general_gallerymode_ispro">Galleriatila on Pro-ominaisuus</string>
+  <string name="general_cropdraw_ispro">Kuvien Piirtäminen ja Rajaaminen on Pro-ominaisuus</string>
+  <string name="general_shadowbox_comments_ispro">Kommentin Varjolaatikko on Pro-ominaisuus</string>
+  <string name="general_shadowbox_ispro">Varjolaatikkotila on Pro-ominaisuus</string>
+  <string name="general_nighttheme_ispro">Automaattinen yötila on Pro-ominaisuus</string>
+  <string name="general_backup_ispro">Asetusten varmuuskopiointi on Pro-ominaisuus</string>
   <!-- Used when viewing a thread -->
+  <string name="submission_info_unsaved">Viestiä ei tallentanut</string>
+  <string name="submission_info_saved">Viesti tallennettu</string>
+  <string name="submission_info_cached">Viesti tallennettu välimuistiin</string>
+  <string name="submission_info_archived">Tämä ketju on arkistoitu. Sinä et voi äänestää tai kommentoida.</string>
   <string name="submission_post_saved">Postaus talletettu</string>
   <string name="submission_info_hidden">Postaus piiloitettu ikuisesti.</string>
   <string name="submission_stickied">pinnattu</string>
@@ -23,14 +36,19 @@
   <string name="submission_save">Tallenna postaus</string>
   <string name="submission_save_image">Tallenna kuva</string>
   <string name="submission_load_full">Lataa koko lanka</string>
+  <string name="submission_np_link">Tämä on np-linkki. Älä äänestä tai kommentoi.</string>
   <string name="submission_tap_gif">Lataa GIF</string>
   <string name="submission_not_found">Ohhoh, viesti kateissa!</string>
   <string name="submission_not_found_msg">Pahoittelut, Viestiä ei löytynyt</string>
   <string name="submission_copy_text">Kopioi teksti</string>
   <string name="submission_comment_saved">Kommentti tallennettu</string>
+  <string name="submission_comment_unsaved">Tallennettu tiedosto peruttu</string>
   <string name="submission_share_permalink">Jaa linkki</string>
   <string name="submission_comment_copied">Kommentin teksti kopioitu</string>
+  <string name="submission_nocontent">Syöte on tyhjä</string>
   <string name="submission_link_copied">Linkki kopioitu</string>
+  <string name="submission_text_copied">Viesti kopioitu</string>
+  <string name="submission_removed">Viesti poistettiin</string>
   <plurals name="submission_points">
     <item quantity="one">%d piste</item>
     <item quantity="other">%d pistettä</item>
@@ -38,6 +56,10 @@
   <plurals name="points">
     <item quantity="one">pst</item>
     <item quantity="other">pst</item>
+  </plurals>
+  <plurals name="comments">
+    <item quantity="one">kmt</item>
+    <item quantity="other">kmta</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Vaalea</string>
@@ -50,6 +72,8 @@
   <string name="theme_accent_color">Aksenttiväri</string>
   <string name="theme_base">Pohjateema</string>
   <string name="theme_card">Kortti</string>
+  <string name="theme_sepia">Seepia</string>
+  <string name="theme_amoled_contrast">AMOLED kontrasti</string>
   <string name="theme_night">Yö-teema</string>
   <!-- Font settings -->
   <string name="font_size">Fontin koko</string>
@@ -62,10 +86,15 @@
   <string name="font_size_tiny">Erittäin pieni</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">\"Piilota viesti\" painike toimintovalikossa</string>
+  <string name="card_tint_outside">Värjää vain subredditin ulkopuolella</string>
+  <string name="card_save_button">\"Tallenna viesti\" nappi Action Barissa</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Usean sarakkeen asetukset</string>
   <string name="multi_column_landscape">Vaakakuva</string>
+  <string name="multi_column_portrait">Kaksisarakkeinen pystyasento</string>
+  <string name="single_column_multi_window">Yksi sarake moni-ikkuna tilassa</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Sinä</string>
   <string name="drawer_support">Hanki Pro</string>
   <string name="drawer_goto_profile">Profiiliin</string>
   <string name="drawer_add_account">Lisää tili</string>
@@ -75,6 +104,8 @@
   <string name="drawer_offline">Slide on offline-tilassa</string>
   <string name="drawer_offline_retry">Yritä päästä online-tilaan</string>
   <!-- Sidebar items (That's the one on the right) -->
+  <string name="sidebar_wiki">Subredditin wiki</string>
+  <string name="sidebar_mods">Subredditin moderaattorit</string>
   <!-- User profile -->
   <string name="profile_karma_comment">kommentti karma</string>
   <string name="profile_message">Yksityisviesti</string>

@@ -7,7 +7,7 @@
   <string name="general_enable_shadowbox">Modo de apresentação</string>
   <string name="pro_upgrade_msg">Atualize para o Slide para Reddit Pro desfrutar de algumas incríveis novos recursos, incluindo: \n\n - Ad Blocker e o modo de leitor no site view\n-colheita e desenhar nas imagens para upload\n-customizável tablet coluna automática mode\n noite mode\n-Shadowbox e Galeria conteúdo views\n - comentário Shadowbox view\n-Backup e restauração para Google Drive e software ad-livre e aberto de arquivo-coadjuvante! \n\nWould você gosta de apoiar o Slide para Reddit?</string>
   <string name="general_pro_msg">Eu optei por criar funções como travar o slide para pessoas que comprarem uma chave de ativação Play Store.!\n\n Estas mudanças garantem o desenvolvimento constante, e são uma opção melhor que a exibição de propagandas! Incluindo nestas funções estão modo multi-colunas, sobreposição de imagens (para imagens nos subreddits), backup e restauração no G Drive e local e recortar/editar imagens.!\n\nGostaria de desbloquear para o pro?</string>
-  <string name="general_pro_msg_crop">Optei por disponibilizar alguns recursos do Slide (incluindo recorte e desenho em imagens) desbloqueável comprando uma chave de desbloqueio Pro na Play Store. \n\nIsso é para manter o desenvolvimento ativo, e em vez de exibir anúncios na versão gratuita do Slide!\n\nIncluído nisto modo multi-coluna, modo Shadowbox (para subreddits de imagens), modo galeria, copia de segurança e restauro a partir de Google Drive e de ficheiro, e ainda mais!\n\n Gostaria de desbloquear o Slide para Reddit Pro?</string>
+  <string name="general_pro_msg_crop">Eu optei por fazer alguns recursos do slide (incluindo recortar e desenhar em imagens) desbloqueáveis ao comprar uma chave Pro da Play Store.\n\n O objetivo é fazer o desenvolvimento continuar, ao em vez de mostrar propagandas na versão gratuita do Slide!\n\nEstá incluido nisto o modo multi-coluna, o modo Shadowbox (para subredits de imagens), modo galeria, backup e restauração para o Google Drive e para arquivo, e mais!\n\n Você gostaria de desbloquear o Slide Para Reddit Pro?</string>
   <string name="general_open_settings">Barra lateral</string>
   <string name="general_sub_sync">Sincronizando Assinaturas</string>
   <string name="general_gallerymode_ispro">Modo galeria é um recurso Pro</string>
@@ -96,6 +96,7 @@
   <string name="multi_column_title">Múltiplas colunas</string>
   <string name="multi_column_landscape">Paisagem</string>
   <string name="multi_column_portrait">Duas colunas em modo retrato</string>
+  <string name="single_column_multi_window">Única coluna no modo de janela multi-janela</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Você</string>
   <string name="drawer_support">Adquira a versão Pro</string>
@@ -190,6 +191,7 @@
   <string name="editor_title">Título</string>
   <string name="editor_err_msg">Favor tentar novamente em alguns segundos.</string>
   <string name="editor_uploading_image">Fazendo upload da imagem para o Imgur</string>
+  <string name="editor_upload_image_question">Enviar imagem para Imgur?</string>
   <string name="editor_self">Selftext</string>
   <string name="editor_select_img">Selecionar imagem</string>
   <string name="editor_hint_optional_body">Texto (opcional)</string>
@@ -379,6 +381,7 @@
   <string name="btn_set">Definir</string>
   <string name="btn_create">Criar</string>
   <string name="btn_new">Novo</string>
+  <string name="btn_upload">Enviar</string>
   <!-- Backup -->
   <string name="backup_success">Backup bem sucedido!</string>
   <string name="backup_restoring">Restaurar as configurações</string>
@@ -413,14 +416,14 @@
   <string name="mod_btn_submission_flair_text">Definir texto da categoria</string>
   <string name="mod_btn_mark_nsfw">Marcar NSFW</string>
   <string name="mod_btn_unmark_nsfw">Desmarcar o NSFW</string>
-  <string name="mod_btn_pin">Afixar</string>
-  <string name="mod_btn_unpin">Desafixar</string>
-  <string name="mod_btn_remove">Eliminar</string>
+  <string name="mod_btn_pin">Fixar</string>
+  <string name="mod_btn_unpin">Desfixar</string>
+  <string name="mod_btn_remove">Remover</string>
   <string name="mod_btn_remove_reason">Remover com motivo</string>
   <string name="mod_btn_author">Perfil do autor</string>
   <string name="mod_btn_ban">Banir</string>
-  <string name="mod_ban_user">Banir utilizador</string>
-  <string name="mod_ban_reauth">Para bloquear um utilizador, Slide deve autenticar novamente</string>
+  <string name="mod_ban_user">Banir Usuário</string>
+  <string name="mod_ban_reauth">Para banir usuários, é necessário re-autenticar-se no Slide</string>
   <string name="mod_ban_reauth_question">Gostaria de iniciar sessão no Slide novamente?</string>
   <string name="mod_ban_success">Usuário banido!</string>
   <string name="mod_ban_fail">Error ao banir usuário</string>
@@ -439,20 +442,20 @@
   <string name="mod_distinguish">Distinguir</string>
   <string name="mod_undistinguish">Remover distinção</string>
   <string name="mod_sticky">Fixo</string>
-  <string name="mod_unsticky">Remover fixo</string>
-  <string name="reauth_complete">Autenticação concluída!</string>
+  <string name="mod_unsticky">Desfixar</string>
+  <string name="reauth_complete">Re-autenticação completa!</string>
   <plurals name="mod_btn_reports">
     <item quantity="one">Visualizar %d denúncia</item>
     <item quantity="other">Visualizar %d denúncias</item>
   </plurals>
   <!-- Pleasantly asking the user if he made his mind up -->
   <string name="really_remove_submission">Remover realmente esta publicação?</string>
-  <string name="really_pin_submission">Afixar realmente esta publicação?</string>
-  <string name="really_unpin_submission">Desafixar realmente esta publicação?</string>
+  <string name="really_pin_submission">Fixar realmente esta publicação?</string>
+  <string name="really_unpin_submission">Desfixar realmente esta publicação?</string>
   <string name="undistinguish_comment">Realmente remover destaque deste comentário?</string>
   <!-- If he did -->
-  <string name="really_pin_submission_message">Publicação afixada</string>
-  <string name="really_unpin_submission_message">Publicação desafixada</string>
+  <string name="really_pin_submission_message">Publicação fixada</string>
+  <string name="really_unpin_submission_message">Publicação desfixada</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Nenhuma wiki encontrada</string>
   <string name="wiki_err_msg">Este subreddit não tem uma wiki!</string>
@@ -475,13 +478,14 @@
   <string name="search_top">No topo</string>
   <string name="search_new">Novo</string>
   <string name="search_comments">Comentários</string>
+  <string name="no_posts_found">Nenhum publicação encontrada</string>
   <!-- Captcha -->
   <string name="captcha">Digite o código acima</string>
   <string name="captcha_title">Prove que não é um robô</string>
   <!-- Settings -->
   <string name="settings_reddit_prefs">Preferências do Reddit</string>
   <string name="settings_accent_title">Editar cor secundária</string>
-  <string name="settings_delete_sub_settings">Quer realmente apagar as definições de %1$s?</string>
+  <string name="settings_delete_sub_settings">Deseja realmente excluir as configurações para %1$s?</string>
   <string name="settings_layout_default">Layout da postagem</string>
   <string name="settings_link_album">Exibição interna do álbum</string>
   <string name="settings_link_peek">Espreitar conteúdo (experimental)</string>
@@ -503,7 +507,7 @@
   <string name="posts_hidden_forever">Post oculto permanentemente</string>
   <string name="share_image">Compartilhar Imagem</string>
   <string name="settings_libs">Bibliotecas de código aberto</string>
-  <string name="settings_about_libs">Sobre bibliotecas</string>
+  <string name="settings_about_libs">Sobre as bibliotecas</string>
   <string name="settings_bugs">Reportar Erro</string>
   <string name="settings_changelog">Visualizar alterações</string>
   <string name="settings_google">Conectando-se ao Google</string>
@@ -512,8 +516,8 @@
   <string name="settings_fabclear">Ações claras FAB</string>
   <string name="settings_notifdisabled">Notificações desativadas.</string>
   <string name="settings_colored_navigation_bar">Barra de navegação colorida</string>
-  <string name="settings_colored_icon">Cor do ícone da app (experimental)</string>
-  <string name="settings_colored_icon_desc">Pode ser necessário reiniciar o telefone para funcionar. Isto também irá remover o ícone do seu ecrã inicial.</string>
+  <string name="settings_colored_icon">Cor do ícone do app (experimental)</string>
+  <string name="settings_colored_icon_desc">Pode ser necessário reiniciar o telefone para funcionar. Isto também irá remover o ícone da sua tela inicial.</string>
   <string name="settings_filter_domain">Filtros de Domínio</string>
   <string name="settings_filter_selfttext">Filtros de Selftext</string>
   <string name="settings_filter_title">Filtros de título</string>
@@ -523,24 +527,24 @@
   <string name="settings_font_comment">Fonte do comentário</string>
   <string name="settings_comment_crop">Cortar imagem na visualização do comentário</string>
   <string name="settings_general_scroll_read">Marque os posts como lidos quando passar por cima</string>
-  <string name="settings_link_chrome">Usar Separadores Personalizados</string>
+  <string name="settings_link_chrome">Usar abas personalizadas</string>
   <string name="settings_image_location">Selecione o local para salvar imagens/GIFs</string>
   <string name="settings_image_location_unset">Ainda não definido</string>
   <string name="settings_set_image_location">Imagens serão salvas em %s</string>
-  <string name="settings_general_immersive_mode">Modo de ecrã completo imersivo</string>
-  <string name="settings_general_immersive_mode_desc">Ocultar a barra de estado e de navegação (experimental)</string>
+  <string name="settings_general_immersive_mode">Modo de Tela Cheia Imersiva</string>
+  <string name="settings_general_immersive_mode_desc">Ocultar as barras de status e de navegação (experimental)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Backup &amp; Restaurar</string>
   <string name="settings_title_default_theme">Tema principal</string>
   <string name="settings_title_general">Geral</string>
   <string name="settings_title_history">Histórico</string>
   <string name="settings_title_notifications">Notificações</string>
-  <string name="settings_title_pro">Passar a Pro</string>
+  <string name="settings_title_pro">Adquira a versão Pro</string>
   <string name="settings_title_sub_theme">Temas dos Subreddits</string>
   <string name="settings_title_sorting">Padrão de classificação</string>
   <string name="settings_title_support">Doar</string>
   <string name="settings_title_about">Sobre</string>
-  <string name="settings_title_multi_column">Multi-coluna</string>
+  <string name="settings_title_multi_column">Múltiplas colunas</string>
   <string name="settings_title_fab">Botão de ação flutuante</string>
   <string name="settings_title_comments">Comentários</string>
   <string name="settings_title_filter">Filtros</string>
@@ -551,9 +555,9 @@
   <string name="settings_section_browser">Navegador</string>
   <string name="settings_section_internal_viewers">Visualizadores internos</string>
   <string name="settings_section_custom_domains">Domínios personalizados</string>
-  <string name="settings_section_save_history">Guardar histórico</string>
+  <string name="settings_section_save_history">Salvar histórico</string>
   <string name="settings_section_clear_history">Limpar histórico</string>
-  <string name="settings_section_data_saving_mode">Modo de economia de dados</string>
+  <string name="settings_section_data_saving_mode">Modo economia de dados</string>
   <string name="settings_section_image_quality">Qualidade de imagem</string>
   <string name="settings_section_hide_images">Ocultar imagens</string>
   <string name="settings_comment_color">Indicadores coloridos para profundidade dos comentários</string>
@@ -572,16 +576,16 @@
   <string name="settings_comment_collapse">Retrair comentários completamente</string>
   <string name="settings_comment_collapse_description">Também desativa animações de comentários</string>
   <string name="settings_comment_collapse_default">Retrair comentários subsequentes por padrão</string>
-  <string name="settings_data_enable">Ativar definições de gravação de dados</string>
-  <string name="settings_backup_occurs">Copia de segurança irá ocorrer em %1$s</string>
-  <string name="settings_backup_none">Nenhum subreddit será guardado</string>
-  <string name="settings_backup_will_backup">\u0020vai ser guardado</string>
+  <string name="settings_data_enable">Ativar configurações de economia de dados</string>
+  <string name="settings_backup_occurs">Backup irá ocorrer em %1$s</string>
+  <string name="settings_backup_none">Nenhum subreddit fará backup</string>
+  <string name="settings_backup_will_backup">\u0020vai ter backup feito</string>
   <string name="settings_backup_submission_only">apenas publicação</string>
   <string name="settings_backup_comments">\u0020(comentários)</string>
   <string name="settings_filter_profile">Filtros de perfil</string>
   <string name="settings_subredditspecific_selftext">Sempre mostrar pré-visualizações de selftext neste subreddit</string>
   <string name="settings_font_system">Sistema</string>
-  <string name="settings_manage_subscriptions">Gerir as suas subscrições</string>
+  <string name="settings_manage_subscriptions">Gerenciar suas inscrições</string>
   <string name="settings_comments_swap_long">Ações de deslize, longo aperto e toque</string>
   <string name="settings_redditprefs_over18">Eu tenho mais de18 anos e quero ver conteúdos NSFW</string>
   <string name="settings_layout_view">Modo de exibição</string>
@@ -609,7 +613,7 @@
   <string name="settings_description_synccit">Synccit permite que você sincronize o seu histórico de submissão entre os dispositivos e seu navegador</string>
   <string name="settings_description_view_type">Modos de visualização afetam tanto a visualização principal quanto a visualização de um único subreddit.\n\nGuias de subreddit: deslize lateralmente entre seus subreddits\n\nSem guias de subreddit: não permite deslizar entre seus subreddits\n\nPainel de comentários: comentários deslizam próximo aos posts e o estado da página de comentários é salvo após o deslizar para voltar (para que você não perca o lugar que estava)</string>
   <string name="settings_comment_hide_selftext_image">Ocultar imagem principal em postagens de texto</string>
-  <string name="settings_reddit_syncing">A sincronizar com Reddit</string>
+  <string name="settings_reddit_syncing">Sincronizando com o Reddit</string>
   <string name="settings_filter_flair">Filtro de categorias</string>
   <string name="settings_data_low_quality">Carregar imagens de baixa qualidade</string>
   <string name="settings_view_type">Tipo de exibição</string>
@@ -943,6 +947,8 @@
   <string name="btn_collapse_children_all">Recolher comentários infantis</string>
   <string name="btn_open_content">Conteúdo aberto</string>
   <string name="btn_report">Reporte</string>
+  <string name="report_post">Denunciar publicação</string>
+  <string name="report_comment">Denunciar comentário</string>
   <string name="input_reason_for_report">Razão por ser reportado</string>
   <string name="msg_report_sent">Relatório enviado</string>
   <string name="load_videos_internally">Carregar vídeos internamente</string>
@@ -1061,4 +1067,15 @@
   <string name="sub_post_notifs_msg">Slide irá verificar se há novas publicações quando verificar o correio (notificações de correio devem estar ativadas)</string>
   <string name="mod_ban_reason_required">Razão pela qual é necessário</string>
   <string name="settings_abbreviate_post_scores">Abreviar das pontuações de publicações (ex. 24.0k)</string>
+  <string name="settings_wide_depth_indicators">Indicadores coloridos para comentários grandes</string>
+  <string name="handling_reader_mode">Utilizar modo de Leitura</string>
+  <string name="settings_link_reader_night">Juntar modo de leitora e modo Noturno</string>
+  <string name="theme_pixel">Pixel</string>
+  <string name="save_images_to_subreddit_specific_subfolders">Guardar imagens em sub-pastas específicas do subreddit</string>
+  <string name="description_save_subfolders">Funciona em vistas de publicação e comentário</string>
+  <string name="content_settings">Definições do Conteúdo</string>
+  <string name="setting_titleTop">Mostrar título acima da linha de informação</string>
+  <string name="setting_notification_piggybacking">Notificação Piggybacking</string>
+  <string name="setting_notification_piggybacking_desc">Verificar por correio somente quando a aplicação oficial do Reddit recebe uma notificação push</string>
+  <string name="install_notif_piggyback">Instalar a aplicação oficial do Reddit para ativar a notificação Piggybacking</string>
 </resources>

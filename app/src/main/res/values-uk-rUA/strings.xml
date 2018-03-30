@@ -3,11 +3,24 @@
 <resources>
   <!-- Generic text used anywhere -->
   <!-- Used when viewing a thread -->
+  <plurals name="points">
+    <item quantity="one">бал</item>
+    <item quantity="few">бали</item>
+    <item quantity="many">балів</item>
+    <item quantity="other">бала</item>
+  </plurals>
+  <plurals name="comments">
+    <item quantity="one">кмт</item>
+    <item quantity="few">кмт</item>
+    <item quantity="many">кмт</item>
+    <item quantity="other">кмт</item>
+  </plurals>
   <!-- Theme settings -->
   <!-- Font settings -->
   <!-- For editing the submission card layout -->
   <!-- Settings for Multi-column view -->
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Ти</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
   <!-- Comment text options -->

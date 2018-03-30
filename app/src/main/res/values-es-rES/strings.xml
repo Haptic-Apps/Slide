@@ -96,6 +96,7 @@
   <string name="multi_column_title">Ajustes de la Multi-Columna</string>
   <string name="multi_column_landscape">Apaisado</string>
   <string name="multi_column_portrait">Dos columnas en el modo retrato</string>
+  <string name="single_column_multi_window">Una sola columna en modo multiventana</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Tú</string>
   <string name="drawer_support">Conviértete en Pro</string>
@@ -190,6 +191,7 @@
   <string name="editor_title">Titulo</string>
   <string name="editor_err_msg">Por favor, vuelve a intentarlo en unos segundos.</string>
   <string name="editor_uploading_image">Subiendo imagen a imgur</string>
+  <string name="editor_upload_image_question">¿Cargar la imagen a Imgur?</string>
   <string name="editor_self">Post de texto</string>
   <string name="editor_select_img">Seleccionar imagen</string>
   <string name="editor_hint_optional_body">Cuerpo (opcional)</string>
@@ -379,6 +381,7 @@
   <string name="btn_set">GUARDAR</string>
   <string name="btn_create">Crear</string>
   <string name="btn_new">Nuevo</string>
+  <string name="btn_upload">Enviar</string>
   <!-- Backup -->
   <string name="backup_success">¡Copia de seguridad correcta!</string>
   <string name="backup_restoring">Restaurando tus Ajustes</string>
@@ -475,6 +478,7 @@
   <string name="search_top">Top</string>
   <string name="search_new">Nuevo</string>
   <string name="search_comments">Comentarios</string>
+  <string name="no_posts_found">No se encontraron publicaciones</string>
   <!-- Captcha -->
   <string name="captcha">Introduce el código siguiente</string>
   <string name="captcha_title">Demuestra que no eres un robot</string>
@@ -484,6 +488,7 @@
   <string name="settings_delete_sub_settings">¿Seguro que quieres eliminar los ajustes para %1$s?</string>
   <string name="settings_layout_default">Diseño del post</string>
   <string name="settings_link_album">Visor interno de álbum</string>
+  <string name="settings_link_peek">Vistazo al contenido (experimental)</string>
   <string name="settings_link_gif">Visor interno de gifs</string>
   <string name="settings_link_handling">Control de enlaces</string>
   <string name="settings_link_image">Vista interna de imagen</string>
@@ -502,6 +507,7 @@
   <string name="posts_hidden_forever">Ocultar posts para siempre</string>
   <string name="share_image">Compartir imagen</string>
   <string name="settings_libs">Librerías Open-Source</string>
+  <string name="settings_about_libs">Sobre Libs</string>
   <string name="settings_bugs">Informar de errores</string>
   <string name="settings_changelog">Ver changelog</string>
   <string name="settings_google">Conectando con Google</string>
@@ -521,9 +527,12 @@
   <string name="settings_font_comment">Fuente de los comentarios</string>
   <string name="settings_comment_crop">Recorta la imagen principal en la vista de comentarios</string>
   <string name="settings_general_scroll_read">Marca los posts como leídos al pasar por encima</string>
+  <string name="settings_link_chrome">Usar pestañas personalizadas de Chrome</string>
   <string name="settings_image_location">Selecciona la ubicación para guardar Imágenes / GIF</string>
   <string name="settings_image_location_unset">No establecida aún</string>
   <string name="settings_set_image_location">Las imágenes se guardarán en %s</string>
+  <string name="settings_general_immersive_mode">Modo de pantalla completa</string>
+  <string name="settings_general_immersive_mode_desc">Esconder la barra de estado y navegación (experimental)</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Copia de seguridad y Restauración</string>
   <string name="settings_title_default_theme">Tema principal</string>
@@ -828,6 +837,7 @@
   <string name="mediaview_converting_fail">La conversión del gif a través de Gfycat no funciona</string>
   <string name="mediaview_converting_fail_btn">Abrir en Internet</string>
   <string name="mediaview_save">Guardar %1$s</string>
+  <string name="mediaview_saving">Ahorrando %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Guardar borrador</string>
   <string name="draft_saved">Borrador guardado</string>
@@ -859,6 +869,9 @@
   <string name="load_high_quality_image_every_time">De lo contrario, siempre cargar imágenes de alta calidad</string>
   <string name="load_lower_quality_imgur">Si se activa, intentará cargar imágenes de Imgur de calidad aún más inferior</string>
   <string name="load_medium_quality_imgur_images">Cargar imágenes de Imgur de calidad media</string>
+  <string name="load_low_quality">Cargar imágenes de baja calidad (max. 320x320)</string>
+  <string name="load_medium_quality">Cargar imágenes de calidad mediana (max. 640x640)</string>
+  <string name="load_high_quality">Cargar imágenes de alta calidad (max. 1080x1080)</string>
   <string name="choose_color_title">Elegir un color</string>
   <string name="enter_text_to_filter_click_enter_to_add">Introduce el texto a filtrar, pulsa intro para añadir</string>
   <string name="mode_desktop_compact">Escritorio compacto</string>
@@ -920,6 +933,7 @@
   <string name="mode_centered">Tarjeta con imagen centrada</string>
   <string name="mode_card">Tarjeta</string>
   <string name="mode_thumbnail">Miniatura</string>
+  <string name="mode_big_thumbnails">Miniaturas amplias</string>
   <string name="mode_cropped">Imagen grande recortada</string>
   <string name="mode_bigpic">Imágenes grandes</string>
   <string name="press_actionbar">Pulsa la flecha para Barra de Acción</string>
@@ -933,6 +947,8 @@
   <string name="btn_collapse_children_all">Ocultar comentarios hijos</string>
   <string name="btn_open_content">Abrir contenido</string>
   <string name="btn_report">Reportar</string>
+  <string name="report_post">Reportar publicación</string>
+  <string name="report_comment">Reportar comentario</string>
   <string name="input_reason_for_report">Motivo</string>
   <string name="msg_report_sent">Reporte enviado</string>
   <string name="load_videos_internally">Cargar vídeos internamente</string>
@@ -1047,4 +1063,19 @@
   <string name="enlarge_links_warning">Puede causar que algunas líneas sean más grandes que otras, pero hace más fácil tocar los enlaces</string>
   <string name="type_tumblr">Tumblr</string>
   <string name="type_nsfw_tumblr">Tumblr NSFW</string>
+  <string name="submission_info_contest">Este hilo está en modo del concurso. No se puede cambiar la clasificación.</string>
+  <string name="sub_post_notifs_msg">Slide comprobará si hay nuevas publicaciones cuando revise el correo (notificaciones de correo debe ser activadas)</string>
+  <string name="mod_ban_reason_required">Es necesario un motivo</string>
+  <string name="settings_abbreviate_post_scores">Acortar las puntuaciones de publicaciones (ex. 24.0k)</string>
+  <string name="settings_wide_depth_indicators">Indicadores largos de la profundidad de comentarios</string>
+  <string name="handling_reader_mode">Modo de lector</string>
+  <string name="settings_link_reader_night">Enlazar modo de lector y modo nocturno</string>
+  <string name="theme_pixel">Píxel</string>
+  <string name="save_images_to_subreddit_specific_subfolders">Guardar imágenes en subcarpetas de subreddits subespecíficos</string>
+  <string name="description_save_subfolders">Funciona en publicaciones y vistas de comentarios</string>
+  <string name="content_settings">Configuración de contenido</string>
+  <string name="setting_titleTop">Mostrar el título por encima de la línea de información</string>
+  <string name="setting_notification_piggybacking">Reemplazo de las Notificaciones</string>
+  <string name="setting_notification_piggybacking_desc">Revisa el correo sólo cuando la aplicación oficial de Reddit reciba una notificación push</string>
+  <string name="install_notif_piggyback">Descarga la aplicación oficial de Reddit para activar Reemplazo de las Notificaciones</string>
 </resources>

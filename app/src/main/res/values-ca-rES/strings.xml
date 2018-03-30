@@ -5,17 +5,18 @@
   <string name="general_confirm_exit">Confirma la sortida</string>
   <string name="general_confirm_exit_msg">Realment voleu sortir de Slide?</string>
   <string name="general_enable_shadowbox">Activar Mode Shadowbox</string>
-  <string name="general_open_settings">Obriu la configuració de Subreddits</string>
+  <string name="general_open_settings">Barra lateral</string>
   <string name="general_sub_sync">Sincronitzant Subscripcions</string>
   <string name="general_gallerymode_ispro">El mode galeria es una característica de pagament</string>
   <string name="general_cropdraw_ispro">Retallar i dibuixar en imatges pujades són característiques de pagament</string>
   <string name="general_nighttheme_ispro">El mode nit és una característica de pagament</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Missatge no desat</string>
-  <string name="submission_info_saved">Missatge guardat</string>
-  <string name="submission_post_saved">Post guardat</string>
+  <string name="submission_info_saved">Missatge desat</string>
+  <string name="submission_info_cached">Contribució desada a la memòria cau</string>
+  <string name="submission_post_saved">Entrada desada</string>
   <string name="submission_info_hidden">Post ocult per sempre.</string>
-  <string name="submission_stickied">guardat</string>
+  <string name="submission_stickied">Fixat</string>
   <string name="submission_link_extern">Obrir externament</string>
   <string name="submission_link_copy">Còpia l\'adressa</string>
   <string name="submission_link_share">Compartir url</string>

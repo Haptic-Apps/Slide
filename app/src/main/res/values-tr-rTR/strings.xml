@@ -96,6 +96,7 @@
   <string name="multi_column_title">Çoklu-sütun</string>
   <string name="multi_column_landscape">Yatay</string>
   <string name="multi_column_portrait">Dikey modda iki sütun göster</string>
+  <string name="single_column_multi_window">Çoklu Pencere modunda tek sütun</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Siz</string>
   <string name="drawer_support">Pro sürüme geç</string>
@@ -190,6 +191,7 @@
   <string name="editor_title">Başlık</string>
   <string name="editor_err_msg">Lütfen bir kaç saniye içinde yeniden deneyin.</string>
   <string name="editor_uploading_image">Resim imgur\'a yükleniyor</string>
+  <string name="editor_upload_image_question">Resmi Imgur\'a yükle?</string>
   <string name="editor_self">Metin</string>
   <string name="editor_select_img">Resim seçin</string>
   <string name="editor_hint_optional_body">Metin (isteğe bağlı)</string>
@@ -379,6 +381,7 @@
   <string name="btn_set">AYARLA</string>
   <string name="btn_create">Oluştur</string>
   <string name="btn_new">Yeni</string>
+  <string name="btn_upload">Yükle</string>
   <!-- Backup -->
   <string name="backup_success">Yedekleme başarılı!</string>
   <string name="backup_restoring">Ayarlarınız geri yükleniyor</string>

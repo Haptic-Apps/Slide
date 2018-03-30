@@ -38,22 +38,19 @@
   <string name="submission_nocontent">Příspěvek postrádá obsah</string>
   <string name="submission_link_copied">Odkaz zkopírován</string>
   <string name="submission_removed">Příspěvek odstraněn</string>
-  <plurals name="submission_points">
-    <item quantity="one">%d bod</item>
-    <item quantity="few">%d bodů</item>
-    <item quantity="other">%d bodů</item>
-  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Světlý</string>
   <string name="theme_dark">Tmavý</string>
   <string name="theme_black">AMOLED černý</string>
   <string name="theme_dark_blue">Tmavě modrá</string>
+  <string name="night_mode">Noční režim</string>
   <string name="theme_default_color">Základní barva</string>
   <string name="theme_subreddit_color">Změnit barvu</string>
   <string name="theme_accent_color">Doplňková barva</string>
   <string name="theme_base">Základní téma</string>
   <string name="theme_card">Karta</string>
   <string name="theme_sepia">Sépiový tón</string>
+  <string name="theme_night">Noční téma</string>
   <!-- Font settings -->
   <string name="font_size">Velikost písma</string>
   <string name="font_size_larger">Větší</string>
@@ -61,6 +58,7 @@
   <string name="font_size_medium">Střední</string>
   <string name="font_size_small">Malá</string>
   <string name="font_size_smaller">Menší</string>
+  <string name="font_size_tiny">Nejmenší</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">Tlačítko \"skrýt příspěvek\"v liště</string>
   <!-- Settings for Multi-column view -->
@@ -88,8 +86,12 @@
   <string name="profile_comments">komentáře</string>
   <string name="profile_gilded">pozlacené</string>
   <string name="profile_hidden">skryté</string>
+  <string name="profile_friend">Přítel</string>
   <string name="profile_add_friend">Přidat přítele</string>
   <string name="profile_remove_friend">Odstranit přítele</string>
+  <string name="profile_manage_accounts">Správa účtů</string>
+  <string name="profile_remove_account">Opravdu chcete odstranit tento účet?</string>
+  <string name="profile_remove">Smazat účet</string>
   <string name="profile_history">Historie</string>
   <!-- Comment text options -->
   <string name="comment_gild">Pozlatit komentář</string>
@@ -196,11 +198,6 @@
   <string name="mail_notification_author">%1$s od %2$s</string>
   <string name="mail_mark_read">Označit přečtené</string>
   <string name="mail_mark_unread">Označit jako nepřečtené</string>
-  <plurals name="mail_notification_title">
-    <item quantity="one">Máte %d novou zprávu!</item>
-    <item quantity="few">Máte %d nových zpráv!</item>
-    <item quantity="other">Máte %d nových zpráv!</item>
-  </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Chyba</string>
   <string name="misc_none">Žádný</string>
@@ -345,16 +342,6 @@
   <string name="offline_caching">Ukládání do mezipaměti</string>
   <!-- Website -->
   <!-- Time -->
-  <plurals name="time_hours">
-    <item quantity="one">%d hodinu</item>
-    <item quantity="few">%d hodiny</item>
-    <item quantity="other">%d hodin</item>
-  </plurals>
-  <plurals name="time_minutes">
-    <item quantity="one">%d minutu</item>
-    <item quantity="few">%d minut</item>
-    <item quantity="other">%d minut</item>
-  </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <!-- Strings present during the login process -->
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
