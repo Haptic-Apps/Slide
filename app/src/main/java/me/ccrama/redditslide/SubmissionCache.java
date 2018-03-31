@@ -96,7 +96,9 @@ public class SubmissionCache {
         String spacer = mContext.getString(R.string.submission_properties_seperator);
         SpannableStringBuilder titleString = new SpannableStringBuilder("Crosspost" + spacer);
         JsonNode json = s.getDataNode();
-        if (!json.has("crosspost_parent_list") || json.get("crosspost_parent_list") == null) { //is not a crosspost
+        if (!json.has("crosspost_parent_list")
+                || json.get("crosspost_parent_list") == null
+                || json.get("crosspost_parent_list").get(0) == null) { //is not a crosspost
             return null;
         }
         json = json.get("crosspost_parent_list").get(0);
