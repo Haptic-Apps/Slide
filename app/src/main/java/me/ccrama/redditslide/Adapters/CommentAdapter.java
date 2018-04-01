@@ -38,7 +38,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.RobotoTypefaces;
-import com.devspark.robototextview.RobotoTypefaces;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
@@ -50,7 +49,6 @@ import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
-import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
@@ -383,7 +381,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
             if (ImageFlairs.isSynced(comment.getSubredditName())
                     && comment.getAuthorFlair() != null
-                    && !comment.getAuthorFlair().getText().isEmpty()
+                    && comment.getAuthorFlair().getCssClass() != null
                     && !comment.getAuthorFlair().getCssClass().isEmpty()) {
                 boolean set = false;
                 for (String s : comment.getAuthorFlair().getCssClass().split(" ")) {
@@ -649,17 +647,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final View replyArea = submissionViewHolder.itemView.findViewById(R.id.innerSend);
         if (replyArea.getVisibility() == View.GONE) {
             expandSubmissionReply(replyArea);
-            EditText replyLine =
-                    ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
+            EditText replyLine = submissionViewHolder.itemView.findViewById(R.id.replyLine);
             DoEditorActions.doActions(replyLine, submissionViewHolder.itemView, fm,
                     (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null,
                     new String[]{submission.getAuthor()});
 
-            currentlyEditing =
-                    ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
+            currentlyEditing = submissionViewHolder.itemView.findViewById(R.id.replyLine);
 
-            final TextView profile =
-                    (TextView) submissionViewHolder.itemView.findViewById(R.id.profile);
+            final TextView profile = submissionViewHolder.itemView.findViewById(R.id.profile);
             changedProfile = Authentication.name;
             profile.setText("/u/" + changedProfile);
             profile.setOnClickListener(new View.OnClickListener() {
@@ -1124,10 +1119,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final View replyArea = baseView.findViewById(R.id.replyArea);
 
             final View more = baseView.findViewById(R.id.more);
-            final ImageView upvote = (ImageView) baseView.findViewById(R.id.upvote);
-            final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
+            final ImageView upvote = baseView.findViewById(R.id.upvote);
+            final ImageView downvote = baseView.findViewById(R.id.downvote);
             View discard = baseView.findViewById(R.id.discard);
-            final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
+            final EditText replyLine = baseView.findViewById(R.id.replyLine);
 
             final Comment comment = baseNode.getComment();
             if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
@@ -1139,7 +1134,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 upvote.clearColorFilter();
             }
             {
-                final ImageView mod = (ImageView) baseView.findViewById(R.id.mod);
+                final ImageView mod = baseView.findViewById(R.id.mod);
                 try {
                     if (UserSubscriptions.modOf.contains(submission.getSubredditName())) {
                         //todo
@@ -1177,7 +1172,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 baseView.findViewById(R.id.mod).setVisibility(View.GONE);
             }
 
-            final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
+            final ImageView edit = baseView.findViewById(R.id.edit);
             if (Authentication.name != null
                     && Authentication.name.toLowerCase(Locale.ENGLISH)
                     .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH))
@@ -1195,7 +1190,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
 
-            final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
+            final ImageView delete = baseView.findViewById(R.id.delete);
             if (Authentication.name != null
                     && Authentication.name.toLowerCase(Locale.ENGLISH)
                     .equals(comment.getAuthor().toLowerCase(Locale.ENGLISH))
@@ -1259,7 +1254,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                         }
                     });
-                    final TextView profile = (TextView) baseView.findViewById(R.id.profile);
+                    final TextView profile = baseView.findViewById(R.id.profile);
                     changedProfile = Authentication.name;
                     profile.setText("/u/" + changedProfile);
                     profile.setOnClickListener(new View.OnClickListener() {
@@ -1378,7 +1373,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 }
                             }
                         });
-                        final TextView profile = (TextView) baseView.findViewById(R.id.profile);
+                        final TextView profile = baseView.findViewById(R.id.profile);
                         changedProfile = Authentication.name;
                         profile.setText("/u/" + changedProfile);
                         profile.setOnClickListener(new View.OnClickListener() {
