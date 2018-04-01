@@ -1474,6 +1474,8 @@ public class MainActivity extends BaseActivity
         if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(
                 MainActivity.this) && headerMain != null && runAfterLoad == null) {
             new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else if(Authentication.isLoggedIn && Authentication.name.equalsIgnoreCase("loggedout")) {
+            restartTheme(); //force a restart because we should not be here
         }
 
         if ((!inNightMode && SettingValues.isNight()) || (inNightMode
