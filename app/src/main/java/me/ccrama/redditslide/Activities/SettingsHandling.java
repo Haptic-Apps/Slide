@@ -180,7 +180,7 @@ public class SettingsHandling extends BaseActivityAnim
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, true)
                                         .apply();
                                 SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
                                         .apply();
                                 break;
                             case R.id.internal:
@@ -198,7 +198,7 @@ public class SettingsHandling extends BaseActivityAnim
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
                                         .apply();
                                 SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
                                         .apply();
                                 break;
                             case R.id.reader:
@@ -216,7 +216,7 @@ public class SettingsHandling extends BaseActivityAnim
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
                                         .apply();
                                 SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
                                         .apply();
                                 break;
                             case R.id.external:
@@ -230,7 +230,7 @@ public class SettingsHandling extends BaseActivityAnim
                                         .putBoolean(SettingValues.PREF_READER, false)
                                         .apply();
                                 SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
+                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
                                         .apply();
                                 break;
                         }
