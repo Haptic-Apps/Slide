@@ -2755,8 +2755,11 @@ public class PopulateSubmissionViewHolder {
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
         }
 
-        boolean crosspost = submission.getDataNode().has("crosspost_parent_list");
-        if(full && crosspost){
+        if (full && (submission.getDataNode() != null
+                && submission.getDataNode()
+                .has("crosspost_parent_list")
+                && submission.getDataNode().get("crosspost_parent_list") != null
+                && submission.getDataNode().get("crosspost_parent_list").get(0) != null)) {
             holder.itemView.findViewById(R.id.crosspost).setVisibility(View.VISIBLE);
             ((TextView)holder.itemView.findViewById(R.id.crossinfo)).setText(SubmissionCache.getCrosspostLine(submission, mContext));
             ((Reddit) mContext.getApplicationContext()).getImageLoader()

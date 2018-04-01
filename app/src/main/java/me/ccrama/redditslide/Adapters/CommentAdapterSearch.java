@@ -53,7 +53,6 @@ import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -218,8 +217,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getAuthorFlair() != null
-                && !comment.getAuthorFlair().getText().isEmpty()
+        if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null
                 && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
