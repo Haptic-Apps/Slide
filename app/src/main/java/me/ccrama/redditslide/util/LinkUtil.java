@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -115,7 +116,7 @@ public class LinkUtil {
             Uri uri = formatURL(url);
 
             final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-           // intent.setPackage("com.mozilla.firefox");
+            intent.setComponent(new ComponentName("org.mozilla.firefox", "org.mozilla.firefox.App"));
 
             contextActivity.startActivity(intent);
         } else {
@@ -194,7 +195,7 @@ public class LinkUtil {
             Uri uri = formatURL(url);
 
             final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.setPackage("com.mozilla.firefox");
+            intent.setComponent(new ComponentName("org.mozilla.firefox", "org.mozilla.firefox.App"));
 
             contextActivity.startActivity(intent);
         } else {
