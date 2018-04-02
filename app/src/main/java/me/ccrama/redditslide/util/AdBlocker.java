@@ -41,14 +41,18 @@ public class AdBlocker {
 
     @WorkerThread
     private static void loadFromAssets(Context context) throws IOException {
-        InputStream stream = context.getAssets().open(DOMAINS_FILE);
-        BufferedSource buffer = Okio.buffer(Okio.source(stream));
-        String line;
-        while ((line = buffer.readUtf8Line()) != null) {
-            DOMAINS.add(line);
+        try {
+            InputStream stream = context.getAssets().open(DOMAINS_FILE);
+            BufferedSource buffer = Okio.buffer(Okio.source(stream));
+            String line;
+            while ((line = buffer.readUtf8Line()) != null) {
+                DOMAINS.add(line);
+            }
+            buffer.close();
+            stream.close();
+        } catch(Exception ignored){
+
         }
-        buffer.close();
-        stream.close();
     }
 
     public static boolean isAd(String url, Context context) {
