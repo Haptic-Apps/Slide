@@ -739,7 +739,25 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         SettingValues.tabletUI = isPackageInstalled(this) || FDroid.isFDroid;
         videoPlugin = isVideoPluginInstalled(this);
         firefox = isFirefoxInstalled(this);
-
+        if(!firefox && SettingValues.firefox){
+            //Can't use it if you don't have it
+            SettingValues.customtabs = false;
+            SettingValues.web = true;
+            SettingValues.reader = false;
+            SettingValues.firefox = false;
+            SettingValues.prefs.edit()
+                    .putBoolean(SettingValues.PREFS_WEB, true)
+                    .apply();
+            SettingValues.prefs.edit()
+                    .putBoolean(SettingValues.PREF_READER, false)
+                    .apply();
+            SettingValues.prefs.edit()
+                    .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
+                    .apply();
+            SettingValues.prefs.edit()
+                    .putBoolean(SettingValues.PREF_FIREFOX, false)
+                    .apply();
+        }
         GifCache.init(this);
 
         setupNotificationChannels();
