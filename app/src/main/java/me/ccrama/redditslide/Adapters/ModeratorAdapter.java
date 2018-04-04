@@ -257,7 +257,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View v) {
                             if (submission.isSelfPost()){
                                 if(SettingValues.shareLongLink){
-                                    Reddit.defaultShareText("", "htts://reddit.com" + submission.getPermalink(), mContext);
+                                    Reddit.defaultShareText("", "https://reddit.com" + submission.getPermalink(), mContext);
                                 } else {
                                     Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
                                 }
