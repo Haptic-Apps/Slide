@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -154,10 +155,8 @@ public class MediaFragment extends Fragment {
 
         img.setAlpha(1f);
 
-        if (s.getThumbnail() == null
-                || s.getThumbnail().isEmpty()
-                || firstUrl == null
-                || firstUrl.isEmpty()
+        if (Strings.isNullOrEmpty(s.getThumbnail())
+                || Strings.isNullOrEmpty(firstUrl)
                 || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
             ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
@@ -169,11 +168,10 @@ public class MediaFragment extends Fragment {
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
                         R.drawable.nsfw);
             } else {
-                if (firstUrl.isEmpty() && !s.getThumbnail().isEmpty()) {
+                if (Strings.isNullOrEmpty(firstUrl) && !Strings.isNullOrEmpty(s.getThumbnail()) ) {
                     ((Reddit) getContext().getApplicationContext()).getImageLoader()
                             .displayImage(s.getThumbnail(),
                                     ((ImageView) rootView.findViewById(R.id.thumbimage2)));
-
                 }
             }
 
@@ -608,7 +606,7 @@ public class MediaFragment extends Fragment {
                                 }
 
                                 if (type.contains("gif")) {
-                                    doLoadGifDirect(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
+                                    doLoadGifDirect((Strings.isNullOrEmpty(mp4) ? urls : mp4));
                                 } else if (!imageShown) { //only load if there is no image
                                     doLoadImage(urls);
                                 }
@@ -730,8 +728,7 @@ public class MediaFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     if (!imageShown
-                                            && type != null
-                                            && !type.isEmpty()
+                                            && !Strings.isNullOrEmpty(type)
                                             && type.startsWith("image/")) {
                                         //is image
                                         if (type.contains("gif")) {
