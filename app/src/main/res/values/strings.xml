@@ -559,6 +559,7 @@
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_store_history">Save history</string>
     <string name="settings_store_nsfw_history">Save NSFW history</string>
+    <string name="settings_drawer_on_back">Open drawer on back press</string>
     <string name="settings_confirm_exit">Confirm exit dialog</string>
     <string name="settings_commentnav">Navigate between parent comments</string>
     <string name="share_link">Share link</string>

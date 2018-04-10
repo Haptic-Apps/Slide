@@ -60,10 +60,10 @@ public class SettingsGeneral extends BaseActivityAnim
 
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
-        final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
-        final CheckBox checkBox = (CheckBox) dialoglayout.findViewById(R.id.load);
+        final Slider landscape = dialoglayout.findViewById(R.id.landscape);
+        final CheckBox checkBox = dialoglayout.findViewById(R.id.load);
 
-        final CheckBox sound = (CheckBox) dialoglayout.findViewById(R.id.sound);
+        final CheckBox sound = dialoglayout.findViewById(R.id.sound);
 
         sound.setChecked(SettingValues.notifSound);
         sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -399,6 +399,21 @@ public class SettingsGeneral extends BaseActivityAnim
             }
         });
 
+
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.drawerOnBack);
+
+            single.setChecked(SettingValues.drawerOnBack);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.drawerOnBack = isChecked;
+                    SettingValues.prefs.edit()
+                            .putBoolean(SettingValues.PREF_DRAWERONBACK, isChecked)
+                            .apply();
+                }
+            });
+        }
 
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
