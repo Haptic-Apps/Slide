@@ -28,6 +28,7 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -174,17 +175,29 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 case DEVIANTART:
                 case EMBEDDED:
                 case XKCD:
+                case VREDDIT_DIRECT:
+                case VREDDIT_REDIRECT:
                 case LINK:
                 case VID_ME:
                 case STREAMABLE:
-                case VIDEO:
-                {
+                case VIDEO: {
                     f = new MediaFragment();
                     Bundle args = new Bundle();
                     Submission submission = subredditPosts.getPosts().get(i);
                     String previewUrl = "";
-                    if (t != ContentType.Type.XKCD && submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                        previewUrl = StringEscapeUtils.escapeHtml4(submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText());
+                    if (t != ContentType.Type.XKCD && submission.getDataNode().has("preview") && submission.getDataNode()
+                            .get("preview")
+                            .get("images")
+                            .get(0)
+                            .get("source")
+                            .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                        previewUrl = StringEscapeUtils.escapeHtml4(submission.getDataNode()
+                                .get("preview")
+                                .get("images")
+                                .get(0)
+                                .get("source")
+                                .get("url")
+                                .asText());
                     }
                     args.putString("contentUrl", submission.getUrl());
                     args.putString("firstUrl", previewUrl);
@@ -211,8 +224,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     }
                 }
                 break;
-                case TUMBLR:
-                {
+                case TUMBLR: {
                     f = new TumblrFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
@@ -249,7 +261,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 }
                 break;
             }
-
 
             return f;
 

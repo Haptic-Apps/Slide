@@ -153,6 +153,13 @@ public class MediaFragment extends Fragment {
                 ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
         ContentType.Type type = ContentType.getContentType(s);
 
+        if (type == ContentType.Type.VREDDIT_REDIRECT || type == ContentType.Type.VREDDIT_DIRECT) {
+            if ((!s.getDataNode().has("media") || !s.getDataNode().get("media").has("reddit_video"))
+                    && !s.getDataNode().has("crosspost_parent_list")) {
+                type = ContentType.Type.LINK;
+            }
+        }
+
         img.setAlpha(1f);
 
         if (Strings.isNullOrEmpty(s.getThumbnail())
@@ -168,7 +175,7 @@ public class MediaFragment extends Fragment {
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
                         R.drawable.nsfw);
             } else {
-                if (Strings.isNullOrEmpty(firstUrl) && !Strings.isNullOrEmpty(s.getThumbnail()) ) {
+                if (Strings.isNullOrEmpty(firstUrl) && !Strings.isNullOrEmpty(s.getThumbnail())) {
                     ((Reddit) getContext().getApplicationContext()).getImageLoader()
                             .displayImage(s.getThumbnail(),
                                     ((ImageView) rootView.findViewById(R.id.thumbimage2)));
@@ -309,6 +316,7 @@ public class MediaFragment extends Fragment {
             case VID_ME:
             case STREAMABLE:
             case VREDDIT_REDIRECT:
+            case VREDDIT_DIRECT:
             case GIF:
                 doLoadGif(s);
                 break;
@@ -459,7 +467,28 @@ public class MediaFragment extends Fragment {
         GifUtils.AsyncLoadGif.VideoType t = GifUtils.AsyncLoadGif.getVideoType(s.getUrl());
 
         String toLoadURL;
-        if (t.shouldLoadPreview() && s.getDataNode().has("preview") && s.getDataNode()
+        if (t == GifUtils.AsyncLoadGif.VideoType.VREDDIT) {
+            if (s.getDataNode().has("media") && s.getDataNode().get("media").has("reddit_video")) {
+                toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
+                        .get("media")
+                        .get("reddit_video")
+                        .get("fallback_url")
+                        .asText()).replace("&amp;", "&");
+            } else if (s.getDataNode().has("crosspost_parent_list")) {
+                toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
+                        .get("crosspost_parent_list")
+                        .get(0)
+                        .get("media")
+                        .get("reddit_video")
+                        .get("fallback_url")
+                        .asText()).replace("&amp;", "&");
+            } else {
+                //We shouldn't get here, will be caught in initializer
+                return;
+
+            }
+
+        } else if (t.shouldLoadPreview() && s.getDataNode().has("preview") && s.getDataNode()
                 .get("preview")
                 .get("images")
                 .get(0)
