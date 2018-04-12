@@ -308,6 +308,7 @@ public class MediaFragment extends Fragment {
                 break;
             case VID_ME:
             case STREAMABLE:
+            case VREDDIT_REDIRECT:
             case GIF:
                 doLoadGif(s);
                 break;
