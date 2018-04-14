@@ -28,6 +28,7 @@ import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
+import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -69,7 +70,7 @@ public class Inbox extends BaseActivityAnim {
             case (R.id.notifs):
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
-                SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
+                SettingsGeneralFragment.setupNotificationSettings(dialoglayout, Inbox.this);
                 break;
             case (R.id.compose):
                 Intent i = new Intent(Inbox.this, SendMessage.class);

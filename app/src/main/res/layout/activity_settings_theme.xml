@@ -14,321 +14,37 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/settings_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/card"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                cardview:cardBackgroundColor="?attr/card_background"
-                cardview:cardCornerRadius="2dp">
-            </android.support.v7.widget.CardView>
-
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="-24dp"
-                app:srcCompat="@drawable/more" />
+                android:orientation="vertical">
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body2"
-                android:id="@+id/appThemeHeader"
-                android:text="@string/app_theme"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="16dp"
-                android:layout_width="match_parent"
-                android:textColor="?attr/colorAccent"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:id="@+id/main"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/color" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_default_color"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/accent"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/accent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_accent_color"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/theme"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/theme" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_base"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/night"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/nighttheme" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_night"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body2"
-                android:id="@+id/tintingHeader"
-                android:text="@string/tinting"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="16dp"
-                android:layout_width="match_parent"
-                android:textColor="?attr/colorAccent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:id="@+id/dotint"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
-
-                <LinearLayout
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/card"
                     android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    cardview:cardBackgroundColor="?attr/card_background"
+                    cardview:cardCornerRadius="2dp"></android.support.v7.widget.CardView>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="-24dp"
+                    app:srcCompat="@drawable/more" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_theme_tinting"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="14sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tint_current"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tintColor" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
-
-                <LinearLayout
-                    android:layout_marginEnd="64dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/card_tint_outside"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:text="@string/settings_theme_tint_outside_desc"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/tint_everywhere"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="16dp"
-                    android:backgroundTint="?attr/tintColor"
-                    android:button="@null"
-                    android:buttonTint="?attr/tintColor"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/fontColor"
-                    android:textColorHint="?attr/fontColor" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tintColor" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
-
-                <LinearLayout
-                    android:layout_marginEnd="64dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_colored_navigation_bar"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/color_navigation_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="16dp"
-                    android:backgroundTint="?attr/tintColor"
-                    android:button="@null"
-                    android:buttonTint="?attr/tintColor"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/fontColor"
-                    android:textColorHint="?attr/fontColor" />
-            </RelativeLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:alpha=".25"
-                    android:background="?attr/tintColor" />
-
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="16dp">
-
-                <LinearLayout
-                        android:layout_marginEnd="64dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_colored_icon"
-                            android:textColor="?attr/fontColor"
-                            android:textSize="14sp" />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha=".86"
-                            android:text="@string/settings_colored_icon_desc"
-                            android:textColor="?attr/fontColor"
-                            android:textSize="13sp" />
-                </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/color_icon"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingEnd="16dp"
-                        android:backgroundTint="?attr/tintColor"
-                        android:button="@null"
-                        android:buttonTint="?attr/tintColor"
-                        android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/fontColor"
-                        android:textColorHint="?attr/fontColor" />
-            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/settings_datasaving_child"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/settings_datasaving_dataSavingModeHeader"
+            android:text="@string/settings_section_data_saving_mode"
+            android:tag="label"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:textColor="?attr/colorAccent"
+            android:layout_height="wrap_content" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <RelativeLayout
+                android:id="@+id/settings_datasaving_datasavetype"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+            <LinearLayout
+                    android:layout_marginEnd="64dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_data_enable"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="14sp" />
+
+                <TextView
+                        android:id="@+id/settings_datasaving_lowquality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:id="@+id/settings_datasaving_imageQualityHeader"
+                android:text="@string/settings_section_image_quality"
+                android:tag="label"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:layout_width="match_parent"
+                android:textColor="?attr/colorAccent"
+                android:layout_height="wrap_content" />
+
+        <RelativeLayout
+                android:id="@+id/settings_datasaving_datasavequality"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+            <LinearLayout
+                    android:layout_marginEnd="64dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Image quality when Data Saving enabled"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="14sp" />
+
+                <TextView
+                        android:id="@+id/settings_datasaving_currentmode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
