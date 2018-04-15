@@ -399,36 +399,72 @@ public class SettingsGeneral extends BaseActivityAnim
             }
         });
 
-
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.drawerOnBack);
-
-            single.setChecked(SettingValues.drawerOnBack);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.drawerOnBack = isChecked;
-                    SettingValues.prefs.edit()
-                            .putBoolean(SettingValues.PREF_DRAWERONBACK, isChecked)
-                            .apply();
-                }
-            });
+        final TextView currentBackButtonTitle =
+                (TextView) findViewById(R.id.back_button_behavior_current);
+        if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
+            currentBackButtonTitle.setText(getString(R.string.back_button_behavior_confirm_exit));
+        } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
+            currentBackButtonTitle.setText(getString(R.string.back_button_behavior_drawer));
+        } else {
+            currentBackButtonTitle.setText(getString(R.string.back_button_behavior_default));
         }
 
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
+        findViewById(R.id.back_button_behavior).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
+                popup.getMenuInflater()
+                        .inflate(R.menu.back_button_behavior_settings, popup.getMenu());
 
-            single.setChecked(SettingValues.exit);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.exit = isChecked;
-                    SettingValues.prefs.edit()
-                            .putBoolean(SettingValues.PREF_EXIT, isChecked)
-                            .apply();
-                }
-            });
-        }
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.back_button_behavior_default:
+                                SettingValues.backButtonBehavior =
+                                        Constants.BackButtonBehaviorOptions.Default.getValue();
+                                SettingValues.prefs.edit()
+                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                Constants.BackButtonBehaviorOptions.Default.getValue())
+                                        .apply();
+                                break;
+                            case R.id.back_button_behavior_confirm_exit:
+                                SettingValues.backButtonBehavior =
+                                        Constants.BackButtonBehaviorOptions.ConfirmExit.getValue();
+                                SettingValues.prefs.edit()
+                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                Constants.BackButtonBehaviorOptions.ConfirmExit.getValue())
+                                        .apply();
+                                break;
+                            case R.id.back_button_behavior_open_drawer:
+                                SettingValues.backButtonBehavior =
+                                        Constants.BackButtonBehaviorOptions.OpenDrawer.getValue();
+                                SettingValues.prefs.edit()
+                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                Constants.BackButtonBehaviorOptions.OpenDrawer.getValue())
+                                        .apply();
+                                break;
+                        }
+
+                        if (SettingValues.backButtonBehavior
+                                == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
+                            currentBackButtonTitle.setText(
+                                    getString(R.string.back_button_behavior_confirm_exit));
+                        } else if (SettingValues.backButtonBehavior
+                                == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
+                            currentBackButtonTitle.setText(
+                                    getString(R.string.back_button_behavior_drawer));
+                        } else {
+                            currentBackButtonTitle.setText(
+                                    getString(R.string.back_button_behavior_default));
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
 
         if (Reddit.notificationTime > 0) {
             ((TextView) findViewById(R.id.notifications_current)).setText(
