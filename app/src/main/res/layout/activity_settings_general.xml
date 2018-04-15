@@ -651,87 +651,36 @@
                     android:background="?attr/tintColor"/>
 
             <RelativeLayout
+                    android:id="@+id/back_button_behavior"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingLeft="16dp">
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="64dp"
-                        android:orientation="vertical"
-                        android:layout_marginRight="64dp">
+                        android:orientation="vertical">
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/settings_drawer_on_back"
+                            android:text="@string/back_button_behavior_title"
                             android:textColor="?attr/fontColor"
                             android:textSize="14sp"/>
-                </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/drawerOnBack"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:backgroundTint="?attr/tintColor"
-                        android:button="@null"
-                        android:buttonTint="?attr/tintColor"
-                        android:hapticFeedbackEnabled="true"
-                        android:paddingEnd="16dp"
-                        android:textColor="?attr/fontColor"
-                        android:textColorHint="?attr/fontColor"
-                        android:paddingRight="16dp"/>
-            </RelativeLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:alpha=".25"
-                    android:background="?attr/tintColor"/>
-
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingLeft="16dp">
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="64dp"
-                        android:orientation="vertical"
-                        android:layout_marginRight="64dp">
 
                     <TextView
+                            android:id="@+id/back_button_behavior_current"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/settings_confirm_exit"
+                            android:alpha=".86"
                             android:textColor="?attr/fontColor"
-                            android:textSize="14sp"/>
+                            android:textSize="13sp"/>
                 </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/exitcheck"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:backgroundTint="?attr/tintColor"
-                        android:button="@null"
-                        android:buttonTint="?attr/tintColor"
-                        android:hapticFeedbackEnabled="true"
-                        android:paddingEnd="16dp"
-                        android:textColor="?attr/fontColor"
-                        android:textColorHint="?attr/fontColor"
-                        android:paddingRight="16dp"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
