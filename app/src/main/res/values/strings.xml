@@ -1,5 +1,6 @@
 <resources>
     <!-- Generic text used anywhere -->
+    <string name="general_confirm">Confirm</string>
     <string name="general_confirm_exit">Confirm exit</string>
     <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
     <string name="general_enable_shadowbox">Shadowbox mode</string>
@@ -434,6 +435,8 @@
     <string name="backup_btn_restore">Restore</string>
     <string name="backup_btn_file">Backup to file</string>
     <string name="backup_btn_restore_file">Restore from file</string>
+    <string name="backup_confirm">Are you sure you want to backup? Your previous backup will over overwritten</string>
+    <string name="backup_restore_confirm">Are you sure you want to restore? Your current settings will over overwritten</string>
 
 
     <!-- Vote -->
