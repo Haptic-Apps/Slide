@@ -389,22 +389,39 @@ public class SettingsBackup extends BaseActivityAnim
                 @Override
                 public void onClick(View v) {
                     if (mGoogleApiClient.isConnected()) {
-                        File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
+                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                                R.string.general_confirm)
+                                .setMessage(R.string.backup_confirm)
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    @Override
+                                    public void onCancel(DialogInterface dialog) {
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_ok,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                    int whichButton) {
+                                                File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
 
-                        if (prefsdir.exists() && prefsdir.isDirectory()) {
+                                                if (prefsdir.exists() && prefsdir.isDirectory()) {
 
-                            String[] list = prefsdir.list();
-                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(
-                                    R.string.backup_backing_up)
-                                    .progress(false, list.length)
-                                    .cancelable(false)
-                                    .build();
-                            progress.show();
-                            appFolder.listChildren(mGoogleApiClient)
-                                    .setResultCallback(newCallback2);
+                                                    String[] list = prefsdir.list();
+                                                    progress = new MaterialDialog.Builder(
+                                                            SettingsBackup.this).title(
+                                                            R.string.backup_backing_up)
+                                                            .progress(false, list.length)
+                                                            .cancelable(false)
+                                                            .build();
+                                                    progress.show();
+                                                    appFolder.listChildren(mGoogleApiClient)
+                                                            .setResultCallback(newCallback2);
 
-                        }
-
+                                                }
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_no, null)
+                                .setCancelable(false)
+                                .show();
                     } else {
                         new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
                                 R.string.settings_google)
@@ -432,14 +449,31 @@ public class SettingsBackup extends BaseActivityAnim
                 @Override
                 public void onClick(View v) {
                     if (mGoogleApiClient.isConnected()) {
-                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(
-                                R.string.backup_restoring)
-                                .content(R.string.misc_please_wait)
-                                .cancelable(false)
-                                .progress(true, 1)
-                                .build();
-                        progress.show();
-                        appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
+                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                                R.string.general_confirm)
+                                .setMessage(R.string.backup_restore_confirm)
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    @Override
+                                    public void onCancel(DialogInterface dialog) {
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_ok,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                    int whichButton) {
+                                                progress = new MaterialDialog.Builder(SettingsBackup.this).title(
+                                                        R.string.backup_restoring)
+                                                        .content(R.string.misc_please_wait)
+                                                        .cancelable(false)
+                                                        .progress(true, 1)
+                                                        .build();
+                                                progress.show();
+                                                appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_no, null)
+                                .setCancelable(false)
+                                .show();
                     } else {
                         new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
                                 R.string.settings_google)
