@@ -82,7 +82,7 @@ dependencies {
     )
 
     implementation (
-            'com.github.ccrama:JRAW:386e2bcc2c',
+            'com.github.ccrama:JRAW:b30799fdc8',
             "com.google.guava:guava:23.0-android",
             //Updating material-dialogs to any newer version will break all AlertDialogWrapper
             'com.afollestad.material-dialogs:commons:0.8.6.2',
