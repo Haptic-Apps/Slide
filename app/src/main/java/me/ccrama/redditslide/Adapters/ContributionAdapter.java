@@ -276,7 +276,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                                 switch (which) {
                                                     case R.id.reddit_url:
                                                         if(SettingValues.shareLongLink){
-                                                            Reddit.defaultShareText(submission.getTitle(), "htts://reddit.com" + submission.getPermalink(), mContext);
+                                                            Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
                                                         } else {
                                                             Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
                                                         }
