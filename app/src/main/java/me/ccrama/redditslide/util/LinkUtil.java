@@ -34,7 +34,6 @@ import me.ccrama.redditslide.Activities.Crosspost;
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.ReaderMode;
 import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -100,7 +99,7 @@ public class LinkUtil {
                     formatURL(StringEscapeUtils.unescapeHtml4(url)));
         } catch (ActivityNotFoundException anfe) {
             Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-            openExternally(url, contextActivity);
+            openExternally(url);
         }
     }
 
@@ -108,7 +107,7 @@ public class LinkUtil {
             int adapterPosition, Submission submission) {
         if (!SettingValues.web) {
             // External browser
-            openExternally(url, contextActivity);
+            openExternally(url);
             return;
         }
 
@@ -187,7 +186,7 @@ public class LinkUtil {
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
         if (!SettingValues.web) {
             // External browser
-            openExternally(url, contextActivity);
+            openExternally(url);
             return;
         }
 
@@ -227,31 +226,17 @@ public class LinkUtil {
      * Opens the {@code uri} externally or shows an application chooser if it is set to open in this
      * application
      *
-     * @param uri     URI to open
-     * @param context Current context
+     * @param url     URL to open
      */
-    public static void openExternally(String url, Context context) {
+    public static void openExternally(String url) {
         url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
         Uri uri = formatURL(url);
 
-        final String id = BuildConfig.APPLICATION_ID;
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        final PackageManager packageManager = context.getPackageManager();
-        String resolvedName;
-        try {
-            resolvedName = intent.resolveActivity(packageManager).getPackageName();
-        } catch (Exception e) {
-            resolvedName = context.getPackageName();
-        }
-        if (resolvedName == null) return;
-
-        if (resolvedName.matches(id)) {
-            context.startActivity(
-                    Intent.createChooser(intent, context.getString(R.string.misc_link_chooser)));
-            return;
-        }
-
-        context.startActivity(intent);
+        intent.setPackage(getPackage(intent));
+        Reddit.getAppContext()
+                .startActivity(Intent.createChooser(intent,
+                        Reddit.getAppContext().getString(R.string.misc_link_chooser)));
     }
 
     public static CustomTabsSession getSession() {

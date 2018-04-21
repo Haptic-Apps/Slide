@@ -146,11 +146,10 @@ public class MediaFragment extends Fragment {
 
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
-        ImageView typeImage = (ImageView) rootView.findViewById(R.id.type);
+        ImageView typeImage = rootView.findViewById(R.id.type);
         typeImage.setVisibility(View.VISIBLE);
         SubsamplingScaleImageView img = rootView.findViewById(R.id.submission_image);
-        final SlidingUpPanelLayout slideLayout =
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
+        final SlidingUpPanelLayout slideLayout = rootView.findViewById(R.id.sliding_layout);
         ContentType.Type type = ContentType.getContentType(s);
 
         if (type == ContentType.Type.VREDDIT_REDIRECT || type == ContentType.Type.VREDDIT_DIRECT) {
@@ -348,13 +347,13 @@ public class MediaFragment extends Fragment {
                                 contextActivity.startActivity(myIntent);
 
                             } else {
-                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl());
                             }
 
                         case EMBEDDED:
 
                             if (SettingValues.video) {
-                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl());
                                 String data = submission.getDataNode()
                                         .get("media_embed")
                                         .get("content")
@@ -365,7 +364,7 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(i);
                                 }
                             } else {
-                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl());
                             }
                             break;
                         case REDDIT:
@@ -398,7 +397,7 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(i);
                                 }
                             } else {
-                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl());
                             }
                             break;
                         case TUMBLR:
@@ -416,7 +415,7 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(i);
                                 }
                             } else {
-                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl());
                             }
                             break;
                         case DEVIANTART:
@@ -441,10 +440,10 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(sharingIntent);
 
                                 } catch (Exception e) {
-                                    LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                    LinkUtil.openExternally(submission.getUrl());
                                 }
                             } else {
-                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl());
                             }
                     }
                 }
@@ -454,11 +453,11 @@ public class MediaFragment extends Fragment {
 
     public void doLoadGif(final Submission s) {
         isGif = true;
-        videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
+        videoView = rootView.findViewById(R.id.gif);
         videoView.clearFocus();
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
-        final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
+        final ProgressBar loader = rootView.findViewById(R.id.gifprogress);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
                 rootView.findViewById(R.id.placeholder), false, false,
@@ -527,11 +526,11 @@ public class MediaFragment extends Fragment {
 
     public void doLoadGifDirect(final String s) {
         isGif = true;
-        videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
+        videoView = rootView.findViewById(R.id.gif);
         videoView.clearFocus();
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
-        final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
+        final ProgressBar loader = rootView.findViewById(R.id.gifprogress);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
                 rootView.findViewById(R.id.placeholder), false, false,
@@ -802,12 +801,11 @@ public class MediaFragment extends Fragment {
 
         if (!imageShown) {
             actuallyLoaded = url;
-            final SubsamplingScaleImageView i =
-                    (SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image);
+            final SubsamplingScaleImageView i = rootView.findViewById(R.id.submission_image);
 
             i.setMinimumDpi(70);
             i.setMinimumTileDpi(240);
-            final ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
+            final ProgressBar bar = rootView.findViewById(R.id.progress);
             bar.setIndeterminate(false);
             LogUtil.v("Displaying image " + url);
             bar.setProgress(0);

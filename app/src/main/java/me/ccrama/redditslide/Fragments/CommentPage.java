@@ -309,17 +309,17 @@ public class CommentPage extends Fragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
-        rv = (RecyclerView) v.findViewById(R.id.vertical_content);
+        rv = v.findViewById(R.id.vertical_content);
         rv.setLayoutManager(mLayoutManager);
         rv.getLayoutManager().scrollToPosition(0);
 
-        toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        toolbar = v.findViewById(R.id.toolbar);
         toolbar.setPopupTheme(new ColorPreferences(getActivity()).getFontStyle().getBaseId());
 
         if (!SettingValues.fabComments) {
             v.findViewById(R.id.comment_floating_action_button).setVisibility(View.GONE);
         } else {
-            fab = (FloatingActionButton) v.findViewById(R.id.comment_floating_action_button);
+            fab = v.findViewById(R.id.comment_floating_action_button);
             if (SettingValues.fastscroll) {
                 FrameLayout.LayoutParams fabs = (FrameLayout.LayoutParams) fab.getLayoutParams();
                 fabs.setMargins(fabs.leftMargin, fabs.topMargin, fabs.rightMargin,
@@ -335,7 +335,7 @@ public class CommentPage extends Fragment {
                     final AlertDialogWrapper.Builder builder =
                             new AlertDialogWrapper.Builder(getActivity());
 
-                    final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+                    final EditText e = dialoglayout.findViewById(R.id.entry);
 
                     //Tint the replyLine appropriately if the base theme is Light or Sepia
                     if (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5) {
@@ -477,12 +477,10 @@ public class CommentPage extends Fragment {
                                                         new AlertDialogWrapper.Builder(
                                                                 getActivity());
                                                 final Slider landscape =
-                                                        (Slider) dialoglayout.findViewById(
-                                                                R.id.landscape);
+                                                        dialoglayout.findViewById(R.id.landscape);
 
                                                 final TextView since =
-                                                        (TextView) dialoglayout.findViewById(
-                                                                R.id.time_string);
+                                                        dialoglayout.findViewById(R.id.time_string);
                                                 landscape.setValueRange(60, 18000, false);
                                                 landscape.setOnPositionChangeListener(
                                                         new Slider.OnPositionChangeListener() {
@@ -617,8 +615,7 @@ public class CommentPage extends Fragment {
 
         toolbar.setBackgroundColor(Palette.getColor(subreddit));
 
-        mSwipeRefreshLayout =
-                (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -784,8 +781,7 @@ public class CommentPage extends Fragment {
                                             getActivity().startActivity(myIntent);
 
                                         } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl(),
-                                                    getActivity());
+                                            LinkUtil.openExternally(adapter.submission.getUrl());
                                         }
                                         break;
                                     case IMGUR:
@@ -827,8 +823,7 @@ public class CommentPage extends Fragment {
                                                 getActivity().startActivity(i);
                                             }
                                         } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl(),
-                                                    getActivity());
+                                            LinkUtil.openExternally(adapter.submission.getUrl());
                                         }
                                         break;
                                     case REDDIT:
@@ -848,7 +843,7 @@ public class CommentPage extends Fragment {
                                                     Snackbar.make(rv, R.string.submission_nocontent,
                                                             Snackbar.LENGTH_SHORT);
                                             View view = s.getView();
-                                            TextView tv = (TextView) view.findViewById(
+                                            TextView tv = view.findViewById(
                                                     android.support.design.R.id.snackbar_text);
                                             tv.setTextColor(Color.WHITE);
                                             s.show();
@@ -894,8 +889,7 @@ public class CommentPage extends Fragment {
                                                         R.anim.slideright, R.anim.fade_out);
                                             }
                                         } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl(),
-                                                    getActivity());
+                                            LinkUtil.openExternally(adapter.submission.getUrl());
 
                                         }
                                         break;
@@ -920,8 +914,7 @@ public class CommentPage extends Fragment {
                                                         R.anim.slideright, R.anim.fade_out);
                                             }
                                         } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl(),
-                                                    getActivity());
+                                            LinkUtil.openExternally(adapter.submission.getUrl());
 
                                         }
                                         break;
@@ -948,17 +941,16 @@ public class CommentPage extends Fragment {
                                                 getActivity().startActivity(sharingIntent);
 
                                             } catch (Exception e) {
-                                                LinkUtil.openExternally(adapter.submission.getUrl(),
-                                                        getActivity());
+                                                LinkUtil.openExternally(
+                                                        adapter.submission.getUrl());
                                             }
                                         } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl(),
-                                                    getActivity());
+                                            LinkUtil.openExternally(adapter.submission.getUrl());
                                         }
 
                                 }
                             } else {
-                                LinkUtil.openExternally(adapter.submission.getUrl(), getActivity());
+                                LinkUtil.openExternally(adapter.submission.getUrl());
                             }
                         }
                     }
@@ -1227,9 +1219,8 @@ public class CommentPage extends Fragment {
                             final String text =
                                     baseSub.getDataNode().get("description_html").asText();
                             final SpoilerRobotoTextView body =
-                                    (SpoilerRobotoTextView) sidebar.findViewById(R.id.sidebar_text);
-                            CommentOverflow overflow =
-                                    (CommentOverflow) sidebar.findViewById(R.id.commentOverflow);
+                                    sidebar.findViewById(R.id.sidebar_text);
+                            CommentOverflow overflow = sidebar.findViewById(R.id.commentOverflow);
                             setViews(text, baseSub.getDisplayName(), body, overflow);
                         } else {
                             sidebar.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -1363,8 +1354,7 @@ public class CommentPage extends Fragment {
                         }
 
                         {
-                            final TextView subscribe =
-                                    (TextView) sidebar.findViewById(R.id.subscribe);
+                            final TextView subscribe = sidebar.findViewById(R.id.subscribe);
 
                             currentlySubbed = (!Authentication.isLoggedIn
                                     && UserSubscriptions.getSubscriptions(getActivity())
@@ -1418,7 +1408,7 @@ public class CommentPage extends Fragment {
                                                                                                             s.getView();
                                                                                                     TextView
                                                                                                             tv =
-                                                                                                            (TextView) view
+                                                                                                            view
                                                                                                                     .findViewById(
                                                                                                                             android.support.design.R.id.snackbar_text);
                                                                                                     tv.setTextColor(
@@ -1476,9 +1466,8 @@ public class CommentPage extends Fragment {
                                                                         R.string.sub_added,
                                                                         Snackbar.LENGTH_SHORT);
                                                                 View view = s.getView();
-                                                                TextView tv =
-                                                                        (TextView) view.findViewById(
-                                                                                android.support.design.R.id.snackbar_text);
+                                                                TextView tv = view.findViewById(
+                                                                        android.support.design.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
                                                                 s.show();
                                                             }
@@ -1545,7 +1534,7 @@ public class CommentPage extends Fragment {
                                                                                                             s.getView();
                                                                                                     TextView
                                                                                                             tv =
-                                                                                                            (TextView) view
+                                                                                                            view
                                                                                                                     .findViewById(
                                                                                                                             android.support.design.R.id.snackbar_text);
                                                                                                     tv.setTextColor(
@@ -1602,9 +1591,8 @@ public class CommentPage extends Fragment {
                                                                         R.string.misc_unsubscribed,
                                                                         Snackbar.LENGTH_SHORT);
                                                                 View view = s.getView();
-                                                                TextView tv =
-                                                                        (TextView) view.findViewById(
-                                                                                android.support.design.R.id.snackbar_text);
+                                                                TextView tv = view.findViewById(
+                                                                        android.support.design.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
                                                                 s.show();
                                                             }
@@ -2257,7 +2245,7 @@ public class CommentPage extends Fragment {
         Snackbar s = Snackbar.make(toolbar, isChecked ? getString(R.string.misc_subscribed)
                 : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
         View view = s.getView();
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);
         s.show();
     }
