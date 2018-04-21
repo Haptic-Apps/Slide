@@ -146,9 +146,7 @@ public class Website extends BaseActivityAnim {
                         });
                 return true;
             case R.id.chrome:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
-                browserIntent.setPackage(LinkUtil.getPackage(browserIntent));
-                startActivity(Intent.createChooser(browserIntent, getDomainName(v.getUrl())));
+                LinkUtil.openExternally(v.getUrl());
                 return true;
             case R.id.share:
                 Reddit.defaultShareText(v.getTitle(), v.getUrl(), Website.this);

@@ -49,17 +49,13 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.ForceTouch.PeekView;
@@ -420,7 +416,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         intent2.putExtra(MediaView.SUBREDDIT, subreddit);
                         activity.startActivity(intent2);
                     } else {
-                        LinkUtil.openExternally(url, activity);
+                        LinkUtil.openExternally(url);
                     }
                     break;
                 case REDDIT:
@@ -450,7 +446,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             activity.startActivity(i);
                         }
                     } else {
-                        LinkUtil.openExternally(url, activity);
+                        LinkUtil.openExternally(url);
                     }
                     break;
                 case TUMBLR:
@@ -465,7 +461,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             activity.startActivity(i);
                         }
                     } else {
-                        LinkUtil.openExternally(url, activity);
+                        LinkUtil.openExternally(url);
                     }
                     break;
                 case IMAGE:
@@ -490,21 +486,21 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             activity.startActivity(sharingIntent);
 
                         } catch (Exception e) {
-                            LinkUtil.openExternally(url, activity);
+                            LinkUtil.openExternally(url);
                         }
                     } else {
-                        LinkUtil.openExternally(url, activity);
+                        LinkUtil.openExternally(url);
                     }
                 case SPOILER:
                     spoilerClicked = true;
                     setOrRemoveSpoilerSpans(xOffset, span);
                     break;
                 case EXTERNAL:
-                    LinkUtil.openExternally(url, activity);
+                    LinkUtil.openExternally(url);
                     break;
             }
         } else {
-            LinkUtil.openExternally(url, context);
+            LinkUtil.openExternally(url);
         }
     }
 
@@ -546,7 +542,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     @Override
                     public void onInflated(final PeekView peekView, final View rootView) {
                         //do stuff
-                        TextView text = ((TextView) rootView.findViewById(R.id.title));
+                        TextView text = rootView.findViewById(R.id.title);
                         text.setText(url);
                         text.setTextColor(Color.WHITE);
                         ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
@@ -588,7 +584,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         peekView.addButton((R.id.external), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                LinkUtil.openExternally(url, context);
+                                LinkUtil.openExternally(url);
                             }
                         });
                         peekView.setOnPop(new OnPop() {
@@ -627,7 +623,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case R.id.open_link:
-                                LinkUtil.openExternally(url, context);
+                                LinkUtil.openExternally(url);
                                 break;
                             case R.id.share_link:
                                 Reddit.defaultShareText("", url, finalActivity);
@@ -659,7 +655,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 getContext().startActivity(myIntent);
             }
         } else {
-            LinkUtil.openExternally(url, getContext());
+            LinkUtil.openExternally(url);
         }
     }
 
@@ -672,7 +668,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             getContext().startActivity(myIntent);
 
         } else {
-            LinkUtil.openExternally(url, getContext());
+            LinkUtil.openExternally(url);
         }
     }
 
@@ -683,7 +679,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
             getContext().startActivity(myIntent);
         } else {
-            LinkUtil.openExternally(submission, getContext());
+            LinkUtil.openExternally(submission);
         }
 
     }

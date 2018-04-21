@@ -118,7 +118,7 @@ public class TumblrPager extends FullScreenActivity
             mToolbar.findViewById(R.id.grid).callOnClick();
         }
         if (id == R.id.external) {
-            LinkUtil.openExternally(getIntent().getExtras().getString("url", ""), this);
+            LinkUtil.openExternally(getIntent().getExtras().getString("url", ""));
         }
 
         if (id == R.id.comments) {
@@ -221,7 +221,7 @@ public class TumblrPager extends FullScreenActivity
                     LayoutInflater l = getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(TumblrPager.this);
-                    GridView gridview = (GridView) body.findViewById(R.id.images);
+                    GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapterTumblr(TumblrPager.this, images));
 
 
@@ -365,7 +365,7 @@ public class TumblrPager extends FullScreenActivity
                 Bundle savedInstanceState) {
             rootView = (ViewGroup) inflater.inflate(R.layout.submission_gifcard_album, container,
                     false);
-            loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
+            loader = rootView.findViewById(R.id.gifprogress);
 
 
             gif = rootView.findViewById(R.id.gif);
@@ -438,7 +438,7 @@ public class TumblrPager extends FullScreenActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        LinkUtil.openExternally(contentUrl, TumblrPager.this);
+                        LinkUtil.openExternally(contentUrl);
                     }
                     break;
                     case (3): {
@@ -566,8 +566,7 @@ public class TumblrPager extends FullScreenActivity
                     }
                     ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTypeface(typeface);
                 }
-                final SlidingUpPanelLayout l =
-                        (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
+                final SlidingUpPanelLayout l = rootView.findViewById(R.id.sliding_layout);
                 rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -640,12 +639,11 @@ public class TumblrPager extends FullScreenActivity
     }
 
     private static void loadImage(final View rootView, Fragment f, String url) {
-        final SubsamplingScaleImageView image =
-                (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
+        final SubsamplingScaleImageView image = rootView.findViewById(R.id.image);
         image.setMinimumDpi(70);
         image.setMinimumTileDpi(240);
         ImageView fakeImage = new ImageView(f.getActivity());
-        final TextView size = (TextView) rootView.findViewById(R.id.size);
+        final TextView size = rootView.findViewById(R.id.size);
         fakeImage.setLayoutParams(
                 new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
