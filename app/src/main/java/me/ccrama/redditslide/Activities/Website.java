@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -33,7 +34,6 @@ import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.NestedWebView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.LogUtil;
@@ -147,6 +147,10 @@ public class Website extends BaseActivityAnim {
                 return true;
             case R.id.chrome:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
+                // Gets the default app from a URL that is most likely never link handled by another app, hopefully guaranteeing a browser
+                browserIntent.setPackage(getPackageManager().resolveActivity(
+                        new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.blank.org")),
+                        PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName);
                 startActivity(Intent.createChooser(browserIntent, getDomainName(v.getUrl())));
                 return true;
             case R.id.share:
