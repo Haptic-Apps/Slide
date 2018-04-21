@@ -36,6 +36,7 @@ import me.ccrama.redditslide.Activities.ReaderMode;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 
@@ -279,5 +280,21 @@ public class LinkUtil {
     public static void crosspost(Submission submission, Activity mContext) {
         Crosspost.toCrosspost = submission;
         mContext.startActivity(new Intent(mContext, Crosspost.class));
+    }
+
+    public static String getPackage(Intent intent) {
+        String packageName = Reddit.getAppContext()
+                .getPackageManager()
+                .resolveActivity(intent,
+                        PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
+        if (packageName.equals(Reddit.getAppContext().getPackageName())) {
+            // Gets the default app from a URL that is most likely never link handled by another app, hopefully guaranteeing a browser
+            return Reddit.getAppContext()
+                    .getPackageManager()
+                    .resolveActivity(
+                            new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.blank.org")),
+                            PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
+        }
+        return packageName;
     }
 }
