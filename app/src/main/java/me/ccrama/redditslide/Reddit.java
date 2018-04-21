@@ -79,6 +79,8 @@ import okhttp3.OkHttpClient;
  * Created by ccrama on 9/17/2015.
  */
 public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
+    private static Application mApplication;
+
     public static final String EMPTY_STRING = "NOTHING";
 
     public static final long   enter_animation_time_original = 600;
@@ -642,6 +644,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onCreate() {
         super.onCreate();
+        mApplication = this;
         //  LeakCanary.install(this);
         if (ProcessPhoenix.isPhoenixProcess(this)) {
             return;
@@ -990,5 +993,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 return Dns.SYSTEM.lookup(hostname);
             }
         }
+    }
+
+    public static Context getAppContext() {
+        return mApplication.getApplicationContext();
     }
 }
