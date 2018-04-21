@@ -287,7 +287,7 @@ public class SettingValues {
         }
 
         backButtonBehavior = prefs.getInt(PREF_BACK_BUTTON_BEHAVIOR,
-                Constants.BackButtonBehaviorOptions.Default.getValue());
+                Constants.BackButtonBehaviorOptions.ConfirmExit.getValue());
 
         highlightTime = prefs.getBoolean(PREF_HIGHLIGHT_TIME, true);
 
