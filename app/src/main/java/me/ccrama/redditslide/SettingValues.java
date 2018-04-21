@@ -70,20 +70,21 @@ public class SettingValues {
     public static final String PREF_LOW_RES_ALWAYS            = "lowResAlways";
     public static final String PREF_LOW_RES_MOBILE            = "lowRes";
     public static final String PREF_IMAGE_LQ                  = "imageLq";
-    public static final String PREF_COLOR_SUB_NAME            = "colorSubName";
-    public static final String PREF_OVERRIDE_LANGUAGE         = "overrideLanguage";
-    public static final String PREF_IMMERSIVE_MODE            = "immersiveMode";
-    public static final String PREF_SHOW_DOMAIN               = "showDomain";
-    public static final String PREF_CARD_TEXT                 = "cardText";
-    public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
-    public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
-    public static final String PREF_READER                    = "readerDefault";
-    public static final String PREF_LQ_LOW                    = "lqLow";
-    public static final String PREF_LQ_MID                    = "lqMid";
-    public static final String PREF_LQ_HIGH                   = "lqHigh";
-    public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
-    public static final String PREF_COOKIES                   = "storeCookies";
-    public static final String PREF_NIGHT_START               = "nightStart";
+    public static final String PREF_COLOR_SUB_NAME          = "colorSubName";
+    public static final String PREF_OVERRIDE_LANGUAGE       = "overrideLanguage";
+    public static final String PREF_IMMERSIVE_MODE          = "immersiveMode";
+    public static final String PREF_SHOW_DOMAIN             = "showDomain";
+    public static final String PREF_CARD_TEXT               = "cardText";
+    public static final String PREF_ZOOM_DEFAULT            = "zoomDefault";
+    public static final String PREF_SUBREDDIT_SEARCH_METHOD = "subredditSearchMethod";
+    public static final String PREF_BACK_BUTTON_BEHAVIOR    = "backButtonBehavior";
+    public static final String PREF_READER                  = "readerDefault";
+    public static final String PREF_LQ_LOW                  = "lqLow";
+    public static final String PREF_LQ_MID                  = "lqMid";
+    public static final String PREF_LQ_HIGH                 = "lqHigh";
+    public static final String PREF_SOUND_NOTIFS            = "soundNotifs";
+    public static final String PREF_COOKIES                 = "storeCookies";
+    public static final String PREF_NIGHT_START             = "nightStart";
     public static final String PREF_NIGHT_END                 = "nightEnd";
     public static final String PREF_SHOW_NSFW_CONTENT         = "showNSFWContent";
     public static final String PREF_HIDE_NSFW_PREVIEW         = "hideNSFWPreviews";
@@ -95,7 +96,6 @@ public class SettingValues {
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
     public static final String PREF_GIF                    = "gif";
-    public static final String PREF_EXIT                   = "Exit";
     public static final String PREF_FASTSCROLL             = "Fastscroll";
     public static final String PREF_FAB_CLEAR              = "fabClear";
     public static final String PREF_HIDEBUTTON             = "Hidebutton";
@@ -148,40 +148,40 @@ public class SettingValues {
     public static boolean                 actionbarTap;
     public static boolean                 commentAutoHide;
     public static boolean                 fullCommentOverride;
-    public static boolean                 lowResAlways;
-    public static boolean                 noImages;
-    public static boolean                 lowResMobile;
-    public static boolean                 blurCheck;
-    public static boolean                 readerNight;
-    public static boolean                 swipeAnywhere;
-    public static boolean                 commentLastVisit;
-    public static boolean                 storeHistory;
-    public static boolean                 showNSFWContent;
-    public static boolean                 storeNSFWHistory;
-    public static boolean                 scrollSeen;
-    public static boolean                 saveButton;
-    public static boolean                 voteGestures;
-    public static boolean                 colorEverywhere;
-    public static boolean                 gif;
-    public static boolean                 colorCommentDepth;
-    public static boolean                 web;
-    public static boolean                 commentVolumeNav;
-    public static boolean                 postNav;
-    public static boolean                 exit;
-    public static boolean                 cropImage;
-    public static boolean                 smallTag;
-    public static boolean                 typeInfoLine;
-    public static boolean                 votesInfoLine;
-    public static boolean                 reader;
-    public static boolean                 collapseComments;
-    public static boolean                 collapseCommentsDefault;
-    public static boolean                 rightHandedCommentMenu;
-    public static boolean                 abbreviateScores;
-    public static boolean                 shareLongLink;
-    public static boolean                 isMuted;
-    public static int                     subredditSearchMethod;
-    public static int                     nightStart;
-    public static int                     nightEnd;
+    public static boolean lowResAlways;
+    public static boolean noImages;
+    public static boolean lowResMobile;
+    public static boolean blurCheck;
+    public static boolean readerNight;
+    public static boolean swipeAnywhere;
+    public static boolean commentLastVisit;
+    public static boolean storeHistory;
+    public static boolean showNSFWContent;
+    public static boolean storeNSFWHistory;
+    public static boolean scrollSeen;
+    public static boolean saveButton;
+    public static boolean voteGestures;
+    public static boolean colorEverywhere;
+    public static boolean gif;
+    public static boolean colorCommentDepth;
+    public static boolean web;
+    public static boolean commentVolumeNav;
+    public static boolean postNav;
+    public static boolean cropImage;
+    public static boolean smallTag;
+    public static boolean typeInfoLine;
+    public static boolean votesInfoLine;
+    public static boolean reader;
+    public static boolean collapseComments;
+    public static boolean collapseCommentsDefault;
+    public static boolean rightHandedCommentMenu;
+    public static boolean abbreviateScores;
+    public static boolean shareLongLink;
+    public static boolean isMuted;
+    public static int     subredditSearchMethod;
+    public static int     backButtonBehavior;
+    public static int     nightStart;
+    public static int     nightEnd;
 
     public static int previews;
 
@@ -286,6 +286,9 @@ public class SettingValues {
             prefs.edit().putInt(PREF_SUBREDDIT_SEARCH_METHOD, 1).apply();
         }
 
+        backButtonBehavior = prefs.getInt(PREF_BACK_BUTTON_BEHAVIOR,
+                Constants.BackButtonBehaviorOptions.ConfirmExit.getValue());
+
         highlightTime = prefs.getBoolean(PREF_HIGHLIGHT_TIME, true);
 
         nightMode = prefs.getBoolean(PREF_NIGHT_MODE, false);
@@ -374,7 +377,6 @@ public class SettingValues {
         commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);
         video = true;
-        exit = prefs.getBoolean(PREF_EXIT, true);
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, true);
         typeInText = prefs.getBoolean(PREF_TYPE_IN_TEXT, false);
 

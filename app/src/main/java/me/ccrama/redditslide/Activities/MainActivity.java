@@ -331,7 +331,11 @@ public class MainActivity extends BaseActivity
                 || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
                 && findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
-        } else if (SettingValues.exit) {
+        } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
+            drawerLayout.openDrawer(Gravity.START);
+        } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
             final AlertDialogWrapper.Builder builder =
                     new AlertDialogWrapper.Builder(MainActivity.this);
             builder.setTitle(R.string.general_confirm_exit);
