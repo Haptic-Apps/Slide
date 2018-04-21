@@ -167,7 +167,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case R.id.open_link:
-                                        LinkUtil.openExternally(submission.getUrl(), main);
+                                        LinkUtil.openExternally(submission.getUrl());
                                         break;
                                     case R.id.share_link:
                                         Reddit.defaultShareText("", submission.getUrl(), main);
@@ -198,7 +198,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                     main.startActivity(myIntent);
                                 } else {
-                                    LinkUtil.openExternally(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl());
                                 }
                                 break;
                             case IMGUR:
@@ -213,7 +213,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    LinkUtil.openExternally(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl());
                                 }
                                 break;
                             case REDDIT:
@@ -236,7 +236,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    LinkUtil.openExternally(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl());
 
                                 }
                                 break;
@@ -254,7 +254,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(i);
                                     }
                                 } else {
-                                    LinkUtil.openExternally(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl());
 
                                 }
                                 break;
@@ -280,15 +280,15 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.startActivity(sharingIntent);
 
                                     } catch (Exception e) {
-                                        LinkUtil.openExternally(submission.getUrl(), main);
+                                        LinkUtil.openExternally(submission.getUrl());
                                     }
                                 } else {
-                                    LinkUtil.openExternally(submission.getUrl(), main);
+                                    LinkUtil.openExternally(submission.getUrl());
                                 }
                                 break;
                         }
                     } else {
-                        LinkUtil.openExternally(submission.getUrl(), main);
+                        LinkUtil.openExternally(submission.getUrl());
                     }
                 }
             });
@@ -315,8 +315,8 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public AlbumViewHolder(View itemView) {
             super(itemView);
             comments = itemView.findViewById(R.id.comments);
-            image = (ImageView) itemView.findViewById(R.id.image);
-            type = (ImageView) itemView.findViewById(R.id.type);
+            image = itemView.findViewById(R.id.image);
+            type = itemView.findViewById(R.id.type);
         }
     }
 

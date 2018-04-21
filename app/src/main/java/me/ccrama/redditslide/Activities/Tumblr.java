@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,7 +102,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
             finish();
         }
         if (id == R.id.external) {
-            LinkUtil.openExternally(url, this);
+            LinkUtil.openExternally(url);
         }
         if (id == R.id.download) {
             for (final Photo elem : images) {
@@ -327,7 +326,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
-            recyclerView = (RecyclerView) rootView.findViewById(R.id.images);
+            recyclerView = rootView.findViewById(R.id.images);
             recyclerView.setLayoutManager(mLayoutManager);
             ((Tumblr) getActivity()).url =
                     getActivity().getIntent().getExtras().getString(EXTRA_URL, "");
@@ -336,7 +335,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
             new LoadIntoRecycler(((Tumblr) getActivity()).url, getActivity()).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR);
-            ((Tumblr) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+            ((Tumblr) getActivity()).mToolbar = rootView.findViewById(R.id.toolbar);
             ((Tumblr) getActivity()).mToolbar.setTitle(R.string.type_album);
             ToolbarColorizeHelper.colorizeToolbar(((Tumblr) getActivity()).mToolbar, Color.WHITE,
                     (getActivity()));

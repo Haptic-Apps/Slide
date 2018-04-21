@@ -69,7 +69,7 @@ public class SettingsAbout extends BaseActivityAnim {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinkUtil.openExternally("https://github.com/ccrama/Slide/issues", SettingsAbout.this);
+                LinkUtil.openExternally("https://github.com/ccrama/Slide/issues");
             }
         });
         findViewById(R.id.sub).setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class SettingsAbout extends BaseActivityAnim {
         changelog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinkUtil.openExternally("https://github.com/ccrama/Slide/blob/master/CHANGELOG.md", SettingsAbout.this);
+                LinkUtil.openExternally("https://github.com/ccrama/Slide/blob/master/CHANGELOG.md");
             }
         });
 
