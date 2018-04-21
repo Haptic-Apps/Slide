@@ -1194,5 +1194,8 @@
     <string name="settings_shortlink_description">Links will be shared as \'https://redd.it/\'</string>
     <string name="settings_shortlink">Share Reddit shortlink where possible</string>
     <string name="firefox">Firefox</string>
+    <string name="disable_replies_comment">Disable comment inbox replies</string>
+    <string name="replies_disabled_comment">Comment replies disabled</string>
+    <string name="replies_enabled_comment">Comment replies enabled</string>
 
 </resources>
