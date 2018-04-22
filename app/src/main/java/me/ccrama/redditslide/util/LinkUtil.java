@@ -98,7 +98,7 @@ public class LinkUtil {
                     formatURL(StringEscapeUtils.unescapeHtml4(url)));
         } catch (ActivityNotFoundException anfe) {
             Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
-            openExternally(url, contextActivity);
+            openExternally(url);
         }
     }
 
@@ -106,7 +106,7 @@ public class LinkUtil {
             int adapterPosition, Submission submission) {
         if (!SettingValues.web) {
             // External browser
-            openExternally(url, contextActivity);
+            openExternally(url);
         } else {
             String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
@@ -174,7 +174,7 @@ public class LinkUtil {
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
         if (!SettingValues.web) {
             // External browser
-            openExternally(url, contextActivity);
+            openExternally(url);
         } else {
             String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
@@ -204,15 +204,16 @@ public class LinkUtil {
      * application
      *
      * @param url     URL to open
-     * @param context Current context
      */
-    public static void openExternally(String url, Context context) {
+    public static void openExternally(String url) {
         url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
         Uri uri = formatURL(url);
 
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage(getPackage(intent));
-        context.startActivity(intent);
+        Reddit.getAppContext()
+                .startActivity(Intent.createChooser(intent,
+                        Reddit.getAppContext().getString(R.string.misc_link_chooser)));
     }
 
     public static CustomTabsSession getSession() {

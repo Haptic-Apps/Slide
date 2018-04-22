@@ -166,8 +166,7 @@ public class PopulateSubmissionViewHolder {
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(myIntent);
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(),
-                                                contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl());
                                     }
                                     break;
                                 case IMGUR:
@@ -187,8 +186,7 @@ public class PopulateSubmissionViewHolder {
                                             contextActivity.startActivity(i);
                                         }
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(),
-                                                contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl());
                                     }
                                     break;
                                 case REDDIT:
@@ -226,8 +224,7 @@ public class PopulateSubmissionViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(),
-                                                contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl());
 
                                     }
                                     break;
@@ -251,8 +248,7 @@ public class PopulateSubmissionViewHolder {
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(),
-                                                contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl());
 
                                     }
                                     break;
@@ -284,17 +280,15 @@ public class PopulateSubmissionViewHolder {
                                             contextActivity.startActivity(sharingIntent);
 
                                         } catch (Exception e) {
-                                            LinkUtil.openExternally(submission.getUrl(),
-                                                    contextActivity);
+                                            LinkUtil.openExternally(submission.getUrl());
                                         }
                                     } else {
-                                        LinkUtil.openExternally(submission.getUrl(),
-                                                contextActivity);
+                                        LinkUtil.openExternally(submission.getUrl());
                                     }
                                     break;
                             }
                         } else {
-                            LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                            LinkUtil.openExternally(submission.getUrl());
                         }
                     }
                 } else {
@@ -362,7 +356,7 @@ public class PopulateSubmissionViewHolder {
             contextActivity.startActivity(myIntent);
 
         } else {
-            LinkUtil.openExternally(submission.getUrl(), contextActivity);
+            LinkUtil.openExternally(submission.getUrl());
         }
 
     }
@@ -475,7 +469,7 @@ public class PopulateSubmissionViewHolder {
             addAdaptorPosition(myIntent, submission, adapterPosition);
             contextActivity.startActivity(myIntent);
         } else {
-            LinkUtil.openExternally(submission.getUrl(), contextActivity);
+            LinkUtil.openExternally(submission.getUrl());
         }
 
     }
@@ -867,7 +861,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 7:
-                        LinkUtil.openExternally(submission.getUrl(), mContext);
+                        LinkUtil.openExternally(submission.getUrl());
                         if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                             //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                         } else if (SettingValues.storeHistory) {
