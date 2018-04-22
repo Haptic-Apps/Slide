@@ -123,8 +123,7 @@ public class MediaFragmentComment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getLong("position");
         }
-        final SlidingUpPanelLayout slideLayout =
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
+        final SlidingUpPanelLayout slideLayout = rootView.findViewById(R.id.sliding_layout);
 
         PopulateShadowboxInfo.doActionbar(s.comment, rootView, getActivity(), true);
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
@@ -319,7 +318,7 @@ public class MediaFragmentComment extends Fragment {
 
                                 contextActivity.startActivity(myIntent);
                             } else {
-                                LinkUtil.openExternally(submission.getUrl(), contextActivity);
+                                LinkUtil.openExternally(submission.getUrl());
                             }
 
                             break;
@@ -332,11 +331,11 @@ public class MediaFragmentComment extends Fragment {
 
     public void doLoadGif(final String dat) {
         isGif = true;
-        videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
+        videoView = rootView.findViewById(R.id.gif);
         videoView.clearFocus();
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
-        final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
+        final ProgressBar loader = rootView.findViewById(R.id.gifprogress);
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
@@ -537,12 +536,11 @@ public class MediaFragmentComment extends Fragment {
     public void displayImage(final String url) {
         if (!imageShown) {
             actuallyLoaded = url;
-            final SubsamplingScaleImageView i =
-                    (SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image);
+            final SubsamplingScaleImageView i = rootView.findViewById(R.id.submission_image);
 
             i.setMinimumDpi(70);
             i.setMinimumTileDpi(240);
-            final ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
+            final ProgressBar bar = rootView.findViewById(R.id.progress);
             bar.setIndeterminate(false);
             bar.setProgress(0);
 

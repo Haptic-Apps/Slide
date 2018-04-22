@@ -479,7 +479,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
 
             if (SettingValues.smallTag && !full && !news) {
-                title = (TextView) findViewById(R.id.tag);
+                title = findViewById(R.id.tag);
                 findViewById(R.id.tag).setVisibility(View.VISIBLE);
                 info = null;
             } else {
@@ -548,7 +548,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     @Override
                     public void onInflated(final PeekView peekView, final View rootView) {
                         //do stuff
-                        TextView text = ((TextView) rootView.findViewById(R.id.title));
+                        TextView text = rootView.findViewById(R.id.title);
                         text.setText(url);
                         text.setTextColor(Color.WHITE);
                         ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
@@ -619,7 +619,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case R.id.open_link:
-                                LinkUtil.openExternally(url, context);
+                                LinkUtil.openExternally(url);
                                 break;
                             case R.id.share_link:
                                 Reddit.defaultShareText("", url, finalActivity);
@@ -762,8 +762,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     private void init() {
         inflate(getContext(), R.layout.header_image_title_view, this);
-        this.title = (TextView) findViewById(R.id.textimage);
-        this.info = (TextView) findViewById(R.id.subtextimage);
-        this.backdrop = (ImageView) findViewById(R.id.leadimage);
+        this.title = findViewById(R.id.textimage);
+        this.info = findViewById(R.id.subtextimage);
+        this.backdrop = findViewById(R.id.leadimage);
     }
 }

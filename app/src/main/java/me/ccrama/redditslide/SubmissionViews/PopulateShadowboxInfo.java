@@ -62,8 +62,8 @@ import me.ccrama.redditslide.util.LinkUtil;
  */
 public class PopulateShadowboxInfo {
     public static void doActionbar(final Submission s, final View rootView, final Activity c, boolean extras) {
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
+        TextView title = rootView.findViewById(R.id.title);
+        TextView desc = rootView.findViewById(R.id.desc);
         String distingush = "";
         if(s != null) {
             if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
@@ -95,8 +95,8 @@ public class PopulateShadowboxInfo {
             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
 
             if (extras) {
-                final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
-                final ImageView upvotebutton = (ImageView) rootView.findViewById(R.id.upvote);
+                final ImageView downvotebutton = rootView.findViewById(R.id.downvote);
+                final ImageView upvotebutton = rootView.findViewById(R.id.upvote);
 
                 if (s.isArchived() || s.isLocked()) {
                     downvotebutton.setVisibility(View.GONE);
@@ -185,8 +185,8 @@ public class PopulateShadowboxInfo {
                     rootView.findViewById(R.id.save).setVisibility(View.GONE);
                 }
                 try {
-                    final TextView points = ((TextView) rootView.findViewById(R.id.score));
-                    final TextView comments = ((TextView) rootView.findViewById(R.id.comments));
+                    final TextView points = rootView.findViewById(R.id.score);
+                    final TextView comments = rootView.findViewById(R.id.comments);
                     if (Authentication.isLoggedIn && Authentication.didOnline) {
                         {
 
@@ -275,8 +275,8 @@ public class PopulateShadowboxInfo {
 
     public static void doActionbar(final CommentNode node, final View rootView, final Activity c, boolean extras) {
         final Comment s = node.getComment();
-        TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
+        TitleTextView title = rootView.findViewById(R.id.title);
+        TextView desc = rootView.findViewById(R.id.desc);
         String distingush = "";
         if(s != null) {
             if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
@@ -320,8 +320,8 @@ public class PopulateShadowboxInfo {
             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
 
             if (extras) {
-                final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
-                final ImageView upvotebutton = (ImageView) rootView.findViewById(R.id.upvote);
+                final ImageView downvotebutton = rootView.findViewById(R.id.downvote);
+                final ImageView upvotebutton = rootView.findViewById(R.id.upvote);
 
                 if (s.isArchived()) {
                     downvotebutton.setVisibility(View.GONE);
@@ -410,8 +410,8 @@ public class PopulateShadowboxInfo {
                     rootView.findViewById(R.id.save).setVisibility(View.GONE);
                 }
                 try {
-                    final TextView points = ((TextView) rootView.findViewById(R.id.score));
-                    final TextView comments = ((TextView) rootView.findViewById(R.id.comments));
+                    final TextView points = rootView.findViewById(R.id.score);
+                    final TextView comments = rootView.findViewById(R.id.comments);
                     if (Authentication.isLoggedIn && Authentication.didOnline) {
                         {
 
@@ -537,7 +537,7 @@ public class PopulateShadowboxInfo {
                             }
                             break;
                             case 7:
-                                LinkUtil.openExternally(submission.getUrl(), mContext);
+                                LinkUtil.openExternally(submission.getUrl());
                                 break;
                             case 4:
                                 Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
@@ -575,7 +575,8 @@ public class PopulateShadowboxInfo {
                                                     protected void onPostExecute(Void aVoid) {
                                                         Snackbar s = Snackbar.make(rootView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        TextView tv = view.findViewById(
+                                                                android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
                                                     }

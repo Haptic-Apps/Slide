@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -15,8 +16,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Map;
 
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -110,7 +113,7 @@ public class SettingsHandling extends BaseActivityAnim
         } else {
             findViewById(R.id.video).setVisibility(View.GONE);
         }
-        ((TextView) findViewById(R.id.browser)).setText(SettingValues.firefox ? getString(R.string.firefox) :
+        ((TextView) findViewById(R.id.browser)).setText(
                 SettingValues.web ? SettingValues.reader ? getString(
                         R.string.handling_reader_mode)
                         : (SettingValues.customtabs ? getString(
@@ -137,39 +140,15 @@ public class SettingsHandling extends BaseActivityAnim
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsHandling.this, v);
 
-                if(Reddit.firefox) {
-                    popup.getMenuInflater().inflate(R.menu.browser_type_firefox, popup.getMenu());
-                } else {
-                    popup.getMenuInflater().inflate(R.menu.browser_type, popup.getMenu());
-                }
+                popup.getMenuInflater().inflate(R.menu.browser_type, popup.getMenu());
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.firefox:
-                                SettingValues.customtabs = false;
-                                SettingValues.web = true;
-                                SettingValues.reader = false;
-                                SettingValues.firefox = true;
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREFS_WEB, true)
-                                        .apply();
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_READER, false)
-                                        .apply();
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
-                                        .apply();
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, true)
-                                        .apply();
-                                break;
-
                             case R.id.chrome:
                                 SettingValues.customtabs = true;
                                 SettingValues.web = true;
                                 SettingValues.reader = false;
-                                SettingValues.firefox = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -179,15 +158,11 @@ public class SettingsHandling extends BaseActivityAnim
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, true)
                                         .apply();
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
-                                        .apply();
                                 break;
                             case R.id.internal:
                                 SettingValues.customtabs = false;
                                 SettingValues.web = true;
                                 SettingValues.reader = false;
-                                SettingValues.firefox = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -197,15 +172,11 @@ public class SettingsHandling extends BaseActivityAnim
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
                                         .apply();
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
-                                        .apply();
                                 break;
                             case R.id.reader:
                                 SettingValues.customtabs = false;
                                 SettingValues.web = true;
                                 SettingValues.reader = true;
-                                SettingValues.firefox = false;
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, true)
                                         .apply();
@@ -215,26 +186,50 @@ public class SettingsHandling extends BaseActivityAnim
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
                                         .apply();
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
-                                        .apply();
                                 break;
                             case R.id.external:
+                                final Map<String, String> installedBrowsers =
+                                        Reddit.getInstalledBrowsers();
+                                if (installedBrowsers.size() > 1) {
+                                    AlertDialogWrapper.Builder builder =
+                                            new AlertDialogWrapper.Builder(SettingsHandling.this);
+                                    builder.setTitle(R.string.browser_choose);
+                                    builder.setSingleChoiceItems(installedBrowsers.values()
+                                                    .toArray(new String[installedBrowsers.size()]), -1,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    SettingValues.selectedBrowser =
+                                                            installedBrowsers.keySet()
+                                                                    .toArray(
+                                                                            new String[installedBrowsers
+                                                                                    .size()])[which];
+                                                    SettingValues.prefs.edit()
+                                                            .putString(
+                                                                    SettingValues.PREF_SELECTED_BROWSER,
+                                                                    SettingValues.selectedBrowser)
+                                                            .apply();
+                                                }
+                                            });
+                                    builder.show();
+                                }
+                                SettingValues.selectedBrowser = "";
                                 SettingValues.web = false;
                                 SettingValues.reader = false;
-                                SettingValues.firefox = false;
+                                SettingValues.prefs.edit()
+                                        .putString(SettingValues.PREF_SELECTED_BROWSER,
+                                                SettingValues.selectedBrowser)
+                                        .apply();
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREFS_WEB, false)
                                         .apply();
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_READER, false)
                                         .apply();
-                                SettingValues.prefs.edit()
-                                        .putBoolean(SettingValues.PREF_FIREFOX, false)
-                                        .apply();
                                 break;
                         }
-                        ((TextView) findViewById(R.id.browser)).setText(SettingValues.firefox ? getString(R.string.firefox) :
+                        ((TextView) findViewById(R.id.browser)).setText(
                                 SettingValues.web ? SettingValues.reader ? getString(
                                         R.string.handling_reader_mode)
                                         : (SettingValues.customtabs ? getString(
@@ -287,8 +282,8 @@ public class SettingsHandling extends BaseActivityAnim
 
         ((LinearLayout) findViewById(R.id.domainlist)).removeAllViews();
         for (String s : SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
-            if (!s.isEmpty() && (Reddit.videoPlugin && (!s.contains("youtube.co") && !s.contains(
-                    "youtu.be")) || !Reddit.videoPlugin)) {
+            if (!s.isEmpty() && (!Reddit.videoPlugin || (!s.contains("youtube.co") && !s.contains(
+                    "youtu.be")))) {
                 s = s.trim();
                 final String finalS = s;
                 domains.add(finalS);
