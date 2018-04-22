@@ -28,35 +28,34 @@ public class SettingValues {
     public static final String PREF_AUTOHIDE_COMMENTS         = "autohideComments";
     public static final String PREF_NO_IMAGES                 = "noImages";
     public static final String PREF_AUTOTHEME                 = "autotime";
-    public static final String PREVIEWS_LEFT                  = "previewsLeft";
-    public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
-    public static final String PREF_COLOR_BACK                = "colorBack";
-    public static final String PREF_IMAGE_SUBFOLDERS          = "imageSubfolders";
-    public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
-    public static final String PREF_READER_NIGHT              = "readernight";
-    public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
-    public static final String PREF_EXPANDED_TOOLBAR          = "expandedToolbar";
-    public static final String PREF_SWAP                      = "Swap";
-    public static final String PREFS_WEB                      = "web";
-    public static final String PREF_ACTIONBAR_VISIBLE         = "actionbarVisible";
-    public static final String PREF_SMALL_TAG                 = "smallTag";
-    public static final String PREF_ACTIONBAR_TAP             = "actionbarTap";
-    public static final String PREF_CUSTOMTABS                = "customtabs";
-    public static final String PREF_FIREFOX                   = "firefox";
-    public static final String PREF_STORE_HISTORY             = "storehistory";
-    public static final String PREF_STORE_NSFW_HISTORY        = "storensfw";
-    public static final String PREF_SCROLL_SEEN               = "scrollSeen";
-    public static final String PREF_TITLE_FILTERS             = "titleFilters";
-    public static final String PREF_TEXT_FILTERS              = "textFilters";
-    public static final String PREF_DOMAIN_FILTERS            = "domainFilters";
-    public static final String PREF_ALWAYS_EXTERNAL           = "alwaysExternal";
-    public static final String PREF_DRAFTS                    = "drafts";
-    public static final String PREF_SUBREDDIT_FILTERS         = "subredditFilters";
-    public static final String PREF_ABBREVIATE_SCORES         = "abbreviateScores";
-    public static final String PREF_FLAIR_FILTERS             = "subFlairFilters";
-    public static final String PREF_COMMENT_LAST_VISIT        = "commentLastVisit";
-    public static final String PREF_VOTES_INFO_LINE           = "votesInfoLine";
-    public static final String PREF_TYPE_INFO_LINE            = "typeInfoLine";
+    public static final String PREVIEWS_LEFT              = "previewsLeft";
+    public static final String PREF_ALPHABETIZE_SUBSCRIBE = "alphabetizeSubscribe";
+    public static final String PREF_COLOR_BACK            = "colorBack";
+    public static final String PREF_IMAGE_SUBFOLDERS      = "imageSubfolders";
+    public static final String PREF_COLOR_NAV_BAR         = "colorNavBar";
+    public static final String PREF_READER_NIGHT          = "readernight";
+    public static final String PREF_COLOR_EVERYWHERE      = "colorEverywhere";
+    public static final String PREF_EXPANDED_TOOLBAR      = "expandedToolbar";
+    public static final String PREF_SWAP                  = "Swap";
+    public static final String PREFS_WEB                  = "web";
+    public static final String PREF_ACTIONBAR_VISIBLE     = "actionbarVisible";
+    public static final String PREF_SMALL_TAG             = "smallTag";
+    public static final String PREF_ACTIONBAR_TAP         = "actionbarTap";
+    public static final String PREF_CUSTOMTABS            = "customtabs";
+    public static final String PREF_STORE_HISTORY         = "storehistory";
+    public static final String PREF_STORE_NSFW_HISTORY    = "storensfw";
+    public static final String PREF_SCROLL_SEEN           = "scrollSeen";
+    public static final String PREF_TITLE_FILTERS         = "titleFilters";
+    public static final String PREF_TEXT_FILTERS          = "textFilters";
+    public static final String PREF_DOMAIN_FILTERS        = "domainFilters";
+    public static final String PREF_ALWAYS_EXTERNAL       = "alwaysExternal";
+    public static final String PREF_DRAFTS                = "drafts";
+    public static final String PREF_SUBREDDIT_FILTERS     = "subredditFilters";
+    public static final String PREF_ABBREVIATE_SCORES     = "abbreviateScores";
+    public static final String PREF_FLAIR_FILTERS         = "subFlairFilters";
+    public static final String PREF_COMMENT_LAST_VISIT    = "commentLastVisit";
+    public static final String PREF_VOTES_INFO_LINE       = "votesInfoLine";
+    public static final String PREF_TYPE_INFO_LINE        = "typeInfoLine";
     public static final String PREF_COMMENT_PAGER             = "commentPager";
     public static final String PREF_COLLAPSE_COMMENTS         = "collapseCOmments";
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
@@ -118,6 +117,7 @@ public class SettingValues {
     public static final String PREF_TITLE_TOP              = "titleTop";
     public static final String PREF_HIGHLIGHT_COMMENT_OP   = "commentOP";
     public static final String PREF_LONG_LINK              = "shareLongLink";
+    public static final String PREF_SELECTED_BROWSER       = "selectedBrowser";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -220,7 +220,6 @@ public class SettingValues {
     public static boolean overrideLanguage;
     public static boolean immersiveMode;
     public static boolean showDomain;
-    public static boolean firefox;
     public static boolean cardText;
     public static boolean alwaysZoom;
     public static boolean lqLow  = false;
@@ -237,6 +236,7 @@ public class SettingValues {
     public static boolean largeLinks;
     public static boolean highlightCommentOP;
     public static boolean highlightTime;
+    public static String  selectedBrowser;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -372,7 +372,6 @@ public class SettingValues {
         swipeAnywhere = true; //override this always now
         album = prefs.getBoolean(PREF_ALBUM, true);
         albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
-        firefox = prefs.getBoolean(PREF_FIREFOX, false);
 
         commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);
@@ -386,6 +385,7 @@ public class SettingValues {
         actionbarTap = prefs.getBoolean(PREF_ACTIONBAR_TAP, false);
         colorIcon = prefs.getBoolean(PREF_COLOR_ICON, false);
         peek = prefs.getBoolean(PREF_PEEK, false);
+        selectedBrowser = prefs.getString(PREF_SELECTED_BROWSER, "");
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
