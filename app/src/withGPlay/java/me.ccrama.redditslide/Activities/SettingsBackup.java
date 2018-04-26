@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -259,14 +260,14 @@ public class SettingsBackup extends BaseActivityAnim
                 Uri fileUri = data.getData();
                 Log.v(LogUtil.getTag(), "WORKED! " + fileUri.toString());
 
-                File path = new File(fileUri.getPath());
                 StringWriter fw = new StringWriter();
                 try {
-                    FileReader fr = new FileReader(path);
-                    int c = fr.read();
+                    InputStream is = getContentResolver().openInputStream(fileUri);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    int c = reader.read();
                     while (c != -1) {
                         fw.write(c);
-                        c = fr.read();
+                        c = reader.read();
                     }
                     String read = fw.toString();
                     if (read.contains("Slide_backupEND>")) {
