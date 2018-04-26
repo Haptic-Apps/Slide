@@ -249,7 +249,7 @@ public class OpenRedditLink {
         }
 
         // Strip unused prefixes that don't require special handling
-        url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay|amp)\\.)?", "");
+        url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay|amp|old|new)\\.)?", "");
 
         if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com.*")) { // tests for subdomain
             String subdomain = url.split("\\.", 2)[0];
