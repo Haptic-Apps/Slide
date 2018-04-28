@@ -27,6 +27,9 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.base.Strings;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
@@ -71,6 +74,20 @@ public class Settings extends BaseActivity
     private SettingsHistoryFragment      mSettingsHistoryFragment      = new SettingsHistoryFragment(this);
     private SettingsDataFragment         mSettingsDataFragment         = new SettingsDataFragment(this);
     private SettingsRedditFragment       mSettingsRedditFragment       = new SettingsRedditFragment(this);
+
+    private List<Integer> settings_activities = new ArrayList<>(
+            Arrays.asList(
+                    R.layout.activity_settings_general_child,
+                    R.layout.activity_manage_history_child,
+                    R.layout.activity_settings_theme_child,
+                    R.layout.activity_settings_font_child,
+                    R.layout.activity_settings_comments_child,
+                    R.layout.activity_settings_handling_child,
+                    R.layout.activity_settings_history_child,
+                    R.layout.activity_settings_datasaving_child,
+                    R.layout.activity_settings_reddit_child
+            )
+    );
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -120,7 +137,7 @@ public class Settings extends BaseActivity
     private void BuildLayout(String text) {
         LinearLayout parent = (LinearLayout) findViewById(R.id.settings_parent);
 
-        // Clear the settings out, then re-add the default top-level settings
+        /* Clear the settings out, then re-add the default top-level settings */
         parent.removeAllViews();
         parent.addView(getLayoutInflater().inflate(R.layout.activity_settings_child, null));
         Bind();
@@ -129,40 +146,18 @@ public class Settings extends BaseActivity
         if (!Strings.isNullOrEmpty(text)){
             LayoutInflater inflater = getLayoutInflater();
 
-            /* SettingsGeneral - "General" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_general_child, null));
+            for (Integer activity: settings_activities) {
+                parent.addView(inflater.inflate(activity, null));
+            }
+
             mSettingsGeneralFragment.Bind();
-
-            /* ManageOfflineContent - "Manage offline content" */
-            parent.addView(inflater.inflate(R.layout.activity_manage_history_child, null));
             mManageOfflineContentFragment.Bind();
-
-            /* SettingsTheme - "Main Theme" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_theme_child, null));
             mSettingsThemeFragment.Bind();
-
-            /* SettingsFont - "Font" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_font_child, null));
             mSettingsFontFragment.Bind();
-
-            /* SettingsComments - "Comments" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_comments_child, null));
             mSettingsCommentsFragment.Bind();
-
-            /* SettingsHandling - "Link Handling" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_handling_child, null));
             mSettingsHandlingFragment.Bind();
-
-            /* SettingsHistory - "History" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_history_child, null));
             mSettingsHistoryFragment.Bind();
-
-            /* SettingsData - "Data Saving" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_datasaving_child, null));
             mSettingsDataFragment.Bind();
-
-            /* SettingsReddit - "Content Settings" */
-            parent.addView(inflater.inflate(R.layout.activity_settings_reddit_child, null));
             mSettingsRedditFragment.Bind();
 
             /* Go through each subview and scan it for matching text, non-matches */
