@@ -407,6 +407,7 @@
         <activity
                 android:name=".Activities.CommentsScreen"
                 android:alwaysRetainTaskState="true"
+                android:screenOrientation="sensor"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>

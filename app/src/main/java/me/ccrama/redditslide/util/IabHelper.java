@@ -27,7 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.compat.BuildConfig;
+import me.ccrama.redditslide.BuildConfig;
 import android.text.TextUtils;
 import android.util.Log;
 

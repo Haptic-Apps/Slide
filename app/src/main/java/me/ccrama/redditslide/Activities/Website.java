@@ -185,20 +185,20 @@ public class Website extends BaseActivityAnim {
         client = new MyWebViewClient();
         webClient = new AdBlockWebViewClient();
 
-            if (!SettingValues.cookies) {
-                CookieSyncManager.createInstance(this);
-                CookieManager cookieManager = CookieManager.getInstance();
-                try {
+        if (!SettingValues.cookies) {
+            CookieSyncManager.createInstance(this);
+            CookieManager cookieManager = CookieManager.getInstance();
+            try {
                 cookieManager.removeAllCookies(null);
                 CookieManager.getInstance().flush();
                 cookieManager.setAcceptCookie(false);
-                } catch(NoSuchMethodError e){
-                    //Although these were added in api 12, some devices don't have this method
-                }
-                WebSettings ws = v.getSettings();
-                ws.setSaveFormData(false);
-                ws.setSavePassword(false);
+            } catch(NoSuchMethodError e){
+                //Although these were added in api 12, some devices don't have this method
             }
+            WebSettings ws = v.getSettings();
+            ws.setSaveFormData(false);
+            ws.setSavePassword(false);
+        }
 
 
         /* todo in the future, drag left and right to go back and forward in history

@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
@@ -177,6 +178,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
+import static android.content.pm.PackageManager.MATCH_ALL;
 import static me.ccrama.redditslide.UserSubscriptions.modOf;
 
 
@@ -1432,6 +1434,17 @@ public class MainActivity extends BaseActivity
                     new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         } catch (Exception e) {
 
+        }
+
+        LogUtil.v("Installed browsers");
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("http://ccrama.me/"));
+                List<ResolveInfo> allApps = getPackageManager().queryIntentActivities (intent,
+                        PackageManager.GET_DISABLED_COMPONENTS);
+        for(ResolveInfo i : allApps){
+            if(i.activityInfo.isEnabled())
+                LogUtil.v(i.activityInfo.packageName);
         }
     }
 

@@ -89,12 +89,6 @@ public class MediaVideoView extends VideoView {
             start();
         }
     };
-    private OnVideoSizeChangedListener videoSizeChangedListener = new OnVideoSizeChangedListener() {
-        @Override
-        public void onVideoSizeChanged(final int width, final int height) {
-            LogUtil.v("Video size changed " + width + '/' + height + " number " + number);
-        }
-    };
     private OnErrorListener            errorListener            = new OnErrorListener() {
         @Override
         public boolean onError(Exception e) {
@@ -249,7 +243,6 @@ public class MediaVideoView extends VideoView {
             setOnPreparedListener(preparedListener);
             setOnErrorListener(errorListener);
             setKeepScreenOn(true);
-            setOnVideoSizedChangedListener(videoSizeChangedListener);
 
             DataSource.Factory dataSourceFactory =
                     new CacheDataSourceFactory(getContext(), 100 * 1024 * 1024, 5 * 1024 * 1024);
