@@ -1198,5 +1198,6 @@
     <string name="disable_replies_comment">Disable comment inbox replies</string>
     <string name="replies_disabled_comment">Comment replies disabled</string>
     <string name="replies_enabled_comment">Comment replies enabled</string>
+    <string name="search_settings">Search settings</string>
 
 </resources>

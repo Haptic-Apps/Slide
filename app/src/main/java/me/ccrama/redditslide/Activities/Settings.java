@@ -11,8 +11,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -24,6 +28,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.common.base.Strings;
 
 import java.io.File;
@@ -105,6 +111,38 @@ public class Settings extends BaseActivity
         overridePendingTransition(0, 0);
         finish();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                if(findViewById(R.id.settings_search).getVisibility() == View.VISIBLE){
+                    findViewById(R.id.settings_search).setVisibility(View.GONE);
+                    findViewById(R.id.search).setVisibility(View.VISIBLE);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.md_nav_back);
+                } else {
+                    onBackPressed();
+                }
+                return true;
+            case R.id.search: {
+                findViewById(R.id.settings_search).setVisibility(View.VISIBLE);
+                findViewById(R.id.search).setVisibility(View.GONE);
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.close);
+
+            }
+            return true;
+            default:
+                return false;
+        }
     }
 
     @Override

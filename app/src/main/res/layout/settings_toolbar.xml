@@ -6,4 +6,24 @@
     android:minHeight="@dimen/standard_toolbar_height"
     android:theme="@style/Theme.AppCompat"
     android:elevation="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <EditText
+            android:id="@+id/settings_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settingsbg"
+            android:padding="10dp"
+            android:paddingLeft="15dp"
+            android:visibility="gone"
+            android:paddingRight="15dp"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+ "
+            android:inputType="textNoSuggestions"
+            android:hint="Search settings..."
+            android:imeOptions="actionSearch"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="-25dp"
+            android:singleLine="true"
+            android:textColor="?attr/fontColor"
+            android:textSize="16sp"
+            android:textColorHint="?attr/fontColor" />
+</android.support.v7.widget.Toolbar>
