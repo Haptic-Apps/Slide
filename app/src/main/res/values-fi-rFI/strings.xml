@@ -299,7 +299,6 @@
   <string name="settings_main_color_title">Muokkaa pääväriä</string>
   <string name="settings_notification">Tarkista uudet viestit joka %1$s</string>
   <string name="settings_store_history">Tallenna historia</string>
-  <string name="settings_confirm_exit">Varmista sovelluksesta poistuminen</string>
   <string name="share_link">Jaa linkki</string>
   <string name="share_image">Jaa kuva</string>
   <string name="settings_libs">Avoimen lähdekoodin kirjastot</string>
@@ -327,6 +326,7 @@
   <string name="settings_section_content">Sisältö</string>
   <!-- View types -->
   <!--Search methods -->
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="FAQ">UKK</string>
   <string name="deleting">Poistetaan&#8230;</string>

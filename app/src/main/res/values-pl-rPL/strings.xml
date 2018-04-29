@@ -472,7 +472,6 @@
   <string name="settings_disable_nsfw_photo">Ukryj wszystkie obrazy NSFW</string>
   <string name="settings_store_history">Zapisuj historię</string>
   <string name="settings_store_nsfw_history">Zapisuj historię NSFW</string>
-  <string name="settings_confirm_exit">Potwierdzanie wyjścia</string>
   <string name="settings_commentnav">Nawigacja między nadrzędnymi komentarzami</string>
   <string name="share_link">Udostępnij link</string>
   <string name="posts_hidden_forever">Posty na zawsze ukryte</string>
@@ -617,6 +616,7 @@
   <string name="subreddit_search_method_drawer">Pasek wyszukiwania w pasku narzędzi</string>
   <string name="subreddit_search_method_toolbar">Długie przyciśnięcie paska narzędzi</string>
   <string name="subreddit_search_method_both">Pasek boczny i pasek narzędzi</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Dodaj domenę</string>
   <string name="reorder_add_subreddit">Dodaj subreddita</string>

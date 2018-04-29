@@ -241,13 +241,17 @@
   <string name="type_emb">Уграђен</string>
   <string name="type_external">Спољни</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIF-ови</string>
   <string name="type_albums">Албуми</string>
+  <string name="type_nsfw_content">NSFW садржај</string>
+  <string name="type_links">Везе</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Примљене поруке</string>
   <string name="mail_tab_unread">Непрочитано</string>
   <string name="mail_tab_messages">Поруке</string>
   <string name="mail_tab_sent">Послате</string>
   <string name="mail_tab_mentions">Помињања</string>
+  <string name="mail_author_wrote">%1$s је написао&#8230;</string>
   <string name="mail_hint_recipient">Прималац</string>
   <string name="mail_hint_subject">Тема</string>
   <string name="mail_hint_body">Текст</string>
@@ -368,7 +372,6 @@
   <string name="settings_disable_nsfw_photo">Сакриј све NSFW слике</string>
   <string name="settings_store_history">Чувај историју</string>
   <string name="settings_store_nsfw_history">Чувај NSFW историју</string>
-  <string name="settings_confirm_exit">Потврда изласка из апликације</string>
   <string name="share_link">Подели везу</string>
   <string name="posts_hidden_forever">Пост заувек сакривен</string>
   <string name="settings_libs">Библиотеке отвореног кода</string>
@@ -407,6 +410,7 @@
   <string name="settings_view_type">Тип приказа</string>
   <!-- View types -->
   <!--Search methods -->
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="btn_add_subreddit">Додај субредит</string>
   <string name="sub_added">Субредит додат!</string>

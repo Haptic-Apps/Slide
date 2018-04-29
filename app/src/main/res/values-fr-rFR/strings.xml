@@ -501,7 +501,6 @@
   <string name="settings_disable_nsfw_photo">Masquer toutes les photos NSFW</string>
   <string name="settings_store_history">Sauvegarder l\'historique</string>
   <string name="settings_store_nsfw_history">Enregistrer l\'historique NSFW</string>
-  <string name="settings_confirm_exit">Confirmation de fermeture</string>
   <string name="settings_commentnav">Naviguer entre les commentaires parents</string>
   <string name="share_link">Partager un Lien</string>
   <string name="posts_hidden_forever">Publications masquées pour toujours</string>
@@ -646,6 +645,7 @@
   <string name="subreddit_search_method_drawer">Barre de recherche dans le menu</string>
   <string name="subreddit_search_method_toolbar">Appui long sur le titre de la barre d’outils</string>
   <string name="subreddit_search_method_both">Dans le menu et la barre d\'outils</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Ajouter un domaine</string>
   <string name="reorder_add_subreddit">Ajouter un subreddit</string>

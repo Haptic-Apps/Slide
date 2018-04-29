@@ -458,7 +458,6 @@
   <string name="settings_disable_nsfw_photo">Sakrij sve NSFW fotografije</string>
   <string name="settings_store_history">Spremi povijest</string>
   <string name="settings_store_nsfw_history">Spremi NSFW povijest</string>
-  <string name="settings_confirm_exit">Dijaloški prozor za izlaz</string>
   <string name="share_link">Podijeli link</string>
   <string name="posts_hidden_forever">Uvijek sakriveni postovi</string>
   <string name="share_image">Podijeli sliku</string>
@@ -558,6 +557,7 @@
   <string name="view_type_comments">Komentar okna</string>
   <!--Search methods -->
   <string name="subreddit_search_method_drawer">Traka za pretraživanje u ladici</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Dodaj domenu</string>
   <string name="reorder_add_subreddit">Dodaj podreddit</string>

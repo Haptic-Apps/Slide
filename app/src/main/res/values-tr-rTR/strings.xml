@@ -500,7 +500,6 @@
   <string name="settings_disable_nsfw_photo">Tüm İİUD fotoğrafları gizle</string>
   <string name="settings_store_history">Geçmişi kaydet</string>
   <string name="settings_store_nsfw_history">NSFW geçmişini kaydet</string>
-  <string name="settings_confirm_exit">Çıkış Onayı kutusu</string>
   <string name="settings_commentnav">Üst yorumların arasında dolaş</string>
   <string name="share_link">Bağlantıyı paylaş</string>
   <string name="posts_hidden_forever">Sonsuza kadar gizlenmiş gönderiler</string>
@@ -645,6 +644,7 @@
   <string name="subreddit_search_method_drawer">Çekmece içerisinde arama çubuğu</string>
   <string name="subreddit_search_method_toolbar">Araç çubuğu başlığı</string>
   <string name="subreddit_search_method_both">Hem çekmece hem de araç çubuğu başlığı</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Alan adı ekle</string>
   <string name="reorder_add_subreddit">Subreddit ekle</string>

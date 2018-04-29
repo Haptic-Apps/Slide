@@ -279,7 +279,6 @@
   <string name="settings_notification">Sök efter nya meddelanden varje %1$s</string>
   <string name="settings_notification_short">Kontrollera varje %1$s</string>
   <string name="settings_disable_nsfw_photo">Dölj alla NSFW bilder</string>
-  <string name="settings_confirm_exit">Bekräfta avsluts dialog</string>
   <string name="share_link">Dela länk</string>
   <string name="posts_hidden_forever">Göm dolda för alltid</string>
   <string name="share_image">Dela bild</string>
@@ -312,6 +311,7 @@
   <string name="settings_title_comments">Kommentarer</string>
   <!-- View types -->
   <!--Search methods -->
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <!-- Save categories -->
   <!-- Setting subheaders -->

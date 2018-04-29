@@ -103,6 +103,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="multi_column_title">Mehrspaltiges Layout</string>
   <string name="multi_column_landscape">Querformat</string>
   <string name="multi_column_portrait">Zwei Spalten im Hochformat</string>
+  <string name="single_column_multi_window">Einzelne Spalte in Multi-Fenster-Modus</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Ich</string>
   <string name="drawer_support">Hol dir PRO</string>
@@ -147,6 +148,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="profile_btn_tag">Markierung setzen</string>
   <string name="profile_btn_untag">Markierung entfernen</string>
   <string name="profile_info">Profilinformationen</string>
+  <string name="profile_block_user">Nutzer blockieren</string>
   <!-- Comment text options -->
   <string name="comment_gild">Gold geben</string>
   <string name="comment_share">Kommentar teilen</string>
@@ -245,6 +247,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="err_comment_post_message">\n\nDeine Nachricht wurde als Entwurf gespeichert. Versuche es später erneut.</string>
   <string name="err_comment_post_copy">Kommentar kopieren</string>
   <string name="err_connection_failed_msg">Die Verbindung zu Reddit konnte nicht hergestellt werden. Bitte überprüfe deine Internetverbindung oder wechsle in den Offline-Modus.</string>
+  <string name="err_block_user">Fehler beim Blockieren des Benutzers</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF nicht gefunden</string>
   <string name="gif_err_msg">Beim Laden des GIFs ist ein Fehler aufgetreten. Bitte versuche es nochmal und öffne das GIF erneut.</string>
@@ -387,6 +390,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="btn_set">ANWENDEN</string>
   <string name="btn_create">Erstellen</string>
   <string name="btn_new">Neu</string>
+  <string name="btn_upload">Hochladen</string>
   <!-- Backup -->
   <string name="backup_success">Sicherung erfolgreich!</string>
   <string name="backup_restoring">Wiederherstellen deiner Einstellungen</string>
@@ -483,6 +487,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="search_top">Top</string>
   <string name="search_new">Neu</string>
   <string name="search_comments">Kommentare</string>
+  <string name="no_posts_found">Keine Beiträge gefunden</string>
   <!-- Captcha -->
   <string name="captcha">Gib den obenstehenden Code ein</string>
   <string name="captcha_title">Beweise, dass du kein Roboter bist</string>
@@ -505,7 +510,6 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_disable_nsfw_photo">NSFW-Bilder ausblenden</string>
   <string name="settings_store_history">Verlauf speichern</string>
   <string name="settings_store_nsfw_history">NSFW Verlauf speichern</string>
-  <string name="settings_confirm_exit">Beenden von Slide bestätigen</string>
   <string name="settings_commentnav">Zwischen Kommentaren navigieren</string>
   <string name="share_link">Link teilen</string>
   <string name="posts_hidden_forever">Beiträge für immer ausgeblendet</string>
@@ -584,6 +588,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="settings_backup_occurs">Sicherung wird um %1$s ausgeführt</string>
   <string name="settings_backup_none">Es werden keine Subreddits gesichert</string>
   <string name="settings_backup_will_backup">\u0020wird gesichert</string>
+  <string name="settings_backup_submission_only">Nur Einreichungen</string>
   <string name="settings_backup_comments">\u0020(Kommentare)</string>
   <string name="settings_filter_profile">Profil-Filter</string>
   <string name="settings_subredditspecific_selftext">Zeige immer Vorschau vom Selftext in diesem Subreddit</string>
@@ -649,6 +654,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="subreddit_search_method_drawer">Suchleiste im Auszug</string>
   <string name="subreddit_search_method_toolbar">Symbolleisten-Titel gedrückt halten</string>
   <string name="subreddit_search_method_both">Auszug- und Symbolleiten-Titel</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Eine Domain hinzufügen</string>
   <string name="reorder_add_subreddit">Einen Subreddit hinzufügen</string>
@@ -716,6 +722,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="title_subreddit_settings">Subreddit-Themes &amp; Layout</string>
   <string name="title_edit_theme">Theme bearbeiten</string>
   <string name="title_submit_post">Beitrag einreichen</string>
+  <string name="title_crosspost">Crosspostings</string>
   <string name="title_settings">Einstellungen</string>
   <string name="title_share">Teilen mit</string>
   <string name="title_login">Bei Reddit anmelden</string>
@@ -817,8 +824,11 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="sub_post_notifs_menu">Werde über neue Posts benachrichtigt</string>
   <string name="sub_post_notify">Benachrichtigen</string>
   <string name="sub_post_notifs_text">Slide wird alle 10 Minuten auf neue Posts prüfen. Du kannst dies in den Post Benachrichtigungen abstellen</string>
+  <string name="sub_post_notifs_threshold">Punkteschwellwert</string>
   <string name="sub_post_notifs_err">Du kannst nur für einzelne Subreddits Benachrichtigungen hinzufügen</string>
+  <string name="sub_post_notifs_settings_none">Keine Subreddits zu benachrichtigen</string>
   <string name="sub_post_notifs_settings_title">Zu überprüfende Subreddits</string>
+  <string name="sub_post_notifs_settings_search">Subname suchen</string>
   <string name="sub_post_notifs_notification_title">Neuer Post in /r/%1$s</string>
   <string name="sub_post_notifs_notification_btn">/r/%1$s nicht mehr verfolgen</string>
   <string name="title_sub_post_notifs">Subreddit Post Benachrichtigungen</string>
@@ -853,8 +863,10 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="widget_theme_clear">KLAR</string>
   <string name="widget_posttype_title">Post-Typ</string>
   <string name="widget_posttype_list">LISTE</string>
+  <string name="widget_posttype_bigpic">GROßES BILD</string>
   <string name="widget_posttype_compact">KOMPAKT</string>
   <string name="widget_subname_hint">Subreddit-Name</string>
+  <string name="widget_visuals">Anzeige</string>
   <string name="widget_content">Inhalt</string>
   <string name="widget_loading">Lädt&#8230;</string>
   <string name="widget_creation_title">Neues Widget</string>
@@ -864,6 +876,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="force_change_subscription_desc">Möchtest du es trotzdem lokal ändern?</string>
   <string name="never_load_images">Keine Bilder laden</string>
   <string name="low_quality_images_in_image_viewer">Niedrige Bildqualität im Bildbetrachter</string>
+  <string name="load_high_quality_image_every_time">Andernfalls lade immer hochwertiges Bild</string>
   <string name="load_lower_quality_imgur">Wenn aktiviert wird versucht, ein Bild mit noch niedrigerer Qualität von Imgur zu laden</string>
   <string name="load_medium_quality_imgur_images">Imgur Bilder in mittlerer Qualität laden</string>
   <string name="load_low_quality">Lade Bilder in niedriger Qualität (max. 320x320)</string>
@@ -871,7 +884,9 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="load_high_quality">Lade Bilder in hoher Qualität (max. 1080x1080)</string>
   <string name="choose_color_title">Wähle eine Farbe</string>
   <string name="enter_text_to_filter_click_enter_to_add">Füge Text zum Filtern hinzu, mit Enter bestätigen</string>
+  <string name="mode_desktop_compact">Kompakter Desktop</string>
   <string name="may_reduce_comment_scroll_performance">Kann Kommentar Scroll Geschwindigkeit reduzieren</string>
+  <string name="show_content_type_text_beside_links">Inhaltstyp-Text neben Links anzeigen</string>
   <string name="comment_shadowbox">Kommentar Schattenbox</string>
   <!-- Sidebar strings (multis, flairs) -->
   <string name="sidebar_select_flair">Flair auswählen</string>
@@ -886,6 +901,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="filter_title">Was möchtest du filtern?</string>
   <string name="filter_posts_sub">Beiträge von /r/%1$s</string>
   <string name="filter_posts_user">Beiträge von /u/%1$s</string>
+  <string name="filter_posts_urls">Beiträge, die auf %1$s verweisen</string>
   <string name="filter_open_externally">URLs von %s extern öffnen</string>
   <string name="filter_posts_flair">Flair \"%1$s\" von %2$s</string>
   <string name="filter_btn">Filter</string>
@@ -937,6 +953,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="btn_collapse_children_all">Untergeordnete Kommentare zuklappen</string>
   <string name="btn_open_content">Inhalt öffnen</string>
   <string name="btn_report">Melden</string>
+  <string name="report_post">Beitrag melden</string>
+  <string name="report_comment">Kommentar melden</string>
   <string name="input_reason_for_report">Grund für die Meldung</string>
   <string name="msg_report_sent">Beitrag wurde gemeldet</string>
   <string name="load_videos_internally">Videos intern laden</string>
@@ -965,6 +983,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="btn_open_comments">Kommentare anzeigen</string>
   <string name="btn_preview">Vorschau</string>
   <string name="sorting_default_comment">Standardmäßige Kommentar-Sortierung</string>
+  <string name="content_deleted">[deleted]</string>
   <string name="thread_continue">Diesen Beitrag fortsetzen</string>
   <string name="type_selftext">Selftext</string>
   <string name="submission_unhide">Beitrag nicht mehr verstecken</string>
@@ -1054,7 +1073,26 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="sub_post_notifs_msg">Slide sucht nach neuen Posts, wenn es die Nachrichten abruft (Benachrichtigungen für Nachrichten müssen an sein)</string>
   <string name="mod_ban_reason_required">Grund ist erforderlich</string>
   <string name="settings_abbreviate_post_scores">Verkürze Post Punkte (z. B. 24,0 k)</string>
+  <string name="settings_wide_depth_indicators">Breite Indikatoren für Kommentartiefe</string>
   <string name="handling_reader_mode">Lesemodus verwenden</string>
+  <string name="settings_link_reader_night">Link-Lesemodus und Nachtmodus</string>
+  <string name="theme_pixel">Pixel</string>
   <string name="save_images_to_subreddit_specific_subfolders">Bilder in Subreddit-spezifische Ordner speichern</string>
+  <string name="description_save_subfolders">Funktioniert in der Beitrags- und Kommentaransicht</string>
   <string name="content_settings">Inhaltseinstellungen</string>
+  <string name="setting_titleTop">Titel über der Infozeile zeigen</string>
+  <string name="setting_notification_piggybacking">Benachrichtigungs-Piggybacking</string>
+  <string name="setting_notification_piggybacking_desc">Nur wenn die offizielle Reddit-App eine Push-Benachrichtigung erhält, auf Mail prüfen</string>
+  <string name="install_notif_piggyback">Installieren Sie die offizielle Reddit-App, um Benachrichtigungs-Piggybacking zu aktivieren</string>
+  <string name="success_block_user">Benutzer erfolgreich geblockt</string>
+  <string name="settings_highlight_time_desc"><![CDATA[Benötigt dass \'Anzahl der Kommentare seit dem letzten Besuch anzeigen\' in Einstellungen > Beitragslayout aktiviert ist]]></string>
+  <string name="settings_colored_time">Farbige Zeitblase für neue Kommentare</string>
+  <string name="theme_deep">Tief</string>
+  <string name="type_vreddit">Reddit Video</string>
+  <string name="authors_above">Autoren oberhalb</string>
+  <string name="btn_crosspost">Crossposten</string>
+  <string name="btn_reset_color">FARBE ZURÜCKSETZEN</string>
+  <string name="settings_shortlink_description">Links werden geteilt als \'https://redd.it/\'</string>
+  <string name="settings_shortlink">Wenn möglich Reddit-Kurzlink teilen</string>
+  <string name="firefox">Firefox</string>
 </resources>

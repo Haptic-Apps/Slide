@@ -451,7 +451,6 @@
   <string name="settings_disable_nsfw_photo">Az össze kifogásolható kép elrejtése</string>
   <string name="settings_store_history">Előzmények mentése</string>
   <string name="settings_store_nsfw_history">Kifogásolható előzmények mentése</string>
-  <string name="settings_confirm_exit">Kilépést megerősítő párbeszédablak</string>
   <string name="settings_commentnav">Navigálás a szülőhozzászólások között</string>
   <string name="share_link">Link megosztása</string>
   <string name="posts_hidden_forever">Bejegyzések örökre elrejtve</string>
@@ -537,6 +536,7 @@
   <!-- View types -->
   <string name="view_type_tabs">Alreddit fülek</string>
   <!--Search methods -->
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="FAQ">GYIK</string>
   <string name="sync_subscriptions">Feliratkozások szinkronizálása</string>

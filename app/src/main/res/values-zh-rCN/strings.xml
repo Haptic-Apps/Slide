@@ -15,16 +15,16 @@
   <string name="general_shadowbox_comments_ispro">评论的 Shadowbox 模式是专业版功能</string>
   <string name="general_shadowbox_ispro">Shadowbox 模式是专业版功能</string>
   <string name="general_nighttheme_ispro">自动夜间模式是专业版功能</string>
-  <string name="general_backup_ispro">备份设置是专业版功能</string>
+  <string name="general_backup_ispro">设置备份是专业版功能</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">提交未保存</string>
   <string name="submission_info_saved">提交已保存</string>
   <string name="submission_info_cached">提交已缓存</string>
-  <string name="submission_info_archived">这是已存档的帖子。你不能投票或评论。</string>
+  <string name="submission_info_archived">这是已存档的帖子。您不能对其投票或评论。</string>
   <string name="submission_post_saved">帖子已保存</string>
   <string name="submission_info_hidden">永久隐藏帖子</string>
-  <string name="submission_stickied">已固定</string>
-  <string name="submission_link_extern">外部打开</string>
+  <string name="submission_stickied">已置顶</string>
+  <string name="submission_link_extern">使用外部浏览器打开</string>
   <string name="submission_link_copy">复制链接</string>
   <string name="submission_link_share">分享链接</string>
   <string name="submission_share_title">你想分享哪个链接？</string>
@@ -37,7 +37,7 @@
   <string name="submission_save_image">保存图片</string>
   <string name="submission_load_full">加载完整帖子</string>
   <string name="submission_np_link">这是一个不参与链接。请不要投票或评论。</string>
-  <string name="submission_tap_gif">点击加载动图</string>
+  <string name="submission_tap_gif">点击加载 GIF</string>
   <string name="submission_not_found">噢，帖子未找到！</string>
   <string name="submission_not_found_msg">抱歉，此帖未找到</string>
   <string name="submission_copy_text">复制文本</string>
@@ -62,7 +62,7 @@
     <item quantity="other">条评论</item>
   </plurals>
   <!-- Theme settings -->
-  <string name="theme_light">亮</string>
+  <string name="theme_light">浅色</string>
   <string name="theme_dark">暗</string>
   <string name="theme_black">AMOLED 黑色</string>
   <string name="theme_dark_blue">深蓝</string>
@@ -72,18 +72,18 @@
   <string name="theme_accent_color">强调色</string>
   <string name="theme_base">基本主题</string>
   <string name="theme_card">卡片</string>
-  <string name="theme_sepia">棕褐色</string>
+  <string name="theme_sepia">棕色</string>
   <string name="theme_amoled_contrast">带对比度的 AMOLED</string>
   <string name="theme_night">夜间主题</string>
   <!-- Font settings -->
   <string name="font_size">字体大小</string>
-  <string name="font_size_huge">巨大</string>
-  <string name="font_size_larger">较大字体</string>
-  <string name="font_size_large">大字体</string>
-  <string name="font_size_medium">中等字体</string>
-  <string name="font_size_small">小字体</string>
-  <string name="font_size_smaller">较小字体</string>
-  <string name="font_size_tiny">迷你字体</string>
+  <string name="font_size_huge">最大</string>
+  <string name="font_size_larger">更大</string>
+  <string name="font_size_large">大</string>
+  <string name="font_size_medium">中等</string>
+  <string name="font_size_small">小</string>
+  <string name="font_size_smaller">更小</string>
+  <string name="font_size_tiny">最小</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">操作栏添加“隐藏帖子”按钮</string>
   <string name="card_tint_outside">只在版块之外着色</string>
@@ -98,7 +98,7 @@
   <string name="drawer_support">升级为专业版</string>
   <string name="drawer_goto_profile">前往个人资料</string>
   <string name="drawer_add_account">添加帐户</string>
-  <string name="drawer_hello">你好,</string>
+  <string name="drawer_hello">你好，</string>
   <string name="drawer_search">前往版块</string>
   <string name="drawer_moderation">版主管理</string>
   <string name="drawer_offline">Slide 现正在离线模式</string>
@@ -125,11 +125,11 @@
   <string name="profile_add_friend">添加好友</string>
   <string name="profile_remove_friend">删除好友</string>
   <string name="profile_manage_accounts">管理帐号</string>
-  <string name="profile_remove_account">是否确实要删除此帐户？</string>
+  <string name="profile_remove_account">您确定要删除此帐户吗？</string>
   <string name="profile_remove">删除帐户</string>
   <string name="profile_history">浏览历史</string>
   <string name="profile_share">%s 的个人资料</string>
-  <string name="profile_age">成为 Redditor 已经 %s</string>
+  <string name="profile_age">成为 Redditor 已经 %s 年</string>
   <string name="profile_tag">标签</string>
   <string name="profile_tag_set">为%s 设置标签</string>
   <string name="profile_tag_user">标记用户</string>
@@ -137,17 +137,18 @@
   <string name="profile_btn_tag">设置标签</string>
   <string name="profile_btn_untag">移除标签</string>
   <string name="profile_info">个人主页</string>
+  <string name="profile_block_user">屏蔽用户</string>
   <!-- Comment text options -->
   <string name="comment_gild">给评论加精</string>
   <string name="comment_share">分享评论</string>
   <string name="comment_delete">删除评论</string>
-  <string name="comment_delete_msg">你真的想删除此评论？此操作不可撤消。</string>
+  <string name="comment_delete_msg">您确定要删除此评论吗？此操作不可撤消</string>
   <string name="comment_delete_err">噢，出问题了。</string>
-  <string name="comment_delete_err_msg">你想再试一次吗？</string>
+  <string name="comment_delete_err_msg">您想再试一次吗？</string>
   <string name="comment_deleted">[deleted]</string>
   <string name="comment_unsave">取消保存</string>
   <string name="comment_load_more">继续加载%1$d </string>
-  <string name="comment_load_more_string_new">继续加载%1$s</string>
+  <string name="comment_load_more_string_new">再加载 %1$s 条</string>
   <string name="comment_loading_more">正在加载更多评论...</string>
   <string name="comment_permalink">加载评论永久链接</string>
   <string name="comment_parent">显示上级评论</string>
@@ -180,13 +181,13 @@
   <string name="sorting_search_all">全部时间</string>
   <string name="sorting_defaultfor">默认为 /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
-  <string name="editor_url">网址</string>
+  <string name="editor_url">链接</string>
   <string name="editor_text">文本</string>
   <string name="editor_title_link">插入链接</string>
   <string name="editor_action_link">插入</string>
   <string name="editor_title">标题</string>
-  <string name="editor_err_msg">请几秒钟后再试。</string>
-  <string name="editor_uploading_image">将图片上传至 imgur</string>
+  <string name="editor_err_msg">请在几秒钟后再试</string>
+  <string name="editor_uploading_image">将图片上传至 Imgur</string>
   <string name="editor_upload_image_question">上传图片到 Imgur？</string>
   <string name="editor_self">帖文</string>
   <string name="editor_select_img">选择图片</string>
@@ -235,6 +236,7 @@
   <string name="err_comment_post_message">\n\n你的信息已保存为草稿。请稍后再试。</string>
   <string name="err_comment_post_copy">复制评论</string>
   <string name="err_connection_failed_msg">连接 Reddit 失败。请检查网络连接，或使用离线模式。</string>
+  <string name="err_block_user">屏蔽用户时发生错误</string>
   <!-- Gif -->
   <string name="gif_err_title">动图未找到</string>
   <string name="gif_err_msg">载入此动图时出现错误。请将其重新打开并再试。</string>
@@ -494,7 +496,6 @@
   <string name="settings_disable_nsfw_photo">隐藏所有 NSFW 图片</string>
   <string name="settings_store_history">保存浏览记录</string>
   <string name="settings_store_nsfw_history">保存 NSFW 浏览记录</string>
-  <string name="settings_confirm_exit">确认退出对话框</string>
   <string name="settings_commentnav">在上级评论间移动</string>
   <string name="share_link">分享链接</string>
   <string name="posts_hidden_forever">永久隐藏的帖子</string>
@@ -639,6 +640,7 @@
   <string name="subreddit_search_method_drawer">抽屉中的搜索栏</string>
   <string name="subreddit_search_method_toolbar">长按工具栏标题</string>
   <string name="subreddit_search_method_both">抽屉和工具栏标题</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">添加域名</string>
   <string name="reorder_add_subreddit">添加版块</string>
@@ -1061,4 +1063,13 @@
   <string name="setting_notification_piggybacking">通知捎带</string>
   <string name="setting_notification_piggybacking_desc">只有在官方Reddit应用程序获得推送通知时才能检查邮件</string>
   <string name="install_notif_piggyback">安装官方的 Reddit 应用程序以启用通知捎带</string>
+  <string name="success_block_user">用户已屏蔽</string>
+  <string name="settings_highlight_time_desc"><![CDATA[需要在设置 > 帖子布局中启用“显示上次查看后的评论数量”]]></string>
+  <string name="settings_colored_time">为新评论使用彩色时间气泡</string>
+  <string name="theme_deep">深色</string>
+  <string name="type_vreddit">Reddit 视频</string>
+  <string name="btn_reset_color">重置颜色</string>
+  <string name="settings_shortlink_description">链接将被以“https://redd.it/”的形式分享</string>
+  <string name="settings_shortlink">在可用时分享 Reddit 短链接</string>
+  <string name="firefox">Firefox</string>
 </resources>
