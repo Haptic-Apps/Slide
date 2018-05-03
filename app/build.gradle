@@ -1,9 +1,10 @@
 plugins {
-    id 'com.gladed.androidgitversion' version '0.2.13'
+    id 'com.gladed.androidgitversion' version '0.4.3'
+    id 'com.github.ben-manes.versions' version '0.17.0'
+    id 'com.android.application'
+    id 'com.devspark.robototextview.gradle-plugin'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'com.devspark.robototextview.gradle-plugin'
 android {
     lintOptions {
         quiet true
@@ -77,11 +78,11 @@ ext {
     robolectricVersion = '3.3.1'
 }
 dependencies {
-    withGPlayImplementation (
+    withGPlayImplementation(
             'com.google.android.gms:play-services-drive:10.2.0',
     )
 
-    implementation (
+    implementation(
             'com.github.ccrama:JRAW:b30799fdc8',
             "com.google.guava:guava:23.0-android",
             //Updating material-dialogs to any newer version will break all AlertDialogWrapper
@@ -127,9 +128,8 @@ dependencies {
             'com.googlecode.mp4parser:isoparser:1.1.21',
     )
 
-
-    testImplementation (
-            'junit:junit:4.12' ,
+    testImplementation(
+            'junit:junit:4.12',
             'org.hamcrest:hamcrest-all:1.3',
             'org.mockito:mockito-core:1.10.19',
             "org.robolectric:robolectric:$robolectricVersion",
