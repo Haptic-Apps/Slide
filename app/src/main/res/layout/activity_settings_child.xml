@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_child"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/card_background"
+        android:elevation="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:tag="label"
+            android:text="@string/settings_section_general"
+            android:textColor="?attr/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/settings_child_general"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/settings" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_general"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_tablet"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/multicolumn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_multi_column"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_reorder"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/sub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/manage_your_subreddits"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_offline"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/offline" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Manage offline content"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/card_background"
+        android:elevation="8dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:tag="label"
+            android:text="@string/settings_section_appearance"
+            android:textColor="?attr/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/settings_child_maintheme"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/theme" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_default_theme"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/settings_child_layout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/card" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_layout_default"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_subtheme"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/sub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_sub_theme"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_font"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/fontsizedarker" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_font"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_comments"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/commentchange" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_comments"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/card_background"
+        android:elevation="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/settings_section_content"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/settings_child_handling"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/link" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_link_handling"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_history"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/history" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_history"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_datasave"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/world" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_data"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_filter"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/filter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_filter"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_reddit_settings"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/reddit" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/content_settings"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/card_background"
+        android:elevation="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/settings_section_other"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/settings_child_backup"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/ic_backup" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_backup"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_synccit"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:src="@drawable/synccit"
+                android:tint="?attr/tintColor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_synccit"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/settings_child_pro"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/crown" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_pro"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_support"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/donate" />
+
+            <TextView
+                android:id="@+id/settings_child_donatetext"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_support"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_child_about"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/infonew" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_title_about"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

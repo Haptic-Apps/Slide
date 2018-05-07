@@ -64,6 +64,7 @@ import me.ccrama.redditslide.Activities.SettingsTheme;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -172,7 +173,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     public void onPause() {
         try {
             UserSubscriptions.setSubscriptions(new CaseInsensitiveArrayList(subs));
-            SettingsTheme.changed = true;
+            SettingsThemeFragment.changed = true;
         } catch (Exception e) {
 
         }

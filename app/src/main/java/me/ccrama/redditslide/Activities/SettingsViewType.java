@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 
@@ -54,7 +55,7 @@ public class SettingsViewType extends BaseActivityAnim {
                                 break;
                         }
                         ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
-                        SettingsTheme.changed = true;
+                        SettingsThemeFragment.changed = true;
                         return true;
                     }
                 });

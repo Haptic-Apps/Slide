@@ -25,6 +25,7 @@ import java.util.Locale;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -63,7 +64,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_subreddit);
-        SettingsTheme.changed = true;
+        SettingsThemeFragment.changed = true;
 
         setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true, true);
 

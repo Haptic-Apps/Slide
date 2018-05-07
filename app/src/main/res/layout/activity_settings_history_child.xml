@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/settings_history_child"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/settings_history_saveHistoryHeader"
+            android:text="@string/settings_section_save_history"
+            android:tag="label"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:textColor="?attr/colorAccent"
+            android:layout_height="wrap_content" />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_store_history"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/settings_history_storehistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="16dp"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:checked="true"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor" />
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor" />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_store_nsfw_history"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/settings_history_storensfw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="16dp"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor" />
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor" />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_general_scroll_read"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/settings_history_scrollseen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="16dp"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor" />
+    </RelativeLayout>
+
+    <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/settings_history_clearHistoryHeader"
+            android:text="@string/settings_section_clear_history"
+            android:tag="label"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:textColor="?attr/colorAccent"
+            android:layout_height="wrap_content" />
+
+    <RelativeLayout
+            android:id="@+id/settings_history_clearposts"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clear_submission_history"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor" />
+
+    <RelativeLayout
+            android:id="@+id/settings_history_clearsubs"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clear_subreddit_history"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

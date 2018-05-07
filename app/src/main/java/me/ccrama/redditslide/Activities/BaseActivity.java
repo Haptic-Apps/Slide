@@ -391,7 +391,7 @@ public class BaseActivity extends PeekViewActivity
      *
      * @param subreddit The subreddit to base the color on.
      */
-    protected void themeSystemBars(String subreddit) {
+    public void themeSystemBars(String subreddit) {
         themeSystemBars(Palette.getSubredditStatusBarColor(subreddit));
     }
 
@@ -414,7 +414,7 @@ public class BaseActivity extends PeekViewActivity
      *
      * @param subreddit Name of the subreddit
      */
-    protected void setRecentBar(String subreddit) {
+    public void setRecentBar(String subreddit) {
         setRecentBar(subreddit, Palette.getColor(subreddit));
     }
 
@@ -459,7 +459,7 @@ public class BaseActivity extends PeekViewActivity
      * @param title Title as string for the recent app bar
      * @param color Color for the recent app bar
      */
-    protected void setRecentBar(@Nullable String title, int color) {
+    public void setRecentBar(@Nullable String title, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             if (title == null || title.equals("")) title = getString(R.string.app_name);

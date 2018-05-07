@@ -8,20 +8,43 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.google.common.base.Strings;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.FDroid;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
+import me.ccrama.redditslide.Fragments.ManageOfflineContentFragment;
+import me.ccrama.redditslide.Fragments.SettingsCommentsFragment;
+import me.ccrama.redditslide.Fragments.SettingsDataFragment;
+import me.ccrama.redditslide.Fragments.SettingsFontFragment;
+import me.ccrama.redditslide.Fragments.SettingsFragment;
+import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
+import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
+import me.ccrama.redditslide.Fragments.SettingsHistoryFragment;
+import me.ccrama.redditslide.Fragments.SettingsRedditFragment;
+import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -33,24 +56,55 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Settings extends BaseActivity {
+public class Settings extends BaseActivity
+        implements FolderChooserDialogCreate.FolderCallback, SettingsFragment.RestartActivity {
+
     private final static int RESTART_SETTINGS_RESULT = 2;
     private       int                                                scrollY;
     private       SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
-    public static boolean                                            changed;
-            //whether or not a Setting was changed
+    private       String                                             prev_text;
+    public static boolean                                            changed;  //whether or not a Setting was changed
+
+    private SettingsGeneralFragment      mSettingsGeneralFragment      = new SettingsGeneralFragment(this);
+    private ManageOfflineContentFragment mManageOfflineContentFragment = new ManageOfflineContentFragment(this);
+    private SettingsThemeFragment        mSettingsThemeFragment        = new SettingsThemeFragment(this);
+    private SettingsFontFragment         mSettingsFontFragment         = new SettingsFontFragment(this);
+    private SettingsCommentsFragment     mSettingsCommentsFragment     = new SettingsCommentsFragment(this);
+    private SettingsHandlingFragment     mSettingsHandlingFragment     = new SettingsHandlingFragment(this);
+    private SettingsHistoryFragment      mSettingsHistoryFragment      = new SettingsHistoryFragment(this);
+    private SettingsDataFragment         mSettingsDataFragment         = new SettingsDataFragment(this);
+    private SettingsRedditFragment       mSettingsRedditFragment       = new SettingsRedditFragment(this);
+
+    private List<Integer> settings_activities = new ArrayList<>(
+            Arrays.asList(
+                    R.layout.activity_settings_general_child,
+                    R.layout.activity_manage_history_child,
+                    R.layout.activity_settings_theme_child,
+                    R.layout.activity_settings_font_child,
+                    R.layout.activity_settings_comments_child,
+                    R.layout.activity_settings_handling_child,
+                    R.layout.activity_settings_history_child,
+                    R.layout.activity_settings_datasaving_child,
+                    R.layout.activity_settings_reddit_child
+            )
+    );
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESTART_SETTINGS_RESULT) {
-            Intent i = new Intent(Settings.this, Settings.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            i.putExtra("position", scrollY);
-            startActivity(i);
-            overridePendingTransition(0, 0);
-            finish();
-            overridePendingTransition(0, 0);
+            restartActivity();
         }
+    }
+
+    public void restartActivity() {
+        Intent i = new Intent(Settings.this, Settings.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        i.putExtra("position", scrollY);
+        i.putExtra("prev_text", prev_text);
+        startActivity(i);
+        overridePendingTransition(0, 0);
+        finish();
+        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -59,6 +113,62 @@ public class Settings extends BaseActivity {
         applyColorTheme();
         setContentView(R.layout.activity_settings);
         setupAppBar(R.id.toolbar, R.string.title_settings, true, true);
+
+        if (getIntent() != null && !Strings.isNullOrEmpty(getIntent().getStringExtra("prev_text"))) {
+            prev_text = getIntent().getStringExtra("prev_text");
+        } else if (savedInstanceState != null) {
+            prev_text = savedInstanceState.getString("prev_text");
+        }
+
+        if (!Strings.isNullOrEmpty(prev_text)) {
+            ((EditText) findViewById(R.id.settings_search)).setText(prev_text);
+        }
+
+        BuildLayout(prev_text);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("position", scrollY);
+        outState.putString("prev_text", prev_text);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void BuildLayout(String text) {
+        LinearLayout parent = (LinearLayout) findViewById(R.id.settings_parent);
+
+        /* Clear the settings out, then re-add the default top-level settings */
+        parent.removeAllViews();
+        parent.addView(getLayoutInflater().inflate(R.layout.activity_settings_child, null));
+        Bind();
+
+        /* The EditView contains text that we can use to search for matching settings */
+        if (!Strings.isNullOrEmpty(text)){
+            LayoutInflater inflater = getLayoutInflater();
+
+            for (Integer activity: settings_activities) {
+                parent.addView(inflater.inflate(activity, null));
+            }
+
+            mSettingsGeneralFragment.Bind();
+            mManageOfflineContentFragment.Bind();
+            mSettingsThemeFragment.Bind();
+            mSettingsFontFragment.Bind();
+            mSettingsCommentsFragment.Bind();
+            mSettingsHandlingFragment.Bind();
+            mSettingsHistoryFragment.Bind();
+            mSettingsDataFragment.Bind();
+            mSettingsRedditFragment.Bind();
+
+            /* Go through each subview and scan it for matching text, non-matches */
+            loopViews(parent, text.toLowerCase(), true, "");
+        }
+
+        /* Try to clean up the mess we've made */
+        System.gc();
+    }
+
+    private void Bind() {
 
         SettingValues.expandedSettings = true;
         setSettingItems();
@@ -82,6 +192,9 @@ public class Settings extends BaseActivity {
                 if (getIntent().hasExtra("position")) {
                     mScrollView.scrollTo(0, getIntent().getIntExtra("position", 0));
                 }
+                if (getIntent().hasExtra("prev_text")) {
+                    prev_text = getIntent().getStringExtra("prev_text");
+                }
                 observer.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
 
                     @Override
@@ -91,11 +204,65 @@ public class Settings extends BaseActivity {
                 });
             }
         });
+    }
 
+    private boolean loopViews(ViewGroup parent, String text, boolean isRootViewGroup, String indent) {
+
+        boolean foundText = false;
+        boolean prev_child_is_View = false;
+
+        for (int i = 0; i < parent.getChildCount(); i++) {
+
+            View child = parent.getChildAt(i);
+            boolean childRemoved = false;
+
+            /* Found some text, remove labels and check for matches on non-labels */
+            if (child instanceof TextView) {
+
+                // Found text at the top-level that is probably a label, or an explicitly tagged label
+                if (isRootViewGroup ||
+                        (child.getTag() != null && child.getTag().toString().equals("label"))) {
+                    parent.removeView(child);
+                    childRemoved = true;
+                    i--;
+                }
+
+                // Found matching text!
+                else if (((TextView) child).getText().toString().toLowerCase().contains(text)) {
+                    foundText = true;
+                }
+
+                // No match
+            }
+
+            /* This child is a View and the previous child was a View, remove duplicates */
+            else if (child != null && prev_child_is_View && child.getClass().equals(android.view.View.class)) {
+                parent.removeView(child);
+                childRemoved = true;
+                i--;
+            }
+
+            /* Found a group, need to recursively search through it */
+            else if (child instanceof ViewGroup) {
+                // Look for matching TextView in the ViewGroup, remove the ViewGroup if no match is found
+                if (!this.loopViews((ViewGroup) child, text, false, indent + "  ")) {
+                    parent.removeView(child);
+                    childRemoved = true;
+                    i--;
+                } else {
+                    foundText = true;
+                }
+            }
+
+            if (child != null && !childRemoved) {
+                prev_child_is_View = child.getClass().equals(android.view.View.class);
+            }
+        }
+        return foundText;
     }
 
     private void setSettingItems() {
-        View pro = findViewById(R.id.pro);
+        View pro = findViewById(R.id.settings_child_pro);
         if (SettingValues.tabletUI) {
             pro.setVisibility(View.GONE);
         } else {
@@ -132,7 +299,25 @@ public class Settings extends BaseActivity {
             });
         }
 
-        findViewById(R.id.general).setOnClickListener(new OnSingleClickListener() {
+        ((EditText) findViewById(R.id.settings_search)).addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = s.toString().trim();
+                /* No idea why, but this event can fire many times when there is no change */
+                if (text.equalsIgnoreCase(prev_text)) return;
+                BuildLayout(text);
+                prev_text = text;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        findViewById(R.id.settings_child_general).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsGeneral.class);
@@ -140,7 +325,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.history).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_history).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsHistory.class);
@@ -148,7 +333,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.about).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_about).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsAbout.class);
@@ -156,7 +341,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.settings_child_offline).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Settings.this, ManageOfflineContent.class);
@@ -164,7 +349,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.datasave).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_datasave).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsData.class);
@@ -172,7 +357,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.subtheme).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_subtheme).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsSubreddit.class);
@@ -180,7 +365,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.filter).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_filter).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
 
@@ -189,7 +374,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.synccit).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_synccit).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
 
@@ -198,7 +383,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.reorder).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_reorder).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
@@ -206,7 +391,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.theme).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_maintheme).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
 
@@ -215,7 +400,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.handling).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_handling).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsHandling.class);
@@ -223,7 +408,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.layout).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_layout).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, EditCardsLayout.class);
@@ -231,7 +416,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.backup).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_backup).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsBackup.class);
@@ -239,7 +424,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.font).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_font).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsFont.class);
@@ -247,7 +432,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.tablet).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_tablet).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                   /*  Intent inte = new Intent(Overview.this, Overview.class);
@@ -369,9 +554,9 @@ public class Settings extends BaseActivity {
         });
 
         if(FDroid.isFDroid){
-            ((TextView) findViewById(R.id.donatetext)).setText("Donate via PayPal");
+            ((TextView) findViewById(R.id.settings_child_donatetext)).setText("Donate via PayPal");
         }
-        findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_support).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 if(FDroid.isFDroid){
@@ -384,7 +569,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.comments).setOnClickListener(new OnSingleClickListener() {
+        findViewById(R.id.settings_child_comments).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent inte = new Intent(Settings.this, SettingsComments.class);
@@ -393,7 +578,7 @@ public class Settings extends BaseActivity {
         });
 
         if (Authentication.isLoggedIn && NetworkUtil.isConnected(this)) {
-            findViewById(R.id.reddit_settings).setOnClickListener(new OnSingleClickListener() {
+            findViewById(R.id.settings_child_reddit_settings).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
                     Intent i = new Intent(Settings.this, SettingsReddit.class);
@@ -401,9 +586,14 @@ public class Settings extends BaseActivity {
                 }
             });
         } else {
-            findViewById(R.id.reddit_settings).setEnabled(false);
-            findViewById(R.id.reddit_settings).setAlpha(0.25f);
+            findViewById(R.id.settings_child_reddit_settings).setEnabled(false);
+            findViewById(R.id.settings_child_reddit_settings).setAlpha(0.25f);
         }
+    }
+
+    @Override
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder) {
+        mSettingsGeneralFragment.onFolderSelection(dialog, folder);
     }
 
     @Override
@@ -411,4 +601,5 @@ public class Settings extends BaseActivity {
         super.onDestroy();
         SettingValues.prefs.unregisterOnSharedPreferenceChangeListener(prefsListener);
     }
+
 }
