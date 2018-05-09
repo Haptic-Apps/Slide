@@ -42,6 +42,13 @@
                 android:layout_height="36dp"
                 android:padding="8dp"
                 app:srcCompat="@drawable/nav"/>
+        <ImageView
+            android:id="@+id/collapse_expand"
+            style="@style/Ripple.List"
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            app:srcCompat="@drawable/comment"/>
 
         <ImageView
                 android:id="@+id/down"

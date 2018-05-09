@@ -240,6 +240,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public void expandAll() {
+        if (currentComments == null) return;
+        for (CommentObject o : currentComments) {
+            if (o.comment.isTopLevel()) {
+                if (hiddenPersons.contains(o.comment.getComment().getFullName())) {
+                    hiddenPersons.remove(o.comment.getComment().getFullName());
+                }
+                unhideAll(o.comment);
+            }
+        }
+        notifyItemChanged(2);
+    }
+
+
     public void collapseAll() {
         if (currentComments == null) return;
         for (CommentObject o : currentComments) {
@@ -1907,6 +1921,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         } catch (Exception ignored) {
 
+        }
+    }
+
+    public void unhideAll(CommentNode n) {
+        unhideNumber(n, 0);
+        if (SettingValues.collapseComments) {
+            listView.setItemAnimator(null);
+            notifyDataSetChanged();
+        } else {
+            listView.setItemAnimator(new AlphaInAnimator());
+            notifyDataSetChanged();
         }
     }
 
