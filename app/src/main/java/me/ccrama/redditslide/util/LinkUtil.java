@@ -30,6 +30,9 @@ import net.dean.jraw.models.Submission;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import me.ccrama.redditslide.Activities.Crosspost;
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.ReaderMode;
@@ -281,5 +284,34 @@ public class LinkUtil {
                             PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
         }
         return packageName;
+    }
+
+    public static String removeUnusedParameters(String url) {
+        String returnUrl = url;
+        try {
+            String[] urlParts = url.split("\\?");
+            if (urlParts.length > 1) {
+                String[] paramArray = urlParts[1].split("&");
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(urlParts[0]);
+                for (int i = 0; i < paramArray.length; i++) {
+                    String[] paramPairArray = paramArray[i].split("=");
+                    if (paramPairArray.length > 1) {
+                        if (i == 0) {
+                            stringBuilder.append("?");
+                        } else {
+                            stringBuilder.append("&");
+                        }
+                        stringBuilder.append(URLDecoder.decode(paramPairArray[0], "UTF-8"));
+                        stringBuilder.append("=");
+                        stringBuilder.append(URLDecoder.decode(paramPairArray[1], "UTF-8"));
+                    }
+                }
+                returnUrl = stringBuilder.toString();
+            }
+            return returnUrl;
+        } catch (UnsupportedEncodingException ignored) {
+            return returnUrl;
+        }
     }
 }
