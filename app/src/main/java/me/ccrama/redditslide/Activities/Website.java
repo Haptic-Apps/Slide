@@ -33,9 +33,9 @@ import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.NestedWebView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class Website extends BaseActivityAnim {
@@ -147,6 +147,7 @@ public class Website extends BaseActivityAnim {
                 return true;
             case R.id.chrome:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
+                browserIntent.setPackage(LinkUtil.getPackage(browserIntent));
                 startActivity(Intent.createChooser(browserIntent, getDomainName(v.getUrl())));
                 return true;
             case R.id.share:

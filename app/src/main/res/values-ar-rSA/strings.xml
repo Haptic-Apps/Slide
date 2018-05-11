@@ -234,6 +234,7 @@
   <string name="settings_synccit_connected">تم الاتصال بنجاح!</string>
   <!-- View types -->
   <!--Search methods -->
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="btn_add_subreddit">إضافة سوبريديت</string>
   <string name="reorder_subreddit_name">اسم السوبريديت</string>

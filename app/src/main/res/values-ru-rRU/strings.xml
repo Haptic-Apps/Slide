@@ -125,6 +125,7 @@
   <string name="profile_btn_tag">Установить тег</string>
   <string name="profile_btn_untag">Удалить тег</string>
   <string name="profile_info">Данные пользователя</string>
+  <string name="profile_block_user">Заблокировать пользователя</string>
   <!-- Comment text options -->
   <string name="comment_gild">Позолотить комментарий</string>
   <string name="comment_share">Поделиться комментарием</string>
@@ -223,6 +224,7 @@
   <string name="err_comment_post_message">\n\nВаше сообщение было сохранено как черновик. Пожалуйста попробуйте отправить его еще раз позже.</string>
   <string name="err_comment_post_copy">Копировать комментарий</string>
   <string name="err_connection_failed_msg">Сбой подключения к Reddit. Пожалуйста проверьте подключение к Интернету и повторите попытку, или войдите в автономный режим.</string>
+  <string name="err_block_user">Ошибка при блокировке пользователя</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF не найдена</string>
   <string name="gif_err_msg">Произошла ошибка при загрузке этого GIF. Пожалуйста, повторите попытку.</string>
@@ -295,6 +297,12 @@
   <string name="mail_mark_unread">Отметить как непрочитанное</string>
   <string name="mail_view_full_thread">Просмотр полного потока</string>
   <string name="mail_message_copied">Сообщение скопировано</string>
+  <plurals name="mail_notification_title">
+    <item quantity="one">У вас %d новое сообщение!</item>
+    <item quantity="few">У вас %d новых сообщения!</item>
+    <item quantity="many">У вас %d новых сообщений!</item>
+    <item quantity="other">У вас %d новых сообщений!</item>
+  </plurals>
   <plurals name="mod_mail_notification_title">
     <item quantity="one">У вас %d сообщение от мод-а!</item>
     <item quantity="few">У вас %d сообщений от мод-а!</item>
@@ -480,7 +488,6 @@
   <string name="settings_disable_nsfw_photo">Скрыть все NSFW фото</string>
   <string name="settings_store_history">Сохранять историю</string>
   <string name="settings_store_nsfw_history">Сохранять историю NSFW-записей</string>
-  <string name="settings_confirm_exit">Подтверждать Выход</string>
   <string name="settings_commentnav">Перемещение между родительскими комментариями</string>
   <string name="share_link">Поделиться ссылкой</string>
   <string name="posts_hidden_forever">Пост скрыт навсегда</string>
@@ -613,6 +620,7 @@
   <!--Search methods -->
   <string name="subreddit_search_method_title">Метод поиска по сабреддитам</string>
   <string name="subreddit_search_method_toolbar">Длительное нажатие на заголовок панели инструментов</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Добавить домен</string>
   <string name="reorder_add_subreddit">Добавить сабреддит</string>
@@ -725,6 +733,18 @@
     <item quantity="many">%d дней</item>
     <item quantity="other">%d дней</item>
   </plurals>
+  <plurals name="time_hours">
+    <item quantity="one">%d час</item>
+    <item quantity="few">%d часа</item>
+    <item quantity="many">%d часов</item>
+    <item quantity="other">%d часов</item>
+  </plurals>
+  <plurals name="time_minutes">
+    <item quantity="one">%d минуту</item>
+    <item quantity="few">%d минуты</item>
+    <item quantity="many">%d минут</item>
+    <item quantity="other">%d минут</item>
+  </plurals>
   <plurals name="time_seconds">
     <item quantity="one">%d секунду</item>
     <item quantity="few">%d секунд</item>
@@ -787,10 +807,15 @@
   <string name="manage_drafts">Управление черновиками</string>
   <string name="really_delete_drafts">Действительно удалить эти черновики?</string>
   <!-- Strings for widgets -->
+  <string name="widget_theme_dark">ТЁМНАЯ</string>
+  <string name="widget_theme_light">СВЕТЛАЯ</string>
+  <string name="widget_theme_clear">ПРОЗРАЧНАЯ</string>
+  <string name="widget_posttype_title">Вид записей</string>
   <string name="widget_posttype_list">СПИСОК</string>
   <string name="widget_posttype_bigpic">БОЛЬШОЕ ИЗОБРАЖЕНИЕ</string>
   <string name="widget_posttype_compact">КОМПАКТНЫЙ</string>
   <string name="widget_subname_hint">Название сабреддита</string>
+  <string name="widget_visuals">Внешний вид</string>
   <string name="widget_content">Контент</string>
   <string name="widget_loading">Загрузка&#8230;</string>
   <string name="widget_creation_title">Новый виджет</string>
@@ -799,6 +824,7 @@
   <string name="force_change_subscription">Не удалось изменить подписку</string>
   <string name="force_change_subscription_desc">Хотите изменить его локально?</string>
   <string name="never_load_images">Не загружать изображения</string>
+  <string name="load_low_quality">Загружать изображения низкого качества (макс. 320x320)</string>
   <string name="choose_color_title">Выберите цвет</string>
   <string name="enter_text_to_filter_click_enter_to_add">Введите текст фильтра, нажмите \'Enter\' чтобы добавить</string>
   <string name="show_content_type_text_beside_links">Отображать тип контента рядом со ссылками</string>
@@ -810,15 +836,58 @@
   <string name="snackbar_flair_error">Ошибка при установке пометки, попробуйте позже</string>
   <string name="sidebar_submods">Модераторы /r/%s</string>
   <!--Filtering dialog -->
+  <string name="filter_title">Что вы хотите фильтровать?</string>
+  <string name="filter_posts_sub">Записи из /r/%1$s</string>
+  <string name="filter_posts_user">Записи от /u/%1$s</string>
+  <string name="filter_posts_urls">Записи ведущие на %1$s</string>
+  <string name="filter_btn">Фильтровать</string>
   <!-- Caching -->
+  <string name="autocache_subreddits">Автоматически кэшировать сабреддиты</string>
+  <string name="autocache_time">Время авто-кэширования</string>
+  <string name="cache_subreddits_now">Кэшировать сабреддиты сейчас</string>
+  <string name="cache_wifi_only">Кэшировать только по WiFi</string>
+  <string name="comments_depth">Глубина кэшируемых комментариев</string>
+  <string name="comments_count">Количество кэшируемых комментариев</string>
   <!-- Saving location setting -->
+  <string name="set_gif_save_loc">Выберите место для сохранения GIF</string>
+  <string name="set_gif_save_loc_msg">Место для сохранения GIF не было выбрано. Хотите сделать это сейчас?</string>
+  <string name="set_video_save_loc">Выберите место для сохранения видео</string>
+  <string name="set_video_save_loc_msg">Место для сохранения видео не было выбрано. Хотите сделать это сейчас?</string>
+  <string name="set_save_location">Выберите место для сохранения изображений</string>
+  <string name="set_save_location_msg">Место для сохранения изображений не было выбрано. Хотите сделать это сейчас?</string>
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Загрузить больше комментариев</string>
+  <string name="card_right_thumb">Отображать миниатюру справа</string>
+  <string name="setting_filter_subreddits">Фильтры сабреддитов</string>
+  <string name="subreddit_theme">Тема сабреддита</string>
   <string name="dialog_color_sync_title">Синхронизация цветов</string>
+  <string name="dialog_color_sync_message">Эта функция попытается получить \'ключевой цвет\' сабреддита, установленный модераторами. Это не затронет уже перекрашенные сабреддиты.</string>
+  <string name="fab_hide">Скрыть просмотренные записи</string>
+  <string name="fab_create">Создать новую запись</string>
+  <string name="fab_disabled">Отключена</string>
+  <string name="handling_internal_browser">Использовать встроенный браузер</string>
+  <string name="handling_external_browser">Использовать внешний браузер</string>
   <string name="mode_list">Список</string>
+  <string name="mode_centered">Карточка с изображением в центре</string>
+  <string name="mode_card">Карточка</string>
   <string name="mode_thumbnail">Миниатюра</string>
+  <string name="mode_big_thumbnails">Широкие миниатюры</string>
+  <string name="mode_cropped">Обрезанное большое изображение</string>
+  <string name="mode_bigpic">Большое изображение</string>
+  <string name="press_actionbar">Нажать на стрелку для показа панели действий</string>
+  <string name="tap_actionbar">Долгое нажатие для показа панели действий</string>
+  <string name="always_actionbar">Всегда показывать панель действий</string>
+  <string name="sub_content_filter">Фильтр содержимого сабреддитов</string>
   <string name="submission_share_reddit_url">Поделиться комментариями</string>
+  <string name="filter_content">Фильтровать следующее содержимое</string>
+  <string name="content_to_hide">Прятать следующее содержимое в %1$s</string>
+  <string name="save_for_offline_viewing">Сохранить публикации для автономного просмотра</string>
+  <string name="btn_collapse_children_all">Свернуть дочерние комментарии</string>
+  <string name="btn_open_content">Открыть содержимое</string>
   <string name="btn_report">Отчет</string>
+  <string name="report_post">Пожаловаться на запись</string>
+  <string name="report_comment">Пожаловаться на комментарий</string>
+  <string name="input_reason_for_report">Причина жалобы</string>
   <string name="msg_report_sent">Отчет отправлен</string>
   <string name="never">Никогда</string>
   <string name="subreddit_name_tint">Название Subreddit</string>
@@ -830,10 +899,14 @@
   <string name="msg_sent_failure">Не удалось отправить сообщение</string>
   <string name="msg_send_user_dne">Данный пользователь не существует</string>
   <string name="guest">Гость</string>
+  <string name="btn_suggest_title">Предложить заголовок</string>
+  <string name="btn_offline">Войти в автономный режим</string>
   <string name="backup_complete">Резервное копирование завершено!</string>
   <string name="clear_all_sub_themes_msg">Данное действие невозможно отменить</string>
   <string name="title_not_found">Заголовок не найден</string>
   <string name="really_delete_submission">Вы действительно хотите удалить публикацию? Это действие невозможно отменить</string>
+  <string name="comment_removed">Комментарий удален</string>
+  <string name="set_nav_mode">Изменить режим навигации</string>
   <string name="rate_slide">Оцените Slide</string>
   <string name="share_slide">Поделитесь Slide</string>
   <string name="create_folder">Создать папку</string>
@@ -846,6 +919,8 @@
   <string name="friends_sort_error">/r/friends не сортируется</string>
   <string name="shadowbox_comments_nolinks">В комментариях не найдено ссылок</string>
   <string name="draw_undo">Отменить</string>
+  <string name="empty_preview_text">Здесь ничего нет ¯\\_(ツ)_/¯</string>
+  <string name="theme_red_shift">Red shift</string>
   <string name="manage_your_subreddits">Управление сабреддитами</string>
   <string name="enlarge_links">Увеличить ссылки</string>
   <string name="enlarge_links_warning">На ссылки будет проще нажимать, но некоторые линии могут стать больше других</string>
@@ -854,4 +929,6 @@
   <string name="mod_ban_reason_required">Необходима причина</string>
   <string name="settings_abbreviate_post_scores">Сокращать карму записей (напр. 24.0k)</string>
   <string name="settings_wide_depth_indicators">Широкие индикаторы глубины комментариев</string>
+  <string name="theme_pixel">Pixel</string>
+  <string name="theme_deep">Deep</string>
 </resources>

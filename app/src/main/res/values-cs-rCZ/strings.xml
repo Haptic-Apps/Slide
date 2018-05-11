@@ -284,7 +284,6 @@
   <string name="settings_notification">Kontrolovat nové zprávy každých %1$s</string>
   <string name="settings_notification_short">Zkontrolovat každých %1$s</string>
   <string name="settings_disable_nsfw_photo">Skrýt všechny NSFW fotky</string>
-  <string name="settings_confirm_exit">Dialog potvrzení ukončení</string>
   <string name="share_link">Sdílet odkaz</string>
   <string name="posts_hidden_forever">Příspěvky navždy skryty</string>
   <string name="share_image">Sdílet obrázek</string>
@@ -312,6 +311,7 @@
   <string name="settings_section_hide_images">Skrýt obrázky</string>
   <!-- View types -->
   <!--Search methods -->
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <!-- Save categories -->
   <!-- Setting subheaders -->

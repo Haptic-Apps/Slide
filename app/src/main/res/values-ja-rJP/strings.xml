@@ -137,6 +137,7 @@
   <string name="profile_btn_tag">タグを付ける</string>
   <string name="profile_btn_untag">タグを外す</string>
   <string name="profile_info">プロフィール情報</string>
+  <string name="profile_block_user">ユーザーをブロック</string>
   <!-- Comment text options -->
   <string name="comment_gild">コメントをゴールド</string>
   <string name="comment_share">コメントを共有</string>
@@ -235,6 +236,7 @@
   <string name="err_comment_post_message">\n\nあなたのコメントは下書きに保存されました。後でもう一度試してみてください。</string>
   <string name="err_comment_post_copy">コメントをコピーする</string>
   <string name="err_connection_failed_msg">Reddit への接続に失敗しました。インターネット接続を確認してもう一度実行するか、オフライン モードにしてください。</string>
+  <string name="err_block_user">ユーザーのブロック時にエラーが発生しました</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF が見つかりません</string>
   <string name="gif_err_msg">この GIF の読み込み時にエラーが発生しました。GIF を再度開いてもう一度試してください。</string>
@@ -494,7 +496,6 @@
   <string name="settings_disable_nsfw_photo">すべての NSFW 写真を隠す</string>
   <string name="settings_store_history">履歴を保存</string>
   <string name="settings_store_nsfw_history">NSFW 履歴を保存</string>
-  <string name="settings_confirm_exit">終了ダイアログを確認</string>
   <string name="settings_commentnav">親コメント間を移動</string>
   <string name="share_link">リンクを共有</string>
   <string name="posts_hidden_forever">投稿を永久に隠す</string>
@@ -639,6 +640,7 @@
   <string name="subreddit_search_method_drawer">ドロワー内の検索バー</string>
   <string name="subreddit_search_method_toolbar">ツールバーのタイトルを長押し</string>
   <string name="subreddit_search_method_both">ドロワーとツールバーのタイトルの両方</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="reorder_add_domain">ドメインを追加</string>
   <string name="reorder_add_subreddit">Subreddit を追加</string>
@@ -706,6 +708,7 @@
   <string name="title_subreddit_settings">Subreddit テーマ &amp; レイアウト</string>
   <string name="title_edit_theme">テーマを編集</string>
   <string name="title_submit_post">投稿を送信</string>
+  <string name="title_crosspost">クロスポスト</string>
   <string name="title_settings">設定</string>
   <string name="title_share">次で共有</string>
   <string name="title_login">Reddit にログイン</string>
@@ -1061,4 +1064,15 @@
   <string name="setting_notification_piggybacking">通知のピギーバック</string>
   <string name="setting_notification_piggybacking_desc">Reddit の公式アプリがプッシュ通知を取得した場合のみメールを確認します</string>
   <string name="install_notif_piggyback">通知のピギーバックができるように公式の Reddit アプリをインストール</string>
+  <string name="success_block_user">ユーザーを正常にブロックしました</string>
+  <string name="settings_highlight_time_desc"><![CDATA[設定 > 投稿レイアウトで \'前回訪問してからのコメント数を表示\' を有効にする必要があります]]></string>
+  <string name="settings_colored_time">新しいコメントに色の付いたタイムバブル</string>
+  <string name="theme_deep">ディープ</string>
+  <string name="type_vreddit">Reddit ビデオ</string>
+  <string name="authors_above">上の作者</string>
+  <string name="btn_crosspost">クロスポスト</string>
+  <string name="btn_reset_color">色をリセット</string>
+  <string name="settings_shortlink_description">\'https://redd.it/\' としてリンクが共有されます</string>
+  <string name="settings_shortlink">可能な場合 Reddit 短縮リンクを共有</string>
+  <string name="firefox">Firefox</string>
 </resources>

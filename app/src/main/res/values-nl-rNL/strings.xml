@@ -410,7 +410,6 @@
   <string name="settings_disable_nsfw_photo">Alle NSFW-afbeeldingen verbergen</string>
   <string name="settings_store_history">Geschiedenis bewaren</string>
   <string name="settings_store_nsfw_history">NSFW-geschiedenis geschiedenis bewaren</string>
-  <string name="settings_confirm_exit">\"Sluiten bevestigen\"-melding</string>
   <string name="settings_commentnav">Navigeer door bovenliggende reacties</string>
   <string name="share_link">Link delen</string>
   <string name="posts_hidden_forever">Berichten voor altijd verborgen</string>
@@ -520,6 +519,7 @@
   <string name="subreddit_search_method_drawer">Zoekbalk in het uitschuifbaar menu</string>
   <string name="subreddit_search_method_toolbar">Lang drukken op de titelbar</string>
   <string name="subreddit_search_method_both">In zowel het uitschuifbaar menu als in de titelbalk</string>
+  <!-- Back button behavior -->
   <!-- Subscription managing -->
   <string name="FAQ">VGV</string>
   <string name="alphabetize_subreddits">Alfabetiseer subreddits</string>

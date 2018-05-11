@@ -101,6 +101,7 @@ public class CommentAdapterHelper {
         Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
         Drawable parent = mContext.getResources().getDrawable(R.drawable.commentchange);
+        Drawable replies = mContext.getResources().getDrawable(R.drawable.notifs);
         Drawable permalink = mContext.getResources().getDrawable(R.drawable.link);
         Drawable report = mContext.getResources().getDrawable(R.drawable.report);
 
@@ -112,6 +113,7 @@ public class CommentAdapterHelper {
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         parent.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         permalink.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        replies.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -127,7 +129,9 @@ public class CommentAdapterHelper {
             if (Authentication.isLoggedIn) {
                 b.sheet(3, saved, save);
                 b.sheet(16, report, mContext.getString(R.string.btn_report));
-
+            }
+            if(Authentication.name.equalsIgnoreCase(baseNode.getComment().getAuthor())){
+                b.sheet(50, replies, mContext.getString(R.string.disable_replies_comment));
             }
         }
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
@@ -159,6 +163,10 @@ public class CommentAdapterHelper {
                                 + n.getFullName().substring(3, n.getFullName().length())
                                 + "?context=3";
                         new OpenRedditLink(mContext, s);
+                    }
+                    break;
+                    case 50: {
+                        setReplies(baseNode.getComment(), holder, !baseNode.getComment().getDataNode().get("send_replies").asBoolean());
                     }
                     break;
                     case 5: {
@@ -267,6 +275,45 @@ public class CommentAdapterHelper {
             }
         });
         b.show();
+    }
+
+    private static void setReplies(final Comment comment, final CommentViewHolder holder, final boolean showReplies) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    new AccountManager(Authentication.reddit).sendRepliesToInbox(comment, showReplies);
+
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Snackbar s;
+                try {
+                    if (holder.itemView != null) {
+                        if (!showReplies) {
+                            s = Snackbar.make(holder.itemView, R.string.replies_disabled_comment,
+                                    Snackbar.LENGTH_LONG);
+                        } else {
+                            s = Snackbar.make(holder.itemView, R.string.replies_enabled_comment,
+                                    Snackbar.LENGTH_SHORT);
+                        }
+                        View view = s.getView();
+                        TextView tv = view.findViewById(
+                                android.support.design.R.id.snackbar_text);
+                        tv.setTextColor(Color.WHITE);
+                        s.show();
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        }.execute();
     }
 
     private static void viewCommentParent(CommentAdapter adapter, CommentViewHolder holder,
