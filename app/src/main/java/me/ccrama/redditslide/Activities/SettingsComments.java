@@ -24,14 +24,19 @@ public class SettingsComments extends BaseActivityAnim {
                     SettingValues.fastscroll = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FASTSCROLL, isChecked).apply();
 
-                    //Disable autohidenav if commentNav isn't checked
+                    //Disable autohidenav and showcollapseexpand if commentNav isn't checked
                     if (!isChecked) {
                         findViewById(R.id.autohidenav).setEnabled(false);
                         ((SwitchCompat) findViewById(R.id.autohidenav)).setChecked(SettingValues.commentAutoHide);
                         findViewById(R.id.auto_hide_the_comment_nav_bar_text).setAlpha(0.25f);
+                        findViewById(R.id.showcollapseexpand).setEnabled(false);
+                        ((SwitchCompat) findViewById(R.id.showcollapseexpand)).setChecked(SettingValues.commentAutoHide);
+                        findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(0.25f);
                     } else {
                         findViewById(R.id.autohidenav).setEnabled(true);
                         findViewById(R.id.auto_hide_the_comment_nav_bar_text).setAlpha(1f);
+                        findViewById(R.id.showcollapseexpand).setEnabled(true);
+                        findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(1f);
                     }
                 }
             });
@@ -117,6 +122,23 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.commentAutoHide = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_AUTOHIDE_COMMENTS, isChecked).apply();
+                }
+            });
+        }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.showcollapseexpand);
+            single.setChecked(SettingValues.showCollapseExpand);
+
+            if (!((SwitchCompat) findViewById(R.id.commentnav)).isChecked()) {
+                single.setEnabled(false);
+                findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(0.25f);
+            }
+
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.showCollapseExpand = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_COLLAPSE_EXPAND, isChecked).apply();
                 }
             });
         }

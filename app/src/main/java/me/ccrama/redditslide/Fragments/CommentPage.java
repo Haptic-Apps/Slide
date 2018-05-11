@@ -384,20 +384,25 @@ public class CommentPage extends Fragment {
         if (!SettingValues.fastscroll) {
             fastScroll.setVisibility(View.GONE);
         } else {
-            v.findViewById(R.id.collapse_expand).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (adapter != null) {
-                        if (collapsed) {
-                            adapter.expandAll();
-                            collapsed = !collapsed;
-                        } else {
-                            adapter.collapseAll();
-                            collapsed = !collapsed;
+            if (!SettingValues.showCollapseExpand) {
+                v.findViewById(R.id.collapse_expand).setVisibility(View.GONE);
+            } else {
+                v.findViewById(R.id.collapse_expand).setVisibility(View.VISIBLE);
+                v.findViewById(R.id.collapse_expand).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (adapter != null) {
+                            if (collapsed) {
+                                adapter.expandAll();
+                                collapsed = !collapsed;
+                            } else {
+                                adapter.collapseAll();
+                                collapsed = !collapsed;
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

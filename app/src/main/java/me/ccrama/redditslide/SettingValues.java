@@ -26,6 +26,7 @@ public class SettingValues {
     public static final String PREF_NIGHT_THEME               = "nightTheme";
     public static final String PREF_TYPE_IN_TEXT              = "typeInText";
     public static final String PREF_AUTOHIDE_COMMENTS         = "autohideComments";
+    public static final String PREF_SHOW_COLLAPSE_EXPAND      = "showCollapseExpand";
     public static final String PREF_NO_IMAGES                 = "noImages";
     public static final String PREF_AUTOTHEME                 = "autotime";
     public static final String PREVIEWS_LEFT                  = "previewsLeft";
@@ -147,6 +148,7 @@ public class SettingValues {
     public static boolean                 actionbarVisible;
     public static boolean                 actionbarTap;
     public static boolean                 commentAutoHide;
+    public static boolean                 showCollapseExpand;
     public static boolean                 fullCommentOverride;
     public static boolean                 lowResAlways;
     public static boolean                 noImages;
@@ -302,6 +304,7 @@ public class SettingValues {
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
         rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
         commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
+        showCollapseExpand = prefs.getBoolean(PREF_SHOW_COLLAPSE_EXPAND, false);
         highlightCommentOP = prefs.getBoolean(PREF_HIGHLIGHT_COMMENT_OP, true);
 
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);

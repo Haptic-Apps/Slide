@@ -1189,5 +1189,6 @@
     <string name="settings_shortlink_description">Links will be shared as \'https://redd.it/\'</string>
     <string name="settings_shortlink">Share Reddit shortlink where possible</string>
     <string name="firefox">Firefox</string>
+    <string name="show_collapse_expand_nav_bar">Show collapse/expand button in the comment navigation bar</string>
 
 </resources>
