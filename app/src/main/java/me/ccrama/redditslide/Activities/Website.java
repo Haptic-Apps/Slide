@@ -385,19 +385,9 @@ public class Website extends BaseActivityAnim {
                         }
                         return super.shouldOverrideUrlLoading(view, url);
                     case VIDEO:
-                        if (Reddit.videoPlugin) {
-                            try {
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
-                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                sharingIntent.putExtra("url", url);
-                                view.getContext().startActivity(sharingIntent);
-                            } catch (Exception e) {
-                                return super.shouldOverrideUrlLoading(view, url);
-                            }
-                            return true;
+                        if (!LinkUtil.tryOpenWithVideoPlugin(url)) {
+                            return super.shouldOverrideUrlLoading(view, url);
                         }
-                        return super.shouldOverrideUrlLoading(view, url);
                     case EXTERNAL:
                     default:
                         return super.shouldOverrideUrlLoading(view, url);

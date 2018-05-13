@@ -14,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsCallback;
@@ -169,13 +170,30 @@ public class LinkUtil {
         }
 
         Uri uri = Uri.parse(url);
-        Uri toReturn;
-        try {
-            toReturn = uri.normalizeScheme();
-        } catch (NoSuchMethodError e) {
-            toReturn = uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return uri.normalizeScheme();
+        } else {
+            return uri;
         }
-        return toReturn;
+    }
+
+    public static boolean tryOpenWithVideoPlugin(@NonNull String url) {
+        if (Reddit.videoPlugin) {
+            try {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setClassName(
+                        Reddit.getAppContext().getString(R.string.youtube_plugin_package),
+                        Reddit.getAppContext().getString(R.string.youtube_plugin_class));
+                sharingIntent.putExtra("url", removeUnusedParameters(url));
+                Reddit.getAppContext().startActivity(sharingIntent);
+                return true;
+
+            } catch (Exception ignored) {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**

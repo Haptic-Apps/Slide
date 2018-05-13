@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -236,11 +235,14 @@ public class MultiredditOverview extends BaseActivityAnim {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -302,11 +304,14 @@ public class MultiredditOverview extends BaseActivityAnim {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -683,7 +688,7 @@ public class MultiredditOverview extends BaseActivityAnim {
             final View convertView = getLayoutInflater().inflate(R.layout.subforsublist, l, false);
 
             final String subreddit = sub;
-            final TextView t = ((TextView) convertView.findViewById(R.id.name));
+            final TextView t = convertView.findViewById(R.id.name);
             t.setText(subreddit);
 
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);

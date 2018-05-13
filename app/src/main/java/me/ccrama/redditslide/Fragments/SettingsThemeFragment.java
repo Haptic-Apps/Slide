@@ -63,11 +63,10 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
                 AlertDialogWrapper.Builder builder =
                         new AlertDialogWrapper.Builder(context);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
-                final LineColorPicker colorPicker =
-                        (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+                final LineColorPicker colorPicker = dialoglayout.findViewById(R.id.picker3);
 
                 int[] arrs = new int[ColorPreferences.getNumColorsFromThemeType(0)];
                 int i = 0;
@@ -113,7 +112,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
                 AlertDialogWrapper.Builder builder =
                         new AlertDialogWrapper.Builder(context);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
                 if (SettingValues.isNight()) {
@@ -320,13 +319,11 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 final LinearLayout dialoglayout = (LinearLayout) inflater.inflate(R.layout.choosemain, null);
                 final AlertDialogWrapper.Builder builder =
                         new AlertDialogWrapper.Builder(context);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
-                final LineColorPicker colorPicker =
-                        (LineColorPicker) dialoglayout.findViewById(R.id.picker);
-                final LineColorPicker colorPicker2 =
-                        (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
+                final LineColorPicker colorPicker = dialoglayout.findViewById(R.id.picker);
+                final LineColorPicker colorPicker2 = dialoglayout.findViewById(R.id.picker2);
 
                 colorPicker.setColors(ColorPreferences.getBaseColors(context));
                 int currentColor = Palette.getDefaultColor();
@@ -563,7 +560,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                             //todo save
                         }
                     });
-                    SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.enabled);
+                    SwitchCompat s = dialog.findViewById(R.id.enabled);
                     s.setChecked(SettingValues.nightMode);
                     s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -678,8 +675,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                             add("10pm");
                             add("11pm");
                         }};
-                        final Spinner startSpinner =
-                                (Spinner) dialoglayout.findViewById(R.id.start_spinner);
+                        final Spinner startSpinner = dialoglayout.findViewById(R.id.start_spinner);
                         final ArrayAdapter<String> startAdapter =
                                 new ArrayAdapter<>(context,
                                         android.R.layout.simple_spinner_item, timesStart);
@@ -727,8 +723,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                             add("9am");
                             add("10am");
                         }};
-                        final Spinner endSpinner =
-                                (Spinner) dialoglayout.findViewById(R.id.end_spinner);
+                        final Spinner endSpinner = dialoglayout.findViewById(R.id.end_spinner);
                         final ArrayAdapter<String> endAdapter =
                                 new ArrayAdapter<>(context,
                                         android.R.layout.simple_spinner_item, timesEnd);
@@ -763,7 +758,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                                 });
                     }
                     {
-                        Button okayButton = (Button) dialoglayout.findViewById(R.id.ok);
+                        Button okayButton = dialoglayout.findViewById(R.id.ok);
                         okayButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -782,12 +777,15 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                                                             int whichButton) {
                                             try {
                                                 context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                        Uri.parse("market://details?id="
+                                                                + context.getString(
+                                                                R.string.ui_unlock_package))));
                                             } catch (android.content.ActivityNotFoundException anfe) {
                                                 context.startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + context.getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })

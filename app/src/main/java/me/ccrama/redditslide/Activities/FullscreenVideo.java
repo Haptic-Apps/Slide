@@ -77,7 +77,9 @@ public class FullscreenVideo extends FullScreenActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=ccrama.me.slideyoutubeplugin")));
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                            "market://details?id=" + getString(
+                                                    R.string.youtube_plugin_package))));
                                 } catch (android.content.ActivityNotFoundException anfe) {
                                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
                                 }

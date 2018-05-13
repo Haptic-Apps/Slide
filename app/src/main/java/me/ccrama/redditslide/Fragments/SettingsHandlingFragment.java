@@ -59,8 +59,9 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                 @Override
                 public void onClick(View v) {
                     try {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("market://details?id=ccrama.me.slideyoutubeplugin")));
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                "market://details?id=" + context.getString(
+                                        R.string.youtube_plugin_package))));
                     } catch (android.content.ActivityNotFoundException anfe) {
                         context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
                                 "http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
@@ -79,7 +80,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                         : context.getString(R.string.handling_external_browser));
 
 
-        final SwitchCompat readernight = (SwitchCompat) context.findViewById(R.id.settings_handling_readernight);
+        final SwitchCompat readernight = context.findViewById(R.id.settings_handling_readernight);
         readernight.setEnabled(
                 SettingValues.nightMode && SettingValues.web && SettingValues.reader);
         readernight.setChecked(SettingValues.readerNight);
@@ -214,7 +215,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
 
         /* activity_settings_handling_child.xml does not load these elements so we need to null check */
         if (context.findViewById(R.id.domain) != null & context.findViewById(R.id.domainlist) != null) {
-            domain = (EditText) context.findViewById(R.id.domain);
+            domain = context.findViewById(R.id.domain);
             domain.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -270,8 +271,8 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
 
         ((LinearLayout) context.findViewById(R.id.domainlist)).removeAllViews();
         for (String s : SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
-            if (!s.isEmpty() && (Reddit.videoPlugin && (!s.contains("youtube.co") && !s.contains(
-                    "youtu.be")) || !Reddit.videoPlugin)) {
+            if (!s.isEmpty() && (!Reddit.videoPlugin || (!s.contains("youtube.co") && !s.contains(
+                    "youtu.be")))) {
                 s = s.trim();
                 final String finalS = s;
                 domains.add(finalS);

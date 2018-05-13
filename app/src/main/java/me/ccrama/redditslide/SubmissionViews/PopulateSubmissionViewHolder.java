@@ -270,20 +270,9 @@ public class PopulateSubmissionViewHolder {
                                     }
                                     break;
                                 case VIDEO:
-                                    if (Reddit.videoPlugin) {
-                                        try {
-                                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                            sharingIntent.setClassName(
-                                                    "ccrama.me.slideyoutubeplugin",
-                                                    "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                            sharingIntent.putExtra("url", submission.getUrl());
-                                            contextActivity.startActivity(sharingIntent);
-
-                                        } catch (Exception e) {
-                                            LinkUtil.openExternally(submission.getUrl());
-                                        }
-                                    } else {
-                                        LinkUtil.openExternally(submission.getUrl());
+                                    if (!LinkUtil.tryOpenWithVideoPlugin(submission.getUrl())) {
+                                        LinkUtil.openUrl(submission.getUrl(),
+                                                Palette.getStatusBarColor(), contextActivity);
                                     }
                                     break;
                             }

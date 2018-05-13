@@ -199,7 +199,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private static boolean isPackageInstalled(final Context ctx) {
         try {
             final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
+            final PackageInfo pi = pm.getPackageInfo(ctx.getString(R.string.ui_unlock_package), 0);
             if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
@@ -209,7 +209,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private static boolean isVideoPluginInstalled(final Context ctx) {
         try {
             final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo("ccrama.me.slideyoutubeplugin", 0);
+            final PackageInfo pi =
+                    pm.getPackageInfo(ctx.getString(R.string.youtube_plugin_package), 0);
             if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }

@@ -15,8 +15,8 @@ public class CheckInstall extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String packageName = intent.getDataString();
-        if (packageName.equals("ccrama.me.slideyoutubeplugin")
-                || packageName.equals("me.ccrama.slideforreddittabletuiunlock")) {
+        if (packageName.equals(context.getString(R.string.youtube_plugin_package))
+                || packageName.equals(context.getString(R.string.ui_unlock_package))) {
             ProcessPhoenix.triggerRebirth(context.getApplicationContext());
         }
     }

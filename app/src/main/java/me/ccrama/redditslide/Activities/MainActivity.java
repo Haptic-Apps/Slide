@@ -178,7 +178,6 @@ import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
-import static android.content.pm.PackageManager.MATCH_ALL;
 import static me.ccrama.redditslide.UserSubscriptions.modOf;
 
 
@@ -931,11 +930,14 @@ public class MainActivity extends BaseActivity
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -1004,11 +1006,14 @@ public class MainActivity extends BaseActivity
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -2235,12 +2240,15 @@ public class MainActivity extends BaseActivity
                                                     int whichButton) {
                                                 try {
                                                     startActivity(new Intent(Intent.ACTION_VIEW,
-                                                            Uri.parse(
-                                                                    "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                            Uri.parse("market://details?id="
+                                                                    + getString(
+                                                                    R.string.ui_unlock_package))));
                                                 } catch (ActivityNotFoundException e) {
                                                     startActivity(new Intent(Intent.ACTION_VIEW,
                                                             Uri.parse(
-                                                                    "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                    "http://play.google.com/store/apps/details?id="
+                                                                            + getString(
+                                                                            R.string.ui_unlock_package))));
                                                 }
                                             }
                                         })
