@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.Slide;
@@ -14,7 +16,8 @@ import me.ccrama.redditslide.Activities.Slide;
  */
 public class ColorPreferences {
 
-    public final static String FONT_STYLE = "THEME";
+    private final static String USER_THEME_DELIMITER = "$USER$";
+    public final static  String FONT_STYLE           = "THEME";
     private final Context context;
 
     public ColorPreferences(Context context) {
@@ -491,12 +494,30 @@ public class ColorPreferences {
         return open().edit();
     }
 
+    private String getUserThemeName(String themeName, String defaultValue) {
+        String userTheme =
+                open().getString(themeName.concat(USER_THEME_DELIMITER + Authentication.name),
+                        null);
+        if (userTheme != null) {
+            return userTheme.split(StringEscapeUtils.escapeJava(USER_THEME_DELIMITER))[0];
+        } else {
+            return open().getString(themeName, defaultValue);
+        }
+    }
+
+    private void setUserThemeName(String themeName, String defaultValue) {
+        edit().putString(themeName.concat(USER_THEME_DELIMITER + Authentication.name), defaultValue)
+                .commit();
+    }
+
     public Theme getFontStyle() {
         try {
             if (SettingValues.isNight()) {
-                return getColoredTheme(SettingValues.nightTheme, open().getString(FONT_STYLE, Theme.dark_amber.name()), Theme.valueOf(open().getString(FONT_STYLE, Theme.dark_amber.name())));
+                return getColoredTheme(SettingValues.nightTheme,
+                        getUserThemeName(FONT_STYLE, Theme.dark_amber.name()),
+                        Theme.valueOf(open().getString(FONT_STYLE, Theme.dark_amber.name())));
             }
-            return Theme.valueOf(open().getString(FONT_STYLE, Theme.dark_amber.name()));
+            return Theme.valueOf(getUserThemeName(FONT_STYLE, Theme.dark_amber.name()));
         } catch (Exception e) {
             return Theme.dark_amber;
         }
@@ -504,19 +525,19 @@ public class ColorPreferences {
 
     public Theme getFontStyleSubreddit(String s) {
         try {
-            return Theme.valueOf(open().getString(s, getFontStyle().name()));
+            return Theme.valueOf(getUserThemeName(s, getFontStyle().name()));
         } catch (Exception e) {
             return Theme.dark_amber;
         }
     }
 
     public void setFontStyle(Theme style) {
-        edit().putString(FONT_STYLE, style.name()).apply();
+        setUserThemeName(FONT_STYLE, style.name());
     }
 
     public int getThemeSubreddit(String s) {
         int back = getFontStyle().getThemeType();
-        String str = open().getString(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle());
+        String str = getUserThemeName(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle());
 
         if (Theme.valueOf(str).getThemeType() != back) {
             String[] names = str.split("_");
@@ -542,7 +563,7 @@ public class ColorPreferences {
             s = "Promoted";
         }
         int back = getFontStyle().getThemeType();
-        String str = open().getString(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle());
+        String str = getUserThemeName(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle());
         try {
             if (Theme.valueOf(str).getThemeType() != back) {
                 String[] names = str.split("_");
@@ -567,7 +588,9 @@ public class ColorPreferences {
     }
 
     public int getDarkThemeSubreddit(String s) {
-        return getColoredTheme(4, open().getString(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle()), getFontStyle()).baseId;
+        return getColoredTheme(4,
+                getUserThemeName(s.toLowerCase(Locale.ENGLISH), getFontStyle().getTitle()),
+                getFontStyle()).baseId;
     }
 
     private Theme getColoredTheme(int i, String base, Theme defaultTheme) {
@@ -590,11 +613,11 @@ public class ColorPreferences {
     }
 
     public void setFontStyle(Theme style, String s) {
-        edit().putString(s.toLowerCase(Locale.ENGLISH), style.name()).commit();
+        setUserThemeName(s.toLowerCase(Locale.ENGLISH), style.name());
     }
 
     public void removeFontStyle(String subreddit) {
-        edit().remove(subreddit).commit();
+        edit().remove(subreddit.concat(USER_THEME_DELIMITER + Authentication.name)).commit();
     }
 
     public int getColor(String s) {
