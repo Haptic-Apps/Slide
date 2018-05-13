@@ -23,7 +23,6 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -48,7 +47,6 @@ import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.CommentSort;
-import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Submission;
@@ -62,6 +60,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -111,7 +110,6 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -316,7 +314,7 @@ public class CommentPage extends Fragment {
         toolbar = v.findViewById(R.id.toolbar);
         toolbar.setPopupTheme(new ColorPreferences(getActivity()).getFontStyle().getBaseId());
 
-        if (!SettingValues.fabComments) {
+        if (!SettingValues.fabComments || archived || np || locked) {
             v.findViewById(R.id.comment_floating_action_button).setVisibility(View.GONE);
         } else {
             fab = v.findViewById(R.id.comment_floating_action_button);
@@ -331,11 +329,12 @@ public class CommentPage extends Fragment {
                 public void onClick(View v) {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
 
-                    final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
+                    final View dialoglayout = inflater.inflate(R.layout.comment_menu, null);
+                    dialoglayout.findViewById(R.id.menu).setVisibility(View.GONE);
                     final AlertDialogWrapper.Builder builder =
                             new AlertDialogWrapper.Builder(getActivity());
 
-                    final EditText e = dialoglayout.findViewById(R.id.entry);
+                    final EditText e = dialoglayout.findViewById(R.id.replyLine);
 
                     //Tint the replyLine appropriately if the base theme is Light or Sepia
                     if (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5) {
@@ -356,19 +355,55 @@ public class CommentPage extends Fragment {
                             .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
                     d.show();
-                    dialoglayout.findViewById(R.id.cancel)
+                    dialoglayout.findViewById(R.id.discard)
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     d.dismiss();
                                 }
                             });
-                    dialoglayout.findViewById(R.id.submit)
+                    final TextView profile = dialoglayout.findViewById(R.id.profile);
+                    final String[] changedProfile = {Authentication.name};
+                    profile.setText("/u/".concat(changedProfile[0]));
+                    profile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final HashMap<String, String> accounts = new HashMap<>();
+
+                            for (String s : Authentication.authentication.getStringSet("accounts",
+                                    new HashSet<String>())) {
+                                if (s.contains(":")) {
+                                    accounts.put(s.split(":")[0], s.split(":")[1]);
+                                } else {
+                                    accounts.put(s, "");
+                                }
+                            }
+                            final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+                            final int i = keys.indexOf(changedProfile[0]);
+
+                            AlertDialogWrapper.Builder builder =
+                                    new AlertDialogWrapper.Builder(getContext());
+                            builder.setTitle(getString(R.string.replies_switch_accounts));
+                            builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            changedProfile[0] = keys.get(which);
+                                            profile.setText("/u/".concat(changedProfile[0]));
+                                        }
+                                    });
+                            builder.alwaysCallSingleChoiceCallback();
+                            builder.setNegativeButton(R.string.btn_cancel, null);
+                            builder.show();
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.send)
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     adapter.dataSet.refreshLayout.setRefreshing(true);
-                                    new ReplyTaskComment(adapter.submission).execute(
+                                    adapter.new ReplyTaskComment(adapter.submission,
+                                            changedProfile[0]).execute(
                                             e.getText().toString());
                                     d.dismiss();
                                 }
@@ -2101,35 +2136,6 @@ public class CommentPage extends Fragment {
                 doGoUp(toGoto);
             }
         }
-    }
-
-    public class ReplyTaskComment extends AsyncTask<String, Void, String> {
-        public Contribution sub;
-
-        public ReplyTaskComment(Contribution n) {
-            sub = n;
-        }
-
-        @Override
-        public void onPostExecute(final String s) {
-            adapter.dataSet.refreshLayout.setRefreshing(false);
-            adapter.dataSet.loadMoreReplyTop(adapter, s);
-
-        }
-
-        @Override
-        protected String doInBackground(String... comment) {
-            if (Authentication.me != null) {
-                try {
-                    return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
-                } catch (ApiException e) {
-                    Log.v(LogUtil.getTag(), "UH OH!!");
-                    //todo this
-                }
-            }
-            return null;
-        }
-
     }
 
     public void doGoDown(int old) {
