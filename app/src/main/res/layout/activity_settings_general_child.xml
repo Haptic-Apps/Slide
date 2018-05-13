@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_general_child"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/settings_general_displayHeader"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="@string/display"
+        android:tag="label"
+        android:textColor="?attr/colorAccent" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_viewtype"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_view_type"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical"
+            android:layout_marginRight="64dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_general_expanded_toolbar"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:text="@string/settings_general_expanded_toolbar_desc"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/settings_general_expandedmenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor"
+            android:paddingRight="16dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_fab"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_title_fab"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_general_fab_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_subreddit_search_method"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/subreddit_search_method_title"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_general_subreddit_search_method_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/settings_general_notificationsHeader"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="@string/settings_title_notifications"
+        android:tag="label"
+        android:textColor="?attr/colorAccent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="Notifications include Inbox replies, Mod Mail, and Subreddit post notifications."
+        android:tag="label"
+        android:textColor="?attr/fontColor"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <TextView
+        android:id="@+id/settings_general_installreddit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/install_notif_piggyback"
+        android:tag="label"
+        android:textColor="?attr/fontColor"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_redditnotifs"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp">
+
+        <LinearLayout
+            android:id="@+id/settings_general_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical"
+            android:layout_marginRight="64dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_notification_piggybacking"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:text="@string/setting_notification_piggybacking_desc"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/settings_general_piggyback"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/settings_general_linearLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor"
+            android:paddingRight="16dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notifications"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_general_notifications_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_sub_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_sub_post_notifs"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_general_sub_notifs_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/settings_general_sortingHeader"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="@string/sorting"
+        android:tag="label"
+        android:textColor="?attr/colorAccent" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_sorting"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_title_sorting"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_general_sorting_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_sorting_comment"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sorting_default_comment"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_general_sorting_current_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/settings_general_downloadsHeader"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="@string/image_downloads"
+        android:tag="label"
+        android:textColor="?attr/colorAccent" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_download"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_image_location"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_general_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical"
+            android:layout_marginRight="64dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save_images_to_subreddit_specific_subfolders"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:text="@string/description_save_subfolders"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/settings_general_subfolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor"
+            android:paddingRight="16dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/settings_general_miscHeader"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="@string/settings_section_other"
+        android:tag="label"
+        android:textColor="?attr/colorAccent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_general_force_en"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:text="@string/settings_general_force_en_desc"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/settings_general_forcelanguage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor"
+            android:paddingRight="16dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical"
+            android:layout_marginRight="64dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_general_immersive_mode"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:text="@string/settings_general_immersive_mode_desc"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/settings_general_immersivemode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor"
+            android:paddingRight="16dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:id="@+id/settings_general_back_button_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/back_button_behavior_title"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp"/>
+
+            <TextView
+                    android:id="@+id/settings_general_back_button_behavior_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

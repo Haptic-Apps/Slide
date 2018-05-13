@@ -84,7 +84,8 @@
     <string name="theme_night">Night theme</string>
 
     <!-- Font settings -->
-    <string name="font_size">Font size</string>
+    <string name="font_size_comment">Comment font size</string>
+    <string name="font_size_post">Post font size</string>
     <string name="font_size_huge">Huge</string>
     <string name="font_size_larger">Larger</string>
     <string name="font_size_large">Large</string>

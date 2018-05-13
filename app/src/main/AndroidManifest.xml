@@ -568,7 +568,8 @@
         <activity
                 android:name=".Activities.Settings"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
-                android:theme="@style/swipeable">
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustNothing" >
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
                 <category android:name="android.intent.category.DEFAULT"/>
