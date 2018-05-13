@@ -594,6 +594,8 @@
     <string name="settings_set_image_location">Images will be saved to %s</string>
     <string name="settings_general_immersive_mode">Immersive fullscreen mode</string>
     <string name="settings_general_immersive_mode_desc">Hide the status and navigation bars (experimental)</string>
+    <string name="settings_general_picture_in_picture_title">Picture-in-picture mode</string>
+    <string name="settings_general_picture_in_picture_desc">Allow embedded videos to play in picture-in-picture (experimental)</string>
 
 
     <!-- Settings titles displayed in settings activity-->

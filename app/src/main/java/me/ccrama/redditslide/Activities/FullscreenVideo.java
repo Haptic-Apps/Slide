@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -30,8 +31,10 @@ public class FullscreenVideo extends FullScreenActivity {
     @Override
     public void finish() {
         super.finish();
-        v.loadUrl("about:blank");
-        overridePendingTransition(0, R.anim.fade_out);
+        if (!(canUsePictureInPicture() && isInPictureInPictureMode())) {
+            v.loadUrl("about:blank");
+            overridePendingTransition(0, R.anim.fade_out);
+        }
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -94,5 +97,28 @@ public class FullscreenVideo extends FullScreenActivity {
             LogUtil.v(dat);
             v.loadDataWithBaseURL("", dat, "text/html", "utf-8", "");
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (canUsePictureInPicture()) {
+            enterPictureInPictureMode();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (canUsePictureInPicture()) {
+            enterPictureInPictureMode();
+            if (isInPictureInPictureMode()) {
+                return;
+            }
+        }
+        super.onBackPressed();
+    }
+
+    private boolean canUsePictureInPicture() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && SettingValues.pictureInPicture;
     }
 }

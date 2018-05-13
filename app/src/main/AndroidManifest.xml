@@ -399,7 +399,9 @@
                 android:name=".Activities.FullscreenVideo"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:hardwareAccelerated="true"
-                android:theme="@style/swipeable"/>
+                android:theme="@style/swipeable"
+                android:supportsPictureInPicture="true"
+                android:resizeableActivity="true"/>
         <activity
                 android:name=".Activities.Wiki"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"

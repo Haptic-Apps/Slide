@@ -681,4 +681,64 @@
                     android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/settings_general_picture_in_picture_cell"
+            android:orientation="vertical">
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.25dp"
+                android:alpha=".25"
+                android:background="?attr/tintColor"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="64dp"
+                    android:orientation="vertical"
+                    android:layout_marginRight="64dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_general_picture_in_picture_title"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="14sp"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:text="@string/settings_general_picture_in_picture_desc"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="13sp"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/settings_general_picture_in_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="?attr/tintColor"
+                    android:button="@null"
+                    android:buttonTint="?attr/tintColor"
+                    android:hapticFeedbackEnabled="true"
+                    android:paddingEnd="16dp"
+                    android:textColor="?attr/fontColor"
+                    android:textColorHint="?attr/fontColor"
+                    android:paddingRight="16dp"/>
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

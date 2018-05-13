@@ -209,7 +209,26 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                 });
             }
         }
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_picture_in_picture);
 
+            if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)) {
+                context.findViewById(R.id.settings_general_picture_in_picture_cell)
+                        .setVisibility(View.GONE);
+            } else {
+                single.setChecked(SettingValues.pictureInPicture);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingsThemeFragment.changed = true;
+                        SettingValues.pictureInPicture = isChecked;
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_PICTURE_IN_PICTURE, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
         {
             SwitchCompat single = context.findViewById(R.id.settings_general_forcelanguage);
 
