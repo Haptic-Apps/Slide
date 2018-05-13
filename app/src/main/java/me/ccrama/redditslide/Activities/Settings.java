@@ -128,7 +128,6 @@ public class Settings extends BaseActivity
                 if(findViewById(R.id.settings_search).getVisibility() == View.VISIBLE){
                     findViewById(R.id.settings_search).setVisibility(View.GONE);
                     findViewById(R.id.search).setVisibility(View.VISIBLE);
-                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.md_nav_back);
                 } else {
                     onBackPressed();
                 }
@@ -136,8 +135,6 @@ public class Settings extends BaseActivity
             case R.id.search: {
                 findViewById(R.id.settings_search).setVisibility(View.VISIBLE);
                 findViewById(R.id.search).setVisibility(View.GONE);
-                getSupportActionBar().setHomeAsUpIndicator(R.drawable.close);
-
             }
             return true;
             default:
