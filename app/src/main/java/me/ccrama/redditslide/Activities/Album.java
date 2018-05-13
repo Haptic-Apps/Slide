@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,7 +98,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             finish();
         }
         if (id == R.id.external) {
-            LinkUtil.openExternally(url, this);
+            LinkUtil.openExternally(url);
         }
         if (id == R.id.download) {
             for (final Image elem : images) {
@@ -326,7 +325,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
-            recyclerView = (RecyclerView) rootView.findViewById(R.id.images);
+            recyclerView = rootView.findViewById(R.id.images);
             recyclerView.setLayoutManager(mLayoutManager);
             ((Album) getActivity()).url =
                     getActivity().getIntent().getExtras().getString(EXTRA_URL, "");
@@ -335,7 +334,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
             new LoadIntoRecycler(((Album) getActivity()).url, getActivity()).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR);
-            ((Album) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+            ((Album) getActivity()).mToolbar = rootView.findViewById(R.id.toolbar);
             ((Album) getActivity()).mToolbar.setTitle(R.string.type_album);
             ToolbarColorizeHelper.colorizeToolbar(((Album) getActivity()).mToolbar, Color.WHITE,
                     (getActivity()));

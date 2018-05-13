@@ -60,7 +60,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     LayoutInflater l = context.getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context);
-                    GridView gridview = (GridView) body.findViewById(R.id.images);
+                    GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapterTumblr(context, users));
 
 
@@ -173,7 +173,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getOriginalSize().getUrl());
                         main.startActivity(myIntent);
                     } else {
-                        LinkUtil.openExternally(user.getOriginalSize().getUrl(), main);
+                        LinkUtil.openExternally(user.getOriginalSize().getUrl());
                     }
                 }
             };
@@ -229,9 +229,9 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public AlbumViewHolder(View itemView) {
             super(itemView);
-            text = (SpoilerRobotoTextView) itemView.findViewById(R.id.imagetitle);
-            body = (SpoilerRobotoTextView) itemView.findViewById(R.id.imageCaption);
-            image = (ImageView) itemView.findViewById(R.id.image);
+            text = itemView.findViewById(R.id.imagetitle);
+            body = itemView.findViewById(R.id.imageCaption);
+            image = itemView.findViewById(R.id.image);
 
 
         }
