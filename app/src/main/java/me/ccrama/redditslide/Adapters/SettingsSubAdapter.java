@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
@@ -12,7 +11,6 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -54,8 +52,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         View convertView = holder.itemView;
-        final TextView t =
-                ((TextView) convertView.findViewById(R.id.name));
+        final TextView t = convertView.findViewById(R.id.name);
         t.setText(objects.get(position));
 
         final String subreddit = objects.get(position);
@@ -132,8 +129,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
         final ColorPreferences colorPrefs = new ColorPreferences(context);
         final String subreddit = multipleSubs ? null : subreddits.get(0);
-        final SwitchCompat bigPics = (SwitchCompat) dialoglayout.findViewById(R.id.bigpics);
-        final SwitchCompat selftext = (SwitchCompat) dialoglayout.findViewById(R.id.selftext);
+        final SwitchCompat bigPics = dialoglayout.findViewById(R.id.bigpics);
+        final SwitchCompat selftext = dialoglayout.findViewById(R.id.selftext);
 
         //Selected multiple subreddits
         if (multipleSubs) {
@@ -186,7 +183,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
 
-        final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+        final TextView title = dialoglayout.findViewById(R.id.title);
         title.setBackgroundColor(currentColor);
 
         if (multipleSubs) {
@@ -218,9 +215,10 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
         {
             //Primary color pickers
-            final LineColorPicker colorPickerPrimary = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
+            final LineColorPicker colorPickerPrimary = dialoglayout.findViewById(R.id.picker);
             //shades of primary colors
-            final LineColorPicker colorPickerPrimaryShades = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
+            final LineColorPicker colorPickerPrimaryShades =
+                    dialoglayout.findViewById(R.id.picker2);
 
             colorPickerPrimary.setColors(ColorPreferences.getBaseColors(context));
 
@@ -302,14 +300,14 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             }
 
             //Accent color picker
-            final LineColorPicker colorPickerAcc = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+            final LineColorPicker colorPickerAcc = dialoglayout.findViewById(R.id.picker3);
 
             {
                 //Get all possible accent colors (for day theme)
                 int[] arrs = new int[ColorPreferences.getNumColorsFromThemeType(0)];
                 int i = 0;
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                    if (type.getThemeType() == 0) {
+                    if (type.getThemeType() == ColorPreferences.ColorThemeOptions.Dark.getValue()) {
                         arrs[i] = ContextCompat.getColor(context, type.getColor());
                         i++;
                     }
