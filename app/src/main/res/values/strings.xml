@@ -588,7 +588,7 @@
     <string name="settings_font_comment">Comment font</string>
     <string name="settings_comment_crop">Crop lead image in comment view</string>
     <string name="settings_general_scroll_read">Mark posts as seen when scrolled past</string>
-    <string name="settings_link_chrome">Use Custom Tabs</string>
+    <string name="settings_link_chrome">Custom Tabs</string>
     <string name="settings_image_location">Select image/GIF save location</string>
     <string name="settings_image_location_unset">Not yet set</string>
     <string name="settings_set_image_location">Images will be saved to %s</string>
@@ -1033,8 +1033,8 @@
     <string name="fab_hide">Hide viewed posts</string>
     <string name="fab_create">Create new post</string>
     <string name="fab_disabled">Disabled</string>
-    <string name="handling_internal_browser">Use internal browser</string>
-    <string name="handling_external_browser">Use external browser</string>
+    <string name="handling_internal_browser">Internal browser</string>
+    <string name="handling_external_browser">External browser</string>
     <string name="mode_list">List</string>
     <string name="mode_centered">Card with centered image</string>
     <string name="mode_card">Card</string>
@@ -1174,7 +1174,7 @@
     <string name="mod_ban_reason_required">Reason is required</string>
     <string name="settings_abbreviate_post_scores">Abbreviate post scores (ex. 24.0k)</string>
     <string name="settings_wide_depth_indicators">Wide comment depth indicators</string>
-    <string name="handling_reader_mode">Use Reader mode</string>
+    <string name="handling_reader_mode">Reader mode</string>
     <string name="settings_link_reader_night">Link Reader mode and Night mode</string>
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Save images to subreddit-specific subfolders</string>
@@ -1194,10 +1194,10 @@
     <string name="btn_reset_color">RESET COLOR</string>
     <string name="settings_shortlink_description">Links will be shared as \'https://redd.it/\'</string>
     <string name="settings_shortlink">Share Reddit shortlink where possible</string>
-    <string name="firefox">Firefox</string>
     <string name="disable_replies_comment">Disable comment inbox replies</string>
     <string name="replies_disabled_comment">Comment replies disabled</string>
     <string name="replies_enabled_comment">Comment replies enabled</string>
+    <string name="browser_choose">Select a browser</string>
     <string name="search_settings">Search settings</string>
 
 </resources>

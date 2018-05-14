@@ -17,36 +17,67 @@
             android:text="@string/settings_section_browser"
             android:textColor="?attr/colorAccent"/>
 
+    <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/settings_handling_select_browser_type"
+            android:padding="8dp">
+
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/handling_external_browser"
+                android:id="@+id/settings_handling_browser_type_external_browser"/>
+
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/handling_internal_browser"
+                android:id="@+id/settings_handling_browser_type_internal_browser"/>
+
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/settings_link_chrome"
+                android:id="@+id/settings_handling_browser_type_custom_tabs"/>
+
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/handling_reader_mode"
+                android:id="@+id/settings_handling_browser_type_reader_mode"/>
+    </RadioGroup>
+
     <RelativeLayout
-        android:id="@+id/settings_handling_select_browser"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="?android:selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+            android:id="@+id/settings_handling_select_browser"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/handling_browser"
-                android:textColor="?attr/fontColor"
-                android:textSize="14sp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/handling_browser"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
 
             <TextView
-                android:id="@+id/settings_handling_browser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha=".86"
-                android:textColor="?attr/fontColor"
-                android:textSize="13sp" />
+                    android:id="@+id/settings_handling_browser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="13sp"/>
         </LinearLayout>
     </RelativeLayout>
 
