@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,8 +27,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.common.base.Strings;
 
 import java.io.File;
@@ -314,11 +311,14 @@ public class Settings extends BaseActivity
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -483,7 +483,7 @@ public class Settings extends BaseActivity
                     dialoglayout.findViewById(R.id.title)
                             .setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
-                    final SeekBar landscape = (SeekBar) dialoglayout.findViewById(R.id.landscape);
+                    final SeekBar landscape = dialoglayout.findViewById(R.id.landscape);
 
                     //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
                     landscape.setProgress(Reddit.dpWidth - 1);
@@ -524,7 +524,7 @@ public class Settings extends BaseActivity
                                     .apply();
                         }
                     });
-                    SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.dualcolumns);
+                    SwitchCompat s = dialog.findViewById(R.id.dualcolumns);
                     s.setChecked(SettingValues.dualPortrait);
                     s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -535,7 +535,7 @@ public class Settings extends BaseActivity
                                     .apply();
                         }
                     });
-                    SwitchCompat s2 = (SwitchCompat) dialog.findViewById(R.id.fullcomment);
+                    SwitchCompat s2 = dialog.findViewById(R.id.fullcomment);
                     s2.setChecked(SettingValues.fullCommentOverride);
                     s2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -546,7 +546,7 @@ public class Settings extends BaseActivity
                                     .apply();
                         }
                     });
-                    SwitchCompat s3 = (SwitchCompat) dialog.findViewById(R.id.singlecolumnmultiwindow);
+                    SwitchCompat s3 = dialog.findViewById(R.id.singlecolumnmultiwindow);
                     s3.setChecked(SettingValues.singleColumnMultiWindow);
                     s3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -568,11 +568,14 @@ public class Settings extends BaseActivity
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (android.content.ActivityNotFoundException anfe) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })

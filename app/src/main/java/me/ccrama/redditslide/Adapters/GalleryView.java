@@ -271,19 +271,9 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 holder.comments.callOnClick();
                                 break;
                             case VIDEO:
-                                if (Reddit.videoPlugin) {
-                                    try {
-                                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                        sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
-                                                "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                        sharingIntent.putExtra("url", submission.getUrl());
-                                        main.startActivity(sharingIntent);
-
-                                    } catch (Exception e) {
-                                        LinkUtil.openExternally(submission.getUrl());
-                                    }
-                                } else {
-                                    LinkUtil.openExternally(submission.getUrl());
+                                if (!LinkUtil.tryOpenWithVideoPlugin(submission.getUrl())) {
+                                    LinkUtil.openUrl(submission.getUrl(),
+                                            Palette.getStatusBarColor(), main);
                                 }
                                 break;
                         }

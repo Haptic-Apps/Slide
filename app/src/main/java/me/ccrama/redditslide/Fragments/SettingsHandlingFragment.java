@@ -60,8 +60,9 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                 @Override
                 public void onClick(View v) {
                     try {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("market://details?id=ccrama.me.slideyoutubeplugin")));
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                "market://details?id=" + context.getString(
+                                        R.string.youtube_plugin_package))));
                     } catch (android.content.ActivityNotFoundException anfe) {
                         context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
                                 "http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));

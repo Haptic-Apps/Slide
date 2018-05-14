@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsCallback;
@@ -28,6 +29,9 @@ import android.widget.Toast;
 import net.dean.jraw.models.Submission;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import me.ccrama.redditslide.Activities.Crosspost;
 import me.ccrama.redditslide.Activities.MakeExternal;
@@ -154,13 +158,30 @@ public class LinkUtil {
         }
 
         Uri uri = Uri.parse(url);
-        Uri toReturn;
-        try {
-            toReturn = uri.normalizeScheme();
-        } catch (NoSuchMethodError e) {
-            toReturn = uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return uri.normalizeScheme();
+        } else {
+            return uri;
         }
-        return toReturn;
+    }
+
+    public static boolean tryOpenWithVideoPlugin(@NonNull String url) {
+        if (Reddit.videoPlugin) {
+            try {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setClassName(
+                        Reddit.getAppContext().getString(R.string.youtube_plugin_package),
+                        Reddit.getAppContext().getString(R.string.youtube_plugin_class));
+                sharingIntent.putExtra("url", removeUnusedParameters(url));
+                Reddit.getAppContext().startActivity(sharingIntent);
+                return true;
+
+            } catch (Exception ignored) {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -273,6 +294,35 @@ public class LinkUtil {
 
         if (!packageToSet.equals(packageName)) {
             intent.setPackage(packageToSet);
+        }
+    }
+
+    public static String removeUnusedParameters(String url) {
+        String returnUrl = url;
+        try {
+            String[] urlParts = url.split("\\?");
+            if (urlParts.length > 1) {
+                String[] paramArray = urlParts[1].split("&");
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(urlParts[0]);
+                for (int i = 0; i < paramArray.length; i++) {
+                    String[] paramPairArray = paramArray[i].split("=");
+                    if (paramPairArray.length > 1) {
+                        if (i == 0) {
+                            stringBuilder.append("?");
+                        } else {
+                            stringBuilder.append("&");
+                        }
+                        stringBuilder.append(URLDecoder.decode(paramPairArray[0], "UTF-8"));
+                        stringBuilder.append("=");
+                        stringBuilder.append(URLDecoder.decode(paramPairArray[1], "UTF-8"));
+                    }
+                }
+                returnUrl = stringBuilder.toString();
+            }
+            return returnUrl;
+        } catch (UnsupportedEncodingException ignored) {
+            return returnUrl;
         }
     }
 }

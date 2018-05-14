@@ -544,12 +544,15 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                                                             int whichButton) {
                                             try {
                                                 context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                        Uri.parse("market://details?id="
+                                                                + context.getString(
+                                                                R.string.ui_unlock_package))));
                                             } catch (android.content.ActivityNotFoundException anfe) {
                                                 context.startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + context.getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
