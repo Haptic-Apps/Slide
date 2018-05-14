@@ -59,6 +59,14 @@
                         android:orientation="vertical">
 
                     <RadioButton
+                            android:id="@+id/blue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:selectableItemBackground"
+                            android:text="@string/theme_dark_blue"
+                            android:textColor="?attr/fontColor"/>
+
+                    <RadioButton
                             android:id="@+id/dark"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -67,11 +75,27 @@
                             android:textColor="?attr/fontColor"/>
 
                     <RadioButton
-                            android:id="@+id/blue"
+                            android:id="@+id/pixel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
-                            android:text="@string/theme_dark_blue"
+                            android:text="@string/theme_pixel"
+                            android:textColor="?attr/fontColor"/>
+
+                    <RadioButton
+                            android:id="@+id/deep"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:selectableItemBackground"
+                            android:text="@string/theme_deep"
+                            android:textColor="?attr/fontColor"/>
+
+                    <RadioButton
+                            android:id="@+id/amoled_contrast"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:selectableItemBackground"
+                            android:text="@string/theme_amoled_contrast"
                             android:textColor="?attr/fontColor"/>
 
                     <RadioButton
@@ -82,13 +106,6 @@
                             android:text="@string/theme_black"
                             android:textColor="?attr/fontColor"/>
 
-                    <RadioButton
-                            android:id="@+id/amoled_contrast"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?android:selectableItemBackground"
-                            android:text="@string/theme_amoled_contrast"
-                            android:textColor="?attr/fontColor"/>
                     <RadioButton
                             android:id="@+id/red"
                             android:layout_width="match_parent"

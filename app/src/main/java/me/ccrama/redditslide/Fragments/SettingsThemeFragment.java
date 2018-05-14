@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,7 +72,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 int[] arrs = new int[ColorPreferences.getNumColorsFromThemeType(0)];
                 int i = 0;
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                    if (type.getThemeType() == 0) {
+                    if (type.getThemeType() == ColorPreferences.ColorThemeOptions.Dark.getValue()) {
                         arrs[i] = ContextCompat.getColor(context, type.getColor());
                         i++;
                     }
@@ -119,192 +120,29 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                     dialoglayout.findViewById(R.id.nightmsg).setVisibility(View.VISIBLE);
                 }
 
-                dialoglayout.findViewById(R.id.black)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SettingsThemeFragment.changed = true;
-                                String[] names =
-                                        new ColorPreferences(context).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 2) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(context).setFontStyle(theme);
-                                        context.restartActivity();
-                                        break;
+                for (final Pair<Integer, Integer> pair : ColorPreferences.themePairList) {
+                    dialoglayout.findViewById(pair.first)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SettingsThemeFragment.changed = true;
+                                    String[] names = new ColorPreferences(context).getFontStyle()
+                                            .getTitle()
+                                            .split("_");
+                                    String name = names[names.length - 1];
+                                    final String newName = name.replace("(", "");
+                                    for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                        if (theme.toString().contains(newName)
+                                                && theme.getThemeType() == pair.second) {
+                                            back = theme.getThemeType();
+                                            new ColorPreferences(context).setFontStyle(theme);
+                                            context.restartActivity();
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.light)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SettingsThemeFragment.changed = true;
-                                String[] names =
-                                        new ColorPreferences(context).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 1) {
-                                        new ColorPreferences(context).setFontStyle(theme);
-                                        back = theme.getThemeType();
-                                        context.restartActivity();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.pixel).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SettingsThemeFragment.changed = true;
-                        String[] names = new ColorPreferences(context).getFontStyle()
-                                .getTitle()
-                                .split("_");
-                        String name = names[names.length - 1];
-                        final String newName = name.replace("(", "");
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 7) {
-                                new ColorPreferences(context).setFontStyle(theme);
-                                back = theme.getThemeType();
-                                context.restartActivity();
-                                break;
-                            }
-                        }
-                    }
-                });
-                dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SettingsThemeFragment.changed = true;
-                        String[] names = new ColorPreferences(context).getFontStyle()
-                                .getTitle()
-                                .split("_");
-                        String name = names[names.length - 1];
-                        final String newName = name.replace("(", "");
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
-                                new ColorPreferences(context).setFontStyle(theme);
-                                back = theme.getThemeType();
-                                context.restartActivity();
-                                break;
-                            }
-                        }
-                    }
-                });
-                dialoglayout.findViewById(R.id.blacklighter)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SettingsThemeFragment.changed = true;
-                                String[] names =
-                                        new ColorPreferences(context).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 4) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(context).setFontStyle(theme);
-                                        context.restartActivity();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.deep)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SettingsThemeFragment.changed = true;
-                                String[] names =
-                                        new ColorPreferences(context).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 8) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(context).setFontStyle(theme);
-                                        context.restartActivity();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.sepia)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SettingsThemeFragment.changed = true;
-                                String[] names =
-                                        new ColorPreferences(context).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 5) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(context).setFontStyle(theme);
-                                        context.restartActivity();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SettingsThemeFragment.changed = true;
-                        String[] names = new ColorPreferences(context).getFontStyle()
-                                .getTitle()
-                                .split("_");
-                        String name = names[names.length - 1];
-                        final String newName = name.replace("(", "");
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 6) {
-                                back = theme.getThemeType();
-                                new ColorPreferences(context).setFontStyle(theme);
-                                context.restartActivity();
-                                break;
-                            }
-                        }
-                    }
-                });
-                dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SettingsThemeFragment.changed = true;
-                        String[] names = new ColorPreferences(context).getFontStyle()
-                                .getTitle()
-                                .split("_");
-                        String name = names[names.length - 1];
-                        final String newName = name.replace("(", "");
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
-                                new ColorPreferences(context).setFontStyle(theme);
-                                back = theme.getThemeType();
-                                context.restartActivity();
-                                break;
-                            }
-                        }
-                    }
-                });
+                            });
+                }
 
                 builder.setView(dialoglayout);
                 builder.show();
@@ -572,100 +410,29 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                             SettingsThemeFragment.changed = true;
                         }
                     });
-                    switch (SettingValues.nightTheme) {
-                        case 0:
-                            ((RadioButton) dialoglayout.findViewById(R.id.dark)).setChecked(true);
-                            break;
-                        case 2:
-                            ((RadioButton) dialoglayout.findViewById(R.id.amoled)).setChecked(true);
-                            break;
-                        case 3:
-                            ((RadioButton) dialoglayout.findViewById(R.id.blue)).setChecked(true);
-                            break;
-                        case 6:
-                            ((RadioButton) dialoglayout.findViewById(R.id.red)).setChecked(true);
-                            break;
-                        case 4:
-                            ((RadioButton) dialoglayout.findViewById(
-                                    R.id.amoled_contrast)).setChecked(true);
-                            break;
-                        default:
-                            ((RadioButton) dialoglayout.findViewById(R.id.dark)).setChecked(true);
-                            break;
-
+                    for (final Pair<Integer, Integer> pair : ColorPreferences.themePairList) {
+                        RadioButton radioButton = dialoglayout.findViewById(pair.first);
+                        if (radioButton != null) {
+                            if (SettingValues.nightTheme == pair.second) {
+                                radioButton.setChecked(true);
+                            }
+                            radioButton.setOnCheckedChangeListener(
+                                    new CompoundButton.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(CompoundButton buttonView,
+                                                boolean isChecked) {
+                                            if (isChecked) {
+                                                SettingsThemeFragment.changed = true;
+                                                SettingValues.nightTheme = pair.second;
+                                                SettingValues.prefs.edit()
+                                                        .putInt(SettingValues.PREF_NIGHT_THEME,
+                                                                pair.second)
+                                                        .apply();
+                                            }
+                                        }
+                                    });
+                        }
                     }
-                    ((RadioButton) dialoglayout.findViewById(R.id.dark)).setOnCheckedChangeListener(
-                            new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView,
-                                                             boolean isChecked) {
-                                    if (isChecked) {
-                                        SettingsThemeFragment.changed = true;
-                                        SettingValues.nightTheme = 0;
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREF_NIGHT_THEME, 0)
-                                                .apply();
-                                    }
-                                }
-                            });
-                    ((RadioButton) dialoglayout.findViewById(
-                            R.id.amoled)).setOnCheckedChangeListener(
-                            new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView,
-                                                             boolean isChecked) {
-                                    if (isChecked) {
-                                        SettingsThemeFragment.changed = true;
-                                        SettingValues.nightTheme = 2;
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREF_NIGHT_THEME, 2)
-                                                .apply();
-                                    }
-                                }
-                            });
-                    ((RadioButton) dialoglayout.findViewById(R.id.red)).setOnCheckedChangeListener(
-                            new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView,
-                                                             boolean isChecked) {
-                                    if (isChecked) {
-                                        SettingsThemeFragment.changed = true;
-                                        SettingValues.nightTheme = 6;
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREF_NIGHT_THEME, 6)
-                                                .apply();
-                                    }
-                                }
-                            });
-                    ((RadioButton) dialoglayout.findViewById(R.id.blue)).setOnCheckedChangeListener(
-                            new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView,
-                                                             boolean isChecked) {
-                                    if (isChecked) {
-                                        SettingsThemeFragment.changed = true;
-                                        SettingValues.nightTheme = 3;
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREF_NIGHT_THEME, 3)
-                                                .apply();
-                                    }
-                                }
-                            });
-                    ((RadioButton) dialoglayout.findViewById(
-                            R.id.amoled_contrast)).setOnCheckedChangeListener(
-                            new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView,
-                                                             boolean isChecked) {
-                                    if (isChecked) {
-                                        SettingsThemeFragment.changed = true;
-                                        SettingValues.nightTheme = 4;
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREF_NIGHT_THEME, 4)
-                                                .apply();
-                                    }
-                                }
-                            });
                     {
                         final List<String> timesStart = new ArrayList<String>() {{
                             add("6pm");

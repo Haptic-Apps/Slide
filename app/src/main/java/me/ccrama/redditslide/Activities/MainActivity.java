@@ -62,6 +62,7 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -618,195 +619,32 @@ public class MainActivity extends BaseActivity
                 if (SettingValues.isNight()) {
                     dialoglayout.findViewById(R.id.nightmsg).setVisibility(View.VISIBLE);
                 }
-                dialoglayout.findViewById(R.id.black)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String[] names =
-                                        new ColorPreferences(MainActivity.this).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 2) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                        d.dismiss();
-                                        restartTheme();
-                                        break;
+
+                for (final Pair<Integer, Integer> pair : ColorPreferences.themePairList) {
+                    dialoglayout.findViewById(pair.first)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String[] names =
+                                            new ColorPreferences(MainActivity.this).getFontStyle()
+                                                    .getTitle()
+                                                    .split("_");
+                                    String name = names[names.length - 1];
+                                    final String newName = name.replace("(", "");
+                                    for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                        if (theme.toString().contains(newName)
+                                                && theme.getThemeType() == pair.second) {
+                                            back = theme.getThemeType();
+                                            new ColorPreferences(MainActivity.this).setFontStyle(
+                                                    theme);
+                                            d.dismiss();
+                                            restartTheme();
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.blacklighter)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String[] names =
-                                        new ColorPreferences(MainActivity.this).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 4) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                        d.dismiss();
-                                        restartTheme();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.deep)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String[] names =
-                                        new ColorPreferences(MainActivity.this).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 8) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                        d.dismiss();
-                                        restartTheme();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.sepia)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String[] names =
-                                        new ColorPreferences(MainActivity.this).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 5) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                        d.dismiss();
-                                        restartTheme();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.pixel)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String[] names =
-                                        new ColorPreferences(MainActivity.this).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 7) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                        d.dismiss();
-                                        restartTheme();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle()
-                                .getTitle()
-                                .split("_");
-                        String name = names[names.length - 1];
-                        final String newName = name.replace("(", "");
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 6) {
-                                back = theme.getThemeType();
-                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                d.dismiss();
-                                restartTheme();
-                                break;
-                            }
-                        }
-                    }
-                });
-                dialoglayout.findViewById(R.id.light)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String[] names =
-                                        new ColorPreferences(MainActivity.this).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 1) {
-                                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                        back = theme.getThemeType();
-                                        d.dismiss();
-                                        restartTheme();
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle()
-                                .getTitle()
-                                .split("_");
-                        String name = names[names.length - 1];
-                        final String newName = name.replace("(", "");
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
-                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                back = theme.getThemeType();
-                                d.dismiss();
-                                restartTheme();
-                                break;
-                            }
-                        }
-                    }
-                });
-                dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle()
-                                .getTitle()
-                                .split("_");
-                        String name = names[names.length - 1];
-                        final String newName = name.replace("(", "");
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
-                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                back = theme.getThemeType();
-                                d.dismiss();
-                                restartTheme();
-                                break;
-                            }
-                        }
-                    }
-                });
+                            });
+                }
             }
             return true;
             case R.id.action_refresh:

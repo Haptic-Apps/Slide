@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -112,17 +111,6 @@ public class LinkUtil {
         if (!SettingValues.web) {
             // External browser
             openExternally(url);
-            return;
-        }
-
-        if (SettingValues.firefox) {
-            url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
-            Uri uri = formatURL(url);
-
-            final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.setComponent(new ComponentName("org.mozilla.firefox", "org.mozilla.firefox.App"));
-
-            contextActivity.startActivity(intent);
         } else {
             String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
@@ -208,17 +196,6 @@ public class LinkUtil {
         if (!SettingValues.web) {
             // External browser
             openExternally(url);
-            return;
-        }
-
-        if (SettingValues.firefox) {
-            url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
-            Uri uri = formatURL(url);
-
-            final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.setComponent(new ComponentName("org.mozilla.firefox", "org.mozilla.firefox.App"));
-
-            contextActivity.startActivity(intent);
         } else {
             String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
@@ -254,10 +231,8 @@ public class LinkUtil {
         Uri uri = formatURL(url);
 
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setPackage(getPackage(intent));
-        Reddit.getAppContext()
-                .startActivity(Intent.createChooser(intent,
-                        Reddit.getAppContext().getString(R.string.misc_link_chooser)));
+        overridePackage(intent);
+        Reddit.getAppContext().startActivity(intent);
     }
 
     public static CustomTabsSession getSession() {
@@ -288,20 +263,38 @@ public class LinkUtil {
         mContext.startActivity(new Intent(mContext, Crosspost.class));
     }
 
-    public static String getPackage(Intent intent) {
+    public static void overridePackage(Intent intent) {
         String packageName = Reddit.getAppContext()
                 .getPackageManager()
-                .resolveActivity(intent,
-                        PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
+                .resolveActivity(intent, 0).activityInfo.packageName;
+
+        // Gets the default app from a URL that is most likely never link handled by another app, hopefully guaranteeing a browser
+        String browserPackageName = Reddit.getAppContext()
+                .getPackageManager()
+                .resolveActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://ccrama.me/")),
+                        0).activityInfo.packageName;
+
+        String packageToSet = packageName;
+
         if (packageName.equals(Reddit.getAppContext().getPackageName())) {
-            // Gets the default app from a URL that is most likely never link handled by another app, hopefully guaranteeing a browser
-            return Reddit.getAppContext()
-                    .getPackageManager()
-                    .resolveActivity(
-                            new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.blank.org")),
-                            PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
+            packageToSet = browserPackageName;
         }
-        return packageName;
+
+        if (packageToSet.equals(browserPackageName) && (SettingValues.selectedBrowser != null
+                && !SettingValues.selectedBrowser.isEmpty())) {
+            try {
+                Reddit.getAppContext()
+                        .getPackageManager()
+                        .getPackageInfo(SettingValues.selectedBrowser,
+                                PackageManager.GET_ACTIVITIES);
+                packageToSet = SettingValues.selectedBrowser;
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+        }
+
+        if (!packageToSet.equals(packageName)) {
+            intent.setPackage(packageToSet);
+        }
     }
 
     public static String removeUnusedParameters(String url) {
