@@ -776,12 +776,16 @@ public class CommentPage extends Fragment {
                                                                 startActivity(new Intent(
                                                                         Intent.ACTION_VIEW,
                                                                         Uri.parse(
-                                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                                "market://details?id="
+                                                                                        + getString(
+                                                                                        R.string.ui_unlock_package))));
                                                             } catch (ActivityNotFoundException e) {
                                                                 startActivity(new Intent(
                                                                         Intent.ACTION_VIEW,
                                                                         Uri.parse(
-                                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                                "http://play.google.com/store/apps/details?id="
+                                                                                        + getString(
+                                                                                        R.string.ui_unlock_package))));
                                                             }
                                                         }
                                                     })
@@ -964,25 +968,11 @@ public class CommentPage extends Fragment {
                                                 adapter.submission, -1);
                                         break;
                                     case VIDEO:
-                                        if (Reddit.videoPlugin) {
-                                            try {
-                                                Intent sharingIntent =
-                                                        new Intent(Intent.ACTION_SEND);
-                                                sharingIntent.setClassName(
-                                                        "ccrama.me.slideyoutubeplugin",
-                                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                                sharingIntent.putExtra("url",
-                                                        adapter.submission.getUrl());
-                                                getActivity().startActivity(sharingIntent);
-
-                                            } catch (Exception e) {
-                                                LinkUtil.openExternally(
-                                                        adapter.submission.getUrl());
-                                            }
-                                        } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl());
+                                        if (!LinkUtil.tryOpenWithVideoPlugin(
+                                                adapter.submission.getUrl())) {
+                                            LinkUtil.openUrl(adapter.submission.getUrl(),
+                                                    Palette.getStatusBarColor(), getActivity());
                                         }
-
                                 }
                             } else {
                                 LinkUtil.openExternally(adapter.submission.getUrl());

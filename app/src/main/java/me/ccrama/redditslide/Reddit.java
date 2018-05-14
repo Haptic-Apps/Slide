@@ -11,9 +11,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +33,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -75,6 +79,9 @@ import me.ccrama.redditslide.util.UpgradeUtil;
 import okhttp3.Dns;
 import okhttp3.OkHttpClient;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Created by ccrama on 9/17/2015.
  */
@@ -107,7 +114,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int                      dpWidth;
     public static int                      notificationTime;
     public static boolean                  videoPlugin;
-    public static boolean                  firefox;
+    public static boolean                  multipleBrowsers;
     public static NotificationJobScheduler notifications;
     public static       boolean isLoading = false;
     public static final long    time      = System.currentTimeMillis();
@@ -199,7 +206,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private static boolean isPackageInstalled(final Context ctx) {
         try {
             final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
+            final PackageInfo pi = pm.getPackageInfo(ctx.getString(R.string.ui_unlock_package), 0);
             if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
@@ -209,21 +216,36 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private static boolean isVideoPluginInstalled(final Context ctx) {
         try {
             final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo("ccrama.me.slideyoutubeplugin", 0);
+            final PackageInfo pi =
+                    pm.getPackageInfo(ctx.getString(R.string.youtube_plugin_package), 0);
             if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
         return false;
     }
 
-    private static boolean isFirefoxInstalled(final Context ctx) {
-        try {
-            final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo("org.mozilla.firefox", 0);
-            if (pi != null && pi.applicationInfo.enabled) return true;
-        } catch (final Throwable ignored) {
+    public static BiMap<String, String> getInstalledBrowsers() {
+        int packageMatcher =
+                SDK_INT >= M ? PackageManager.MATCH_ALL : PackageManager.GET_DISABLED_COMPONENTS;
+
+        final BiMap<String, String> browserMap = HashBiMap.create();
+
+        final List<ResolveInfo> resolveInfoList = getAppContext().getPackageManager()
+                .queryIntentActivities(
+                        new Intent(Intent.ACTION_VIEW, Uri.parse("http://ccrama.me")),
+                        packageMatcher);
+
+        for (ResolveInfo resolveInfo : resolveInfoList) {
+            if (resolveInfo.activityInfo.enabled) {
+                browserMap.put(resolveInfo.activityInfo.applicationInfo.packageName,
+                        Reddit.getAppContext()
+                                .getPackageManager()
+                                .getApplicationLabel(resolveInfo.activityInfo.applicationInfo)
+                                .toString());
+            }
         }
-        return false;
+
+        return browserMap;
     }
 
     public static String arrayToString(ArrayList<String> array) {
@@ -741,26 +763,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         SettingValues.tabletUI = isPackageInstalled(this) || FDroid.isFDroid;
         videoPlugin = isVideoPluginInstalled(this);
-        firefox = isFirefoxInstalled(this);
-        if(!firefox && SettingValues.firefox){
-            //Can't use it if you don't have it
-            SettingValues.customtabs = false;
-            SettingValues.web = true;
-            SettingValues.reader = false;
-            SettingValues.firefox = false;
-            SettingValues.prefs.edit()
-                    .putBoolean(SettingValues.PREFS_WEB, true)
-                    .apply();
-            SettingValues.prefs.edit()
-                    .putBoolean(SettingValues.PREF_READER, false)
-                    .apply();
-            SettingValues.prefs.edit()
-                    .putBoolean(SettingValues.PREF_CUSTOMTABS, false)
-                    .apply();
-            SettingValues.prefs.edit()
-                    .putBoolean(SettingValues.PREF_FIREFOX, false)
-                    .apply();
-        }
+
         GifCache.init(this);
 
         setupNotificationChannels();
@@ -799,7 +802,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
 
     public void setupNotificationChannels() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

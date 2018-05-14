@@ -237,13 +237,13 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/blacklighter"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="#121212"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:id="@+id/amoled_contrast"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#121212"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -263,14 +263,14 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/black"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="#0e0e0e"
-                        android:gravity="center_vertical"
+                            android:id="@+id/amoled"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#0e0e0e"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp">
 
                         <ImageView
                             android:layout_width="56dp"

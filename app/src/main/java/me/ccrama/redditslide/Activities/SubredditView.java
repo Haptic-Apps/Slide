@@ -305,8 +305,7 @@ public class SubredditView extends BaseActivity {
                     Snackbar s = Snackbar.make(findViewById(R.id.anchor),
                             getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -339,11 +338,14 @@ public class SubredditView extends BaseActivity {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -433,11 +435,14 @@ public class SubredditView extends BaseActivity {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "market://details?id=" + getString(
+                                                                        R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -565,7 +570,7 @@ public class SubredditView extends BaseActivity {
                 }
             });
 
-            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+            final TextView sort = dialoglayout.findViewById(R.id.sort);
             Sorting sortingis = Sorting.HOT;
             if(SettingValues.hasSort(subreddit)) {
                 sortingis = SettingValues.getBaseSubmissionSort(subreddit);
@@ -625,7 +630,7 @@ public class SubredditView extends BaseActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
                             SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
-                            final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                            final TextView sort = dialoglayout.findViewById(R.id.sort);
                             if(SettingValues.hasSort(subreddit)) {
                                 Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
                                 sort.setText(sortingis.name()
@@ -878,7 +883,7 @@ public class SubredditView extends BaseActivity {
                                                                                                     s.getView();
                                                                                             TextView
                                                                                                     tv =
-                                                                                                    (TextView) view
+                                                                                                    view
                                                                                                             .findViewById(
                                                                                                                     android.support.design.R.id.snackbar_text);
                                                                                             tv.setTextColor(
@@ -942,9 +947,8 @@ public class SubredditView extends BaseActivity {
                                                                 }
                                                                 if (s != null) {
                                                                     View view = s.getView();
-                                                                    TextView tv =
-                                                                            (TextView) view.findViewById(
-                                                                                    android.support.design.R.id.snackbar_text);
+                                                                    TextView tv = view.findViewById(
+                                                                            android.support.design.R.id.snackbar_text);
                                                                     tv.setTextColor(Color.WHITE);
                                                                     s.show();
                                                                 }
@@ -1108,7 +1112,7 @@ public class SubredditView extends BaseActivity {
                 SettingValues.setSubSorting(sort, time, sub);
                 Reddit.setSorting(sub, sort);
                 Reddit.setTime(sub, time);
-                final TextView sort = (TextView) dialoglayout.findViewById(R.id.sort);
+                final TextView sort = dialoglayout.findViewById(R.id.sort);
                 Sorting sortingis = SettingValues.getBaseSubmissionSort("Default sorting: " + subreddit);
                 sort.setText(sortingis.name()
                         + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
@@ -1241,7 +1245,7 @@ public class SubredditView extends BaseActivity {
         Snackbar s = Snackbar.make(mToolbar, isChecked ? getString(R.string.misc_subscribed)
                 : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
         View view = s.getView();
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);
         s.show();
     }
@@ -1352,9 +1356,8 @@ public class SubredditView extends BaseActivity {
                                                                                             multiName),
                                                                                     Snackbar.LENGTH_LONG);
                                                                     View view = s.getView();
-                                                                    TextView tv =
-                                                                            (TextView) view.findViewById(
-                                                                                    android.support.design.R.id.snackbar_text);
+                                                                    TextView tv = view.findViewById(
+                                                                            android.support.design.R.id.snackbar_text);
                                                                     tv.setTextColor(Color.WHITE);
                                                                     s.show();
                                                                 }
@@ -1452,7 +1455,7 @@ public class SubredditView extends BaseActivity {
                                                                                                 s.getView();
                                                                                         TextView
                                                                                                 tv =
-                                                                                                (TextView) view
+                                                                                                view
                                                                                                         .findViewById(
                                                                                                                 android.support.design.R.id.snackbar_text);
                                                                                         tv.setTextColor(
@@ -1505,7 +1508,7 @@ public class SubredditView extends BaseActivity {
                                                             R.string.sub_added,
                                                             Snackbar.LENGTH_SHORT);
                                                     View view = s.getView();
-                                                    TextView tv = (TextView) view.findViewById(
+                                                    TextView tv = view.findViewById(
                                                             android.support.design.R.id.snackbar_text);
                                                     tv.setTextColor(Color.WHITE);
                                                     s.show();
@@ -1568,7 +1571,7 @@ public class SubredditView extends BaseActivity {
                                                                                                 s.getView();
                                                                                         TextView
                                                                                                 tv =
-                                                                                                (TextView) view
+                                                                                                view
                                                                                                         .findViewById(
                                                                                                                 android.support.design.R.id.snackbar_text);
                                                                                         tv.setTextColor(
@@ -1621,7 +1624,7 @@ public class SubredditView extends BaseActivity {
                                                             R.string.misc_unsubscribed,
                                                             Snackbar.LENGTH_SHORT);
                                                     View view = s.getView();
-                                                    TextView tv = (TextView) view.findViewById(
+                                                    TextView tv = view.findViewById(
                                                             android.support.design.R.id.snackbar_text);
                                                     tv.setTextColor(Color.WHITE);
                                                     s.show();

@@ -552,10 +552,10 @@ public class SettingsBackup extends BaseActivityAnim
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     try {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                "market://details?id=" + getString(R.string.ui_unlock_package))));
                                     } catch (android.content.ActivityNotFoundException anfe) {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                "http://play.google.com/store/apps/details?id=" + getString(R.string.ui_unlock_package))));
                                     }
                                 }
                             })

@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,7 @@ public class Tutorial extends AppCompatActivity {
 
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.vp);
+        mPager = findViewById(R.id.vp);
         /*
       The pager adapter, which provides the pages to the view pager widget.
      */
@@ -142,12 +143,12 @@ public class Tutorial extends AppCompatActivity {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
 
-                    LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
-                    final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
+                    LineColorPicker colorPicker = dialoglayout.findViewById(R.id.picker);
+                    final LineColorPicker colorPicker2 = dialoglayout.findViewById(R.id.picker2);
 
                     colorPicker.setColors(ColorPreferences.getBaseColors(getContext()));
                     int currentColor = Palette.getDefaultColor();
@@ -215,15 +216,16 @@ public class Tutorial extends AppCompatActivity {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
-                    final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+                    final LineColorPicker colorPicker = dialoglayout.findViewById(R.id.picker3);
 
                     int[] arrs = new int[ColorPreferences.getNumColorsFromThemeType(0)];
                     int i = 0;
                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                        if (type.getThemeType() == 0) {
+                        if (type.getThemeType()
+                                == ColorPreferences.ColorThemeOptions.Dark.getValue()) {
                             arrs[i] = ContextCompat.getColor(getActivity(), type.getColor());
 
                             i++;
@@ -273,259 +275,44 @@ public class Tutorial extends AppCompatActivity {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
-                    dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                    for (final Pair<Integer, Integer> pair : ColorPreferences.themePairList) {
+                        dialoglayout.findViewById(pair.first)
+                                .setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String[] names =
+                                                new ColorPreferences(getActivity()).getFontStyle()
+                                                        .getTitle()
+                                                        .split("_");
+                                        String name = names[names.length - 1];
+                                        final String newName = name.replace("(", "");
+                                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                            if (theme.toString().contains(newName)
+                                                    && theme.getThemeType() == pair.second) {
+                                                ((Tutorial) getActivity()).back =
+                                                        theme.getThemeType();
+                                                new ColorPreferences(getActivity()).setFontStyle(
+                                                        theme);
 
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
+                                                Intent i =
+                                                        new Intent(getActivity(), Tutorial.class);
+                                                i.putExtra("page", 1);
+                                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                startActivity(i);
+                                                getActivity().overridePendingTransition(0, 0);
 
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
+                                                getActivity().finish();
+                                                getActivity().overridePendingTransition(0, 0);
 
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.deep).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 8) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.pixel).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 7) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.sepia).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 5) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.pixel).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 7) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-
-                    dialoglayout.findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 6) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
-                            String name = names[names.length - 1];
-                            final String newName = name.replace("(", "");
-                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
-                                    new ColorPreferences(getActivity()).setFontStyle(theme);
-                                    ((Tutorial)getActivity()).back = theme.getThemeType();
-
-                                    Intent i = new Intent(getActivity(), Tutorial.class);
-                                    i.putExtra("page", 1);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(i);
-                                    getActivity().overridePendingTransition(0, 0);
-
-                                    getActivity().finish();
-                                    getActivity().overridePendingTransition(0, 0);
-                                    break;
-                                }
-                            }
-                        }
-                    });
+                                                break;
+                                            }
+                                        }
+                                    }
+                                });
+                    }
 
                     builder.setView(dialoglayout);
                     builder.show();

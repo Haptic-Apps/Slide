@@ -170,8 +170,7 @@ public class DoEditorActions {
                 Snackbar s = Snackbar.make(baseView.findViewById(R.id.savedraft), "Draft saved",
                         Snackbar.LENGTH_SHORT);
                 View view = s.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.setAction(R.string.btn_discard, new View.OnClickListener() {
                     @Override
@@ -321,12 +320,15 @@ public class DoEditorActions {
                                                 int whichButton) {
                                             try {
                                                 a.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                        Uri.parse("market://details?id="
+                                                                + a.getString(
+                                                                R.string.ui_unlock_package))));
                                             } catch (ActivityNotFoundException e) {
                                                 a.startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                                "http://play.google.com/store/apps/details?id="
+                                                                        + a.getString(
+                                                                        R.string.ui_unlock_package))));
                                             }
                                         }
                                     })
@@ -965,7 +967,7 @@ public class DoEditorActions {
                             }
 
                             @Override
-                            public void writeTo(BufferedSink sink) throws IOException {
+                            public void writeTo(BufferedSink sink) {
 
                             }
                         })

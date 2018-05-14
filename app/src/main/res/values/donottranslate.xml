@@ -2,6 +2,10 @@
 
     <string name="hello_world">Hello world!</string>
 
+    <string name="youtube_plugin_package">ccrama.me.slideyoutubeplugin</string>
+    <string name="ui_unlock_package">me.ccrama.slideforreddittabletuiunlock</string>
+    <string name="youtube_plugin_class">ccrama.me.slideyoutubeplugin.YouTubeView</string>
+
     <!-- Text for the example submissions
          Used in the edit card view screen  -->
     <string name="example_domain">imgur</string>

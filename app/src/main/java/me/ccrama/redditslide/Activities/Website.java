@@ -146,7 +146,9 @@ public class Website extends BaseActivityAnim {
                         });
                 return true;
             case R.id.chrome:
-                LinkUtil.openExternally(v.getUrl());
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
+                LinkUtil.overridePackage(browserIntent);
+                startActivity(Intent.createChooser(browserIntent, getDomainName(v.getUrl())));
                 return true;
             case R.id.share:
                 Reddit.defaultShareText(v.getTitle(), v.getUrl(), Website.this);
@@ -385,19 +387,9 @@ public class Website extends BaseActivityAnim {
                         }
                         return super.shouldOverrideUrlLoading(view, url);
                     case VIDEO:
-                        if (Reddit.videoPlugin) {
-                            try {
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
-                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                sharingIntent.putExtra("url", url);
-                                view.getContext().startActivity(sharingIntent);
-                            } catch (Exception e) {
-                                return super.shouldOverrideUrlLoading(view, url);
-                            }
-                            return true;
+                        if (!LinkUtil.tryOpenWithVideoPlugin(url)) {
+                            return super.shouldOverrideUrlLoading(view, url);
                         }
-                        return super.shouldOverrideUrlLoading(view, url);
                     case EXTERNAL:
                     default:
                         return super.shouldOverrideUrlLoading(view, url);
