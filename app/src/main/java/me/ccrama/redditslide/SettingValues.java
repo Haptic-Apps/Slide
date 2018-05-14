@@ -42,7 +42,6 @@ public class SettingValues {
     public static final String PREF_SMALL_TAG                 = "smallTag";
     public static final String PREF_ACTIONBAR_TAP             = "actionbarTap";
     public static final String PREF_CUSTOMTABS                = "customtabs";
-    public static final String PREF_FIREFOX                   = "firefox";
     public static final String PREF_STORE_HISTORY             = "storehistory";
     public static final String PREF_STORE_NSFW_HISTORY        = "storensfw";
     public static final String PREF_SCROLL_SEEN               = "scrollSeen";
@@ -104,20 +103,21 @@ public class SettingValues {
     public static final String PREF_SELFTEXT_IMAGE_COMMENT = "selftextImageComment";
     public static final String SYNCCIT_AUTH                = "SYNCCIT_AUTH";
     public static final String SYNCCIT_NAME                = "SYNCCIT_NAME";
-    public static final String PREF_BLUR                   = "blur";
-    public static final String PREF_ALBUM_SWIPE            = "albumswipe";
-    public static final String PREF_COMMENT_NAV            = "commentVolumeNav";
-    public static final String PREF_COLOR_COMMENT_DEPTH    = "colorCommentDepth";
-    public static final String COMMENT_DEPTH               = "commentDepth";
-    public static final String COMMENT_COUNT               = "commentcount";
-    public static final String PREF_USER_FILTERS           = "userFilters";
-    public static final String PREF_COLOR_ICON             = "colorIcon";
-    public static final String PREF_PEEK                   = "peek";
-    public static final String PREF_LARGE_LINKS            = "largeLinks";
-    public static final String PREF_LARGE_DEPTH            = "largeDepth";
-    public static final String PREF_TITLE_TOP              = "titleTop";
-    public static final String PREF_HIGHLIGHT_COMMENT_OP   = "commentOP";
-    public static final String PREF_LONG_LINK              = "shareLongLink";
+    public static final String PREF_BLUR                 = "blur";
+    public static final String PREF_ALBUM_SWIPE          = "albumswipe";
+    public static final String PREF_COMMENT_NAV          = "commentVolumeNav";
+    public static final String PREF_COLOR_COMMENT_DEPTH  = "colorCommentDepth";
+    public static final String COMMENT_DEPTH             = "commentDepth";
+    public static final String COMMENT_COUNT             = "commentcount";
+    public static final String PREF_USER_FILTERS         = "userFilters";
+    public static final String PREF_COLOR_ICON           = "colorIcon";
+    public static final String PREF_PEEK                 = "peek";
+    public static final String PREF_LARGE_LINKS          = "largeLinks";
+    public static final String PREF_LARGE_DEPTH          = "largeDepth";
+    public static final String PREF_TITLE_TOP            = "titleTop";
+    public static final String PREF_HIGHLIGHT_COMMENT_OP = "commentOP";
+    public static final String PREF_LONG_LINK            = "shareLongLink";
+    public static final String PREF_SELECTED_BROWSER     = "selectedBrowser";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -220,7 +220,6 @@ public class SettingValues {
     public static boolean overrideLanguage;
     public static boolean immersiveMode;
     public static boolean showDomain;
-    public static boolean firefox;
     public static boolean cardText;
     public static boolean alwaysZoom;
     public static boolean lqLow  = false;
@@ -237,6 +236,7 @@ public class SettingValues {
     public static boolean largeLinks;
     public static boolean highlightCommentOP;
     public static boolean highlightTime;
+    public static String  selectedBrowser;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -372,7 +372,6 @@ public class SettingValues {
         swipeAnywhere = true; //override this always now
         album = prefs.getBoolean(PREF_ALBUM, true);
         albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
-        firefox = prefs.getBoolean(PREF_FIREFOX, false);
 
         commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);
@@ -386,6 +385,7 @@ public class SettingValues {
         actionbarTap = prefs.getBoolean(PREF_ACTIONBAR_TAP, false);
         colorIcon = prefs.getBoolean(PREF_COLOR_ICON, false);
         peek = prefs.getBoolean(PREF_PEEK, false);
+        selectedBrowser = prefs.getString(PREF_SELECTED_BROWSER, "");
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
