@@ -1200,5 +1200,6 @@
     <string name="replies_switch_accounts">Switch to another account</string>
     <string name="browser_choose">Select a browser</string>
     <string name="search_settings">Search settings</string>
-
+    <string name="firefox">Firefox</string>
+    <string name="show_collapse_expand_nav_bar">Show collapse/expand button in the comment navigation bar</string>
 </resources>

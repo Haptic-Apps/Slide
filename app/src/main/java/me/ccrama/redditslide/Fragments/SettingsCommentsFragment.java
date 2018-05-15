@@ -25,15 +25,19 @@ public class SettingsCommentsFragment {
                     SettingValues.fastscroll = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FASTSCROLL, isChecked).apply();
 
-                    //Disable autohidenav if commentNav isn't checked
+                    //Disable autohidenav and showcollapseexpand if commentNav isn't checked
                     if (!isChecked) {
                         context.findViewById(R.id.settings_comments_autohidenav).setEnabled(false);
-                        ((SwitchCompat) context.findViewById(R.id.settings_comments_autohidenav)).setChecked(
-                                SettingValues.commentAutoHide);
+                        ((SwitchCompat)context.findViewById(R.id.settings_comments_autohidenav)).setChecked(SettingValues.commentAutoHide);
                         context.findViewById(R.id.settings_comments_auto_hide_the_comment_nav_bar_text).setAlpha(0.25f);
+                        context.findViewById(R.id.settings_comments_show_collapse_expand).setEnabled(false);
+                        ((SwitchCompat)context.findViewById(R.id.settings_comments_show_collapse_expand)).setChecked(SettingValues.commentAutoHide);
+                        context.findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(0.25f);
                     } else {
                         context.findViewById(R.id.settings_comments_autohidenav).setEnabled(true);
                         context.findViewById(R.id.settings_comments_auto_hide_the_comment_nav_bar_text).setAlpha(1f);
+                        context.findViewById(R.id.settings_comments_show_collapse_expand).setEnabled(true);
+                        context.findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(1f);
                     }
                 }
             });
@@ -46,6 +50,23 @@ public class SettingsCommentsFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.fabComments = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_FAB, isChecked).apply();
+                }
+            });
+        }
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_comments_show_collapse_expand);
+            single.setChecked(SettingValues.showCollapseExpand);
+
+            if (!((SwitchCompat) context.findViewById(R.id.settings_comments_commentnav)).isChecked()) {
+                single.setEnabled(false);
+                context.findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(0.25f);
+            }
+
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.showCollapseExpand = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_COLLAPSE_EXPAND, isChecked).apply();
                 }
             });
         }
