@@ -512,7 +512,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         doLanguages();
         lastPosition = new ArrayList<>();
 
-        new SetupIAB().execute();
+        if (BuildConfig.FLAVOR == "withGPlay") {
+            new SetupIAB().execute();
+        }
 
         if (!appRestart.contains("startScreen")) {
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);

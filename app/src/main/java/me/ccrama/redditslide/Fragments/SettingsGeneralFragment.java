@@ -193,6 +193,14 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     /* Allow SettingsGeneral and Settings Activity classes to use the same XML functionality */
     public void Bind() {
+        context.findViewById(R.id.settings_general_drawer_items)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DrawerItemsDialog(new MaterialDialog.Builder(context)).show();
+                    }
+                });
+
         {
             SwitchCompat single = context.findViewById(R.id.settings_general_immersivemode);
 

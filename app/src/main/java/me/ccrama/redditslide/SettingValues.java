@@ -105,21 +105,22 @@ public class SettingValues {
     public static final String PREF_SELFTEXT_IMAGE_COMMENT = "selftextImageComment";
     public static final String SYNCCIT_AUTH                = "SYNCCIT_AUTH";
     public static final String SYNCCIT_NAME                = "SYNCCIT_NAME";
-    public static final String PREF_BLUR                 = "blur";
-    public static final String PREF_ALBUM_SWIPE          = "albumswipe";
-    public static final String PREF_COMMENT_NAV          = "commentVolumeNav";
-    public static final String PREF_COLOR_COMMENT_DEPTH  = "colorCommentDepth";
-    public static final String COMMENT_DEPTH             = "commentDepth";
-    public static final String COMMENT_COUNT             = "commentcount";
-    public static final String PREF_USER_FILTERS         = "userFilters";
-    public static final String PREF_COLOR_ICON           = "colorIcon";
-    public static final String PREF_PEEK                 = "peek";
-    public static final String PREF_LARGE_LINKS          = "largeLinks";
-    public static final String PREF_LARGE_DEPTH          = "largeDepth";
-    public static final String PREF_TITLE_TOP            = "titleTop";
-    public static final String PREF_HIGHLIGHT_COMMENT_OP = "commentOP";
-    public static final String PREF_LONG_LINK            = "shareLongLink";
-    public static final String PREF_SELECTED_BROWSER     = "selectedBrowser";
+    public static final String PREF_BLUR                   = "blur";
+    public static final String PREF_ALBUM_SWIPE            = "albumswipe";
+    public static final String PREF_COMMENT_NAV            = "commentVolumeNav";
+    public static final String PREF_COLOR_COMMENT_DEPTH    = "colorCommentDepth";
+    public static final String COMMENT_DEPTH               = "commentDepth";
+    public static final String COMMENT_COUNT               = "commentcount";
+    public static final String PREF_USER_FILTERS           = "userFilters";
+    public static final String PREF_COLOR_ICON             = "colorIcon";
+    public static final String PREF_PEEK                   = "peek";
+    public static final String PREF_LARGE_LINKS            = "largeLinks";
+    public static final String PREF_LARGE_DEPTH            = "largeDepth";
+    public static final String PREF_TITLE_TOP              = "titleTop";
+    public static final String PREF_HIGHLIGHT_COMMENT_OP   = "commentOP";
+    public static final String PREF_LONG_LINK              = "shareLongLink";
+    public static final String PREF_SELECTED_BROWSER       = "selectedBrowser";
+    public static final String PREF_SELECTED_DRAWER_ITEMS  = "selectedDrawerItems";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -240,6 +241,7 @@ public class SettingValues {
     public static boolean highlightCommentOP;
     public static boolean highlightTime;
     public static String  selectedBrowser;
+    public static long    selectedDrawerItems;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -390,6 +392,7 @@ public class SettingValues {
         colorIcon = prefs.getBoolean(PREF_COLOR_ICON, false);
         peek = prefs.getBoolean(PREF_PEEK, false);
         selectedBrowser = prefs.getString(PREF_SELECTED_BROWSER, "");
+        selectedDrawerItems = prefs.getLong(PREF_SELECTED_DRAWER_ITEMS, -1);
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
