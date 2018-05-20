@@ -728,7 +728,7 @@ public class CommentPage extends Fragment {
                         }
                         return true;
                     case R.id.shadowbox:
-                        if (SettingValues.tabletUI) {
+                        if (SettingValues.isPro) {
                             if (comments.comments != null && comments.submission != null) {
                                 ShadowboxComments.comments = new ArrayList<>();
                                 for (CommentObject c : comments.comments) {

@@ -385,7 +385,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
         nightMode.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                if (SettingValues.tabletUI) {
+                if (SettingValues.isPro) {
                     LayoutInflater inflater = context.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.nightmode, null);
                     final AlertDialogWrapper.Builder builder =
