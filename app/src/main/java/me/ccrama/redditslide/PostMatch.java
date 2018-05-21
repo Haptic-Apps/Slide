@@ -182,6 +182,8 @@ public class PostMatch {
                 }
                 break;
             case GIF:
+            case VREDDIT_DIRECT:
+            case VREDDIT_REDIRECT:
                 if (gifs) {
                     contentMatch = true;
                 }

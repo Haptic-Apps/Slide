@@ -107,7 +107,7 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
             final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
-            return Reddit.videoPlugin && hostContains(host, "youtu.be", "youtube.com",
+            return hostContains(host, "youtu.be", "youtube.com",
                     "youtube.co.uk") && !path.contains("/user/") && !path.contains("/channel/");
 
         } catch (NullPointerException e) {
@@ -189,7 +189,7 @@ public class ContentType {
                     "what-if.xkcd.com")) {
                 return Type.XKCD;
             }
-            if (hostContains(host, "tumblr.com") && uri.getPath().contains("post")) {
+            if (uri.getPath().contains("tumblr.com") && uri.getPath().contains("post")) {
                 return Type.TUMBLR;
             }
             if (hostContains(host, "reddit.com", "redd.it")) {
