@@ -1,6 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
@@ -472,8 +473,17 @@ public class SettingValues {
 
 
     public static boolean isNight() {
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return (hour >= nightStart + 12 || hour < nightEnd) && tabletUI && nightMode;
+        if (tabletUI && nightMode) {
+            if (Reddit.isNightModeAuto) {
+                return (Reddit.getAppContext().getResources().getConfiguration().uiMode
+                        & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+            } else {
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                return hour >= nightStart + 12 || hour < nightEnd;
+            }
+        } else {
+            return false;
+        }
     }
 
     public static Sorting getBaseSubmissionSort(String sub) {
