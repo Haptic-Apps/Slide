@@ -161,7 +161,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     } else {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT);
                         View view = s.getView();
-                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
 
@@ -243,7 +243,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -259,7 +260,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -279,7 +281,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     static void fixSliding(int position) {
         try {
-            Reddit.lastposition.add(position, 0);
+            Reddit.lastPosition.add(position, 0);
         } catch (IndexOutOfBoundsException e) {
             fixSliding(position - 1);
         }

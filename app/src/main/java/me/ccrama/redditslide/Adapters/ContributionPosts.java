@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.SortingUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -112,8 +111,8 @@ public class ContributionPosts extends GeneralPosts {
                 if (reset || paginator == null) {
                     paginator = new UserContributionPaginator(Authentication.reddit, where, subreddit);
 
-                    paginator.setSorting(Reddit.getSorting(subreddit, Sorting.NEW));
-                    paginator.setTimePeriod(Reddit.getTime(subreddit, TimePeriod.ALL));
+                    paginator.setSorting(SortingUtil.getSorting(subreddit, Sorting.NEW));
+                    paginator.setTimePeriod(SortingUtil.getTime(subreddit, TimePeriod.ALL));
                 }
 
                 if (!paginator.hasNext()) {
