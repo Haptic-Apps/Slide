@@ -177,6 +177,7 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 import static me.ccrama.redditslide.UserSubscriptions.modOf;
@@ -2913,7 +2914,7 @@ public class MainActivity extends BaseActivity
                 sort.setText("Set default sorting");
 
             }
-            final int sortid = Reddit.getSortingId(sortingis);
+            final int sortid = SortingUtil.getSortingId(sortingis);
             dialoglayout.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2953,7 +2954,7 @@ public class MainActivity extends BaseActivity
                     AlertDialogWrapper.Builder builder =
                             new AlertDialogWrapper.Builder(MainActivity.this);
                     builder.setTitle(R.string.sorting_choose);
-                    builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()),
+                    builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
                             sortid, l2);
                     builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
                         @Override
@@ -3333,8 +3334,8 @@ public class MainActivity extends BaseActivity
                         break;
                 }
                 SettingValues.setSubSorting(sort, time, sub);
-                Reddit.setSorting(sub, sort);
-                Reddit.setTime(sub, time);
+                SortingUtil.setSorting(sub, sort);
+                SortingUtil.setTime(sub, time);
                 final TextView sort = dialoglayout.findViewById(R.id.sort);
                 if(SettingValues.hasSort(sub)) {
                     Sorting sortingis = SettingValues.getBaseSubmissionSort(sub);
@@ -3349,8 +3350,8 @@ public class MainActivity extends BaseActivity
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStringsTime(getBaseContext()),
-                Reddit.getSortingIdTime(""), l2);
+        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
+                SortingUtil.getSortingTimeId(""), l2);
         builder.show();
     }
 
@@ -3564,7 +3565,7 @@ public class MainActivity extends BaseActivity
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
-        final Spannable[] base = Reddit.getSortingSpannables(getBaseContext(), id);
+        final Spannable[] base = SortingUtil.getSortingSpannables(id);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
         }
@@ -3580,31 +3581,31 @@ public class MainActivity extends BaseActivity
                 }
                 switch (i) {
                     case 0:
-                        Reddit.setSorting(
+                        SortingUtil.setSorting(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
-                        Reddit.setSorting(
+                        SortingUtil.setSorting(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
-                        Reddit.setSorting(
+                        SortingUtil.setSorting(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
-                        Reddit.setSorting(
+                        SortingUtil.setSorting(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.TOP);
                         openPopupTime();
                         break;
                     case 4:
-                        Reddit.setSorting(
+                        SortingUtil.setSorting(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.CONTROVERSIAL);
                         openPopupTime();
@@ -3623,7 +3624,7 @@ public class MainActivity extends BaseActivity
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
-        final Spannable[] base = Reddit.getSortingSpannablesTime(getBaseContext(), id);
+        final Spannable[] base = SortingUtil.getSortingTimesSpannables(id);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
         }
@@ -3639,37 +3640,37 @@ public class MainActivity extends BaseActivity
                 }
                 switch (i) {
                     case 0:
-                        Reddit.setTime(
+                        SortingUtil.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 1:
-                        Reddit.setTime(
+                        SortingUtil.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 2:
-                        Reddit.setTime(
+                        SortingUtil.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 3:
-                        Reddit.setTime(
+                        SortingUtil.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 4:
-                        Reddit.setTime(
+                        SortingUtil.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 5:
-                        Reddit.setTime(
+                        SortingUtil.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.ALL);
                         reloadSubs();
