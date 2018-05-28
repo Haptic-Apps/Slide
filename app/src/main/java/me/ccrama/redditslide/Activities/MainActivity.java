@@ -3561,8 +3561,7 @@ public class MainActivity extends BaseActivity
     }
 
     public void openPopup() {
-        PopupMenu popup =
-                new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.END);
         String id =
                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final Spannable[] base = SortingUtil.getSortingSpannables(id);
@@ -3620,8 +3619,7 @@ public class MainActivity extends BaseActivity
     }
 
     public void openPopupTime() {
-        PopupMenu popup =
-                new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.END);
         String id =
                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final Spannable[] base = SortingUtil.getSortingTimesSpannables(id);

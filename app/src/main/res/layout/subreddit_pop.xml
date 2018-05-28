@@ -28,7 +28,9 @@
                     android:paddingStart="16dp"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_toLeftOf="@+id/subimage"
+                    android:paddingLeft="16dp"/>
 
             <TextView
                     android:id="@+id/subscribers"
@@ -38,7 +40,9 @@
                     android:layout_toStartOf="@+id/subimage"
                     android:paddingStart="16dp"
                     android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:layout_toLeftOf="@+id/subimage"
+                    android:paddingLeft="16dp"/>
 
             <TextView
                     android:id="@+id/active_users"
@@ -49,14 +53,17 @@
                     android:paddingStart="16dp"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:textStyle="italic"/>
+                    android:textStyle="italic"
+                    android:layout_toLeftOf="@+id/subimage"
+                    android:paddingLeft="16dp"/>
 
             <ImageView
                     android:id="@+id/subimage"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
         </RelativeLayout>
 
         <me.ccrama.redditslide.SpoilerRobotoTextView

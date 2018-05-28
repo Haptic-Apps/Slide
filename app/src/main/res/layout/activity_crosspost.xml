@@ -7,15 +7,16 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/standard_toolbar_height"
-        android:minHeight="@dimen/standard_toolbar_height"
-        android:background="@color/md_amber_500"
-        android:elevation="8dp"
-        android:paddingEnd="16dp"
-        android:theme="@style/Theme.AppCompat"
-        android:title="@string/editor_submit">
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/standard_toolbar_height"
+            android:minHeight="@dimen/standard_toolbar_height"
+            android:background="@color/md_amber_500"
+            android:elevation="8dp"
+            android:paddingEnd="16dp"
+            android:theme="@style/Theme.AppCompat"
+            android:title="@string/editor_submit"
+            android:paddingRight="16dp">
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView
@@ -102,17 +103,17 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/suggest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="16dp"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/btn_suggest_title"
-                    android:textAllCaps="true"
-                    android:textColor="?attr/fontColor"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
+                        android:id="@+id/suggest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:padding="16dp"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/btn_suggest_title"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/fontColor"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
             </LinearLayout>
 
             <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -138,32 +139,35 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.v7.widget.SwitchCompat
-        android:id="@+id/replies"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="16dp"
-        android:backgroundTint="?attr/tintColor"
-        android:button="@null"
-        android:buttonTint="?attr/tintColor"
-        android:checked="true"
-        android:hapticFeedbackEnabled="true"
-        android:text="@string/submit_replies_to_inbox"
-        android:textColor="?attr/fontColor"
-        android:textColorHint="?attr/fontColor" />
+            android:id="@+id/replies"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:checked="true"
+            android:hapticFeedbackEnabled="true"
+            android:text="@string/submit_replies_to_inbox"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor"
+            android:layout_marginRight="100dp"
+            android:layout_marginLeft="16dp"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        app:elevation="6dp"
-        app:fabSize="normal"
-        app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/send" />
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
+            app:pressedTranslationZ="12dp"
+            app:srcCompat="@drawable/send"
+            android:layout_alignParentEnd="true"/>
 </RelativeLayout>

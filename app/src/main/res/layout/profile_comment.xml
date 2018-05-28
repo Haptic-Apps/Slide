@@ -65,13 +65,14 @@
                 android:textSize="?attr/font_cardinfo"/>
 
             <include
-                android:id="@+id/gild"
-                layout="@layout/gilded"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" />
+                    android:id="@+id/gild"
+                    layout="@layout/gilded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
         <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -100,6 +101,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/mod" />
+                app:srcCompat="@drawable/mod"
+                android:layout_marginStart="-8dp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

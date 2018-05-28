@@ -11,29 +11,31 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/md_light_green_500"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:text="@string/example_sub"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/md_light_green_500"
+                android:gravity="center_vertical"
+                android:paddingStart="24dp"
+                android:text="@string/example_sub"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingLeft="24dp"/>
 
         <ImageButton
-            android:id="@+id/share"
-            style="?attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginTop="-59dp"
-            android:padding="12dp"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/share" />
+                android:id="@+id/share"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="-59dp"
+                android:padding="12dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/share"
+                android:layout_marginRight="12dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,69 +52,78 @@
                 android:paddingTop="8dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <TextView
-                        android:id="@+id/linkkarma"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="12dp"
-                        android:text="43015"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                            android:id="@+id/linkkarma"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="12dp"
+                            android:text="43015"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:paddingLeft="12dp"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="@string/profile_karma_link"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="16sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/profile_karma_link"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="16sp"
+                            android:layout_marginLeft="5dp"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/wiki"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp">
+                        android:id="@+id/wiki"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <TextView
-                        android:id="@+id/commentkarma"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="12dp"
-                        android:text="2034"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                            android:id="@+id/commentkarma"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="12dp"
+                            android:text="2034"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:paddingLeft="12dp"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="@string/profile_karma_comment"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="16sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/profile_karma_comment"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="16sp"
+                            android:layout_marginLeft="5dp"/>
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/moreinfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="5dp"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="8dp"
-                    android:text="Redditor for 2 years, 3 months of gold remiaing"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="16sp"/>
+                        android:id="@+id/moreinfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="8dp"
+                        android:text="Redditor for 2 years, 3 months of gold remiaing"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="5dp"
+                        android:paddingRight="16dp"
+                        android:paddingLeft="8dp"/>
 
                 <HorizontalScrollView
                     android:id="@+id/trophies"
@@ -135,13 +146,14 @@
                     android:background="?attr/tintColor" />
 
                 <LinearLayout
-                    android:id="@+id/pm"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp">
+                        android:id="@+id/pm"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <ImageView
                         android:layout_width="56dp"
@@ -160,13 +172,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/friend_body"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp">
+                        android:id="@+id/friend_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <ImageView
                         android:layout_width="56dp"
@@ -186,13 +199,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/multi_body"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp">
+                        android:id="@+id/multi_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <ImageView
                         android:layout_width="56dp"
@@ -211,13 +225,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/color"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp">
+                        android:id="@+id/color"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <ImageView
                         android:id="@+id/colorExpandFrom"
@@ -237,13 +252,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tag"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp">
+                        android:id="@+id/tag"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <ImageView
                         android:layout_width="56dp"
@@ -268,7 +284,8 @@
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <ImageView
                             android:layout_width="56dp"
@@ -279,7 +296,6 @@
                             app:srcCompat="@drawable/close" />
 
                     <TextView
-                            android:id="@+id/block"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/profile_block_user"
@@ -320,15 +336,16 @@
                     app:selectedColorIndex="5" />
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/ok"
-                    style="?attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    android:text="@string/btn_ok" />
+                        android:id="@+id/ok"
+                        style="?attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
+                        android:text="@string/btn_ok"
+                        android:layout_alignParentRight="true"/>
                 <android.support.v7.widget.AppCompatButton
                         android:id="@+id/reset"
                         style="?attr/borderlessButtonStyle"
@@ -338,7 +355,8 @@
                         android:layout_alignParentBottom="true"
                         android:layout_margin="8dp"
                         android:padding="8dp"
-                        android:text="@string/btn_reset_color" />
+                        android:text="@string/btn_reset_color"
+                        android:layout_alignParentLeft="true"/>
 
             </RelativeLayout>
         </RelativeLayout>

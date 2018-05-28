@@ -36,12 +36,13 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/link"
-                        android:tint="?attr/tintColor" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/link"
+                            android:tint="?attr/tintColor"
+                            android:layout_marginRight="16dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -90,12 +91,13 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/fontsizedarker"
-                        android:tint="?attr/tintColor" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/fontsizedarker"
+                            android:tint="?attr/tintColor"
+                            android:layout_marginRight="16dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -141,12 +143,13 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/infonew"
-                        android:tint="?attr/tintColor" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/infonew"
+                            android:tint="?attr/tintColor"
+                            android:layout_marginRight="16dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -192,12 +195,13 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/profile"
-                        android:tint="?attr/tintColor" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/profile"
+                            android:tint="?attr/tintColor"
+                            android:layout_marginRight="16dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -243,12 +247,13 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/sub"
-                        android:tint="?attr/tintColor" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/sub"
+                            android:tint="?attr/tintColor"
+                            android:layout_marginRight="16dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -296,12 +301,13 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/flair"
-                        android:tint="?attr/tintColor" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/flair"
+                            android:tint="?attr/tintColor"
+                            android:layout_marginRight="16dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"

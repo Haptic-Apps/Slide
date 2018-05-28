@@ -21,18 +21,19 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/restart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:padding="16dp"
-        android:text="@string/btn_go_back"
+            android:id="@+id/restart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:padding="16dp"
+            android:text="@string/btn_go_back"
 
-        android:textAllCaps="true"
-        android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="14sp"
 
-        android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"/>
 </RelativeLayout>
 
 

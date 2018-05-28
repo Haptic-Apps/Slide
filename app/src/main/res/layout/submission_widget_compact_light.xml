@@ -17,21 +17,24 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
             <ImageView
-                android:id="@+id/thumbimage2"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop" />
+                    android:id="@+id/thumbimage2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:layout_marginStart="8dp"/>
             <RelativeLayout
-                android:id="@+id/inside"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_below="@+id/bigpic"
-                android:layout_toLeftOf="@+id/secondMenu"
-                android:layout_toRightOf="@+id/thumbimage2">
+                    android:id="@+id/inside"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_below="@+id/bigpic"
+                    android:layout_toLeftOf="@+id/secondMenu"
+                    android:layout_toRightOf="@+id/thumbimage2"
+                    android:layout_toStartOf="@+id/secondMenu"
+                    android:layout_toEndOf="@+id/thumbimage2">
 
                 <TextView
                     android:id="@+id/title"

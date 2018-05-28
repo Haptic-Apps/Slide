@@ -7,15 +7,16 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/standard_toolbar_height"
-        android:minHeight="@dimen/standard_toolbar_height"
-        android:background="@color/md_amber_500"
-        android:elevation="8dp"
-        android:paddingEnd="16dp"
-        android:theme="@style/Theme.AppCompat"
-        android:title="@string/editor_submit">
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/standard_toolbar_height"
+            android:minHeight="@dimen/standard_toolbar_height"
+            android:background="@color/md_amber_500"
+            android:elevation="8dp"
+            android:paddingEnd="16dp"
+            android:theme="@style/Theme.AppCompat"
+            android:title="@string/editor_submit"
+            android:paddingRight="16dp">
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView
@@ -136,16 +137,17 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:tint="@color/white"
-        app:fabSize="normal"
-        app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/send" />
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:tint="@color/white"
+            app:fabSize="normal"
+            app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
+            app:pressedTranslationZ="12dp"
+            app:srcCompat="@drawable/send"
+            android:layout_alignParentRight="true"/>
 </RelativeLayout>

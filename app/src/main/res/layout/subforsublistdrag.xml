@@ -19,17 +19,18 @@
             android:layout_height="match_parent" />
 
         <View
-            android:id="@+id/color"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
+                android:id="@+id/color"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
 
-            android:layout_marginTop="8dp"
-            android:adjustViewBounds="true"
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
 
-            android:background="@drawable/circle" />
+                android:background="@drawable/circle"
+                android:layout_marginRight="16dp"/>
         <View
                 android:id="@+id/pinned"
                 android:layout_width="15dp"
@@ -40,7 +41,8 @@
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:backgroundTint="?attr/fontColor"
-                android:background="@drawable/pin" />
+                android:background="@drawable/pin"
+                android:layout_marginRight="2dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="49dp"
@@ -67,7 +69,7 @@
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:id="@+id/isSubscribed"
-                        />
+                        android:layout_alignParentEnd="true"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

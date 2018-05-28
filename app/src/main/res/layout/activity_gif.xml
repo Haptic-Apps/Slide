@@ -42,14 +42,14 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
 
-        android:gravity="right|bottom"
+            android:gravity="end|bottom"
 
 
-        android:weightSum="6">
+            android:weightSum="6">
 
         <ImageView
             android:id="@+id/external"
@@ -70,14 +70,14 @@
             android:tint="@color/white" />
 
         <ImageView
-            android:id="@+id/gifsave"
-            style="@style/Ripple.List"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:theme="@style/Ripple.List"
-            android:layout_gravity="right"
-            android:padding="15dp"
-            app:srcCompat="@drawable/save" />
+                android:id="@+id/gifsave"
+                style="@style/Ripple.List"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:theme="@style/Ripple.List"
+                android:layout_gravity="end"
+                android:padding="15dp"
+                app:srcCompat="@drawable/save"/>
 
 
     </LinearLayout>

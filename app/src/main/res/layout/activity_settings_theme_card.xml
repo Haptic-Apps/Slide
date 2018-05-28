@@ -33,7 +33,6 @@
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"
-                    android:id="@+id/displayHeader"
                     android:text="@string/display"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
@@ -216,7 +215,6 @@
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"
-                    android:id="@+id/postInfoHeader"
                     android:text="@string/post_info"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
@@ -600,7 +598,6 @@
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"
-                    android:id="@+id/postButtonsHeader"
                     android:text="@string/post_buttons"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
@@ -634,17 +631,18 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/hidebutton"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?android:selectableItemBackground"
-                        android:backgroundTint="?attr/tintColor"
-                        android:button="@null"
-                        android:buttonTint="?attr/tintColor"
-                        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                        android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/fontColor"
-                        android:textColorHint="?attr/fontColor" />
+                            android:id="@+id/hidebutton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:selectableItemBackground"
+                            android:backgroundTint="?attr/tintColor"
+                            android:button="@null"
+                            android:buttonTint="?attr/tintColor"
+                            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                            android:hapticFeedbackEnabled="true"
+                            android:textColor="?attr/fontColor"
+                            android:textColorHint="?attr/fontColor"
+                            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"/>
                 </RelativeLayout>
 
                 <View
@@ -678,17 +676,18 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/savebutton"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?android:selectableItemBackground"
-                        android:backgroundTint="?attr/tintColor"
-                        android:button="@null"
-                        android:buttonTint="?attr/tintColor"
-                        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                        android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/fontColor"
-                        android:textColorHint="?attr/fontColor" />
+                            android:id="@+id/savebutton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:selectableItemBackground"
+                            android:backgroundTint="?attr/tintColor"
+                            android:button="@null"
+                            android:buttonTint="?attr/tintColor"
+                            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                            android:hapticFeedbackEnabled="true"
+                            android:textColor="?attr/fontColor"
+                            android:textColorHint="?attr/fontColor"
+                            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

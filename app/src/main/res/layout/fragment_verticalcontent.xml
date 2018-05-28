@@ -7,10 +7,11 @@
     android:layout_height="match_parent">
 
     <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
-        android:id="@+id/activity_main_swipe_refresh_layout"
-        android:layout_marginStart="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/activity_main_swipe_refresh_layout"
+            android:layout_marginStart="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/vertical_content"
@@ -27,11 +28,12 @@
     </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
     <include
-        layout="@layout/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_vertical_margin" />
+            layout="@layout/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_alignParentRight="true"/>
 </RelativeLayout>

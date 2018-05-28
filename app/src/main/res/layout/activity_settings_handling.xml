@@ -25,7 +25,6 @@
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
-                android:id="@+id/customDomainsHeader"
                 android:text="@string/settings_section_custom_domains"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -35,14 +34,13 @@
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
-                android:id="@+id/custom_handling"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

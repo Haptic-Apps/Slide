@@ -25,7 +25,8 @@
                 android:text="@string/example_sub"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:paddingLeft="24dp"/>
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -46,7 +47,8 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <TextView
                             android:id="@+id/linkkarma"
@@ -56,7 +58,8 @@
                             android:text="43015"
                             android:textColor="?attr/fontColor"
                             android:textSize="18sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="12dp"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -64,7 +67,8 @@
                             android:layout_marginStart="5dp"
                             android:text="@string/profile_karma_link"
                             android:textColor="?attr/fontColor"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp"
+                            android:layout_marginLeft="5dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -73,7 +77,8 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                     <TextView
                             android:id="@+id/commentkarma"
@@ -83,7 +88,8 @@
                             android:text="2034"
                             android:textColor="?attr/fontColor"
                             android:textSize="18sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="12dp"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -91,7 +97,8 @@
                             android:layout_marginStart="5dp"
                             android:text="@string/profile_karma_comment"
                             android:textColor="?attr/fontColor"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp"
+                            android:layout_marginLeft="5dp"/>
                 </LinearLayout>
 
                 <TextView
@@ -104,7 +111,10 @@
                         android:paddingStart="8dp"
                         android:text="Redditor for 2 years, 3 months of gold remiaing"
                         android:textColor="?attr/fontColor"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:layout_marginLeft="5dp"
+                        android:paddingRight="16dp"
+                        android:paddingLeft="8dp"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

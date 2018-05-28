@@ -10,12 +10,13 @@
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/anchor"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_gravity="top|end"
-            android:layout_marginEnd="3dp"
-            android:layout_marginTop="4dp" />
+                android:id="@+id/anchor"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_gravity="top|end"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="3dp"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/content_view"

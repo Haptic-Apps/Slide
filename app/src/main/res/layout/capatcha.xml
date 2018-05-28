@@ -38,16 +38,17 @@
                />
 
             <LinearLayout
-                android:id="@+id/sidebar"
-                android:layout_width="match_parent"
+                    android:id="@+id/sidebar"
+                    android:layout_width="match_parent"
 
-                android:layout_height="48dp"
-                android:layout_margin="16dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
+                    android:layout_height="48dp"
+                    android:layout_margin="16dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
 
-                android:orientation="horizontal"
-                android:paddingEnd="16dp">
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp">
 
 
                 <EditText

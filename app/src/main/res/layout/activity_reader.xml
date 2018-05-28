@@ -26,7 +26,7 @@
                 android:elevation="8dp"
                 android:minHeight="@dimen/standard_toolbar_height"
                 android:theme="@style/Theme.AppCompat"
-                app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
+                app:layout_scrollFlags="scroll|enterAlways"/>
 
     </android.support.design.widget.AppBarLayout>
 

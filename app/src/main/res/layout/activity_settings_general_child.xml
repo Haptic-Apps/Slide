@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/settings_general_child"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <TextView
-        android:id="@+id/settings_general_displayHeader"
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/display"
-        android:tag="label"
-        android:textColor="?attr/colorAccent" />
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/display"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"/>
 
     <RelativeLayout
         android:id="@+id/settings_general_viewtype"
@@ -174,16 +172,15 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_notificationsHeader"
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/settings_title_notifications"
-        android:tag="label"
-        android:textColor="?attr/colorAccent" />
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/settings_title_notifications"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -348,16 +345,15 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_sortingHeader"
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/sorting"
-        android:tag="label"
-        android:textColor="?attr/colorAccent" />
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/sorting"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"/>
 
     <RelativeLayout
         android:id="@+id/settings_general_sorting"
@@ -432,16 +428,15 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_downloadsHeader"
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/image_downloads"
-        android:tag="label"
-        android:textColor="?attr/colorAccent" />
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/image_downloads"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"/>
 
     <RelativeLayout
         android:id="@+id/settings_general_download"
@@ -530,16 +525,15 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_miscHeader"
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/settings_section_other"
-        android:tag="label"
-        android:textColor="?attr/colorAccent" />
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/settings_section_other"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -551,11 +545,12 @@
         android:paddingLeft="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="64dp"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
 
             <TextView
                 android:layout_width="wrap_content"

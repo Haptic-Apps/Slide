@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/settings_child"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,12 +34,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/settings" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/settings"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,12 +59,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/multicolumn" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/multicolumn"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,12 +84,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/sub" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/sub"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,12 +109,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/offline" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/offline"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -155,12 +158,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/theme" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/theme"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -180,12 +184,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/card" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/card"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -204,12 +209,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/sub" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/sub"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -228,12 +234,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/fontsizedarker" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/fontsizedarker"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -252,12 +259,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/commentchange" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/commentchange"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -298,12 +306,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/link" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/link"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -322,12 +331,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/history" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/history"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -346,12 +356,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/world" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/world"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -370,12 +381,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/filter" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/filter"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -394,12 +406,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/reddit" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/reddit"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -440,12 +453,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_backup" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/ic_backup"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -464,12 +478,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:src="@drawable/synccit"
-                android:tint="?attr/tintColor" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:src="@drawable/synccit"
+                    android:tint="?attr/tintColor"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -489,12 +504,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/crown" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/crown"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -513,12 +529,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/donate" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/donate"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:id="@+id/settings_child_donatetext"
@@ -538,12 +555,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/infonew" />
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/infonew"
+                    android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"

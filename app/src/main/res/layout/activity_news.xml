@@ -12,7 +12,8 @@
             android:layout_height="1dp"
             android:layout_gravity="top|end"
             android:layout_marginEnd="3dp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="3dp"/>
 
     <me.ccrama.redditslide.Views.ToggleSwipeViewPager
             android:id="@+id/content_view"
@@ -62,7 +63,8 @@
                         android:padding="8dp"
                         android:tint="@color/white"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/close"/>
+                        app:srcCompat="@drawable/close"
+                        android:layout_toRightOf="@+id/toolbar_search"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 

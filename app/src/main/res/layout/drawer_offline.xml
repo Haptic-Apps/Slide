@@ -26,42 +26,47 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
-        android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
 
-        android:paddingStart="0dp">
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp">
 
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
 
-            android:text="@string/drawer_offline"
-            android:layout_marginStart="16dp"
-            android:textColor="?attr/fontColor"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+                android:text="@string/drawer_offline"
+                android:layout_marginStart="16dp"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="16dp"/>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/online"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
-        android:orientation="horizontal"
+            android:id="@+id/online"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
 
-        android:paddingStart="0dp">
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="26dp"
-            app:srcCompat="@drawable/internet"
-            android:tint="?attr/tintColor" />
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="26dp"
+                app:srcCompat="@drawable/internet"
+                android:tint="?attr/tintColor"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="26dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,21 +79,24 @@
             android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/manage"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
-        android:orientation="horizontal"
+            android:id="@+id/manage"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
 
-        android:paddingStart="0dp">
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="26dp"
-            app:srcCompat="@drawable/save"
-            android:tint="?attr/tintColor" />
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="26dp"
+                app:srcCompat="@drawable/save"
+                android:tint="?attr/tintColor"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="26dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,21 +108,24 @@
             android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
-        android:orientation="horizontal"
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
 
-        android:paddingStart="0dp">
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="26dp"
-            app:srcCompat="@drawable/settings"
-            android:tint="?attr/tintColor" />
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="26dp"
+                app:srcCompat="@drawable/settings"
+                android:tint="?attr/tintColor"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="26dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -158,16 +169,18 @@
             android:textColorHint="?attr/fontColor" />
 
         <ImageView
-            android:id="@+id/close_search_drawer"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:tint="?attr/tintColor"
-            android:layout_alignBottom="@+id/sort"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:padding="8dp"
-            android:theme="@style/Ripple.List"
-            app:srcCompat="@drawable/close" />
+                android:id="@+id/close_search_drawer"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:tint="?attr/tintColor"
+                android:layout_alignBottom="@+id/sort"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:padding="8dp"
+                android:theme="@style/Ripple.List"
+                app:srcCompat="@drawable/close"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 </LinearLayout>

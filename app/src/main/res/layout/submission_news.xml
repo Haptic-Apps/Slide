@@ -25,12 +25,13 @@
             android:padding="8dp" />
 
         <RelativeLayout
-            android:id="@+id/innerrelative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/headerimage"
-            android:layout_toRightOf="@+id/score"
-            android:paddingTop="6dp">
+                android:id="@+id/innerrelative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/headerimage"
+                android:layout_toRightOf="@+id/score"
+                android:paddingTop="6dp"
+                android:layout_toEndOf="@+id/score">
 
 
             <RelativeLayout
@@ -47,7 +48,8 @@
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/chameleon"
-                        app:riv_corner_radius="2dp" />
+                        app:riv_corner_radius="2dp"
+                        android:layout_marginStart="8dp"/>
                 <ImageView
                         android:id="@+id/comments"
                         style="@style/Ripple.List"
@@ -61,7 +63,9 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/comment" />
+                        app:srcCompat="@drawable/comment"
+                        android:layout_marginStart="-4dp"
+                        android:layout_alignParentEnd="true"/>
 
                 <ImageView
                         android:id="@+id/more"
@@ -77,37 +81,44 @@
                         android:tag="tintsecond"
                         android:layout_alignParentRight="true"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/more" />
+                        app:srcCompat="@drawable/more"
+                        android:layout_marginStart="-4dp"
+                        android:layout_alignParentEnd="true"/>
                 <me.ccrama.redditslide.Views.TitleTextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-4dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_toLeftOf="@+id/comments"
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-4dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_toLeftOf="@+id/comments"
 
-                    android:layout_toRightOf="@+id/thumbimage2"
-                    android:layout_marginEnd="8dp"
-                    android:tag="tint"
-                    android:text="@string/example_title"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="?attr/font_cardtitle" />
+                        android:layout_toRightOf="@+id/thumbimage2"
+                        android:layout_marginEnd="8dp"
+                        android:tag="tint"
+                        android:text="@string/example_title"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="?attr/font_cardtitle"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toStartOf="@+id/comments"
+                        android:layout_toEndOf="@+id/thumbimage2"/>
 
                 <me.ccrama.redditslide.SpoilerRobotoTextView
-                    android:id="@+id/body"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/title"
-                    android:layout_gravity="start"
-                    android:layout_toRightOf="@+id/thumbimage2"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="4dp"
-                    android:gravity="center_vertical"
-                    android:tag="tintsecond"
-                    android:textColor="?attr/tintColor"
-                    android:textSize="?attr/font_commentbody"
-                    android:visibility="gone" />
+                        android:id="@+id/body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title"
+                        android:layout_gravity="start"
+                        android:layout_toRightOf="@+id/thumbimage2"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_vertical"
+                        android:tag="tintsecond"
+                        android:textColor="?attr/tintColor"
+                        android:textSize="?attr/font_commentbody"
+                        android:visibility="gone"
+                        android:layout_toEndOf="@+id/thumbimage2"/>
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

@@ -12,7 +12,7 @@
                 android:layout_margin="10dp"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:layout_gravity="center_vertical|right"
+                android:layout_gravity="center_vertical|end"
                 android:adjustViewBounds="true"
                 android:background="@drawable/circle" />
     </android.support.v7.widget.Toolbar>

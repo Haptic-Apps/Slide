@@ -18,27 +18,29 @@
         android:src="@drawable/chameleon" />
 
     <me.ccrama.redditslide.Views.TransparentTagTextView
-        android:layout_width="wrap_content"
-        android:text="IMAGE"
-        android:id="@+id/tag"
-        android:layout_alignBottom="@+id/leadimage"
-        android:textAllCaps="true"
-        android:layout_alignParentRight="true"
-        android:alpha=".86"
-        android:layout_margin="10dp"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:padding="2dp"
-        android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:text="IMAGE"
+            android:id="@+id/tag"
+            android:layout_alignBottom="@+id/leadimage"
+            android:textAllCaps="true"
+            android:layout_alignParentRight="true"
+            android:alpha=".86"
+            android:layout_margin="10dp"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"/>
     <LinearLayout
-        android:id="@+id/base"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/leadimage"
-        android:layout_gravity="center_vertical"
-        android:background="#55000000"
-        android:orientation="vertical"
-        android:paddingStart="16dp">
+            android:id="@+id/base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/leadimage"
+            android:layout_gravity="center_vertical"
+            android:background="#55000000"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
 
         <TextView
             android:id="@+id/textimage"

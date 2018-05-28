@@ -14,7 +14,7 @@ public class ToastHelpCreation {
         int x = view.getLeft();
         int y = view.getTop() + 2 * view.getHeight();
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP | Gravity.LEFT, x, y);
+        toast.setGravity(Gravity.TOP | Gravity.START, x, y);
         toast.show();
     }
 }

@@ -10,46 +10,49 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
         <TextView
-            android:id="@+id/subreddit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:textColor="#424242"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+                android:id="@+id/subreddit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:textColor="#424242"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"/>
         <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
-            android:layout_margin="2dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/open"
-            android:indeterminate="true" />
+                android:id="@+id/loading"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="8dp"
+                android:layout_margin="2dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/open"
+                android:indeterminate="true"
+                android:layout_toStartOf="@+id/open"/>
         <ImageView
-            style="@style/Ripple.List"
-            android:layout_width="36dp"
-            android:visibility="gone"
-            android:layout_height="36dp"
-            android:tint="#424242"
-            android:padding="8dp"
-            android:src="@drawable/refresh"
-            android:id="@+id/refresh"
-            android:layout_toLeftOf="@+id/open"
-            android:layout_margin="2dp"
-            android:layout_centerVertical="true" />
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:visibility="gone"
+                android:layout_height="36dp"
+                android:tint="#424242"
+                android:padding="8dp"
+                android:src="@drawable/refresh"
+                android:id="@+id/refresh"
+                android:layout_toLeftOf="@+id/open"
+                android:layout_margin="2dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/open"/>
         <ImageView
-            style="@style/Ripple.List"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
-            android:src="@drawable/sub"
-            android:tint="#424242"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:id="@+id/open"
-            />
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="8dp"
+                android:src="@drawable/sub"
+                android:tint="#424242"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/open"
+                android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
     <ListView

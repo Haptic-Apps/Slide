@@ -52,13 +52,14 @@
                     android:id="@+id/tint_primary"
                     />
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_default_color"
-                    android:textSize="18sp"
-                    android:paddingStart="8dp"
-                    android:layout_height="match_parent" />
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="@string/theme_default_color"
+                        android:textSize="18sp"
+                        android:paddingStart="8dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp"/>
 
             </LinearLayout>
             <LinearLayout
@@ -78,13 +79,14 @@
                     android:src="@drawable/circle"
                     />
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_accent_color"
-                    android:textSize="18sp"
-                    android:paddingStart="8dp"
-                    android:layout_height="match_parent" />
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="@string/theme_accent_color"
+                        android:textSize="18sp"
+                        android:paddingStart="8dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp"/>
 
             </LinearLayout>
             <LinearLayout
@@ -103,13 +105,14 @@
                     android:src="@drawable/circle"
                     />
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_base"
-                    android:textSize="18sp"
-                    android:paddingStart="8dp"
-                    android:layout_height="match_parent" />
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="@string/theme_base"
+                        android:textSize="18sp"
+                        android:paddingStart="8dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp"/>
 
             </LinearLayout>
             <View
@@ -125,18 +128,19 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
 
-            android:layout_height="56dp"
-            android:padding="16dp"
-            android:text="@string/btn_done"
-            android:textSize="14sp"
-            android:textAllCaps="true"
+                android:layout_height="56dp"
+                android:padding="16dp"
+                android:text="@string/btn_done"
+                android:textSize="14sp"
+                android:textAllCaps="true"
 
-            android:id="@+id/next"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:textStyle="bold" />
+                android:id="@+id/next"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:textStyle="bold"
+                android:layout_alignParentEnd="true"/>
 
 
 </RelativeLayout>

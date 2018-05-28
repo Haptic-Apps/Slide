@@ -413,15 +413,25 @@ public class CreateCardView {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.inside).getLayoutParams();
 
             if (!SettingValues.actionbarVisible && !SettingValues.actionbarTap) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    picParams.addRule(RelativeLayout.START_OF, R.id.secondMenu);
+                }
                 picParams.addRule(RelativeLayout.LEFT_OF, R.id.secondMenu);
             } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    picParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+                }
                 picParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             }
 
             picParams.setMargins(picParams.rightMargin, picParams.topMargin, picParams.leftMargin, picParams.bottomMargin);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                layoutParams.addRule(RelativeLayout.START_OF, R.id.thumbimage2);
+            }
             layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.thumbimage2);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                layoutParams.removeRule(RelativeLayout.END_OF);
                 layoutParams.removeRule(RelativeLayout.RIGHT_OF);
             } else {
                 layoutParams.addRule(RelativeLayout.RIGHT_OF, 0);

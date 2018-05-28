@@ -8,16 +8,16 @@
         android:background="@drawable/swipe"
         android:layout_height="match_parent"/>
     <TextView
-        android:layout_width="wrap_content"
-        android:text="@string/tutorial_swipe_navigation"
-        android:textColor="#fff"
-        android:textSize="26sp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:padding="24dp"
-        android:id="@+id/top"
-        android:layout_marginTop="60dp"
-        />
+            android:layout_width="wrap_content"
+            android:text="@string/tutorial_swipe_navigation"
+            android:textColor="#fff"
+            android:textSize="26sp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="24dp"
+            android:id="@+id/top"
+            android:layout_marginTop="60dp"
+            android:layout_alignParentStart="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:text="@string/tutorial_swipe_description"

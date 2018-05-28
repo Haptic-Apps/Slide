@@ -134,7 +134,8 @@
                     android:textAllCaps="true"
                     android:textColor="#ffffff"
                     android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_toStartOf="@+id/send"/>
 
             <TextView
                     android:id="@+id/send"
@@ -148,7 +149,8 @@
                     android:textColor="#fff"
                     android:textColorHint="#fff"
                     android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_alignParentEnd="true"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

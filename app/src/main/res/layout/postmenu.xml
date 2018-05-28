@@ -48,15 +48,16 @@
 
 
                     <LinearLayout
-                        android:id="@+id/sidebar"
-                        android:layout_width="match_parent"
+                            android:id="@+id/sidebar"
+                            android:layout_width="match_parent"
 
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -83,15 +84,16 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/wiki"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
+                            android:id="@+id/wiki"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
 
-                        android:gravity="center_vertical"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -119,15 +121,16 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/save"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
+                            android:id="@+id/save"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
 
-                        android:gravity="center_vertical"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -155,14 +158,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/gild"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
+                            android:id="@+id/gild"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -187,14 +191,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/report"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
+                            android:id="@+id/report"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
 
-                        android:paddingEnd="16dp"
-                        android:visibility="gone">
+                            android:paddingEnd="16dp"
+                            android:visibility="gone"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -219,14 +224,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/copy"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
+                            android:id="@+id/copy"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <!-- fixme icon -->
                         <ImageView
@@ -247,14 +253,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/share"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
+                            android:id="@+id/share"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -278,14 +285,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/hide"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
+                            android:id="@+id/hide"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
+                            android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"

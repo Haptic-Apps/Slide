@@ -53,14 +53,15 @@
                     android:padding="24dp">
 
                     <LinearLayout
-                        android:id="@+id/light"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="#ffffff"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
+                            android:id="@+id/light"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#ffffff"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
 
-                        android:paddingEnd="16dp">
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -84,13 +85,14 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/sepia"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="#cac5ad"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:id="@+id/sepia"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#cac5ad"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -110,14 +112,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/blue"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="#37474F"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
+                            android:id="@+id/blue"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#37474F"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
 
-                        android:paddingEnd="16dp">
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -142,16 +145,17 @@
 
 
                     <LinearLayout
-                        android:id="@+id/dark"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                            android:id="@+id/dark"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
 
-                        android:background="#424242"
+                            android:background="#424242"
 
 
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -182,7 +186,8 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
 
-                            android:paddingEnd="16dp">
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                                 android:layout_width="56dp"
@@ -213,7 +218,8 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                                 android:layout_width="56dp"
@@ -243,7 +249,8 @@
                             android:background="#121212"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -270,7 +277,8 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -300,7 +308,8 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp">
 
                         <ImageView
                                 android:layout_width="56dp"

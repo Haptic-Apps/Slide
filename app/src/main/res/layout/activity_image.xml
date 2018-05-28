@@ -16,12 +16,12 @@
         android:transitionName="profile" />
 
     <LinearLayout
-        android:id="@+id/gifheader"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@+id/submission_image"
-        android:layout_marginTop="-56dp"
-        android:gravity="right">
+            android:id="@+id/gifheader"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/submission_image"
+            android:layout_marginTop="-56dp"
+            android:gravity="end">
 
         <ImageView
             android:id="@+id/external"

@@ -26,12 +26,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/save"/>
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/save"
+                        android:layout_marginRight="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -50,12 +51,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/restorefile"/>
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/restorefile"
+                        android:layout_marginRight="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -25,61 +25,67 @@
              />
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/gifheader"
-            android:gravity="right|bottom"
-            android:weightSum="6">
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/gifheader"
+                android:gravity="end|bottom"
+                android:weightSum="6">
             <TextView
-                android:layout_width="wrap_content"
-                android:paddingLeft="16dp"
-                android:gravity="center"
-                android:layout_toRightOf="@+id/comments"
-                android:id="@+id/size"
-                android:textSize="12sp"
-                android:layout_height="match_parent" />
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/comments"
+                    android:id="@+id/size"
+                    android:textSize="12sp"
+                    android:layout_height="match_parent"
+                    android:paddingStart="16dp"
+                    android:layout_toEndOf="@+id/comments"/>
             <ImageView
-                android:id="@+id/hq"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:theme="@style/Ripple.List"
-                android:layout_toLeftOf="@+id/save"
-                android:padding="15dp"
-                app:srcCompat="@drawable/hd"
-                android:tint="#e1e1e1" />
+                    android:id="@+id/hq"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:theme="@style/Ripple.List"
+                    android:layout_toLeftOf="@+id/save"
+                    android:padding="15dp"
+                    app:srcCompat="@drawable/hd"
+                    android:tint="#e1e1e1"
+                    android:layout_toStartOf="@+id/save"/>
             <ImageView
-                android:id="@+id/comments"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:theme="@style/Ripple.List"
-                android:layout_alignParentLeft="true"
-                android:padding="15dp"
-                app:srcCompat="@drawable/commentchange"
-                android:tint="#e1e1e1" />
+                    android:id="@+id/comments"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:theme="@style/Ripple.List"
+                    android:layout_alignParentLeft="true"
+                    android:padding="15dp"
+                    app:srcCompat="@drawable/commentchange"
+                    android:tint="#e1e1e1"
+                    android:layout_alignParentStart="true"/>
             <ImageView
-                android:id="@+id/save"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_toLeftOf="@+id/more"
-                android:theme="@style/Ripple.List"
-                android:padding="15dp"
-                app:srcCompat="@drawable/save"
-                android:tint="#e1e1e1" />
+                    android:id="@+id/save"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_toLeftOf="@+id/more"
+                    android:theme="@style/Ripple.List"
+                    android:padding="15dp"
+                    app:srcCompat="@drawable/save"
+                    android:tint="#e1e1e1"
+                    android:layout_toStartOf="@+id/more"/>
             <ImageView
-                android:id="@+id/more"
-                style="@style/Ripple.List"
-                android:layout_width="48dp"
-                android:layout_height="56dp"
-                android:theme="@style/Ripple.List"
-                android:layout_gravity="right"
-                android:paddingStart="11dp"
-                android:paddingEnd="11dp"
-                android:paddingTop="15dp"
-                android:layout_alignParentRight="true"
-                android:paddingBottom="15dp"
-                app:srcCompat="@drawable/more"
-                android:tint="#e1e1e1" />
+                    android:id="@+id/more"
+                    style="@style/Ripple.List"
+                    android:layout_width="48dp"
+                    android:layout_height="56dp"
+                    android:theme="@style/Ripple.List"
+                    android:layout_gravity="end"
+                    android:paddingStart="11dp"
+                    android:paddingEnd="11dp"
+                    android:paddingTop="15dp"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="15dp"
+                    app:srcCompat="@drawable/more"
+                    android:tint="#e1e1e1"
+                    android:layout_alignParentEnd="true"/>
 
         </RelativeLayout>
 

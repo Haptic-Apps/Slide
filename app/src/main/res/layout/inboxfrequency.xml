@@ -98,17 +98,18 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/save"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:selectableItemBackground"
-                            android:padding="16dp"
-                            android:text="@string/btn_done"
-                            android:layout_alignParentEnd="true"
-                            android:textAllCaps="true"
-                            android:textColor="?attr/fontColor"
-                            android:textSize="14sp"
-                            android:textStyle="bold"/>
+                                android:id="@+id/save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?android:selectableItemBackground"
+                                android:padding="16dp"
+                                android:text="@string/btn_done"
+                                android:layout_alignParentEnd="true"
+                                android:textAllCaps="true"
+                                android:textColor="?attr/fontColor"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:layout_alignParentRight="true"/>
                     </RelativeLayout>
 
                 </LinearLayout>

@@ -211,7 +211,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
 
             case R.id.subs:
-                ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
+                ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.END);
                 return true;
             case R.id.gallery:
                 if (SettingValues.tabletUI) {
@@ -462,7 +462,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     public void openPopup() {
         PopupMenu popup =
-                new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.RIGHT);
+                new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.END);
         String id =
                 ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit
                         .getDisplayName()
@@ -530,7 +530,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     public void openPopupTime() {
         PopupMenu popup =
-                new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.RIGHT);
+                new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.END);
         String id =
                 ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit
                         .getDisplayName()

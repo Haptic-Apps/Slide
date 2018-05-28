@@ -364,7 +364,7 @@ public class Profile extends BaseActivityAnim {
     }
 
     public void openPopup() {
-        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.END);
         final Spannable[] base = SortingUtil.getSortingSpannables(profSort);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
@@ -415,7 +415,7 @@ public class Profile extends BaseActivityAnim {
     }
 
     public void openPopupTime() {
-        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.END);
         final Spannable[] base = SortingUtil.getSortingTimesSpannables(profTime);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);

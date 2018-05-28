@@ -4,17 +4,19 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
     <TextView
-        android:layout_width="match_parent"
-        android:text="/r/android"
-        android:gravity="center_vertical"
-        android:textColor="#ffffff"
-        android:paddingStart="16dp"
-        android:layout_height="48dp" />
+            android:layout_width="match_parent"
+            android:text="/r/android"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff"
+            android:paddingStart="16dp"
+            android:layout_height="48dp"
+            android:paddingLeft="16dp"/>
     <ListView
-        android:id="@+id/submissions"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:background="#424242" />
+            android:id="@+id/submissions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:background="#424242"
+            android:layout_marginLeft="3dp"/>
 </LinearLayout>

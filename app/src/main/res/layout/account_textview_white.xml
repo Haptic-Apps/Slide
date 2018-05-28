@@ -17,12 +17,13 @@
         android:textSize="18sp"
         android:textStyle="bold" />
     <ImageView
-        android:layout_width="36dp"
-        android:id="@+id/remove"
-        android:layout_alignParentRight="true"
-        android:padding="6dp"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/close"
-        android:tint="#fff"
-        android:layout_height="36dp" />
+            android:layout_width="36dp"
+            android:id="@+id/remove"
+            android:layout_alignParentRight="true"
+            android:padding="6dp"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/close"
+            android:tint="#fff"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"/>
 </RelativeLayout>

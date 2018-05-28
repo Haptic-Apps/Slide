@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/settings_history_child"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <TextView
             style="@style/TextAppearance.AppCompat.Body2"
-            android:id="@+id/settings_history_saveHistoryHeader"
             android:text="@string/settings_section_save_history"
             android:tag="label"
             android:paddingStart="16dp"
@@ -23,14 +21,16 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="64dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
 
             <TextView
                     android:layout_width="wrap_content"
@@ -51,7 +51,8 @@
                 android:checked="true"
                 android:hapticFeedbackEnabled="true"
                 android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor" />
+                android:textColorHint="?attr/fontColor"
+                android:paddingRight="16dp"/>
     </RelativeLayout>
 
     <View
@@ -66,14 +67,16 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="64dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
 
             <TextView
                     android:layout_width="wrap_content"
@@ -93,7 +96,8 @@
                 android:buttonTint="?attr/tintColor"
                 android:hapticFeedbackEnabled="true"
                 android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor" />
+                android:textColorHint="?attr/fontColor"
+                android:paddingRight="16dp"/>
     </RelativeLayout>
 
     <View
@@ -108,14 +112,16 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="64dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
 
             <TextView
                     android:layout_width="wrap_content"
@@ -135,12 +141,12 @@
                 android:buttonTint="?attr/tintColor"
                 android:hapticFeedbackEnabled="true"
                 android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor" />
+                android:textColorHint="?attr/fontColor"
+                android:paddingRight="16dp"/>
     </RelativeLayout>
 
     <TextView
             style="@style/TextAppearance.AppCompat.Body2"
-            android:id="@+id/settings_history_clearHistoryHeader"
             android:text="@string/settings_section_clear_history"
             android:tag="label"
             android:paddingStart="16dp"

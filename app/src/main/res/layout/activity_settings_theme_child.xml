@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/settings_theme_child"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <TextView
-        android:id="@+id/settings_theme_appThemeHeader"
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:tag="label"
-        android:text="@string/app_theme"
-        android:textColor="?attr/colorAccent" />
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:tag="label"
+            android:text="@string/app_theme"
+            android:textColor="?attr/colorAccent"/>
 
     <LinearLayout
         android:id="@+id/settings_theme_main"
@@ -26,12 +24,13 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
-            android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/color" />
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/color"
+                android:layout_marginRight="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,12 +49,13 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
-            android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/accent" />
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/accent"
+                android:layout_marginRight="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,12 +74,13 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
-            android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/theme" />
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/theme"
+                android:layout_marginRight="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,12 +99,13 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
-            android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/nighttheme" />
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/nighttheme"
+                android:layout_marginRight="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -115,16 +117,15 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/settings_theme_tintingHeader"
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:tag="label"
-        android:text="@string/tinting"
-        android:textColor="?attr/colorAccent" />
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:tag="label"
+            android:text="@string/tinting"
+            android:textColor="?attr/colorAccent"/>
 
     <RelativeLayout
         android:id="@+id/settings_theme_dotint"
@@ -166,19 +167,21 @@
         android:background="?attr/tintColor" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="?android:selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp">
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="64dp"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -197,16 +200,17 @@
         </LinearLayout>
 
         <android.support.v7.widget.SwitchCompat
-            android:id="@+id/settings_theme_tint_everywhere"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="?attr/tintColor"
-            android:button="@null"
-            android:buttonTint="?attr/tintColor"
-            android:hapticFeedbackEnabled="true"
-            android:paddingEnd="16dp"
-            android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor" />
+                android:id="@+id/settings_theme_tint_everywhere"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"
+                android:paddingRight="16dp"/>
     </RelativeLayout>
 
     <View
@@ -216,19 +220,21 @@
         android:background="?attr/tintColor" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="?android:selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp">
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="64dp"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -239,16 +245,17 @@
         </LinearLayout>
 
         <android.support.v7.widget.SwitchCompat
-            android:id="@+id/settings_theme_color_navigation_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="?attr/tintColor"
-            android:button="@null"
-            android:buttonTint="?attr/tintColor"
-            android:hapticFeedbackEnabled="true"
-            android:paddingEnd="16dp"
-            android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor" />
+                android:id="@+id/settings_theme_color_navigation_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"
+                android:paddingRight="16dp"/>
     </RelativeLayout>
 
     <View
@@ -258,19 +265,21 @@
         android:background="?attr/tintColor" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="?android:selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp">
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="64dp"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -289,16 +298,17 @@
         </LinearLayout>
 
         <android.support.v7.widget.SwitchCompat
-            android:id="@+id/settings_theme_color_icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="?attr/tintColor"
-            android:button="@null"
-            android:buttonTint="?attr/tintColor"
-            android:hapticFeedbackEnabled="true"
-            android:paddingEnd="16dp"
-            android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor" />
+                android:id="@+id/settings_theme_color_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"
+                android:paddingRight="16dp"/>
     </RelativeLayout>
 
 

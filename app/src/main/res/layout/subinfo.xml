@@ -42,7 +42,9 @@
                         android:paddingStart="16dp"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:layout_toLeftOf="@+id/subimage"
+                        android:paddingLeft="16dp"/>
 
                 <TextView
                         android:id="@+id/subscribers"
@@ -52,7 +54,9 @@
                         android:layout_toStartOf="@+id/subimage"
                         android:paddingStart="16dp"
                         android:textColor="@color/white"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:layout_toLeftOf="@+id/subimage"
+                        android:paddingLeft="16dp"/>
 
                 <TextView
                         android:id="@+id/active_users"
@@ -63,14 +67,17 @@
                         android:paddingStart="16dp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:textStyle="italic"/>
+                        android:textStyle="italic"
+                        android:layout_toLeftOf="@+id/subimage"
+                        android:paddingLeft="16dp"/>
 
                 <ImageView
                         android:id="@+id/subimage"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
             <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -124,7 +131,8 @@
                             android:textColor="?attr/fontColor"
                             android:textColorHint="?attr/fontColor"
                             android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:layout_toLeftOf="@id/collection"/>
 
                     <ImageView
                             android:id="@+id/collection"
@@ -135,7 +143,8 @@
                             android:padding="4dp"
                             android:src="@drawable/collection"
                             android:theme="@style/Ripple.List"
-                            android:tint="?attr/tintColor"/>
+                            android:tint="?attr/tintColor"
+                            android:layout_alignParentRight="true"/>
                 </RelativeLayout>
 
                 <LinearLayout
@@ -156,10 +165,10 @@
                             android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
                             android:hapticFeedbackEnabled="true"
                             android:textColor="?attr/fontColor"
-                            android:textColorHint="?attr/fontColor"/>
+                            android:textColorHint="?attr/fontColor"
+                            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"/>
 
                     <TextView
-                            android:id="@+id/notified_new_posts"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="8dp"
@@ -214,7 +223,8 @@
                             android:text="@string/subreddit_theme"
                             android:textAllCaps="true"
                             android:textColor="?attr/colorAccent"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="52dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -241,7 +251,8 @@
                             android:text="@string/sidebar_wiki"
                             android:textAllCaps="true"
                             android:textColor="?attr/colorAccent"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="52dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -268,7 +279,8 @@
                             android:text="@string/editor_submit"
                             android:textAllCaps="true"
                             android:textColor="?attr/colorAccent"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="52dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -295,7 +307,8 @@
                             android:text="@string/sidebar_mods"
                             android:textAllCaps="true"
                             android:textColor="?attr/colorAccent"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="52dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -323,7 +336,8 @@
                             android:text="@string/sidebar_edit_flair"
                             android:textAllCaps="true"
                             android:textColor="?attr/colorAccent"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="52dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -351,7 +365,8 @@
                             android:text="Sync subreddit image flairs"
                             android:textAllCaps="true"
                             android:textColor="?attr/colorAccent"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="52dp"/>
                 </RelativeLayout>
                 <RelativeLayout
                         android:id="@+id/sorting"
@@ -378,7 +393,8 @@
                             android:text="Default subreddit sorting"
                             android:textAllCaps="true"
                             android:textColor="?attr/colorAccent"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:paddingLeft="52dp"/>
                 </RelativeLayout>
 
                 <View

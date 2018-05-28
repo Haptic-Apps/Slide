@@ -26,9 +26,11 @@
                 android:layout_marginLeft="4dp"
                 android:tint="?attr/tintColor"
                 android:layout_height="48dp"
-                android:layout_alignParentRight="true"
                 android:padding="4dp"
-                android:src="@drawable/support"/>
+                android:src="@drawable/support"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="4dp"
+                android:layout_alignParentRight="true"/>
 
         <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/body"

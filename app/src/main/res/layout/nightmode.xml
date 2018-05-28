@@ -41,7 +41,8 @@
                         android:buttonTint="?attr/tintColor"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/fontColor"
-                        android:textColorHint="?attr/fontColor"/>
+                        android:textColorHint="?attr/fontColor"
+                        android:layout_marginRight="18dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -133,7 +134,8 @@
                             style="@style/Material.Widget.Spinner"
                             android:layout_width="128dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp">
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp">
                     </android.support.v7.widget.AppCompatSpinner>
                 </LinearLayout>
 
@@ -154,7 +156,8 @@
                             style="@style/Material.Widget.Spinner"
                             android:layout_width="128dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp">
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp">
                     </android.support.v7.widget.AppCompatSpinner>
                 </LinearLayout>
             </LinearLayout>

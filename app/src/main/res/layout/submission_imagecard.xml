@@ -42,12 +42,13 @@
                     android:progress="0" />
 
                 <me.ccrama.redditslide.Views.SubsamplingScaleImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
 
-                    android:layout_alignParentLeft="true"
-                    app:srcCompat="@drawable/chameleon" />
+                        android:layout_alignParentLeft="true"
+                        app:srcCompat="@drawable/chameleon"
+                        android:layout_alignParentStart="true"/>
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/thumbimage2"
@@ -77,61 +78,71 @@
 
 
                 <ImageView
-                    android:id="@+id/scoreimg"
-                    android:layout_below="@+id/title"
-                    android:layout_width="15dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="4dp"
-                    app:srcCompat="@drawable/upvoted"
-                    android:tag="tint" />
+                        android:id="@+id/scoreimg"
+                        android:layout_below="@+id/title"
+                        android:layout_width="15dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="4dp"
+                        app:srcCompat="@drawable/upvoted"
+                        android:tag="tint"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="4dp"/>
 
                 <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_below="@+id/title"
-                    android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@+id/scoreimg"
-                    android:gravity="center_vertical"
-                    android:textColor="#bcffffff"
-                    android:textSize="?attr/font_cardinfo" />
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_below="@+id/title"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toRightOf="@+id/scoreimg"
+                        android:gravity="center_vertical"
+                        android:textColor="#bcffffff"
+                        android:textSize="?attr/font_cardinfo"
+                        android:layout_toEndOf="@+id/scoreimg"/>
 
                 <ImageView
-                    android:id="@+id/pointsimg"
-                    android:layout_width="15dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:layout_below="@+id/title"
-                    android:layout_marginEnd="4dp"
-                    android:layout_toRightOf="@+id/score"
-                    app:srcCompat="@drawable/commentchange" />
+                        android:id="@+id/pointsimg"
+                        android:layout_width="15dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_below="@+id/title"
+                        android:layout_marginEnd="4dp"
+                        android:layout_toRightOf="@+id/score"
+                        app:srcCompat="@drawable/commentchange"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_toEndOf="@+id/score"/>
 
                 <TextView
-                    android:id="@+id/comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@+id/pointsimg"
-                    android:gravity="center_vertical"
-                    android:layout_below="@+id/title"
-                    android:textColor="#bcffffff"
-                    android:textSize="?attr/font_cardinfo" />
+                        android:id="@+id/comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toRightOf="@+id/pointsimg"
+                        android:gravity="center_vertical"
+                        android:layout_below="@+id/title"
+                        android:textColor="#bcffffff"
+                        android:textSize="?attr/font_cardinfo"
+                        android:layout_toEndOf="@+id/pointsimg"/>
 
                 <TextView
-                    android:id="@+id/desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_toRightOf="@+id/comments"
-                    android:gravity="right|center_vertical"
-                    android:layout_below="@+id/title"
-                    android:text="@string/example_url"
-                    android:textColor="#bcffffff"
-                    android:textSize="14sp" />
+                        android:id="@+id/desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_toRightOf="@+id/comments"
+                        android:gravity="end|center_vertical"
+                        android:layout_below="@+id/title"
+                        android:text="@string/example_url"
+                        android:textColor="#bcffffff"
+                        android:textSize="14sp"
+                        android:layout_marginRight="8dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/comments"/>
             </RelativeLayout>
         </RelativeLayout>
 

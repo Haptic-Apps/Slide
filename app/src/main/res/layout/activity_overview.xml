@@ -11,12 +11,13 @@
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/anchor"
-            android:layout_width="1dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="3dp"
-            android:layout_gravity="top|end"
-            android:layout_height="1dp" />
+                android:id="@+id/anchor"
+                android:layout_width="1dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="3dp"
+                android:layout_gravity="top|end"
+                android:layout_height="1dp"
+                android:layout_marginRight="3dp"/>
 
         <me.ccrama.redditslide.Views.ToggleSwipeViewPager
             android:id="@+id/content_view"
@@ -55,18 +56,19 @@
                         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
                     <ImageView
-                        android:id="@+id/close_search_toolbar"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignBottom="@+id/toolbar_search"
-                        android:layout_toEndOf="@+id/toolbar_search"
-                        android:padding="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:tint="@color/white"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/close" />
+                            android:id="@+id/close_search_toolbar"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignBottom="@+id/toolbar_search"
+                            android:layout_toEndOf="@+id/toolbar_search"
+                            android:padding="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:tint="@color/white"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/close"
+                            android:layout_toRightOf="@+id/toolbar_search"/>
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
 
