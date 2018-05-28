@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
@@ -17,6 +19,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import java.net.URI;
@@ -258,6 +261,8 @@ public class Website extends BaseActivityAnim {
     }
 
     private class MyWebViewClient extends WebChromeClient {
+        private CustomViewCallback fullscreenCallback;
+
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             Website.this.setValue(newProgress);
@@ -293,6 +298,40 @@ public class Website extends BaseActivityAnim {
             }
         }
 
+        @Override
+        public void onShowCustomView(View view, CustomViewCallback callback) {
+            this.fullscreenCallback = callback;
+
+            findViewById(R.id.appbar).setVisibility(View.INVISIBLE);
+
+            WindowManager.LayoutParams attributes = getWindow().getAttributes();
+            attributes.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            attributes.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+            getWindow().setAttributes(attributes);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+            FrameLayout fullscreenViewFrame = (FrameLayout) findViewById(R.id.web_fullscreen);
+            fullscreenViewFrame.addView(view);
+        }
+
+        @Override
+        public void onHideCustomView() {
+            FrameLayout fullscreenViewFrame = (FrameLayout) findViewById(R.id.web_fullscreen);
+            fullscreenViewFrame.removeAllViews();
+
+            WindowManager.LayoutParams attributes = getWindow().getAttributes();
+            attributes.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            attributes.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+            getWindow().setAttributes(attributes);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+
+            findViewById(R.id.appbar).setVisibility(View.VISIBLE);
+
+            if (this.fullscreenCallback != null) {
+                this.fullscreenCallback.onCustomViewHidden();
+                this.fullscreenCallback = null;
+            }
+        }
     }
 
     public static ArrayList<String> triedURLS;
