@@ -14,7 +14,7 @@ import me.ccrama.redditslide.R;
  */
 public class SettingsTheme extends BaseActivityAnim implements SettingsFragment.RestartActivity {
 
-    private SettingsThemeFragment fragment = new SettingsThemeFragment(this);
+    private final SettingsThemeFragment fragment = new SettingsThemeFragment(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

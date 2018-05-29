@@ -6,7 +6,6 @@ import android.support.annotation.WorkerThread;
 import android.webkit.WebResourceResponse;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,7 +29,7 @@ public class AdBlocker {
             protected Void doInBackground(Void... voids) {
                 try {
                     loadFromAssets(context);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;

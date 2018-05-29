@@ -489,8 +489,8 @@ public class SubmissionCache {
 
     }
 
-    public static ArrayList<String> removed  = new ArrayList<>();
-    public static ArrayList<String> approved = new ArrayList<>();
+    public static final ArrayList<String> removed  = new ArrayList<>();
+    public static final ArrayList<String> approved = new ArrayList<>();
 
     private static SpannableStringBuilder getTitleSpannable(Submission submission,
             Context mContext) {

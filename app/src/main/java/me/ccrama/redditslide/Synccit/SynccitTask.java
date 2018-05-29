@@ -28,7 +28,7 @@ public abstract class SynccitTask extends HttpPostTask<SynccitResponse> {
     private static final String API_LEVEL    = "1";
 
     /** developer name */
-    private String devName;
+    private final String devName;
 
     SynccitTask(String devName) {
         super(API_URL);

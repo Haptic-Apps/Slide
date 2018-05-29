@@ -62,7 +62,8 @@ public class HeaderImageLinkView extends RelativeLayout {
     boolean done;
     String lastDone = "";
     ContentType.Type type;
-    DisplayImageOptions bigOptions = new DisplayImageOptions.Builder().resetViewBeforeLoading(false)
+    final DisplayImageOptions bigOptions =
+            new DisplayImageOptions.Builder().resetViewBeforeLoading(false)
             .cacheOnDisk(true)
             .imageScaleType(ImageScaleType.EXACTLY)
             .cacheInMemory(false)

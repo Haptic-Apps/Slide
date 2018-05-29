@@ -99,8 +99,8 @@ public class ImageFlairs {
     }
 
     static class StylesheetFetchTask extends AsyncTask<Void, Void, FlairStylesheet> {
-        String  subreddit;
-        Context context;
+        final String  subreddit;
+        final Context context;
         Dialog  d;
 
         StylesheetFetchTask(String subreddit, Context context) {
@@ -155,8 +155,11 @@ public class ImageFlairs {
     }
 
     public static class CropTransformation {
-        private int width, height, x, y;
-        private String id;
+        private final int    width;
+        private final int    height;
+        private final int    x;
+        private final int    y;
+        private final String id;
 
         public CropTransformation(Context context, String id, int width, int height, int x, int y) {
             super();
@@ -199,7 +202,7 @@ public class ImageFlairs {
 
 
     static class FlairStylesheet {
-        String stylesheetString;
+        final String stylesheetString;
         Dimensions defaultDimension = new Dimensions();
         Location   defaultLocation  = new Location();
         String     defaultURL       = "";
@@ -278,16 +281,15 @@ public class ImageFlairs {
                     "(?<! )\\." + className + "(?!-|\\[|[A-Za-z0-9_.])([^\\{]*)*\\{(.+?)\\}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
-            String properties = null;
+            StringBuilder properties = null;
 
             while (matches.find()) {
-                if (properties == null) properties = "";
-                properties = matches.group(2)
-                        + ";"
-                        + properties;   // append properties to simulate property overriding
+                if (properties == null) properties = new StringBuilder();
+                properties.insert(0, matches.group(2)
+                        + ";");   // append properties to simulate property overriding
             }
 
-            return properties;
+            return properties.toString();
         }
 
         /**
@@ -527,7 +529,6 @@ public class ImageFlairs {
         /**
          * Request a flair by flair id. `.into` can be chained onto this method call.
          *
-         * @param id
          * @param context
          * @return
          */

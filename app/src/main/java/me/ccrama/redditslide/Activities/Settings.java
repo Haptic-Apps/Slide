@@ -69,26 +69,26 @@ public class Settings extends BaseActivity
     public static boolean                                            changed;
     //whether or not a Setting was changed
 
-    private SettingsGeneralFragment      mSettingsGeneralFragment      =
+    private final SettingsGeneralFragment      mSettingsGeneralFragment      =
             new SettingsGeneralFragment(this);
-    private ManageOfflineContentFragment mManageOfflineContentFragment =
+    private final ManageOfflineContentFragment mManageOfflineContentFragment =
             new ManageOfflineContentFragment(this);
-    private SettingsThemeFragment        mSettingsThemeFragment        =
+    private final SettingsThemeFragment        mSettingsThemeFragment        =
             new SettingsThemeFragment(this);
-    private SettingsFontFragment         mSettingsFontFragment         =
+    private final SettingsFontFragment         mSettingsFontFragment         =
             new SettingsFontFragment(this);
-    private SettingsCommentsFragment     mSettingsCommentsFragment     =
+    private final SettingsCommentsFragment     mSettingsCommentsFragment     =
             new SettingsCommentsFragment(this);
-    private SettingsHandlingFragment     mSettingsHandlingFragment     =
+    private final SettingsHandlingFragment     mSettingsHandlingFragment     =
             new SettingsHandlingFragment(this);
-    private SettingsHistoryFragment      mSettingsHistoryFragment      =
+    private final SettingsHistoryFragment      mSettingsHistoryFragment      =
             new SettingsHistoryFragment(this);
-    private SettingsDataFragment         mSettingsDataFragment         =
+    private final SettingsDataFragment         mSettingsDataFragment         =
             new SettingsDataFragment(this);
-    private SettingsRedditFragment       mSettingsRedditFragment       =
+    private final SettingsRedditFragment       mSettingsRedditFragment       =
             new SettingsRedditFragment(this);
 
-    private List<Integer> settings_activities = new ArrayList<>(
+    private final List<Integer> settings_activities = new ArrayList<>(
             Arrays.asList(R.layout.activity_settings_general_child,
                     R.layout.activity_manage_history_child, R.layout.activity_settings_theme_child,
                     R.layout.activity_settings_font_child,

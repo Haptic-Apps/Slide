@@ -62,7 +62,7 @@ public class SubredditPosts implements PostLoader {
     public  boolean          loading;
     private Paginator        paginator;
     public  OfflineSubreddit cached;
-    Context c;
+    final   Context          c;
     boolean force18;
 
     public SubredditPosts(String subreddit, Context c) {
@@ -280,7 +280,7 @@ public class SubredditPosts implements PostLoader {
      */
     private class LoadData extends AsyncTask<String, Void, List<Submission>> {
         final boolean reset;
-        Context context;
+        final Context context;
 
         public LoadData(Context context, SubmissionDisplay display, boolean reset) {
             this.context = context;

@@ -62,17 +62,17 @@ public class MediaVideoView extends VideoView {
     public int  number;
     public View mute;
     OnPreparedListener mOnPreparedListener;
-    private int     currentBufferPercentage;
-    private Uri     uri;
-    private Context mContext;
+    private       int     currentBufferPercentage;
+    private       Uri     uri;
+    private final Context mContext;
     // Listeners
-    private OnBufferUpdateListener bufferingUpdateListener = new OnBufferUpdateListener() {
+    private final OnBufferUpdateListener bufferingUpdateListener = new OnBufferUpdateListener() {
         @Override
         public void onBufferingUpdate(int percent) {
             currentBufferPercentage = percent;
         }
     };
-    private OnPreparedListener     preparedListener        = new OnPreparedListener() {
+    private final OnPreparedListener     preparedListener        = new OnPreparedListener() {
         @Override
         public void onPrepared() {
             LogUtil.v("Video prepared for " + number);
@@ -86,7 +86,7 @@ public class MediaVideoView extends VideoView {
             start();
         }
     };
-    private OnErrorListener        errorListener           = new OnErrorListener() {
+    private final OnErrorListener        errorListener           = new OnErrorListener() {
         @Override
         public boolean onError(Exception e) {
             Log.e(LOG_TAG, "There was an error during video playback.");
@@ -122,31 +122,33 @@ public class MediaVideoView extends VideoView {
                 && keyCode != KeyEvent.KEYCODE_CALL
                 && keyCode != KeyEvent.KEYCODE_ENDCALL;
         if (isPlaying() && isKeyCodeSupported) {
-            if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                if (isPlaying()) {
-                    pause();
-                    getVideoControls().show();
-                } else {
-                    start();
-                    getVideoControls().hide();
-                }
-                return true;
-            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
-                if (!isPlaying()) {
-                    start();
-                    getVideoControls().hide();
-                }
-                return true;
-            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
-                if (isPlaying()) {
-                    pause();
-                    getVideoControls().show();
-                }
-                return true;
-            } else {
-                toggleMediaControlsVisiblity();
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_HEADSETHOOK:
+                case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                    if (isPlaying()) {
+                        pause();
+                        getVideoControls().show();
+                    } else {
+                        start();
+                        getVideoControls().hide();
+                    }
+                    return true;
+                case KeyEvent.KEYCODE_MEDIA_PLAY:
+                    if (!isPlaying()) {
+                        start();
+                        getVideoControls().hide();
+                    }
+                    return true;
+                case KeyEvent.KEYCODE_MEDIA_STOP:
+                case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                    if (isPlaying()) {
+                        pause();
+                        getVideoControls().show();
+                    }
+                    return true;
+                default:
+                    toggleMediaControlsVisiblity();
+                    break;
             }
         }
 
@@ -331,8 +333,8 @@ class CacheDataSourceFactory implements DataSource.Factory {
 }
 
 class FadeInAnimation extends AnimationSet {
-    private View    animationView;
-    private boolean toVisible;
+    private final View    animationView;
+    private final boolean toVisible;
 
     public FadeInAnimation(View view, boolean toVisible, long duration) {
         super(false);

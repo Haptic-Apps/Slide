@@ -65,12 +65,12 @@ public class ImageDownloadNotificationService extends Service {
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
-        public  int                        id;
-        private NotificationManager        mNotifyManager;
-        private NotificationCompat.Builder mBuilder;
-        public  String                     actuallyLoaded;
-        private int                        index;
-        private String                     subreddit;
+        public        int                        id;
+        private       NotificationManager        mNotifyManager;
+        private       NotificationCompat.Builder mBuilder;
+        public final  String                     actuallyLoaded;
+        private final int                        index;
+        private final String                     subreddit;
 
 
         public PollTask(String actuallyLoaded, int index, String subreddit) {

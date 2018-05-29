@@ -12,7 +12,7 @@ import me.ccrama.redditslide.R;
  */
 public class SettingsReddit extends BaseActivityAnim {
 
-    SettingsRedditFragment fragment = new SettingsRedditFragment(this);
+    final SettingsRedditFragment fragment = new SettingsRedditFragment(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

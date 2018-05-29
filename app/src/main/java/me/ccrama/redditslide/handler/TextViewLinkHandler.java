@@ -15,13 +15,13 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 
 public class TextViewLinkHandler extends BaseMovementMethod {
     private final ClickableText clickableText;
-    String                subreddit;
+    final         String        subreddit;
     SpoilerRobotoTextView comm;
-    Spannable             sequence;
+    final Spannable sequence;
     float                 position;
     boolean               clickHandled;
-    Handler               handler;
-    Runnable              longClicked;
+    final Handler  handler;
+    final Runnable longClicked;
     URLSpan[]             link;
     MotionEvent           event;
 

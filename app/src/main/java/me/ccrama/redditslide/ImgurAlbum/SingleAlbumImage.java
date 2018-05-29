@@ -27,7 +27,7 @@ public class SingleAlbumImage {
     @JsonProperty("status")
     private Integer     status;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The data

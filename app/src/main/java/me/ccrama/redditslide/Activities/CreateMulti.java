@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -64,7 +65,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class CreateMulti extends BaseActivityAnim {
 
     private ArrayList<String> subs;
-    private boolean delete = false;
+    private final boolean delete = false;
     private CustomAdapter adapter;
     private EditText      title;
     private RecyclerView  recyclerView;
@@ -121,10 +122,8 @@ public class CreateMulti extends BaseActivityAnim {
 
     public void showSelectDialog() {
         //List of all subreddits of the multi
-        List<String> sorted = new ArrayList<>();
-        List<String> multiSubs = new ArrayList<>();
-        multiSubs.addAll(subs);
-        sorted.addAll(subs);
+        List<String> multiSubs = new ArrayList<>(subs);
+        List<String> sorted = new ArrayList<>(subs);
 
         //Add all user subs that aren't already on the list
         for (String s : UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this))) {
@@ -166,8 +165,7 @@ public class CreateMulti extends BaseActivityAnim {
         //Convert List back to Array
         all = list.toArray(new String[list.size()]);
 
-        final ArrayList<String> toCheck = new ArrayList<>();
-        toCheck.addAll(subs);
+        final ArrayList<String> toCheck = new ArrayList<>(subs);
         new AlertDialogWrapper.Builder(this).setMultiChoiceItems(all, checked,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -202,7 +200,8 @@ public class CreateMulti extends BaseActivityAnim {
                                         .input(getString(R.string.reorder_subreddit_name), null,
                                                 false, new MaterialDialog.InputCallback() {
                                                     @Override
-                                                    public void onInput(MaterialDialog dialog,
+                                                    public void onInput(
+                                                            @NonNull MaterialDialog dialog,
                                                             CharSequence raw) {
                                                         input = raw.toString()
                                                                 .replaceAll("\\s",
@@ -212,16 +211,16 @@ public class CreateMulti extends BaseActivityAnim {
                                         .positiveText(R.string.btn_add)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
-                                            public void onClick(MaterialDialog dialog,
-                                                    DialogAction which) {
+                                            public void onClick(@NonNull MaterialDialog dialog,
+                                                    @NonNull DialogAction which) {
                                                 new AsyncGetSubreddit().execute(input);
                                             }
                                         })
                                         .negativeText(R.string.btn_cancel)
                                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                                             @Override
-                                            public void onClick(MaterialDialog dialog,
-                                                    DialogAction which) {
+                                            public void onClick(@NonNull MaterialDialog dialog,
+                                                    @NonNull DialogAction which) {
 
                                             }
                                         })
@@ -292,15 +291,17 @@ public class CreateMulti extends BaseActivityAnim {
             this.items = items;
         }
 
+        @NonNull
         @Override
-        public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CustomAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                int viewType) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.subforsublist, parent, false);
             return new ViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
             final String origPos = items.get(position);
             holder.text.setText(origPos);

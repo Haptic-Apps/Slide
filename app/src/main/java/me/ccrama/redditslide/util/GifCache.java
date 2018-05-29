@@ -20,7 +20,7 @@ import me.ccrama.redditslide.ImageLoaderUtils;
  */
 public class GifCache {
 
-    public static long discCacheSize = 100000000L; //100mb
+    public static final long discCacheSize = 100000000L; //100mb
     public static DiskCache discCache;
 
     public static void init(Context c) {

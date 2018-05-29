@@ -49,11 +49,7 @@ public class NavigationUtils {
 
             Resources resources = context.getResources();
             int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
-            if (id > 0) {
-                return resources.getBoolean(id);
-            } else {
-                return false;
-            }
+            return id > 0 && resources.getBoolean(id);
         } else {
             return true;
         }

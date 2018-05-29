@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -191,7 +192,11 @@ public class Website extends BaseActivityAnim {
             CookieSyncManager.createInstance(this);
             CookieManager cookieManager = CookieManager.getInstance();
             try {
-                cookieManager.removeAllCookies(null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    cookieManager.removeAllCookies(null);
+                } else {
+                    cookieManager.removeAllCookie();
+                }
                 CookieManager.getInstance().flush();
                 cookieManager.setAcceptCookie(false);
             } catch (NoSuchMethodError e) {
@@ -340,7 +345,7 @@ public class Website extends BaseActivityAnim {
 
     //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
     public class AdBlockWebViewClient extends WebViewClient {
-        private Map<String, Boolean> loadedUrls = new HashMap<>();
+        private final Map<String, Boolean> loadedUrls = new HashMap<>();
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {

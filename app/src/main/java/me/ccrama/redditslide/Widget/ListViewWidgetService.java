@@ -46,10 +46,10 @@ public class ListViewWidgetService extends RemoteViewsService {
 }
 
 class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private Context               mContext;
-    private ArrayList<Submission> records;
-    String subreddit;
-    int    id;
+    private final Context               mContext;
+    private       ArrayList<Submission> records;
+    final         String                subreddit;
+    final         int                   id;
 
     public ListViewRemoteViewsFactory(Context context, Intent intent, String subreddit, int id) {
         mContext = context;

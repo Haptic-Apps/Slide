@@ -12,7 +12,7 @@ import me.ccrama.redditslide.R;
  */
 public class SettingsFont extends BaseActivityAnim {
 
-    private SettingsFontFragment fragment = new SettingsFontFragment(this);
+    private final SettingsFontFragment fragment = new SettingsFontFragment(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

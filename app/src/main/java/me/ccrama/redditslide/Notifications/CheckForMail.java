@@ -358,7 +358,7 @@ public class CheckForMail extends BroadcastReceiver {
 
     public static class AsyncGetSubs extends AsyncTask<Void, Void, List<Submission>> {
 
-        public Context c;
+        public final Context c;
 
         public AsyncGetSubs(Context context) {
             this.c = context;
@@ -449,14 +449,14 @@ public class CheckForMail extends BroadcastReceiver {
                     return null;
                 }
 
-                String first = "";
+                StringBuilder first = new StringBuilder();
                 int count = 0, totalCount = 0;
                 for (String s : subThresholds.keySet()) {
-                    first = first + s + "+";
+                    first.append(s).append("+");
                     count++;
                     totalCount++;
                     if (count == 3 || totalCount == subThresholds.keySet().size()) {
-                        first = first.substring(0, first.length() - 1);
+                        first = new StringBuilder(first.substring(0, first.length() - 1));
                         SubmissionSearchPaginator unread =
                                 new SubmissionSearchPaginator(Authentication.reddit,
                                         "timestamp:" + ((lastTime / 1000) + offsetSeconds)
@@ -468,7 +468,7 @@ public class CheckForMail extends BroadcastReceiver {
                                 + offsetSeconds));
                         unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.NEW);
                         unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
-                        unread.setSubreddit(first);
+                        unread.setSubreddit(first.toString());
                         unread.setLimit(30);
                         if (unread.hasNext()) {
                             for (Submission subm : unread.next()) {
@@ -481,7 +481,7 @@ public class CheckForMail extends BroadcastReceiver {
                                 }
                             }
                         }
-                        first = "";
+                        first = new StringBuilder();
                         count = 0;
                     }
                 }

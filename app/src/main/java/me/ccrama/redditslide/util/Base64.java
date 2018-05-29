@@ -271,7 +271,6 @@ class Base64 {
     /**
      * Encodes a byte array into Base64 notation.
      *
-     * @param off       offset in array where conversion should begin
      * @param source    the data to convert
      * @param len       length of data to convert
      * @param alphabet  the encoding alphabet
@@ -369,7 +368,6 @@ class Base64 {
      * This method returns the actual number of bytes that
      * were converted from the Base64 encoding.
      *
-     * @param srcOffset   the index where conversion begins
      * @param source      the array to convert
      * @param destination the array to hold the conversion
      * @param destOffset  the index where output will be put

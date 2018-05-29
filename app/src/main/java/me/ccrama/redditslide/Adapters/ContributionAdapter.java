@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -38,7 +39,6 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
-import net.dean.jraw.models.VoteDirection;
 
 import java.util.List;
 import java.util.Locale;
@@ -71,7 +71,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public final  Activity     mContext;
     private final RecyclerView listView;
     private final Boolean      isHiddenPost;
-    public        GeneralPosts dataSet;
+    public final  GeneralPosts dataSet;
 
     public ContributionAdapter(Activity mContext, GeneralPosts dataSet, RecyclerView listView) {
         this.mContext = mContext;
@@ -110,30 +110,37 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return 2;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        if (i == SPACER) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.spacer, viewGroup, false);
-            return new SpacerViewHolder(v);
+        switch (i) {
+            case SPACER: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.spacer, viewGroup, false);
+                return new SpacerViewHolder(v);
 
-        } else if (i == COMMENT) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.profile_comment, viewGroup, false);
-            return new ProfileCommentViewHolder(v);
-        } else if (i == LOADING_SPINNER) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.loadingmore, viewGroup, false);
-            return new SubmissionFooterViewHolder(v);
-        } else if (i == NO_MORE) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.nomoreposts, viewGroup, false);
-            return new SubmissionFooterViewHolder(v);
-        } else {
-            View v = CreateCardView.CreateView(viewGroup);
-            return new SubmissionViewHolder(v);
+            }
+            case COMMENT: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.profile_comment, viewGroup, false);
+                return new ProfileCommentViewHolder(v);
+            }
+            case LOADING_SPINNER: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.loadingmore, viewGroup, false);
+                return new SubmissionFooterViewHolder(v);
+            }
+            case NO_MORE: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.nomoreposts, viewGroup, false);
+                return new SubmissionFooterViewHolder(v);
+            }
+            default: {
+                View v = CreateCardView.CreateView(viewGroup);
+                return new SubmissionViewHolder(v);
 
+            }
         }
 
     }
@@ -199,7 +206,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, final int pos) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder firstHolder,
+            final int pos) {
         int i = pos != 0 ? pos - 1 : pos;
 
         if (firstHolder instanceof SubmissionViewHolder) {
@@ -434,14 +442,18 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.score.setText(score);
 
             if (Authentication.isLoggedIn) {
-                if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
-                    holder.score.setTextColor(
-                            mContext.getResources().getColor(R.color.md_orange_500));
-                } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
-                    holder.score.setTextColor(
-                            mContext.getResources().getColor(R.color.md_blue_500));
-                } else {
-                    holder.score.setTextColor(holder.time.getCurrentTextColor());
+                switch (ActionStates.getVoteDirection(comment)) {
+                    case UPVOTE:
+                        holder.score.setTextColor(
+                                mContext.getResources().getColor(R.color.md_orange_500));
+                        break;
+                    case DOWNVOTE:
+                        holder.score.setTextColor(
+                                mContext.getResources().getColor(R.color.md_blue_500));
+                        break;
+                    default:
+                        holder.score.setTextColor(holder.time.getCurrentTextColor());
+                        break;
                 }
             }
             String spacer = mContext.getString(R.string.submission_properties_seperator);

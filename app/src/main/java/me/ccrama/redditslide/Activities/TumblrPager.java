@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -184,7 +185,7 @@ public class TumblrPager extends FullScreenActivity
 
     public class LoadIntoPager extends TumblrUtils.GetTumblrPostWithCallback {
 
-        String url;
+        final String url;
 
         public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
             super(url, baseActivity);
@@ -360,7 +361,7 @@ public class TumblrPager extends FullScreenActivity
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             rootView = (ViewGroup) inflater.inflate(R.layout.submission_gifcard_album, container,
                     false);
@@ -489,7 +490,7 @@ public class TumblrPager extends FullScreenActivity
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             final ViewGroup rootView =
                     (ViewGroup) inflater.inflate(R.layout.album_image_pager, container, false);
@@ -750,7 +751,7 @@ public class TumblrPager extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(this,

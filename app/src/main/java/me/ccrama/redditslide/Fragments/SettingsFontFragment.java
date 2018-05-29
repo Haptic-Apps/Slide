@@ -37,7 +37,7 @@ public class SettingsFontFragment {
         }
     }
 
-    private Activity context;
+    private final Activity context;
 
     public SettingsFontFragment(Activity context) {
         this.context = context;

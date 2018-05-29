@@ -184,7 +184,8 @@ public class Search extends BaseActivityAnim {
                                 .input(getString(R.string.search_msg), where,
                                         new MaterialDialog.InputCallback() {
                                             @Override
-                                            public void onInput(MaterialDialog materialDialog,
+                                            public void onInput(
+                                                    @NonNull MaterialDialog materialDialog,
                                                     CharSequence charSequence) {
                                                 where = charSequence.toString();
                                             }

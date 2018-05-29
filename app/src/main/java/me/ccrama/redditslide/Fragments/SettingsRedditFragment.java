@@ -14,7 +14,7 @@ import me.ccrama.redditslide.util.LinkUtil;
 
 public class SettingsRedditFragment {
 
-    private Activity context;
+    private final Activity context;
 
     public SettingsRedditFragment(Activity context) {
         this.context = context;

@@ -281,7 +281,7 @@ public class PeekMediaView extends RelativeLayout {
                         "javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
             }
 
-            private Map<String, Boolean> loadedUrls = new HashMap<>();
+            private final Map<String, Boolean> loadedUrls = new HashMap<>();
 
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {

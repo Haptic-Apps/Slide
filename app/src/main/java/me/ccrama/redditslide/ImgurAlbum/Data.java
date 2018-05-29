@@ -21,9 +21,9 @@ public class Data {
     @JsonProperty("count")
     private Integer count;
     @JsonProperty("images")
-    private List<Image>         images               = new ArrayList<>();
+    private       List<Image>         images               = new ArrayList<>();
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The count

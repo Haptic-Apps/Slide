@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.widget.TextView;
  */
 public class OfflineSubAdapter extends ArrayAdapter<String> {
 
-    private Context mContext;
+    private final Context mContext;
 
     public OfflineSubAdapter(Context context, int textViewResourceId, String[] objects) {
         super(context, textViewResourceId, objects);
@@ -22,15 +23,16 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
         mContext = context;
     }
 
-    String[] titles;
+    final String[] titles;
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         return getCustomView(position, convertView, parent);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         return getCustomView(position, convertView, parent);
     }
 

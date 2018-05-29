@@ -1,8 +1,8 @@
 package me.ccrama.redditslide.SwipeLayout;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 
 import java.lang.reflect.Method;
 
@@ -93,7 +93,7 @@ public class Utils {
                 }
             }
             Method convertToTranslucent = Activity.class.getDeclaredMethod("convertToTranslucent",
-                    translucentConversionListenerClazz, ActivityOptions.class);
+                    translucentConversionListenerClazz, ActivityOptionsCompat.class);
             convertToTranslucent.setAccessible(true);
             convertToTranslucent.invoke(activity, null, options);
         } catch (Throwable ignored) {

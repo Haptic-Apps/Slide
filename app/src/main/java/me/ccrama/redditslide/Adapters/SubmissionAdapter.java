@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,14 +48,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private final RecyclerView     listView;
     public final  String           subreddit;
-    public        Activity         context;
+    public final  Activity         context;
     private final boolean          custom;
-    public        SubredditPosts   dataSet;
-    public        List<Submission> seen;
+    public final  SubredditPosts   dataSet;
+    public final  List<Submission> seen;
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE         = 3;
     private final int SPACER          = 6;
-    SubmissionDisplay displayer;
+    final SubmissionDisplay displayer;
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView,
             String subreddit, SubmissionDisplay displayer) {
@@ -128,26 +129,32 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     int tag = 1;
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         tag++;
 
-        if (i == SPACER) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.spacer, viewGroup, false);
-            return new SpacerViewHolder(v);
+        switch (i) {
+            case SPACER: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.spacer, viewGroup, false);
+                return new SpacerViewHolder(v);
 
-        } else if (i == LOADING_SPINNER) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.loadingmore, viewGroup, false);
-            return new SubmissionFooterViewHolder(v);
-        } else if (i == NO_MORE) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.nomoreposts, viewGroup, false);
-            return new SubmissionFooterViewHolder(v);
-        } else {
-            View v = CreateCardView.CreateView(viewGroup);
-            return new SubmissionViewHolder(v);
+            }
+            case LOADING_SPINNER: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.loadingmore, viewGroup, false);
+                return new SubmissionFooterViewHolder(v);
+            }
+            case NO_MORE: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.nomoreposts, viewGroup, false);
+                return new SubmissionFooterViewHolder(v);
+            }
+            default: {
+                View v = CreateCardView.CreateView(viewGroup);
+                return new SubmissionViewHolder(v);
+            }
         }
     }
 
@@ -193,7 +200,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int pos) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder2, final int pos) {
 
         int i = pos != 0 ? pos - 1 : pos;
 

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -60,7 +61,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     private int         adapterPosition;
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(this,
@@ -319,7 +320,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         public RecyclerView recyclerView;
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
@@ -349,7 +350,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
         public class LoadIntoRecycler extends AlbumUtils.GetAlbumWithCallback {
 
-            String url;
+            final String url;
 
             public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
                 super(url, baseActivity);

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -61,7 +62,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
     public  String subreddit;
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(this,
@@ -320,7 +321,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         public RecyclerView recyclerView;
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
@@ -350,7 +351,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
         public class LoadIntoRecycler extends TumblrUtils.GetTumblrPostWithCallback {
 
-            String url;
+            final String url;
 
             public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
                 super(url, baseActivity);

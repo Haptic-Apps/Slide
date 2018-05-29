@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -438,20 +439,23 @@ public class LiveThread extends BaseActivityAnim {
 
     public class PaginatorAdapter extends RecyclerView.Adapter<PaginatorAdapter.ItemHolder> {
 
-        private LayoutInflater layoutInflater;
+        private final LayoutInflater layoutInflater;
 
         public PaginatorAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
         }
 
+        @NonNull
         @Override
-        public PaginatorAdapter.ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public PaginatorAdapter.ItemHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                int viewType) {
             View itemView = layoutInflater.inflate(R.layout.live_list_item, parent, false);
             return new ItemHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(final PaginatorAdapter.ItemHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final PaginatorAdapter.ItemHolder holder,
+                int position) {
             final LiveUpdate u = updates.get(position);
 
             holder.title.setText(
@@ -514,10 +518,10 @@ public class LiveThread extends BaseActivityAnim {
 
         public class LoadTwitter extends AsyncTask<String, Void, Void> {
 
-            private OkHttpClient client;
-            private Gson         gson;
-            String url;
-            private WebView view;
+            private final OkHttpClient client;
+            private final Gson         gson;
+            final         String       url;
+            private final WebView      view;
             TwitterObject twitter;
 
             public LoadTwitter(@NotNull WebView view, @NotNull String url) {
@@ -564,11 +568,11 @@ public class LiveThread extends BaseActivityAnim {
 
         public class ItemHolder extends RecyclerView.ViewHolder {
 
-            TextView              title;
-            SpoilerRobotoTextView info;
-            ImageView             imageArea;
-            WebView               twitterArea;
-            View                  go;
+            final TextView              title;
+            final SpoilerRobotoTextView info;
+            final ImageView             imageArea;
+            final WebView               twitterArea;
+            final View                  go;
 
 
             public ItemHolder(View itemView) {

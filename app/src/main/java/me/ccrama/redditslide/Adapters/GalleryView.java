@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.HapticFeedbackConstants;
@@ -42,8 +43,8 @@ import me.ccrama.redditslide.util.LinkUtil;
 public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Gallery               main;
     public        boolean               paddingBottom;
-    public        ArrayList<Submission> posts;
-    public        String                subreddit;
+    public final  ArrayList<Submission> posts;
+    public final  String                subreddit;
 
     public GalleryView(final Gallery context, ArrayList<Submission> displayer, String subreddit) {
         main = context;
@@ -51,8 +52,9 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.subreddit = subreddit;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gallery_image, parent, false);
         return new AlbumViewHolder(v);
@@ -64,7 +66,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder2, final int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder2, final int i) {
         if (holder2 instanceof AlbumViewHolder) {
 
             final AlbumViewHolder holder = (AlbumViewHolder) holder2;

@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -42,6 +43,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -811,7 +813,8 @@ public class PopulateNewsViewHolder {
                                 }
                             });
                             if (NetworkUtil.isConnected(mContext)) {
-                                new CommentCacheAsync(Arrays.asList(submission), mContext,
+                                new CommentCacheAsync(Collections.singletonList(submission),
+                                        mContext,
                                         CommentCacheAsync.SAVED_SUBMISSIONS,
                                         new boolean[]{true, true}).executeOnExecutor(
                                         AsyncTask.THREAD_POOL_EXECUTOR);
@@ -864,7 +867,8 @@ public class PopulateNewsViewHolder {
                                 mContext.getString(R.string.input_reason_for_report), null, true,
                                 new MaterialDialog.InputCallback() {
                                     @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    public void onInput(@NonNull MaterialDialog dialog,
+                                            CharSequence input) {
                                         reportReason = input.toString();
                                     }
                                 })
@@ -879,7 +883,8 @@ public class PopulateNewsViewHolder {
                                 .onNegative(null)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
-                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                            @NonNull DialogAction which) {
                                         new AsyncTask<Void, Void, Void>() {
                                             @Override
                                             protected Void doInBackground(Void... params) {

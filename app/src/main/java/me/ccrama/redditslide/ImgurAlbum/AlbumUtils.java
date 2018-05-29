@@ -62,12 +62,12 @@ public class AlbumUtils {
     public static class GetAlbumWithCallback
             extends AsyncTask<String, Void, ArrayList<JsonElement>> {
 
-        public String   hash;
-        public Activity baseActivity;
+        public       String   hash;
+        public final Activity baseActivity;
 
-        private OkHttpClient client;
-        private Gson         gson;
-        private String       mashapeKey;
+        private final OkHttpClient client;
+        private final Gson         gson;
+        private final String       mashapeKey;
 
         public void onError() {
 

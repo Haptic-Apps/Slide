@@ -41,11 +41,12 @@ public class TumblrUtils {
     public static class GetTumblrPostWithCallback
             extends AsyncTask<String, Void, ArrayList<JsonElement>> {
 
-        public String blog, id;
-        public Activity baseActivity;
+        public final String   blog;
+        public final String   id;
+        public final Activity baseActivity;
 
-        private OkHttpClient client;
-        private Gson         gson;
+        private final OkHttpClient client;
+        private final Gson         gson;
 
         public void onError() {
 

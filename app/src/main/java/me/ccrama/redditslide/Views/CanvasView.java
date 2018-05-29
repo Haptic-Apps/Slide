@@ -49,8 +49,8 @@ public class CanvasView extends View {
     private Canvas  canvas  = null;
     private Bitmap  bitmap  = null;
 
-    private List<Path>  pathLists  = new ArrayList<Path>();
-    private List<Paint> paintLists = new ArrayList<Paint>();
+    private final List<Path>  pathLists  = new ArrayList<>();
+    private final List<Paint> paintLists = new ArrayList<>();
 
     // for Eraser
     private int baseColor = Color.parseColor("#303030");
@@ -73,13 +73,13 @@ public class CanvasView extends View {
     private Paint.Cap   lineCap          = Paint.Cap.ROUND;
 
     // for Text
-    private String      text       = "";
-    private Typeface    fontFamily = Typeface.DEFAULT;
-    private float       fontSize   = 32F;
-    private Paint.Align textAlign  = Paint.Align.RIGHT;  // fixed
-    private Paint       textPaint  = new Paint();
-    private float       textX      = 0F;
-    private float       textY      = 0F;
+    private       String      text       = "";
+    private       Typeface    fontFamily = Typeface.DEFAULT;
+    private       float       fontSize   = 32F;
+    private final Paint.Align textAlign  = Paint.Align.RIGHT;  // fixed
+    private       Paint       textPaint  = new Paint();
+    private       float       textX      = 0F;
+    private       float       textY      = 0F;
 
     // for Drawer
     private float startX   = 0F;
@@ -200,7 +200,6 @@ public class CanvasView extends View {
      * "Undo" and "Redo" are enabled by this method.
      *
      * @param path  the instance of Path
-     * @param paint the instance of Paint
      */
     private void updateHistory(Path path) {
         if (this.historyPointer == this.pathLists.size()) {

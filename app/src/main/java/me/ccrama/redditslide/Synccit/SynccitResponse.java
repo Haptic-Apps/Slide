@@ -5,8 +5,8 @@ package me.ccrama.redditslide.Synccit;
  */
 class SynccitResponse {
 
-    private String key;
-    private String value;
+    private final String key;
+    private final String value;
 
     SynccitResponse(String key, String value) {
         this.key = key;

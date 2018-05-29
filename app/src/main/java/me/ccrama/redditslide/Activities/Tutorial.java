@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -98,7 +99,7 @@ public class Tutorial extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container,
                 Bundle savedInstanceState) {
 
             View v = inflater.inflate(R.layout.fragment_welcome, container, false);
@@ -123,7 +124,7 @@ public class Tutorial extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container,
                 Bundle savedInstanceState) {
             ((Tutorial) getActivity()).back =
                     new ColorPreferences(getContext()).getFontStyle().getThemeType();

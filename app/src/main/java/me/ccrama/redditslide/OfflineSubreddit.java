@@ -79,10 +79,10 @@ public class OfflineSubreddit {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
-            String fullNames = "";
+            StringBuilder fullNames = new StringBuilder();
             cache.put(title, this);
             for (Submission sub : new ArrayList<>(submissions)) {
-                fullNames += sub.getFullName() + ",";
+                fullNames.append(sub.getFullName()).append(",");
                 if (!isStored(sub.getFullName(), c)) {
                     writeSubmissionToStorage(sub, sub.getDataNode(), c);
                 }
@@ -102,9 +102,9 @@ public class OfflineSubreddit {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
-            String fullNames = "";
+            StringBuilder fullNames = new StringBuilder();
             for (Submission sub : submissions) {
-                fullNames += sub.getFullName() + ",";
+                fullNames.append(sub.getFullName()).append(",");
             }
             if (fullNames.length() > 0) {
                 Reddit.cachedData.edit()
@@ -118,9 +118,9 @@ public class OfflineSubreddit {
     public void writeToMemory(ArrayList<String> names) {
         if (subreddit != null && !names.isEmpty()) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (time);
-            String fullNames = "";
+            StringBuilder fullNames = new StringBuilder();
             for (String sub : names) {
-                fullNames += sub + ",";
+                fullNames.append(sub).append(",");
             }
             if (subreddit.equals(CommentCacheAsync.SAVED_SUBMISSIONS)) {
                 Map<String, ?> offlineSubs = Reddit.cachedData.getAll();
@@ -132,14 +132,14 @@ public class OfflineSubreddit {
                 }
                 String savedSubmissions =
                         Reddit.cachedData.getString(OfflineSubreddit.savedSubmissionsSubreddit,
-                                fullNames);
+                                fullNames.toString());
                 Reddit.cachedData.edit().remove(savedSubmissionsSubreddit).apply();
-                if (!savedSubmissions.equals(fullNames)) {
-                    savedSubmissions = fullNames.concat(savedSubmissions);
+                if (!savedSubmissions.equals(fullNames.toString())) {
+                    savedSubmissions = fullNames.toString().concat(savedSubmissions);
                 }
                 saveToCache(title, savedSubmissions);
             } else {
-                saveToCache(title, fullNames);
+                saveToCache(title, fullNames.toString());
             }
         }
     }

@@ -11,7 +11,7 @@ import me.ccrama.redditslide.SettingValues;
 
 public class SettingsDataFragment {
 
-    private Activity context;
+    private final Activity context;
 
     public SettingsDataFragment(Activity context) {
         this.context = context;

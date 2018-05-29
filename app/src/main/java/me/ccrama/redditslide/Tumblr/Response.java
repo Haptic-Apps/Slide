@@ -22,11 +22,11 @@ public class Response {
     @JsonProperty("blog")
     private Blog blog;
     @JsonProperty("posts")
-    private List<Post> posts = new ArrayList<Post>();
+    private List<Post> posts = new ArrayList<>();
     @JsonProperty("total_posts")
     private Integer totalPosts;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The blog

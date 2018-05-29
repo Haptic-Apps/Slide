@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -104,17 +105,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public CommentViewHolder  currentlySelected;
     public CommentNode        currentNode;
     public String currentSelectedItem = "";
-    public int               shiftFrom;
-    public FragmentManager   fm;
-    public int               clickpos;
-    public int               currentPos;
-    public CommentViewHolder isHolder;
-    public boolean           isClicking;
-    public HashMap<String, Integer> keys = new HashMap<>();
+    public       int               shiftFrom;
+    public final FragmentManager   fm;
+    public       int               clickpos;
+    public       int               currentPos;
+    public       CommentViewHolder isHolder;
+    public       boolean           isClicking;
+    public final HashMap<String, Integer> keys = new HashMap<>();
     public ArrayList<CommentObject> currentComments;
-    public ArrayList<String> deleted = new ArrayList<>();
+    public final ArrayList<String> deleted = new ArrayList<>();
     RecyclerView      listView;
-    CommentPage       mPage;
+    final CommentPage mPage;
     int               shifted;
     int               toShiftTo;
     ArrayList<String> hidden;
@@ -124,8 +125,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private String currentlyEditingId = "";
     public SubmissionViewHolder submissionViewHolder;
     long lastSeen = 0;
-    public ArrayList<String> approved = new ArrayList<>();
-    public ArrayList<String> removed  = new ArrayList<>();
+    public final ArrayList<String> approved = new ArrayList<>();
+    public final ArrayList<String> removed  = new ArrayList<>();
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView,
             Submission submission, FragmentManager fm) {
@@ -206,8 +207,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
             case SPACER: {
                 View v = LayoutInflater.from(viewGroup.getContext())
@@ -220,13 +222,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new SubmissionViewHolder(v);
             }
             case 2: {
-                View v = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.comment, viewGroup, false);
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
                 return new CommentViewHolder(v);
             }
             default: {
-                View v = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.morecomment, viewGroup, false);
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.morecomment, viewGroup, false);
                 return new MoreCommentViewHolder(v);
             }
         }
@@ -298,7 +298,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder firstHolder, int old) {
         int pos = old != 0 ? old - 1 : old;
         if (firstHolder instanceof CommentViewHolder) {
             final CommentViewHolder holder = (CommentViewHolder) firstHolder;
@@ -1139,13 +1139,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final EditText replyLine = baseView.findViewById(R.id.replyLine);
 
             final Comment comment = baseNode.getComment();
-            if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
-                upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
-            } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
-                downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
-            } else {
-                downvote.clearColorFilter();
-                upvote.clearColorFilter();
+            switch (ActionStates.getVoteDirection(comment)) {
+                case UPVOTE:
+                    upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                    break;
+                case DOWNVOTE:
+                    downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
+                    break;
+                default:
+                    downvote.clearColorFilter();
+                    upvote.clearColorFilter();
+                    break;
             }
             {
                 final ImageView mod = baseView.findViewById(R.id.mod);
@@ -2100,11 +2104,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class AsyncLoadMore extends AsyncTask<MoreChildItem, Void, Integer> {
-        public MoreCommentViewHolder holder;
-        public int                   holderPos;
-        public int                   position;
-        public int                   dataPos;
-        public String                fullname;
+        public final MoreCommentViewHolder holder;
+        public final int                   holderPos;
+        public final int                   position;
+        public final int                   dataPos;
+        public final String                fullname;
 
         public AsyncLoadMore(int position, int holderPos, MoreCommentViewHolder holder, int dataPos,
                 String fullname) {
@@ -2303,9 +2307,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class AsyncForceLoadChild extends AsyncTask<String, Void, Integer> {
-        CommentNode node;
-        public int holderPos;
-        public int position;
+        final        CommentNode node;
+        public final int         holderPos;
+        public final int         position;
 
 
         public AsyncForceLoadChild(int position, int holderPos, CommentNode baseNode) {
@@ -2399,11 +2403,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     public class ReplyTaskComment extends AsyncTask<String, Void, String> {
-        public Contribution sub;
+        public final Contribution sub;
         CommentNode       node;
         CommentViewHolder holder;
         boolean           isSubmission;
-        String            profileName;
+        final String profileName;
 
         public ReplyTaskComment(Contribution n, CommentNode node, CommentViewHolder holder,
                 String profileName) {

@@ -175,8 +175,8 @@ public class SendMessage extends BaseActivity {
 
 
     private class AsyncDo extends AsyncTask<Void, Void, Void> {
-        String  tried;
-        Captcha captcha;
+        final String  tried;
+        final Captcha captcha;
 
         public AsyncDo(Captcha captcha, String tried) {
             this.captcha = captcha;

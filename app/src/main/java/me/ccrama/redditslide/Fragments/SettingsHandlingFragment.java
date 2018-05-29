@@ -26,7 +26,7 @@ import me.ccrama.redditslide.SettingValues;
 
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
 
-    private Activity context;
+    private final Activity context;
 
     public ArrayList<String> domains = new ArrayList<>();
     EditText domain;

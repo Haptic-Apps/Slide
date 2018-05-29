@@ -35,7 +35,7 @@ public class WikiPage extends Fragment {
     private GeneralSwipeRefreshLayout ref;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.justtext, container, false);
     }

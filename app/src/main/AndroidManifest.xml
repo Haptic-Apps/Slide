@@ -668,6 +668,12 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.BaseActivity"/>
+        <activity android:name=".Activities.BaseActivityAnim"/>
+        <activity android:name=".Activities.FullScreenActivity"/>
+        <activity android:name=".Activities.NewsActivity"/>
+        <activity android:name=".ForceTouch.PeekViewActivity"/>
+        <activity android:name=".SwipeLayout.app.SwipeBackActivity"/>
         <!--
          Start of widget code for the future
          <receiver android:name=".Widget.PostWidgetProvider" >
@@ -703,6 +709,7 @@
                 <action android:name="android.service.notification.NotificationListenerService"/>
             </intent-filter>
         </service>
+        <service android:name=".StackWidgetService"/>
 
         <uses-library
                 android:name="com.sec.android.app.multiwindow"

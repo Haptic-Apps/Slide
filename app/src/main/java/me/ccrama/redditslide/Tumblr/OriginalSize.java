@@ -24,7 +24,7 @@ public class OriginalSize {
     @JsonProperty("height")
     private Integer height;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The url

@@ -167,7 +167,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                                                     new MaterialDialog.InputCallback() {
                                                         @Override
                                                         public void onInput(
-                                                                MaterialDialog materialDialog,
+                                                                @NonNull MaterialDialog materialDialog,
                                                                 CharSequence charSequence) {
                                                             term = charSequence.toString();
                                                         }

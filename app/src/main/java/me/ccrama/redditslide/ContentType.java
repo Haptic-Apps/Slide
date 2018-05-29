@@ -396,7 +396,7 @@ public class ContentType {
         return R.string.type_link;
     }
 
-    static HashMap<String, String> contentDescriptions = new HashMap<>();
+    static final HashMap<String, String> contentDescriptions = new HashMap<>();
 
     /**
      * Returns a description of the submission, for example "Link", "NSFW link", if the link is set

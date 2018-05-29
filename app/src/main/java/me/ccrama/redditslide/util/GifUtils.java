@@ -225,7 +225,7 @@ public class GifUtils {
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
-                @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart,
+                boolean closeIfNull, boolean hideControls, boolean autostart,
                 String subreddit) {
             this.c = c;
             this.subreddit = subreddit;
@@ -240,7 +240,7 @@ public class GifUtils {
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
-                @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart,
+                boolean closeIfNull, boolean hideControls, boolean autostart,
                 TextView size, String subreddit) {
             this.c = c;
             this.video = video;
@@ -278,8 +278,8 @@ public class GifUtils {
         }
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
-                @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull,
-                @NotNull boolean hideControls, boolean autostart, String subreddit) {
+                @Nullable ProgressBar p, @Nullable View placeholder, boolean closeIfNull,
+                boolean hideControls, boolean autostart, String subreddit) {
             this.c = c;
             this.video = video;
             this.subreddit = subreddit;
@@ -353,7 +353,7 @@ public class GifUtils {
             return VideoType.OTHER;
         }
 
-        OkHttpClient client = Reddit.client;
+        final OkHttpClient client = Reddit.client;
 
         public void loadGfycat(String name, Gson gson) throws Exception {
             showProgressBar(c, progressBar, false);
@@ -1145,7 +1145,7 @@ public class GifUtils {
     public static final int    SAMPLING_RATE                   = 48000;
     public static final int    BUFFER_SIZE                     = 48000;
     public static final int    CODEC_TIMEOUT_IN_MS             = 5000;
-    String   LOGTAG  = "CONVERT AUDIO";
+    final               String LOGTAG                          = "CONVERT AUDIO";
     Runnable convert = new Runnable() {
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
         @Override

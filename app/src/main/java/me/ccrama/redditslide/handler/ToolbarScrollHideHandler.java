@@ -11,8 +11,8 @@ import android.view.animation.LinearInterpolator;
  */
 public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
 
-    Toolbar tToolbar;
-    View    mAppBar;
+    final Toolbar tToolbar;
+    final View    mAppBar;
     View    extra;
     View    opposite;
 

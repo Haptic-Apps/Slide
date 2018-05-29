@@ -35,7 +35,6 @@ import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build.VERSION;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -1062,22 +1061,27 @@ public class SubsamplingScaleImageView extends View {
                             setMatrixArray(srcArray, 0, 0, tile.bitmap.getWidth(), 0,
                                     tile.bitmap.getWidth(), tile.bitmap.getHeight(), 0,
                                     tile.bitmap.getHeight());
-                            if (getRequiredRotation() == ORIENTATION_0) {
-                                setMatrixArray(dstArray, tile.vRect.left, tile.vRect.top,
-                                        tile.vRect.right, tile.vRect.top, tile.vRect.right,
-                                        tile.vRect.bottom, tile.vRect.left, tile.vRect.bottom);
-                            } else if (getRequiredRotation() == ORIENTATION_90) {
-                                setMatrixArray(dstArray, tile.vRect.right, tile.vRect.top,
-                                        tile.vRect.right, tile.vRect.bottom, tile.vRect.left,
-                                        tile.vRect.bottom, tile.vRect.left, tile.vRect.top);
-                            } else if (getRequiredRotation() == ORIENTATION_180) {
-                                setMatrixArray(dstArray, tile.vRect.right, tile.vRect.bottom,
-                                        tile.vRect.left, tile.vRect.bottom, tile.vRect.left,
-                                        tile.vRect.top, tile.vRect.right, tile.vRect.top);
-                            } else if (getRequiredRotation() == ORIENTATION_270) {
-                                setMatrixArray(dstArray, tile.vRect.left, tile.vRect.bottom,
-                                        tile.vRect.left, tile.vRect.top, tile.vRect.right,
-                                        tile.vRect.top, tile.vRect.right, tile.vRect.bottom);
+                            switch (getRequiredRotation()) {
+                                case ORIENTATION_0:
+                                    setMatrixArray(dstArray, tile.vRect.left, tile.vRect.top,
+                                            tile.vRect.right, tile.vRect.top, tile.vRect.right,
+                                            tile.vRect.bottom, tile.vRect.left, tile.vRect.bottom);
+                                    break;
+                                case ORIENTATION_90:
+                                    setMatrixArray(dstArray, tile.vRect.right, tile.vRect.top,
+                                            tile.vRect.right, tile.vRect.bottom, tile.vRect.left,
+                                            tile.vRect.bottom, tile.vRect.left, tile.vRect.top);
+                                    break;
+                                case ORIENTATION_180:
+                                    setMatrixArray(dstArray, tile.vRect.right, tile.vRect.bottom,
+                                            tile.vRect.left, tile.vRect.bottom, tile.vRect.left,
+                                            tile.vRect.top, tile.vRect.right, tile.vRect.top);
+                                    break;
+                                case ORIENTATION_270:
+                                    setMatrixArray(dstArray, tile.vRect.left, tile.vRect.bottom,
+                                            tile.vRect.left, tile.vRect.top, tile.vRect.right,
+                                            tile.vRect.top, tile.vRect.right, tile.vRect.bottom);
+                                    break;
                             }
                             matrix.setPolyToPoly(srcArray, 0, dstArray, 0, 4);
                             canvas.drawBitmap(tile.bitmap, matrix, bitmapPaint);
@@ -1142,12 +1146,16 @@ public class SubsamplingScaleImageView extends View {
             matrix.postRotate(getRequiredRotation());
             matrix.postTranslate(vTranslate.x, vTranslate.y);
 
-            if (getRequiredRotation() == ORIENTATION_180) {
-                matrix.postTranslate(scale * sWidth, scale * sHeight);
-            } else if (getRequiredRotation() == ORIENTATION_90) {
-                matrix.postTranslate(scale * sHeight, 0);
-            } else if (getRequiredRotation() == ORIENTATION_270) {
-                matrix.postTranslate(0, scale * sWidth);
+            switch (getRequiredRotation()) {
+                case ORIENTATION_180:
+                    matrix.postTranslate(scale * sWidth, scale * sHeight);
+                    break;
+                case ORIENTATION_90:
+                    matrix.postTranslate(scale * sHeight, 0);
+                    break;
+                case ORIENTATION_270:
+                    matrix.postTranslate(0, scale * sWidth);
+                    break;
             }
 
             if (tileBgPaint != null) {
@@ -1888,17 +1896,23 @@ public class SubsamplingScaleImageView extends View {
                         sourceUri.substring(ImageSource.FILE_SCHEME.length() - 1));
                 int orientationAttr = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                         ExifInterface.ORIENTATION_NORMAL);
-                if (orientationAttr == ExifInterface.ORIENTATION_NORMAL
-                        || orientationAttr == ExifInterface.ORIENTATION_UNDEFINED) {
-                    exifOrientation = ORIENTATION_0;
-                } else if (orientationAttr == ExifInterface.ORIENTATION_ROTATE_90) {
-                    exifOrientation = ORIENTATION_90;
-                } else if (orientationAttr == ExifInterface.ORIENTATION_ROTATE_180) {
-                    exifOrientation = ORIENTATION_180;
-                } else if (orientationAttr == ExifInterface.ORIENTATION_ROTATE_270) {
-                    exifOrientation = ORIENTATION_270;
-                } else {
-                    Log.w(TAG, "Unsupported EXIF orientation: " + orientationAttr);
+                switch (orientationAttr) {
+                    case ExifInterface.ORIENTATION_NORMAL:
+                    case ExifInterface.ORIENTATION_UNDEFINED:
+                        exifOrientation = ORIENTATION_0;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        exifOrientation = ORIENTATION_90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        exifOrientation = ORIENTATION_180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        exifOrientation = ORIENTATION_270;
+                        break;
+                    default:
+                        Log.w(TAG, "Unsupported EXIF orientation: " + orientationAttr);
+                        break;
                 }
             } catch (Exception e) {
                 Log.w(TAG, "Could not get EXIF orientation of image");
@@ -1908,7 +1922,7 @@ public class SubsamplingScaleImageView extends View {
     }
 
     private void execute(AsyncTask<Void, Void, ?> asyncTask) {
-        if (parallelLoadingEnabled && VERSION.SDK_INT >= 11) {
+        if (parallelLoadingEnabled) {
             try {
                 Field executorField = AsyncTask.class.getField("THREAD_POOL_EXECUTOR");
                 Executor executor = (Executor) executorField.get(null);
@@ -1989,16 +2003,13 @@ public class SubsamplingScaleImageView extends View {
      * In SDK 14 and above, use canvas max bitmap width and height instead of the default 2048, to avoid redundant tiling.
      */
     private Point getMaxBitmapDimensions(Canvas canvas) {
-        if (VERSION.SDK_INT >= 14) {
-            try {
-                int maxWidth =
-                        (Integer) Canvas.class.getMethod("getMaximumBitmapWidth").invoke(canvas);
-                int maxHeight =
-                        (Integer) Canvas.class.getMethod("getMaximumBitmapHeight").invoke(canvas);
-                return new Point(maxWidth, maxHeight);
-            } catch (Exception e) {
-                // Return default
-            }
+        try {
+            int maxWidth = (Integer) Canvas.class.getMethod("getMaximumBitmapWidth").invoke(canvas);
+            int maxHeight =
+                    (Integer) Canvas.class.getMethod("getMaximumBitmapHeight").invoke(canvas);
+            return new Point(maxWidth, maxHeight);
+        } catch (Exception e) {
+            // Return default
         }
         return new Point(2048, 2048);
     }
@@ -2035,15 +2046,20 @@ public class SubsamplingScaleImageView extends View {
      */
     @SuppressWarnings("SuspiciousNameCombination")
     private void fileSRect(Rect sRect, Rect target) {
-        if (getRequiredRotation() == 0) {
-            target.set(sRect);
-        } else if (getRequiredRotation() == 90) {
-            target.set(sRect.top, sHeight - sRect.right, sRect.bottom, sHeight - sRect.left);
-        } else if (getRequiredRotation() == 180) {
-            target.set(sWidth - sRect.right, sHeight - sRect.bottom, sWidth - sRect.left,
-                    sHeight - sRect.top);
-        } else {
-            target.set(sWidth - sRect.bottom, sRect.left, sWidth - sRect.top, sRect.right);
+        switch (getRequiredRotation()) {
+            case 0:
+                target.set(sRect);
+                break;
+            case 90:
+                target.set(sRect.top, sHeight - sRect.right, sRect.bottom, sHeight - sRect.left);
+                break;
+            case 180:
+                target.set(sWidth - sRect.right, sHeight - sRect.bottom, sWidth - sRect.left,
+                        sHeight - sRect.top);
+                break;
+            default:
+                target.set(sWidth - sRect.bottom, sRect.left, sWidth - sRect.top, sRect.right);
+                break;
         }
     }
 

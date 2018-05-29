@@ -22,7 +22,7 @@ public class Meta {
     @JsonProperty("msg")
     private String  msg;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The status

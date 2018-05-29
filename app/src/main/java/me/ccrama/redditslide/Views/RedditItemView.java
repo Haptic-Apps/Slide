@@ -29,7 +29,6 @@ import net.dean.jraw.models.Account;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
-import net.dean.jraw.models.VoteDirection;
 
 import java.util.Arrays;
 import java.util.List;
@@ -158,7 +157,7 @@ public class RedditItemView extends RelativeLayout {
 
     public class AsyncLoadProfile extends AsyncTask<Void, Void, Account> {
 
-        String id;
+        final String id;
 
         public AsyncLoadProfile(String profileName) {
             this.id = profileName;
@@ -207,7 +206,7 @@ public class RedditItemView extends RelativeLayout {
 
     public class AsyncLoadSubreddit extends AsyncTask<Void, Void, Subreddit> {
 
-        String id;
+        final String id;
 
         public AsyncLoadSubreddit(String subredditName) {
             this.id = subredditName;
@@ -281,7 +280,7 @@ public class RedditItemView extends RelativeLayout {
 
     public class AsyncLoadComment extends AsyncTask<Void, Void, Comment> {
 
-        String id;
+        final String id;
 
         public AsyncLoadComment(String commentId) {
             this.id = commentId;
@@ -311,7 +310,7 @@ public class RedditItemView extends RelativeLayout {
 
     public class AsyncLoadSubmission extends AsyncTask<Void, Void, Submission> {
 
-        String id;
+        final String id;
 
         public AsyncLoadSubmission(String submissionId) {
             this.id = submissionId;
@@ -359,14 +358,18 @@ public class RedditItemView extends RelativeLayout {
         holder.score.setText(score);
 
         if (Authentication.isLoggedIn) {
-            if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
-                holder.score.setTextColor(
-                        getContext().getResources().getColor(R.color.md_orange_500));
-            } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
-                holder.score.setTextColor(
-                        getContext().getResources().getColor(R.color.md_blue_500));
-            } else {
-                holder.score.setTextColor(holder.time.getCurrentTextColor());
+            switch (ActionStates.getVoteDirection(comment)) {
+                case UPVOTE:
+                    holder.score.setTextColor(
+                            getContext().getResources().getColor(R.color.md_orange_500));
+                    break;
+                case DOWNVOTE:
+                    holder.score.setTextColor(
+                            getContext().getResources().getColor(R.color.md_blue_500));
+                    break;
+                default:
+                    holder.score.setTextColor(holder.time.getCurrentTextColor());
+                    break;
             }
         }
         String spacer = getContext().getString(R.string.submission_properties_seperator);

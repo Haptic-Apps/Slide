@@ -37,7 +37,7 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
     private static final int    STATE_PLAYING            = 3;
     private static final int    STATE_PAUSED             = 4;
     private static final int    STATE_PLAYBACK_COMPLETED = 5;
-    private              String TAG                      = "VideoView";
+    private final        String TAG                      = "VideoView";
     // settable by the client
     private Uri                 mUri;
     private Map<String, String> mHeaders;
@@ -55,7 +55,7 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
     private int mAudioSession;
     private int mVideoWidth;
     private int mVideoHeight;
-    MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener =
+    final MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener =
             new MediaPlayer.OnVideoSizeChangedListener() {
                 public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
                     mVideoWidth = mp.getVideoWidth();
@@ -79,7 +79,7 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
     private boolean                          mCanPause;
     private boolean                          mCanSeekBack;
     private boolean                          mCanSeekForward;
-    MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
+    final MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
         public void onPrepared(MediaPlayer mp) {
             mCurrentState = STATE_PREPARED;
 
@@ -141,7 +141,7 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
         }
     };
     private Vector<Pair<InputStream, MediaFormat>> mPendingSubtitleTracks;
-    private MediaPlayer.OnCompletionListener      mCompletionListener      =
+    private final MediaPlayer.OnCompletionListener      mCompletionListener      =
             new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer mp) {
                     mCurrentState = STATE_PLAYBACK_COMPLETED;
@@ -154,7 +154,7 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
                     }
                 }
             };
-    private MediaPlayer.OnInfoListener            mInfoListener            =
+    private final MediaPlayer.OnInfoListener            mInfoListener            =
             new MediaPlayer.OnInfoListener() {
                 public boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
                     if (mOnInfoListener != null) {
@@ -163,7 +163,7 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
                     return true;
                 }
             };
-    private MediaPlayer.OnErrorListener           mErrorListener           =
+    private final MediaPlayer.OnErrorListener           mErrorListener           =
             new MediaPlayer.OnErrorListener() {
                 public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
                     Log.d(TAG, "Error: " + framework_err + "," + impl_err);
@@ -214,13 +214,14 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
                     return true;
                 }
             };
-    private MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
+    private final MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
             new MediaPlayer.OnBufferingUpdateListener() {
                 public void onBufferingUpdate(MediaPlayer mp, int percent) {
                     mCurrentBufferPercentage = percent;
                 }
             };
-    SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback() {
+    final         SurfaceHolder.Callback                mSHCallback              =
+            new SurfaceHolder.Callback() {
         public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
             mSurfaceWidth = w;
             mSurfaceHeight = h;
@@ -564,31 +565,33 @@ public class MediaVideoViewOld extends SurfaceView implements MediaController.Me
                 && keyCode != KeyEvent.KEYCODE_CALL
                 && keyCode != KeyEvent.KEYCODE_ENDCALL;
         if (isInPlaybackState() && isKeyCodeSupported && mMediaController != null) {
-            if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                if (mMediaPlayer.isPlaying()) {
-                    pause();
-                    mMediaController.show();
-                } else {
-                    start();
-                    mMediaController.hide();
-                }
-                return true;
-            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
-                if (!mMediaPlayer.isPlaying()) {
-                    start();
-                    mMediaController.hide();
-                }
-                return true;
-            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
-                if (mMediaPlayer.isPlaying()) {
-                    pause();
-                    mMediaController.show();
-                }
-                return true;
-            } else {
-                toggleMediaControlsVisiblity();
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_HEADSETHOOK:
+                case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                    if (mMediaPlayer.isPlaying()) {
+                        pause();
+                        mMediaController.show();
+                    } else {
+                        start();
+                        mMediaController.hide();
+                    }
+                    return true;
+                case KeyEvent.KEYCODE_MEDIA_PLAY:
+                    if (!mMediaPlayer.isPlaying()) {
+                        start();
+                        mMediaController.hide();
+                    }
+                    return true;
+                case KeyEvent.KEYCODE_MEDIA_STOP:
+                case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                    if (mMediaPlayer.isPlaying()) {
+                        pause();
+                        mMediaController.show();
+                    }
+                    return true;
+                default:
+                    toggleMediaControlsVisiblity();
+                    break;
             }
         }
 

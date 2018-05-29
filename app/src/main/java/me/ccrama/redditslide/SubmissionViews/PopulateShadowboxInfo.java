@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -355,7 +356,7 @@ public class PopulateShadowboxInfo {
             SpannableStringBuilder commentTitle = new SpannableStringBuilder();
             SpannableStringBuilder level = new SpannableStringBuilder();
             if (!node.isTopLevel()) {
-                level.append("[" + node.getDepth() + "] ");
+                level.append("[").append(String.valueOf(node.getDepth())).append("] ");
                 level.setSpan(new RelativeSizeSpan(0.7f), 0, level.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 commentTitle.append(level);
@@ -691,7 +692,7 @@ public class PopulateShadowboxInfo {
                                         mContext.getString(R.string.input_reason_for_report), null,
                                         true, new MaterialDialog.InputCallback() {
                                             @Override
-                                            public void onInput(MaterialDialog dialog,
+                                            public void onInput(@NonNull MaterialDialog dialog,
                                                     CharSequence input) {
                                                 reportReason = input.toString();
                                             }
@@ -707,8 +708,8 @@ public class PopulateShadowboxInfo {
                                         .onNegative(null)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
-                                            public void onClick(MaterialDialog dialog,
-                                                    DialogAction which) {
+                                            public void onClick(@NonNull MaterialDialog dialog,
+                                                    @NonNull DialogAction which) {
                                                 new AsyncTask<Void, Void, Void>() {
                                                     @Override
                                                     protected Void doInBackground(Void... params) {

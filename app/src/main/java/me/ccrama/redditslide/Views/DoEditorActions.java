@@ -674,12 +674,16 @@ public class DoEditorActions {
             String type = resolver.getType(uri);
             String extension;
 
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
+            switch (type) {
+                case "image/gif":
+                    extension = ".gif";
+                    break;
+                case "image/png":
+                    extension = ".png";
+                    break;
+                default:
+                    extension = ".jpg";
+                    break;
             }
 
             try {
@@ -883,12 +887,16 @@ public class DoEditorActions {
             String type = resolver.getType(uri);
             String extension;
 
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
+            switch (type) {
+                case "image/gif":
+                    extension = ".gif";
+                    break;
+                case "image/png":
+                    extension = ".png";
+                    break;
+                default:
+                    extension = ".jpg";
+                    break;
             }
 
             try {
@@ -1138,9 +1146,9 @@ public class DoEditorActions {
 
     public static class ProgressRequestBody extends RequestBody {
 
-        protected RequestBody  mDelegate;
-        protected Listener     mListener;
-        protected CountingSink mCountingSink;
+        protected final RequestBody  mDelegate;
+        protected final Listener     mListener;
+        protected       CountingSink mCountingSink;
 
         public ProgressRequestBody(RequestBody delegate, Listener listener) {
             mDelegate = delegate;

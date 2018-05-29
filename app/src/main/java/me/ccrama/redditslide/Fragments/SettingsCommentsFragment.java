@@ -9,7 +9,7 @@ import me.ccrama.redditslide.SettingValues;
 
 public class SettingsCommentsFragment {
 
-    private Activity context;
+    private final Activity context;
 
     public SettingsCommentsFragment(Activity context) {
         this.context = context;

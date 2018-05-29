@@ -14,7 +14,7 @@ import me.ccrama.redditslide.UserSubscriptions;
 
 public class SettingsHistoryFragment {
 
-    private Activity context;
+    private final Activity context;
 
     public SettingsHistoryFragment(Activity context) {
         this.context = context;

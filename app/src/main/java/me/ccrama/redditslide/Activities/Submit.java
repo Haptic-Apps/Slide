@@ -562,7 +562,7 @@ public class Submit extends BaseActivity {
                     .positiveText(c.getString(R.string.btn_upload))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d, DialogAction w) {
+                        public void onClick(@NonNull MaterialDialog d, @NonNull DialogAction w) {
                             d.dismiss();
                             dialog.show();
                             execute(uri);
@@ -571,7 +571,7 @@ public class Submit extends BaseActivity {
                     .negativeText(c.getString(R.string.btn_cancel))
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d, DialogAction w) {
+                        public void onClick(@NonNull MaterialDialog d, @NonNull DialogAction w) {
                             d.dismiss();
                         }
                     })
@@ -585,12 +585,16 @@ public class Submit extends BaseActivity {
             String type = resolver.getType(uri);
             String extension;
 
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
+            switch (type) {
+                case "image/gif":
+                    extension = ".gif";
+                    break;
+                case "image/png":
+                    extension = ".png";
+                    break;
+                default:
+                    extension = ".jpg";
+                    break;
             }
 
             try {
@@ -745,7 +749,7 @@ public class Submit extends BaseActivity {
                     .positiveText(c.getString(R.string.btn_upload))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d, DialogAction w) {
+                        public void onClick(@NonNull MaterialDialog d, @NonNull DialogAction w) {
                             d.dismiss();
                             dialog.show();
                             execute(uris);
@@ -754,7 +758,7 @@ public class Submit extends BaseActivity {
                     .negativeText(c.getString(R.string.btn_cancel))
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick(MaterialDialog d, DialogAction w) {
+                        public void onClick(@NonNull MaterialDialog d, @NonNull DialogAction w) {
                             d.dismiss();
                         }
                     })
@@ -768,12 +772,16 @@ public class Submit extends BaseActivity {
             String type = resolver.getType(uri);
             String extension;
 
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
+            switch (type) {
+                case "image/gif":
+                    extension = ".gif";
+                    break;
+                case "image/png":
+                    extension = ".png";
+                    break;
+                default:
+                    extension = ".jpg";
+                    break;
             }
 
             try {

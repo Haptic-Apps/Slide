@@ -40,7 +40,7 @@ public class Image {
     @JsonProperty("datetime")
     private String  datetime;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The hash

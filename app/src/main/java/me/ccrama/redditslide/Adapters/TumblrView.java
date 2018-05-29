@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,9 +42,9 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Activity main;
 
-    public boolean paddingBottom;
-    public int     height;
-    public String  subreddit;
+    public final boolean paddingBottom;
+    public final int     height;
+    public final String  subreddit;
 
     public TumblrView(final Activity context, final List<Photo> users, int height,
             String subreddit) {
@@ -89,15 +90,15 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 1) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.album_image, parent, false);
             return new AlbumViewHolder(v);
         } else {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.spacer, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.spacer, parent, false);
             return new SpacerViewHolder(v);
         }
     }
@@ -121,7 +122,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder2, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder2, int i) {
         if (holder2 instanceof AlbumViewHolder) {
             final int position = paddingBottom ? i : i - 1;
 

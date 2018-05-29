@@ -94,71 +94,73 @@ public class SubmissionParser {
 
         int i = firstIndex;
         while (i < html.length() - 4 && i != -1) {
-            if (html.substring(i, i + 3).equals("<ol") || html.substring(i, i + 3).equals("<ul")) {
-                if (html.substring(i, i + 3).equals("<ol")) {
-                    isNumbered = true;
-                    indent++;
-                    listNumbers.add(indent, 1);
-                } else {
-                    isNumbered = false;
-                }
-                i = html.indexOf("<li", i);
-            } else if (html.substring(i, i + 3).equals("<li")) {
-                int tagEnd = html.indexOf(">", i);
-                int itemClose = html.indexOf("</li", tagEnd);
-                int ulClose = html.indexOf("<ul", tagEnd);
-                int olClose = html.indexOf("<ol", tagEnd);
-                int closeTag;
-
-                // Find what is closest: </li>, <ul>, or <ol>
-                if (((ulClose == -1 && itemClose != -1) || (itemClose != -1
-                        && ulClose != -1
-                        && itemClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (
-                        itemClose != -1
-                                && olClose != -1
-                                && itemClose < olClose))) {
-                    closeTag = itemClose;
-                } else if (((ulClose == -1 && olClose != -1) || (olClose != -1
-                        && ulClose != -1
-                        && olClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (olClose
-                        != -1 && itemClose != -1 && olClose < itemClose))) {
-                    closeTag = olClose;
-                } else {
-                    closeTag = ulClose;
-                }
-
-                String text = html.substring(tagEnd + 1, closeTag);
-                String indentSpacing = "";
-                for (int j = 0; j < indent; j++) {
-                    indentSpacing += "&nbsp;&nbsp;&nbsp;&nbsp;";
-                }
-                if (isNumbered) {
-                    html = html.substring(0, tagEnd + 1)
-                            + indentSpacing
-                            + listNumbers.get(indent)
-                            + ". "
-                            + text
-                            + "<br/>"
-                            + html.substring(closeTag);
-                    listNumbers.set(indent, listNumbers.get(indent) + 1);
-                    i = closeTag + 3;
-                } else {
-                    html = html.substring(0, tagEnd + 1)
-                            + indentSpacing
-                            + "• "
-                            + text
-                            + "<br/>"
-                            + html.substring(closeTag);
-                    i = closeTag + 2;
-                }
-            } else {
-                i = html.indexOf("<", i + 1);
-                if (i != -1 && html.substring(i, i + 4).equals("</ol")) {
-                    indent--;
-                    if (indent == -1) {
+            switch (html.substring(i, i + 3)) {
+                case "<ol":
+                case "<ul":
+                    if (html.substring(i, i + 3).equals("<ol")) {
+                        isNumbered = true;
+                        indent++;
+                        listNumbers.add(indent, 1);
+                    } else {
                         isNumbered = false;
                     }
-                }
+                    i = html.indexOf("<li", i);
+                    break;
+                case "<li":
+                    int tagEnd = html.indexOf(">", i);
+                    int itemClose = html.indexOf("</li", tagEnd);
+                    int ulClose = html.indexOf("<ul", tagEnd);
+                    int olClose = html.indexOf("<ol", tagEnd);
+                    int closeTag;
+
+                    // Find what is closest: </li>, <ul>, or <ol>
+                    if (((ulClose == -1 && itemClose != -1) || (itemClose != -1
+                            && ulClose != -1
+                            && itemClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (
+                            itemClose != -1
+                                    && olClose != -1
+                                    && itemClose < olClose))) {
+                        closeTag = itemClose;
+                    } else if (((ulClose == -1 && olClose != -1) || (olClose != -1
+                            && ulClose != -1
+                            && olClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (
+                            olClose != -1
+                                    && itemClose != -1
+                                    && olClose < itemClose))) {
+                        closeTag = olClose;
+                    } else {
+                        closeTag = ulClose;
+                    }
+
+                    String text = html.substring(tagEnd + 1, closeTag);
+                    StringBuilder indentSpacing = new StringBuilder();
+                    for (int j = 0; j < indent; j++) {
+                        indentSpacing.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+                    }
+                    if (isNumbered) {
+                        html = html.substring(0, tagEnd + 1) + indentSpacing + listNumbers.get(
+                                indent) + ". " + text + "<br/>" + html.substring(closeTag);
+                        listNumbers.set(indent, listNumbers.get(indent) + 1);
+                        i = closeTag + 3;
+                    } else {
+                        html = html.substring(0, tagEnd + 1)
+                                + indentSpacing
+                                + "• "
+                                + text
+                                + "<br/>"
+                                + html.substring(closeTag);
+                        i = closeTag + 2;
+                    }
+                    break;
+                default:
+                    i = html.indexOf("<", i + 1);
+                    if (i != -1 && html.substring(i, i + 4).equals("</ol")) {
+                        indent--;
+                        if (indent == -1) {
+                            isNumbered = false;
+                        }
+                    }
+                    break;
             }
         }
 

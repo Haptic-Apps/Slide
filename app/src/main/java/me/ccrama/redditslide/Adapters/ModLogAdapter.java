@@ -6,6 +6,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -76,8 +77,9 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         if (i == SPACER) {
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.spacer, viewGroup, false);
@@ -92,8 +94,8 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static class ModLogViewHolder extends RecyclerView.ViewHolder {
 
-        SpoilerRobotoTextView body;
-        ImageView             icon;
+        final SpoilerRobotoTextView body;
+        final ImageView             icon;
 
         public ModLogViewHolder(View itemView) {
             super(itemView);
@@ -103,7 +105,7 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHold, final int pos) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder firstHold, final int pos) {
         int i = pos != 0 ? pos - 1 : pos;
 
         if (firstHold instanceof ModLogViewHolder) {
@@ -159,10 +161,12 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             b.append(author);
             b.append("\n\n");
-            b.append(a.getAction() + " " + (!a.getDataNode().get("target_title").isNull() ? "\""
-                    + a.getDataNode().get("target_title").asText()
-                    + "\"" : "") + (a.getTargetAuthor() != null ? " by /u/" + a.getTargetAuthor()
-                    : ""));
+            b.append(a.getAction())
+                    .append(" ")
+                    .append(!a.getDataNode().get("target_title").isNull() ? "\"" + a.getDataNode()
+                            .get("target_title")
+                            .asText() + "\"" : "")
+                    .append(a.getTargetAuthor() != null ? " by /u/" + a.getTargetAuthor() : "");
             if (a.getTargetPermalink() != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -185,55 +189,72 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.body.setText(b);
 
             String action = a.getAction();
-            if (action.equals("removelink")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.close,
-                                null));
-            } else if (action.equals("approvecomment")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support,
-                                null));
-            } else if (action.equals("removecomment")) {
-                holder.icon.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(),
-                        R.drawable.commentchange, null));
-            } else if (action.equals("approvelink")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support,
-                                null));
-            } else if (action.equals("editflair")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.flair,
-                                null));
-            } else if (action.equals("distinguish")) {
-                holder.icon.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(),
-                        R.drawable.iconstarfilled, null));
-            } else if (action.equals("sticky")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock,
-                                null));
-            } else if (action.equals("unsticky")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock,
-                                null));
-            } else if (action.equals("ignorereports")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ignore,
-                                null));
-            } else if (action.equals("unignorereports")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.unignore,
-                                null));
-            } else if (action.equals("marknsfw")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide,
-                                null));
-            } else if (action.equals("unmarknsfw")) {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide,
-                                null));
-            } else {
-                holder.icon.setImageDrawable(
-                        ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.mod, null));
+            switch (action) {
+                case "removelink":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.close,
+                                    null));
+                    break;
+                case "approvecomment":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support,
+                                    null));
+                    break;
+                case "removecomment":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(),
+                                    R.drawable.commentchange, null));
+                    break;
+                case "approvelink":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support,
+                                    null));
+                    break;
+                case "editflair":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.flair,
+                                    null));
+                    break;
+                case "distinguish":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(),
+                                    R.drawable.iconstarfilled, null));
+                    break;
+                case "sticky":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock,
+                                    null));
+                    break;
+                case "unsticky":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock,
+                                    null));
+                    break;
+                case "ignorereports":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ignore,
+                                    null));
+                    break;
+                case "unignorereports":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(),
+                                    R.drawable.unignore, null));
+                    break;
+                case "marknsfw":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide,
+                                    null));
+                    break;
+                case "unmarknsfw":
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide,
+                                    null));
+                    break;
+                default:
+                    holder.icon.setImageDrawable(
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.mod,
+                                    null));
+                    break;
             }
 
         }

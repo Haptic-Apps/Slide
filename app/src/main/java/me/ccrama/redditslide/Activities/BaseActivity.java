@@ -276,14 +276,14 @@ public class BaseActivity extends PeekViewActivity
     @Override
     public void onResume() {
         super.onResume();
-        Reddit.setDefaultErrorHandler(this); //set defualt reddit api issue handler
+        Reddit.setDefaultErrorHandler(this); //set default reddit api issue handler
         hideDecor();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Reddit.setDefaultErrorHandler(null); //remove defualt reddit api issue handler (mem leaks)
+        Reddit.setDefaultErrorHandler(null); //remove default reddit api issue handler (mem leaks)
 
     }
 

@@ -22,7 +22,7 @@ import me.ccrama.redditslide.R;
  * any view.
  */
 public class SidebarLayout extends DrawerLayout {
-    private List<View> scrollableViews = new ArrayList<>();
+    private final List<View> scrollableViews = new ArrayList<>();
 
     public SidebarLayout(Context context) {
         super(context);

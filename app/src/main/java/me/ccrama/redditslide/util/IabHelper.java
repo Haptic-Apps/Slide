@@ -399,7 +399,7 @@ public class IabHelper {
             mPurchaseListener = listener;
             mPurchasingItemType = itemType;
             act.startIntentSenderForResult(pendingIntent.getIntentSender(), requestCode,
-                    new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+                    new Intent(), 0, 0, 0);
         } catch (SendIntentException e) {
             logError("SendIntentException while launching purchase flow for sku " + sku);
             e.printStackTrace();
@@ -720,7 +720,7 @@ public class IabHelper {
             logDebug("Bundle with null response code, assuming OK (known issue)");
             return BILLING_RESPONSE_RESULT_OK;
         } else if (o instanceof Integer) {
-            return ((Integer) o).intValue();
+            return (Integer) o;
         } else if (o instanceof Long) {
             return (int) ((Long) o).longValue();
         } else {
@@ -738,7 +738,7 @@ public class IabHelper {
             logError("Intent with no response code, assuming OK (known issue)");
             return BILLING_RESPONSE_RESULT_OK;
         } else if (o instanceof Integer) {
-            return ((Integer) o).intValue();
+            return (Integer) o;
         } else if (o instanceof Long) {
             return (int) ((Long) o).longValue();
         } else {
@@ -833,8 +833,7 @@ public class IabHelper {
     private int querySkuDetails(String itemType, Inventory inv, List<String> moreSkus)
             throws RemoteException, JSONException {
         logDebug("Querying SKU details.");
-        ArrayList<String> skuList = new ArrayList<>();
-        skuList.addAll(inv.getAllOwnedSkus(itemType));
+        ArrayList<String> skuList = new ArrayList<>(inv.getAllOwnedSkus(itemType));
         if (moreSkus != null) {
             for (String sku : moreSkus) {
                 if (!skuList.contains(sku)) {

@@ -89,59 +89,66 @@ public class ModQueue extends BaseActivityAnim {
         @Override
         public Fragment getItem(int i) {
 
-            if (i == 1) {
-                Fragment f = new InboxPage();
-                Bundle args = new Bundle();
-                args.putString("id", "moderator");
+            switch (i) {
+                case 1: {
+                    Fragment f = new InboxPage();
+                    Bundle args = new Bundle();
+                    args.putString("id", "moderator");
 
-                f.setArguments(args);
+                    f.setArguments(args);
 
-                return f;
-            } else if (i == 0) {
-                Fragment f = new InboxPage();
-                Bundle args = new Bundle();
-                args.putString("id", "moderator/unread");
+                    return f;
+                }
+                case 0: {
+                    Fragment f = new InboxPage();
+                    Bundle args = new Bundle();
+                    args.putString("id", "moderator/unread");
 
-                f.setArguments(args);
+                    f.setArguments(args);
 
-                return f;
-            } else if (i == 3) {
-                Fragment f = new ModPage();
-                Bundle args = new Bundle();
+                    return f;
+                }
+                case 3: {
+                    Fragment f = new ModPage();
+                    Bundle args = new Bundle();
 
-                args.putString("id", "unmoderated");
-                args.putString("subreddit", "mod");
+                    args.putString("id", "unmoderated");
+                    args.putString("subreddit", "mod");
 
-                f.setArguments(args);
+                    f.setArguments(args);
 
-                return f;
-            } else if (i == 4) {
-                Fragment f = new ModLog();
-                Bundle args = new Bundle();
+                    return f;
+                }
+                case 4: {
+                    Fragment f = new ModLog();
+                    Bundle args = new Bundle();
 
-                f.setArguments(args);
+                    f.setArguments(args);
 
-                return f;
-            } else if (i == 2) {
-                Fragment f = new ModPage();
-                Bundle args = new Bundle();
+                    return f;
+                }
+                case 2: {
+                    Fragment f = new ModPage();
+                    Bundle args = new Bundle();
 
-                args.putString("id", "modqueue");
-                args.putString("subreddit", "mod");
+                    args.putString("id", "modqueue");
+                    args.putString("subreddit", "mod");
 
-                f.setArguments(args);
+                    f.setArguments(args);
 
-                return f;
-            } else {
-                Fragment f = new ModPage();
-                Bundle args = new Bundle();
+                    return f;
+                }
+                default: {
+                    Fragment f = new ModPage();
+                    Bundle args = new Bundle();
 
-                args.putString("id", "modqueue");
-                args.putString("subreddit", UserSubscriptions.modOf.get(i - 5));
+                    args.putString("id", "modqueue");
+                    args.putString("subreddit", UserSubscriptions.modOf.get(i - 5));
 
-                f.setArguments(args);
+                    f.setArguments(args);
 
-                return f;
+                    return f;
+                }
             }
 
 
@@ -156,18 +163,19 @@ public class ModQueue extends BaseActivityAnim {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0) {
-                return getString(R.string.mod_mail_unread);
-            } else if (position == 1) {
-                return getString(R.string.mod_mail);
-            } else if (position == 2) {
-                return getString(R.string.mod_modqueue);
-            } else if (position == 3) {
-                return getString(R.string.mod_unmoderated);
-            } else if (position == 4) {
-                return getString(R.string.mod_log);
-            } else {
-                return UserSubscriptions.modOf.get(position - 5);
+            switch (position) {
+                case 0:
+                    return getString(R.string.mod_mail_unread);
+                case 1:
+                    return getString(R.string.mod_mail);
+                case 2:
+                    return getString(R.string.mod_modqueue);
+                case 3:
+                    return getString(R.string.mod_unmoderated);
+                case 4:
+                    return getString(R.string.mod_log);
+                default:
+                    return UserSubscriptions.modOf.get(position - 5);
             }
         }
     }

@@ -12,7 +12,7 @@ import me.ccrama.redditslide.R;
  */
 public class SettingsData extends BaseActivityAnim {
 
-    private SettingsDataFragment fragment = new SettingsDataFragment(this);
+    private final SettingsDataFragment fragment = new SettingsDataFragment(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

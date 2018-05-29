@@ -74,7 +74,7 @@ robototextview {
 }
 
 ext {
-    supportLibVersion = '27.1.0'
+    supportLibVersion = '27.1.1'
     robolectricVersion = '3.3.1'
     powerMockitoVersion = '1.7.4'
 }

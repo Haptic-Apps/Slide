@@ -22,8 +22,8 @@ import me.ccrama.redditslide.Tumblr.Photo;
  * Created by carlo_000 on 3/20/2016.
  */
 public class ImageGridAdapter extends android.widget.BaseAdapter {
-    private Context      mContext;
-    private List<String> jsons;
+    private final Context      mContext;
+    private final List<String> jsons;
     public static final DisplayImageOptions options =
             new DisplayImageOptions.Builder().cacheOnDisk(true)
                     .resetViewBeforeLoading(true)

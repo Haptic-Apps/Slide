@@ -34,7 +34,7 @@ public class SubredditSearchPosts extends GeneralPosts {
     public  SwipeRefreshLayout    refreshLayout;
     private ContributionAdapter   adapter;
 
-    public Activity parent;
+    public final Activity parent;
 
     public SubredditSearchPosts(String subreddit, String term, Activity parent) {
         if (subreddit != null) {
@@ -189,9 +189,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                     nomore = true;
                     return newSubmissions;
                 }
-                for (Submission s : paginator.next()) {
-                    newSubmissions.add(s);
-                }
+                newSubmissions.addAll(paginator.next());
 
                 return newSubmissions;
             } catch (Exception e) {

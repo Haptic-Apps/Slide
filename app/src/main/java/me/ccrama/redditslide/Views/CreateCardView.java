@@ -361,28 +361,32 @@ public class CreateCardView {
             if (a != null) a.start();
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
                 if (v2.getId() != R.id.mod && v2.getId() != R.id.edit) {
-                    if (v2.getId() == R.id.save) {
-                        if (SettingValues.saveButton) {
+                    switch (v2.getId()) {
+                        case R.id.save:
+                            if (SettingValues.saveButton) {
+                                if (v2.getVisibility() == View.VISIBLE) {
+                                    animateOut(v2);
+                                } else {
+                                    animateIn(v2);
+                                }
+                            }
+                            break;
+                        case R.id.hide:
+                            if (SettingValues.hideButton) {
+                                if (v2.getVisibility() == View.VISIBLE) {
+                                    animateOut(v2);
+                                } else {
+                                    animateIn(v2);
+                                }
+                            }
+                            break;
+                        default:
                             if (v2.getVisibility() == View.VISIBLE) {
                                 animateOut(v2);
                             } else {
                                 animateIn(v2);
                             }
-                        }
-                    } else if (v2.getId() == R.id.hide) {
-                        if (SettingValues.hideButton) {
-                            if (v2.getVisibility() == View.VISIBLE) {
-                                animateOut(v2);
-                            } else {
-                                animateIn(v2);
-                            }
-                        }
-                    } else {
-                        if (v2.getVisibility() == View.VISIBLE) {
-                            animateOut(v2);
-                        } else {
-                            animateIn(v2);
-                        }
+                            break;
                     }
                 }
             }

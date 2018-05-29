@@ -55,9 +55,9 @@ import java.util.regex.Pattern;
  * Created by carlo_000 on 1/11/2016.
  */
 public class SpoilerRobotoTextView extends RobotoTextView implements ClickableText {
-    private              List<CharacterStyle> storedSpoilerSpans  = new ArrayList<>();
-    private              List<Integer>        storedSpoilerStarts = new ArrayList<>();
-    private              List<Integer>        storedSpoilerEnds   = new ArrayList<>();
+    private final        List<CharacterStyle> storedSpoilerSpans  = new ArrayList<>();
+    private final        List<Integer>        storedSpoilerStarts = new ArrayList<>();
+    private final        List<Integer>        storedSpoilerEnds   = new ArrayList<>();
     private static final Pattern              htmlSpoilerPattern  =
             Pattern.compile("<a href=\"[#/](?:spoiler|sp|s)\">([^<]*)</a>");
     private static final Pattern nativeSpoilerPattern =

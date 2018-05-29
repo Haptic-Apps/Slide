@@ -22,7 +22,7 @@ public class Example {
     @JsonProperty("response")
     private Response response;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The meta

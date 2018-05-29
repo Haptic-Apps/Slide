@@ -86,12 +86,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     Runnable mLongPressRunnable;
-    GestureDetector detector =
+    final GestureDetector detector =
             new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
     float origY;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),

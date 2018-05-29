@@ -62,7 +62,7 @@ public class Theme {
     @JsonProperty("title_font_weight")
     private String  titleFontWeight;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The headerFullWidth

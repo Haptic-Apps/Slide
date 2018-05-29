@@ -72,7 +72,7 @@ public class PeekView extends FrameLayout {
     private OnPop mOnPop;
 
     int currentHighlight;
-    static int eight = Reddit.dpToPxVertical(8);
+    static final int eight = Reddit.dpToPxVertical(8);
 
     public void highlightMenu(MotionEvent event) {
         if (currentHighlight != 0) {
@@ -135,7 +135,7 @@ public class PeekView extends FrameLayout {
         init(context, options, content, callbacks);
     }
 
-    HashMap<Integer, OnButtonUp> buttons = new HashMap<>();
+    final HashMap<Integer, OnButtonUp> buttons = new HashMap<>();
 
     public void checkButtons(MotionEvent event) {
         for (Integer i : buttons.keySet()) {

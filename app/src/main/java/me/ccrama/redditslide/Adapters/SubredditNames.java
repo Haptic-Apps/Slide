@@ -31,11 +31,11 @@ public class SubredditNames {
     public List<Subreddit> posts;
     public String          where;
     public boolean nomore = false;
-    public  boolean              stillShow;
-    public  boolean              loading;
-    public  SubredditListView    parent;
-    private Paginator<Subreddit> paginator;
-    Context c;
+    public       boolean              stillShow;
+    public       boolean              loading;
+    public final SubredditListView    parent;
+    private      Paginator<Subreddit> paginator;
+    final        Context              c;
 
     public SubredditNames(String where, Context c, SubredditListView parent) {
         posts = new ArrayList<>();

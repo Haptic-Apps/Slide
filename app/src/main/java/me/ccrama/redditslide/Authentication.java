@@ -112,7 +112,7 @@ public class Authentication {
 
     public class UpdateToken extends AsyncTask<Void, Void, Void> {
 
-        Context context;
+        final Context context;
 
         public UpdateToken(Context c) {
             this.context = c;
@@ -249,8 +249,8 @@ public class Authentication {
 
 
     public static class VerifyCredentials extends AsyncTask<String, Void, Void> {
-        Context mContext;
-        String  lastToken;
+        final Context mContext;
+        final String  lastToken;
         boolean single;
 
         public VerifyCredentials(Context context) {

@@ -39,7 +39,7 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class SettingsSubreddit extends BaseActivityAnim {
     public SettingsSubAdapter mSettingsSubAdapter;
-    ArrayList<String> changedSubs = new ArrayList<>();
+    final ArrayList<String> changedSubs = new ArrayList<>();
 
     private RecyclerView recycler;
 

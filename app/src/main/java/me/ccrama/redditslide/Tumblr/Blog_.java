@@ -28,7 +28,7 @@ public class Blog_ {
     @JsonProperty("share_following")
     private Boolean shareFollowing;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The name

@@ -56,7 +56,7 @@ public class Peek {
     private View layout    = null;
 
     private PeekViewOptions options = new PeekViewOptions();
-    private OnPeek callbacks;
+    private final OnPeek callbacks;
 
     private Peek(@LayoutRes int layoutRes, @Nullable OnPeek callbacks) {
         this.layoutRes = layoutRes;

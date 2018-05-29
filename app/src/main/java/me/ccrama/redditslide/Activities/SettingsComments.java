@@ -8,7 +8,7 @@ import me.ccrama.redditslide.R;
 
 public class SettingsComments extends BaseActivityAnim {
 
-    private SettingsCommentsFragment fragment = new SettingsCommentsFragment(this);
+    private final SettingsCommentsFragment fragment = new SettingsCommentsFragment(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -84,8 +85,9 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         return new UserFilter(this, originalDataSet);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.comment, viewGroup, false);
         return new CommentViewHolder(v);
@@ -235,7 +237,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder firstHolder, int pos) {
 
         final CommentViewHolder holder = (CommentViewHolder) firstHolder;
 

@@ -44,7 +44,7 @@ public class TwitterObject {
     @JsonProperty("version")
     private String  version;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The url

@@ -862,10 +862,10 @@ public class ColorPreferences {
         deep_indigo(R.style.indigo_deep, "deep_indigo", R.color.md_indigo_A400,
                 ColorThemeOptions.Deep.getValue());
 
-        private int    baseId;
-        private String title;
-        private int    themeType;
-        private int    color;
+        private final int    baseId;
+        private final String title;
+        private final int    themeType;
+        private final int    color;
 
         Theme(int baseId, String title, int color, int themetype) {
             this.baseId = baseId;
@@ -891,7 +891,7 @@ public class ColorPreferences {
         }
     }
 
-    public static List<Pair<Integer, Integer>> themePairList = new ArrayList<>(
+    public static final List<Pair<Integer, Integer>> themePairList = new ArrayList<>(
             Arrays.asList(new Pair<>(R.id.dark, ColorPreferences.ColorThemeOptions.Dark.getValue()),
                     new Pair<>(R.id.light, ColorPreferences.ColorThemeOptions.Light.getValue()),
                     new Pair<>(R.id.amoled, ColorPreferences.ColorThemeOptions.AMOLED.getValue()),

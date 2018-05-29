@@ -45,7 +45,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 
 public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsFragment.RestartActivity> {
 
-    private ActivityType context;
+    private final ActivityType context;
 
     public static boolean changed;
     int back;

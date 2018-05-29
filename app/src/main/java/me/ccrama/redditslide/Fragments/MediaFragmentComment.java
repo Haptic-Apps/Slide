@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,7 +107,7 @@ public class MediaFragmentComment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (videoView != null) {
             stopPosition = videoView.getCurrentPosition();
@@ -117,7 +119,7 @@ public class MediaFragmentComment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.submission_mediacard, container, false);
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
@@ -156,7 +158,11 @@ public class MediaFragmentComment extends Fragment {
                     public void onGlobalLayout() {
                         ((SlidingUpPanelLayout) rootView.findViewById(
                                 R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
-                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            title.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
                     }
                 });
         ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(

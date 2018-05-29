@@ -15,6 +15,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -42,7 +43,6 @@ import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.Submission;
-import net.dean.jraw.models.VoteDirection;
 
 import java.util.List;
 import java.util.Locale;
@@ -120,8 +120,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         if (i == SPACER) {
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.spacer, viewGroup, false);
@@ -133,8 +134,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new MessageViewHolder(v);
         }
         if (i == COMMENT) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.profile_comment, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
             return new ProfileCommentViewHolder(v);
         } else {
             View v = CreateCardView.CreateView(viewGroup);
@@ -200,7 +200,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHold, final int pos) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder firstHold, final int pos) {
         int i = pos != 0 ? pos - 1 : pos;
 
         if (firstHold instanceof SubmissionViewHolder) {
@@ -401,14 +401,18 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .getQuantityString(R.plurals.points, comment.getScore()));
 
             if (Authentication.isLoggedIn) {
-                if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
-                    holder.score.setTextColor(
-                            mContext.getResources().getColor(R.color.md_orange_500));
-                } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
-                    holder.score.setTextColor(
-                            mContext.getResources().getColor(R.color.md_blue_500));
-                } else {
-                    holder.score.setTextColor(holder.time.getCurrentTextColor());
+                switch (ActionStates.getVoteDirection(comment)) {
+                    case UPVOTE:
+                        holder.score.setTextColor(
+                                mContext.getResources().getColor(R.color.md_orange_500));
+                        break;
+                    case DOWNVOTE:
+                        holder.score.setTextColor(
+                                mContext.getResources().getColor(R.color.md_blue_500));
+                        break;
+                    default:
+                        holder.score.setTextColor(holder.time.getCurrentTextColor());
+                        break;
                 }
             }
             String spacer = mContext.getString(R.string.submission_properties_seperator);

@@ -17,6 +17,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -75,7 +76,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final        int SPACER    = 6;
     public final  Context       mContext;
     private final RecyclerView  listView;
-    public        InboxMessages dataSet;
+    public final  InboxMessages dataSet;
 
     public InboxAdapter(Context mContext, InboxMessages dataSet, RecyclerView listView) {
 
@@ -119,31 +120,37 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return TOP_LEVEL;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if (i == SPACER) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.spacer, viewGroup, false);
-            return new SpacerViewHolder(v);
-        } else if (i == TOP_LEVEL) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.top_level_message, viewGroup, false);
-            return new MessageViewHolder(v);
-        } else if (i == 5) {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.loadingmore, viewGroup, false);
-            return new ContributionAdapter.EmptyViewHolder(v);
-        } else {
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.message_reply, viewGroup, false);
-            return new MessageViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        switch (i) {
+            case SPACER: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.spacer, viewGroup, false);
+                return new SpacerViewHolder(v);
+            }
+            case TOP_LEVEL: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.top_level_message, viewGroup, false);
+                return new MessageViewHolder(v);
+            }
+            case 5: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.loadingmore, viewGroup, false);
+                return new ContributionAdapter.EmptyViewHolder(v);
+            }
+            default: {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.message_reply, viewGroup, false);
+                return new MessageViewHolder(v);
 
+            }
         }
 
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int pos) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int pos) {
         int i = pos != 0 ? pos - 1 : pos;
 
         if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder)
@@ -457,8 +464,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private class AsyncReplyTask extends AsyncTask<Void, Void, Void> {
         String trying;
 
-        Message replyTo;
-        String  text;
+        final Message replyTo;
+        final String  text;
 
         public AsyncReplyTask(Message replyTo, String text) {
             this.replyTo = replyTo;
@@ -556,7 +563,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
 
-        Boolean b;
+        final Boolean b;
 
         public AsyncSetRead(Boolean b) {
             this.b = b;

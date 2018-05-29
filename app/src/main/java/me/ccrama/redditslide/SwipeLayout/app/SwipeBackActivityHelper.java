@@ -15,7 +15,7 @@ import me.ccrama.redditslide.SwipeLayout.Utils;
  * @author Yrom
  */
 public class SwipeBackActivityHelper {
-    private Activity mActivity;
+    private final Activity mActivity;
 
     private SwipeBackLayout mSwipeBackLayout;
 

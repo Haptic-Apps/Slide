@@ -303,7 +303,7 @@ public class CommentPage extends Fragment {
     public int                  diff;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
@@ -1272,8 +1272,7 @@ public class CommentPage extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     new AsyncTask<Void, Void, Void>() {
-                                        HashMap<String, MultiReddit> multis =
-                                                new HashMap<String, MultiReddit>();
+                                        final HashMap<String, MultiReddit> multis = new HashMap<>();
 
                                         @Override
                                         protected Void doInBackground(Void... params) {
@@ -1311,7 +1310,7 @@ public class CommentPage extends Fragment {
                                                                                                         new String[multis
                                                                                                                 .size()])[which];
                                                                                 List<String> subs =
-                                                                                        new ArrayList<String>();
+                                                                                        new ArrayList<>();
                                                                                 for (MultiSubreddit sub : multis
                                                                                         .get(multiName)
                                                                                         .getSubreddits()) {

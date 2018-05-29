@@ -60,6 +60,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -883,7 +884,8 @@ public class PopulateSubmissionViewHolder {
                                 }
                             });
                             if (NetworkUtil.isConnected(mContext)) {
-                                new CommentCacheAsync(Arrays.asList(submission), mContext,
+                                new CommentCacheAsync(Collections.singletonList(submission),
+                                        mContext,
                                         CommentCacheAsync.SAVED_SUBMISSIONS,
                                         new boolean[]{true, true}).executeOnExecutor(
                                         AsyncTask.THREAD_POOL_EXECUTOR);
@@ -936,7 +938,8 @@ public class PopulateSubmissionViewHolder {
                                 mContext.getString(R.string.input_reason_for_report), null, true,
                                 new MaterialDialog.InputCallback() {
                                     @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    public void onInput(@NonNull MaterialDialog dialog,
+                                            CharSequence input) {
                                         reportReason = input.toString();
                                     }
                                 })
@@ -951,7 +954,8 @@ public class PopulateSubmissionViewHolder {
                                 .onNegative(null)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
-                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                            @NonNull DialogAction which) {
                                         new AsyncTask<Void, Void, Void>() {
                                             @Override
                                             protected Void doInBackground(Void... params) {
@@ -1164,7 +1168,7 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected List<String> doInBackground(Void... params) {
                 try {
-                    List<String> categories = new ArrayList<String>(
+                    List<String> categories = new ArrayList<>(
                             new AccountManager(Authentication.reddit).getSavedCategories());
                     categories.add("New category");
                     return categories;
@@ -1195,7 +1199,7 @@ public class PopulateSubmissionViewHolder {
                                                         false, new MaterialDialog.InputCallback() {
                                                             @Override
                                                             public void onInput(
-                                                                    MaterialDialog dialog,
+                                                                    @NonNull MaterialDialog dialog,
                                                                     CharSequence input) {
 
                                                             }
@@ -1205,8 +1209,8 @@ public class PopulateSubmissionViewHolder {
                                                         new MaterialDialog.SingleButtonCallback() {
                                                             @Override
                                                             public void onClick(
-                                                                    MaterialDialog dialog,
-                                                                    DialogAction which) {
+                                                                    @NonNull MaterialDialog dialog,
+                                                                    @NonNull DialogAction which) {
                                                                 final String flair =
                                                                         dialog.getInputEditText()
                                                                                 .getText()
@@ -1627,7 +1631,8 @@ public class PopulateSubmissionViewHolder {
                         mContext.getString(R.string.mod_remove_template), false,
                         new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog,
+                                    CharSequence input) {
                                 reason = input.toString();
                             }
                         })
@@ -1642,7 +1647,8 @@ public class PopulateSubmissionViewHolder {
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(final MaterialDialog dialog, DialogAction which) {
+                    public void onClick(@NonNull final MaterialDialog dialog,
+                            @NonNull DialogAction which) {
 
                         removeSubmissionReason(submission, mContext, posts, reason, holder,
                                 recyclerview);
@@ -1838,14 +1844,16 @@ public class PopulateSubmissionViewHolder {
                 .input(mContext.getString(R.string.mod_flair_hint), t.getText(), true,
                         new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog,
+                                    CharSequence input) {
 
                             }
                         })
                 .positiveText(R.string.btn_set)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog,
+                            @NonNull DialogAction which) {
                         final String flair = dialog.getInputEditText().getText().toString();
                         setFlair(mContext, flair, submission, t, holder);
                     }
@@ -3266,7 +3274,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         new MaterialDialog.InputCallback() {
                                                                                             @Override
                                                                                             public void onInput(
-                                                                                                    MaterialDialog dialog,
+                                                                                                    @NonNull MaterialDialog dialog,
                                                                                                     CharSequence input) {
 
                                                                                             }
@@ -3277,8 +3285,8 @@ public class PopulateSubmissionViewHolder {
                                                                                         new MaterialDialog.SingleButtonCallback() {
                                                                                             @Override
                                                                                             public void onClick(
-                                                                                                    MaterialDialog dialog,
-                                                                                                    DialogAction which) {
+                                                                                                    @NonNull MaterialDialog dialog,
+                                                                                                    @NonNull DialogAction which) {
                                                                                                 final String
                                                                                                         flair =
                                                                                                         dialog.getInputEditText()

@@ -18,6 +18,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -190,7 +191,8 @@ public class CommentAdapterHelper {
                                 mContext.getString(R.string.input_reason_for_report), null, true,
                                 new MaterialDialog.InputCallback() {
                                     @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    public void onInput(@NonNull MaterialDialog dialog,
+                                            CharSequence input) {
                                         reportReason = input.toString();
                                     }
                                 })
@@ -205,7 +207,8 @@ public class CommentAdapterHelper {
                                 .onNegative(null)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
-                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                            @NonNull DialogAction which) {
                                         new AsyncReportTask(adapter.currentBaseNode,
                                                 adapter.listView).execute();
                                     }
@@ -414,7 +417,7 @@ public class CommentAdapterHelper {
             @Override
             protected List<String> doInBackground(Void... params) {
                 try {
-                    List<String> categories = new ArrayList<String>(
+                    List<String> categories = new ArrayList<>(
                             new AccountManager(Authentication.reddit).getSavedCategories());
                     categories.add("New category");
                     return categories;
@@ -444,7 +447,7 @@ public class CommentAdapterHelper {
                                                         false, new MaterialDialog.InputCallback() {
                                                             @Override
                                                             public void onInput(
-                                                                    MaterialDialog dialog,
+                                                                    @NonNull MaterialDialog dialog,
                                                                     CharSequence input) {
 
                                                             }
@@ -454,8 +457,8 @@ public class CommentAdapterHelper {
                                                         new MaterialDialog.SingleButtonCallback() {
                                                             @Override
                                                             public void onClick(
-                                                                    MaterialDialog dialog,
-                                                                    DialogAction which) {
+                                                                    @NonNull MaterialDialog dialog,
+                                                                    @NonNull DialogAction which) {
                                                                 final String flair =
                                                                         dialog.getInputEditText()
                                                                                 .getText()
@@ -1416,12 +1419,12 @@ public class CommentAdapterHelper {
     }
 
     public static class AsyncEditTask extends AsyncTask<Void, Void, Void> {
-        CommentAdapter    adapter;
-        CommentNode       baseNode;
-        String            text;
-        Context           mContext;
-        Dialog            dialog;
-        CommentViewHolder holder;
+        final CommentAdapter    adapter;
+        final CommentNode       baseNode;
+        final String            text;
+        final Context           mContext;
+        final Dialog            dialog;
+        final CommentViewHolder holder;
 
         public AsyncEditTask(CommentAdapter adapter, CommentNode baseNode, String text,
                 Context mContext, Dialog dialog, CommentViewHolder holder) {
@@ -1476,10 +1479,10 @@ public class CommentAdapterHelper {
     }
 
     public static class AsyncDeleteTask extends AsyncTask<Void, Void, Boolean> {
-        CommentAdapter    adapter;
-        CommentNode       baseNode;
-        CommentViewHolder holder;
-        Context           mContext;
+        final CommentAdapter    adapter;
+        final CommentNode       baseNode;
+        final CommentViewHolder holder;
+        final Context           mContext;
 
         public AsyncDeleteTask(CommentAdapter adapter, CommentNode baseNode,
                 CommentViewHolder holder, Context mContext) {
@@ -1528,8 +1531,8 @@ public class CommentAdapterHelper {
     }
 
     public static class AsyncReportTask extends AsyncTask<Void, Void, Void> {
-        private CommentNode baseNode;
-        private View        contextView;
+        private final CommentNode baseNode;
+        private final View        contextView;
 
         public AsyncReportTask(CommentNode baseNode, View contextView) {
             this.baseNode = baseNode;
@@ -1567,7 +1570,7 @@ public class CommentAdapterHelper {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                float value = (Float) (animation.getAnimatedValue());
                 v.setAlpha(value);
                 v.setScaleX(value);
                 v.setScaleY(value);
@@ -1586,7 +1589,7 @@ public class CommentAdapterHelper {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                float value = (Float) (animation.getAnimatedValue());
                 v.setAlpha(value);
                 v.setScaleX(value);
                 v.setScaleY(value);

@@ -44,11 +44,11 @@ import me.ccrama.redditslide.util.NetworkUtil;
 public class MultiredditPosts implements PostLoader {
     public List<Submission> posts;
     public boolean nomore = false;
-    public  boolean              stillShow;
-    public  boolean              offline;
-    public  boolean              loading;
-    public  String               profile;
-    private MultiRedditPaginator paginator;
+    public       boolean              stillShow;
+    public       boolean              offline;
+    public       boolean              loading;
+    public final String               profile;
+    private      MultiRedditPaginator paginator;
     Context            c;
     MultiredditAdapter adapter;
 
@@ -254,7 +254,7 @@ public class MultiredditPosts implements PostLoader {
         return posts;
     }
 
-    public MultiReddit multiReddit;
+    public final MultiReddit multiReddit;
 
     @Override
     public boolean hasMore() {
@@ -268,8 +268,8 @@ public class MultiredditPosts implements PostLoader {
      * Asynchronous task for loading data
      */
     private class LoadData extends AsyncTask<MultiReddit, Void, List<Submission>> {
-        final boolean reset;
-        Context context;
+        final boolean           reset;
+        final Context           context;
         final SubmissionDisplay displayer;
 
         public LoadData(Context context, SubmissionDisplay displayer, boolean reset) {

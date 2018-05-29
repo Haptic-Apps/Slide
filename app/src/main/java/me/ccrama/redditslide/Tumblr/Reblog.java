@@ -22,7 +22,7 @@ public class Reblog {
     @JsonProperty("comment")
     private String comment;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The treeHtml

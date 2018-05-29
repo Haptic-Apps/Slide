@@ -13,11 +13,11 @@ import java.util.List;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 
-    protected List<NetworkStateReceiverListener> listeners;
-    protected Boolean                            connected;
+    protected final List<NetworkStateReceiverListener> listeners;
+    protected       Boolean                            connected;
 
     public NetworkStateReceiver() {
-        listeners = new ArrayList<NetworkStateReceiverListener>();
+        listeners = new ArrayList<>();
         connected = null;
     }
 

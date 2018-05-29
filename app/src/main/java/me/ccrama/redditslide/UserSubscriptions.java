@@ -215,7 +215,7 @@ public class UserSubscriptions {
 
     public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
 
-        Context c;
+        final Context c;
 
         public SyncMultireddits(Context c) {
             this.c = c;
@@ -288,8 +288,7 @@ public class UserSubscriptions {
 
     public static CaseInsensitiveArrayList modOf;
     public static ArrayList<MultiReddit>   multireddits;
-    public static HashMap<String, List<MultiReddit>> public_multireddits =
-            new HashMap<String, List<MultiReddit>>();
+    public static final HashMap<String, List<MultiReddit>> public_multireddits = new HashMap<>();
 
     public static void doOnlineSyncing() {
         if (Authentication.mod) {
@@ -642,23 +641,25 @@ public class UserSubscriptions {
 
     //Sets a list of subreddits as "searched for", will apply to all accounts
     public static void addSubsToHistory(ArrayList<Subreddit> s2) {
-        String history = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH);
+        StringBuilder history = new StringBuilder(
+                subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH));
         for (Subreddit s : s2) {
-            if (!history.contains(s.getDisplayName().toLowerCase(Locale.ENGLISH))) {
-                history += "," + s.getDisplayName().toLowerCase(Locale.ENGLISH);
+            if (!history.toString().contains(s.getDisplayName().toLowerCase(Locale.ENGLISH))) {
+                history.append(",").append(s.getDisplayName().toLowerCase(Locale.ENGLISH));
             }
         }
-        subscriptions.edit().putString("subhistory", history).apply();
+        subscriptions.edit().putString("subhistory", history.toString()).apply();
     }
 
     public static void addSubsToHistory(CaseInsensitiveArrayList s2, boolean b) {
-        String history = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH);
+        StringBuilder history = new StringBuilder(
+                subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH));
         for (String s : s2) {
-            if (!history.contains(s.toLowerCase(Locale.ENGLISH))) {
-                history += "," + s.toLowerCase(Locale.ENGLISH);
+            if (!history.toString().contains(s.toLowerCase(Locale.ENGLISH))) {
+                history.append(",").append(s.toLowerCase(Locale.ENGLISH));
             }
         }
-        subscriptions.edit().putString("subhistory", history).apply();
+        subscriptions.edit().putString("subhistory", history.toString()).apply();
     }
 
     public static ArrayList<Subreddit> syncSubredditsGetObject() {
@@ -671,9 +672,7 @@ public class UserSubscriptions {
 
             try {
                 while (pag.hasNext()) {
-                    for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                        toReturn.add(s);
-                    }
+                    toReturn.addAll(pag.next());
                 }
 
 
@@ -701,9 +700,7 @@ public class UserSubscriptions {
 
                     try {
                         while (pag.hasNext()) {
-                            for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                                toReturn.add(s);
-                            }
+                            toReturn.addAll(pag.next());
                         }
 
 
@@ -782,7 +779,7 @@ public class UserSubscriptions {
     }
 
     public static class SubscribeTask extends AsyncTask<String, Void, Void> {
-        Context context;
+        final Context context;
 
         public SubscribeTask(Context context) {
             this.context = context;

@@ -10,14 +10,13 @@ import android.support.v4.os.BuildCompat;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.EditText;
 
 
 /**
  * Created by Carlos on 11/5/2016.
  */
 
-public class ImageInsertEditText extends EditText {
+public class ImageInsertEditText extends android.support.v7.widget.AppCompatEditText {
 
     public interface ImageSelectedCallback {
         void onImageSelected(Uri content, String mimeType);
@@ -35,12 +34,6 @@ public class ImageInsertEditText extends EditText {
     public ImageInsertEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
-    public ImageInsertEditText(Context context, AttributeSet attrs, int defStyleAttr,
-            int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     // endregion
 
     private ImageSelectedCallback callback;

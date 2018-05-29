@@ -26,7 +26,7 @@ public abstract class HttpPostTask<Result> extends AsyncTask<String, Long, Resul
             .connectTimeout(CONNECTION_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
             .build();
 
-    private String mUrl;
+    private final String mUrl;
 
     /**
      * @param url Required.

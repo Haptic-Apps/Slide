@@ -66,9 +66,9 @@ public class CommentCacheAsync extends AsyncTask {
         this.subs = subreddits;
     }
 
-    String[] subs;
+    final String[] subs;
 
-    Context                    context;
+    final Context context;
     NotificationCompat.Builder mBuilder;
 
     boolean[] otherChoices;

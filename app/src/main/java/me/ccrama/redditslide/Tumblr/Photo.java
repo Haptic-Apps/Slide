@@ -22,11 +22,11 @@ public class Photo {
     @JsonProperty("caption")
     private String caption;
     @JsonProperty("alt_sizes")
-    private List<AltSize> altSizes = new ArrayList<AltSize>();
+    private List<AltSize> altSizes = new ArrayList<>();
     @JsonProperty("original_size")
     private OriginalSize originalSize;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The caption

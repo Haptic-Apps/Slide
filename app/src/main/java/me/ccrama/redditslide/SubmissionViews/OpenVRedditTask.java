@@ -14,8 +14,8 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class OpenVRedditTask extends AsyncTask<String, Void, Void> {
 
-    private WeakReference<Activity> contextActivity;
-    private String                  subreddit;
+    private final WeakReference<Activity> contextActivity;
+    private final String                  subreddit;
 
     public OpenVRedditTask(Activity contextActivity, String subreddit) {
         this.contextActivity = new WeakReference<>(contextActivity);

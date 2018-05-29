@@ -58,7 +58,7 @@ import me.ccrama.redditslide.util.SortingUtil;
 public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & FolderCallback>
         implements FolderCallback {
 
-    private       ActivityType context;
+    private final ActivityType context;
     public static boolean      searchChanged; //whether or not the subreddit search method changed
 
     public SettingsGeneralFragment(ActivityType context) {
@@ -375,17 +375,19 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                 context.findViewById(R.id.settings_general_subreddit_search_method_current);
 
         if (currentMethodTitle != null) {
-            if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
-                currentMethodTitle.setText(
-                        context.getString(R.string.subreddit_search_method_drawer));
-            } else if (SettingValues.subredditSearchMethod
-                    == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
-                currentMethodTitle.setText(
-                        context.getString(R.string.subreddit_search_method_toolbar));
-            } else if (SettingValues.subredditSearchMethod
-                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
-                currentMethodTitle.setText(
-                        context.getString(R.string.subreddit_search_method_both));
+            switch (SettingValues.subredditSearchMethod) {
+                case Constants.SUBREDDIT_SEARCH_METHOD_DRAWER:
+                    currentMethodTitle.setText(
+                            context.getString(R.string.subreddit_search_method_drawer));
+                    break;
+                case Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR:
+                    currentMethodTitle.setText(
+                            context.getString(R.string.subreddit_search_method_toolbar));
+                    break;
+                case Constants.SUBREDDIT_SEARCH_METHOD_BOTH:
+                    currentMethodTitle.setText(
+                            context.getString(R.string.subreddit_search_method_both));
+                    break;
             }
         }
 
@@ -432,18 +434,19 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                                     break;
                                             }
 
-                                            if (SettingValues.subredditSearchMethod
-                                                    == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
-                                                currentMethodTitle.setText(context.getString(
-                                                        R.string.subreddit_search_method_drawer));
-                                            } else if (SettingValues.subredditSearchMethod
-                                                    == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
-                                                currentMethodTitle.setText(context.getString(
-                                                        R.string.subreddit_search_method_toolbar));
-                                            } else if (SettingValues.subredditSearchMethod
-                                                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
-                                                currentMethodTitle.setText(context.getString(
-                                                        R.string.subreddit_search_method_both));
+                                            switch (SettingValues.subredditSearchMethod) {
+                                                case Constants.SUBREDDIT_SEARCH_METHOD_DRAWER:
+                                                    currentMethodTitle.setText(context.getString(
+                                                            R.string.subreddit_search_method_drawer));
+                                                    break;
+                                                case Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR:
+                                                    currentMethodTitle.setText(context.getString(
+                                                            R.string.subreddit_search_method_toolbar));
+                                                    break;
+                                                case Constants.SUBREDDIT_SEARCH_METHOD_BOTH:
+                                                    currentMethodTitle.setText(context.getString(
+                                                            R.string.subreddit_search_method_both));
+                                                    break;
                                             }
                                             return true;
                                         }
@@ -855,11 +858,9 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
 
         //List of all subreddits of the multi
-        List<String> sorted = new ArrayList<>();
         //Add all user subs that aren't already on the list
-        for (String s : UserSubscriptions.sort(UserSubscriptions.getSubscriptions(context))) {
-            sorted.add(s);
-        }
+        List<String> sorted = new ArrayList<>(
+                UserSubscriptions.sort(UserSubscriptions.getSubscriptions(context)));
 
         //Array of all subs
         String[] all = new String[sorted.size()];
@@ -930,7 +931,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                         .input(context.getString(R.string.reorder_subreddit_name),
                                                 null, false, new MaterialDialog.InputCallback() {
                                                     @Override
-                                                    public void onInput(MaterialDialog dialog,
+                                                    public void onInput(
+                                                            @NonNull MaterialDialog dialog,
                                                             CharSequence raw) {
                                                         input = raw.toString()
                                                                 .replaceAll("\\s",
@@ -1069,7 +1071,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
     }
 
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(context, context.getString(R.string.settings_set_image_location,

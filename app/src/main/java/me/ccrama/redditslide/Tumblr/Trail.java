@@ -30,7 +30,7 @@ public class Trail {
     @JsonProperty("is_root_item")
     private Boolean isRootItem;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The blog

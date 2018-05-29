@@ -43,7 +43,7 @@ public class Post {
     @JsonProperty("reblog_key")
     private String reblogKey;
     @JsonProperty("tags")
-    private List<String> tags = new ArrayList<String>();
+    private List<String> tags = new ArrayList<>();
     @JsonProperty("short_url")
     private String shortUrl;
     @JsonProperty("summary")
@@ -53,7 +53,7 @@ public class Post {
     @JsonProperty("recommended_color")
     private Object recommendedColor;
     @JsonProperty("highlighted")
-    private List<Object> highlighted = new ArrayList<Object>();
+    private List<Object> highlighted = new ArrayList<>();
     @JsonProperty("note_count")
     private Integer noteCount;
     @JsonProperty("caption")
@@ -61,11 +61,11 @@ public class Post {
     @JsonProperty("reblog")
     private Reblog  reblog;
     @JsonProperty("trail")
-    private List<Trail> trail = new ArrayList<Trail>();
+    private List<Trail> trail = new ArrayList<>();
     @JsonProperty("photoset_layout")
     private String photosetLayout;
     @JsonProperty("photos")
-    private List<Photo> photos = new ArrayList<Photo>();
+    private List<Photo> photos = new ArrayList<>();
     @JsonProperty("can_send_in_message")
     private Boolean canSendInMessage;
     @JsonProperty("can_like")
@@ -75,7 +75,7 @@ public class Post {
     @JsonProperty("display_avatar")
     private Boolean displayAvatar;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The blogName

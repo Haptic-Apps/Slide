@@ -4,7 +4,9 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,7 +46,7 @@ public class AlbumFull extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.submission_albumcard, container, false);
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
@@ -126,7 +128,11 @@ public class AlbumFull extends Fragment {
                     public void onGlobalLayout() {
                         ((SlidingUpPanelLayout) rootView.findViewById(
                                 R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
-                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            title.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
                     }
                 });
         ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(
@@ -167,7 +173,7 @@ public class AlbumFull extends Fragment {
 
     public class LoadIntoRecycler extends AlbumUtils.GetAlbumWithCallback {
 
-        String url;
+        final String url;
 
         public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
             super(url, baseActivity);

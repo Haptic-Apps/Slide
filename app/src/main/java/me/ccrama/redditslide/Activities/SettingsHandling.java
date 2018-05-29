@@ -16,7 +16,7 @@ import me.ccrama.redditslide.SettingValues;
  */
 public class SettingsHandling extends BaseActivityAnim {
 
-    private SettingsHandlingFragment fragment = new SettingsHandlingFragment(this);
+    private final SettingsHandlingFragment fragment = new SettingsHandlingFragment(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

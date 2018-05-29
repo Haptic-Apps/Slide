@@ -16,7 +16,7 @@ import me.ccrama.redditslide.R;
 public class SettingsGeneral extends BaseActivityAnim
         implements FolderChooserDialogCreate.FolderCallback {
 
-    private SettingsGeneralFragment fragment = new SettingsGeneralFragment(this);
+    private final SettingsGeneralFragment fragment = new SettingsGeneralFragment(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

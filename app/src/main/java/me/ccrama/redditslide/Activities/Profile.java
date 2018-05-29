@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -624,7 +625,7 @@ public class Profile extends BaseActivityAnim {
                                                             new MaterialDialog.InputCallback() {
                                                                 @Override
                                                                 public void onInput(
-                                                                        MaterialDialog dialog,
+                                                                        @NonNull MaterialDialog dialog,
                                                                         CharSequence input) {
 
                                                                 }
@@ -637,8 +638,8 @@ public class Profile extends BaseActivityAnim {
                                     }
                                     b.onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
-                                        public void onClick(MaterialDialog dialog,
-                                                DialogAction which) {
+                                        public void onClick(@NonNull MaterialDialog dialog,
+                                                @NonNull DialogAction which) {
                                             UserTags.setUserTag(name,
                                                     dialog.getInputEditText().getText().toString());
                                             String tag = UserTags.getUserTag(name);
@@ -655,8 +656,8 @@ public class Profile extends BaseActivityAnim {
                                             .onNeutral(null)
                                             .onNegative(new MaterialDialog.SingleButtonCallback() {
                                                 @Override
-                                                public void onClick(MaterialDialog dialog,
-                                                        DialogAction which) {
+                                                public void onClick(@NonNull MaterialDialog dialog,
+                                                        @NonNull DialogAction which) {
                                                     UserTags.removeUserTag(name);
                                                     String tag = UserTags.getUserTag(name);
                                                     if (tag.isEmpty()) {
@@ -776,8 +777,7 @@ public class Profile extends BaseActivityAnim {
                                                     Authentication.reddit.execute(
                                                             Authentication.reddit.request()
                                                                     .post(map)
-                                                                    .path(String.format(
-                                                                            "/api/block_user"))
+                                                                    .path("/api/block_user")
                                                                     .build());
                                                 } catch (Exception ex) {
                                                     return false;
