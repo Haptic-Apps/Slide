@@ -80,6 +80,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LinkUtil;
 
 /**
  * Created by Carlos on 8/4/2016.
@@ -172,11 +173,11 @@ public class CommentAdapterHelper {
                     case 5: {
                         //Gild comment
                         Intent i = new Intent(mContext, Website.class);
-                        i.putExtra(Website.EXTRA_URL, "https://reddit.com"
+                        i.putExtra(LinkUtil.EXTRA_URL, "https://reddit.com"
                                 + adapter.submission.getPermalink()
                                 + n.getFullName().substring(3, n.getFullName().length())
                                 + "?context=3&inapp=false");
-                        i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
+                        i.putExtra(LinkUtil.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
                         mContext.startActivity(i);
                     }
                     break;

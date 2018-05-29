@@ -382,7 +382,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                                             int which) {
                                                         Intent i = new Intent(getActivity(),
                                                                 Website.class);
-                                                        i.putExtra(Website.EXTRA_URL, url);
+                                                        i.putExtra(LinkUtil.EXTRA_URL, url);
                                                         startActivity(i);
                                                         getActivity().finish();
                                                     }

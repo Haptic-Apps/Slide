@@ -1174,7 +1174,8 @@
     <string name="mod_ban_reason_required">Reason is required</string>
     <string name="settings_abbreviate_post_scores">Abbreviate post scores (ex. 24.0k)</string>
     <string name="settings_wide_depth_indicators">Wide comment depth indicators</string>
-    <string name="handling_reader_mode">Reader mode</string>
+    <string name="settings_link_reader_mode_title">Use reader mode</string>
+    <string name="settings_link_reader_mode_description">Open all links in reader mode. The browser type will be used when opening from reader mode.</string>
     <string name="settings_link_reader_night">Link Reader mode and Night mode</string>
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Save images to subreddit-specific subfolders</string>

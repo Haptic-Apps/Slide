@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
@@ -42,11 +43,17 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 
+import static me.ccrama.redditslide.Fragments.SettingsHandlingFragment.LinkHandlingMode;
+
 public class LinkUtil {
 
     private static CustomTabsSession           mCustomTabsSession;
     private static CustomTabsClient            mClient;
     private static CustomTabsServiceConnection mConnection;
+
+    public static final String EXTRA_URL        = "url";
+    public static final String EXTRA_COLOR      = "color";
+    public static final String ADAPTER_POSITION = "adapter_position";
 
     private LinkUtil() {
     }
@@ -80,7 +87,7 @@ public class LinkUtil {
     public static void openCustomTab(@NonNull String url, int color,
             @NonNull Activity contextActivity, @NonNull String packageName) {
         Intent intent = new Intent(contextActivity, MakeExternal.class);
-        intent.putExtra(Website.EXTRA_URL, url);
+        intent.putExtra(LinkUtil.EXTRA_URL, url);
         PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
 
         CustomTabsIntent.Builder builder =
@@ -107,35 +114,37 @@ public class LinkUtil {
     }
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity,
-            int adapterPosition, Submission submission) {
-        if (!SettingValues.web) {
-            // External browser
+            @Nullable Integer adapterPosition, @Nullable Submission submission) {
+        if (!(contextActivity instanceof ReaderMode) && ((SettingValues.readerMode
+                && !SettingValues.readerNight)
+                || SettingValues.readerMode
+                && SettingValues.readerNight
+                && SettingValues.isNight())) {
+            Intent i = new Intent(contextActivity, ReaderMode.class);
+            openIntentThemed(i, url, color, contextActivity, adapterPosition, submission);
+        } else if (SettingValues.linkHandlingMode == LinkHandlingMode.EXTERNAL.getValue()) {
             openExternally(url);
         } else {
             String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
-
-            if (packageName != null) {
+            if (SettingValues.linkHandlingMode == LinkHandlingMode.CUSTOM_TABS.getValue()
+                    && packageName != null) {
                 openCustomTab(url, color, contextActivity, packageName);
             } else {
-                if (SettingValues.reader && (!SettingValues.readerNight
-                        || SettingValues.isNight())) {
-                    //Reader mode
-                    Intent i = new Intent(contextActivity, ReaderMode.class);
-                    i.putExtra(ReaderMode.EXTRA_URL, url);
-                    PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
-                    i.putExtra(ReaderMode.EXTRA_COLOR, color);
-                    contextActivity.startActivity(i);
-
-                } else {
-                    // Internal browser
-                    Intent i = new Intent(contextActivity, Website.class);
-                    i.putExtra(Website.EXTRA_URL, url);
-                    PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
-                    i.putExtra(Website.EXTRA_COLOR, color);
-                    contextActivity.startActivity(i);
-                }
+                Intent i = new Intent(contextActivity, Website.class);
+                openIntentThemed(i, url, color, contextActivity, adapterPosition, submission);
             }
         }
+    }
+
+    private static void openIntentThemed(@NonNull Intent intent, @NonNull String url, int color,
+            @NonNull Activity contextActivity, @Nullable Integer adapterPosition,
+            @Nullable Submission submission) {
+        intent.putExtra(EXTRA_URL, url);
+        if (adapterPosition != null && submission != null) {
+            PopulateSubmissionViewHolder.addAdaptorPosition(intent, submission, adapterPosition);
+        }
+        intent.putExtra(EXTRA_COLOR, color);
+        contextActivity.startActivity(intent);
     }
 
 
@@ -193,31 +202,7 @@ public class LinkUtil {
      * @param contextActivity The current activity
      */
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
-        if (!SettingValues.web) {
-            // External browser
-            openExternally(url);
-        } else {
-            String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
-
-            if (packageName != null) {
-                openCustomTab(url, color, contextActivity, packageName);
-            } else {
-                if (SettingValues.reader && (!SettingValues.readerNight
-                        || SettingValues.isNight())) {
-                    //Reader mode
-                    Intent i = new Intent(contextActivity, ReaderMode.class);
-                    i.putExtra(ReaderMode.EXTRA_URL, url);
-                    i.putExtra(ReaderMode.EXTRA_COLOR, color);
-                    contextActivity.startActivity(i);
-                } else {
-                    // Internal browser
-                    Intent i = new Intent(contextActivity, Website.class);
-                    i.putExtra(Website.EXTRA_URL, url);
-                    i.putExtra(Website.EXTRA_COLOR, color);
-                    contextActivity.startActivity(i);
-                }
-            }
-        }
+        openUrl(url, color, contextActivity, null, null);
     }
 
     /**
