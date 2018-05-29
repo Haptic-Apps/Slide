@@ -20,23 +20,25 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class InboxPage extends Fragment {
 
-    private int totalItemCount;
-    private int visibleItemCount;
-    private int pastVisiblesItems;
-    private InboxAdapter adapter;
+    private int           totalItemCount;
+    private int           visibleItemCount;
+    private int           pastVisiblesItems;
+    private InboxAdapter  adapter;
     private InboxMessages posts;
-    private String id;
+    private String        id;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        final RecyclerView rv = v.findViewById(R.id.vertical_content);
         final PreCachingLayoutManager mLayoutManager;
         mLayoutManager = new PreCachingLayoutManager(getActivity());
         rv.setLayoutManager(mLayoutManager);
 
-        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        final SwipeRefreshLayout mSwipeRefreshLayout =
+                v.findViewById(R.id.activity_main_swipe_refresh_layout);
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
@@ -60,42 +62,45 @@ public class InboxPage extends Fragment {
         posts.bindAdapter(adapter, mSwipeRefreshLayout);
 
         //TODO catch errors
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        posts.loadMore(adapter, id, true);
-
-                        //TODO catch errors
-                    }
-                }
-        );
-        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                visibleItemCount = rv.getLayoutManager().getChildCount();
-                totalItemCount = rv.getLayoutManager().getItemCount();
+            public void onRefresh() {
+                posts.loadMore(adapter, id, true);
 
-                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                } else {
-                    int[] firstVisibleItems = null;
-                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        pastVisiblesItems = firstVisibleItems[0];
-                    }
-                }
-
-                if (!posts.loading && !posts.nomore) {
-                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
-                        posts.loading = true;
-                        posts.loadMore(adapter, id, false);
-                    }
-                }
+                //TODO catch errors
             }
         });
+        rv.addOnScrollListener(
+                new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar),
+                        getActivity().findViewById(R.id.header)) {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        visibleItemCount = rv.getLayoutManager().getChildCount();
+                        totalItemCount = rv.getLayoutManager().getItemCount();
+
+                        if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                            pastVisiblesItems =
+                                    ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                        } else {
+                            int[] firstVisibleItems = null;
+                            firstVisibleItems =
+                                    ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(
+                                            firstVisibleItems);
+
+                            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                                pastVisiblesItems = firstVisibleItems[0];
+                            }
+                        }
+
+                        if (!posts.loading && !posts.nomore) {
+                            if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
+                                posts.loading = true;
+                                posts.loadMore(adapter, id, false);
+                            }
+                        }
+                    }
+                });
         return v;
     }
 

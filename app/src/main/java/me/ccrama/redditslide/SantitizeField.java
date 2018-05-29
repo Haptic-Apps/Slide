@@ -5,7 +5,8 @@ package me.ccrama.redditslide;
  */
 public class SantitizeField {
     public static String sanitizeString(String input) {
-        char[] allowed = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_".toCharArray();
+        char[] allowed =
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_".toCharArray();
         char[] charArray = input.toCharArray();
         StringBuilder result = new StringBuilder();
         for (char c : charArray) {

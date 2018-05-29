@@ -11,7 +11,7 @@ import android.view.MotionEvent;
  */
 public class ToggleSwipeViewPager extends ViewPager {
     private boolean mEnableSwiping = true;
-    private boolean swipeLeftOnly = false;
+    private boolean swipeLeftOnly  = false;
     private boolean mSwipeDisabledUntilRelease = false;
     private float mStartDragX;
 

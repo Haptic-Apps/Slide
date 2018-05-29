@@ -21,6 +21,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.Reddit;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -85,13 +86,19 @@ public class SubredditSearchPosts extends GeneralPosts {
         public void onPostExecute(ArrayList<Contribution> submissions) {
             loading = false;
 
-            if(error != null){
-                if(error instanceof NetworkException){
-                    NetworkException e = (NetworkException)error;
-                    Toast.makeText(adapter.mContext,"Loading failed, " + e.getResponse().getStatusCode() + ": " + ((NetworkException) error).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+            if (error != null) {
+                if (error instanceof NetworkException) {
+                    NetworkException e = (NetworkException) error;
+                    Toast.makeText(adapter.mContext, "Loading failed, "
+                                    + e.getResponse().getStatusCode()
+                                    + ": "
+                                    + ((NetworkException) error).getResponse().getStatusMessage(),
+                            Toast.LENGTH_LONG).show();
                 }
-                if(error.getCause() instanceof UnknownHostException){
-                    Toast.makeText(adapter.mContext,"Loading failed, please check your internet connection", Toast.LENGTH_LONG).show();
+                if (error.getCause() instanceof UnknownHostException) {
+                    Toast.makeText(adapter.mContext,
+                            "Loading failed, please check your internet connection",
+                            Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -138,7 +145,8 @@ public class SubredditSearchPosts extends GeneralPosts {
                 nomore = true;
                 adapter.notifyDataSetChanged();
                 if (reset) {
-                    Toast.makeText(adapter.mContext, R.string.no_posts_found, Toast.LENGTH_LONG).show();
+                    Toast.makeText(adapter.mContext, R.string.no_posts_found, Toast.LENGTH_LONG)
+                            .show();
                 }
             } else if (!nomore) {
                 // error
@@ -187,11 +195,12 @@ public class SubredditSearchPosts extends GeneralPosts {
 
                 return newSubmissions;
             } catch (Exception e) {
-              error = e;
+                error = e;
                 e.printStackTrace();
                 return null;
             }
         }
+
         Exception error;
 
     }

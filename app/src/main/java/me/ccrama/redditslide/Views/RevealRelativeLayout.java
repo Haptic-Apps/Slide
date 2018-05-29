@@ -19,8 +19,9 @@ public class RevealRelativeLayout extends RelativeLayout implements RevealAnimat
     private Path mRevealPath;
     private final Rect mTargetBounds = new Rect();
     private RevealInfo mRevealInfo;
-    private boolean mRunning;
-    private float mRadius;
+    private boolean    mRunning;
+    private float      mRadius;
+
     @Override
     public boolean hasOverlappingRendering() {
         return false;
@@ -92,8 +93,8 @@ public class RevealRelativeLayout extends RelativeLayout implements RevealAnimat
     public SupportAnimator startReverseAnimation() {
         if (mRevealInfo != null && mRevealInfo.hasTarget() && !mRunning) {
             return ViewAnimationUtils.createCircularReveal(mRevealInfo.getTarget(),
-                    mRevealInfo.centerX, mRevealInfo.centerY,
-                    mRevealInfo.endRadius, mRevealInfo.startRadius);
+                    mRevealInfo.centerX, mRevealInfo.centerY, mRevealInfo.endRadius,
+                    mRevealInfo.startRadius);
         }
         return null;
     }
@@ -104,7 +105,8 @@ public class RevealRelativeLayout extends RelativeLayout implements RevealAnimat
             final int state = canvas.save();
 
             mRevealPath.reset();
-            mRevealPath.addCircle(mRevealInfo.centerX, mRevealInfo.centerY, mRadius, Path.Direction.CW);
+            mRevealPath.addCircle(mRevealInfo.centerX, mRevealInfo.centerY, mRadius,
+                    Path.Direction.CW);
 
             canvas.clipPath(mRevealPath);
 

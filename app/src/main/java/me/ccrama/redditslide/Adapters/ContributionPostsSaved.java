@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
 /**
@@ -99,8 +98,7 @@ public class ContributionPostsSaved extends ContributionPosts {
                     paginator = new UserSavedPaginator(Authentication.reddit, where, subreddit);
                     paginator.setSorting(SettingValues.getSubmissionSort(subreddit));
                     paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod(subreddit));
-                    if(category != null)
-                        paginator.setCategory(category);
+                    if (category != null) paginator.setCategory(category);
                 }
 
                 if (!paginator.hasNext()) {

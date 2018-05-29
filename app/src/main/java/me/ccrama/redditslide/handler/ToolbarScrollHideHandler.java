@@ -12,9 +12,9 @@ import android.view.animation.LinearInterpolator;
 public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
 
     Toolbar tToolbar;
-    View mAppBar;
-    View extra;
-    View opposite;
+    View    mAppBar;
+    View    extra;
+    View    opposite;
 
     public ToolbarScrollHideHandler(Toolbar t, View appBar) {
         tToolbar = t;
@@ -35,7 +35,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-            if(reset){
+            if (reset) {
                 verticalOffset = 0;
                 reset = false;
             }
@@ -45,31 +45,39 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                 } else {
                     toolbarAnimateShow(verticalOffset);
                 }
-                if (opposite != null)
+                if (opposite != null) {
                     if (verticalOffset > opposite.getHeight()) {
                         oppositeAnimateHide();
                     } else {
                         oppositeAnimateShow(verticalOffset);
                     }
+                }
             } else {
-                if (mAppBar.getTranslationY() < tToolbar.getHeight() * -0.6 && verticalOffset > tToolbar.getHeight()) {
+                if (mAppBar.getTranslationY() < tToolbar.getHeight() * -0.6
+                        && verticalOffset > tToolbar.getHeight()) {
                     toolbarAnimateHide();
                 } else {
                     toolbarAnimateShow(verticalOffset);
                 }
-                if (opposite != null)
-                    if (opposite.getTranslationY() < opposite.getHeight() * -0.6 && verticalOffset > opposite.getHeight()) {
+                if (opposite != null) {
+                    if (opposite.getTranslationY() < opposite.getHeight() * -0.6
+                            && verticalOffset > opposite.getHeight()) {
                         oppositeAnimateHide();
                     } else {
                         oppositeAnimateShow(verticalOffset);
                     }
+                }
             }
         }
     }
+
     public boolean reset = false;
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        if(verticalOffset == 0 && dy < 0){ //if scrolling begins halfway through an adapter, don't treat it like going negative and instead reset the start position to 0
+        if (verticalOffset == 0
+                && dy
+                < 0) { //if scrolling begins halfway through an adapter, don't treat it like going negative and instead reset the start position to 0
             dy = 0;
         }
         verticalOffset += dy;
@@ -79,25 +87,21 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         if (scrollingUp) {
             if (toolbarYOffset < tToolbar.getHeight()) {
                 mAppBar.setTranslationY(-toolbarYOffset);
-                if (extra != null)
-                    extra.setTranslationY(-toolbarYOffset);
+                if (extra != null) extra.setTranslationY(-toolbarYOffset);
             } else {
                 mAppBar.setTranslationY(-tToolbar.getHeight());
-                if (extra != null)
-                    extra.setTranslationY(-tToolbar.getHeight());
+                if (extra != null) extra.setTranslationY(-tToolbar.getHeight());
             }
         } else {
             if (toolbarYOffset < 0) {
                 mAppBar.setTranslationY(0);
-                if (extra != null)
-                    extra.setTranslationY(0);
+                if (extra != null) extra.setTranslationY(0);
             } else {
                 mAppBar.setTranslationY(-toolbarYOffset);
-                if (extra != null)
-                    extra.setTranslationY(-toolbarYOffset);
+                if (extra != null) extra.setTranslationY(-toolbarYOffset);
             }
         }
-        if(opposite != null){
+        if (opposite != null) {
             toolbarYOffset = (int) (dy + opposite.getTranslationY());
             opposite.animate().cancel();
             if (scrollingUp) {
@@ -116,8 +120,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         }
     }
 
-    public void toolbarShow()
-    {
+    public void toolbarShow() {
         mAppBar.setTranslationY(0);
     }
 
@@ -126,11 +129,9 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                 .translationY(0)
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
-        if (extra != null)
-            extra.animate()
-                    .translationY(0)
-                    .setInterpolator(new LinearInterpolator())
-                    .setDuration(180);
+        if (extra != null) {
+            extra.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(180);
+        }
     }
 
     private void toolbarAnimateHide() {
@@ -138,11 +139,12 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                 .translationY(-tToolbar.getHeight())
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
-        if (extra != null)
+        if (extra != null) {
             extra.animate()
                     .translationY(-tToolbar.getHeight())
                     .setInterpolator(new LinearInterpolator())
                     .setDuration(180);
+        }
     }
 
     private void oppositeAnimateShow(final int verticalOffset) {

@@ -95,7 +95,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             } else {
                 sub = fitems.get(position);
             }
-            final TextView t = ((TextView) convertView.findViewById(R.id.name));
+            final TextView t = convertView.findViewById(R.id.name);
             t.setText(sub);
 
             if (height == 0) {

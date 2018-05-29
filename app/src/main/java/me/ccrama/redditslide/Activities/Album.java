@@ -225,7 +225,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if(getIntent().hasExtra(SUBREDDIT)){
+        if (getIntent().hasExtra(SUBREDDIT)) {
             this.subreddit = getIntent().getExtras().getString(SUBREDDIT);
         }
 
@@ -404,7 +404,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                     getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
                     ((Album) getActivity()).images = new ArrayList<>(jsonElements);
                     AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images,
-                            getActivity().findViewById(R.id.toolbar).getHeight(), ((Album) getActivity()).subreddit);
+                            getActivity().findViewById(R.id.toolbar).getHeight(),
+                            ((Album) getActivity()).subreddit);
                     recyclerView.setAdapter(adapter);
                 }
             }

@@ -1,7 +1,6 @@
 package me.ccrama.redditslide;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Environment;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -213,8 +212,9 @@ public class OfflineSubreddit {
 
             o.time = time;
 
-            String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(Locale.ENGLISH) + "," + time, "")
-                    .split(",");
+            String[] split =
+                    Reddit.cachedData.getString(subreddit.toLowerCase(Locale.ENGLISH) + "," + time,
+                            "").split(",");
             if (split.length > 0) {
                 o.time = time;
                 o.submissions = new ArrayList<>();

@@ -13,14 +13,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 
-
 /**
  * Created by Alex Macleod on 28/03/2016.
  */
 public class UserSubscriptionsTest {
-    private final CaseInsensitiveArrayList subreddits = new CaseInsensitiveArrayList(Arrays.asList(
-            "xyy", "xyz", "frontpage", "mod", "friends", "random", "aaa", "pinned", "pinned2"
-    ));
+    private final CaseInsensitiveArrayList subreddits = new CaseInsensitiveArrayList(
+            Arrays.asList("xyy", "xyz", "frontpage", "mod", "friends", "random", "aaa", "pinned",
+                    "pinned2"));
 
     @BeforeClass
     public static void setUp() {
@@ -29,15 +28,15 @@ public class UserSubscriptionsTest {
 
     @Test
     public void sortsSubreddits() {
-        assertThat(UserSubscriptions.sort(subreddits), is(new ArrayList<>(Arrays.asList(
-                "pinned", "pinned2", "frontpage", "all", "random", "friends", "mod", "aaa", "xyy", "xyz"
-        ))));
+        assertThat(UserSubscriptions.sort(subreddits), is(new ArrayList<>(
+                Arrays.asList("pinned", "pinned2", "frontpage", "all", "random", "friends", "mod",
+                        "aaa", "xyy", "xyz"))));
     }
 
     @Test
     public void sortsSubredditsNoExtras() {
-        assertThat(UserSubscriptions.sortNoExtras(subreddits), is(new ArrayList<>(Arrays.asList(
-                "pinned", "pinned2", "frontpage", "random", "friends", "mod", "aaa", "xyy", "xyz"
-        ))));
+        assertThat(UserSubscriptions.sortNoExtras(subreddits), is(new ArrayList<>(
+                Arrays.asList("pinned", "pinned2", "frontpage", "random", "friends", "mod", "aaa",
+                        "xyy", "xyz"))));
     }
 }

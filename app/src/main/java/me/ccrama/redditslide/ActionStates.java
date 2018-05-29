@@ -11,11 +11,11 @@ import java.util.ArrayList;
  * Created by carlo_000 on 2/26/2016.
  */
 public class ActionStates {
-    public static final ArrayList<String> upVotedFullnames = new ArrayList<>();
+    public static final ArrayList<String> upVotedFullnames   = new ArrayList<>();
     public static final ArrayList<String> downVotedFullnames = new ArrayList<>();
 
     public static final ArrayList<String> unvotedFullnames = new ArrayList<>();
-    public static final ArrayList<String> savedFullnames = new ArrayList<>();
+    public static final ArrayList<String> savedFullnames   = new ArrayList<>();
     public static final ArrayList<String> unSavedFullnames = new ArrayList<>();
 
     public static VoteDirection getVoteDirection(PublicContribution s) {

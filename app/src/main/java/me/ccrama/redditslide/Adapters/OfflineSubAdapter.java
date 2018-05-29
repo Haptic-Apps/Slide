@@ -14,8 +14,8 @@ import android.widget.TextView;
 public class OfflineSubAdapter extends ArrayAdapter<String> {
 
     private Context mContext;
-    public OfflineSubAdapter(Context context, int textViewResourceId,
-                            String[] objects) {
+
+    public OfflineSubAdapter(Context context, int textViewResourceId, String[] objects) {
         super(context, textViewResourceId, objects);
 
         this.titles = objects;
@@ -23,6 +23,7 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
     }
 
     String[] titles;
+
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position, convertView, parent);
@@ -36,13 +37,13 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
     public View getCustomView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater =
-                ( LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
             holder = new ViewHolder();
-            holder.txt01 = (TextView) convertView.findViewById(android.R.id.text1);
+            holder.txt01 = convertView.findViewById(android.R.id.text1);
             holder.txt01.setTextColor(Color.WHITE);
             convertView.setTag(holder);
         } else {
@@ -57,7 +58,6 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
     class ViewHolder {
         TextView txt01;
     }
-
 
 
 }

@@ -15,8 +15,9 @@ public class SwipeTutorial extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.swipe_tutorial);
-        if(getIntent().hasExtra("subtitle")){
-            ((TextView)findViewById(R.id.subtitle)).setText(getIntent().getStringExtra("subtitle"));
+        if (getIntent().hasExtra("subtitle")) {
+            ((TextView) findViewById(R.id.subtitle)).setText(
+                    getIntent().getStringExtra("subtitle"));
         }
     }
 }

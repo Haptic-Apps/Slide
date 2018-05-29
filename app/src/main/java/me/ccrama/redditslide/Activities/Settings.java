@@ -66,31 +66,37 @@ public class Settings extends BaseActivity
     private       int                                                scrollY;
     private       SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
     private       String                                             prev_text;
-    public static boolean                                            changed;  //whether or not a Setting was changed
+    public static boolean                                            changed;
+    //whether or not a Setting was changed
 
-    private SettingsGeneralFragment      mSettingsGeneralFragment      = new SettingsGeneralFragment(this);
-    private ManageOfflineContentFragment mManageOfflineContentFragment = new ManageOfflineContentFragment(this);
-    private SettingsThemeFragment        mSettingsThemeFragment        = new SettingsThemeFragment(this);
-    private SettingsFontFragment         mSettingsFontFragment         = new SettingsFontFragment(this);
-    private SettingsCommentsFragment     mSettingsCommentsFragment     = new SettingsCommentsFragment(this);
-    private SettingsHandlingFragment     mSettingsHandlingFragment     = new SettingsHandlingFragment(this);
-    private SettingsHistoryFragment      mSettingsHistoryFragment      = new SettingsHistoryFragment(this);
-    private SettingsDataFragment         mSettingsDataFragment         = new SettingsDataFragment(this);
-    private SettingsRedditFragment       mSettingsRedditFragment       = new SettingsRedditFragment(this);
+    private SettingsGeneralFragment      mSettingsGeneralFragment      =
+            new SettingsGeneralFragment(this);
+    private ManageOfflineContentFragment mManageOfflineContentFragment =
+            new ManageOfflineContentFragment(this);
+    private SettingsThemeFragment        mSettingsThemeFragment        =
+            new SettingsThemeFragment(this);
+    private SettingsFontFragment         mSettingsFontFragment         =
+            new SettingsFontFragment(this);
+    private SettingsCommentsFragment     mSettingsCommentsFragment     =
+            new SettingsCommentsFragment(this);
+    private SettingsHandlingFragment     mSettingsHandlingFragment     =
+            new SettingsHandlingFragment(this);
+    private SettingsHistoryFragment      mSettingsHistoryFragment      =
+            new SettingsHistoryFragment(this);
+    private SettingsDataFragment         mSettingsDataFragment         =
+            new SettingsDataFragment(this);
+    private SettingsRedditFragment       mSettingsRedditFragment       =
+            new SettingsRedditFragment(this);
 
     private List<Integer> settings_activities = new ArrayList<>(
-            Arrays.asList(
-                    R.layout.activity_settings_general_child,
-                    R.layout.activity_manage_history_child,
-                    R.layout.activity_settings_theme_child,
+            Arrays.asList(R.layout.activity_settings_general_child,
+                    R.layout.activity_manage_history_child, R.layout.activity_settings_theme_child,
                     R.layout.activity_settings_font_child,
                     R.layout.activity_settings_comments_child,
                     R.layout.activity_settings_handling_child,
                     R.layout.activity_settings_history_child,
                     R.layout.activity_settings_datasaving_child,
-                    R.layout.activity_settings_reddit_child
-            )
-    );
+                    R.layout.activity_settings_reddit_child));
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -122,7 +128,7 @@ public class Settings extends BaseActivity
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                if(findViewById(R.id.settings_search).getVisibility() == View.VISIBLE){
+                if (findViewById(R.id.settings_search).getVisibility() == View.VISIBLE) {
                     findViewById(R.id.settings_search).setVisibility(View.GONE);
                     findViewById(R.id.search).setVisibility(View.VISIBLE);
                 } else {
@@ -146,7 +152,8 @@ public class Settings extends BaseActivity
         setContentView(R.layout.activity_settings);
         setupAppBar(R.id.toolbar, R.string.title_settings, true, true);
 
-        if (getIntent() != null && !Strings.isNullOrEmpty(getIntent().getStringExtra("prev_text"))) {
+        if (getIntent() != null && !Strings.isNullOrEmpty(
+                getIntent().getStringExtra("prev_text"))) {
             prev_text = getIntent().getStringExtra("prev_text");
         } else if (savedInstanceState != null) {
             prev_text = savedInstanceState.getString("prev_text");
@@ -175,10 +182,10 @@ public class Settings extends BaseActivity
         Bind();
 
         /* The EditView contains text that we can use to search for matching settings */
-        if (!Strings.isNullOrEmpty(text)){
+        if (!Strings.isNullOrEmpty(text)) {
             LayoutInflater inflater = getLayoutInflater();
 
-            for (Integer activity: settings_activities) {
+            for (Integer activity : settings_activities) {
                 parent.addView(inflater.inflate(activity, null));
             }
 
@@ -238,7 +245,8 @@ public class Settings extends BaseActivity
         });
     }
 
-    private boolean loopViews(ViewGroup parent, String text, boolean isRootViewGroup, String indent) {
+    private boolean loopViews(ViewGroup parent, String text, boolean isRootViewGroup,
+            String indent) {
 
         boolean foundText = false;
         boolean prev_child_is_View = false;
@@ -252,8 +260,9 @@ public class Settings extends BaseActivity
             if (child instanceof TextView) {
 
                 // Found text at the top-level that is probably a label, or an explicitly tagged label
-                if (isRootViewGroup ||
-                        (child.getTag() != null && child.getTag().toString().equals("label"))) {
+                if (isRootViewGroup || (child.getTag() != null && child.getTag()
+                        .toString()
+                        .equals("label"))) {
                     parent.removeView(child);
                     childRemoved = true;
                     i--;
@@ -268,7 +277,8 @@ public class Settings extends BaseActivity
             }
 
             /* This child is a View and the previous child was a View, remove duplicates */
-            else if (child != null && prev_child_is_View && child.getClass().equals(android.view.View.class)) {
+            else if (child != null && prev_child_is_View && child.getClass()
+                    .equals(android.view.View.class)) {
                 parent.removeView(child);
                 childRemoved = true;
                 i--;
@@ -337,7 +347,8 @@ public class Settings extends BaseActivity
         ((EditText) findViewById(R.id.settings_search)).addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -349,7 +360,8 @@ public class Settings extends BaseActivity
             }
 
             @Override
-            public void afterTextChanged(Editable editable) { }
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         findViewById(R.id.settings_child_general).setOnClickListener(new OnSingleClickListener() {
@@ -591,14 +603,15 @@ public class Settings extends BaseActivity
             }
         });
 
-        if(FDroid.isFDroid){
+        if (FDroid.isFDroid) {
             ((TextView) findViewById(R.id.settings_child_donatetext)).setText("Donate via PayPal");
         }
         findViewById(R.id.settings_child_support).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if(FDroid.isFDroid){
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=56FKCCYLX7L72"));
+                if (FDroid.isFDroid) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(
+                            "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=56FKCCYLX7L72"));
                     startActivity(browserIntent);
                 } else {
                     Intent inte = new Intent(Settings.this, DonateView.class);
@@ -616,13 +629,14 @@ public class Settings extends BaseActivity
         });
 
         if (Authentication.isLoggedIn && NetworkUtil.isConnected(this)) {
-            findViewById(R.id.settings_child_reddit_settings).setOnClickListener(new OnSingleClickListener() {
-                @Override
-                public void onSingleClick(View v) {
-                    Intent i = new Intent(Settings.this, SettingsReddit.class);
-                    startActivity(i);
-                }
-            });
+            findViewById(R.id.settings_child_reddit_settings).setOnClickListener(
+                    new OnSingleClickListener() {
+                        @Override
+                        public void onSingleClick(View v) {
+                            Intent i = new Intent(Settings.this, SettingsReddit.class);
+                            startActivity(i);
+                        }
+                    });
         } else {
             findViewById(R.id.settings_child_reddit_settings).setEnabled(false);
             findViewById(R.id.settings_child_reddit_settings).setAlpha(0.25f);

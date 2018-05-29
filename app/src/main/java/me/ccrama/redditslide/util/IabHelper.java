@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import me.ccrama.redditslide.BuildConfig;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -38,6 +37,8 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import me.ccrama.redditslide.BuildConfig;
 
 
 /**

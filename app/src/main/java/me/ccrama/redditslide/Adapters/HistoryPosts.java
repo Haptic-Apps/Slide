@@ -18,7 +18,6 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -142,7 +141,7 @@ public class HistoryPosts extends GeneralPosts {
                             }
                         } else {
                             String key = entry.getKey();
-                            if(!key.contains("_")){
+                            if (!key.contains("_")) {
                                 key = "t3_" + key;
                             }
                             idsSorted.put((Long) done, key.replace(prefix, ""));
@@ -156,7 +155,7 @@ public class HistoryPosts extends GeneralPosts {
                     }
 
                     paginator = new FullnamesPaginator(Authentication.reddit,
-                            ids.toArray(new String[ids.size()-1]));
+                            ids.toArray(new String[ids.size() - 1]));
 
 
                 }

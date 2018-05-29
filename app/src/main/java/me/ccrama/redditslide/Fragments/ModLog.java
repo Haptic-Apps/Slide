@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Adapters.ModLogAdapter;
 import me.ccrama.redditslide.Adapters.ModLogPosts;
-import me.ccrama.redditslide.Adapters.ModeratorAdapter;
-import me.ccrama.redditslide.Adapters.ModeratorPosts;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -26,18 +24,20 @@ public class ModLog extends Fragment {
     private ModLogPosts   posts;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        RecyclerView rv = v.findViewById(R.id.vertical_content);
         final PreCachingLayoutManager mLayoutManager;
         mLayoutManager = new PreCachingLayoutManager(getActivity());
         rv.setLayoutManager(mLayoutManager);
 
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
-        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        final SwipeRefreshLayout mSwipeRefreshLayout =
+                v.findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("mod", getActivity()));
 
@@ -57,17 +57,16 @@ public class ModLog extends Fragment {
         adapter = new ModLogAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
-        rv.setOnScrollListener(new ToolbarScrollHideHandler(((ModQueue) getActivity()).mToolbar, (getActivity()).findViewById(R.id.header)));
+        rv.setOnScrollListener(new ToolbarScrollHideHandler(((ModQueue) getActivity()).mToolbar,
+                (getActivity()).findViewById(R.id.header)));
 
         posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        posts.loadMore(adapter);
-                    }
-                }
-        );
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                posts.loadMore(adapter);
+            }
+        });
         return v;
     }
 

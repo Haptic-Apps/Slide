@@ -9,7 +9,8 @@ import android.app.backup.SharedPreferencesBackupHelper;
 
 public class DataBackup extends BackupAgentHelper {
     static final String[] PREFS_TO_BACKUP = new String[]{
-            "AUTH", "SUBS", "SETTINGS", "COLOR", "SEEN", "HIDDEN", "HIDDEN_POSTS", "prefs", "IMAGES", "DATA"
+            "AUTH", "SUBS", "SETTINGS", "COLOR", "SEEN", "HIDDEN", "HIDDEN_POSTS", "prefs",
+            "IMAGES", "DATA"
     };
 
     static final String MY_PREFS_BACKUP_KEY = "myprefs";

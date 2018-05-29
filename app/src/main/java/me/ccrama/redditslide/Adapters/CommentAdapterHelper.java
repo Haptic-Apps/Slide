@@ -130,7 +130,7 @@ public class CommentAdapterHelper {
                 b.sheet(3, saved, save);
                 b.sheet(16, report, mContext.getString(R.string.btn_report));
             }
-            if(Authentication.name.equalsIgnoreCase(baseNode.getComment().getAuthor())){
+            if (Authentication.name.equalsIgnoreCase(baseNode.getComment().getAuthor())) {
                 b.sheet(50, replies, mContext.getString(R.string.disable_replies_comment));
             }
         }
@@ -166,7 +166,10 @@ public class CommentAdapterHelper {
                     }
                     break;
                     case 50: {
-                        setReplies(baseNode.getComment(), holder, !baseNode.getComment().getDataNode().get("send_replies").asBoolean());
+                        setReplies(baseNode.getComment(), holder, !baseNode.getComment()
+                                .getDataNode()
+                                .get("send_replies")
+                                .asBoolean());
                     }
                     break;
                     case 5: {
@@ -277,12 +280,14 @@ public class CommentAdapterHelper {
         b.show();
     }
 
-    private static void setReplies(final Comment comment, final CommentViewHolder holder, final boolean showReplies) {
+    private static void setReplies(final Comment comment, final CommentViewHolder holder,
+            final boolean showReplies) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    new AccountManager(Authentication.reddit).sendRepliesToInbox(comment, showReplies);
+                    new AccountManager(Authentication.reddit).sendRepliesToInbox(comment,
+                            showReplies);
 
                 } catch (ApiException e) {
                     e.printStackTrace();
@@ -304,8 +309,7 @@ public class CommentAdapterHelper {
                                     Snackbar.LENGTH_SHORT);
                         }
                         View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -383,8 +387,7 @@ public class CommentAdapterHelper {
                                     Snackbar.LENGTH_SHORT);
                         }
                         View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -1291,7 +1294,9 @@ public class CommentAdapterHelper {
         if (comment.getAuthorFlair() != null && (comment.getAuthorFlair().getText() != null
                 || comment.getAuthorFlair().getCssClass() != null)) {
             String flairText = null;
-            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+            if (comment.getAuthorFlair() != null
+                    && comment.getAuthorFlair().getText() != null
+                    && !comment.getAuthorFlair().getText().isEmpty()) {
                 flairText = comment.getAuthorFlair().getText();
             } else if (!comment.getAuthorFlair().getCssClass().isEmpty()) {
                 flairText = comment.getAuthorFlair().getCssClass();

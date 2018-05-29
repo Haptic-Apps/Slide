@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.SwipeLayout;
 
 import android.app.Activity;
@@ -9,7 +8,6 @@ import java.lang.reflect.Method;
 
 /**
  * Created by Chaojun Wang on 6/9/14.
- *
  */
 public class Utils {
     private Utils() {
@@ -71,8 +69,8 @@ public class Utils {
             Method method = Activity.class.getDeclaredMethod("convertToTranslucent",
                     translucentConversionListenerClazz);
             method.setAccessible(true);
-            method.invoke(activity, new Object[] {
-                null
+            method.invoke(activity, new Object[]{
+                    null
             });
         } catch (Throwable ignored) {
         }

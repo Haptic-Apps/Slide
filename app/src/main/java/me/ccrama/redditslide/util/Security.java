@@ -40,7 +40,7 @@ class Security {
     private static final String TAG = "IABUtil/Security";
 
     private static final String KEY_FACTORY_ALGORITHM = "RSA";
-    private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
+    private static final String SIGNATURE_ALGORITHM   = "SHA1withRSA";
 
     /**
      * Verifies that the data was signed with the given signature, and returns
@@ -52,9 +52,11 @@ class Security {
      * @param signedData      the signed JSON string (signed, not encrypted)
      * @param signature       the signature for the data, signed with the private key
      */
-    public static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
-        if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
-                TextUtils.isEmpty(signature)) {
+    public static boolean verifyPurchase(String base64PublicKey, String signedData,
+            String signature) {
+        if (TextUtils.isEmpty(signedData)
+                || TextUtils.isEmpty(base64PublicKey)
+                || TextUtils.isEmpty(signature)) {
             Log.e(TAG, "Purchase verification failed: missing data.");
             return false;
         }

@@ -1,8 +1,4 @@
-
 package me.ccrama.redditslide.Tumblr;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "tree_html",
-    "comment"
+        "tree_html", "comment"
 })
 public class Reblog {
 
@@ -27,9 +25,7 @@ public class Reblog {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The treeHtml
+     * @return The treeHtml
      */
     @JsonProperty("tree_html")
     public String getTreeHtml() {
@@ -37,9 +33,7 @@ public class Reblog {
     }
 
     /**
-     * 
-     * @param treeHtml
-     *     The tree_html
+     * @param treeHtml The tree_html
      */
     @JsonProperty("tree_html")
     public void setTreeHtml(String treeHtml) {
@@ -47,9 +41,7 @@ public class Reblog {
     }
 
     /**
-     * 
-     * @return
-     *     The comment
+     * @return The comment
      */
     @JsonProperty("comment")
     public String getComment() {
@@ -57,9 +49,7 @@ public class Reblog {
     }
 
     /**
-     * 
-     * @param comment
-     *     The comment
+     * @param comment The comment
      */
     @JsonProperty("comment")
     public void setComment(String comment) {

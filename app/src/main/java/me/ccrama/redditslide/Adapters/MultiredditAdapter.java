@@ -36,19 +36,21 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 
 
-public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
+public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements BaseAdapter {
 
-    private final RecyclerView listView;
-    public Activity context;
-    public MultiredditPosts dataSet;
-    public List<Submission> seen;
+    private final RecyclerView     listView;
+    public        Activity         context;
+    public        MultiredditPosts dataSet;
+    public        List<Submission> seen;
     private final int LOADING_SPINNER = 5;
-    private final int NO_MORE = 3;
-    private final int SPACER = 6;
+    private final int NO_MORE         = 3;
+    private final int SPACER          = 6;
     SwipeRefreshLayout refreshLayout;
-    MultiredditView baseView;
+    MultiredditView    baseView;
 
-    public MultiredditAdapter(Activity context, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout, MultiredditView baseView) {
+    public MultiredditAdapter(Activity context, MultiredditPosts dataSet, RecyclerView listView,
+            SwipeRefreshLayout refreshLayout, MultiredditView baseView) {
         this.listView = listView;
         this.dataSet = dataSet;
         this.context = context;
@@ -90,14 +92,17 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         tag++;
 
         if (i == SPACER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.spacer, viewGroup, false);
             return new SpacerViewHolder(v);
 
         } else if (i == LOADING_SPINNER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.loadingmore, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
         } else if (i == NO_MORE) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nomoreposts, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.nomoreposts, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
         } else {
             View v = CreateCardView.CreateView(viewGroup);
@@ -118,6 +123,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }, 500);
     }
+
     public void refreshView(ArrayList<Integer> seen) {
         listView.setItemAnimator(null);
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
@@ -132,6 +138,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }, 500);
     }
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int pos) {
         int i = (pos != 0) ? (pos - 1) : pos;
@@ -140,7 +147,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
             final Submission submission = dataSet.posts.get(i);
 
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH), holder.itemView, "multi" + dataSet.multiReddit.getDisplayName(), true);
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH),
+                    holder.itemView, "multi" + dataSet.multiReddit.getDisplayName(), true);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
@@ -152,14 +160,17 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                         Intent i2 = new Intent(context, CommentsScreen.class);
                         i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                        i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.multiReddit.getDisplayName());
+                        i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT,
+                                dataSet.multiReddit.getDisplayName());
                         context.startActivityForResult(i2, 940);
                         i2.putExtra("fullname", submission.getFullName());
                         clicked = holder2.getAdapterPosition();
 
 
                     } else {
-                        Snackbar s = Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT);
+                        Snackbar s =
+                                Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded,
+                                        Snackbar.LENGTH_SHORT);
                         View view = s.getView();
                         TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
@@ -171,34 +182,43 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             });
             final boolean saved = submission.isSaved();
 
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, true, false, "multi" + dataSet.multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH), null);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission,
+                    context, false, false, dataSet.posts, listView, true, false,
+                    "multi" + dataSet.multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH),
+                    null);
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {
             Handler handler = new Handler();
 
             final Runnable r = new Runnable() {
                 public void run() {
-                    notifyItemChanged(dataSet.posts.size() + 1); // the loading spinner to replaced by nomoreposts.xml
+                    notifyItemChanged(dataSet.posts.size()
+                            + 1); // the loading spinner to replaced by nomoreposts.xml
                 }
             };
 
             handler.post(r);
             if (holder2.itemView.findViewById(R.id.reload) != null) {
-                holder2.itemView.findViewById(R.id.reload).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dataSet.loadMore(context, baseView, true, MultiredditAdapter.this);
-                    }
-                });
+                holder2.itemView.findViewById(R.id.reload)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dataSet.loadMore(context, baseView, true, MultiredditAdapter.this);
+                            }
+                        });
 
             }
         }
         if (holder2 instanceof SpacerViewHolder) {
             final int height = (context).findViewById(R.id.header).getHeight();
 
-            holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
+            holder2.itemView.findViewById(R.id.height)
+                    .setLayoutParams(
+                            new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
             if (listView.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-                CatchStaggeredGridLayoutManager.LayoutParams layoutParams = new CatchStaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+                CatchStaggeredGridLayoutManager.LayoutParams layoutParams =
+                        new CatchStaggeredGridLayoutManager.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT, height);
                 layoutParams.setFullSpan(true);
                 holder2.itemView.setLayoutParams(layoutParams);
             }
@@ -238,7 +258,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             try {
                 if (ActionStates.isSaved(submissions[0])) {
                     new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved,
+                            Snackbar.LENGTH_SHORT);
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -255,7 +276,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     v = null;
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                    final Snackbar s =
+                            Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

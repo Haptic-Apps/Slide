@@ -31,9 +31,9 @@ public class SelftextFull extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.submission_textcard, container, false);
+            Bundle savedInstanceState) {
+        ViewGroup rootView =
+                (ViewGroup) inflater.inflate(R.layout.submission_textcard, container, false);
 
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
@@ -83,11 +83,12 @@ public class SelftextFull extends Fragment {
 
         int startIndex = 0;
         if (!blocks.get(0).startsWith("<table>") && !blocks.get(0).startsWith("<pre>")) {
-            ((SpoilerRobotoTextView) base.findViewById(R.id.firstTextView)).setTextHtml(blocks.get(0), subredditName);
+            ((SpoilerRobotoTextView) base.findViewById(R.id.firstTextView)).setTextHtml(
+                    blocks.get(0), subredditName);
             startIndex = 1;
         }
 
-        CommentOverflow overflow = (CommentOverflow) base.findViewById(R.id.commentOverflow);
+        CommentOverflow overflow = base.findViewById(R.id.commentOverflow);
         if (blocks.size() > 1) {
             if (startIndex == 0) {
                 overflow.setViews(blocks, subredditName);

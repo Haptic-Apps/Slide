@@ -25,27 +25,26 @@ public class Image extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.submission_imagecard, container, false);
+            Bundle savedInstanceState) {
+        ViewGroup rootView =
+                (ViewGroup) inflater.inflate(R.layout.submission_imagecard, container, false);
 
-        final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
+        final SubsamplingScaleImageView image = rootView.findViewById(R.id.image);
+        TextView title = rootView.findViewById(R.id.title);
+        TextView desc = rootView.findViewById(R.id.desc);
 
         title.setVisibility(View.GONE);
         desc.setVisibility(View.GONE);
 
 
         ((Reddit) getContext().getApplicationContext()).getImageLoader()
-                .loadImage(url,
-                        new SimpleImageLoadingListener() {
+                .loadImage(url, new SimpleImageLoadingListener() {
 
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                image.setImage(ImageSource.bitmap(loadedImage));
-                            }
-                        });
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        image.setImage(ImageSource.bitmap(loadedImage));
+                    }
+                });
 
 
         return rootView;

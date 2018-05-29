@@ -102,13 +102,16 @@ public class OpenRedditLink {
                     i.putExtra(Search.EXTRA_AUTHOR, urlParams.getQueryParameter("author"));
                 }
                 if (urlParams.getQueryParameterNames().contains("nsfw")) {
-                    i.putExtra(Search.EXTRA_NSFW, urlParams.getQueryParameter("nsfw").equals("yes"));
+                    i.putExtra(Search.EXTRA_NSFW,
+                            urlParams.getQueryParameter("nsfw").equals("yes"));
                 }
                 if (urlParams.getQueryParameterNames().contains("self")) {
-                    i.putExtra(Search.EXTRA_SELF, urlParams.getQueryParameter("self").equals("yes"));
+                    i.putExtra(Search.EXTRA_SELF,
+                            urlParams.getQueryParameter("self").equals("yes"));
                 }
                 if (urlParams.getQueryParameterNames().contains("selftext")) {
-                    i.putExtra(Search.EXTRA_SELF, urlParams.getQueryParameter("selftext").equals("yes"));
+                    i.putExtra(Search.EXTRA_SELF,
+                            urlParams.getQueryParameter("selftext").equals("yes"));
                 }
                 if (urlParams.getQueryParameterNames().contains("url")) {
                     i.putExtra(Search.EXTRA_URL, urlParams.getQueryParameter("url"));
@@ -177,10 +180,12 @@ public class OpenRedditLink {
                         i.putExtra(SendMessage.EXTRA_NAME, urlParams.getQueryParameter("to"));
                     }
                     if (urlParams.getQueryParameterNames().contains("subject")) {
-                        i.putExtra(SendMessage.EXTRA_SUBJECT, urlParams.getQueryParameter("subject"));
+                        i.putExtra(SendMessage.EXTRA_SUBJECT,
+                                urlParams.getQueryParameter("subject"));
                     }
                     if (urlParams.getQueryParameterNames().contains("message")) {
-                        i.putExtra(SendMessage.EXTRA_MESSAGE, urlParams.getQueryParameter("message"));
+                        i.putExtra(SendMessage.EXTRA_MESSAGE,
+                                urlParams.getQueryParameter("message"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -214,8 +219,8 @@ public class OpenRedditLink {
         }
         if (i != null) {
             if (context instanceof OpenContent) {
-               // i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-               // i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                // i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                // i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
             context.startActivity(i);
@@ -239,12 +244,12 @@ public class OpenRedditLink {
      */
     public static String formatRedditUrl(String url) {
 
-        if(url == null){
+        if (url == null) {
             return "";
         }
 
 
-        if(url.contains("amp.reddit.com")){
+        if (url.contains("amp.reddit.com")) {
             url = url.substring(url.indexOf("amp.reddit.com") + 14, url.length());
         }
 
@@ -331,19 +336,8 @@ public class OpenRedditLink {
     }
 
     public enum RedditLinkType {
-        SHORTENED,
-        WIKI,
-        COMMENT_PERMALINK,
-        SUBMISSION,
-        SUBMISSION_WITHOUT_SUB,
-        SUBREDDIT,
-        USER,
-        SEARCH,
-        MESSAGE,
-        MULTIREDDIT,
-        LIVE,
-        HOME,
-        OTHER
+        SHORTENED, WIKI, COMMENT_PERMALINK, SUBMISSION, SUBMISSION_WITHOUT_SUB, SUBREDDIT, USER,
+        SEARCH, MESSAGE, MULTIREDDIT, LIVE, HOME, OTHER
     }
 
 

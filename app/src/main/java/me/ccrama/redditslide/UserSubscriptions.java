@@ -75,7 +75,8 @@ public class UserSubscriptions {
         Map<String, String> multiNameToSubsMap = new HashMap<>();
 
         for (Map.Entry<String, String> entries : multiNameToSubsMapBase.entrySet()) {
-            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH), entries.getValue());
+            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH),
+                    entries.getValue());
         }
 
         return multiNameToSubsMap;
@@ -94,7 +95,8 @@ public class UserSubscriptions {
         Map<String, String> multiNameToSubsMap = new HashMap<>();
 
         for (Map.Entry<String, String> entries : multiNameToSubsMapBase.entrySet()) {
-            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH), entries.getValue());
+            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH),
+                    entries.getValue());
         }
 
         return multiNameToSubsMap;
@@ -452,7 +454,8 @@ public class UserSubscriptions {
             protected List<MultiReddit> doInBackground(Void... params) {
                 try {
                     public_multireddits.put(profile, new ArrayList(
-                            new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
+                            new MultiRedditManager(Authentication.reddit).getPublicMultis(
+                                    profile)));
                 } catch (Exception e) {
                     public_multireddits.put(profile, null);
                     e.printStackTrace();
@@ -587,7 +590,8 @@ public class UserSubscriptions {
     }
 
     public static CaseInsensitiveArrayList getHistory() {
-        String[] hist = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH).split(",");
+        String[] hist =
+                subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH).split(",");
         CaseInsensitiveArrayList history = new CaseInsensitiveArrayList();
         Collections.addAll(history, hist);
         return history;
@@ -779,7 +783,8 @@ public class UserSubscriptions {
 
     public static class SubscribeTask extends AsyncTask<String, Void, Void> {
         Context context;
-        public SubscribeTask(Context context){
+
+        public SubscribeTask(Context context) {
             this.context = context;
         }
 
@@ -789,8 +794,10 @@ public class UserSubscriptions {
             for (String subreddit : subreddits) {
                 try {
                     m.subscribe(Authentication.reddit.getSubreddit(subreddit));
-                } catch(Exception e){
-                    Toast.makeText(context, "Couldn't subscribe, subreddit is private, quarantined, or invite only", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(context,
+                            "Couldn't subscribe, subreddit is private, quarantined, or invite only",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
             return null;
@@ -805,7 +812,7 @@ public class UserSubscriptions {
                 for (String subreddit : subreddits) {
                     m.unsubscribe(Authentication.reddit.getSubreddit(subreddit));
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
 
             }
             return null;

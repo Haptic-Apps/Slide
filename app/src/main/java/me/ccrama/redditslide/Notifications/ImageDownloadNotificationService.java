@@ -125,16 +125,22 @@ public class ImageDownloadNotificationService extends Service {
                                         if (f != null && f.exists()) {
                                             File f_out = null;
                                             try {
-                                                if(SettingValues.imageSubfolders && !subreddit.isEmpty()){
-                                                    File directory = new File( Reddit.appRestart.getString("imagelocation",
-                                                            "")
-                                                            + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : ""));
+                                                if (SettingValues.imageSubfolders
+                                                        && !subreddit.isEmpty()) {
+                                                    File directory = new File(
+                                                            Reddit.appRestart.getString(
+                                                                    "imagelocation", "") + (
+                                                                    SettingValues.imageSubfolders
+                                                                            && !subreddit.isEmpty()
+                                                                            ? File.separator
+                                                                            + subreddit : ""));
                                                     directory.mkdirs();
                                                 }
                                                 f_out = new File(
                                                         Reddit.appRestart.getString("imagelocation",
-                                                                "")
-                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                "") + (SettingValues.imageSubfolders
+                                                                && !subreddit.isEmpty()
+                                                                ? File.separator + subreddit : "")
                                                                 + File.separator
                                                                 + (index > -1 ? String.format(
                                                                 "%03d_", index) : "")
@@ -142,8 +148,9 @@ public class ImageDownloadNotificationService extends Service {
                                             } catch (MalformedURLException e) {
                                                 f_out = new File(
                                                         Reddit.appRestart.getString("imagelocation",
-                                                                "")
-                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                "") + (SettingValues.imageSubfolders
+                                                                && !subreddit.isEmpty()
+                                                                ? File.separator + subreddit : "")
                                                                 + File.separator
                                                                 + (index > -1 ? String.format(
                                                                 "%03d_", index) : "")
@@ -191,13 +198,14 @@ public class ImageDownloadNotificationService extends Service {
             return null;
         }
 
-        public void onError(Exception e){
+        public void onError(Exception e) {
             e.printStackTrace();
             mNotifyManager.cancel(id);
             stopSelf();
             try {
                 Toast.makeText(getBaseContext(), "Error saving image", Toast.LENGTH_LONG).show();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         private String getFileName(URL url) {

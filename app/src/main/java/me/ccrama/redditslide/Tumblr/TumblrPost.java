@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.Tumblr;
 
 
@@ -9,20 +8,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "meta",
-    "response"
+        "meta", "response"
 })
 public class TumblrPost {
 
     @JsonProperty("meta")
-    private Meta meta;
+    private Meta     meta;
     @JsonProperty("response")
     private Response response;
 
     /**
-     * 
-     * @return
-     *     The meta
+     * @return The meta
      */
     @JsonProperty("meta")
     public Meta getMeta() {
@@ -30,9 +26,7 @@ public class TumblrPost {
     }
 
     /**
-     * 
-     * @param meta
-     *     The meta
+     * @param meta The meta
      */
     @JsonProperty("meta")
     public void setMeta(Meta meta) {
@@ -40,9 +34,7 @@ public class TumblrPost {
     }
 
     /**
-     * 
-     * @return
-     *     The response
+     * @return The response
      */
     @JsonProperty("response")
     public Response getResponse() {
@@ -50,9 +42,7 @@ public class TumblrPost {
     }
 
     /**
-     * 
-     * @param response
-     *     The response
+     * @param response The response
      */
     @JsonProperty("response")
     public void setResponse(Response response) {

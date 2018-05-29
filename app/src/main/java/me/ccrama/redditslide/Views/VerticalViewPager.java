@@ -30,6 +30,7 @@ public class VerticalViewPager extends ViewPager {
 
     private class VerticalPageTransformer implements ViewPager.PageTransformer {
         private static final float MIN_SCALE = 0.75f;
+
         @Override
         public void transformPage(View view, float position) {
 
@@ -37,7 +38,7 @@ public class VerticalViewPager extends ViewPager {
                 // This page is way off-screen to the left.
                 view.setAlpha(0);
 
-            }  else if (position <= 0) { // [-1,0]
+            } else if (position <= 0) { // [-1,0]
                 // Use the default slide transition when moving to the left page
                 view.setAlpha(1);
                 // Counteract the default slide transition
@@ -57,8 +58,7 @@ public class VerticalViewPager extends ViewPager {
 
 
                 // Scale the page down (between MIN_SCALE and 1)
-                float scaleFactor = MIN_SCALE
-                        + (1 - MIN_SCALE) * (1 - Math.abs(position));
+                float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
                 view.setScaleX(scaleFactor);
                 view.setScaleY(scaleFactor);
 
@@ -87,7 +87,7 @@ public class VerticalViewPager extends ViewPager {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev){
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
         boolean intercepted = super.onInterceptTouchEvent(swapXY(ev));
         swapXY(ev); // return touch coordinates to original reference frame for any child views
         return intercepted;

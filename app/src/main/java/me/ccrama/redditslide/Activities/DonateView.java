@@ -128,20 +128,34 @@ public class DonateView extends BaseActivityAnim {
                 Reddit.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
                     @Override
                     public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-                        if(inv != null) {
-                                    SkuDetails donation = inv.getSkuDetails("donation_" + slider.getValue());
+                        if (inv != null) {
+                            SkuDetails donation =
+                                    inv.getSkuDetails("donation_" + slider.getValue());
                             LogUtil.v("Trying to get donation_" + slider.getValue());
                             if (donation != null) {
                                 LogUtil.v("Not null");
-                                Reddit.mHelper.launchPurchaseFlow(DonateView.this, donation.getSku(),
-                                        4000, new IabHelper.OnIabPurchaseFinishedListener() {
+                                Reddit.mHelper.launchPurchaseFlow(DonateView.this,
+                                        donation.getSku(), 4000,
+                                        new IabHelper.OnIabPurchaseFinishedListener() {
                                             @Override
                                             public void onIabPurchaseFinished(IabResult result,
                                                     Purchase info) {
-                                                if(result.isSuccess()){
-                                                    new AlertDialogWrapper.Builder(DonateView.this).setTitle("Thank you!").setMessage("Thank you very much for your support :)").setPositiveButton(R.string.btn_done, null).show();
+                                                if (result.isSuccess()) {
+                                                    new AlertDialogWrapper.Builder(
+                                                            DonateView.this).setTitle("Thank you!")
+                                                            .setMessage(
+                                                                    "Thank you very much for your support :)")
+                                                            .setPositiveButton(R.string.btn_done,
+                                                                    null)
+                                                            .show();
                                                 } else {
-                                                    new AlertDialogWrapper.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
+                                                    new AlertDialogWrapper.Builder(
+                                                            DonateView.this).setTitle(
+                                                            "Uh oh, something went wrong.")
+                                                            .setMessage(
+                                                                    "Please try again soon! Sorry for the inconvenience.")
+                                                            .setPositiveButton("Ok", null)
+                                                            .show();
                                                 }
                                             }
                                         });
@@ -149,7 +163,12 @@ public class DonateView extends BaseActivityAnim {
                                 LogUtil.v("Null");
                             }
                         } else {
-                            new AlertDialogWrapper.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
+                            new AlertDialogWrapper.Builder(DonateView.this).setTitle(
+                                    "Uh oh, something went wrong.")
+                                    .setMessage(
+                                            "Please try again soon! Sorry for the inconvenience.")
+                                    .setPositiveButton("Ok", null)
+                                    .show();
                         }
                     }
                 });

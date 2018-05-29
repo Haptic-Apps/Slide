@@ -20,7 +20,8 @@ public class MaxHeightImageView extends ImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    public MaxHeightImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MaxHeightImageView(Context context, AttributeSet attrs, int defStyleAttr,
+            int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -33,13 +34,15 @@ public class MaxHeightImageView extends ImageView {
 
         switch (hMode) {
             case MeasureSpec.AT_MOST:
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(hSize, maxHeight), MeasureSpec.AT_MOST);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(hSize, maxHeight),
+                        MeasureSpec.AT_MOST);
                 break;
             case MeasureSpec.UNSPECIFIED:
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST);
                 break;
             case MeasureSpec.EXACTLY:
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(hSize, maxHeight), MeasureSpec.EXACTLY);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(hSize, maxHeight),
+                        MeasureSpec.EXACTLY);
                 break;
         }
 

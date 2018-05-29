@@ -16,45 +16,46 @@ class GifDecoder {
 
     private static final int STATUS_OPEN_ERROR = 2;
 
-    private static final int MAX_STACK_SIZE = 4096;
-    private final byte[] block = new byte[256]; // current data block
+    private static final int    MAX_STACK_SIZE = 4096;
+    private final        byte[] block          = new byte[256]; // current data block
     private InputStream in;
-    private int status;
-    private int width; // full image width
-    private int height; // full image height
-    private boolean gctFlag; // global color table used
-    private int gctSize; // size of global color table
+    private int         status;
+    private int         width; // full image width
+    private int         height; // full image height
+    private boolean     gctFlag; // global color table used
+    private int         gctSize; // size of global color table
     private int loopCount = 1; // iterations; 0 = repeat forever
-    private int[] gct; // global color table
-    private int[] lct; // local color table
-    private int[] act; // active color table
-    private int bgIndex; // background color index
-    private int bgColor; // background color
-    private int lastBgColor; // previous bg color
+    private int[]   gct; // global color table
+    private int[]   lct; // local color table
+    private int[]   act; // active color table
+    private int     bgIndex; // background color index
+    private int     bgColor; // background color
+    private int     lastBgColor; // previous bg color
     private boolean interlace; // interlace flag
-    private int ix;
-    private int iy;
-    private int iw;
-    private int ih; // current image rectangle
-    private int lrx;
-    private int lry;
-    private int lrw;
-    private int lrh;
-    private Bitmap image; // current frame
-    private Bitmap lastBitmap; // previous frame
-    private int blockSize = 0; // block size last graphic control extension info
-    private int dispose = 0; // 0=no action; 1=leave in place; 2=restore to bg; 3=restore to prev
-    private int lastDispose = 0;
+    private int     ix;
+    private int     iy;
+    private int     iw;
+    private int     ih; // current image rectangle
+    private int     lrx;
+    private int     lry;
+    private int     lrw;
+    private int     lrh;
+    private Bitmap  image; // current frame
+    private Bitmap  lastBitmap; // previous frame
+    private int     blockSize    = 0; // block size last graphic control extension info
+    private int     dispose      = 0;
+    // 0=no action; 1=leave in place; 2=restore to bg; 3=restore to prev
+    private int     lastDispose  = 0;
     private boolean transparency = false; // use transparent color
-    private int delay = 0; // delay in milliseconds
-    private int transIndex; // transparent color index
+    private int     delay        = 0; // delay in milliseconds
+    private int              transIndex; // transparent color index
     // LZW decoder working arrays
-    private short[] prefix;
-    private byte[] suffix;
-    private byte[] pixelStack;
-    private byte[] pixels;
+    private short[]          prefix;
+    private byte[]           suffix;
+    private byte[]           pixelStack;
+    private byte[]           pixels;
     private Vector<GifFrame> frames; // frames read from current file
-    private int frameCount;
+    private int              frameCount;
 
     public int getDelay(int n) {
         delay = -1;
@@ -159,8 +160,7 @@ class GifDecoder {
     }
 
     private Bitmap getFrame(int n) {
-        if (frameCount <= 0)
-            return null;
+        if (frameCount <= 0) return null;
         n = n % frameCount;
         return frames.elementAt(n).image;
     }
@@ -180,8 +180,7 @@ class GifDecoder {
             status = STATUS_OPEN_ERROR;
         }
         try {
-            if (is != null)
-                is.close();
+            if (is != null) is.close();
         } catch (Exception ignored) {
         }
         return status;
@@ -190,7 +189,8 @@ class GifDecoder {
     private void decodeBitmapData() {
         int nullCode = -1;
         int npix = iw * ih;
-        int available, clear, code_mask, code_size, end_of_information, in_code, old_code, bits, code, count, i, datum, data_size, first, top, bi, pi;
+        int available, clear, code_mask, code_size, end_of_information, in_code, old_code, bits,
+                code, count, i, datum, data_size, first, top, bi, pi;
         if ((pixels == null) || (pixels.length < npix)) {
             pixels = new byte[npix]; // allocate new pixel array
         }
@@ -532,7 +532,8 @@ class GifDecoder {
 
     private static class GifFrame {
         public final Bitmap image;
-        public final int delay;
+        public final int    delay;
+
         public GifFrame(Bitmap im, int del) {
             image = im;
             delay = del;

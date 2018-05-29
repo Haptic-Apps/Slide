@@ -66,7 +66,7 @@ public class Tutorial extends AppCompatActivity {
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        if(getIntent().hasExtra("page")){
+        if (getIntent().hasExtra("page")) {
             mPager.setCurrentItem(1);
         }
 
@@ -99,13 +99,13 @@ public class Tutorial extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-                                 Bundle savedInstanceState) {
+                Bundle savedInstanceState) {
 
             View v = inflater.inflate(R.layout.fragment_welcome, container, false);
             v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Tutorial)getActivity()).mPager.setCurrentItem(1);
+                    ((Tutorial) getActivity()).mPager.setCurrentItem(1);
                 }
             });
 
@@ -113,6 +113,7 @@ public class Tutorial extends AppCompatActivity {
         }
 
     }
+
     int back;
 
     public static class Personalize extends Fragment {
@@ -123,14 +124,19 @@ public class Tutorial extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-                                 Bundle savedInstanceState) {
-            ((Tutorial)getActivity()).back = new ColorPreferences(getContext()).getFontStyle().getThemeType();
+                Bundle savedInstanceState) {
+            ((Tutorial) getActivity()).back =
+                    new ColorPreferences(getContext()).getFontStyle().getThemeType();
 
             View v = inflater.inflate(R.layout.fragment_basicinfo, container, false);
             final View header = v.findViewById(R.id.header);
 
-            ((ImageView)v.findViewById(R.id.tint_accent)).setColorFilter(getActivity().getResources().getColor(new ColorPreferences(getContext()).getFontStyle().getColor()));
-            ((ImageView) v.findViewById(R.id.tint_primary)).setColorFilter(Palette.getDefaultColor());
+            ((ImageView) v.findViewById(R.id.tint_accent)).setColorFilter(
+                    getActivity().getResources()
+                            .getColor(
+                                    new ColorPreferences(getContext()).getFontStyle().getColor()));
+            ((ImageView) v.findViewById(R.id.tint_primary)).setColorFilter(
+                    Palette.getDefaultColor());
             header.setBackgroundColor(Palette.getDefaultColor());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getActivity().getWindow();
@@ -142,7 +148,8 @@ public class Tutorial extends AppCompatActivity {
 
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
+                    AlertDialogWrapper.Builder builder =
+                            new AlertDialogWrapper.Builder(getContext());
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -183,28 +190,32 @@ public class Tutorial extends AppCompatActivity {
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 Window window = getActivity().getWindow();
-                                window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
+                                window.setStatusBarColor(
+                                        Palette.getDarkerColor(colorPicker2.getColor()));
                             }
 
                         }
                     });
 
 
-                    dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Reddit.colors.edit().putInt("DEFAULTCOLOR", colorPicker2.getColor()).apply();
-                            Intent i = new Intent( getActivity(), Tutorial.class);
-                            i.putExtra("page", 1);
-                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(i);
-                            getActivity().overridePendingTransition(0, 0);
+                    dialoglayout.findViewById(R.id.ok)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Reddit.colors.edit()
+                                            .putInt("DEFAULTCOLOR", colorPicker2.getColor())
+                                            .apply();
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                            getActivity().finish();
-                            getActivity().overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
 
-                        }
-                    });
+                                }
+                            });
 
                     builder.setView(dialoglayout);
                     builder.show();
@@ -215,7 +226,8 @@ public class Tutorial extends AppCompatActivity {
                 public void onClick(View v) {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                    AlertDialogWrapper.Builder builder =
+                            new AlertDialogWrapper.Builder(getActivity());
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -236,33 +248,37 @@ public class Tutorial extends AppCompatActivity {
                     colorPicker.setSelectedColor(new ColorPreferences(getActivity()).getColor(""));
 
 
-                    dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int color = colorPicker.getColor();
-                            ColorPreferences.Theme t = null;
-                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                if (ContextCompat.getColor(getActivity(), type.getColor()) == color && ((Tutorial)getActivity()).back == type.getThemeType()) {
-                                    t = type;
-                                    break;
+                    dialoglayout.findViewById(R.id.ok)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    int color = colorPicker.getColor();
+                                    ColorPreferences.Theme t = null;
+                                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                        if (ContextCompat.getColor(getActivity(), type.getColor())
+                                                == color
+                                                && ((Tutorial) getActivity()).back
+                                                == type.getThemeType()) {
+                                            t = type;
+                                            break;
+                                        }
+                                    }
+
+
+                                    new ColorPreferences(getActivity()).setFontStyle(t);
+
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    getActivity().overridePendingTransition(0, 0);
+
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
+
+
                                 }
-                            }
-
-
-                            new ColorPreferences(getActivity()).setFontStyle(t);
-
-                            Intent i = new Intent(getActivity(), Tutorial.class);
-                            i.putExtra("page", 1);
-                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(i);
-                            getActivity().overridePendingTransition(0, 0);
-
-                            getActivity().finish();
-                            getActivity().overridePendingTransition(0, 0);
-
-
-                        }
-                    });
+                            });
 
 
                     builder.setView(dialoglayout);
@@ -274,7 +290,8 @@ public class Tutorial extends AppCompatActivity {
                 public void onClick(View v) {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                    AlertDialogWrapper.Builder builder =
+                            new AlertDialogWrapper.Builder(getActivity());
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -344,7 +361,7 @@ public class Tutorial extends AppCompatActivity {
         public Fragment getItem(int position) {
             if (position == 0) {
                 return new Welcome();
-            } else  {
+            } else {
                 return new Personalize();
             }
 

@@ -104,7 +104,7 @@ public class AlbumPager extends FullScreenActivity
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if(getIntent().hasExtra(SUBREDDIT)){
+            if (getIntent().hasExtra(SUBREDDIT)) {
                 i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
             }
             i.putExtras(getIntent());
@@ -157,7 +157,7 @@ public class AlbumPager extends FullScreenActivity
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if(getIntent().hasExtra(SUBREDDIT)){
+        if (getIntent().hasExtra(SUBREDDIT)) {
             this.subreddit = getIntent().getStringExtra(SUBREDDIT);
         }
 
@@ -403,7 +403,8 @@ public class AlbumPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, true, (TextView) rootView.findViewById(R.id.size), ((AlbumPager)getActivity()).subreddit).execute(url);
+            }, false, true, true, (TextView) rootView.findViewById(R.id.size),
+                    ((AlbumPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -514,18 +515,21 @@ public class AlbumPager extends FullScreenActivity
             final ViewGroup rootView =
                     (ViewGroup) inflater.inflate(R.layout.album_image_pager, container, false);
 
-            if(((AlbumPager) getActivity()).images == null){
+            if (((AlbumPager) getActivity()).images == null) {
                 ((AlbumPager) getActivity()).pagerLoad.onError();
             } else {
                 final Image current = ((AlbumPager) getActivity()).images.get(i);
                 final String url = current.getImageUrl();
                 boolean lq = false;
-                if (SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity())
+                if (SettingValues.loadImageLq && (SettingValues.lowResAlways
+                        || (!NetworkUtil.isConnectedWifi(getActivity())
                         && SettingValues.lowResMobile))) {
-                    String lqurl = url.substring(0, url.lastIndexOf("."))
-                            + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))
-                            + url.substring(url.lastIndexOf("."), url.length());
-                    loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
+                    String lqurl =
+                            url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
+                                    : (SettingValues.lqMid ? "l" : "h")) + url.substring(
+                                    url.lastIndexOf("."), url.length());
+                    loadImage(rootView, this, lqurl,
+                            ((AlbumPager) getActivity()).images.size() == 1);
                     lq = true;
                 } else {
                     loadImage(rootView, this, url, ((AlbumPager) getActivity()).images.size() == 1);
@@ -539,14 +543,15 @@ public class AlbumPager extends FullScreenActivity
                         }
                     });
                     {
-                        rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                        rootView.findViewById(R.id.save)
+                                .setOnClickListener(new View.OnClickListener() {
 
-                            @Override
-                            public void onClick(View v2) {
-                                ((AlbumPager) getActivity()).doImageSave(false, url, i);
-                            }
+                                    @Override
+                                    public void onClick(View v2) {
+                                        ((AlbumPager) getActivity()).doImageSave(false, url, i);
+                                    }
 
-                        });
+                                });
                     }
 
 
@@ -567,13 +572,17 @@ public class AlbumPager extends FullScreenActivity
                         rootView.findViewById(R.id.panel).setVisibility(View.GONE);
                         (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                     } else if (title.isEmpty()) {
-                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                        setTextWithLinks(description,
+                                ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
                     } else {
-                        setTextWithLinks(title, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
-                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                        setTextWithLinks(title,
+                                ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                        setTextWithLinks(description,
+                                ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
                     }
                     {
-                        int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
+                        int type = new FontPreferences(getContext()).getFontTypeComment()
+                                .getTypeface();
                         Typeface typeface;
                         if (type >= 0) {
                             typeface = RobotoTypefaces.obtainTypeface(getContext(), type);
@@ -584,7 +593,8 @@ public class AlbumPager extends FullScreenActivity
                                 typeface);
                     }
                     {
-                        int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+                        int type =
+                                new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
                         Typeface typeface;
                         if (type >= 0) {
                             typeface = RobotoTypefaces.obtainTypeface(getContext(), type);
@@ -595,12 +605,13 @@ public class AlbumPager extends FullScreenActivity
                                 typeface);
                     }
                     final SlidingUpPanelLayout l = rootView.findViewById(R.id.sliding_layout);
-                    rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                        }
-                    });
+                    rootView.findViewById(R.id.title)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                                }
+                            });
                     rootView.findViewById(R.id.body).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -622,13 +633,14 @@ public class AlbumPager extends FullScreenActivity
                 }
 
                 if (getActivity().getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
-                    rootView.findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            getActivity().finish();
-                            SubmissionsView.datachanged(adapterPosition);
-                        }
-                    });
+                    rootView.findViewById(R.id.comments)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    getActivity().finish();
+                                    SubmissionsView.datachanged(adapterPosition);
+                                }
+                            });
                 } else {
                     rootView.findViewById(R.id.comments).setVisibility(View.GONE);
                 }
@@ -682,7 +694,8 @@ public class AlbumPager extends FullScreenActivity
                 .displayImage(url, new ImageViewAware(fakeImage),
                         new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                                 .cacheOnDisk(true)
-                                .imageScaleType(single?ImageScaleType.NONE:ImageScaleType.NONE_SAFE)
+                                .imageScaleType(
+                                        single ? ImageScaleType.NONE : ImageScaleType.NONE_SAFE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
                             private View mView;

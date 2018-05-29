@@ -1,8 +1,4 @@
-
 package me.ccrama.redditslide.Tumblr;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,45 +7,37 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "title",
-    "name",
-    "total_posts",
-    "posts",
-    "url",
-    "updated",
-    "description",
-    "is_nsfw",
-    "ask",
-    "ask_page_title",
-    "ask_anon",
-    "share_likes",
-    "likes"
+        "title", "name", "total_posts", "posts", "url", "updated", "description", "is_nsfw", "ask",
+        "ask_page_title", "ask_anon", "share_likes", "likes"
 })
 public class Blog {
 
     @JsonProperty("title")
-    private String title;
+    private String  title;
     @JsonProperty("name")
-    private String name;
+    private String  name;
     @JsonProperty("total_posts")
     private Integer totalPosts;
     @JsonProperty("posts")
     private Integer posts;
     @JsonProperty("url")
-    private String url;
+    private String  url;
     @JsonProperty("updated")
-    private Double updated;
+    private Double  updated;
     @JsonProperty("description")
-    private String description;
+    private String  description;
     @JsonProperty("is_nsfw")
     private Boolean isNsfw;
     @JsonProperty("ask")
     private Boolean ask;
     @JsonProperty("ask_page_title")
-    private String askPageTitle;
+    private String  askPageTitle;
     @JsonProperty("ask_anon")
     private Boolean askAnon;
     @JsonProperty("share_likes")
@@ -60,9 +48,7 @@ public class Blog {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The title
+     * @return The title
      */
     @JsonProperty("title")
     public String getTitle() {
@@ -70,9 +56,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param title
-     *     The title
+     * @param title The title
      */
     @JsonProperty("title")
     public void setTitle(String title) {
@@ -80,9 +64,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The name
+     * @return The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -90,9 +72,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -100,9 +80,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The totalPosts
+     * @return The totalPosts
      */
     @JsonProperty("total_posts")
     public Integer getTotalPosts() {
@@ -110,9 +88,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param totalPosts
-     *     The total_posts
+     * @param totalPosts The total_posts
      */
     @JsonProperty("total_posts")
     public void setTotalPosts(Integer totalPosts) {
@@ -120,9 +96,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The posts
+     * @return The posts
      */
     @JsonProperty("posts")
     public Integer getPosts() {
@@ -130,9 +104,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param posts
-     *     The posts
+     * @param posts The posts
      */
     @JsonProperty("posts")
     public void setPosts(Integer posts) {
@@ -140,9 +112,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The url
+     * @return The url
      */
     @JsonProperty("url")
     public String getUrl() {
@@ -150,9 +120,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param url
-     *     The url
+     * @param url The url
      */
     @JsonProperty("url")
     public void setUrl(String url) {
@@ -160,9 +128,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The updated
+     * @return The updated
      */
     @JsonProperty("updated")
     public Double getUpdated() {
@@ -170,9 +136,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param updated
-     *     The updated
+     * @param updated The updated
      */
     @JsonProperty("updated")
     public void setUpdated(Double updated) {
@@ -180,9 +144,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The description
+     * @return The description
      */
     @JsonProperty("description")
     public String getDescription() {
@@ -190,9 +152,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param description
-     *     The description
+     * @param description The description
      */
     @JsonProperty("description")
     public void setDescription(String description) {
@@ -200,9 +160,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The isNsfw
+     * @return The isNsfw
      */
     @JsonProperty("is_nsfw")
     public Boolean getIsNsfw() {
@@ -210,9 +168,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param isNsfw
-     *     The is_nsfw
+     * @param isNsfw The is_nsfw
      */
     @JsonProperty("is_nsfw")
     public void setIsNsfw(Boolean isNsfw) {
@@ -220,9 +176,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The ask
+     * @return The ask
      */
     @JsonProperty("ask")
     public Boolean getAsk() {
@@ -230,9 +184,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param ask
-     *     The ask
+     * @param ask The ask
      */
     @JsonProperty("ask")
     public void setAsk(Boolean ask) {
@@ -240,9 +192,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The askPageTitle
+     * @return The askPageTitle
      */
     @JsonProperty("ask_page_title")
     public String getAskPageTitle() {
@@ -250,9 +200,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param askPageTitle
-     *     The ask_page_title
+     * @param askPageTitle The ask_page_title
      */
     @JsonProperty("ask_page_title")
     public void setAskPageTitle(String askPageTitle) {
@@ -260,9 +208,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The askAnon
+     * @return The askAnon
      */
     @JsonProperty("ask_anon")
     public Boolean getAskAnon() {
@@ -270,9 +216,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param askAnon
-     *     The ask_anon
+     * @param askAnon The ask_anon
      */
     @JsonProperty("ask_anon")
     public void setAskAnon(Boolean askAnon) {
@@ -280,9 +224,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The shareLikes
+     * @return The shareLikes
      */
     @JsonProperty("share_likes")
     public Boolean getShareLikes() {
@@ -290,9 +232,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param shareLikes
-     *     The share_likes
+     * @param shareLikes The share_likes
      */
     @JsonProperty("share_likes")
     public void setShareLikes(Boolean shareLikes) {
@@ -300,9 +240,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @return
-     *     The likes
+     * @return The likes
      */
     @JsonProperty("likes")
     public Integer getLikes() {
@@ -310,9 +248,7 @@ public class Blog {
     }
 
     /**
-     * 
-     * @param likes
-     *     The likes
+     * @param likes The likes
      */
     @JsonProperty("likes")
     public void setLikes(Integer likes) {

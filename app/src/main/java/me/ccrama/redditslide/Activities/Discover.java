@@ -45,26 +45,30 @@ public class Discover extends BaseActivityAnim {
                 onBackPressed();
                 return true;
             case R.id.search: {
-                new MaterialDialog.Builder(Discover.this)
-                        .alwaysCallInputCallback()
+                new MaterialDialog.Builder(Discover.this).alwaysCallInputCallback()
                         .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
                         .inputRange(3, 100)
-                        .input(getString(R.string.discover_search), null, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (input.length() >= 3) {
-                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                } else {
-                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                                }
-                            }
-                        })
+                        .input(getString(R.string.discover_search), null,
+                                new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                        if (input.length() >= 3) {
+                                            dialog.getActionButton(DialogAction.POSITIVE)
+                                                    .setEnabled(true);
+                                        } else {
+                                            dialog.getActionButton(DialogAction.POSITIVE)
+                                                    .setEnabled(false);
+                                        }
+                                    }
+                                })
                         .positiveText(R.string.search_all)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            public void onClick(@NonNull MaterialDialog dialog,
+                                    @NonNull DialogAction which) {
                                 Intent inte = new Intent(Discover.this, SubredditSearch.class);
-                                inte.putExtra("term", dialog.getInputEditText().getText().toString());
+                                inte.putExtra("term",
+                                        dialog.getInputEditText().getText().toString());
                                 Discover.this.startActivity(inte);
                             }
                         })
@@ -86,7 +90,8 @@ public class Discover extends BaseActivityAnim {
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
 
-        ((DrawerLayout)findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).setDrawerLockMode(
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         setupAppBar(R.id.toolbar, R.string.discover_title, true, false);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
@@ -100,7 +105,8 @@ public class Discover extends BaseActivityAnim {
         tabs.setupWithViewPager(pager);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
 
             }
 
@@ -130,7 +136,7 @@ public class Discover extends BaseActivityAnim {
         public Fragment getItem(int i) {
             Fragment f = new SubredditListView();
             Bundle args = new Bundle();
-            args.putString("id", i == 1?"trending":"popular");
+            args.putString("id", i == 1 ? "trending" : "popular");
             f.setArguments(args);
 
             return f;

@@ -13,12 +13,12 @@ public class GeneralSwipeRefreshLayout extends SwipeRefreshLayout {
     public GeneralSwipeRefreshLayout(Context context) {
 
         super(context);
-           }
+    }
 
     public GeneralSwipeRefreshLayout(Context context, AttributeSet attrs) {
 
         super(context, attrs);
-         }
+    }
 
 
 }

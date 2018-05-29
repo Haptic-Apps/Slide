@@ -19,8 +19,8 @@ import net.dean.jraw.models.VoteDirection;
 public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 
     private final VoteDirection direction;
-    private View v;
-    private Context c;
+    private       View          v;
+    private       Context       c;
 
     public Vote(Boolean b, View v, Context c) {
         direction = b ? VoteDirection.UPVOTE : VoteDirection.DOWNVOTE;
@@ -50,9 +50,11 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
                     public void run() {
                         try {
                             if (v != null && c != null && v.getContext() != null) {
-                                Snackbar s = Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT);
+                                Snackbar s =
+                                        Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT);
                                 View view = s.getView();
-                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                TextView tv = view.findViewById(
+                                        android.support.design.R.id.snackbar_text);
                                 tv.setTextColor(Color.WHITE);
                                 s.show();
                             }
@@ -70,9 +72,11 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
                 public void run() {
                     try {
                         if (v != null && c != null && v.getContext() != null) {
-                            Snackbar s = Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT);
+                            Snackbar s = Snackbar.make(v, R.string.vote_err_login,
+                                    Snackbar.LENGTH_SHORT);
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
 

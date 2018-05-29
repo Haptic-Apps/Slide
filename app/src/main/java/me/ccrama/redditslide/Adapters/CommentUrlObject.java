@@ -17,7 +17,7 @@ public class CommentUrlObject {
         this.url = url;
     }
 
-    public String getSubredditName(){
+    public String getSubredditName() {
         return subredditName;
     }
 

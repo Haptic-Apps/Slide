@@ -40,7 +40,8 @@ public class FileUtil {
     public static Uri getFileUri(File file, Context context) {
         String packageName = context.getApplicationContext().getPackageName() + ".provider";
         Uri selectedUri = FileProvider.getUriForFile(context, packageName, file);
-        context.grantUriPermission(packageName, selectedUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        context.grantUriPermission(packageName, selectedUri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         return selectedUri;
     }
 

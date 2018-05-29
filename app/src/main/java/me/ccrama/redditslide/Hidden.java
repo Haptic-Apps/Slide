@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by carlo_000 on 10/16/2015.
  */
 public class Hidden {
-   public static final ArrayList<String> id = new ArrayList<>();
+    public static final ArrayList<String> id = new ArrayList<>();
 
 
     public static void setHidden(final Contribution s) {
@@ -22,7 +22,7 @@ public class Hidden {
             protected Void doInBackground(Void[] params) {
                 try {
                     id.add(s.getFullName());
-                    new AccountManager(Authentication.reddit).hide(true, (Submission)s);
+                    new AccountManager(Authentication.reddit).hide(true, (Submission) s);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -37,7 +37,7 @@ public class Hidden {
             protected Void doInBackground(Void[] params) {
                 try {
                     id.remove(s.getFullName());
-                    new AccountManager(Authentication.reddit).hide(false, (Submission)s);
+                    new AccountManager(Authentication.reddit).hide(false, (Submission) s);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

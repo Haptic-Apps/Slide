@@ -35,13 +35,14 @@ import me.ccrama.redditslide.util.LogUtil;
  * Created by ccrama on 8/17/2015.
  */
 public class SubChooseAdapter extends ArrayAdapter<String> {
-    private final List<String> objects;
-    private Filter filter;
-    public ArrayList<String> baseItems;
-    public ArrayList<String> fitems;
+    private final List<String>      objects;
+    private       Filter            filter;
+    public        ArrayList<String> baseItems;
+    public        ArrayList<String> fitems;
     public boolean openInSubView = true;
 
-    public SubChooseAdapter(Context context, ArrayList<String> objects, ArrayList<String> allSubreddits) {
+    public SubChooseAdapter(Context context, ArrayList<String> objects,
+            ArrayList<String> allSubreddits) {
         super(context, 0, objects);
         this.objects = new ArrayList<>(allSubreddits);
         filter = new SubFilter();
@@ -69,65 +70,73 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
     }
 
     private static class ViewHolderItem {
-		private TextView t;
+        private TextView t;
 
-        ViewHolderItem(TextView t){
+        ViewHolderItem(TextView t) {
             this.t = t;
         }
-	}
+    }
 
-	@Override
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolderItem viewHolderItem;
-		if (convertView == null) {
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
-			viewHolderItem = new ViewHolderItem((TextView) convertView.findViewById(R.id.name));
-			convertView.setTag(viewHolderItem);
-		} else {
-			viewHolderItem = (ViewHolderItem) convertView.getTag();
-		}
-		final TextView t =
-                viewHolderItem.t;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.subforsublist, parent, false);
+            viewHolderItem = new ViewHolderItem((TextView) convertView.findViewById(R.id.name));
+            convertView.setTag(viewHolderItem);
+        } else {
+            viewHolderItem = (ViewHolderItem) convertView.getTag();
+        }
+        final TextView t = viewHolderItem.t;
         t.setText(fitems.get(position));
 
         final String subreddit = fitems.get(position);
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color)
+                .getBackground()
+                .setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
 
-        if(getContext() instanceof SetupWidget){
+        if (getContext() instanceof SetupWidget) {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((SetupWidget)getContext()).name = subreddit;
+                    ((SetupWidget) getContext()).name = subreddit;
                     SubredditWidgetProvider.lastDone = subreddit;
-                    ((SetupWidget)getContext()).startWidget();
+                    ((SetupWidget) getContext()).startWidget();
                 }
             });
 
-        } else if(getContext()instanceof Shortcut){
+        } else if (getContext() instanceof Shortcut) {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final Bitmap src;
                     final Bitmap bm2;
-                    Intent shortcutIntent  = new Intent(getContext(), OpenContent.class);
+                    Intent shortcutIntent = new Intent(getContext(), OpenContent.class);
                     if (subreddit.toLowerCase(Locale.ENGLISH).equals("androidcirclejerk")) {
-                        bm2 = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
+                        bm2 = Shortcut.drawableToBitmap(
+                                ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
                         Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
                     } else {
-                        src = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
+                        src = Shortcut.drawableToBitmap(
+                                ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
                         final int overlayColor = Palette.getColor(subreddit);
                         final Paint paint = new Paint();
                         Canvas c;
-                        final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+                        final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
+                                Bitmap.Config.ARGB_8888);
                         c = new Canvas(bm1);
-                        paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
+                        paint.setColorFilter(
+                                new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
                         c.drawBitmap(src, 0, 0, paint);
 
-                        bm2 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+                        bm2 = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
+                                Bitmap.Config.ARGB_8888);
                         c = new Canvas(bm2);
-                        paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
+                        paint.setColorFilter(
+                                new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
                         c.drawBitmap(src, 0, 0, paint);
 
                         //paint.setColorFilter(null);
@@ -136,16 +145,17 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         ImageUtil.drawWithTargetColor(bm2, bm1, overlayColor, 0);
                     }
 
-                    final float scale = ((Shortcut)getContext()).getResources().getDisplayMetrics().density;
+                    final float scale = getContext().getResources().getDisplayMetrics().density;
                     int p = (int) (50 * scale + 0.5f);
                     shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + subreddit);
                     Intent intent = new Intent();
                     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
                     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + subreddit);
-                    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Bitmap.createScaledBitmap(bm2, p, p, false));
-                    ((Shortcut)getContext()).setResult(Activity.RESULT_OK, intent);
+                    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON,
+                            Bitmap.createScaledBitmap(bm2, p, p, false));
+                    ((Shortcut) getContext()).setResult(Activity.RESULT_OK, intent);
 
-                    ((Shortcut)getContext()).finish();
+                    ((Shortcut) getContext()).finish();
                 }
             });
         }
@@ -173,10 +183,8 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                 final ArrayList<String> nlist = new ArrayList<>();
 
                 for (String sub : list) {
-                    if (sub.contains(prefix))
-                        nlist.add(sub);
-                    if (sub.equals(prefix))
-                        openInSubView = false;
+                    if (sub.contains(prefix)) nlist.add(sub);
+                    if (sub.equals(prefix)) openInSubView = false;
                 }
                 if (openInSubView) {
                     nlist.add(prefix);

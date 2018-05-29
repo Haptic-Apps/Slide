@@ -119,8 +119,8 @@ public class LiveThread extends BaseActivityAnim {
 
             @Override
             public void onPreExecute() {
-                d = new MaterialDialog.Builder(LiveThread.this)
-                        .title(R.string.livethread_loading_title)
+                d = new MaterialDialog.Builder(LiveThread.this).title(
+                        R.string.livethread_loading_title)
                         .content(R.string.misc_please_wait)
                         .progress(true, 100)
                         .cancelable(false)
@@ -130,8 +130,9 @@ public class LiveThread extends BaseActivityAnim {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    thread = new LiveThreadManager(Authentication.reddit).get(getIntent().getStringExtra(EXTRA_LIVEURL));
-                } catch(Exception e){
+                    thread = new LiveThreadManager(Authentication.reddit).get(
+                            getIntent().getStringExtra(EXTRA_LIVEURL));
+                } catch (Exception e) {
 
                 }
                 return null;
@@ -139,28 +140,34 @@ public class LiveThread extends BaseActivityAnim {
 
             @Override
             public void onPostExecute(Void aVoid) {
-                if(thread == null){
-                    new AlertDialogWrapper.Builder(LiveThread.this)
-                            .setTitle(R.string.livethread_not_found)
+                if (thread == null) {
+                    new AlertDialogWrapper.Builder(LiveThread.this).setTitle(
+                            R.string.livethread_not_found)
                             .setMessage(R.string.misc_please_try_again_soon)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.btn_ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onDismiss(DialogInterface dialog) {
                                     finish();
                                 }
-                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            finish();
-                        }
-                    }).setCancelable(false).show();
+                            })
+                            .setCancelable(false)
+                            .show();
                 } else {
                     d.dismiss();
                     setupAppBar(R.id.toolbar, thread.getTitle(), true, false);
                     (findViewById(R.id.toolbar)).setBackgroundResource(R.color.md_red_300);
                     (findViewById(R.id.header_sub)).setBackgroundResource(R.color.md_red_300);
-                    themeSystemBars(Palette.getDarkerColor(getResources().getColor(R.color.md_red_300)));
-                    setRecentBar(getString(R.string.livethread_recents_title, thread.getTitle()), getResources().getColor(R.color.md_red_300));
+                    themeSystemBars(
+                            Palette.getDarkerColor(getResources().getColor(R.color.md_red_300)));
+                    setRecentBar(getString(R.string.livethread_recents_title, thread.getTitle()),
+                            getResources().getColor(R.color.md_red_300));
 
                     doPaginator();
                 }
@@ -169,7 +176,7 @@ public class LiveThread extends BaseActivityAnim {
     }
 
     ArrayList<LiveUpdate> updates;
-    LiveThreadPaginator paginator;
+    LiveThreadPaginator   paginator;
 
     public void doPaginator() {
         new AsyncTask<Void, Void, Void>() {
@@ -199,7 +206,8 @@ public class LiveThread extends BaseActivityAnim {
                     final ObjectReader o = new ObjectMapper().reader();
 
                     try {
-                        com.neovisionaries.ws.client.WebSocket ws = new WebSocketFactory().createSocket(thread.getWebsocketUrl());
+                        com.neovisionaries.ws.client.WebSocket ws =
+                                new WebSocketFactory().createSocket(thread.getWebsocketUrl());
                         ws.addListener(new WebSocketListener() {
                             @Override
                             public void onStateChanged(
@@ -284,7 +292,8 @@ public class LiveThread extends BaseActivityAnim {
                                 LogUtil.v("Recieved" + s);
                                 if (s.contains("\"type\": \"update\"")) {
                                     try {
-                                        LiveUpdate u = new LiveUpdate(o.readTree(s).get("payload").get("data"));
+                                        LiveUpdate u = new LiveUpdate(
+                                                o.readTree(s).get("payload").get("data"));
                                         updates.add(0, u);
                                         runOnUiThread(new Runnable() {
                                             @Override
@@ -300,7 +309,11 @@ public class LiveThread extends BaseActivityAnim {
                                     String node = updates.get(0).getDataNode().toString();
                                     LogUtil.v("Getting");
                                     try {
-                                        node = node.replace("\"embeds\":[]", "\"embeds\":" + o.readTree(s).get("payload").get("media_embeds").toString());
+                                        node = node.replace("\"embeds\":[]",
+                                                "\"embeds\":" + o.readTree(s)
+                                                        .get("payload")
+                                                        .get("media_embeds")
+                                                        .toString());
                                         LiveUpdate u = new LiveUpdate(o.readTree(node));
                                         updates.set(0, u);
                                         runOnUiThread(new Runnable() {
@@ -441,12 +454,15 @@ public class LiveThread extends BaseActivityAnim {
         public void onBindViewHolder(final PaginatorAdapter.ItemHolder holder, int position) {
             final LiveUpdate u = updates.get(position);
 
-            holder.title.setText("/u/" + u.getAuthor() + " " + TimeUtils.getTimeAgo(u.getCreated().getTime(), LiveThread.this));
+            holder.title.setText(
+                    "/u/" + u.getAuthor() + " " + TimeUtils.getTimeAgo(u.getCreated().getTime(),
+                            LiveThread.this));
             if (u.getBody().isEmpty()) {
                 holder.info.setVisibility(View.GONE);
             } else {
                 holder.info.setVisibility(View.VISIBLE);
-                holder.info.setTextHtml(Html.fromHtml(u.getDataNode().get("body_html").asText()), "NO SUBREDDIT");
+                holder.info.setTextHtml(Html.fromHtml(u.getDataNode().get("body_html").asText()),
+                        "NO SUBREDDIT");
             }
             holder.title.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -483,12 +499,14 @@ public class LiveThread extends BaseActivityAnim {
                             holder.go.callOnClick();
                         }
                     });
-                    ((Reddit) getApplicationContext()).getImageLoader().displayImage(url, holder.imageArea);
+                    ((Reddit) getApplicationContext()).getImageLoader()
+                            .displayImage(url, holder.imageArea);
                 } else if (ContentType.hostContains(host, "twitter.com")) {
                     LogUtil.v("Twitter");
 
                     holder.twitterArea.setVisibility(View.VISIBLE);
-                    new LoadTwitter(holder.twitterArea, url).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new LoadTwitter(holder.twitterArea, url).executeOnExecutor(
+                            AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
 
@@ -497,7 +515,7 @@ public class LiveThread extends BaseActivityAnim {
         public class LoadTwitter extends AsyncTask<String, Void, Void> {
 
             private OkHttpClient client;
-            private Gson gson;
+            private Gson         gson;
             String url;
             private WebView view;
             TwitterObject twitter;
@@ -511,7 +529,8 @@ public class LiveThread extends BaseActivityAnim {
 
             public void parseJson() {
                 try {
-                    JsonObject result = HttpUtil.getJsonObject(client, gson, "https://publish.twitter.com/oembed?url=" + url, null);
+                    JsonObject result = HttpUtil.getJsonObject(client, gson,
+                            "https://publish.twitter.com/oembed?url=" + url, null);
                     LogUtil.v("Got " + Html.fromHtml(result.toString()));
                     twitter = new ObjectMapper().readValue(result.toString(), TwitterObject.class);
                 } catch (Exception e) {
@@ -528,7 +547,9 @@ public class LiveThread extends BaseActivityAnim {
             @Override
             public void onPostExecute(Void aVoid) {
                 if (twitter != null && twitter.getHtml() != null) {
-                    view.loadData(twitter.getHtml().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
+                    view.loadData(twitter.getHtml()
+                                    .replace("//platform.twitter", "https://platform.twitter"), "text/html",
+                            "UTF-8");
                 }
             }
 
@@ -543,11 +564,11 @@ public class LiveThread extends BaseActivityAnim {
 
         public class ItemHolder extends RecyclerView.ViewHolder {
 
-            TextView title;
+            TextView              title;
             SpoilerRobotoTextView info;
-            ImageView imageArea;
-            WebView twitterArea;
-            View go;
+            ImageView             imageArea;
+            WebView               twitterArea;
+            View                  go;
 
 
             public ItemHolder(View itemView) {
@@ -574,13 +595,17 @@ public class LiveThread extends BaseActivityAnim {
 
         dialoglayout.findViewById(R.id.sub_stuff).setVisibility(View.GONE);
 
-        ((TextView) dialoglayout.findViewById(R.id.sub_infotitle)).setText((thread.getState() ? "LIVE: " : "") + thread.getTitle());
-        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount() + " viewing");
-        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount());
+        ((TextView) dialoglayout.findViewById(R.id.sub_infotitle)).setText(
+                (thread.getState() ? "LIVE: " : "") + thread.getTitle());
+        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(
+                thread.getLocalizedViewerCount() + " viewing");
+        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(
+                thread.getLocalizedViewerCount());
 
         {
             final String text = thread.getDataNode().get("resources_html").asText();
-            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+            final SpoilerRobotoTextView body =
+                    (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
             CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
             setViews(text, "none", body, overflow);
         }
@@ -592,7 +617,8 @@ public class LiveThread extends BaseActivityAnim {
         }
     }
 
-    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
+            CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }

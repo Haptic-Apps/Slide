@@ -15,9 +15,7 @@ import me.ccrama.redditslide.util.GifUtils;
 
 /**
  * Created by ccrama on 01/29/2016.
- *
  * This activity is the basis for the possible inclusion of some sort of "Force Touch" preview system for comment links.
- *
  */
 public class ForceTouchLink extends BaseActivityAnim {
 
@@ -34,7 +32,7 @@ public class ForceTouchLink extends BaseActivityAnim {
         findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_POINTER_UP){
+                if (event.getAction() == MotionEvent.ACTION_POINTER_UP) {
                     finish();
                 }
                 return false;
@@ -48,7 +46,7 @@ public class ForceTouchLink extends BaseActivityAnim {
         final ImageView mainImage = (ImageView) findViewById(R.id.image);
         MediaVideoView mainVideo = (MediaVideoView) findViewById(R.id.gif);
         mainVideo.setVisibility(View.GONE);
-        switch(t){
+        switch (t) {
 
 
             case REDDIT:
@@ -56,12 +54,13 @@ public class ForceTouchLink extends BaseActivityAnim {
             case IMGUR:
                 break;
             case IMAGE:
-                ((Reddit)getApplication()).getImageLoader().displayImage(url, mainImage);
+                ((Reddit) getApplication()).getImageLoader().displayImage(url, mainImage);
 
                 break;
             case GIF:
                 mainVideo.setVisibility(View.VISIBLE);
-                new GifUtils.AsyncLoadGif(this, mainVideo,null,null,false, true, true, "").execute(url);
+                new GifUtils.AsyncLoadGif(this, mainVideo, null, null, false, true, true,
+                        "").execute(url);
                 break;
             case ALBUM:
                 break;
@@ -70,6 +69,7 @@ public class ForceTouchLink extends BaseActivityAnim {
             case LINK:
                 new AsyncTask<Void, Void, Void>() {
                     String urlGotten;
+
                     @Override
                     protected Void doInBackground(Void... params) {
                         /*try {
@@ -82,7 +82,8 @@ public class ForceTouchLink extends BaseActivityAnim {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        ((Reddit)getApplication()).getImageLoader().displayImage(urlGotten, mainImage);
+                        ((Reddit) getApplication()).getImageLoader()
+                                .displayImage(urlGotten, mainImage);
                     }
                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;

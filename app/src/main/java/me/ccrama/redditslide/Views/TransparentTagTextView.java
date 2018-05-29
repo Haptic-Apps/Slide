@@ -19,11 +19,11 @@ import me.ccrama.redditslide.R;
 public class TransparentTagTextView extends TextView {
     Bitmap mMaskBitmap;
     Canvas mMaskCanvas;
-    Paint mPaint;
+    Paint  mPaint;
 
     Drawable mBackground;
-    Bitmap mBackgroundBitmap;
-    Canvas mBackgroundCanvas;
+    Bitmap   mBackgroundBitmap;
+    Canvas   mBackgroundCanvas;
     boolean mSetBoundsOnSizeAvailable = false;
 
     public TransparentTagTextView(Context context) {
@@ -47,6 +47,7 @@ public class TransparentTagTextView extends TextView {
 
 
     Drawable backdrop;
+
     public void resetBackground(Context context) {
         mPaint = new Paint();
         super.setTextColor(Color.BLACK);
@@ -57,7 +58,7 @@ public class TransparentTagTextView extends TextView {
 
     @Override
     public void setBackgroundDrawable(Drawable bg) {
-        if(bg != null) {
+        if (bg != null) {
             mBackground = bg;
             int w = bg.getIntrinsicWidth();
             int h = bg.getIntrinsicHeight();
@@ -87,7 +88,7 @@ public class TransparentTagTextView extends TextView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if(w > 0 && h > 0) {
+        if (w > 0 && h > 0) {
             mBackgroundBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             mBackgroundCanvas = new Canvas(mBackgroundBitmap);
             mMaskBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -108,7 +109,7 @@ public class TransparentTagTextView extends TextView {
         mBackground.draw(mBackgroundCanvas);
 
         // Draw mask
-        if(mMaskCanvas != null) {
+        if (mMaskCanvas != null) {
             mMaskCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
             super.onDraw(mMaskCanvas);
             mBackgroundCanvas.drawBitmap(mMaskBitmap, 0.f, 0.f, mPaint);

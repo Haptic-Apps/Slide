@@ -19,7 +19,7 @@ public class TitleExtractor {
      * the DOTALL flag accounts for sites that have
      * line feeds in the title text */
     private static final Pattern TITLE_TAG =
-            Pattern.compile("<title[^>]*>(.*?)</title>", Pattern.CASE_INSENSITIVE|Pattern.DOTALL);
+            Pattern.compile("<title[^>]*>(.*?)</title>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
     private TitleExtractor() {
     }
@@ -31,8 +31,7 @@ public class TitleExtractor {
      */
     public static String getPageTitle(String url) throws IOException {
         OkHttpClient client = Reddit.client;
-        Request request = new Request.Builder()
-                .url(LinkUtil.formatURL(url).toString())
+        Request request = new Request.Builder().url(LinkUtil.formatURL(url).toString())
                 .addHeader("Accept", "text/html")
                 .build();
         Response response = client.newCall(request).execute();

@@ -11,15 +11,17 @@ import java.util.List;
 public interface SubmissionDisplay {
     /**
      * Called when the update was done online.
-     * @param submissions   the updated list of submissions
-     * @param startIndex    the index of the first new submission
+     *
+     * @param submissions the updated list of submissions
+     * @param startIndex  the index of the first new submission
      */
     void updateSuccess(List<Submission> submissions, int startIndex);
 
     /**
      * Called when the update was offline.
-     * @param submissions   the updated list of submissions
-     * @param cacheTime     the last time updated (unix time?)
+     *
+     * @param submissions the updated list of submissions
+     * @param cacheTime   the last time updated (unix time?)
      */
     void updateOffline(List<Submission> submissions, long cacheTime);
 

@@ -21,7 +21,7 @@ public class MakeExternal extends Activity {
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         String url = getIntent().getStringExtra("url");
-        if(url != null){
+        if (url != null) {
             try {
                 URL u = new URL(url);
 
@@ -42,7 +42,8 @@ public class MakeExternal extends Activity {
                 e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, Reddit.arrayToString(domains));
                 e.apply();
                 PostMatch.externalDomain = null;
-                SettingValues.alwaysExternal = SettingValues.prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
+                SettingValues.alwaysExternal =
+                        SettingValues.prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
 
 
             } catch (MalformedURLException e) {

@@ -6,7 +6,6 @@ import android.widget.EditText;
 
 /**
  * Created by Fernando Barillas on 5/2/16.
- *
  * Allows easier validation of EditText input via the use of an InputFilter. This way invalid text
  * is not allowed to be input.
  */
@@ -28,12 +27,13 @@ public class EditTextValidator {
         if (editText == null) return;
         InputFilter filter = new InputFilter() {
             @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest,
+                    int dstart, int dend) {
                 for (int i = start; i < end; i++) {
                     char character = source.charAt(i);
-                    if (!Character.isLetterOrDigit(character) &&
-                            character != '_' &&
-                            character != '-') {
+                    if (!Character.isLetterOrDigit(character)
+                            && character != '_'
+                            && character != '-') {
                         return "";
                     }
                 }

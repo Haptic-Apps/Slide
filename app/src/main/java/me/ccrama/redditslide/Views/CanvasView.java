@@ -4,7 +4,6 @@ package me.ccrama.redditslide.Views;
  * <p/>
  * Copyright (c) 2014 Tomohiro IKEDA (Korilakkuma)
  * Released under the MIT license
- *
  * Code based off of https://github.com/Korilakkuma/CanvasView
  */
 
@@ -19,7 +18,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -39,27 +37,19 @@ public class CanvasView extends View {
 
     // Enumeration for Mode
     public enum Mode {
-        DRAW,
-        TEXT,
-        ERASER;
+        DRAW, TEXT, ERASER
     }
 
     // Enumeration for Drawer
     public enum Drawer {
-        PEN,
-        LINE,
-        RECTANGLE,
-        CIRCLE,
-        ELLIPSE,
-        QUADRATIC_BEZIER,
-        QUBIC_BEZIER;
+        PEN, LINE, RECTANGLE, CIRCLE, ELLIPSE, QUADRATIC_BEZIER, QUBIC_BEZIER
     }
 
     private Context context = null;
-    private Canvas canvas = null;
-    private Bitmap bitmap = null;
+    private Canvas  canvas  = null;
+    private Bitmap  bitmap  = null;
 
-    private List<Path> pathLists = new ArrayList<Path>();
+    private List<Path>  pathLists  = new ArrayList<Path>();
     private List<Paint> paintLists = new ArrayList<Paint>();
 
     // for Eraser
@@ -69,31 +59,31 @@ public class CanvasView extends View {
     private int historyPointer = 0;
 
     // Flags
-    private Mode mode = Mode.DRAW;
-    private Drawer drawer = Drawer.PEN;
+    private Mode    mode   = Mode.DRAW;
+    private Drawer  drawer = Drawer.PEN;
     private boolean isDown = false;
 
     // for Paint
-    private Paint.Style paintStyle = Paint.Style.STROKE;
-    private int paintStrokeColor = Color.BLACK;
-    private int paintFillColor = Color.BLACK;
-    private float paintStrokeWidth = 3F;
-    private int opacity = 255;
-    private float blur = 0F;
-    private Paint.Cap lineCap = Paint.Cap.ROUND;
+    private Paint.Style paintStyle       = Paint.Style.STROKE;
+    private int         paintStrokeColor = Color.BLACK;
+    private int         paintFillColor   = Color.BLACK;
+    private float       paintStrokeWidth = 3F;
+    private int         opacity          = 255;
+    private float       blur             = 0F;
+    private Paint.Cap   lineCap          = Paint.Cap.ROUND;
 
     // for Text
-    private String text = "";
-    private Typeface fontFamily = Typeface.DEFAULT;
-    private float fontSize = 32F;
-    private Paint.Align textAlign = Paint.Align.RIGHT;  // fixed
-    private Paint textPaint = new Paint();
-    private float textX = 0F;
-    private float textY = 0F;
+    private String      text       = "";
+    private Typeface    fontFamily = Typeface.DEFAULT;
+    private float       fontSize   = 32F;
+    private Paint.Align textAlign  = Paint.Align.RIGHT;  // fixed
+    private Paint       textPaint  = new Paint();
+    private float       textX      = 0F;
+    private float       textY      = 0F;
 
     // for Drawer
-    private float startX = 0F;
-    private float startY = 0F;
+    private float startX   = 0F;
+    private float startY   = 0F;
     private float controlX = 0F;
     private float controlY = 0F;
 
@@ -265,7 +255,8 @@ public class CanvasView extends View {
         float textLength = paintForMeasureText.measureText(this.text);
         float lengthOfChar = textLength / (float) this.text.length();
         float restWidth = this.canvas.getWidth() - textX;  // text-align : right
-        int numChars = (lengthOfChar <= 0) ? 1 : (int) Math.floor((double) (restWidth / lengthOfChar));  // The number of characters at 1 line
+        int numChars = (lengthOfChar <= 0) ? 1 : (int) Math.floor(
+                (double) (restWidth / lengthOfChar));  // The number of characters at 1 line
         int modNumChars = (numChars < 1) ? 1 : numChars;
         float y = textY;
 
@@ -293,7 +284,8 @@ public class CanvasView extends View {
         switch (this.mode) {
             case DRAW:
             case ERASER:
-                if ((this.drawer != Drawer.QUADRATIC_BEZIER) && (this.drawer != Drawer.QUBIC_BEZIER)) {
+                if ((this.drawer != Drawer.QUADRATIC_BEZIER) && (this.drawer
+                        != Drawer.QUBIC_BEZIER)) {
                     // Oherwise
                     this.updateHistory(this.createPath(event));
                     this.isDown = true;
@@ -335,7 +327,8 @@ public class CanvasView extends View {
             case DRAW:
             case ERASER:
 
-                if ((this.drawer != Drawer.QUADRATIC_BEZIER) && (this.drawer != Drawer.QUBIC_BEZIER)) {
+                if ((this.drawer != Drawer.QUADRATIC_BEZIER) && (this.drawer
+                        != Drawer.QUBIC_BEZIER)) {
                     if (!isDown) {
                         return;
                     }
@@ -358,10 +351,12 @@ public class CanvasView extends View {
                         case CIRCLE:
                             double distanceX = Math.abs((double) (this.startX - x));
                             double distanceY = Math.abs((double) (this.startX - y));
-                            double radius = Math.sqrt(Math.pow(distanceX, 2.0) + Math.pow(distanceY, 2.0));
+                            double radius =
+                                    Math.sqrt(Math.pow(distanceX, 2.0) + Math.pow(distanceY, 2.0));
 
                             path.reset();
-                            path.addCircle(this.startX, this.startY, (float) radius, Path.Direction.CCW);
+                            path.addCircle(this.startX, this.startY, (float) radius,
+                                    Path.Direction.CCW);
                             break;
                         case ELLIPSE:
                             RectF rect = new RectF(this.startX, this.startY, x, y);
@@ -426,14 +421,17 @@ public class CanvasView extends View {
 
         if (this.bitmap != null) {
             Matrix m = new Matrix();
-            m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()), new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), Matrix.ScaleToFit.CENTER);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
-            height = (((canvas.getHeight()/2)-bitmap.getHeight()/2));
-            width=((canvas.getWidth()/2)-bitmap.getWidth()/2);
-            canvas.drawBitmap(bitmap,width,height, new Paint());
+            m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                    new RectF(0, 0, canvas.getWidth(), canvas.getHeight()),
+                    Matrix.ScaleToFit.CENTER);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m,
+                    true);
+            height = (((canvas.getHeight() / 2) - bitmap.getHeight() / 2));
+            width = ((canvas.getWidth() / 2) - bitmap.getWidth() / 2);
+            canvas.drawBitmap(bitmap, width, height, new Paint());
             right = canvas.getWidth();
             bottom = height + ((bitmap.getHeight()));
-            canvas.clipRect(0,height,right, bottom);
+            canvas.clipRect(0, height, right, bottom);
         }
 
         for (int i = 0; i < this.historyPointer; i++) {
@@ -662,8 +660,6 @@ public class CanvasView extends View {
     public int getPaintFillColor() {
         return this.paintFillColor;
     }
-
-    ;
 
     /**
      * This method is setter for fill color.

@@ -20,11 +20,12 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class Announcement extends BaseActivity {
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(0, 0);
 
     }
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -37,8 +38,11 @@ public class Announcement extends BaseActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.submission_dialog);
 
-        setViews(Reddit.appRestart.getString("page", ""), "NO SUB", (SpoilerRobotoTextView) findViewById(R.id.firstTextView), (CommentOverflow) findViewById(R.id.commentOverflow));
-        ((TitleTextView) findViewById(R.id.title)).setText(Reddit.appRestart.getString("title", ""));
+        setViews(Reddit.appRestart.getString("page", ""), "NO SUB",
+                (SpoilerRobotoTextView) findViewById(R.id.firstTextView),
+                (CommentOverflow) findViewById(R.id.commentOverflow));
+        ((TitleTextView) findViewById(R.id.title)).setText(
+                Reddit.appRestart.getString("title", ""));
 
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +60,8 @@ public class Announcement extends BaseActivity {
         });
     }
 
-    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
+            CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }

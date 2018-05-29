@@ -2,34 +2,33 @@ package me.ccrama.redditslide.ForceTouch.builder;
 
 import android.graphics.Color;
 import android.support.annotation.FloatRange;
-import android.view.View;
 
 public class PeekViewOptions {
 
-    @FloatRange(from=.1,to=.9)
+    @FloatRange(from = .1, to = .9)
     private float widthPercent = .6f;
 
-    @FloatRange(from=.1,to=.9)
+    @FloatRange(from = .1, to = .9)
     private float heightPercent = .5f;
 
     // Values should be in DP
-    private int absoluteWidth = 0;
+    private int absoluteWidth  = 0;
     private int absoluteHeight = 0;
 
     // 0.0 = fully transparent background dim
     // 1.0 = fully opaque (black) background dim
-    @FloatRange(from=0,to=1)
+    @FloatRange(from = 0, to = 1)
     private float backgroundDim = .6f;
 
     private boolean useFadeAnimation = true;
-    private boolean hapticFeedback = true;
-    private boolean fullScreenPeek = false;
+    private boolean hapticFeedback   = true;
+    private boolean fullScreenPeek   = false;
 
-    private boolean blurBackground = true;
-    private int blurOverlayColor = Color.parseColor("#99000000");
+    private boolean blurBackground   = true;
+    private int     blurOverlayColor = Color.parseColor("#99000000");
 
     // region setters
-    public PeekViewOptions setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
+    public PeekViewOptions setWidthPercent(@FloatRange(from = .1, to = .9) float widthPercent) {
         this.widthPercent = widthPercent;
         return this;
     }
@@ -44,12 +43,12 @@ public class PeekViewOptions {
         return this;
     }
 
-    public PeekViewOptions setHeightPercent(@FloatRange(from=.1,to=.9) float heightPercent) {
+    public PeekViewOptions setHeightPercent(@FloatRange(from = .1, to = .9) float heightPercent) {
         this.heightPercent = heightPercent;
         return this;
     }
 
-    public PeekViewOptions setBackgroundDim(@FloatRange(from=0,to=1) float backgroundDim) {
+    public PeekViewOptions setBackgroundDim(@FloatRange(from = 0, to = 1) float backgroundDim) {
         this.backgroundDim = backgroundDim;
         return this;
     }

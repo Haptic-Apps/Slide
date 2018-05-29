@@ -11,13 +11,13 @@ import me.ccrama.redditslide.R;
  */
 public class MoreCommentViewHolder extends RecyclerView.ViewHolder {
     public final TextView content;
-    public final View loading;
-    public final View dots;
+    public final View     loading;
+    public final View     dots;
 
     public MoreCommentViewHolder(View v) {
         super(v);
         dots = v.findViewById(R.id.dot);
-        content = (TextView) v.findViewById(R.id.content);
+        content = v.findViewById(R.id.content);
         loading = v.findViewById(R.id.loading);
     }
 }

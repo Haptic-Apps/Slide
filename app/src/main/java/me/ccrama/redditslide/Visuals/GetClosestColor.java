@@ -16,7 +16,9 @@ import me.ccrama.redditslide.R;
 public class GetClosestColor {
     public static int distance(int a, int b) {
 
-        return Math.abs(Color.red(a) - Color.red(b)) + Math.abs(Color.green(a) - Color.green(b)) + Math.abs(Color.blue(a) - Color.blue(b));
+        return Math.abs(Color.red(a) - Color.red(b))
+                + Math.abs(Color.green(a) - Color.green(b))
+                + Math.abs(Color.blue(a) - Color.blue(b));
     }
 
     public static int getClosestColor(String hex, Context context) {
@@ -175,15 +177,15 @@ public class GetClosestColor {
                 ContextCompat.getColor(context, R.color.md_grey_600),
                 ContextCompat.getColor(context, R.color.md_grey_700),
                 ContextCompat.getColor(context, R.color.md_grey_800),
-                ContextCompat.getColor(context, R.color.md_grey_900),
-                Color.parseColor("#000000"),
+                ContextCompat.getColor(context, R.color.md_grey_900), Color.parseColor("#000000"),
 
                 ContextCompat.getColor(context, R.color.md_blue_grey_300),
                 ContextCompat.getColor(context, R.color.md_blue_grey_400),
                 ContextCompat.getColor(context, R.color.md_blue_grey_500),
                 ContextCompat.getColor(context, R.color.md_blue_grey_600),
                 ContextCompat.getColor(context, R.color.md_blue_grey_700),
-                ContextCompat.getColor(context, R.color.md_blue_grey_800)};
+                ContextCompat.getColor(context, R.color.md_blue_grey_800)
+        };
 
         Map<Integer, Integer> colors = new TreeMap<>();
         int base = Color.parseColor(hex);

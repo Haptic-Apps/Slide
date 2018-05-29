@@ -1,8 +1,4 @@
-
 package me.ccrama.redditslide.Tumblr;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,17 +7,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "url",
-    "width",
-    "height"
+        "url", "width", "height"
 })
 public class AltSize {
 
     @JsonProperty("url")
-    private String url;
+    private String  url;
     @JsonProperty("width")
     private Integer width;
     @JsonProperty("height")
@@ -30,9 +27,7 @@ public class AltSize {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The url
+     * @return The url
      */
     @JsonProperty("url")
     public String getUrl() {
@@ -40,9 +35,7 @@ public class AltSize {
     }
 
     /**
-     * 
-     * @param url
-     *     The url
+     * @param url The url
      */
     @JsonProperty("url")
     public void setUrl(String url) {
@@ -50,9 +43,7 @@ public class AltSize {
     }
 
     /**
-     * 
-     * @return
-     *     The width
+     * @return The width
      */
     @JsonProperty("width")
     public Integer getWidth() {
@@ -60,9 +51,7 @@ public class AltSize {
     }
 
     /**
-     * 
-     * @param width
-     *     The width
+     * @param width The width
      */
     @JsonProperty("width")
     public void setWidth(Integer width) {
@@ -70,9 +59,7 @@ public class AltSize {
     }
 
     /**
-     * 
-     * @return
-     *     The height
+     * @return The height
      */
     @JsonProperty("height")
     public Integer getHeight() {
@@ -80,9 +67,7 @@ public class AltSize {
     }
 
     /**
-     * 
-     * @param height
-     *     The height
+     * @param height The height
      */
     @JsonProperty("height")
     public void setHeight(Integer height) {

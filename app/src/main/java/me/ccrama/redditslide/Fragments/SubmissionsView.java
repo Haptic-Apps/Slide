@@ -86,7 +86,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     Runnable mLongPressRunnable;
-    GestureDetector detector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
+    GestureDetector detector =
+            new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
     float origY;
 
     @Override
@@ -107,8 +108,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv.setHasFixedSize(true);
 
         final RecyclerView.LayoutManager mLayoutManager;
-        mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, getActivity()));
+        mLayoutManager = createLayoutManager(
+                getNumColumns(getResources().getConfiguration().orientation, getActivity()));
 
         if (!(getActivity() instanceof SubredditView)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -205,9 +206,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         detector.onTouchEvent(event);
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             origY = event.getY();
-                            handler.postDelayed(mLongPressRunnable, android.view.ViewConfiguration.getLongPressTimeout());
+                            handler.postDelayed(mLongPressRunnable,
+                                    android.view.ViewConfiguration.getLongPressTimeout());
                         }
-                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight()/2)|| (event.getAction() == MotionEvent.ACTION_UP)) {
+                        if (((event.getAction() == MotionEvent.ACTION_MOVE)
+                                && Math.abs(event.getY() - origY) > fab.getHeight() / 2)
+                                || (event.getAction() == MotionEvent.ACTION_UP)) {
                             handler.removeCallbacks(mLongPressRunnable);
                         }
                         return false;
@@ -251,8 +255,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                             }
                         });*/
                         View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -314,9 +317,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final int numColumns;
         boolean singleColumnMultiWindow = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+            singleColumnMultiWindow =
+                    context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
         }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI && !singleColumnMultiWindow) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE
+                && SettingValues.tabletUI
+                && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT
                 && SettingValues.dualPortrait) {
@@ -376,7 +382,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
             OfflineSubreddit o =
-                    OfflineSubreddit.getSubreddit(id.toLowerCase(Locale.ENGLISH), false, getActivity());
+                    OfflineSubreddit.getSubreddit(id.toLowerCase(Locale.ENGLISH), false,
+                            getActivity());
 
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
                 try {
@@ -468,7 +475,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (startIndex != -1 && !forced ) {
+                    if (startIndex != -1 && !forced) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                         adapter.notifyDataSetChanged();
                     } else {
@@ -554,7 +561,10 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                             super.onScrolled(recyclerView, dx, dy);
 
-                            if (!posts.loading && !posts.nomore && !posts.offline && !adapter.isError){
+                            if (!posts.loading
+                                    && !posts.nomore
+                                    && !posts.offline
+                                    && !adapter.isError) {
                                 visibleItemCount = rv.getLayoutManager().getChildCount();
                                 totalItemCount = rv.getLayoutManager().getItemCount();
 
@@ -568,8 +578,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                         if (SettingValues.scrollSeen
                                                 && pastVisiblesItems > 0
                                                 && SettingValues.storeHistory) {
-                                            HasSeen.addSeenScrolling(posts.posts.get(pastVisiblesItems - 1)
-                                                    .getFullName());
+                                            HasSeen.addSeenScrolling(
+                                                    posts.posts.get(pastVisiblesItems - 1)
+                                                            .getFullName());
                                         }
                                     }
                                 }

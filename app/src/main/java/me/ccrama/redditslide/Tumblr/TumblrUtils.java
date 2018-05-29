@@ -107,7 +107,15 @@ public class TumblrUtils {
                 } else {
                     LogUtil.v(apiUrl);
                     final JsonObject result = HttpUtil.getJsonObject(client, gson, apiUrl);
-                    if (result != null && result.has("response") && result.get("response").getAsJsonObject().has("posts") && result.get("response").getAsJsonObject().get("posts").getAsJsonArray().get(0).getAsJsonObject().has("photos")) {
+                    if (result != null && result.has("response") && result.get("response")
+                            .getAsJsonObject()
+                            .has("posts") && result.get("response")
+                            .getAsJsonObject()
+                            .get("posts")
+                            .getAsJsonArray()
+                            .get(0)
+                            .getAsJsonObject()
+                            .has("photos")) {
                         tumblrRequests.edit().putString(apiUrl, result.toString()).apply();
                         parseJson(result);
                     } else {

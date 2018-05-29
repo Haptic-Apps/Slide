@@ -10,7 +10,7 @@ import me.ccrama.redditslide.Reddit;
 
 public class Palette {
     private int fontColor;
-    public int backgroundColor;
+    public  int backgroundColor;
 
     public static int getDefaultColor() {
         if (Reddit.colors.contains("DEFAULTCOLOR")) {
@@ -22,6 +22,7 @@ public class Palette {
 
     /**
      * Gets the status bar color for the activity.
+     *
      * @return Color-int for the status bar
      */
     public static int getStatusBarColor() {
@@ -30,6 +31,7 @@ public class Palette {
 
     /**
      * Gets the status bar color for the activity based on the specified username.
+     *
      * @param username The username to base the theme on
      * @return Color-int for the status bar
      */
@@ -39,6 +41,7 @@ public class Palette {
 
     /**
      * Gets the status bar color for the activity based on the specified subreddit.
+     *
      * @param subreddit The subreddit to base the theme on
      * @return Color-int for the status bar
      */
@@ -59,7 +62,8 @@ public class Palette {
 
     private static int getColorAccent(final String subreddit) {
         if (Reddit.colors.contains("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH))) {
-            return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
+            return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH),
+                    getDefaultColor());
         } else {
             return getDefaultColor();
         }
@@ -67,7 +71,8 @@ public class Palette {
 
     public static int getFontColorUser(final String subreddit) {
         if (Reddit.colors.contains("USER" + subreddit.toLowerCase(Locale.ENGLISH))) {
-            final int color = Reddit.colors.getInt("USER" + subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
+            final int color = Reddit.colors.getInt("USER" + subreddit.toLowerCase(Locale.ENGLISH),
+                    getDefaultColor());
 
             if (color == getDefaultColor()) {
                 return 0;
@@ -96,7 +101,7 @@ public class Palette {
     }
 
     public static void setColor(final String subreddit, int color) {
-         Reddit.colors.edit().putInt(subreddit.toLowerCase(Locale.ENGLISH), color).apply();
+        Reddit.colors.edit().putInt(subreddit.toLowerCase(Locale.ENGLISH), color).apply();
     }
 
     public static void removeColor(final String subreddit) {
@@ -105,7 +110,8 @@ public class Palette {
 
     public static int getColorUser(final String username) {
         if (Reddit.colors.contains("USER" + username.toLowerCase(Locale.ENGLISH))) {
-            return Reddit.colors.getInt("USER" + username.toLowerCase(Locale.ENGLISH), getDefaultColor());
+            return Reddit.colors.getInt("USER" + username.toLowerCase(Locale.ENGLISH),
+                    getDefaultColor());
         } else {
             return getDefaultColor();
         }
@@ -158,13 +164,20 @@ public class Palette {
     public ThemeEnum theme;
 
     public enum ThemeEnum {
-        DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
-        LIGHT("Light",Color.parseColor("#e5e5e5"), Color.parseColor("#ffffff"), Color.parseColor("#de000000"), Color.parseColor("#8A000000") ),
-        AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
-        SEPIA("Sepia", Color.parseColor("#cac5ad"), Color.parseColor("#e2dfd7"), Color.parseColor("#DE3e3d36"), Color.parseColor("#8A3e3d36")),
-        BLUE("Dark Blue", Color.parseColor("#2F3D44"), Color.parseColor("#37474F"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
-        PIXEL("Pixel", Color.parseColor("#3e3e3e"), Color.parseColor("#2d2d2d"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
-        DEEP("Deep", Color.parseColor("#16161C"), Color.parseColor("#212026"), Color.parseColor("#ffffff"), Color.parseColor("#1C1B21"));
+        DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"),
+                Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        LIGHT("Light", Color.parseColor("#e5e5e5"), Color.parseColor("#ffffff"),
+                Color.parseColor("#de000000"), Color.parseColor("#8A000000")),
+        AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"),
+                Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        SEPIA("Sepia", Color.parseColor("#cac5ad"), Color.parseColor("#e2dfd7"),
+                Color.parseColor("#DE3e3d36"), Color.parseColor("#8A3e3d36")),
+        BLUE("Dark Blue", Color.parseColor("#2F3D44"), Color.parseColor("#37474F"),
+                Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        PIXEL("Pixel", Color.parseColor("#3e3e3e"), Color.parseColor("#2d2d2d"),
+                Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        DEEP("Deep", Color.parseColor("#16161C"), Color.parseColor("#212026"),
+                Color.parseColor("#ffffff"), Color.parseColor("#1C1B21"));
 
         public String getDisplayName() {
             return displayName;
@@ -181,17 +194,18 @@ public class Palette {
         public int getFontColor() {
             return fontColor;
         }
+
         public int getTint() {
             return tint;
         }
 
         final String displayName;
-        final int backgroundColor;
-        final int cardBackgroundColor;
-        final int tint;
-        final int fontColor;
+        final int    backgroundColor;
+        final int    cardBackgroundColor;
+        final int    tint;
+        final int    fontColor;
 
-        ThemeEnum(String s, int backgroundColor, int cardBackgroundColor, int fontColor, int tint){
+        ThemeEnum(String s, int backgroundColor, int cardBackgroundColor, int fontColor, int tint) {
             this.displayName = s;
             this.backgroundColor = backgroundColor;
             this.cardBackgroundColor = cardBackgroundColor;

@@ -1,8 +1,4 @@
-
 package me.ccrama.redditslide.Tumblr;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,23 +7,22 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "name",
-    "active",
-    "theme",
-    "share_likes",
-    "share_following"
+        "name", "active", "theme", "share_likes", "share_following"
 })
 public class Blog_ {
 
     @JsonProperty("name")
-    private String name;
+    private String  name;
     @JsonProperty("active")
     private Boolean active;
     @JsonProperty("theme")
-    private Theme theme;
+    private Theme   theme;
     @JsonProperty("share_likes")
     private Boolean shareLikes;
     @JsonProperty("share_following")
@@ -36,9 +31,7 @@ public class Blog_ {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The name
+     * @return The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -46,9 +39,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -56,9 +47,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @return
-     *     The active
+     * @return The active
      */
     @JsonProperty("active")
     public Boolean getActive() {
@@ -66,9 +55,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @param active
-     *     The active
+     * @param active The active
      */
     @JsonProperty("active")
     public void setActive(Boolean active) {
@@ -76,9 +63,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @return
-     *     The theme
+     * @return The theme
      */
     @JsonProperty("theme")
     public Theme getTheme() {
@@ -86,9 +71,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @param theme
-     *     The theme
+     * @param theme The theme
      */
     @JsonProperty("theme")
     public void setTheme(Theme theme) {
@@ -96,9 +79,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @return
-     *     The shareLikes
+     * @return The shareLikes
      */
     @JsonProperty("share_likes")
     public Boolean getShareLikes() {
@@ -106,9 +87,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @param shareLikes
-     *     The share_likes
+     * @param shareLikes The share_likes
      */
     @JsonProperty("share_likes")
     public void setShareLikes(Boolean shareLikes) {
@@ -116,9 +95,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @return
-     *     The shareFollowing
+     * @return The shareFollowing
      */
     @JsonProperty("share_following")
     public Boolean getShareFollowing() {
@@ -126,9 +103,7 @@ public class Blog_ {
     }
 
     /**
-     * 
-     * @param shareFollowing
-     *     The share_following
+     * @param shareFollowing The share_following
      */
     @JsonProperty("share_following")
     public void setShareFollowing(Boolean shareFollowing) {

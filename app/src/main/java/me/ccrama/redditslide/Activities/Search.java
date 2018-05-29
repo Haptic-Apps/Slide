@@ -45,18 +45,18 @@ public class Search extends BaseActivityAnim {
 
     //todo NFC support
 
-    public static final String EXTRA_TERM = "term";
-    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_TERM        = "term";
+    public static final String EXTRA_SUBREDDIT   = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multi";
-    public static final String EXTRA_SITE = "site";
-    public static final String EXTRA_URL = "url";
-    public static final String EXTRA_SELF = "self";
-    public static final String EXTRA_NSFW = "nsfw";
-    public static final String EXTRA_AUTHOR = "author";
+    public static final String EXTRA_SITE        = "site";
+    public static final String EXTRA_URL         = "url";
+    public static final String EXTRA_SELF        = "self";
+    public static final String EXTRA_NSFW        = "nsfw";
+    public static final String EXTRA_AUTHOR      = "author";
 
-    private int totalItemCount;
-    private int visibleItemCount;
-    private int pastVisiblesItems;
+    private int                 totalItemCount;
+    private int                 visibleItemCount;
+    private int                 pastVisiblesItems;
     private ContributionAdapter adapter;
 
     private String where;
@@ -113,8 +113,11 @@ public class Search extends BaseActivityAnim {
 
                 //When the .name() is returned for both of the ENUMs, it will be in all caps.
                 //So, make it lowercase, then capitalize the first letter of each.
-                getSupportActionBar().setSubtitle(StringUtils.capitalize(
-                        SortingUtil.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils
+                getSupportActionBar().setSubtitle(
+                        StringUtils.capitalize(
+                        SortingUtil.search.name().toLowerCase(Locale.ENGLISH))
+                                + " › "
+                                + StringUtils
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
@@ -148,14 +151,18 @@ public class Search extends BaseActivityAnim {
 
                 //When the .name() is returned for both of the ENUMs, it will be in all caps.
                 //So, make it lowercase, then capitalize the first letter of each.
-                getSupportActionBar().setSubtitle(StringUtils.capitalize(
-                        SortingUtil.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils
+                getSupportActionBar().setSubtitle(
+                        StringUtils.capitalize(
+                        SortingUtil.search.name().toLowerCase(Locale.ENGLISH))
+                                + " › "
+                                + StringUtils
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSearch(), SortingUtil.getSearchType(), l2);
+        builder.setSingleChoiceItems(SortingUtil.getSearch(), SortingUtil.getSearchType(),
+                l2);
         builder.show();
     }
 
@@ -171,20 +178,24 @@ public class Search extends BaseActivityAnim {
                 openTimeFramePopup();
                 return true;
             case R.id.edit:
-                MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
-                        .alwaysCallInputCallback()
-                        .input(getString(R.string.search_msg), where, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
-                                where = charSequence.toString();
-                            }
-                        });
+                MaterialDialog.Builder builder =
+                        new MaterialDialog.Builder(this).title(R.string.search_title)
+                                .alwaysCallInputCallback()
+                                .input(getString(R.string.search_msg), where,
+                                        new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(MaterialDialog materialDialog,
+                                                    CharSequence charSequence) {
+                                                where = charSequence.toString();
+                                            }
+                                        });
 
                 //Add "search current sub" if it is not frontpage/all/random
                 builder.positiveText("Search")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                            public void onClick(@NonNull MaterialDialog materialDialog,
+                                    @NonNull DialogAction dialogAction) {
                                 Intent i = new Intent(Search.this, Search.class);
                                 i.putExtra(Search.EXTRA_TERM, where);
                                 i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
@@ -217,16 +228,18 @@ public class Search extends BaseActivityAnim {
 
         if (getIntent().hasExtra(EXTRA_MULTIREDDIT)) {
             multireddit = true;
-            subreddit  = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
+            subreddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         } else {
             if (getIntent().hasExtra(EXTRA_AUTHOR)) {
                 where = where + "&author=" + getIntent().getExtras().getString(EXTRA_AUTHOR);
             }
             if (getIntent().hasExtra(EXTRA_NSFW)) {
-                where = where + "&nsfw=" + (getIntent().getExtras().getBoolean(EXTRA_NSFW) ? "yes" : "no");
+                where = where + "&nsfw=" + (getIntent().getExtras().getBoolean(EXTRA_NSFW) ? "yes"
+                        : "no");
             }
             if (getIntent().hasExtra(EXTRA_SELF)) {
-                where = where + "&selftext=" + (getIntent().getExtras().getBoolean(EXTRA_SELF) ? "yes" : "no");
+                where = where + "&selftext=" + (getIntent().getExtras().getBoolean(EXTRA_SELF)
+                        ? "yes" : "no");
             }
             if (getIntent().hasExtra(EXTRA_SITE)) {
                 where = where + "&site=" + getIntent().getExtras().getString(EXTRA_SITE);
@@ -264,8 +277,8 @@ public class Search extends BaseActivityAnim {
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
-        mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, Search.this));
+        mLayoutManager = createLayoutManager(
+                getNumColumns(getResources().getConfiguration().orientation, Search.this));
         rv.setLayoutManager(mLayoutManager);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
@@ -276,23 +289,29 @@ public class Search extends BaseActivityAnim {
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    pastVisiblesItems =
+                            ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                 } else {
                     int[] firstVisibleItems = null;
-                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    firstVisibleItems =
+                            ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(
+                                    firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         pastVisiblesItems = firstVisibleItems[0];
                     }
                 }
 
-                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount && !posts.nomore) {
+                if (!posts.loading
+                        && (visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount
+                        && !posts.nomore) {
                     posts.loading = true;
                     posts.loadMore(adapter, subreddit, where, false, multireddit, time);
 
                 }
             }
         });
-        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        final SwipeRefreshLayout mSwipeRefreshLayout =
+                (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
@@ -315,16 +334,15 @@ public class Search extends BaseActivityAnim {
 
         posts.bindAdapter(adapter, mSwipeRefreshLayout);
         //TODO catch errors
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        posts.loadMore(adapter, subreddit, where, true, multireddit, time);
-                        //TODO catch errors
-                    }
-                }
-        );
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                posts.loadMore(adapter, subreddit, where, true, multireddit, time);
+                //TODO catch errors
+            }
+        });
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -336,6 +354,7 @@ public class Search extends BaseActivityAnim {
 
         mLayoutManager.setSpanCount(getNumColumns(currentOrientation, Search.this));
     }
+
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,
@@ -346,9 +365,12 @@ public class Search extends BaseActivityAnim {
         final int numColumns;
         boolean singleColumnMultiWindow = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = ((Activity)context).isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+            singleColumnMultiWindow = ((Activity) context).isInMultiWindowMode()
+                    && SettingValues.singleColumnMultiWindow;
         }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI && !singleColumnMultiWindow) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE
+                && SettingValues.tabletUI
+                && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT
                 && SettingValues.dualPortrait) {

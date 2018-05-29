@@ -60,7 +60,6 @@ import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
-import me.ccrama.redditslide.Activities.SettingsTheme;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
@@ -82,6 +81,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     private String                   input;
     public static final String MULTI_REDDIT = "/m/";
     MenuItem subscribe;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -155,11 +155,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 return true;
             case R.id.alphabetize_subscribe:
                 SettingValues.prefs.edit()
-                        .putBoolean(SettingValues.PREF_ALPHABETIZE_SUBSCRIBE, !SettingValues.alphabetizeOnSubscribe)
+                        .putBoolean(SettingValues.PREF_ALPHABETIZE_SUBSCRIBE,
+                                !SettingValues.alphabetizeOnSubscribe)
                         .apply();
                 SettingValues.alphabetizeOnSubscribe = !SettingValues.alphabetizeOnSubscribe;
-                if(subscribe != null)
-                subscribe.setChecked(SettingValues.alphabetizeOnSubscribe);
+                if (subscribe != null) subscribe.setChecked(SettingValues.alphabetizeOnSubscribe);
                 return true;
             case R.id.info:
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
@@ -230,7 +230,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         isSubscribed.put(s.getDisplayName().toLowerCase(Locale.ENGLISH), true);
                     }
 
-                    if(UserSubscriptions.multireddits == null){
+                    if (UserSubscriptions.multireddits == null) {
                         UserSubscriptions.loadMultireddits();
                     }
                     return null;
@@ -345,9 +345,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                final String[] multis = new String[UserSubscriptions
-                                                        .multireddits
-                                                        .size()];
+                                                final String[] multis =
+                                                        new String[UserSubscriptions.multireddits.size()];
                                                 int i = 0;
                                                 for (MultiReddit m : UserSubscriptions.multireddits) {
                                                     multis[i] = m.getDisplayName();
@@ -876,8 +875,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }
                         });
                 holder.check.setChecked(
-                        isSubscribed.containsKey(origPos.toLowerCase(Locale.ENGLISH)) && isSubscribed.get(
-                                origPos.toLowerCase(Locale.ENGLISH)));
+                        isSubscribed.containsKey(origPos.toLowerCase(Locale.ENGLISH))
+                                && isSubscribed.get(origPos.toLowerCase(Locale.ENGLISH)));
                 holder.check.setOnCheckedChangeListener(
                         new CompoundButton.OnCheckedChangeListener() {
                             @Override
@@ -890,7 +889,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             getString(R.string.reorder_unsubscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();
                                 } else {
-                                    new UserSubscriptions.SubscribeTask(ReorderSubreddits.this).execute(sub);
+                                    new UserSubscriptions.SubscribeTask(
+                                            ReorderSubreddits.this).execute(sub);
                                     Snackbar.make(mToolbar,
                                             getString(R.string.reorder_subscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();
@@ -1002,7 +1002,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                     new UserSubscriptions.UnsubscribeTask()
                                                                             .execute(sub);
                                                                     isSubscribed.put(
-                                                                            sub.toLowerCase(Locale.ENGLISH),
+                                                                            sub.toLowerCase(
+                                                                                    Locale.ENGLISH),
                                                                             false);
                                                                 }
                                                             });
@@ -1077,8 +1078,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                text = (TextView) itemView.findViewById(R.id.name);
-                check = (AppCompatCheckBox) itemView.findViewById(R.id.isSubscribed);
+                text = itemView.findViewById(R.id.name);
+                check = itemView.findViewById(R.id.isSubscribed);
             }
         }
 

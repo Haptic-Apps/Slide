@@ -25,11 +25,13 @@ public class MarkAsReadService extends IntentService {
         super("MarkReadService");
     }
 
-    public static PendingIntent getMarkAsReadIntent(int notificationId, Context context, String[] messageNames) {
+    public static PendingIntent getMarkAsReadIntent(int notificationId, Context context,
+            String[] messageNames) {
         Intent intent = new Intent(context, MarkAsReadService.class);
         intent.putExtra(NOTIFICATION_ID, notificationId - 2);
         intent.putExtra(CheckForMail.MESSAGE_EXTRA, messageNames);
-        return PendingIntent.getService(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getService(context, notificationId, intent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     @Override

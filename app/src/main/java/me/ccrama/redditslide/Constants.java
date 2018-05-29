@@ -27,26 +27,27 @@ public class Constants {
      * The BOTTOM offset is used for the end point of the indicator (below the toolbar).
      * This is used whenever we call mSwipeRefreshLayout.setProgressViewOffset().
      */
-    public static final int PTR_OFFSET_TOP = Reddit.dpToPxVertical(40);
+    public static final int PTR_OFFSET_TOP    = Reddit.dpToPxVertical(40);
     public static final int PTR_OFFSET_BOTTOM = Reddit.dpToPxVertical(18);
 
     /**
      * Drawer swipe edge (navdrawer). The higher the value, the more sensitive the navdrawer
      * swipe area becomes. This is a percentage of the screen width.
      */
-    public static final float DRAWER_SWIPE_EDGE = 0.07f;
+    public static final float DRAWER_SWIPE_EDGE        = 0.07f;
     public static final float DRAWER_SWIPE_EDGE_TABLET = 0.03f;
 
     /** The client ID to use when making requests to the Imgur Mashape API */
     public static final String IMGUR_MASHAPE_CLIENT_ID = "bef87913eb202e9";
-    public static final String TUMBLR_API_KEY = "qr0mPKRNb46Q5HwjkQjALEsA7m4Ub5MKvwv2qXmGHQJjG2B3gl";
+    public static final String TUMBLR_API_KEY          =
+            "qr0mPKRNb46Q5HwjkQjALEsA7m4Ub5MKvwv2qXmGHQJjG2B3gl";
 
-    public static final int SUBREDDIT_SEARCH_METHOD_DRAWER = 1;
+    public static final int SUBREDDIT_SEARCH_METHOD_DRAWER  = 1;
     public static final int SUBREDDIT_SEARCH_METHOD_TOOLBAR = 2;
-    public static final int SUBREDDIT_SEARCH_METHOD_BOTH = 3;
+    public static final int SUBREDDIT_SEARCH_METHOD_BOTH    = 3;
 
     public static final int FAB_DISMISS = 1;
-    public static final int FAB_POST = 2;
+    public static final int FAB_POST    = 2;
 
     public enum BackButtonBehaviorOptions {
         Default(0), ConfirmExit(1), OpenDrawer(2);

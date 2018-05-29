@@ -34,30 +34,42 @@ public class SettingsRedditFragment {
                     if (isChecked) {
                         (context.findViewById(R.id.settings_reddit_nsfwrpev)).setEnabled(true);
                         context.findViewById(R.id.settings_reddit_nsfwrpev_text).setAlpha(1f);
-                        ((SwitchCompat) context.findViewById(R.id.settings_reddit_nsfwrpev)).setChecked(SettingValues.getIsNSFWEnabled());
+                        ((SwitchCompat) context.findViewById(
+                                R.id.settings_reddit_nsfwrpev)).setChecked(
+                                SettingValues.getIsNSFWEnabled());
 
-                        (context.findViewById(R.id.settings_reddit_nsfwcollection)).setEnabled(true);
+                        (context.findViewById(R.id.settings_reddit_nsfwcollection)).setEnabled(
+                                true);
                         context.findViewById(R.id.settings_reddit_nsfwcollection_text).setAlpha(1f);
-                        ((SwitchCompat) context.findViewById(R.id.settings_reddit_nsfwcollection)).setChecked(SettingValues.hideNSFWCollection);
+                        ((SwitchCompat) context.findViewById(
+                                R.id.settings_reddit_nsfwcollection)).setChecked(
+                                SettingValues.hideNSFWCollection);
 
                     } else {
-                        ((SwitchCompat) context.findViewById(R.id.settings_reddit_nsfwrpev)).setChecked(false);
+                        ((SwitchCompat) context.findViewById(
+                                R.id.settings_reddit_nsfwrpev)).setChecked(false);
                         (context.findViewById(R.id.settings_reddit_nsfwrpev)).setEnabled(false);
                         context.findViewById(R.id.settings_reddit_nsfwrpev_text).setAlpha(0.25f);
 
-                        ((SwitchCompat) context.findViewById(R.id.settings_reddit_nsfwcollection)).setChecked(false);
-                        (context.findViewById(R.id.settings_reddit_nsfwcollection)).setEnabled(false);
-                        context.findViewById(R.id.settings_reddit_nsfwcollection_text).setAlpha(0.25f);
+                        ((SwitchCompat) context.findViewById(
+                                R.id.settings_reddit_nsfwcollection)).setChecked(false);
+                        (context.findViewById(R.id.settings_reddit_nsfwcollection)).setEnabled(
+                                false);
+                        context.findViewById(R.id.settings_reddit_nsfwcollection_text)
+                                .setAlpha(0.25f);
 
                     }
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_NSFW_CONTENT, isChecked).apply();
+                    SettingValues.prefs.edit()
+                            .putBoolean(SettingValues.PREF_SHOW_NSFW_CONTENT, isChecked)
+                            .apply();
                 }
             });
         }
         {
             final SwitchCompat thumbnails = context.findViewById(R.id.settings_reddit_nsfwrpev);
 
-            if (!((SwitchCompat) context.findViewById(R.id.settings_reddit_nsfwcontent)).isChecked()) {
+            if (!((SwitchCompat) context.findViewById(
+                    R.id.settings_reddit_nsfwcontent)).isChecked()) {
                 thumbnails.setChecked(true);
                 thumbnails.setEnabled(false);
                 context.findViewById(R.id.settings_reddit_nsfwrpev_text).setAlpha(0.25f);
@@ -69,14 +81,19 @@ public class SettingsRedditFragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Settings.changed = true;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_PREVIEW + Authentication.name, isChecked).apply();
+                    SettingValues.prefs.edit()
+                            .putBoolean(SettingValues.PREF_HIDE_NSFW_PREVIEW + Authentication.name,
+                                    isChecked)
+                            .apply();
                 }
             });
         }
         {
-            final SwitchCompat thumbnails = context.findViewById(R.id.settings_reddit_nsfwcollection);
+            final SwitchCompat thumbnails =
+                    context.findViewById(R.id.settings_reddit_nsfwcollection);
 
-            if (!((SwitchCompat) context.findViewById(R.id.settings_reddit_nsfwcontent)).isChecked()) {
+            if (!((SwitchCompat) context.findViewById(
+                    R.id.settings_reddit_nsfwcontent)).isChecked()) {
                 thumbnails.setChecked(true);
                 thumbnails.setEnabled(false);
                 context.findViewById(R.id.settings_reddit_nsfwcollection_text).setAlpha(0.25f);
@@ -89,7 +106,9 @@ public class SettingsRedditFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Settings.changed = true;
                     SettingValues.hideNSFWCollection = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_COLLECTION, isChecked).apply();
+                    SettingValues.prefs.edit()
+                            .putBoolean(SettingValues.PREF_HIDE_NSFW_COLLECTION, isChecked)
+                            .apply();
                 }
             });
         }
@@ -103,16 +122,20 @@ public class SettingsRedditFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Settings.changed = true;
                     SettingValues.ignoreSubSetting = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IGNORE_SUB_SETTINGS, isChecked).apply();
+                    SettingValues.prefs.edit()
+                            .putBoolean(SettingValues.PREF_IGNORE_SUB_SETTINGS, isChecked)
+                            .apply();
                 }
             });
         }
-        context.findViewById(R.id.settings_reddit_viewRedditPrefs).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LinkUtil.openUrl("https://www.reddit.com/prefs/", Palette.getDefaultColor(), context);
-            }
-        });
+        context.findViewById(R.id.settings_reddit_viewRedditPrefs)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LinkUtil.openUrl("https://www.reddit.com/prefs/", Palette.getDefaultColor(),
+                                context);
+                    }
+                });
     }
 
 }

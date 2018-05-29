@@ -36,7 +36,8 @@ public class ImageInsertEditText extends EditText {
         super(context, attrs, defStyleAttr);
     }
 
-    public ImageInsertEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ImageInsertEditText(Context context, AttributeSet attrs, int defStyleAttr,
+            int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -51,32 +52,34 @@ public class ImageInsertEditText extends EditText {
     @Override
     public InputConnection onCreateInputConnection(EditorInfo attrs) {
         InputConnection con = super.onCreateInputConnection(attrs);
-        EditorInfoCompat.setContentMimeTypes(attrs, new String[] { "image/gif", "image/png" });
+        EditorInfoCompat.setContentMimeTypes(attrs, new String[]{"image/gif", "image/png"});
 
-        return InputConnectionCompat.createWrapper(con, attrs, new InputConnectionCompat.OnCommitContentListener() {
-            @Override
-            public boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags, Bundle opts) {
-                if (callback != null) {
-                    if (BuildCompat.isAtLeastNMR1() &&
-                            (flags & InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
-                        try {
-                            inputContentInfo.requestPermission();
-                        } catch (Exception e) {
+        return InputConnectionCompat.createWrapper(con, attrs,
+                new InputConnectionCompat.OnCommitContentListener() {
+                    @Override
+                    public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
+                            int flags, Bundle opts) {
+                        if (callback != null) {
+                            if (BuildCompat.isAtLeastNMR1()
+                                    && (flags
+                                    & InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION)
+                                    != 0) {
+                                try {
+                                    inputContentInfo.requestPermission();
+                                } catch (Exception e) {
+                                    return false;
+                                }
+                            }
+
+                            callback.onImageSelected(inputContentInfo.getContentUri(),
+                                    inputContentInfo.getDescription().getMimeType(0));
+
+                            return true;
+                        } else {
                             return false;
                         }
                     }
-
-                    callback.onImageSelected(
-                            inputContentInfo.getContentUri(),
-                            inputContentInfo.getDescription().getMimeType(0)
-                    );
-
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
+                });
     }
 
 }

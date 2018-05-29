@@ -291,9 +291,8 @@ public class SubredditPosts implements PostLoader {
         public int start;
 
         @Override
-        public void onPreExecute()
-        {
-            if(reset) {
+        public void onPreExecute() {
+            if (reset) {
                 posts.clear();
                 displayer.onAdapterUpdated();
             }

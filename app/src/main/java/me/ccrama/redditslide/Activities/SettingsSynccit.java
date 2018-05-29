@@ -49,23 +49,28 @@ public class SettingsSynccit extends BaseActivityAnim {
             public void onClick(View v) {
                 if (!SettingValues.synccitAuth.isEmpty()) {
 
-                    new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                            .setTitle(R.string.settings_synccit_delete)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    SettingValues.synccitName = "";
-                                    SettingValues.synccitAuth = "";
-                                    SharedPreferences.Editor e = SettingValues.prefs.edit();
+                    new AlertDialogWrapper.Builder(SettingsSynccit.this).setTitle(
+                            R.string.settings_synccit_delete)
+                            .setPositiveButton(R.string.btn_yes,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            SettingValues.synccitName = "";
+                                            SettingValues.synccitAuth = "";
+                                            SharedPreferences.Editor e = SettingValues.prefs.edit();
 
-                                    e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
-                                    e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
-                                    e.apply();
-                                    name.setText(SettingValues.synccitName);
-                                    auth.setText(SettingValues.synccitAuth);
-                                    SynccitRead.visitedIds.removeAll(Collections.singleton("16noez"));
-                                }
-                            }).setNegativeButton(R.string.btn_no, null)
+                                            e.putString(SettingValues.SYNCCIT_NAME,
+                                                    SettingValues.synccitName);
+                                            e.putString(SettingValues.SYNCCIT_AUTH,
+                                                    SettingValues.synccitAuth);
+                                            e.apply();
+                                            name.setText(SettingValues.synccitName);
+                                            auth.setText(SettingValues.synccitAuth);
+                                            SynccitRead.visitedIds.removeAll(
+                                                    Collections.singleton("16noez"));
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no, null)
                             .show();
                 }
             }
@@ -74,8 +79,8 @@ public class SettingsSynccit extends BaseActivityAnim {
         findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog d = new MaterialDialog.Builder(SettingsSynccit.this)
-                        .title(R.string.settings_synccit_authenticate)
+                final Dialog d = new MaterialDialog.Builder(SettingsSynccit.this).title(
+                        R.string.settings_synccit_authenticate)
                         .progress(true, 100)
                         .content(R.string.misc_please_wait)
                         .cancelable(false)
@@ -86,44 +91,49 @@ public class SettingsSynccit extends BaseActivityAnim {
                 try {
                     new MySynccitReadTask().execute("16noez").get();
                     if (SynccitRead.visitedIds.contains("16noez")) {
-                                //success
-                                d.dismiss();
-                                SharedPreferences.Editor e = SettingValues.prefs.edit();
+                        //success
+                        d.dismiss();
+                        SharedPreferences.Editor e = SettingValues.prefs.edit();
 
-                                e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
-                                e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
-                                e.apply();
-                                (findViewById(R.id.remove)).setEnabled(true);
+                        e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
+                        e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
+                        e.apply();
+                        (findViewById(R.id.remove)).setEnabled(true);
 
-                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                                        .setTitle(R.string.settings_synccit_connected)
-                                        .setMessage(R.string.settings_synccit_active)
-                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        new AlertDialogWrapper.Builder(SettingsSynccit.this).setTitle(
+                                R.string.settings_synccit_connected)
+                                .setMessage(R.string.settings_synccit_active)
+                                .setPositiveButton(R.string.btn_ok,
+                                        new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 finish();
                                             }
-                                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                        })
+                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                     @Override
                                     public void onDismiss(DialogInterface dialog) {
                                         finish();
                                     }
-                                }).show();
-                            } else {
-                                d.dismiss();
+                                })
+                                .show();
+                    } else {
+                        d.dismiss();
 
-                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                                        .setTitle(R.string.settings_synccit_failed)
-                                        .setMessage(R.string.settings_synccit_failed_msg)
-                                        .setPositiveButton(R.string.btn_ok, null).show();
-                            }
+                        new AlertDialogWrapper.Builder(SettingsSynccit.this).setTitle(
+                                R.string.settings_synccit_failed)
+                                .setMessage(R.string.settings_synccit_failed_msg)
+                                .setPositiveButton(R.string.btn_ok, null)
+                                .show();
+                    }
                 } catch (Exception e) {
                     d.dismiss();
 
-                    new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                            .setTitle(R.string.settings_synccit_failed)
+                    new AlertDialogWrapper.Builder(SettingsSynccit.this).setTitle(
+                            R.string.settings_synccit_failed)
                             .setMessage(R.string.settings_synccit_failed_msg)
-                            .setPositiveButton(R.string.btn_ok, null).show();
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
 
                 }
 

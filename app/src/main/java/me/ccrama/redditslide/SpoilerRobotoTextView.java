@@ -610,14 +610,14 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private void openVReddit(String url, String subreddit, Activity activity) {
-        new OpenVRedditTask(activity, subreddit).executeOnExecutor(
-                AsyncTask.THREAD_POOL_EXECUTOR, url);
+        new OpenVRedditTask(activity, subreddit).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                url);
     }
 
 
     private void openGif(String url, String subreddit, Activity activity) {
         if (SettingValues.gif) {
-            if(GifUtils.AsyncLoadGif.getVideoType(url).shouldLoadPreview()){
+            if (GifUtils.AsyncLoadGif.getVideoType(url).shouldLoadPreview()) {
                 LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
             } else {
                 Intent myIntent = new Intent(getContext(), MediaView.class);

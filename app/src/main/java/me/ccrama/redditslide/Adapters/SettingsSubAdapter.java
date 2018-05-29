@@ -45,7 +45,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subforsublisteditor, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.subforsublisteditor, parent, false);
         return new ViewHolder(v);
     }
 
@@ -57,19 +58,26 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
         final String subreddit = objects.get(position);
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color)
+                .getBackground()
+                .setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
 
-        final String DELETE_SUB_SETTINGS_TITLE = (subreddit.contains("/m/")) ? subreddit : ("/r/" + subreddit);
+        final String DELETE_SUB_SETTINGS_TITLE =
+                (subreddit.contains("/m/")) ? subreddit : ("/r/" + subreddit);
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
+                new AlertDialogWrapper.Builder(context).setTitle(
+                        context.getString(R.string.settings_delete_sub_settings,
+                                DELETE_SUB_SETTINGS_TITLE))
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Palette.removeColor(subreddit);
                                 // Remove layout settings
-                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
+                                SettingValues.prefs.edit()
+                                        .remove(Reddit.PREF_LAYOUT + subreddit)
+                                        .apply();
                                 // Remove accent / font color settings
                                 new ColorPreferences(context).removeFontStyle(subreddit);
 
@@ -117,7 +125,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
      * @param context      Context for getting colors
      * @param dialoglayout The subchooser layout (R.layout.colorsub)
      */
-    public static void showSubThemeEditor(final ArrayList<String> subreddits, final Activity context, View dialoglayout) {
+    public static void showSubThemeEditor(final ArrayList<String> subreddits,
+            final Activity context, View dialoglayout) {
         if (subreddits.isEmpty()) {
             return;
         }
@@ -247,7 +256,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 @Override
                 public void onColorChanged(int i) {
                     if (context instanceof MainActivity) {
-                        ((MainActivity) context).updateColor(colorPickerPrimaryShades.getColor(), subreddit);
+                        ((MainActivity) context).updateColor(colorPickerPrimaryShades.getColor(),
+                                subreddit);
                     }
                     title.setBackgroundColor(colorPickerPrimaryShades.getColor());
                 }
@@ -322,7 +332,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (context instanceof MainActivity) {
-                        ((MainActivity) context).updateColor(Palette.getColor(subreddit), subreddit);
+                        ((MainActivity) context).updateColor(Palette.getColor(subreddit),
+                                subreddit);
                     }
                 }
             }).setNeutralButton(R.string.btn_reset, new DialogInterface.OnClickListener() {
@@ -342,37 +353,44 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                         subTitles = subTitles.substring(0, subTitles.length() - 2);
                     } else {
                         //if the subreddit is the frontpage, don't put "/r/" in front of it
-                        subTitles = (subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit);
+                        subTitles =
+                                (subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit);
                     }
-                    String titleStart = context.getString(R.string.settings_delete_sub_settings, subTitles);
+                    String titleStart =
+                            context.getString(R.string.settings_delete_sub_settings, subTitles);
                     titleStart = titleStart.replace("/r//r/", "/r/");
                     if (titleStart.contains("/r/frontpage")) {
                         titleStart = titleStart.replace("/r/frontpage", "frontpage");
                     }
                     new AlertDialogWrapper.Builder(context).setTitle(titleStart)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    for (String sub : subreddits) {
-                                        Palette.removeColor(sub);
-                                        // Remove layout settings
-                                        SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + sub).apply();
-                                        // Remove accent / font color settings
-                                        new ColorPreferences(context).removeFontStyle(sub);
+                            .setPositiveButton(R.string.btn_yes,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            for (String sub : subreddits) {
+                                                Palette.removeColor(sub);
+                                                // Remove layout settings
+                                                SettingValues.prefs.edit()
+                                                        .remove(Reddit.PREF_LAYOUT + sub)
+                                                        .apply();
+                                                // Remove accent / font color settings
+                                                new ColorPreferences(context).removeFontStyle(sub);
 
-                                        SettingValues.resetPicsEnabled(sub);
-                                        SettingValues.resetSelftextEnabled(sub);
-                                    }
+                                                SettingValues.resetPicsEnabled(sub);
+                                                SettingValues.resetSelftextEnabled(sub);
+                                            }
 
-                                    if (context instanceof MainActivity) {
-                                        ((MainActivity) context).reloadSubs();
-                                    } else if (context instanceof SettingsSubreddit) {
-                                        ((SettingsSubreddit) context).reloadSubList();
-                                    } else if (context instanceof SubredditView) {
-                                        ((SubredditView) context).restartTheme();
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no, null).show();
+                                            if (context instanceof MainActivity) {
+                                                ((MainActivity) context).reloadSubs();
+                                            } else if (context instanceof SettingsSubreddit) {
+                                                ((SettingsSubreddit) context).reloadSubList();
+                                            } else if (context instanceof SubredditView) {
+                                                ((SubredditView) context).restartTheme();
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no, null)
+                            .show();
                 }
             }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                 @Override
@@ -389,7 +407,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                             SettingValues.setSelftextEnabled(sub, selftext.isChecked());
                         }
                         //Only do set colors if either subreddit theme color has changed
-                        if (Palette.getColor(sub) != newPrimaryColor || Palette.getDarkerColor(sub) != newAccentColor) {
+                        if (Palette.getColor(sub) != newPrimaryColor
+                                || Palette.getDarkerColor(sub) != newAccentColor) {
 
                             if (newPrimaryColor != Palette.getDefaultColor()) {
                                 Palette.setColor(sub, newPrimaryColor);
@@ -401,11 +420,16 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                             ColorPreferences.Theme t = null;
 
                             //Do not save accent color if it matches the default accent color
-                            if (newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyle().getColor()) || newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyleSubreddit(sub).getColor())) {
+                            if (newAccentColor != ContextCompat.getColor(context,
+                                    colorPrefs.getFontStyle().getColor())
+                                    || newAccentColor != ContextCompat.getColor(context,
+                                    colorPrefs.getFontStyleSubreddit(sub).getColor())) {
                                 LogUtil.v("Accent colors not equal");
-                                int back = new ColorPreferences(context).getFontStyle().getThemeType();
+                                int back =
+                                        new ColorPreferences(context).getFontStyle().getThemeType();
                                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                    if (ContextCompat.getColor(context, type.getColor()) == newAccentColor && back == type.getThemeType()) {
+                                    if (ContextCompat.getColor(context, type.getColor())
+                                            == newAccentColor && back == type.getThemeType()) {
                                         t = type;
                                         LogUtil.v("Setting accent color to " + t.getTitle());
                                         break;
@@ -421,11 +445,14 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                         }
 
                         // Set layout
-                        SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + sub, true).apply();
+                        SettingValues.prefs.edit()
+                                .putBoolean(Reddit.PREF_LAYOUT + sub, true)
+                                .apply();
                     }
 
                     //Only refresh stuff if the user changed something
-                    if (Palette.getColor(subreddit) != newPrimaryColor || Palette.getDarkerColor(subreddit) != newAccentColor) {
+                    if (Palette.getColor(subreddit) != newPrimaryColor
+                            || Palette.getDarkerColor(subreddit) != newAccentColor) {
                         if (context instanceof MainActivity) {
                             ((MainActivity) context).reloadSubs();
                         } else if (context instanceof SettingsSubreddit) {
@@ -440,8 +467,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
     }
 
     public void prepareAndShowSubEditor(ArrayList<String> subreddits) {
-        if (subreddits.size() == 1) prepareAndShowSubEditor(subreddits.get(0));
-        else if (subreddits.size() > 1) {
+        if (subreddits.size() == 1) {
+            prepareAndShowSubEditor(subreddits.get(0));
+        } else if (subreddits.size() > 1) {
             LayoutInflater localInflater = context.getLayoutInflater();
             final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
             showSubThemeEditor(subreddits, context, dialoglayout);
@@ -451,7 +479,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
     private void prepareAndShowSubEditor(String subreddit) {
         int style = new ColorPreferences(context).getThemeSubreddit(subreddit);
         final Context contextThemeWrapper = new ContextThemeWrapper(context, style);
-        LayoutInflater localInflater = context.getLayoutInflater().cloneInContext(contextThemeWrapper);
+        LayoutInflater localInflater =
+                context.getLayoutInflater().cloneInContext(contextThemeWrapper);
         final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
 
         ArrayList<String> arrayList = new ArrayList<>();

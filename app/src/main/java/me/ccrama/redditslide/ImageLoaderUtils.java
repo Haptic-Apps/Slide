@@ -14,7 +14,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -29,7 +28,7 @@ import me.ccrama.redditslide.util.OkHttpImageDownloader;
 /**
  * Created by carlo_000 on 10/19/2015.
  */
-    /*Adapted from https://github.com/Kennyc1012/Opengur */
+/*Adapted from https://github.com/Kennyc1012/Opengur */
 
 public class ImageLoaderUtils {
 
@@ -39,17 +38,21 @@ public class ImageLoaderUtils {
     }
 
     public static File getCacheDirectory(Context context) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && context.getExternalCacheDir() != null) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
+                && context.getExternalCacheDir() != null) {
             return context.getExternalCacheDir();
         }
         return context.getCacheDir();
     }
+
     public static File getCacheDirectoryGif(Context context) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && context.getExternalCacheDir() != null) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
+                && context.getExternalCacheDir() != null) {
             return new File(context.getExternalCacheDir() + File.separator + "gifs");
         }
         return new File(context.getCacheDir() + File.separator + "gifs");
     }
+
     public static void initImageLoader(Context context) {
         long discCacheSize = 1024 * 1024;
         DiskCache discCache;
@@ -68,22 +71,21 @@ public class ImageLoaderUtils {
             discCache = new UnlimitedDiskCache(dir);
         }
 
-        options = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true)
+        options = new DisplayImageOptions.Builder().cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .cacheInMemory(false)
                 .resetViewBeforeLoading(false)
                 .displayer(new FadeInBitmapDisplayer(250))
                 .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-                .threadPoolSize(threadPoolSize)
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCache(discCache)
-                .threadPoolSize(4)
-                .imageDownloader(new OkHttpImageDownloader(context))
-                .defaultDisplayImageOptions(options)
-                .build();
+        ImageLoaderConfiguration config =
+                new ImageLoaderConfiguration.Builder(context).threadPoolSize(threadPoolSize)
+                        .denyCacheImageMultipleSizesInMemory()
+                        .diskCache(discCache)
+                        .threadPoolSize(4)
+                        .imageDownloader(new OkHttpImageDownloader(context))
+                        .defaultDisplayImageOptions(options)
+                        .build();
 
         if (ImageLoader.getInstance().isInited()) {
             ImageLoader.getInstance().destroy();
@@ -93,15 +95,17 @@ public class ImageLoaderUtils {
         imageLoader.init(config);
 
     }
+
     public static DisplayImageOptions options;
 
 }
 
-class ImageLoaderUnescape extends  ImageLoader {
+class ImageLoaderUnescape extends ImageLoader {
 
     @Override
     public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options,
-            ImageSize targetSize, ImageLoadingListener listener, ImageLoadingProgressListener progressListener) {
+            ImageSize targetSize, ImageLoadingListener listener,
+            ImageLoadingProgressListener progressListener) {
         String newUri = StringEscapeUtils.unescapeHtml4(uri);
         super.displayImage(newUri, imageAware, options, targetSize, listener, progressListener);
     }
@@ -118,7 +122,6 @@ class ImageLoaderUnescape extends  ImageLoader {
         }
         return instance;
     }
-
 
 
 }

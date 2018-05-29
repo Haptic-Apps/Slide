@@ -12,20 +12,20 @@ import me.ccrama.redditslide.Views.CommentOverflow;
  * Created by ccrama on 9/17/2015.
  */
 public class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
-    public final TextView title;
-    public final TextView score;
-    public final TextView time;
-    public final View gild;
+    public final TextView              title;
+    public final TextView              score;
+    public final TextView              time;
+    public final View                  gild;
     public final SpoilerRobotoTextView content;
-    public final CommentOverflow overflow;
+    public final CommentOverflow       overflow;
 
     public ProfileCommentViewHolder(View v) {
         super(v);
-        title = (TextView) v.findViewById(R.id.title);
-        score = (TextView) v.findViewById(R.id.score);
-        time = (TextView) v.findViewById(R.id.time);
+        title = v.findViewById(R.id.title);
+        score = v.findViewById(R.id.score);
+        time = v.findViewById(R.id.time);
         gild = v.findViewById(R.id.gildtext);
-        content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
-        overflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
+        content = v.findViewById(R.id.content);
+        overflow = v.findViewById(R.id.commentOverflow);
     }
 }

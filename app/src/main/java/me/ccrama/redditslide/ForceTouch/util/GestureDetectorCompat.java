@@ -35,23 +35,24 @@ import android.view.ViewConfiguration;
  * The {@link OnGestureListener} callback will notify users when a particular
  * motion event has occurred. This class should only be used with {@link MotionEvent}s
  * reported via touch (don't use for trackball events).
- *
  * <p>This compatibility implementation of the framework's GestureDetector guarantees
  * the newer focal point scrolling behavior from Jellybean MR1 on all platform versions.</p>
- *
  * To use this class:
  * <ul>
- *  <li>Create an instance of the {@code GestureDetectorCompat} for your {@link View}
- *  <li>In the {@link View#onTouchEvent(MotionEvent)} method ensure you call
- *          {@link #onTouchEvent(MotionEvent)}. The methods defined in your callback
- *          will be executed when the events occur.
+ * <li>Create an instance of the {@code GestureDetectorCompat} for your {@link View}
+ * <li>In the {@link View#onTouchEvent(MotionEvent)} method ensure you call
+ * {@link #onTouchEvent(MotionEvent)}. The methods defined in your callback
+ * will be executed when the events occur.
  * </ul>
  */
 public class GestureDetectorCompat {
     interface GestureDetectorCompatImpl {
         boolean isLongpressEnabled();
+
         boolean onTouchEvent(MotionEvent ev);
+
         void setIsLongpressEnabled(boolean enabled);
+
         void setOnDoubleTapListener(OnDoubleTapListener listener);
     }
 
@@ -61,18 +62,18 @@ public class GestureDetectorCompat {
         private int mMinimumFlingVelocity;
         private int mMaximumFlingVelocity;
 
-        private static final int LONGPRESS_TIMEOUT = 100;
-        private static final int TAP_TIMEOUT = ViewConfiguration.getTapTimeout();
+        private static final int LONGPRESS_TIMEOUT  = 100;
+        private static final int TAP_TIMEOUT        = ViewConfiguration.getTapTimeout();
         private static final int DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
 
         // constants for Message.what used by GestureHandler below
         private static final int SHOW_PRESS = 1;
         private static final int LONG_PRESS = 2;
-        private static final int TAP = 3;
+        private static final int TAP        = 3;
 
-        private final Handler mHandler;
-        private final OnGestureListener mListener;
-        private OnDoubleTapListener mDoubleTapListener;
+        private final Handler             mHandler;
+        private final OnGestureListener   mListener;
+        private       OnDoubleTapListener mDoubleTapListener;
 
         private boolean mStillDown;
         private boolean mDeferConfirmSingleTap;
@@ -141,17 +142,16 @@ public class GestureDetectorCompat {
         /**
          * Creates a GestureDetector with the supplied listener.
          * You may only use this constructor from a UI thread (this is the usual situation).
-         * @see Handler#Handler()
          *
-         * @param context the application's context
+         * @param context  the application's context
          * @param listener the listener invoked for all the callbacks, this must
-         * not be null.
-         * @param handler the handler to use
-         *
+         *                 not be null.
+         * @param handler  the handler to use
          * @throws NullPointerException if {@code listener} is null.
+         * @see Handler#Handler()
          */
         public GestureDetectorCompatImplBase(Context context, OnGestureListener listener,
-                                             Handler handler) {
+                Handler handler) {
             if (handler != null) {
                 mHandler = new GestureHandler(handler);
             } else {
@@ -188,7 +188,7 @@ public class GestureDetectorCompat {
          * gestures.
          *
          * @param onDoubleTapListener the listener invoked for all the callbacks, or
-         *        null to stop listening for double-tap gestures.
+         *                            null to stop listening for double-tap gestures.
          */
         public void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
             mDoubleTapListener = onDoubleTapListener;
@@ -220,7 +220,7 @@ public class GestureDetectorCompat {
          *
          * @param ev The current motion event.
          * @return true if the {@link OnGestureListener} consumed the event,
-         *              else false.
+         * else false.
          */
         public boolean onTouchEvent(MotionEvent ev) {
             final int action = ev.getAction();
@@ -271,8 +271,10 @@ public class GestureDetectorCompat {
                         if (i == upIndex) continue;
 
                         final int id2 = MotionEventCompat.getPointerId(ev, i);
-                        final float x = x1 * VelocityTrackerCompat.getXVelocity(mVelocityTracker, id2);
-                        final float y = y1 * VelocityTrackerCompat.getYVelocity(mVelocityTracker, id2);
+                        final float x =
+                                x1 * VelocityTrackerCompat.getXVelocity(mVelocityTracker, id2);
+                        final float y =
+                                y1 * VelocityTrackerCompat.getYVelocity(mVelocityTracker, id2);
 
                         final float dot = x + y;
                         if (dot < 0) {
@@ -286,8 +288,10 @@ public class GestureDetectorCompat {
                     if (mDoubleTapListener != null) {
                         boolean hadTapMessage = mHandler.hasMessages(TAP);
                         if (hadTapMessage) mHandler.removeMessages(TAP);
-                        if ((mCurrentDownEvent != null) && (mPreviousUpEvent != null) && hadTapMessage &&
-                                isConsideredDoubleTap(mCurrentDownEvent, mPreviousUpEvent, ev)) {
+                        if ((mCurrentDownEvent != null)
+                                && (mPreviousUpEvent != null)
+                                && hadTapMessage
+                                && isConsideredDoubleTap(mCurrentDownEvent, mPreviousUpEvent, ev)) {
                             // This is a second tap
                             mIsDoubleTapping = true;
                             // Give a callback with the first tap of the double-tap
@@ -314,10 +318,11 @@ public class GestureDetectorCompat {
 
                     if (mIsLongpressEnabled) {
                         mHandler.removeMessages(LONG_PRESS);
-                        mHandler.sendEmptyMessageAtTime(LONG_PRESS, mCurrentDownEvent.getDownTime()
-                                + TAP_TIMEOUT + LONGPRESS_TIMEOUT);
+                        mHandler.sendEmptyMessageAtTime(LONG_PRESS,
+                                mCurrentDownEvent.getDownTime() + TAP_TIMEOUT + LONGPRESS_TIMEOUT);
                     }
-                    mHandler.sendEmptyMessageAtTime(SHOW_PRESS, mCurrentDownEvent.getDownTime() + TAP_TIMEOUT);
+                    mHandler.sendEmptyMessageAtTime(SHOW_PRESS,
+                            mCurrentDownEvent.getDownTime() + TAP_TIMEOUT);
                     handled |= mListener.onDown(ev);
                     break;
 
@@ -372,14 +377,15 @@ public class GestureDetectorCompat {
                         final VelocityTracker velocityTracker = mVelocityTracker;
                         final int pointerId = MotionEventCompat.getPointerId(ev, 0);
                         velocityTracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
-                        final float velocityY = VelocityTrackerCompat.getYVelocity(
-                                velocityTracker, pointerId);
-                        final float velocityX = VelocityTrackerCompat.getXVelocity(
-                                velocityTracker, pointerId);
+                        final float velocityY =
+                                VelocityTrackerCompat.getYVelocity(velocityTracker, pointerId);
+                        final float velocityX =
+                                VelocityTrackerCompat.getXVelocity(velocityTracker, pointerId);
 
-                        if ((Math.abs(velocityY) > mMinimumFlingVelocity)
-                                || (Math.abs(velocityX) > mMinimumFlingVelocity)){
-                            handled = mListener.onFling(mCurrentDownEvent, ev, velocityX, velocityY);
+                        if ((Math.abs(velocityY) > mMinimumFlingVelocity) || (Math.abs(velocityX)
+                                > mMinimumFlingVelocity)) {
+                            handled =
+                                    mListener.onFling(mCurrentDownEvent, ev, velocityX, velocityY);
                         }
                     }
                     if (mPreviousUpEvent != null) {
@@ -437,7 +443,7 @@ public class GestureDetectorCompat {
         }
 
         private boolean isConsideredDoubleTap(MotionEvent firstDown, MotionEvent firstUp,
-                                              MotionEvent secondDown) {
+                MotionEvent secondDown) {
             if (!mAlwaysInBiggerTapRegion) {
                 return false;
             }
@@ -463,7 +469,7 @@ public class GestureDetectorCompat {
         private final GestureDetector mDetector;
 
         public GestureDetectorCompatImplJellybeanMr2(Context context, OnGestureListener listener,
-                                                     Handler handler) {
+                Handler handler) {
             mDetector = new GestureDetector(context, listener, handler);
         }
 
@@ -493,11 +499,11 @@ public class GestureDetectorCompat {
     /**
      * Creates a GestureDetectorCompat with the supplied listener.
      * As usual, you may only use this constructor from a UI thread.
-     * @see Handler#Handler()
      *
-     * @param context the application's context
+     * @param context  the application's context
      * @param listener the listener invoked for all the callbacks, this must
-     * not be null.
+     *                 not be null.
+     * @see Handler#Handler()
      */
     public GestureDetectorCompat(Context context, OnGestureListener listener) {
         this(context, listener, null);
@@ -506,12 +512,12 @@ public class GestureDetectorCompat {
     /**
      * Creates a GestureDetectorCompat with the supplied listener.
      * As usual, you may only use this constructor from a UI thread.
-     * @see Handler#Handler()
      *
-     * @param context the application's context
+     * @param context  the application's context
      * @param listener the listener invoked for all the callbacks, this must
-     * not be null.
-     * @param handler the handler that will be used for posting deferred messages
+     *                 not be null.
+     * @param handler  the handler that will be used for posting deferred messages
+     * @see Handler#Handler()
      */
     public GestureDetectorCompat(Context context, OnGestureListener listener, Handler handler) {
         if (Build.VERSION.SDK_INT > 17) {
@@ -534,7 +540,7 @@ public class GestureDetectorCompat {
      *
      * @param event The current motion event.
      * @return true if the {@link OnGestureListener} consumed the event,
-     *              else false.
+     * else false.
      */
     public boolean onTouchEvent(MotionEvent event) {
         return mImpl.onTouchEvent(event);
@@ -558,7 +564,7 @@ public class GestureDetectorCompat {
      * gestures.
      *
      * @param listener the listener invoked for all the callbacks, or
-     *        null to stop listening for double-tap gestures.
+     *                 null to stop listening for double-tap gestures.
      */
     public void setOnDoubleTapListener(OnDoubleTapListener listener) {
         mImpl.setOnDoubleTapListener(listener);

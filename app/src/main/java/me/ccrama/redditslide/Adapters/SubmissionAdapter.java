@@ -63,16 +63,19 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.dataSet = dataSet;
         this.context = context;
         this.seen = new ArrayList<>();
-        custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase(Locale.ENGLISH));
+        custom = SettingValues.prefs.contains(
+                Reddit.PREF_LAYOUT + subreddit.toLowerCase(Locale.ENGLISH));
         this.displayer = displayer;
         MainActivity.randomoverride = "";
     }
 
     @Override
     public void setError(Boolean b) {
-       listView.setAdapter(new ErrorAdapter());
+        listView.setAdapter(new ErrorAdapter());
         isError = true;
-        listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation, context)));
+        listView.setLayoutManager(SubmissionsView.createLayoutManager(
+                SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation,
+                        context)));
     }
 
     public boolean isError;
@@ -99,7 +102,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void undoSetError() {
         listView.setAdapter(this);
         isError = false;
-        listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation, context)));
+        listView.setLayoutManager(SubmissionsView.createLayoutManager(
+                SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation,
+                        context)));
     }
 
     @Override
@@ -196,8 +201,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH), holder.itemView,
-                    subreddit,
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(Locale.ENGLISH),
+                    holder.itemView, subreddit,
                     (subreddit.equals("frontpage")
                             || subreddit.equals("mod")
                             || subreddit.equals("friends")
@@ -229,7 +234,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                a.toOpenComments + 1;
                                                                        try {
                                                                            a.adapter.notifyDataSetChanged();
-                                                                       } catch(Exception ignored){
+                                                                       } catch (Exception ignored) {
 
                                                                        }
                                                                    }
@@ -354,7 +359,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ((SubmissionsView)displayer).forceRefresh();
+                                ((SubmissionsView) displayer).forceRefresh();
                             }
                         });
 
@@ -434,8 +439,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -452,8 +457,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }

@@ -50,7 +50,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Login extends BaseActivityAnim {
     private static final String CLIENT_ID    = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    Dialog                           d;
+    Dialog                   d;
     CaseInsensitiveArrayList subNames;
 
     @Override
@@ -60,7 +60,7 @@ public class Login extends BaseActivityAnim {
         applyColorTheme("");
         try {
             setContentView(R.layout.activity_login);
-        } catch(Exception e){
+        } catch (Exception e) {
             finish();
             return;
         }
@@ -173,8 +173,9 @@ public class Login extends BaseActivityAnim {
                                     .get("key_color")
                                     .asText()
                                     .isEmpty()
-                                    && Palette.getColor(s.getDisplayName().toLowerCase(Locale.ENGLISH)) == Palette
-                                    .getDefaultColor()) {
+                                    && Palette.getColor(
+                                    s.getDisplayName().toLowerCase(Locale.ENGLISH))
+                                    == Palette.getDefaultColor()) {
                                 Palette.setColor(s.getDisplayName().toLowerCase(Locale.ENGLISH),
                                         GetClosestColor.getClosestColor(
                                                 s.getDataNode().get("key_color").asText(),

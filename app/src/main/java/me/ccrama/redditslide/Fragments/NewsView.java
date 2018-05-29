@@ -56,14 +56,14 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class NewsView extends Fragment implements SubmissionDisplay {
-    private static int                 adapterPosition;
-    private static int                 currentPosition;
-    public         SubredditPostsRealm posts;
-    public         RecyclerView        rv;
-    public         SubmissionNewsAdapter   adapter;
-    public         String              id;
-    public         boolean             main;
-    public         boolean             forced;
+    private static int                   adapterPosition;
+    private static int                   currentPosition;
+    public         SubredditPostsRealm   posts;
+    public         RecyclerView          rv;
+    public         SubmissionNewsAdapter adapter;
+    public         String                id;
+    public         boolean               main;
+    public         boolean               forced;
     int     diff;
     boolean forceLoad;
     private        FloatingActionButton fab;
@@ -255,8 +255,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                             }
                         });*/
                         View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }

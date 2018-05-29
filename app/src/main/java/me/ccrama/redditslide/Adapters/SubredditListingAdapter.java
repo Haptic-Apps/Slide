@@ -33,14 +33,16 @@ public class SubredditListingAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.subforsublist, parent, false);
         }
-        final TextView t =
-                ((TextView) convertView.findViewById(R.id.name));
+        final TextView t = convertView.findViewById(R.id.name);
         t.setText(fitems.get(position));
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color)
+                .getBackground()
+                .setColorFilter(Palette.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
 
         return convertView;
     }

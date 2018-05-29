@@ -28,22 +28,27 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class CreateCardView {
 
-    public static View CreateViewNews(ViewGroup viewGroup){
-        return LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_news, viewGroup, false);
+    public static View CreateViewNews(ViewGroup viewGroup) {
+        return LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.submission_news, viewGroup, false);
     }
+
     public static View CreateView(ViewGroup viewGroup) {
         CardEnum cardEnum = SettingValues.defaultCardView;
         View v = null;
         switch (cardEnum) {
             case LARGE:
                 if (SettingValues.middleImage) {
-                    v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard_middle, viewGroup, false);
+                    v = LayoutInflater.from(viewGroup.getContext())
+                            .inflate(R.layout.submission_largecard_middle, viewGroup, false);
                 } else {
-                    v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
+                    v = LayoutInflater.from(viewGroup.getContext())
+                            .inflate(R.layout.submission_largecard, viewGroup, false);
                 }
                 break;
             case LIST:
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_list, viewGroup, false);
+                v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.submission_list, viewGroup, false);
 
                 //if the radius is set to 0 on KitKat--it crashes.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -51,7 +56,8 @@ public class CreateCardView {
                 }
                 break;
             case DESKTOP:
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_list_desktop, viewGroup, false);
+                v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.submission_list_desktop, viewGroup, false);
 
                 //if the radius is set to 0 on KitKat--it crashes.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -67,7 +73,7 @@ public class CreateCardView {
          * Adjusts the paddingTop of the innerrelative, and adjusts the margins on the thumbnail.
          */
         if (!SettingValues.bigThumbnails) {
-            if(SettingValues.defaultCardView == CardEnum.DESKTOP){
+            if (SettingValues.defaultCardView == CardEnum.DESKTOP) {
                 final int SQUARE_THUMBNAIL_SIZE = 48;
 
                 thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
@@ -79,8 +85,8 @@ public class CreateCardView {
 
                 final int EIGHT_DP_Y = Reddit.dpToPxVertical(8);
                 final int EIGHT_DP_X = Reddit.dpToPxHorizontal(8);
-                ((RelativeLayout.LayoutParams) thumbImage.getLayoutParams())
-                        .setMargins(EIGHT_DP_X * 2, EIGHT_DP_Y, EIGHT_DP_X, EIGHT_DP_Y);
+                ((RelativeLayout.LayoutParams) thumbImage.getLayoutParams()).setMargins(
+                        EIGHT_DP_X * 2, EIGHT_DP_Y, EIGHT_DP_X, EIGHT_DP_Y);
                 v.findViewById(R.id.innerrelative).setPadding(0, EIGHT_DP_Y, 0, 0);
             }
         }
@@ -139,7 +145,8 @@ public class CreateCardView {
         }
     }
 
-    public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
+    public static int getStyleAttribColorValue(final Context context, final int attribResId,
+            final int defaultValue) {
         final TypedValue tv = new TypedValue();
         final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
         return found ? tv.data : defaultValue;
@@ -187,9 +194,15 @@ public class CreateCardView {
 
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
         resetColorCard(v);
-        if ((SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()) || (subToMatch.equals("nomatching") && (SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()))) {
+        if ((SettingValues.colorBack
+                && !SettingValues.colorSubName
+                && Palette.getColor(sec) != Palette.getDefaultColor()) || (subToMatch.equals(
+                "nomatching") && (SettingValues.colorBack
+                && !SettingValues.colorSubName
+                && Palette.getColor(sec) != Palette.getDefaultColor()))) {
             if (!secondary && !SettingValues.colorEverywhere || secondary) {
-                ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
+                ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(
+                        Palette.getColor(sec));
                 v.setTag(v.getId(), "color");
                 resetColor(getViewsByTag((ViewGroup) v, "tint"));
                 resetColor(getViewsByTag((ViewGroup) v, "tintsecond"));
@@ -200,7 +213,9 @@ public class CreateCardView {
 
     public static View setActionbarVisible(boolean isChecked, ViewGroup parent) {
 
-        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_VISIBLE, isChecked).apply();
+        SettingValues.prefs.edit()
+                .putBoolean(SettingValues.PREF_ACTIONBAR_VISIBLE, isChecked)
+                .apply();
         SettingValues.actionbarVisible = isChecked;
         return CreateView(parent);
 
@@ -284,7 +299,8 @@ public class CreateCardView {
 
     private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
         if (v != null) {
-            ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
+            ValueAnimator animator =
+                    ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
             animator.setInterpolator(new FastOutSlowInInterpolator());
 
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -339,9 +355,10 @@ public class CreateCardView {
     public static void toggleActionbar(View v) {
         if (!SettingValues.actionbarVisible) {
 
-            ValueAnimator a = flipAnimator(v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE, v.findViewById(R.id.secondMenu));
-            if (a != null)
-                a.start();
+            ValueAnimator a =
+                    flipAnimator(v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE,
+                            v.findViewById(R.id.secondMenu));
+            if (a != null) a.start();
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
                 if (v2.getId() != R.id.mod && v2.getId() != R.id.edit) {
                     if (v2.getId() == R.id.save) {
@@ -381,7 +398,8 @@ public class CreateCardView {
         }
         if (SettingValues.bigPicCropped) {
             ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
-            ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(
+                    ImageView.ScaleType.CENTER_CROP);
         }
         if (!SettingValues.actionbarVisible && !SettingValues.actionbarTap) {
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
@@ -409,8 +427,11 @@ public class CreateCardView {
             }
         }
         if (SettingValues.switchThumb) {
-            RelativeLayout.LayoutParams picParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.thumbimage2).getLayoutParams();
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.inside).getLayoutParams();
+            RelativeLayout.LayoutParams picParams =
+                    (RelativeLayout.LayoutParams) v.findViewById(R.id.thumbimage2)
+                            .getLayoutParams();
+            RelativeLayout.LayoutParams layoutParams =
+                    (RelativeLayout.LayoutParams) v.findViewById(R.id.inside).getLayoutParams();
 
             if (!SettingValues.actionbarVisible && !SettingValues.actionbarTap) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -424,7 +445,8 @@ public class CreateCardView {
                 picParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             }
 
-            picParams.setMargins(picParams.rightMargin, picParams.topMargin, picParams.leftMargin, picParams.bottomMargin);
+            picParams.setMargins(picParams.rightMargin, picParams.topMargin, picParams.leftMargin,
+                    picParams.bottomMargin);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 layoutParams.addRule(RelativeLayout.START_OF, R.id.thumbimage2);
@@ -448,7 +470,8 @@ public class CreateCardView {
     }
 
     public static boolean isCard() {
-        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.LARGE;
+        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew",
+                SettingValues.defaultCardView.toString())) == CardEnum.LARGE;
     }
 
     public static boolean isMiddle() {
@@ -456,23 +479,29 @@ public class CreateCardView {
     }
 
     public static boolean isDesktop() {
-        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.DESKTOP;
+        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew",
+                SettingValues.defaultCardView.toString())) == CardEnum.DESKTOP;
     }
 
     public static CardEnum getCardView() {
-        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString()));
+        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew",
+                SettingValues.defaultCardView.toString()));
     }
 
     public static SettingValues.ColorIndicator getColorIndicator() {
         String subreddit = "";
 
-        return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew", SettingValues.colorIndicator.toString()));
+        return SettingValues.ColorIndicator.valueOf(
+                SettingValues.prefs.getString(subreddit + "colorIndicatorNew",
+                        SettingValues.colorIndicator.toString()));
     }
 
     public static SettingValues.ColorMatchingMode getColorMatchingMode() {
         String subreddit = "";
 
-        return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew", SettingValues.colorMatchingMode.toString()));
+        return SettingValues.ColorMatchingMode.valueOf(
+                SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew",
+                        SettingValues.colorMatchingMode.toString()));
     }
 
     public static void setColorMatchingMode(SettingValues.ColorMatchingMode b) {
@@ -485,16 +514,16 @@ public class CreateCardView {
             SettingValues.colorMatchingMode = b;
 
         } else {
-            SettingValues.prefs.edit().putString(subreddit + "ccolorMatchingModeNew", b.toString()).apply();
+            SettingValues.prefs.edit()
+                    .putString(subreddit + "ccolorMatchingModeNew", b.toString())
+                    .apply();
 
         }
 
     }
 
     public enum CardEnum {
-        LARGE("Big Card"),
-        LIST("List"),
-        DESKTOP("Desktop");
+        LARGE("Big Card"), LIST("List"), DESKTOP("Desktop");
         final String displayName;
 
         CardEnum(String s) {

@@ -10,15 +10,15 @@ import java.util.regex.Pattern;
 /**
  * Utility methods to transform html received from Reddit into a more parsable
  * format.
- *
  * The output will unescape all html, except for table tags and some special delimiter
  * token such as for code blocks.
  */
 public class SubmissionParser {
-    private static final Pattern SPOILER_PATTERN = Pattern.compile("<a[^>]*title=\"([^\"]*)\"[^>]*>([^<]*)</a>");
-    private static final String TABLE_START_TAG = "<table>";
-    private static final String HR_TAG = "<hr/>";
-    private static final String TABLE_END_TAG = "</table>";
+    private static final Pattern SPOILER_PATTERN =
+            Pattern.compile("<a[^>]*title=\"([^\"]*)\"[^>]*>([^<]*)</a>");
+    private static final String  TABLE_START_TAG = "<table>";
+    private static final String  HR_TAG          = "<hr/>";
+    private static final String  TABLE_END_TAG   = "</table>";
 
     private SubmissionParser() {
     }
@@ -26,12 +26,10 @@ public class SubmissionParser {
     /**
      * Parses html and returns a list corresponding to blocks of text to be
      * formatted.
-     *
      * Each block is one of:
-     *  - Vanilla text
-     *  - Code block
-     *  - Table
-     *
+     * - Vanilla text
+     * - Code block
+     * - Table
      * Note that this method will unescape html entities, so this is best called
      * with the raw html received from reddit.
      *
@@ -63,7 +61,6 @@ public class SubmissionParser {
         if (html.contains("<ol") || html.contains("<ul")) {
             html = parseLists(html);
         }
-
 
 
         List<String> codeBlockSeperated = parseCodeTags(html);
@@ -114,9 +111,17 @@ public class SubmissionParser {
                 int closeTag;
 
                 // Find what is closest: </li>, <ul>, or <ol>
-                if (((ulClose == -1 && itemClose != -1) || (itemClose != -1 && ulClose != -1 && itemClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (itemClose != -1 && olClose != -1 && itemClose < olClose))) {
+                if (((ulClose == -1 && itemClose != -1) || (itemClose != -1
+                        && ulClose != -1
+                        && itemClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (
+                        itemClose != -1
+                                && olClose != -1
+                                && itemClose < olClose))) {
                     closeTag = itemClose;
-                } else if (((ulClose == -1 && olClose != -1) || (olClose != -1 && ulClose != -1 && olClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (olClose != -1 && itemClose != -1 && olClose < itemClose))) {
+                } else if (((ulClose == -1 && olClose != -1) || (olClose != -1
+                        && ulClose != -1
+                        && olClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (olClose
+                        != -1 && itemClose != -1 && olClose < itemClose))) {
                     closeTag = olClose;
                 } else {
                     closeTag = ulClose;
@@ -129,28 +134,40 @@ public class SubmissionParser {
                 }
                 if (isNumbered) {
                     html = html.substring(0, tagEnd + 1)
-                            + indentSpacing +
-                            listNumbers.get(indent)+ ". " +
-                            text + "<br/>" +
-                            html.substring(closeTag);
+                            + indentSpacing
+                            + listNumbers.get(indent)
+                            + ". "
+                            + text
+                            + "<br/>"
+                            + html.substring(closeTag);
                     listNumbers.set(indent, listNumbers.get(indent) + 1);
                     i = closeTag + 3;
                 } else {
-                    html = html.substring(0, tagEnd + 1) + indentSpacing + "• " + text + "<br/>" + html.substring(closeTag);
+                    html = html.substring(0, tagEnd + 1)
+                            + indentSpacing
+                            + "• "
+                            + text
+                            + "<br/>"
+                            + html.substring(closeTag);
                     i = closeTag + 2;
                 }
             } else {
                 i = html.indexOf("<", i + 1);
                 if (i != -1 && html.substring(i, i + 4).equals("</ol")) {
                     indent--;
-                    if(indent == -1){
+                    if (indent == -1) {
                         isNumbered = false;
                     }
                 }
             }
         }
 
-        html = html.replace("<ol>","").replace("<ul>","").replace("<li>","").replace("</li>","").replace("</ol>", "").replace("</ul>",""); //Remove the tags, which actually work in Android 7.0 on
+        html = html.replace("<ol>", "")
+                .replace("<ul>", "")
+                .replace("<li>", "")
+                .replace("</li>", "")
+                .replace("</ol>", "")
+                .replace("</ul>", ""); //Remove the tags, which actually work in Android 7.0 on
 
         return html;
     }
@@ -159,7 +176,7 @@ public class SubmissionParser {
         List<String> newBlocks = new ArrayList<>();
         for (String block : blocks) {
             if (block.contains(HR_TAG)) {
-                for(String s : block.split(HR_TAG)) {
+                for (String s : block.split(HR_TAG)) {
                     newBlocks.add(s);
                     newBlocks.add(HR_TAG);
                 }
@@ -193,7 +210,8 @@ public class SubmissionParser {
         String code;
         String[] split;
 
-        preSeperated.add(startSeperated[0].replace("<code>", "<code>[[&lt;[").replace("</code>", "]&gt;]]</code>"));
+        preSeperated.add(startSeperated[0].replace("<code>", "<code>[[&lt;[")
+                .replace("</code>", "]&gt;]]</code>"));
         for (int i = 1; i < startSeperated.length; i++) {
             text = startSeperated[i];
             split = text.split(endTag);
@@ -203,7 +221,8 @@ public class SubmissionParser {
 
             preSeperated.add(startTag + "[[&lt;[" + code + "]&gt;]]" + endTag);
             if (split.length > 1) {
-                preSeperated.add(split[1].replace("<code>", "<code>[[&lt;[").replace("</code>", "]&gt;]]</code>"));
+                preSeperated.add(split[1].replace("<code>", "<code>[[&lt;[")
+                        .replace("</code>", "]&gt;]]</code>"));
             }
         }
 
@@ -232,7 +251,9 @@ public class SubmissionParser {
             spoilerTeaser = matcher.group(2);
             // Remove the last </a> tag, but keep the < for parsing.
             if (!tag.contains("<a href=\"http")) {
-                html = html.replace(tag, tag.substring(0, tag.length() - 4) + (spoilerTeaser.isEmpty() ? "spoiler" : "") + "&lt; [[s[ " + spoilerText + "]s]]</a>");
+                html = html.replace(tag,
+                        tag.substring(0, tag.length() - 4) + (spoilerTeaser.isEmpty() ? "spoiler"
+                                : "") + "&lt; [[s[ " + spoilerText + "]s]]</a>");
             }
         }
 
@@ -241,7 +262,6 @@ public class SubmissionParser {
 
     /**
      * Parse a given list of html strings, splitting by table blocks.
-     *
      * All table tags are html escaped.
      *
      * @param blocks list of html with or individual table blocks
@@ -254,7 +274,7 @@ public class SubmissionParser {
                 String[] startSeperated = block.split(TABLE_START_TAG);
                 newBlocks.add(startSeperated[0].trim());
                 for (int i = 1; i < startSeperated.length; i++) {
-                    String [] split = startSeperated[i].split(TABLE_END_TAG);
+                    String[] split = startSeperated[i].split(TABLE_END_TAG);
                     newBlocks.add("<table>" + split[0] + "</table>");
                     if (split.length > 1) {
                         newBlocks.add(split[1]);

@@ -12,7 +12,7 @@ import me.ccrama.redditslide.R;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsTheme extends BaseActivityAnim implements SettingsFragment.RestartActivity{
+public class SettingsTheme extends BaseActivityAnim implements SettingsFragment.RestartActivity {
 
     private SettingsThemeFragment fragment = new SettingsThemeFragment(this);
 

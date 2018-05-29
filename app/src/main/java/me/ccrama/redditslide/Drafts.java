@@ -9,12 +9,14 @@ import java.util.Arrays;
 /**
  * Created by l3d00m on 11/13/2015.
  */
-public class Drafts  {
+public class Drafts {
 
-    public static ArrayList<String> getDrafts(){
+    public static ArrayList<String> getDrafts() {
         ArrayList<String> drafts = new ArrayList<>();
-        for(String s : Arrays.asList(Authentication.authentication.getString(SettingValues.PREF_DRAFTS, "").split("</newdraft>"))){
-            if(!s.trim().isEmpty()){
+        for (String s : Arrays.asList(
+                Authentication.authentication.getString(SettingValues.PREF_DRAFTS, "")
+                        .split("</newdraft>"))) {
+            if (!s.trim().isEmpty()) {
                 drafts.add(s);
             }
         }
@@ -28,7 +30,7 @@ public class Drafts  {
         save(drafts);
     }
 
-    public static void deleteDraft(int position){
+    public static void deleteDraft(int position) {
         ArrayList<String> drafts = getDrafts();
         drafts.remove(position);
         save(drafts);

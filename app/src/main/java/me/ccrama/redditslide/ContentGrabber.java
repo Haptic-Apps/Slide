@@ -10,10 +10,8 @@ public class ContentGrabber {
 
     /*Inbox Data*/
     public enum InboxValue {
-        INBOX(R.string.mail_tab_inbox),
-        UNREAD(R.string.mail_tab_unread),
-        MESSAGES(R.string.mail_tab_messages),
-        SENT(R.string.mail_tab_sent),
+        INBOX(R.string.mail_tab_inbox), UNREAD(R.string.mail_tab_unread),
+        MESSAGES(R.string.mail_tab_messages), SENT(R.string.mail_tab_sent),
         MENTIONS(R.string.mail_tab_mentions);
 
         private final int displayName;
@@ -33,7 +31,8 @@ public class ContentGrabber {
     }
 
     public enum ModValue {
-        NODMAIL("Mod Mail"), MODQUEUE("Modqueue"), REPORTS("Reports"), UNMODERATED("Unmoderated"), SPAM("Spam"), EDITED("Edited");
+        NODMAIL("Mod Mail"), MODQUEUE("Modqueue"), REPORTS("Reports"), UNMODERATED("Unmoderated"),
+        SPAM("Spam"), EDITED("Edited");
         final String displayName;
 
         ModValue(String s) {

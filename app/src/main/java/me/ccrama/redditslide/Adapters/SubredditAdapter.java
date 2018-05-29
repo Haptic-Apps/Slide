@@ -30,17 +30,19 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
-public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
+public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements BaseAdapter {
 
-    private final RecyclerView listView;
-    public Activity context;
-    public SubredditNames dataSet;
+    private final RecyclerView   listView;
+    public        Activity       context;
+    public        SubredditNames dataSet;
     private final int LOADING_SPINNER = 5;
-    private final int NO_MORE = 3;
-    private final int SPACER = 6;
+    private final int NO_MORE         = 3;
+    private final int SPACER          = 6;
     SubredditListView displayer;
 
-    public SubredditAdapter(Activity context, SubredditNames dataSet, RecyclerView listView, String where, SubredditListView displayer) {
+    public SubredditAdapter(Activity context, SubredditNames dataSet, RecyclerView listView,
+            String where, SubredditListView displayer) {
         String where1 = where.toLowerCase(Locale.ENGLISH);
         this.listView = listView;
         this.dataSet = dataSet;
@@ -81,17 +83,21 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         tag++;
 
         if (i == SPACER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.spacer, viewGroup, false);
             return new SpacerViewHolder(v);
 
         } else if (i == LOADING_SPINNER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.loadingmore, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
         } else if (i == NO_MORE) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nomoreposts, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.nomoreposts, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
         } else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.subfordiscover, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.subfordiscover, viewGroup, false);
             return new SubredditViewHolder(v);
         }
     }
@@ -107,7 +113,10 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.name.setText(sub.getDisplayName());
 
             holder.color.setBackgroundResource(R.drawable.circle);
-            holder.color.getBackground().setColorFilter(Palette.getColor(sub.getDisplayName().toLowerCase(Locale.ENGLISH)), PorterDuff.Mode.MULTIPLY);
+            holder.color.getBackground()
+                    .setColorFilter(
+                            Palette.getColor(sub.getDisplayName().toLowerCase(Locale.ENGLISH)),
+                            PorterDuff.Mode.MULTIPLY);
             holder.itemView.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
@@ -138,7 +147,9 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else {
                 holder.body.setVisibility(View.VISIBLE);
                 holder.overflow.setVisibility(View.VISIBLE);
-                setViews(sub.getDataNode().get("public_description_html").asText().trim(), sub.getDisplayName().toLowerCase(Locale.ENGLISH), holder.body, holder.overflow);
+                setViews(sub.getDataNode().get("public_description_html").asText().trim(),
+                        sub.getDisplayName().toLowerCase(Locale.ENGLISH), holder.body,
+                        holder.overflow);
             }
 
             try {
@@ -154,7 +165,8 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             final Runnable r = new Runnable() {
                 public void run() {
-                    notifyItemChanged(dataSet.posts.size() + 1); // the loading spinner to replaced by nomoreposts.xml
+                    notifyItemChanged(dataSet.posts.size()
+                            + 1); // the loading spinner to replaced by nomoreposts.xml
                 }
             };
 
@@ -166,9 +178,13 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder2 instanceof SpacerViewHolder) {
             final int height = (context).findViewById(R.id.header).getHeight();
 
-            holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
+            holder2.itemView.findViewById(R.id.height)
+                    .setLayoutParams(
+                            new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
             if (listView.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-                CatchStaggeredGridLayoutManager.LayoutParams layoutParams = new CatchStaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+                CatchStaggeredGridLayoutManager.LayoutParams layoutParams =
+                        new CatchStaggeredGridLayoutManager.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT, height);
                 layoutParams.setFullSpan(true);
                 holder2.itemView.setLayoutParams(layoutParams);
             }
@@ -196,7 +212,8 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
+            CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }

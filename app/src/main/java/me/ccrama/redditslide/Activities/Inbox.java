@@ -139,7 +139,9 @@ public class Inbox extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
-        if (Authentication.reddit == null || !Authentication.reddit.isAuthenticated() || Authentication.me == null) {
+        if (Authentication.reddit == null
+                || !Authentication.reddit.isAuthenticated()
+                || Authentication.me == null) {
             LogUtil.v("Reauthenticating");
 
             new AsyncTask<Void, Void, Void>() {
@@ -174,7 +176,8 @@ public class Inbox extends BaseActivityAnim {
 
                         if (Authentication.reddit.isAuthenticated()) {
                             final Set<String> accounts =
-                                    Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                                    Authentication.authentication.getStringSet("accounts",
+                                            new HashSet<String>());
                             if (accounts.contains(name)) { //convert to new system
                                 accounts.remove(name);
                                 accounts.add(name + ":" + Authentication.refresh);
@@ -186,7 +189,7 @@ public class Inbox extends BaseActivityAnim {
                             Reddit.notFirst = true;
                         }
 
-                    } catch (Exception ignored){
+                    } catch (Exception ignored) {
 
                     }
                     return null;
@@ -274,9 +277,10 @@ public class Inbox extends BaseActivityAnim {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager keyboard =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
     }
 }

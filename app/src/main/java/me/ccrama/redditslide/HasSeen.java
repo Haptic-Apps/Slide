@@ -8,12 +8,10 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import me.ccrama.redditslide.Synccit.SynccitRead;
-import me.ccrama.redditslide.util.LogUtil;
 
 import static me.ccrama.redditslide.OpenRedditLink.formatRedditUrl;
 import static me.ccrama.redditslide.OpenRedditLink.getRedditLinkType;

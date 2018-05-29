@@ -34,11 +34,12 @@ import me.ccrama.redditslide.R;
 /**
  * @author Aidan Follestad (afollestad)
  */
-public class FolderChooserDialogCreate extends DialogFragment implements MaterialDialog.ListCallback {
+public class FolderChooserDialogCreate extends DialogFragment
+        implements MaterialDialog.ListCallback {
 
     private final static String DEFAULT_TAG = "[MD_FOLDER_SELECTOR]";
 
-    private File parentFolder;
+    private File   parentFolder;
     private File[] parentContents;
     private boolean canGoUp = true;
     private FolderCallback mCallback;
@@ -77,70 +78,82 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            return new MaterialDialog.Builder(getActivity())
-                    .title(com.afollestad.materialdialogs.commons.R.string.md_error_label)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            return new MaterialDialog.Builder(getActivity()).title(
+                    com.afollestad.materialdialogs.commons.R.string.md_error_label)
                     .content(com.afollestad.materialdialogs.commons.R.string.md_storage_perm_error)
                     .positiveText(android.R.string.ok)
                     .build();
         }
 
-        if (getArguments() == null || !getArguments().containsKey("builder"))
-            throw new IllegalStateException("You must create a FolderChooserDialog using the Builder.");
-        if (!getArguments().containsKey("current_path"))
+        if (getArguments() == null || !getArguments().containsKey("builder")) {
+            throw new IllegalStateException(
+                    "You must create a FolderChooserDialog using the Builder.");
+        }
+        if (!getArguments().containsKey("current_path")) {
             getArguments().putString("current_path", getBuilder().mInitialPath);
+        }
         parentFolder = new File(getArguments().getString("current_path"));
         parentContents = listFiles();
-        return new MaterialDialog.Builder(getActivity())
-                .title(parentFolder.getAbsolutePath())
+        return new MaterialDialog.Builder(getActivity()).title(parentFolder.getAbsolutePath())
                 .items(getContentsArray())
                 .itemsCallback(this)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog,
+                            @NonNull DialogAction which) {
                         dialog.dismiss();
                         mCallback.onFolderSelection(FolderChooserDialogCreate.this, parentFolder);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog,
+                            @NonNull DialogAction which) {
                         dialog.dismiss();
                     }
                 })
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog,
+                            @NonNull DialogAction which) {
                         dialog.dismiss();
-                        new MaterialDialog.Builder(getActivity())
-                                .title(R.string.create_folder)
+                        new MaterialDialog.Builder(getActivity()).title(R.string.create_folder)
                                 .inputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
-                                .input(getContext().getString(R.string.folder_name), "", false, new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                        createdFile = input.toString();
-                                    }
-                                })
+                                .input(getContext().getString(R.string.folder_name), "", false,
+                                        new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(@NonNull MaterialDialog dialog,
+                                                    CharSequence input) {
+                                                createdFile = input.toString();
+                                            }
+                                        })
                                 .alwaysCallInputCallback()
                                 .negativeText(getBuilder().mCancelButton)
                                 .positiveText(R.string.btn_create)
                                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                                     @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                            @NonNull DialogAction which) {
                                         dialog.dismiss();
                                     }
                                 })
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        File toCreate = new File(parentFolder.getPath() + File.separator + createdFile);
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                            @NonNull DialogAction which) {
+                                        File toCreate = new File(parentFolder.getPath()
+                                                + File.separator
+                                                + createdFile);
                                         toCreate.mkdir();
                                         dialog.dismiss();
-                                        mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate);
+                                        mCallback.onFolderSelection(FolderChooserDialogCreate.this,
+                                                toCreate);
                                     }
-                                }).show();
+                                })
+                                .show();
                     }
                 })
                 .autoDismiss(false)
@@ -154,14 +167,16 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence s) {
         if (canGoUp && i == 0) {
             parentFolder = parentFolder.getParentFile();
-            if (parentFolder.getAbsolutePath().equals("/storage/emulated"))
+            if (parentFolder.getAbsolutePath().equals("/storage/emulated")) {
                 parentFolder = parentFolder.getParentFile();
+            }
             canGoUp = parentFolder.getParent() != null;
         } else {
             parentFolder = parentContents[canGoUp ? i - 1 : i];
             canGoUp = true;
-            if (parentFolder.getAbsolutePath().equals("/storage/emulated"))
+            if (parentFolder.getAbsolutePath().equals("/storage/emulated")) {
                 parentFolder = Environment.getExternalStorageDirectory();
+            }
         }
         parentContents = listFiles();
         MaterialDialog dialog = (MaterialDialog) getDialog();
@@ -181,8 +196,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         Fragment frag = context.getSupportFragmentManager().findFragmentByTag(tag);
         if (frag != null) {
             ((DialogFragment) frag).dismiss();
-            context.getSupportFragmentManager().beginTransaction()
-                    .remove(frag).commit();
+            context.getSupportFragmentManager().beginTransaction().remove(frag).commit();
         }
         show(context.getSupportFragmentManager(), tag);
     }
@@ -192,13 +206,14 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         @NonNull
         protected final transient AppCompatActivity mContext;
         @StringRes
-        protected int mChooseButton;
+        protected                 int               mChooseButton;
         @StringRes
-        protected int mCancelButton;
-        protected String mInitialPath;
-        protected String mTag;
+        protected                 int               mCancelButton;
+        protected                 String            mInitialPath;
+        protected                 String            mTag;
 
-        public <ActivityType extends AppCompatActivity & FolderCallback> Builder(@NonNull ActivityType context) {
+        public <ActivityType extends AppCompatActivity & FolderCallback> Builder(
+                @NonNull ActivityType context) {
             mContext = context;
             mChooseButton = com.afollestad.materialdialogs.commons.R.string.md_choose_label;
             mCancelButton = android.R.string.cancel;
@@ -219,16 +234,14 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
 
         @NonNull
         public Builder initialPath(@Nullable String initialPath) {
-            if (initialPath == null)
-                initialPath = File.separator;
+            if (initialPath == null) initialPath = File.separator;
             mInitialPath = initialPath;
             return this;
         }
 
         @NonNull
         public Builder tag(@Nullable String tag) {
-            if (tag == null)
-                tag = DEFAULT_TAG;
+            if (tag == null) tag = DEFAULT_TAG;
             mTag = tag;
             return this;
         }

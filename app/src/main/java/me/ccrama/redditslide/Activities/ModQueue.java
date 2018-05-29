@@ -42,7 +42,8 @@ public class ModQueue extends BaseActivityAnim {
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
 
             }
 

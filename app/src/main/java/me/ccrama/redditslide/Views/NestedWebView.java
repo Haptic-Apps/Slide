@@ -18,28 +18,27 @@ import android.webkit.WebView;
 
 /**
  * Copyright (c) Tuenti Technologies. All rights reserved.
- *
  * WebView compatible with CoordinatorLayout.
  * The implementation based on NestedScrollView of design library
  */
 public class NestedWebView extends WebView implements NestedScrollingChild, NestedScrollingParent {
 
-    private static final int INVALID_POINTER = -1;
-    private static final String TAG = "NestedWebView";
+    private static final int    INVALID_POINTER = -1;
+    private static final String TAG             = "NestedWebView";
 
-    private final int[] mScrollOffset = new int[2];
+    private final int[] mScrollOffset   = new int[2];
     private final int[] mScrollConsumed = new int[2];
 
-    private int mLastMotionY;
+    private int                        mLastMotionY;
     private NestedScrollingChildHelper mChildHelper;
     private boolean mIsBeingDragged = false;
     private VelocityTracker mVelocityTracker;
-    private int mTouchSlop;
+    private int             mTouchSlop;
     private int mActivePointerId = INVALID_POINTER;
-    private int mNestedYOffset;
+    private int            mNestedYOffset;
     private ScrollerCompat mScroller;
-    private int mMinimumVelocity;
-    private int mMaximumVelocity;
+    private int            mMinimumVelocity;
+    private int            mMaximumVelocity;
 
     public NestedWebView(Context context) {
         this(context, null);
@@ -82,8 +81,8 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
 
                 final int pointerIndex = ev.findPointerIndex(activePointerId);
                 if (pointerIndex == -1) {
-                    Log.e(TAG, "Invalid pointerId=" + activePointerId
-                            + " in onInterceptTouchEvent");
+                    Log.e(TAG,
+                            "Invalid pointerId=" + activePointerId + " in onInterceptTouchEvent");
                     break;
                 }
 
@@ -302,8 +301,8 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
 
     private void flingWithNestedDispatch(int velocityY) {
         final int scrollY = getScrollY();
-        final boolean canFling = (scrollY > 0 || velocityY > 0)
-                && (scrollY < getScrollRange() || velocityY < 0);
+        final boolean canFling =
+                (scrollY > 0 || velocityY > 0) && (scrollY < getScrollRange() || velocityY < 0);
         if (!dispatchNestedPreFling(0, velocityY)) {
             dispatchNestedFling(0, velocityY, canFling);
             if (canFling) {
@@ -350,9 +349,10 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
     }
 
     @Override
-    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed,
-            int[] offsetInWindow) {
-        return mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
+    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed,
+            int dyUnconsumed, int[] offsetInWindow) {
+        return mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed,
+                offsetInWindow);
     }
 
     @Override

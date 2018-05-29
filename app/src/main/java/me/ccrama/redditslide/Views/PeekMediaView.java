@@ -179,7 +179,7 @@ public class PeekMediaView extends RelativeLayout {
                 images = new ArrayList<>(jsonElements);
                 displayImage(images.get(0).getImageUrl());
                 if (images.size() > 1) {
-                    GridView grid = (GridView) findViewById(R.id.grid_area);
+                    GridView grid = findViewById(R.id.grid_area);
                     grid.setNumColumns(5);
                     grid.setVisibility(VISIBLE);
                     grid.setAdapter(new ImageGridAdapter(getContext(), images));
@@ -208,7 +208,7 @@ public class PeekMediaView extends RelativeLayout {
                 tumblrImages = new ArrayList<>(jsonElements);
                 displayImage(tumblrImages.get(0).getOriginalSize().getUrl());
                 if (tumblrImages.size() > 1) {
-                    GridView grid = (GridView) findViewById(R.id.grid_area);
+                    GridView grid = findViewById(R.id.grid_area);
                     grid.setNumColumns(5);
                     grid.setVisibility(VISIBLE);
                     grid.setAdapter(new ImageGridAdapter(getContext(), tumblrImages, true));
@@ -318,7 +318,7 @@ public class PeekMediaView extends RelativeLayout {
     }
 
     private void doLoadReddit(String url) {
-        RedditItemView v = (RedditItemView) findViewById(R.id.reddit_item);
+        RedditItemView v = findViewById(R.id.reddit_item);
         v.loadUrl(this, url, progress);
     }
 
@@ -502,7 +502,7 @@ public class PeekMediaView extends RelativeLayout {
     String actuallyLoaded;
 
     public void doLoadGif(final String dat) {
-        videoView = (MediaVideoView) findViewById(R.id.gif);
+        videoView = findViewById(R.id.gif);
         videoView.clearFocus();
         findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         findViewById(R.id.submission_image).setVisibility(View.GONE);
@@ -523,8 +523,7 @@ public class PeekMediaView extends RelativeLayout {
 
         if (!imageShown) {
             actuallyLoaded = url;
-            final SubsamplingScaleImageView i =
-                    (SubsamplingScaleImageView) findViewById(R.id.submission_image);
+            final SubsamplingScaleImageView i = findViewById(R.id.submission_image);
 
             i.setMinimumDpi(70);
             i.setMinimumTileDpi(240);
@@ -645,9 +644,9 @@ public class PeekMediaView extends RelativeLayout {
 
     private void init() {
         inflate(getContext(), R.layout.peek_media_view, this);
-        this.image = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
-        this.videoView = (MediaVideoView) findViewById(R.id.gif);
-        this.website = (WebView) findViewById(R.id.website);
-        this.progress = ((ProgressBar) findViewById(R.id.progress));
+        this.image = findViewById(R.id.submission_image);
+        this.videoView = findViewById(R.id.gif);
+        this.website = findViewById(R.id.website);
+        this.progress = findViewById(R.id.progress);
     }
 }

@@ -35,7 +35,6 @@ import me.ccrama.redditslide.ForceTouch.util.NavigationUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PeekMediaView;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class PeekView extends FrameLayout {
 
@@ -76,17 +75,18 @@ public class PeekView extends FrameLayout {
     static int eight = Reddit.dpToPxVertical(8);
 
     public void highlightMenu(MotionEvent event) {
-        if(currentHighlight != 0){
+        if (currentHighlight != 0) {
             final View v = content.findViewById(currentHighlight);
             Rect outRect = new Rect();
             v.getGlobalVisibleRect(outRect);
-            if(!outRect.contains((int) event.getX(), (int) event.getY())){
+            if (!outRect.contains((int) event.getX(), (int) event.getY())) {
                 currentHighlight = 0;
                 ValueAnimator animator = ValueAnimator.ofInt(eight, eight * 2);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator){
-                        v.setPadding(0,  (Integer) valueAnimator.getAnimatedValue(), 0, (Integer) valueAnimator.getAnimatedValue());
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        v.setPadding(0, (Integer) valueAnimator.getAnimatedValue(), 0,
+                                (Integer) valueAnimator.getAnimatedValue());
                     }
                 });
                 animator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -100,13 +100,14 @@ public class PeekView extends FrameLayout {
             final View v = content.findViewById(i);
             Rect outRect = new Rect();
             v.getGlobalVisibleRect(outRect);
-            if(outRect.contains((int) event.getX(), (int) event.getY()) && i != currentHighlight){
+            if (outRect.contains((int) event.getX(), (int) event.getY()) && i != currentHighlight) {
                 currentHighlight = i;
                 ValueAnimator animator = ValueAnimator.ofInt(eight * 2, eight);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator){
-                        v.setPadding(0,  (Integer) valueAnimator.getAnimatedValue(), 0, (Integer) valueAnimator.getAnimatedValue());
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        v.setPadding(0, (Integer) valueAnimator.getAnimatedValue(), 0,
+                                (Integer) valueAnimator.getAnimatedValue());
                     }
                 });
                 animator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -114,18 +115,17 @@ public class PeekView extends FrameLayout {
                 animator.start();
 
                 break;
-            } else if(outRect.contains((int) event.getX(), (int) event.getY())){
+            } else if (outRect.contains((int) event.getX(), (int) event.getY())) {
                 break;
             }
         }
     }
 
-    public void pop(){
-        if(mOnPop != null)
-        mOnPop.onPop();
+    public void pop() {
+        if (mOnPop != null) mOnPop.onPop();
     }
 
-    public void setOnPop(OnPop mOnPop){
+    public void setOnPop(OnPop mOnPop) {
         this.mOnPop = mOnPop;
     }
 
@@ -142,14 +142,14 @@ public class PeekView extends FrameLayout {
             View v = content.findViewById(i);
             Rect outRect = new Rect();
             v.getGlobalVisibleRect(outRect);
-            if(outRect.contains((int) event.getX(), (int) event.getY())){
+            if (outRect.contains((int) event.getX(), (int) event.getY())) {
                 buttons.get(i).onButtonUp();
             }
         }
     }
 
     public void doScroll(MotionEvent event) {
-        ((PeekMediaView)content.findViewById(R.id.peek)).doScroll(event);
+        ((PeekMediaView) content.findViewById(R.id.peek)).doScroll(event);
     }
 
     private void init(Activity context, PeekViewOptions options, @NonNull View content,
@@ -211,7 +211,7 @@ public class PeekView extends FrameLayout {
                         .onto((ViewGroup) androidContentView.getRootView());
 
                 dim.setAlpha(0f);
-            } catch(Exception ignored){
+            } catch (Exception ignored) {
 
             }
         }
@@ -450,11 +450,10 @@ public class PeekView extends FrameLayout {
 
         Blurry.delete((ViewGroup) androidContentView.getRootView());
 
-        if(remove != null)
-            remove.onRemove();
+        if (remove != null) remove.onRemove();
     }
 
-    public void setOnRemoveListener(OnRemove onRemove){
+    public void setOnRemoveListener(OnRemove onRemove) {
         this.remove = onRemove;
     }
 

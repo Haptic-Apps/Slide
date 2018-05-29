@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -20,7 +18,6 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class Related extends BaseActivityAnim {
 
@@ -28,9 +25,9 @@ public class Related extends BaseActivityAnim {
 
     public static final String EXTRA_URL = "url";
 
-    private int totalItemCount;
-    private int visibleItemCount;
-    private int pastVisiblesItems;
+    private int                 totalItemCount;
+    private int                 visibleItemCount;
+    private int                 pastVisiblesItems;
     private ContributionAdapter adapter;
 
     private SubredditSearchPosts posts;
@@ -56,13 +53,15 @@ public class Related extends BaseActivityAnim {
         applyColorTheme("");
         setContentView(R.layout.activity_search);
         Intent intent = getIntent();
-        if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
+        if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras()
+                .getString(Intent.EXTRA_TEXT, "")
+                .isEmpty()) {
             url = intent.getStringExtra(Intent.EXTRA_TEXT);
         }
-        if(intent.hasExtra(EXTRA_URL)){
+        if (intent.hasExtra(EXTRA_URL)) {
             url = intent.getStringExtra(EXTRA_URL);
         }
-        if(url == null || url.isEmpty()){
+        if (url == null || url.isEmpty()) {
             new AlertDialogWrapper.Builder(this).setTitle("URL is empty")
                     .setMessage("Try again with a different link!")
                     .setCancelable(false)
@@ -94,23 +93,28 @@ public class Related extends BaseActivityAnim {
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    pastVisiblesItems =
+                            ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                 } else {
                     int[] firstVisibleItems = null;
-                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    firstVisibleItems =
+                            ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(
+                                    firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         pastVisiblesItems = firstVisibleItems[0];
                     }
                 }
 
-                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount) {
+                if (!posts.loading
+                        && (visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                     posts.loading = true;
                     posts.loadMore(adapter, "", "url:" + url, false);
 
                 }
             }
         });
-        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        final SwipeRefreshLayout mSwipeRefreshLayout =
+                (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("", this));
 
@@ -133,14 +137,12 @@ public class Related extends BaseActivityAnim {
 
         posts.bindAdapter(adapter, mSwipeRefreshLayout);
         //TODO catch errors
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        posts.loadMore(adapter, "", "url:" + url, true);
-                        //TODO catch errors
-                    }
-                }
-        );
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                posts.loadMore(adapter, "", "url:" + url, true);
+                //TODO catch errors
+            }
+        });
     }
 }

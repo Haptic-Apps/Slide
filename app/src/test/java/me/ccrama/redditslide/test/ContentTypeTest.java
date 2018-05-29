@@ -46,11 +46,16 @@ public class ContentTypeTest {
 
     @Test
     public void detectsExternal() {
-        assertThat(ContentType.getContentType("https://twitter.com/jaffathecake/status/718071903378735105?s=09"), is(Type.EXTERNAL));
-        assertThat(ContentType.getContentType("https://github.com/ccrama/Slide"), is(Type.EXTERNAL));
-        assertThat(ContentType.getContentType("http://example.com/path/that/matches"), is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType(
+                "https://twitter.com/jaffathecake/status/718071903378735105?s=09"),
+                is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("https://github.com/ccrama/Slide"),
+                is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("http://example.com/path/that/matches"),
+                is(Type.EXTERNAL));
         assertThat(ContentType.getContentType("http://example.com/path"), is(Type.EXTERNAL));
-        assertThat(ContentType.getContentType("http://subdomain.example.com/path"), is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("http://subdomain.example.com/path"),
+                is(Type.EXTERNAL));
         assertThat(ContentType.getContentType("http://subdomain.twitter.com"), is(Type.EXTERNAL));
 
         // t.co NOT t.com
@@ -63,20 +68,29 @@ public class ContentTypeTest {
     public void detectsGif() {
         assertThat(ContentType.getContentType("https://i.imgur.com/33YIg0B.gifv"), is(Type.GIF));
         assertThat(ContentType.getContentType("https://i.imgur.com/33YIg0B.gif"), is(Type.GIF));
-        assertThat(ContentType.getContentType("i.imgur.com/33YIg0B.gif?args=should&not=matter"), is(Type.GIF));
-        assertThat(ContentType.getContentType("https://i.imgur.com/33YIg0B.gifnot"), is(not(Type.GIF)));
+        assertThat(ContentType.getContentType("i.imgur.com/33YIg0B.gif?args=should&not=matter"),
+                is(Type.GIF));
+        assertThat(ContentType.getContentType("https://i.imgur.com/33YIg0B.gifnot"),
+                is(not(Type.GIF)));
 
-        assertThat(ContentType.getContentType("https://fat.gfycat.com/EcstaticLegitimateAnemone.webm"), is(Type.GIF));
-        assertThat(ContentType.getContentType("https://thumbs.gfycat.com/EcstaticLegitimateAnemone-mobile.mp4"), is(Type.GIF));
-        assertThat(ContentType.getContentType("https://gfycat.com/BogusAmpleArmednylonshrimp"), is(Type.GIF));
+        assertThat(
+                ContentType.getContentType("https://fat.gfycat.com/EcstaticLegitimateAnemone.webm"),
+                is(Type.GIF));
+        assertThat(ContentType.getContentType(
+                "https://thumbs.gfycat.com/EcstaticLegitimateAnemone-mobile.mp4"), is(Type.GIF));
+        assertThat(ContentType.getContentType("https://gfycat.com/BogusAmpleArmednylonshrimp"),
+                is(Type.GIF));
     }
 
     @Test
     public void detectsImage() {
         assertThat(ContentType.getContentType("https://i.imgur.com/FGtUo6c.jpg"), is(Type.IMAGE));
         assertThat(ContentType.getContentType("https://i.imgur.com/FGtUo6c.png"), is(Type.IMAGE));
-        assertThat(ContentType.getContentType("https://i.imgur.com/FGtUo6c.png?moo=1"), is(Type.IMAGE));
-        assertThat(ContentType.getContentType("https://i.reddituploads.com/289b451dc4bf4306878852f83b5cf6f9?fit=max&h=1536&w=1536&s=103e17990aa7084727ea43cda02c318b"), is(Type.IMAGE));
+        assertThat(ContentType.getContentType("https://i.imgur.com/FGtUo6c.png?moo=1"),
+                is(Type.IMAGE));
+        assertThat(ContentType.getContentType(
+                "https://i.reddituploads.com/289b451dc4bf4306878852f83b5cf6f9?fit=max&h=1536&w=1536&s=103e17990aa7084727ea43cda02c318b"),
+                is(Type.IMAGE));
     }
 
     @Test
@@ -94,15 +108,20 @@ public class ContentTypeTest {
 
     @Test
     public void detectsReddit() {
-        assertThat(ContentType.getContentType("https://www.reddit.com/r/todayilearned/comments/42wgbg/til_the_tshirt_was_invented_in_1904_and_marketed/"), is(Type.REDDIT));
+        assertThat(ContentType.getContentType(
+                "https://www.reddit.com/r/todayilearned/comments/42wgbg/til_the_tshirt_was_invented_in_1904_and_marketed/"),
+                is(Type.REDDIT));
         assertThat(ContentType.getContentType("https://www.reddit.com/42wgbg/"), is(Type.REDDIT));
         assertThat(ContentType.getContentType("https://www.reddit.com/r/live/"), is(Type.REDDIT));
         assertThat(ContentType.getContentType("https://www.reddit.com"), is(Type.REDDIT));
         assertThat(ContentType.getContentType("redd.it/eorhm"), is(Type.REDDIT));
         assertThat(ContentType.getContentType("/r/Android"), is(Type.REDDIT));
-        assertThat(ContentType.getContentType("https://www.reddit.com/r/Android/wiki/index"), is(Type.REDDIT));
-        assertThat(ContentType.getContentType("https://www.reddit.com/r/Android/help"), is(Type.REDDIT));
-        assertThat(ContentType.getContentType("https://www.reddit.com/live/wbjbjba8zrl6"), is(Type.REDDIT));
+        assertThat(ContentType.getContentType("https://www.reddit.com/r/Android/wiki/index"),
+                is(Type.REDDIT));
+        assertThat(ContentType.getContentType("https://www.reddit.com/r/Android/help"),
+                is(Type.REDDIT));
+        assertThat(ContentType.getContentType("https://www.reddit.com/live/wbjbjba8zrl6"),
+                is(Type.REDDIT));
     }
 
     @Test
@@ -118,13 +137,15 @@ public class ContentTypeTest {
     @Test
     public void detectsVideo() {
         Reddit.videoPlugin = true;
-        assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"), is(Type.VIDEO));
+        assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"),
+                is(Type.VIDEO));
         assertThat(ContentType.getContentType("https://youtu.be/lX_pF03vCSU"), is(Type.VIDEO));
 
         assertThat(ContentType.getContentType("https://www.gifyoutube.com/"), is(not(Type.VIDEO)));
 
         Reddit.videoPlugin = false;
-        assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"), is(not(Type.VIDEO)));
+        assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"),
+                is(not(Type.VIDEO)));
         assertThat(ContentType.getContentType("https://youtu.be/lX_pF03vCSU"), is(not(Type.VIDEO)));
     }
 
@@ -140,7 +161,9 @@ public class ContentTypeTest {
 
     @Test
     public void detectsDeviantart() {
-        assertThat(ContentType.getContentType("http://manweri.deviantart.com/art/A-centaur-in-disguise-179507382"), is(Type.DEVIANTART));
+        assertThat(ContentType.getContentType(
+                "http://manweri.deviantart.com/art/A-centaur-in-disguise-179507382"),
+                is(Type.DEVIANTART));
     }
 
     @Test

@@ -35,7 +35,8 @@ public class WikiPage extends Fragment {
     private GeneralSwipeRefreshLayout ref;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         return inflater.inflate(R.layout.justtext, container, false);
     }
 
@@ -80,10 +81,10 @@ public class WikiPage extends Fragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.toLowerCase().startsWith(wikiUrl.toLowerCase()) && listener != null) {
-                    String pagePiece = url.toLowerCase().replace(wikiUrl.toLowerCase(), "")
-                            .split("\\?")[0]
-                            .split("#")[0];
-                    listener.embeddedWikiLinkClicked(pagePiece);
+                String pagePiece = url.toLowerCase().replace(wikiUrl.toLowerCase(), "")
+                    .split("\\?")[0]
+                .split("#")[0];
+listener.embeddedWikiLinkClicked(pagePiece);
                 } else {
                     OpenRedditLink.openUrl(getContext(), url, true);
                 }
@@ -93,18 +94,16 @@ public class WikiPage extends Fragment {
             @Override
             public void onPageFinished(WebView webView, String url) {
                 super.onPageFinished(webView, url);
-                if (getView() != null) {
+if (getView() != null) {
                     getView().findViewById(R.id.wiki_web_view).setVisibility(View.VISIBLE);
-                    ref.setRefreshing(false);
-                    ref.setEnabled(false);
-                }
+                ref.setRefreshing(false);
+                ref.setEnabled(false);
+}
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
-        }
-    }
+        }    }
 
     private void onDomRetrieved(String dom) {
         webView.loadDataWithBaseURL(

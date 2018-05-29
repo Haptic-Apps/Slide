@@ -21,8 +21,8 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 public class SubredditWidgetProvider extends AppWidgetProvider {
     public static final String UPDATE_MEETING_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
-    public static final String SUBMISSION = "SUBMISSION";
-    public static final String REFRESH = "REFRESH";
+    public static final String SUBMISSION            = "SUBMISSION";
+    public static final String REFRESH               = "REFRESH";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -31,7 +31,7 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
             mgr.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list_view);
             int view = R.layout.widget;
-            switch(getThemeFromId(appWidgetId, context)){
+            switch (getThemeFromId(appWidgetId, context)) {
                 case 1:
                     view = R.layout.widget_dark;
                     break;
@@ -71,32 +71,40 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
     public static int getThemeFromId(int id, Context mContext) {
         return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_theme", 0);
     }
+
     public static int getViewType(int id, Context mContext) {
         return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_view", 0);
     }
+
     public static void setSubFromid(int id, String sub, Context mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putString(id + "_sub", sub).apply();
     }
+
     public static void setThemeToId(int id, int theme, Context mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_theme", theme).apply();
     }
+
     public static void setViewType(int id, int checked, SetupWidget mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_view", checked).apply();
     }
+
     public static void setSorting(int id, int sorting, SetupWidget mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_sort", sorting).apply();
     }
+
     public static int getSorting(int id, Context mContext) {
         return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_sort", 0);
     }
+
     public static void setSortingTime(int id, int sorting, SetupWidget mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_time", sorting).apply();
     }
+
     public static int getSortingTime(int id, Context mContext) {
         return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_time", 0);
     }
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager,
-                         int[] appWidgetIds) {
+
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // update each of the app widgets with the remote adapter
         for (int appWidgetId : appWidgetIds) {
             updateFromId(appWidgetId, context, appWidgetManager);
@@ -109,14 +117,13 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // provide the views for this collection.
         Intent intent = new Intent(context, ListViewWidgetService.class);
         // Add the app widget ID to the intent extras.
-        Uri data = Uri.withAppendedPath(
-                Uri.parse("slide" + "://widget/id/")
-                , String.valueOf(appWidgetId));
+        Uri data = Uri.withAppendedPath(Uri.parse("slide" + "://widget/id/"),
+                String.valueOf(appWidgetId));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         // Instantiate the RemoteViews object for the app widget layout.
         int view = R.layout.widget;
-        switch(getThemeFromId(appWidgetId, context)){
+        switch (getThemeFromId(appWidgetId, context)) {
             case 1:
                 view = R.layout.widget_dark;
                 break;
@@ -140,7 +147,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             refreshIntent.setData(data);
             refreshIntent.setAction(SUBMISSION);
             refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
             rv.setOnClickPendingIntent(R.id.open, pendingRefresh);
         }
         {
@@ -148,7 +156,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             refreshIntent.setAction(REFRESH);
             refreshIntent.setData(data);
             refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
             rv.setOnClickPendingIntent(R.id.refresh, pendingRefresh);
         }
         // The empty view is displayed when the collection has no items.
@@ -161,26 +170,27 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // Do additional processing specific to this app widget...
         //
         final Intent activityIntent = new Intent(context, OpenContent.class);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+        final PendingIntent pendingIntent =
+                PendingIntent.getActivity(context, 0, activityIntent, 0);
         rv.setPendingIntentTemplate(R.id.list_view, pendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
 
-    public void updateFromIdPartially(int appWidgetId, Context context, AppWidgetManager appWidgetManager) {
+    public void updateFromIdPartially(int appWidgetId, Context context,
+            AppWidgetManager appWidgetManager) {
         // Set up the intent that starts the ListViewService, which will
         // provide the views for this collection.
         Intent intent = new Intent(context, ListViewWidgetService.class);
         // Add the app widget ID to the intent extras.
-        Uri data = Uri.withAppendedPath(
-                Uri.parse("slide" + "://widget/id/")
-                , String.valueOf(appWidgetId)+ System.currentTimeMillis());
+        Uri data = Uri.withAppendedPath(Uri.parse("slide" + "://widget/id/"),
+                String.valueOf(appWidgetId) + System.currentTimeMillis());
         intent.setData(data);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         // Instantiate the RemoteViews object for the app widget layout.
         int view = R.layout.widget;
-        switch(getThemeFromId(appWidgetId, context)){
+        switch (getThemeFromId(appWidgetId, context)) {
             case 1:
                 view = R.layout.widget_dark;
                 break;
@@ -207,7 +217,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             refreshIntent.setAction(SUBMISSION);
             refreshIntent.setData(data);
             refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
             rv.setOnClickPendingIntent(R.id.open, pendingRefresh);
         }
         {
@@ -215,7 +226,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             refreshIntent.setAction(REFRESH);
             refreshIntent.setData(data);
             refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pendingRefresh = PendingIntent.getBroadcast(context, 0, refreshIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
             rv.setOnClickPendingIntent(R.id.refresh, pendingRefresh);
         }
         // The empty view is displayed when the collection has no items.
@@ -228,12 +240,12 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // Do additional processing specific to this app widget...
         //
         final Intent activityIntent = new Intent(context, OpenContent.class);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+        final PendingIntent pendingIntent =
+                PendingIntent.getActivity(context, 0, activityIntent, 0);
         rv.setPendingIntentTemplate(R.id.list_view, pendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
-
 
 
 }

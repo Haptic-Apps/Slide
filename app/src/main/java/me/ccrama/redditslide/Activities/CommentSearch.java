@@ -41,13 +41,13 @@ public class CommentSearch extends BaseActivityAnim {
         rv.setLayoutManager(mLayoutManager);
         ArrayList<CommentNode> comments = new ArrayList<>();
         List<CommentObject> commentsOld = DataShare.sharedComments;
-        if (commentsOld != null && !commentsOld.isEmpty())
+        if (commentsOld != null && !commentsOld.isEmpty()) {
             for (CommentObject o : commentsOld) {
-                if (o instanceof CommentItem)
-                    comments.add(o.comment);
+                if (o instanceof CommentItem) comments.add(o.comment);
             }
-        else
+        } else {
             finish();
+        }
         final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments);
         rv.setAdapter(adapter);
         search.addTextChangedListener(new TextWatcher() {

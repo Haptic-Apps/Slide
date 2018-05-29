@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.ImgurAlbum;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -15,22 +14,19 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "count",
-    "images"
+        "count", "images"
 })
 public class Data {
 
     @JsonProperty("count")
     private Integer count;
     @JsonProperty("images")
-    private List<Image> images = new ArrayList<>();
+    private List<Image>         images               = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
-     * 
-     * @return
-     *     The count
+     * @return The count
      */
     @JsonProperty("count")
     public Integer getCount() {
@@ -38,9 +34,7 @@ public class Data {
     }
 
     /**
-     * 
-     * @param count
-     *     The count
+     * @param count The count
      */
     @JsonProperty("count")
     public void setCount(Integer count) {
@@ -48,9 +42,7 @@ public class Data {
     }
 
     /**
-     * 
-     * @return
-     *     The images
+     * @return The images
      */
     @JsonProperty("images")
     public List<Image> getImages() {
@@ -58,9 +50,7 @@ public class Data {
     }
 
     /**
-     * 
-     * @param images
-     *     The images
+     * @param images The images
      */
     @JsonProperty("images")
     public void setImages(List<Image> images) {

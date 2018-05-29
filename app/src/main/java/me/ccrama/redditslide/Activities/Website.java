@@ -60,8 +60,7 @@ public class Website extends BaseActivityAnim {
             uri = new URI(url);
 
             String domain = uri.getHost();
-            if(domain == null)
-                return "";
+            if (domain == null) return "";
             return domain.startsWith("www.") ? domain.substring(4) : domain;
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -195,7 +194,7 @@ public class Website extends BaseActivityAnim {
                 cookieManager.removeAllCookies(null);
                 CookieManager.getInstance().flush();
                 cookieManager.setAcceptCookie(false);
-            } catch(NoSuchMethodError e){
+            } catch (NoSuchMethodError e) {
                 //Although these were added in api 12, some devices don't have this method
             }
             WebSettings ws = v.getSettings();
@@ -352,7 +351,9 @@ public class Website extends BaseActivityAnim {
             } else {
                 ad = loadedUrls.get(url);
             }
-            return ad && (currentURL != null && !currentURL.contains("twitter.com")) && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
+            return ad
+                    && (currentURL != null && !currentURL.contains("twitter.com"))
+                    && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
                     : super.shouldInterceptRequest(view, url);
         }
 
@@ -377,7 +378,7 @@ public class Website extends BaseActivityAnim {
                         }
                         return super.shouldOverrideUrlLoading(view, url);
                     case REDDIT:
-                        if(!url.contains("inapp=false")) {
+                        if (!url.contains("inapp=false")) {
                             boolean opened = OpenRedditLink.openUrl(view.getContext(), url, false);
                             if (!opened) {
                                 return super.shouldOverrideUrlLoading(view, url);

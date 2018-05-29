@@ -224,7 +224,7 @@ public class LinkUtil {
      * Opens the {@code uri} externally or shows an application chooser if it is set to open in this
      * application
      *
-     * @param url     URL to open
+     * @param url URL to open
      */
     public static void openExternally(String url) {
         url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());

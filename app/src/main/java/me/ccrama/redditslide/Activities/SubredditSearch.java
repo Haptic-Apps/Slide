@@ -36,26 +36,31 @@ public class SubredditSearch extends BaseActivityAnim {
                 onBackPressed();
                 return true;
             case R.id.edit: {
-                new MaterialDialog.Builder(SubredditSearch.this)
-                        .alwaysCallInputCallback()
+                new MaterialDialog.Builder(SubredditSearch.this).alwaysCallInputCallback()
                         .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
                         .inputRange(3, 100)
-                        .input(getString(R.string.discover_search), term, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (input.length() >= 3) {
-                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                } else {
-                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                                }
-                            }
-                        })
+                        .input(getString(R.string.discover_search), term,
+                                new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                        if (input.length() >= 3) {
+                                            dialog.getActionButton(DialogAction.POSITIVE)
+                                                    .setEnabled(true);
+                                        } else {
+                                            dialog.getActionButton(DialogAction.POSITIVE)
+                                                    .setEnabled(false);
+                                        }
+                                    }
+                                })
                         .positiveText(R.string.search_all)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                Intent inte = new Intent(SubredditSearch.this, SubredditSearch.class);
-                                inte.putExtra("term", dialog.getInputEditText().getText().toString());
+                            public void onClick(@NonNull MaterialDialog dialog,
+                                    @NonNull DialogAction which) {
+                                Intent inte =
+                                        new Intent(SubredditSearch.this, SubredditSearch.class);
+                                inte.putExtra("term",
+                                        dialog.getInputEditText().getText().toString());
                                 SubredditSearch.this.startActivity(inte);
                                 finish();
                             }
@@ -84,8 +89,7 @@ public class SubredditSearch extends BaseActivityAnim {
         args.putString("id", term);
         f.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentcontent, f);
         fragmentTransaction.commit();
     }

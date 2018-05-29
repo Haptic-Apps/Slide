@@ -66,10 +66,10 @@ public class CreateMulti extends BaseActivityAnim {
     private ArrayList<String> subs;
     private boolean delete = false;
     private CustomAdapter adapter;
-    private EditText title;
-    private RecyclerView recyclerView;
-    private String input;
-    private String old;
+    private EditText      title;
+    private RecyclerView  recyclerView;
+    private String        input;
+    private String        old;
     public static final String EXTRA_MULTI = "multi";
 
     //Shows a dialog with all Subscribed subreddits and allows the user to select which ones to include in the Multireddit
@@ -140,7 +140,11 @@ public class CreateMulti extends BaseActivityAnim {
         //Remove special subreddits from list and store it in "all"
         int i = 0;
         for (String s : sorted) {
-            if (!s.equals("all") && !s.equals("frontpage") && !s.contains("+") && !s.contains(".") && !s.contains("/m/")) {
+            if (!s.equals("all")
+                    && !s.equals("frontpage")
+                    && !s.contains("+")
+                    && !s.contains(".")
+                    && !s.contains("/m/")) {
                 all[i] = s;
                 i++;
             }
@@ -164,8 +168,8 @@ public class CreateMulti extends BaseActivityAnim {
 
         final ArrayList<String> toCheck = new ArrayList<>();
         toCheck.addAll(subs);
-        new AlertDialogWrapper.Builder(this)
-                .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
+        new AlertDialogWrapper.Builder(this).setMultiChoiceItems(all, checked,
+                new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         if (!isChecked) {
@@ -177,51 +181,61 @@ public class CreateMulti extends BaseActivityAnim {
                     }
                 })
                 .setTitle(R.string.multireddit_selector)
-                .setPositiveButton(getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        subs = toCheck;
-                        adapter = new CustomAdapter(subs);
-                        recyclerView.setAdapter(adapter);
+                .setPositiveButton(getString(R.string.btn_add).toUpperCase(),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                subs = toCheck;
+                                adapter = new CustomAdapter(subs);
+                                recyclerView.setAdapter(adapter);
 
-                    }
-                })
-                .setNegativeButton(R.string.reorder_add_subreddit, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new MaterialDialog.Builder(CreateMulti.this)
-                                .title(R.string.reorder_add_subreddit)
-                                .inputRangeRes(2, 21, R.color.md_red_500)
-                                .alwaysCallInputCallback()
-                                .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence raw) {
-                                        input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
-                                    }
-                                })
-                                .positiveText(R.string.btn_add)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        new AsyncGetSubreddit().execute(input);
-                                    }
-                                })
-                                .negativeText(R.string.btn_cancel)
-                                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                            }
+                        })
+                .setNegativeButton(R.string.reorder_add_subreddit,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new MaterialDialog.Builder(CreateMulti.this).title(
+                                        R.string.reorder_add_subreddit)
+                                        .inputRangeRes(2, 21, R.color.md_red_500)
+                                        .alwaysCallInputCallback()
+                                        .input(getString(R.string.reorder_subreddit_name), null,
+                                                false, new MaterialDialog.InputCallback() {
+                                                    @Override
+                                                    public void onInput(MaterialDialog dialog,
+                                                            CharSequence raw) {
+                                                        input = raw.toString()
+                                                                .replaceAll("\\s",
+                                                                        ""); //remove whitespace from input
+                                                    }
+                                                })
+                                        .positiveText(R.string.btn_add)
+                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(MaterialDialog dialog,
+                                                    DialogAction which) {
+                                                new AsyncGetSubreddit().execute(input);
+                                            }
+                                        })
+                                        .negativeText(R.string.btn_cancel)
+                                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(MaterialDialog dialog,
+                                                    DialogAction which) {
 
-                                    }
-                                }).show();
-                    }
-                })
+                                            }
+                                        })
+                                        .show();
+                            }
+                        })
                 .show();
     }
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("mod")) {
+            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase(
+                    "mod")) {
                 subs.add(input);
                 adapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(subs.size());
@@ -238,21 +252,25 @@ public class CreateMulti extends BaseActivityAnim {
                     @Override
                     public void run() {
                         try {
-                            new AlertDialogWrapper.Builder(CreateMulti.this)
-                                    .setTitle(R.string.subreddit_err)
+                            new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(
+                                    R.string.subreddit_err)
                                     .setMessage(getString(R.string.subreddit_err_msg, params[0]))
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(R.string.btn_ok,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    dialog.dismiss();
+
+                                                }
+                                            })
+                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
+                                        public void onDismiss(DialogInterface dialog) {
 
                                         }
-                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-
-                                }
-                            }).show();
+                                    })
+                                    .show();
                         } catch (Exception ignored) {
 
                         }
@@ -276,7 +294,8 @@ public class CreateMulti extends BaseActivityAnim {
 
         @Override
         public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subforsublist, parent, false);
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.subforsublist, parent, false);
             return new ViewHolder(v);
         }
 
@@ -287,20 +306,24 @@ public class CreateMulti extends BaseActivityAnim {
             holder.text.setText(origPos);
 
             holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
+            holder.itemView.findViewById(R.id.color)
+                    .getBackground()
+                    .setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(R.string.really_remove_subreddit_title)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    subs.remove(origPos);
-                                    adapter = new CustomAdapter(subs);
-                                    recyclerView.setAdapter(adapter);
-                                }
-                            })
+                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(
+                            R.string.really_remove_subreddit_title)
+                            .setPositiveButton(R.string.btn_yes,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            subs.remove(origPos);
+                                            adapter = new CustomAdapter(subs);
+                                            recyclerView.setAdapter(adapter);
+                                        }
+                                    })
                             .setNegativeButton(R.string.btn_no, null)
                             .show();
                 }
@@ -319,7 +342,7 @@ public class CreateMulti extends BaseActivityAnim {
             public ViewHolder(View itemView) {
                 super(itemView);
 
-                text = (TextView) itemView.findViewById(R.id.name);
+                text = itemView.findViewById(R.id.name);
 
 
             }
@@ -350,7 +373,9 @@ public class CreateMulti extends BaseActivityAnim {
                         new MultiRedditManager(Authentication.reddit).rename(old, multiName);
                     }
                     Log.v(LogUtil.getTag(), "Create or Update, Name: " + multiName);
-                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, multiName).subreddits(subs).build());
+                    new MultiRedditManager(Authentication.reddit).createOrUpdate(
+                            new MultiRedditUpdateRequest.Builder(Authentication.name,
+                                    multiName).subreddits(subs).build());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -373,15 +398,24 @@ public class CreateMulti extends BaseActivityAnim {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(CreateMulti.this)
-                                .setTitle(R.string.err_title)
-                                .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
-                                .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        finish();
-                                    }
-                                }).create().show();
+                        new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(
+                                R.string.err_title)
+                                .setMessage(e instanceof ApiException ? getString(R.string.misc_err)
+                                        + ": "
+                                        + ((ApiException) e).getExplanation()
+                                        + "\n"
+                                        + getString(R.string.misc_retry)
+                                        : getString(R.string.misc_err))
+                                .setNeutralButton(R.string.btn_ok,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface,
+                                                    int i) {
+                                                finish();
+                                            }
+                                        })
+                                .create()
+                                .show();
                     }
                 });
                 e.printStackTrace();
@@ -389,15 +423,19 @@ public class CreateMulti extends BaseActivityAnim {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(CreateMulti.this)
-                                .setTitle(R.string.multireddit_invalid_name)
+                        new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(
+                                R.string.multireddit_invalid_name)
                                 .setMessage(R.string.multireddit_invalid_name_msg)
-                                .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        finish();
-                                    }
-                                }).create().show();
+                                .setNeutralButton(R.string.btn_ok,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface,
+                                                    int i) {
+                                                finish();
+                                            }
+                                        })
+                                .create()
+                                .show();
                     }
                 });
             }
@@ -417,14 +455,14 @@ public class CreateMulti extends BaseActivityAnim {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete:
-                new AlertDialogWrapper.Builder(CreateMulti.this)
-                        .setTitle(getString(R.string.delete_multireddit_title, title.getText().toString()))
+                new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(
+                        getString(R.string.delete_multireddit_title, title.getText().toString()))
                         .setMessage(R.string.cannot_be_undone)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new MaterialDialog.Builder(CreateMulti.this)
-                                        .title(R.string.deleting)
+                                new MaterialDialog.Builder(CreateMulti.this).title(
+                                        R.string.deleting)
                                         .progress(true, 100)
                                         .content(R.string.misc_please_wait)
                                         .cancelable(false)
@@ -434,11 +472,13 @@ public class CreateMulti extends BaseActivityAnim {
                                     @Override
                                     protected Void doInBackground(Void... params) {
                                         try {
-                                            new MultiRedditManager(Authentication.reddit).delete(old);
+                                            new MultiRedditManager(Authentication.reddit).delete(
+                                                    old);
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
+                                                    new UserSubscriptions.SyncMultireddits(
+                                                            CreateMulti.this).execute();
                                                 }
                                             });
 
@@ -448,13 +488,25 @@ public class CreateMulti extends BaseActivityAnim {
                                                 public void run() {
                                                     new AlertDialogWrapper.Builder(CreateMulti.this)
                                                             .setTitle(R.string.err_title)
-                                                            .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
-                                                            .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    finish();
-                                                                }
-                                                            }).create().show();
+                                                            .setMessage(e instanceof ApiException ?
+                                                                    getString(R.string.misc_err)
+                                                                            + ": "
+                                                                            + ((ApiException) e).getExplanation()
+                                                                            + "\n"
+                                                                            + getString(
+                                                                            R.string.misc_retry)
+                                                                    : getString(R.string.misc_err))
+                                                            .setNeutralButton(R.string.btn_ok,
+                                                                    new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(
+                                                                                DialogInterface dialogInterface,
+                                                                                int i) {
+                                                                            finish();
+                                                                        }
+                                                                    })
+                                                            .create()
+                                                            .show();
                                                 }
                                             });
                                             e.printStackTrace();
@@ -467,26 +519,30 @@ public class CreateMulti extends BaseActivityAnim {
                 return true;
             case R.id.save:
                 if (title.getText().toString().isEmpty()) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this)
-                            .setTitle(R.string.multireddit_title_empty)
+                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(
+                            R.string.multireddit_title_empty)
                             .setMessage(R.string.multireddit_title_empty_msg)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    title.requestFocus();
-                                }
-                            }).show();
+                            .setPositiveButton(R.string.btn_ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            title.requestFocus();
+                                        }
+                                    })
+                            .show();
                 } else if (subs.isEmpty()) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this)
-                            .setTitle(R.string.multireddit_no_subs)
+                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(
+                            R.string.multireddit_no_subs)
                             .setMessage(R.string.multireddit_no_subs_msg)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                            .setPositiveButton(R.string.btn_ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                            .show();
                 } else {
                     new SaveMulti().execute();
                 }

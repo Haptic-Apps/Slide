@@ -16,13 +16,13 @@ import me.ccrama.redditslide.Authentication;
  * Created by ccrama on 9/17/2015.
  */
 public class ModeratorPosts {
-    public ArrayList<PublicContribution> posts;
-    public boolean loading;
-    private SwipeRefreshLayout refreshLayout;
-    private String where;
+    public  ArrayList<PublicContribution> posts;
+    public  boolean                       loading;
+    private SwipeRefreshLayout            refreshLayout;
+    private String                        where;
 
-    private String subreddit;
-    private ModeratorAdapter adapter;
+    private String             subreddit;
+    private ModeratorAdapter   adapter;
     private ModeratorPaginator paginator;
 
     public ModeratorPosts(ArrayList<PublicContribution> firstData, ModeratorPaginator paginator) {
@@ -61,7 +61,7 @@ public class ModeratorPosts {
         public void onPostExecute(ArrayList<PublicContribution> subs) {
             if (subs != null) {
 
-                if(reset || posts == null){
+                if (reset || posts == null) {
                     posts = new ArrayList<>(new LinkedHashSet(subs));
                 } else {
                     posts.addAll(subs);

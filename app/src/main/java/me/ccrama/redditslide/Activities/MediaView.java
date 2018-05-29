@@ -613,7 +613,7 @@ public class MediaView extends FullScreenActivity
         final String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
-        if(contentUrl == null || contentUrl.isEmpty()){
+        if (contentUrl == null || contentUrl.isEmpty()) {
             finish();
             return;
         }
@@ -758,7 +758,7 @@ public class MediaView extends FullScreenActivity
                 ((TextView) findViewById(R.id.size)), subreddit);
         if (contentType != ContentType.Type.GIF) {
             videoView.mute = findViewById(R.id.mute);
-            if(contentType != ContentType.Type.VREDDIT_DIRECT){
+            if (contentType != ContentType.Type.VREDDIT_DIRECT) {
                 videoView.mute.setVisibility(View.VISIBLE);
             }
             gif.setMute(videoView.mute);

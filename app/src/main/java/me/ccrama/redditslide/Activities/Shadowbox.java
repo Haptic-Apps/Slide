@@ -28,18 +28,17 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
 public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
-    public static final String EXTRA_PROFILE = "profile";
-    public static final String EXTRA_PAGE = "page";
-    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_PROFILE     = "profile";
+    public static final String EXTRA_PAGE        = "page";
+    public static final String EXTRA_SUBREDDIT   = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
     public PostLoader subredditPosts;
-    public String subreddit;
+    public String     subreddit;
     int firstPage;
 
     public ViewPager pager;
@@ -61,7 +60,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
-        if(multireddit == null){
+        if (multireddit == null) {
             setShareUrl("https://reddit.com/r/" + subreddit);
         }
 
@@ -69,9 +68,10 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_slide);
 
-        long offline = getIntent().getLongExtra("offline",0L);
+        long offline = getIntent().getLongExtra("offline", 0L);
 
-        OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
+        OfflineSubreddit submissions =
+                OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
         subredditPosts.getPosts().addAll(submissions.submissions);
 
@@ -81,15 +81,19 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         pager.setCurrentItem(firstPage);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
 
             }
 
             @Override
             public void onPageSelected(int position) {
                 if (SettingValues.storeHistory) {
-                    if (subredditPosts.getPosts().get(position).isNsfw() && !SettingValues.storeNSFWHistory) {
-                    } else HasSeen.addSeen(subredditPosts.getPosts().get(position).getFullName());
+                    if (subredditPosts.getPosts().get(position).isNsfw()
+                            && !SettingValues.storeNSFWHistory) {
+                    } else {
+                        HasSeen.addSeen(subredditPosts.getPosts().get(position).getFullName());
+                    }
                 }
             }
 
@@ -163,7 +167,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
             ContentType.Type t = ContentType.getContentType(subredditPosts.getPosts().get(i));
 
             if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
-                subredditPosts.loadMore(Shadowbox.this.getApplicationContext(), Shadowbox.this, false);
+                subredditPosts.loadMore(Shadowbox.this.getApplicationContext(), Shadowbox.this,
+                        false);
             }
             switch (t) {
                 case GIF:
@@ -185,7 +190,9 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     Bundle args = new Bundle();
                     Submission submission = subredditPosts.getPosts().get(i);
                     String previewUrl = "";
-                    if (t != ContentType.Type.XKCD && submission.getDataNode().has("preview") && submission.getDataNode()
+                    if (t != ContentType.Type.XKCD
+                            && submission.getDataNode().has("preview")
+                            && submission.getDataNode()
                             .get("preview")
                             .get("images")
                             .get(0)
@@ -270,7 +277,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
         @Override
         public int getCount() {
-            return subredditPosts.getPosts().size() ;
+            return subredditPosts.getPosts().size();
         }
 
 

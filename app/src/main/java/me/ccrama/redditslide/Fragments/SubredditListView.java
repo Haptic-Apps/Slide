@@ -29,29 +29,34 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class SubredditListView extends Fragment {
-    public SubredditNames posts;
-    public RecyclerView rv;
-    private int visibleItemCount;
-    private int pastVisiblesItems;
-    private int totalItemCount;
-    public SubredditAdapter adapter;
-    public String where;
+    public  SubredditNames     posts;
+    public  RecyclerView       rv;
+    private int                visibleItemCount;
+    private int                pastVisiblesItems;
+    private int                totalItemCount;
+    public  SubredditAdapter   adapter;
+    public  String             where;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(where));
-        View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
+                new ColorPreferences(inflater.getContext()).getThemeSubreddit(where));
+        View v = ((LayoutInflater) contextThemeWrapper.getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent,
+                container, false);
 
-        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        final RecyclerView.LayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
+        rv = v.findViewById(R.id.vertical_content);
+        final RecyclerView.LayoutManager mLayoutManager =
+                new PreCachingLayoutManager(getActivity());
 
         rv.setLayoutManager(mLayoutManager);
         rv.setItemAnimator(new SlideUpAlphaAnimator());
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("no sub", getContext()));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
@@ -80,15 +85,14 @@ public class SubredditListView extends Fragment {
         adapter = new SubredditAdapter(getActivity(), posts, rv, where, this);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), true, where);
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refresh();
-                    }
-                }
-        );
-        rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar,
+                getActivity().findViewById(R.id.header)) {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -97,7 +101,8 @@ public class SubredditListView extends Fragment {
                     visibleItemCount = rv.getLayoutManager().getChildCount();
                     totalItemCount = rv.getLayoutManager().getItemCount();
 
-                    pastVisiblesItems = ((LinearLayoutManager)rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    pastVisiblesItems =
+                            ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
                         LogUtil.v("Loading more");

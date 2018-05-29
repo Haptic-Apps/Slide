@@ -103,11 +103,12 @@ public class SubmissionCache {
         }
         json = json.get("crosspost_parent_list").get(0);
 
-        if(json.has("subreddit")){
+        if (json.has("subreddit")) {
             String subname = json.get("subreddit").asText().toLowerCase(Locale.ENGLISH);
             SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname + spacer);
 
-            if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())
+            if ((SettingValues.colorSubName
+                    && Palette.getColor(subname) != Palette.getDefaultColor())
                     || (SettingValues.colorSubName
                     && Palette.getColor(subname) != Palette.getDefaultColor())) {
                 if (!SettingValues.colorEverywhere) {
@@ -122,7 +123,7 @@ public class SubmissionCache {
         }
 
         SpannableStringBuilder author =
-                new SpannableStringBuilder( json.get("author").asText() + " ");
+                new SpannableStringBuilder(json.get("author").asText() + " ");
 
         int authorcolor = Palette.getFontColorUser(json.get("author").asText());
 

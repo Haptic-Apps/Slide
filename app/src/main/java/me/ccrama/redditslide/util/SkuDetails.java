@@ -23,11 +23,11 @@ import org.json.JSONObject;
  */
 public class SkuDetails {
     private final String mJson;
-    private String mSku;
-    private String mType;
-    private String mPrice;
-    private String mTitle;
-    private String mDescription;
+    private       String mSku;
+    private       String mType;
+    private       String mPrice;
+    private       String mTitle;
+    private       String mDescription;
 
     public SkuDetails(String jsonSkuDetails) throws JSONException {
         this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);

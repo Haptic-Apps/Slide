@@ -16,38 +16,22 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "id",
-        "title",
-        "description",
-        "datetime",
-        "type",
-        "animated",
-        "width",
-        "height",
-        "size",
-        "views",
-        "bandwidth",
-        "vote",
-        "favorite",
-        "nsfw",
-        "section",
-        "account_url",
-        "account_id",
-        "in_gallery",
-        "link"
+        "id", "title", "description", "datetime", "type", "animated", "width", "height", "size",
+        "views", "bandwidth", "vote", "favorite", "nsfw", "section", "account_url", "account_id",
+        "in_gallery", "link"
 })
 public class SingleImage {
 
     @JsonProperty("id")
-    private String id;
+    private String  id;
     @JsonProperty("title")
-    private String title;
+    private String  title;
     @JsonProperty("description")
-    private String description;
+    private String  description;
     @JsonProperty("datetime")
-    private Double datetime;
+    private Double  datetime;
     @JsonProperty("type")
-    private String type;
+    private String  type;
     @JsonProperty("animated")
     private Boolean animated;
     @JsonProperty("width")
@@ -55,27 +39,27 @@ public class SingleImage {
     @JsonProperty("height")
     private Integer height;
     @JsonProperty("size")
-    private Double size;
+    private Double  size;
     @JsonProperty("views")
-    private Double views;
+    private Double  views;
     @JsonProperty("bandwidth")
-    private Double bandwidth;
+    private Double  bandwidth;
     @JsonProperty("vote")
-    private Object vote;
+    private Object  vote;
     @JsonProperty("favorite")
     private Boolean favorite;
     @JsonProperty("nsfw")
     private Boolean nsfw;
     @JsonProperty("section")
-    private String section;
+    private String  section;
     @JsonProperty("account_url")
-    private Object accountUrl;
+    private Object  accountUrl;
     @JsonProperty("account_id")
-    private Object accountId;
+    private Object  accountId;
     @JsonProperty("in_gallery")
     private Boolean inGallery;
     @JsonProperty("link")
-    private String link;
+    private String  link;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 

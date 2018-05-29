@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Fragments;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,15 +15,11 @@ import android.view.ViewTreeObserver;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
-import net.dean.jraw.models.Submission;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.Adapters.CommentUrlObject;
@@ -45,14 +40,13 @@ public class AlbumFullComments extends Fragment {
     private int i = 0;
     private CommentUrlObject s;
     boolean hidden;
-    View rootView;
+    View    rootView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        rootView = inflater.inflate(
-                R.layout.submission_albumcard, container, false);
+            Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.submission_albumcard, container, false);
         PopulateShadowboxInfo.doActionbar(s.comment, rootView, getActivity(), true);
 
         String url = s.url;
@@ -78,8 +72,7 @@ public class AlbumFullComments extends Fragment {
                 if (dy > 0 && !hidden) {
                     hidden = true;
 
-                    if (va != null && va.isRunning())
-                        va.cancel();
+                    if (va != null && va.isRunning()) va.cancel();
 
                     final View base = rootView.findViewById(R.id.base);
                     va = ValueAnimator.ofFloat(1.0f, 0.2f);
@@ -97,8 +90,7 @@ public class AlbumFullComments extends Fragment {
                 } else if (hidden && dy <= 0) {
                     final View base = rootView.findViewById(R.id.base);
 
-                    if (va != null && va.isRunning())
-                        va.cancel();
+                    if (va != null && va.isRunning()) va.cancel();
 
                     hidden = false;
                     va = ValueAnimator.ofFloat(0.2f, 1.0f);
@@ -124,54 +116,60 @@ public class AlbumFullComments extends Fragment {
         final View.OnClickListener openClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(
+                        SlidingUpPanelLayout.PanelState.EXPANDED);
             }
         };
         rootView.findViewById(R.id.base).setOnClickListener(openClick);
         final View title = rootView.findViewById(R.id.title);
-        title.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
-                title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
-        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
+        title.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        ((SlidingUpPanelLayout) rootView.findViewById(
+                                R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
+                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(
+                new SlidingUpPanelLayout.PanelSlideListener() {
+                    @Override
+                    public void onPanelSlide(View panel, float slideOffset) {
 
-            }
+                    }
 
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    final Comment c = s.comment.getComment();
-                    rootView.findViewById(R.id.base)
-                            .setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String url = "https://reddit.com"
-                                            + "/r/"
-                                            + c.getSubredditName()
-                                            + "/comments/"
-                                            + c.getDataNode()
-                                            .get("link_id")
-                                            .asText()
-                                            .substring(3, c.getDataNode()
+                    @Override
+                    public void onPanelStateChanged(View panel,
+                            SlidingUpPanelLayout.PanelState previousState,
+                            SlidingUpPanelLayout.PanelState newState) {
+                        if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                            final Comment c = s.comment.getComment();
+                            rootView.findViewById(R.id.base)
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            String url = "https://reddit.com"
+                                                    + "/r/"
+                                                    + c.getSubredditName()
+                                                    + "/comments/"
+                                                    + c.getDataNode()
                                                     .get("link_id")
                                                     .asText()
-                                                    .length())
-                                            + "/nothing/"
-                                            + c.getId()
-                                            + "?context=3";
-                                    new OpenRedditLink(getActivity(), url);
-                                }
-                            });
-                } else {
-                    rootView.findViewById(R.id.base).setOnClickListener(openClick);
-                }
-            }
-        });
+                                                    .substring(3, c.getDataNode()
+                                                            .get("link_id")
+                                                            .asText()
+                                                            .length())
+                                                    + "/nothing/"
+                                                    + c.getId()
+                                                    + "?context=3";
+                                            new OpenRedditLink(getActivity(), url);
+                                        }
+                                    });
+                        } else {
+                            rootView.findViewById(R.id.base).setOnClickListener(openClick);
+                        }
+                    }
+                });
 
         new LoadIntoRecycler(url, getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 

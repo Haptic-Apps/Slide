@@ -55,7 +55,8 @@ public class SettingsFilter extends BaseActivityAnim {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    SettingValues.titleFilters = SettingValues.titleFilters + ", " + title.getText().toString();
+                    SettingValues.titleFilters =
+                            SettingValues.titleFilters + ", " + title.getText().toString();
                     title.setText("");
                     updateFilters();
                 }
@@ -66,7 +67,8 @@ public class SettingsFilter extends BaseActivityAnim {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    SettingValues.textFilters = SettingValues.textFilters + ", " + text.getText().toString();
+                    SettingValues.textFilters =
+                            SettingValues.textFilters + ", " + text.getText().toString();
                     text.setText("");
                     updateFilters();
                 }
@@ -77,7 +79,8 @@ public class SettingsFilter extends BaseActivityAnim {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    SettingValues.domainFilters = SettingValues.domainFilters + ", " + domain.getText().toString();
+                    SettingValues.domainFilters =
+                            SettingValues.domainFilters + ", " + domain.getText().toString();
                     domain.setText("");
                     updateFilters();
                 }
@@ -88,7 +91,8 @@ public class SettingsFilter extends BaseActivityAnim {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    SettingValues.subredditFilters = SettingValues.subredditFilters + ", " + subreddit.getText().toString();
+                    SettingValues.subredditFilters =
+                            SettingValues.subredditFilters + ", " + subreddit.getText().toString();
                     subreddit.setText("");
                     updateFilters();
                 }
@@ -99,7 +103,8 @@ public class SettingsFilter extends BaseActivityAnim {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    SettingValues.userFilters = SettingValues.userFilters + ", " + user.getText().toString();
+                    SettingValues.userFilters =
+                            SettingValues.userFilters + ", " + user.getText().toString();
                     user.setText("");
                     updateFilters();
                 }
@@ -111,11 +116,13 @@ public class SettingsFilter extends BaseActivityAnim {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     if (flair.getText().toString().contains(":")) {
-                        SettingValues.flairFilters = SettingValues.flairFilters + ", " + flair.getText().toString();
+                        SettingValues.flairFilters =
+                                SettingValues.flairFilters + ", " + flair.getText().toString();
                         flair.setText("");
                         updateFilters();
                     } else {
-                        Toast.makeText(SettingsFilter.this, R.string.settings_filter_flair_error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(SettingsFilter.this, R.string.settings_filter_flair_error,
+                                Toast.LENGTH_LONG).show();
                     }
                 }
                 return false;
@@ -125,12 +132,12 @@ public class SettingsFilter extends BaseActivityAnim {
 
     }
 
-    public ArrayList<String> subs = new ArrayList<>();
-    public ArrayList<String> domains = new ArrayList<>();
-    public ArrayList<String> textlist = new ArrayList<>();
+    public ArrayList<String> subs      = new ArrayList<>();
+    public ArrayList<String> domains   = new ArrayList<>();
+    public ArrayList<String> textlist  = new ArrayList<>();
     public ArrayList<String> titlelist = new ArrayList<>();
-    public ArrayList<String> flairs = new ArrayList<>();
-    public ArrayList<String> users = new ArrayList<>();
+    public ArrayList<String> flairs    = new ArrayList<>();
+    public ArrayList<String> users     = new ArrayList<>();
 
 
     public void updateFilters() {
@@ -142,7 +149,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 s = s.trim();
                 final String finalS = s;
                 domains.add(finalS);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.domainlist)), false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview,
+                        ((LinearLayout) findViewById(R.id.domainlist)), false);
 
                 ((TextView) t.findViewById(R.id.name)).setText(s);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -161,12 +169,14 @@ public class SettingsFilter extends BaseActivityAnim {
         subs = new ArrayList<>();
         ((LinearLayout) findViewById(R.id.subredditlist)).removeAllViews();
 
-        for (String s : SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
+        for (String s : SettingValues.subredditFilters.replaceAll("^[,\\s]+", "")
+                .split("[,\\s]+")) {
             if (!s.isEmpty()) {
                 s = s.trim();
                 final String finalS = s;
                 subs.add(finalS);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.subredditlist)), false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview,
+                        ((LinearLayout) findViewById(R.id.subredditlist)), false);
 
                 ((TextView) t.findViewById(R.id.name)).setText(s);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -191,7 +201,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 s = s.trim();
                 final String finalS = s;
                 users.add(finalS);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.subredditlist)), false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview,
+                        ((LinearLayout) findViewById(R.id.subredditlist)), false);
 
                 ((TextView) t.findViewById(R.id.name)).setText(s);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -216,7 +227,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 s = s.trim();
                 final String finalS = s;
                 textlist.add(finalS);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.selftextlist)), false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview,
+                        ((LinearLayout) findViewById(R.id.selftextlist)), false);
 
                 ((TextView) t.findViewById(R.id.name)).setText(s);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -241,7 +253,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 s = s.trim();
                 final String finalS = s;
                 titlelist.add(finalS);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.titlelist)), false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview,
+                        ((LinearLayout) findViewById(R.id.titlelist)), false);
 
                 ((TextView) t.findViewById(R.id.name)).setText(s);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -267,16 +280,21 @@ public class SettingsFilter extends BaseActivityAnim {
                 s = s.trim();
                 final String finalS = s;
                 flairs.add(finalS);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.domainlist)), false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview,
+                        ((LinearLayout) findViewById(R.id.domainlist)), false);
 
                 SpannableStringBuilder b = new SpannableStringBuilder();
 
                 String subname = s.split(":")[0];
-                SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + subname + " ");
+                SpannableStringBuilder subreddit =
+                        new SpannableStringBuilder(" /r/" + subname + " ");
 
-                if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
-                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if ((SettingValues.colorSubName
+                        && Palette.getColor(subname) != Palette.getDefaultColor())) {
+                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0,
+                            subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
                 b.append(subreddit);
@@ -318,12 +336,18 @@ public class SettingsFilter extends BaseActivityAnim {
         PostMatch.texts = null;
         PostMatch.users = null;
 
-        SettingValues.titleFilters = SettingValues.prefs.getString(SettingValues.PREF_TITLE_FILTERS, "");
-        SettingValues.textFilters = SettingValues.prefs.getString(SettingValues.PREF_TEXT_FILTERS, "");
-        SettingValues.domainFilters = SettingValues.prefs.getString(SettingValues.PREF_DOMAIN_FILTERS, "");
-        SettingValues.flairFilters = SettingValues.prefs.getString(SettingValues.PREF_FLAIR_FILTERS, "");
-        SettingValues.subredditFilters = SettingValues.prefs.getString(SettingValues.PREF_SUBREDDIT_FILTERS, "");
-        SettingValues.userFilters = SettingValues.prefs.getString(SettingValues.PREF_USER_FILTERS, "");
+        SettingValues.titleFilters =
+                SettingValues.prefs.getString(SettingValues.PREF_TITLE_FILTERS, "");
+        SettingValues.textFilters =
+                SettingValues.prefs.getString(SettingValues.PREF_TEXT_FILTERS, "");
+        SettingValues.domainFilters =
+                SettingValues.prefs.getString(SettingValues.PREF_DOMAIN_FILTERS, "");
+        SettingValues.flairFilters =
+                SettingValues.prefs.getString(SettingValues.PREF_FLAIR_FILTERS, "");
+        SettingValues.subredditFilters =
+                SettingValues.prefs.getString(SettingValues.PREF_SUBREDDIT_FILTERS, "");
+        SettingValues.userFilters =
+                SettingValues.prefs.getString(SettingValues.PREF_USER_FILTERS, "");
 
     }
 

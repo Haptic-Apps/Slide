@@ -71,7 +71,7 @@ public class MediaFragmentComment extends Fragment {
     private boolean               imageShown;
     private float                 previous;
     private boolean               hidden;
-    private long                   stopPosition;
+    private long                  stopPosition;
     public  boolean               isGif;
     private GifUtils.AsyncLoadGif gif;
     private CommentUrlObject      s;
@@ -313,7 +313,8 @@ public class MediaFragmentComment extends Fragment {
                                 url = submission.getUrl();
                                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
                                 myIntent.putExtra(MediaView.EXTRA_URL, url);
-                                myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+                                myIntent.putExtra(MediaView.SUBREDDIT,
+                                        submission.getSubredditName());
                                 myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
                                 contextActivity.startActivity(myIntent);

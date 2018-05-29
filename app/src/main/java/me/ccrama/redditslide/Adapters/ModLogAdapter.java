@@ -97,8 +97,8 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public ModLogViewHolder(View itemView) {
             super(itemView);
-            body = (SpoilerRobotoTextView) itemView.findViewById(R.id.body);
-            icon = (ImageView) itemView.findViewById(R.id.action);
+            body = itemView.findViewById(R.id.body);
+            icon = itemView.findViewById(R.id.action);
         }
     }
 
@@ -159,11 +159,10 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             b.append(author);
             b.append("\n\n");
-            b.append(a.getAction() + " " + (!a.getDataNode().get("target_title").isNull() ?
-                    "\""
-                            + a.getDataNode().get("target_title").asText()
-                            + "\"" : "") + (a.getTargetAuthor() != null ? " by /u/"
-                    + a.getTargetAuthor() : ""));
+            b.append(a.getAction() + " " + (!a.getDataNode().get("target_title").isNull() ? "\""
+                    + a.getDataNode().get("target_title").asText()
+                    + "\"" : "") + (a.getTargetAuthor() != null ? " by /u/" + a.getTargetAuthor()
+                    : ""));
             if (a.getTargetPermalink() != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

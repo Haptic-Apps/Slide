@@ -22,18 +22,19 @@ import org.json.JSONObject;
  * Represents an in-app billing purchase.
  */
 public class Purchase {
-    final String mItemType;  // ITEM_TYPE_INAPP or ITEM_TYPE_SUBS
+    final         String mItemType;  // ITEM_TYPE_INAPP or ITEM_TYPE_SUBS
     private final String mOriginalJson;
-    private String mOrderId;
-    private String mPackageName;
-    private String mSku;
-    private long mPurchaseTime;
-    private int mPurchaseState;
-    private String mDeveloperPayload;
-    private String mToken;
-    private String mSignature;
+    private       String mOrderId;
+    private       String mPackageName;
+    private       String mSku;
+    private       long   mPurchaseTime;
+    private       int    mPurchaseState;
+    private       String mDeveloperPayload;
+    private       String mToken;
+    private       String mSignature;
 
-    public Purchase(String itemType, String jsonPurchaseInfo, String signature) throws JSONException {
+    public Purchase(String itemType, String jsonPurchaseInfo, String signature)
+            throws JSONException {
         mItemType = itemType;
         mOriginalJson = jsonPurchaseInfo;
         JSONObject o = new JSONObject(mOriginalJson);

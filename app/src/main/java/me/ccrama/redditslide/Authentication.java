@@ -249,9 +249,9 @@ public class Authentication {
 
 
     public static class VerifyCredentials extends AsyncTask<String, Void, Void> {
-        Context      mContext;
-        String       lastToken;
-        boolean      single;
+        Context mContext;
+        String  lastToken;
+        boolean single;
 
         public VerifyCredentials(Context context) {
             mContext = context;
@@ -260,13 +260,14 @@ public class Authentication {
 
         @Override
         protected Void doInBackground(String... subs) {
-           doVerify(lastToken, reddit,single,mContext);
+            doVerify(lastToken, reddit, single, mContext);
             return null;
         }
 
     }
 
-    public static void doVerify(String lastToken, RedditClient baseReddit,boolean single, Context mContext){
+    public static void doVerify(String lastToken, RedditClient baseReddit, boolean single,
+            Context mContext) {
         try {
 
             String token = lastToken;
@@ -313,9 +314,10 @@ public class Authentication {
                 } catch (Exception e) {
                     e.printStackTrace();
                     if (e instanceof NetworkException) {
-                        Toast.makeText(mContext, "Error " + ((NetworkException) e).getResponse()
-                                        .getStatusMessage() + ": " + (e).getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Error "
+                                + ((NetworkException) e).getResponse().getStatusMessage()
+                                + ": "
+                                + (e).getMessage(), Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -324,15 +326,13 @@ public class Authentication {
             } else if (!single) {
                 if (BuildConfig.DEBUG) LogUtil.v("NOT LOGGED IN");
 
-                final Credentials fcreds =
-                        Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
+                final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                 OAuthData authData;
                 try {
 
                     authData = reddit.getOAuthHelper().easyAuth(fcreds);
                     authentication.edit()
-                            .putLong("expires",
-                                    Calendar.getInstance().getTimeInMillis() + 3000000)
+                            .putLong("expires", Calendar.getInstance().getTimeInMillis() + 3000000)
                             .apply();
                     authentication.edit()
                             .putString("backedCreds", authData.getDataNode().toString())
@@ -346,9 +346,10 @@ public class Authentication {
                 } catch (Exception e) {
                     e.printStackTrace();
                     if (e instanceof NetworkException) {
-                        Toast.makeText(mContext, "Error " + ((NetworkException) e).getResponse()
-                                        .getStatusMessage() + ": " + (e).getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Error "
+                                + ((NetworkException) e).getResponse().getStatusMessage()
+                                + ": "
+                                + (e).getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
 

@@ -5,7 +5,6 @@ import com.lusfold.androidkeyvaluestore.core.KVManger;
 
 import net.dean.jraw.models.Submission;
 
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,14 +27,15 @@ public class LastComments {
                     commentsSince.put(fullname, Integer.valueOf(m.get("comments" + fullname)));
                 }
             }
-        } catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
 
     public static int commentsSince(Submission s) {
-        if (commentsSince != null && commentsSince.containsKey(s.getFullName()))
+        if (commentsSince != null && commentsSince.containsKey(s.getFullName())) {
             return s.getCommentCount() - commentsSince.get(s.getFullName());
+        }
         return 0;
     }
 
@@ -43,7 +43,8 @@ public class LastComments {
         if (commentsSince == null) {
             commentsSince = new HashMap<>();
         }
-        KVStore.getInstance().insertOrUpdate("comments" + s.getFullName(), String.valueOf(s.getCommentCount()));
+        KVStore.getInstance()
+                .insertOrUpdate("comments" + s.getFullName(), String.valueOf(s.getCommentCount()));
         commentsSince.put(s.getFullName(), s.getCommentCount());
     }
 }

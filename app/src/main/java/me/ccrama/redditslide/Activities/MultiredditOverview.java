@@ -145,9 +145,9 @@ public class MultiredditOverview extends BaseActivityAnim {
                         && (UserSubscriptions.multireddits != null)
                         && !UserSubscriptions.multireddits.isEmpty()) {
                     Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                    i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.multireddits
-                            .get(pager.getCurrentItem())
-                            .getDisplayName());
+                    i.putExtra(CreateMulti.EXTRA_MULTI,
+                            UserSubscriptions.multireddits.get(pager.getCurrentItem())
+                                    .getDisplayName());
                     startActivity(i);
                 }
             }
@@ -160,7 +160,8 @@ public class MultiredditOverview extends BaseActivityAnim {
                         if ((multireddits != null) && !multireddits.isEmpty()) {
                             searchMulti = multireddits.get(pager.getCurrentItem());
                             MaterialDialog.Builder builder =
-                                    new MaterialDialog.Builder(MultiredditOverview.this).title(R.string.search_title)
+                                    new MaterialDialog.Builder(MultiredditOverview.this).title(
+                                            R.string.search_title)
                                             .alwaysCallInputCallback()
                                             .input(getString(R.string.search_msg), "",
                                                     new MaterialDialog.InputCallback() {

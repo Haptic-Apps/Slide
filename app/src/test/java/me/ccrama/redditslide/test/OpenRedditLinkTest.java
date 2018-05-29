@@ -15,6 +15,7 @@ public class OpenRedditLinkTest {
     private String formatURL(String url) {
         return OpenRedditLink.formatRedditUrl(url);
     }
+
     private OpenRedditLink.RedditLinkType getType(String url) {
         return OpenRedditLink.getRedditLinkType(url);
     }
@@ -26,41 +27,49 @@ public class OpenRedditLinkTest {
 
     @Test
     public void detectsWiki() {
-        assertThat(getType(formatURL("https://www.reddit.com/r/Android/wiki/index")), is(RedditLinkType.WIKI));
-        assertThat(getType(formatURL("https://www.reddit.com/r/Android/help")), is(RedditLinkType.WIKI));
+        assertThat(getType(formatURL("https://www.reddit.com/r/Android/wiki/index")),
+                is(RedditLinkType.WIKI));
+        assertThat(getType(formatURL("https://www.reddit.com/r/Android/help")),
+                is(RedditLinkType.WIKI));
         assertThat(getType(formatURL("https://reddit.com/help")), is(RedditLinkType.WIKI));
     }
 
     @Test
     public void detectsComment() {
-        assertThat(getType(formatURL("https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/c19qk6j")),
+        assertThat(getType(formatURL(
+                "https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/c19qk6j")),
                 is(RedditLinkType.COMMENT_PERMALINK));
-        assertThat(getType(formatURL("https://www.reddit.com/r/announcements/comments/eorhm//c19qk6j")),
+        assertThat(getType(formatURL(
+                "https://www.reddit.com/r/announcements/comments/eorhm//c19qk6j")),
                 is(RedditLinkType.COMMENT_PERMALINK));
     }
 
     @Test
     public void detectsSubmission() {
-        assertThat(getType(formatURL("https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/")),
+        assertThat(getType(formatURL(
+                "https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/")),
                 is(RedditLinkType.SUBMISSION));
     }
 
     @Test
     public void detectsSubmissionWithoutSub() {
-        assertThat(getType(formatURL("https://www.reddit.com/comments/eorhm/reddit_30_less_typing/")),
+        assertThat(
+                getType(formatURL("https://www.reddit.com/comments/eorhm/reddit_30_less_typing/")),
                 is(RedditLinkType.SUBMISSION_WITHOUT_SUB));
     }
 
     @Test
     public void detectsSubreddit() {
-        assertThat(getType(formatURL("https://www.reddit.com/r/android")), is(RedditLinkType.SUBREDDIT));
+        assertThat(getType(formatURL("https://www.reddit.com/r/android")),
+                is(RedditLinkType.SUBREDDIT));
     }
 
     @Test
     public void detectsSearch() {
 //        assertThat(getType(formatURL("https://www.reddit.com/search?q=test")),
 //                is(RedditLinkType.SEARCH));
-        assertThat(getType(formatURL("https://www.reddit.com/r/Android/search?q=test&restrict_sr=on&sort=relevance&t=all")),
+        assertThat(getType(formatURL(
+                "https://www.reddit.com/r/Android/search?q=test&restrict_sr=on&sort=relevance&t=all")),
                 is(RedditLinkType.SEARCH));
     }
 
@@ -76,24 +85,30 @@ public class OpenRedditLinkTest {
 
     @Test
     public void detectsOther() {
-        assertThat(getType(formatURL("https://www.reddit.com/r/pics/about/moderators")), is(RedditLinkType.OTHER));
-        assertThat(getType(formatURL("https://www.reddit.com/live/x9gf3donjlkq/discussions")), is(RedditLinkType.OTHER));
-        assertThat(getType(formatURL("https://www.reddit.com/live/x9gf3donjlkq/contributors")), is(RedditLinkType.OTHER));
+        assertThat(getType(formatURL("https://www.reddit.com/r/pics/about/moderators")),
+                is(RedditLinkType.OTHER));
+        assertThat(getType(formatURL("https://www.reddit.com/live/x9gf3donjlkq/discussions")),
+                is(RedditLinkType.OTHER));
+        assertThat(getType(formatURL("https://www.reddit.com/live/x9gf3donjlkq/contributors")),
+                is(RedditLinkType.OTHER));
     }
 
     @Test
     public void detectsLive() {
-        assertThat(getType(formatURL("https://www.reddit.com/live/x9gf3donjlkq")), is(RedditLinkType.LIVE));
+        assertThat(getType(formatURL("https://www.reddit.com/live/x9gf3donjlkq")),
+                is(RedditLinkType.LIVE));
     }
 
     @Test
     public void formatsBasic() {
-        assertThat(formatURL("https://www.reddit.com/live/wbjbjba8zrl6"), is("reddit.com/live/wbjbjba8zrl6"));
+        assertThat(formatURL("https://www.reddit.com/live/wbjbjba8zrl6"),
+                is("reddit.com/live/wbjbjba8zrl6"));
     }
 
     @Test
     public void formatsNp() {
-        assertThat(formatURL("https://np.reddit.com/live/wbjbjba8zrl6"), is("npreddit.com/live/wbjbjba8zrl6"));
+        assertThat(formatURL("https://np.reddit.com/live/wbjbjba8zrl6"),
+                is("npreddit.com/live/wbjbjba8zrl6"));
     }
 
     @Test
@@ -121,8 +136,10 @@ public class OpenRedditLinkTest {
     @Test
     public void formatsWiki() {
         assertThat(formatURL("https://reddit.com/help"), is("reddit.com/r/reddit.com/wiki"));
-        assertThat(formatURL("https://reddit.com/help/registration"), is("reddit.com/r/reddit.com/wiki/registration"));
-        assertThat(formatURL("https://www.reddit.com/r/android/wiki/index"), is("reddit.com/r/android/wiki/index"));
+        assertThat(formatURL("https://reddit.com/help/registration"),
+                is("reddit.com/r/reddit.com/wiki/registration"));
+        assertThat(formatURL("https://www.reddit.com/r/android/wiki/index"),
+                is("reddit.com/r/android/wiki/index"));
     }
 
     @Test

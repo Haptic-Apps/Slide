@@ -62,13 +62,14 @@ public class SidebarLayout extends DrawerLayout {
         for (View view : scrollableViews) {
             Rect rect = new Rect();
             view.getHitRect(rect);
-            if (rect.contains((int) ev.getX(), (int) ev.getY() - commentOverflow.getTop() + yOffset)) {
+            if (rect.contains((int) ev.getX(),
+                    (int) ev.getY() - commentOverflow.getTop() + yOffset)) {
                 return false;
             }
         }
         try {
             return super.onInterceptTouchEvent(ev);
-        } catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

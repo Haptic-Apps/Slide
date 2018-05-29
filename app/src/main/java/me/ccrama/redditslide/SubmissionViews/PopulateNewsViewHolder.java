@@ -255,8 +255,7 @@ public class PopulateNewsViewHolder {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
                         View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -795,8 +794,8 @@ public class PopulateNewsViewHolder {
                             Snackbar s = Snackbar.make(holder.itemView, "Added to read later!",
                                     Snackbar.LENGTH_SHORT);
                             View view = s.getView();
-                            TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
@@ -1096,11 +1095,11 @@ public class PopulateNewsViewHolder {
 
     }
 
-    public <T extends Contribution> void populateNewsViewHolder(
-            final NewsViewHolder holder, final Submission submission, final Activity mContext,
-            boolean fullscreen, final boolean full, final List<T> posts,
-            final RecyclerView recyclerview, final boolean same, final boolean offline,
-            final String baseSub, @Nullable final CommentAdapter adapter) {
+    public <T extends Contribution> void populateNewsViewHolder(final NewsViewHolder holder,
+            final Submission submission, final Activity mContext, boolean fullscreen,
+            final boolean full, final List<T> posts, final RecyclerView recyclerview,
+            final boolean same, final boolean offline, final String baseSub,
+            @Nullable final CommentAdapter adapter) {
 
         holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override

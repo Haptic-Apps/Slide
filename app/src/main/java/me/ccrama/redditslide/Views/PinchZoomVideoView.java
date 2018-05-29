@@ -15,10 +15,12 @@ import android.widget.VideoView;
 public class PinchZoomVideoView extends VideoView {
 
     ScaleGestureDetector mScaleGestureDetector;
-    GestureDetector mGestureDetector;
+    GestureDetector      mGestureDetector;
+
     public PinchZoomVideoView(Context context) {
         super(context);
-        mScaleGestureDetector = new ScaleGestureDetector(getContext(), new MyScaleGestureListener());
+        mScaleGestureDetector =
+                new ScaleGestureDetector(getContext(), new MyScaleGestureListener());
         setOnTouchListener(new OnTouchListener() {
 
             @Override
@@ -48,6 +50,7 @@ public class PinchZoomVideoView extends VideoView {
     public void setFixedVideoSize(int width, int height) {
         getHolder().setFixedSize(width, height);
     }
+
     private class MyScaleGestureListener implements ScaleGestureDetector.OnScaleGestureListener {
         private int mW, mH;
 

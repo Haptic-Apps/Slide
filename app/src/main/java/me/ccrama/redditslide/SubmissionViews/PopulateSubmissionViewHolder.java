@@ -287,8 +287,7 @@ public class PopulateSubmissionViewHolder {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
                         View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -392,7 +391,8 @@ public class PopulateSubmissionViewHolder {
                             .get("fallback_url")
                             .asText()).replace("&amp;", "&"));
                 } else {
-                    new OpenVRedditTask(contextActivity, submission.getSubredditName()).executeOnExecutor(
+                    new OpenVRedditTask(contextActivity,
+                            submission.getSubredditName()).executeOnExecutor(
                             AsyncTask.THREAD_POOL_EXECUTOR, submission.getUrl());
                     return;
 
@@ -866,8 +866,8 @@ public class PopulateSubmissionViewHolder {
                             Snackbar s = Snackbar.make(holder.itemView, "Added to read later!",
                                     Snackbar.LENGTH_SHORT);
                             View view = s.getView();
-                            TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
@@ -989,10 +989,12 @@ public class PopulateSubmissionViewHolder {
 
                         break;
                     case 8:
-                        if(SettingValues.shareLongLink){
-                            Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
+                        if (SettingValues.shareLongLink) {
+                            Reddit.defaultShareText(submission.getTitle(),
+                                    "https://reddit.com" + submission.getPermalink(), mContext);
                         } else {
-                            Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
+                            Reddit.defaultShareText(submission.getTitle(),
+                                    "https://redd.it/" + submission.getId(), mContext);
                         }
                         break;
                     case 6: {
@@ -1921,7 +1923,7 @@ public class PopulateSubmissionViewHolder {
             s.append("\n");
             s.append(t);
         }
-        if(!full && c != null){
+        if (!full && c != null) {
             c.setSpan(new AbsoluteSizeSpan(textSizeI), 0, c.length(), 0);
             s.append("\n");
             s.append(c);
@@ -2322,8 +2324,7 @@ public class PopulateSubmissionViewHolder {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.mod_approved,
                                 Snackbar.LENGTH_LONG);
                         View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     } catch (Exception ignored) {
@@ -2744,15 +2745,25 @@ public class PopulateSubmissionViewHolder {
                 && submission.getDataNode().get("crosspost_parent_list") != null
                 && submission.getDataNode().get("crosspost_parent_list").get(0) != null)) {
             holder.itemView.findViewById(R.id.crosspost).setVisibility(View.VISIBLE);
-            ((TextView)holder.itemView.findViewById(R.id.crossinfo)).setText(SubmissionCache.getCrosspostLine(submission, mContext));
+            ((TextView) holder.itemView.findViewById(R.id.crossinfo)).setText(
+                    SubmissionCache.getCrosspostLine(submission, mContext));
             ((Reddit) mContext.getApplicationContext()).getImageLoader()
-                    .displayImage(submission.getDataNode().get("crosspost_parent_list").get(0).get("thumbnail").asText(), ((ImageView)holder.itemView.findViewById(R.id.crossthumb)));
-            holder.itemView.findViewById(R.id.crosspost).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OpenRedditLink.openUrl(mContext, submission.getDataNode().get("crosspost_parent_list").get(0).get("permalink").asText(), true);
-                }
-            });
+                    .displayImage(submission.getDataNode()
+                            .get("crosspost_parent_list")
+                            .get(0)
+                            .get("thumbnail")
+                            .asText(), ((ImageView) holder.itemView.findViewById(R.id.crossthumb)));
+            holder.itemView.findViewById(R.id.crosspost)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            OpenRedditLink.openUrl(mContext, submission.getDataNode()
+                                    .get("crosspost_parent_list")
+                                    .get(0)
+                                    .get("permalink")
+                                    .asText(), true);
+                        }
+                    });
         }
 
 
@@ -3034,7 +3045,7 @@ public class PopulateSubmissionViewHolder {
                             ta.recycle();
 
                             BottomSheet.Builder b = new BottomSheet.Builder(mContext).title(
-                                            Html.fromHtml(submission.getTitle()));
+                                    Html.fromHtml(submission.getTitle()));
 
                             if (submission.isSelfPost()) {
                                 b.sheet(1, edit_drawable,
@@ -3070,8 +3081,8 @@ public class PopulateSubmissionViewHolder {
                                             final AlertDialogWrapper.Builder builder =
                                                     new AlertDialogWrapper.Builder(mContext);
 
-                                            final EditText e = dialoglayout.findViewById(
-                                                    R.id.entry);
+                                            final EditText e =
+                                                    dialoglayout.findViewById(R.id.entry);
                                             e.setText(StringEscapeUtils.unescapeHtml4(
                                                     submission.getSelftext()));
 
@@ -3336,9 +3347,8 @@ public class PopulateSubmissionViewHolder {
                                                                                                                     s.getView();
                                                                                                             TextView
                                                                                                                     tv =
-                                                                                                                    view
-                                                                                                                            .findViewById(
-                                                                                                                                    android.support.design.R.id.snackbar_text);
+                                                                                                                    view.findViewById(
+                                                                                                                            android.support.design.R.id.snackbar_text);
                                                                                                             tv.setTextColor(
                                                                                                                     Color.WHITE);
                                                                                                             s.show();
@@ -3410,9 +3420,8 @@ public class PopulateSubmissionViewHolder {
                                                                                     View view =
                                                                                             s.getView();
                                                                                     TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            android.support.design.R.id.snackbar_text);
+                                                                                            view.findViewById(
+                                                                                                    android.support.design.R.id.snackbar_text);
                                                                                     tv.setTextColor(
                                                                                             Color.WHITE);
                                                                                     s.show();

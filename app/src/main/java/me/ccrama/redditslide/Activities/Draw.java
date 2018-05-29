@@ -68,11 +68,11 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         if (id == android.R.id.home) {
             onBackPressed();
         }
-        if(id == R.id.done && enabled){
+        if (id == R.id.done && enabled) {
             File image; //image to share
             //check to see if the cache/shared_images directory is present
-            final File imagesDir = new File(
-                    Draw.this.getCacheDir().toString() + File.separator + "shared_image");
+            final File imagesDir =
+                    new File(Draw.this.getCacheDir().toString() + File.separator + "shared_image");
             if (!imagesDir.exists()) {
                 imagesDir.mkdir(); //create the folder if it doesn't exist
             } else {
@@ -122,7 +122,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         return true;
     }
 
-    boolean enabled ;
+    boolean enabled;
 
     @Override
     protected void onActivityResult(int code, int resultC, Intent data) {

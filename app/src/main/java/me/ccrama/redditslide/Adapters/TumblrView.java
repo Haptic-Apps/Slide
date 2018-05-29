@@ -42,10 +42,11 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Activity main;
 
     public boolean paddingBottom;
-    public int height;
-    public String subreddit;
+    public int     height;
+    public String  subreddit;
 
-    public TumblrView(final Activity context, final List<Photo> users, int height, String subreddit) {
+    public TumblrView(final Activity context, final List<Photo> users, int height,
+            String subreddit) {
 
         this.height = height;
         main = context;
@@ -53,7 +54,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.subreddit = subreddit;
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
-        if (context.findViewById(R.id.grid) != null)
+        if (context.findViewById(R.id.grid) != null) {
             context.findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -67,12 +68,17 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     b.setView(body);
                     final Dialog d = b.create();
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        public void onItemClick(AdapterView<?> parent, View v,
-                                                int position, long id) {
+                        public void onItemClick(AdapterView<?> parent, View v, int position,
+                                long id) {
                             if (context instanceof Tumblr) {
-                                ((LinearLayoutManager) ((Tumblr) context).album.album.recyclerView.getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+                                ((LinearLayoutManager) ((Tumblr) context).album.album.recyclerView.getLayoutManager())
+                                        .scrollToPositionWithOffset(position + 1,
+                                                context.findViewById(R.id.toolbar).getHeight());
                             } else {
-                                ((LinearLayoutManager) ((RecyclerView) context.findViewById(R.id.images)).getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+                                ((LinearLayoutManager) ((RecyclerView) context.findViewById(
+                                        R.id.images)).getLayoutManager()).scrollToPositionWithOffset(
+                                        position + 1,
+                                        context.findViewById(R.id.toolbar).getHeight());
                             }
                             d.dismiss();
                         }
@@ -80,15 +86,18 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     d.show();
                 }
             });
+        }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 1) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.album_image, parent, false);
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.album_image, parent, false);
             return new AlbumViewHolder(v);
         } else {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.spacer, parent, false);
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.spacer, parent, false);
             return new SpacerViewHolder(v);
         }
     }
@@ -119,17 +128,25 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             AlbumViewHolder holder = (AlbumViewHolder) holder2;
 
             final Photo user = users.get(position);
-            ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(user.getOriginalSize().getUrl(), holder.image, ImageGridAdapter.options);
+            ((Reddit) main.getApplicationContext()).getImageLoader()
+                    .displayImage(user.getOriginalSize().getUrl(), holder.image,
+                            ImageGridAdapter.options);
             holder.body.setVisibility(View.VISIBLE);
             holder.text.setVisibility(View.VISIBLE);
             View imageView = holder.image;
             if (imageView.getWidth() == 0) {
-                holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                holder.image.setLayoutParams(
+                        new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                                RelativeLayout.LayoutParams.WRAP_CONTENT));
             } else {
-                holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getOriginalSize().getHeight(), user.getOriginalSize().getWidth(), imageView.getWidth())));
+                holder.image.setLayoutParams(
+                        new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                                (int) getHeightFromAspectRatio(user.getOriginalSize().getHeight(),
+                                        user.getOriginalSize().getWidth(), imageView.getWidth())));
             }
             {
-                int type = new FontPreferences(holder.body.getContext()).getFontTypeComment().getTypeface();
+                int type = new FontPreferences(holder.body.getContext()).getFontTypeComment()
+                        .getTypeface();
                 Typeface typeface;
                 if (type >= 0) {
                     typeface = RobotoTypefaces.obtainTypeface(holder.body.getContext(), type);
@@ -139,7 +156,8 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.body.setTypeface(typeface);
             }
             {
-                int type = new FontPreferences(holder.body.getContext()).getFontTypeTitle().getTypeface();
+                int type = new FontPreferences(holder.body.getContext()).getFontTypeTitle()
+                        .getTypeface();
                 Typeface typeface;
                 if (type >= 0) {
                     typeface = RobotoTypefaces.obtainTypeface(holder.body.getContext(), type);
@@ -149,7 +167,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.text.setTypeface(typeface);
             }
             {
-                    holder.text.setVisibility(View.GONE);
+                holder.text.setVisibility(View.GONE);
             }
             {
                 if (user.getCaption() != null) {
@@ -167,7 +185,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (SettingValues.image ) {
+                    if (SettingValues.image) {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getOriginalSize().getUrl());
@@ -183,7 +201,9 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (ContentType.isGif(new URI(user.getOriginalSize().getUrl()))) {
                     holder.body.setVisibility(View.VISIBLE);
                     holder.body.setSingleLine(false);
-                    holder.body.setTextHtml(holder.text.getText() + main.getString(R.string.submission_tap_gif).toUpperCase()); //got rid of the \n thing, because it didnt parse and it was already a new line so...
+                    holder.body.setTextHtml(
+                            holder.text.getText() + main.getString(R.string.submission_tap_gif)
+                                    .toUpperCase()); //got rid of the \n thing, because it didnt parse and it was already a new line so...
                     holder.body.setOnClickListener(onGifImageClickListener);
                 }
             } catch (URISyntaxException e) {
@@ -192,7 +212,9 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             holder.itemView.setOnClickListener(onGifImageClickListener);
         } else if (holder2 instanceof SpacerViewHolder) {
-            holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), paddingBottom ? height : main.findViewById(R.id.toolbar).getHeight()));
+            holder2.itemView.findViewById(R.id.height)
+                    .setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(),
+                            paddingBottom ? height : main.findViewById(R.id.toolbar).getHeight()));
         }
 
     }
@@ -225,7 +247,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static class AlbumViewHolder extends RecyclerView.ViewHolder {
         final SpoilerRobotoTextView text;
         final SpoilerRobotoTextView body;
-        final ImageView image;
+        final ImageView             image;
 
         public AlbumViewHolder(View itemView) {
             super(itemView);

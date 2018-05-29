@@ -18,7 +18,6 @@ import okio.Okio;
 
 /**
  * Created by Carlos on 8/12/2016.
- *
  * Code adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
  */
 public class AdBlocker {
@@ -40,7 +39,7 @@ public class AdBlocker {
     }
 
     @WorkerThread
-    private static void loadFromAssets(Context context) throws IOException {
+    private static void loadFromAssets(Context context) {
         try {
             InputStream stream = context.getAssets().open(DOMAINS_FILE);
             BufferedSource buffer = Okio.buffer(Okio.source(stream));
@@ -50,7 +49,7 @@ public class AdBlocker {
             }
             buffer.close();
             stream.close();
-        } catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
@@ -67,14 +66,14 @@ public class AdBlocker {
     }
 
     private static boolean hostMatches(String host) {
-        if(host.isEmpty())
-            return false;
+        if (host.isEmpty()) return false;
         int firstPeriod = host.indexOf(".");
         return DOMAINS.contains(host) || firstPeriod + 1 < host.length() && DOMAINS.contains(
                 host.substring(firstPeriod + 1));
     }
 
     public static WebResourceResponse createEmptyResource() {
-        return new WebResourceResponse("text/plain", "utf-8", new ByteArrayInputStream("".getBytes()));
+        return new WebResourceResponse("text/plain", "utf-8",
+                new ByteArrayInputStream("".getBytes()));
     }
 }

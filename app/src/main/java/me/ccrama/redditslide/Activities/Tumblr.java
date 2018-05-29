@@ -87,7 +87,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if(getIntent().hasExtra(SUBREDDIT)){
+            if (getIntent().hasExtra(SUBREDDIT)) {
                 i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
             }
             i.putExtra("url", url);
@@ -233,7 +233,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         album = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
-        if(getIntent().hasExtra(SUBREDDIT)){
+        if (getIntent().hasExtra(SUBREDDIT)) {
             subreddit = getIntent().getStringExtra(SUBREDDIT);
         }
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -373,7 +373,8 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                     ((Tumblr) getActivity()).images = new ArrayList<>(jsonElements);
                     TumblrView adapter =
                             new TumblrView(baseActivity, ((Tumblr) getActivity()).images,
-                                    getActivity().findViewById(R.id.toolbar).getHeight(), ((Tumblr) getActivity()).subreddit);
+                                    getActivity().findViewById(R.id.toolbar).getHeight(),
+                                    ((Tumblr) getActivity()).subreddit);
                     recyclerView.setAdapter(adapter);
                 }
             }

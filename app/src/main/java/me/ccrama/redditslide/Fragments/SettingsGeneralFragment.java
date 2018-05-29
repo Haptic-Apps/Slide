@@ -56,10 +56,10 @@ import me.ccrama.redditslide.util.SortingUtil;
  * Created by ccrama on 3/5/2015.
  */
 public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & FolderCallback>
-            implements  FolderCallback {
+        implements FolderCallback {
 
-    private ActivityType context;
-    public static boolean searchChanged; //whether or not the subreddit search method changed
+    private       ActivityType context;
+    public static boolean      searchChanged; //whether or not the subreddit search method changed
 
     public SettingsGeneralFragment(ActivityType context) {
         this.context = context;
@@ -95,7 +95,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
             @Override
             public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i,
-                                          int i1) {
+                    int i1) {
                 if (checkBox.isChecked()) {
                     checkBox.setText(context.getString(R.string.settings_notification,
                             TimeUtils.getTimeInHoursAndMins(i1 * 15, context.getBaseContext())));
@@ -167,7 +167,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     Reddit.notifications.start(context.getApplication());
                     dialog.dismiss();
                     if (context instanceof me.ccrama.redditslide.Activities.SettingsGeneral) {
-                        ((TextView) context.findViewById(R.id.settings_general_notifications_current)).setText(
+                        ((TextView) context.findViewById(
+                                R.id.settings_general_notifications_current)).setText(
                                 context.getString(R.string.settings_notification_short,
                                         TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime,
                                                 context.getBaseContext())));
@@ -182,7 +183,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     Reddit.notifications.cancel(context.getApplication());
                     dialog.dismiss();
                     if (context instanceof me.ccrama.redditslide.Activities.SettingsGeneral) {
-                        ((TextView) context.findViewById(R.id.settings_general_notifications_current)).setText(
+                        ((TextView) context.findViewById(
+                                R.id.settings_general_notifications_current)).setText(
                                 R.string.settings_notifdisabled);
                     }
 
@@ -248,16 +250,18 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         {
             if (context.findViewById(R.id.settings_general_download) != null) {
-                context.findViewById(R.id.settings_general_download).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new FolderChooserDialogCreate.Builder(SettingsGeneralFragment.this.context).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                });
+                context.findViewById(R.id.settings_general_download)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new FolderChooserDialogCreate.Builder(
+                                        SettingsGeneralFragment.this.context).chooseButton(
+                                        R.string.btn_select)  // changes label of the choose button
+                                        .initialPath(Environment.getExternalStorageDirectory()
+                                                .getPath())  // changes initial path, defaults to external storage directory
+                                        .show();
+                            }
+                        });
             }
         }
 
@@ -285,224 +289,254 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
 
         if (context.findViewById(R.id.settings_general_viewtype) != null) {
-            context.findViewById(R.id.settings_general_viewtype).setOnClickListener(new OnSingleClickListener() {
-                @Override
-                public void onSingleClick(View v) {
-                    Intent i = new Intent(context, SettingsViewType.class);
-                    context.startActivity(i);
-                }
-            });
+            context.findViewById(R.id.settings_general_viewtype)
+                    .setOnClickListener(new OnSingleClickListener() {
+                        @Override
+                        public void onSingleClick(View v) {
+                            Intent i = new Intent(context, SettingsViewType.class);
+                            context.startActivity(i);
+                        }
+                    });
         }
 
         //FAB multi choice//
-        if (context.findViewById(R.id.settings_general_fab_current) != null && context.findViewById(R.id.settings_general_fab) != null) {
+        if (context.findViewById(R.id.settings_general_fab_current) != null
+                && context.findViewById(R.id.settings_general_fab) != null) {
             ((TextView) context.findViewById(R.id.settings_general_fab_current)).setText(
-                    SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS ? context.getString(
-                            R.string.fab_hide) : context.getString(R.string.fab_create))
+                    SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS
+                            ? context.getString(R.string.fab_hide)
+                            : context.getString(R.string.fab_create))
                             : context.getString(R.string.fab_disabled));
 
-            context.findViewById(R.id.settings_general_fab).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(context, v);
-                    popup.getMenuInflater().inflate(R.menu.fab_settings, popup.getMenu());
+            context.findViewById(R.id.settings_general_fab)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PopupMenu popup = new PopupMenu(context, v);
+                            popup.getMenuInflater().inflate(R.menu.fab_settings, popup.getMenu());
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.disabled:
-                                    SettingValues.fab = false;
-                                    SettingValues.prefs.edit()
-                                            .putBoolean(SettingValues.PREF_FAB, false)
-                                            .apply();
-                                    break;
-                                case R.id.hide:
-                                    SettingValues.fab = true;
-                                    SettingValues.fabType = Constants.FAB_DISMISS;
-                                    SettingValues.prefs.edit()
-                                            .putInt(SettingValues.PREF_FAB_TYPE, Constants.FAB_DISMISS)
-                                            .apply();
-                                    SettingValues.prefs.edit()
-                                            .putBoolean(SettingValues.PREF_FAB, true)
-                                            .apply();
-                                    break;
-                                case R.id.create:
-                                    SettingValues.fab = true;
-                                    SettingValues.fabType = Constants.FAB_POST;
-                                    SettingValues.prefs.edit()
-                                            .putInt(SettingValues.PREF_FAB_TYPE, Constants.FAB_POST)
-                                            .apply();
-                                    SettingValues.prefs.edit()
-                                            .putBoolean(SettingValues.PREF_FAB, true)
-                                            .apply();
-                                    break;
-                            }
-                            ((TextView) context.findViewById(R.id.settings_general_fab_current)).setText(
-                                    SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS
-                                            ? context.getString(R.string.fab_hide)
-                                            : context.getString(R.string.fab_create))
-                                            : context.getString(R.string.fab_disabled));
+                            popup.setOnMenuItemClickListener(
+                                    new PopupMenu.OnMenuItemClickListener() {
+                                        public boolean onMenuItemClick(MenuItem item) {
+                                            switch (item.getItemId()) {
+                                                case R.id.disabled:
+                                                    SettingValues.fab = false;
+                                                    SettingValues.prefs.edit()
+                                                            .putBoolean(SettingValues.PREF_FAB,
+                                                                    false)
+                                                            .apply();
+                                                    break;
+                                                case R.id.hide:
+                                                    SettingValues.fab = true;
+                                                    SettingValues.fabType = Constants.FAB_DISMISS;
+                                                    SettingValues.prefs.edit()
+                                                            .putInt(SettingValues.PREF_FAB_TYPE,
+                                                                    Constants.FAB_DISMISS)
+                                                            .apply();
+                                                    SettingValues.prefs.edit()
+                                                            .putBoolean(SettingValues.PREF_FAB,
+                                                                    true)
+                                                            .apply();
+                                                    break;
+                                                case R.id.create:
+                                                    SettingValues.fab = true;
+                                                    SettingValues.fabType = Constants.FAB_POST;
+                                                    SettingValues.prefs.edit()
+                                                            .putInt(SettingValues.PREF_FAB_TYPE,
+                                                                    Constants.FAB_POST)
+                                                            .apply();
+                                                    SettingValues.prefs.edit()
+                                                            .putBoolean(SettingValues.PREF_FAB,
+                                                                    true)
+                                                            .apply();
+                                                    break;
+                                            }
+                                            ((TextView) context.findViewById(
+                                                    R.id.settings_general_fab_current)).setText(
+                                                    SettingValues.fab ? (SettingValues.fabType
+                                                            == Constants.FAB_DISMISS
+                                                            ? context.getString(R.string.fab_hide)
+                                                            : context.getString(
+                                                                    R.string.fab_create))
+                                                            : context.getString(
+                                                                    R.string.fab_disabled));
 
-                            return true;
+                                            return true;
+                                        }
+                                    });
+
+                            popup.show();
                         }
                     });
-
-                    popup.show();
-                }
-            });
         }
 
         //SettingValues.subredditSearchMethod == 1 for drawer, 2 for toolbar, 3 for both
-        final TextView currentMethodTitle = context.findViewById(R.id.settings_general_subreddit_search_method_current);
+        final TextView currentMethodTitle =
+                context.findViewById(R.id.settings_general_subreddit_search_method_current);
 
         if (currentMethodTitle != null) {
             if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
-                currentMethodTitle.setText(context.getString(R.string.subreddit_search_method_drawer));
+                currentMethodTitle.setText(
+                        context.getString(R.string.subreddit_search_method_drawer));
             } else if (SettingValues.subredditSearchMethod
                     == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
-                currentMethodTitle.setText(context.getString(R.string.subreddit_search_method_toolbar));
-            } else if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
-                currentMethodTitle.setText(context.getString(R.string.subreddit_search_method_both));
+                currentMethodTitle.setText(
+                        context.getString(R.string.subreddit_search_method_toolbar));
+            } else if (SettingValues.subredditSearchMethod
+                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                currentMethodTitle.setText(
+                        context.getString(R.string.subreddit_search_method_both));
             }
         }
 
         if (context.findViewById(R.id.settings_general_subreddit_search_method) != null) {
-            context.findViewById(R.id.settings_general_subreddit_search_method).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(SettingsGeneralFragment.this.context, v);
-                    popup.getMenuInflater().inflate(R.menu.subreddit_search_settings, popup.getMenu());
+            context.findViewById(R.id.settings_general_subreddit_search_method)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PopupMenu popup =
+                                    new PopupMenu(SettingsGeneralFragment.this.context, v);
+                            popup.getMenuInflater()
+                                    .inflate(R.menu.subreddit_search_settings, popup.getMenu());
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.subreddit_search_drawer:
-                                    SettingValues.subredditSearchMethod =
-                                            Constants.SUBREDDIT_SEARCH_METHOD_DRAWER;
-                                    SettingValues.prefs.edit()
-                                            .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
-                                                    Constants.SUBREDDIT_SEARCH_METHOD_DRAWER)
-                                            .apply();
-                                    searchChanged = true;
-                                    break;
-                                case R.id.subreddit_search_toolbar:
-                                    SettingValues.subredditSearchMethod =
-                                            Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR;
-                                    SettingValues.prefs.edit()
-                                            .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
-                                                    Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)
-                                            .apply();
-                                    searchChanged = true;
-                                    break;
-                                case R.id.subreddit_search_both:
-                                    SettingValues.subredditSearchMethod =
-                                            Constants.SUBREDDIT_SEARCH_METHOD_BOTH;
-                                    SettingValues.prefs.edit()
-                                            .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
-                                                    Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
-                                            .apply();
-                                    searchChanged = true;
-                                    break;
-                            }
+                            popup.setOnMenuItemClickListener(
+                                    new PopupMenu.OnMenuItemClickListener() {
+                                        public boolean onMenuItemClick(MenuItem item) {
+                                            switch (item.getItemId()) {
+                                                case R.id.subreddit_search_drawer:
+                                                    SettingValues.subredditSearchMethod =
+                                                            Constants.SUBREDDIT_SEARCH_METHOD_DRAWER;
+                                                    SettingValues.prefs.edit()
+                                                            .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
+                                                                    Constants.SUBREDDIT_SEARCH_METHOD_DRAWER)
+                                                            .apply();
+                                                    searchChanged = true;
+                                                    break;
+                                                case R.id.subreddit_search_toolbar:
+                                                    SettingValues.subredditSearchMethod =
+                                                            Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR;
+                                                    SettingValues.prefs.edit()
+                                                            .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
+                                                                    Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)
+                                                            .apply();
+                                                    searchChanged = true;
+                                                    break;
+                                                case R.id.subreddit_search_both:
+                                                    SettingValues.subredditSearchMethod =
+                                                            Constants.SUBREDDIT_SEARCH_METHOD_BOTH;
+                                                    SettingValues.prefs.edit()
+                                                            .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
+                                                                    Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
+                                                            .apply();
+                                                    searchChanged = true;
+                                                    break;
+                                            }
 
-                            if (SettingValues.subredditSearchMethod
-                                    == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
-                                currentMethodTitle.setText(
-                                        context.getString(R.string.subreddit_search_method_drawer));
-                            } else if (SettingValues.subredditSearchMethod
-                                    == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
-                                currentMethodTitle.setText(
-                                        context.getString(R.string.subreddit_search_method_toolbar));
-                            } else if (SettingValues.subredditSearchMethod
-                                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
-                                currentMethodTitle.setText(
-                                        context.getString(R.string.subreddit_search_method_both));
-                            }
-                            return true;
+                                            if (SettingValues.subredditSearchMethod
+                                                    == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+                                                currentMethodTitle.setText(context.getString(
+                                                        R.string.subreddit_search_method_drawer));
+                                            } else if (SettingValues.subredditSearchMethod
+                                                    == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+                                                currentMethodTitle.setText(context.getString(
+                                                        R.string.subreddit_search_method_toolbar));
+                                            } else if (SettingValues.subredditSearchMethod
+                                                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                                                currentMethodTitle.setText(context.getString(
+                                                        R.string.subreddit_search_method_both));
+                                            }
+                                            return true;
+                                        }
+                                    });
+                            popup.show();
                         }
                     });
-                    popup.show();
-                }
-            });
         }
 
         final TextView currentBackButtonTitle =
                 context.findViewById(R.id.settings_general_back_button_behavior_current);
         if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
-            currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_confirm_exit));
+            currentBackButtonTitle.setText(
+                    context.getString(R.string.back_button_behavior_confirm_exit));
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
             currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_drawer));
         } else {
-            currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_default));
+            currentBackButtonTitle.setText(
+                    context.getString(R.string.back_button_behavior_default));
         }
 
-        context.findViewById(R.id.settings_general_back_button_behavior).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(context, v);
-                popup.getMenuInflater()
-                        .inflate(R.menu.back_button_behavior_settings, popup.getMenu());
+        context.findViewById(R.id.settings_general_back_button_behavior)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupMenu popup = new PopupMenu(context, v);
+                        popup.getMenuInflater()
+                                .inflate(R.menu.back_button_behavior_settings, popup.getMenu());
 
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.back_button_behavior_default:
-                                SettingValues.backButtonBehavior =
-                                        Constants.BackButtonBehaviorOptions.Default.getValue();
-                                SettingValues.prefs.edit()
-                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
-                                                Constants.BackButtonBehaviorOptions.Default.getValue())
-                                        .apply();
-                                break;
-                            case R.id.back_button_behavior_confirm_exit:
-                                SettingValues.backButtonBehavior =
-                                        Constants.BackButtonBehaviorOptions.ConfirmExit.getValue();
-                                SettingValues.prefs.edit()
-                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
-                                                Constants.BackButtonBehaviorOptions.ConfirmExit.getValue())
-                                        .apply();
-                                break;
-                            case R.id.back_button_behavior_open_drawer:
-                                SettingValues.backButtonBehavior =
-                                        Constants.BackButtonBehaviorOptions.OpenDrawer.getValue();
-                                SettingValues.prefs.edit()
-                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
-                                                Constants.BackButtonBehaviorOptions.OpenDrawer.getValue())
-                                        .apply();
-                                break;
-                        }
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.back_button_behavior_default:
+                                        SettingValues.backButtonBehavior =
+                                                Constants.BackButtonBehaviorOptions.Default.getValue();
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                        Constants.BackButtonBehaviorOptions.Default.getValue())
+                                                .apply();
+                                        break;
+                                    case R.id.back_button_behavior_confirm_exit:
+                                        SettingValues.backButtonBehavior =
+                                                Constants.BackButtonBehaviorOptions.ConfirmExit.getValue();
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                        Constants.BackButtonBehaviorOptions.ConfirmExit
+                                                                .getValue())
+                                                .apply();
+                                        break;
+                                    case R.id.back_button_behavior_open_drawer:
+                                        SettingValues.backButtonBehavior =
+                                                Constants.BackButtonBehaviorOptions.OpenDrawer.getValue();
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                        Constants.BackButtonBehaviorOptions.OpenDrawer
+                                                                .getValue())
+                                                .apply();
+                                        break;
+                                }
 
-                        if (SettingValues.backButtonBehavior
-                                == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
-                            currentBackButtonTitle.setText(
-                                    context.getString(R.string.back_button_behavior_confirm_exit));
-                        } else if (SettingValues.backButtonBehavior
-                                == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
-                            currentBackButtonTitle.setText(
-                                    context.getString(R.string.back_button_behavior_drawer));
-                        } else {
-                            currentBackButtonTitle.setText(
-                                    context.getString(R.string.back_button_behavior_default));
-                        }
-                        return true;
+                                if (SettingValues.backButtonBehavior
+                                        == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
+                                    currentBackButtonTitle.setText(context.getString(
+                                            R.string.back_button_behavior_confirm_exit));
+                                } else if (SettingValues.backButtonBehavior
+                                        == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
+                                    currentBackButtonTitle.setText(context.getString(
+                                            R.string.back_button_behavior_drawer));
+                                } else {
+                                    currentBackButtonTitle.setText(context.getString(
+                                            R.string.back_button_behavior_default));
+                                }
+                                return true;
+                            }
+                        });
+                        popup.show();
                     }
                 });
-                popup.show();
-            }
-        });
 
-        if (context.findViewById(R.id.settings_general_notifications_current) != null &&
-                context.findViewById(R.id.settings_general_sub_notifs_current) != null) {
+        if (context.findViewById(R.id.settings_general_notifications_current) != null
+                && context.findViewById(R.id.settings_general_sub_notifs_current) != null) {
             if (Reddit.notificationTime > 0) {
-                ((TextView) context.findViewById(R.id.settings_general_notifications_current)).setText(
+                ((TextView) context.findViewById(
+                        R.id.settings_general_notifications_current)).setText(
                         context.getString(R.string.settings_notification_short,
                                 TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime,
                                         context.getBaseContext())));
                 setSubText();
             } else {
-                ((TextView) context.findViewById(R.id.settings_general_notifications_current)).setText(
+                ((TextView) context.findViewById(
+                        R.id.settings_general_notifications_current)).setText(
                         R.string.settings_notifdisabled);
                 ((TextView) context.findViewById(R.id.settings_general_sub_notifs_current)).setText(
                         R.string.settings_enable_notifs);
@@ -511,22 +545,26 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         if (Authentication.isLoggedIn) {
             if (context.findViewById(R.id.settings_general_notifications) != null) {
-                context.findViewById(R.id.settings_general_notifications).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        LayoutInflater inflater = context.getLayoutInflater();
-                        final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
-                        setupNotificationSettings(dialoglayout, SettingsGeneralFragment.this.context);
-                    }
-                });
+                context.findViewById(R.id.settings_general_notifications)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                LayoutInflater inflater = context.getLayoutInflater();
+                                final View dialoglayout =
+                                        inflater.inflate(R.layout.inboxfrequency, null);
+                                setupNotificationSettings(dialoglayout,
+                                        SettingsGeneralFragment.this.context);
+                            }
+                        });
             }
             if (context.findViewById(R.id.settings_general_sub_notifications) != null) {
-                context.findViewById(R.id.settings_general_sub_notifications).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showSelectDialog();
-                    }
-                });
+                context.findViewById(R.id.settings_general_sub_notifications)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showSelectDialog();
+                            }
+                        });
             }
         } else {
             if (context.findViewById(R.id.settings_general_notifications) != null) {
@@ -546,12 +584,13 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         {
             if (context.findViewById(R.id.settings_general_sorting) != null) {
-                context.findViewById(R.id.settings_general_sorting).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                context.findViewById(R.id.settings_general_sorting)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                        final DialogInterface.OnClickListener l2 =
-                                new DialogInterface.OnClickListener() {
+                                final DialogInterface.OnClickListener l2 =
+                                        new DialogInterface.OnClickListener() {
 
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -582,15 +621,15 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
                                         if (context.findViewById(R.id.settings_general_sorting_current) != null) {
                                             ((TextView) context.findViewById(R.id.settings_general_sorting_current)).setText(
-                                                    SortingUtil.getSortingStrings()[SortingUtil.getSortingId(
-                                                            "")]);
+                                                    SortingUtil.getSortingStrings()[SortingUtil.getSortingId("")]);
                                         }
                                     }
                                 };
                         AlertDialogWrapper.Builder builder =
                                 new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
                         builder.setTitle(R.string.sorting_choose);
-                        builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
+                        builder.setSingleChoiceItems(
+                                SortingUtil.getSortingStrings(),
                                 SortingUtil.getSortingId(""), l2);
                         builder.show();
                     }
@@ -601,29 +640,32 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         {
             final int i2 = SettingValues.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
                     : SettingValues.defaultCommentSorting == CommentSort.TOP ? 1
-                    : SettingValues.defaultCommentSorting == CommentSort.NEW ? 2
-                    : SettingValues.defaultCommentSorting
-                    == CommentSort.CONTROVERSIAL ? 3
-                    : SettingValues.defaultCommentSorting == CommentSort.OLD
-                    ? 4 : SettingValues.defaultCommentSorting
-                    == CommentSort.QA ? 5 : 0;
+                            : SettingValues.defaultCommentSorting == CommentSort.NEW ? 2
+                                    : SettingValues.defaultCommentSorting
+                                            == CommentSort.CONTROVERSIAL ? 3
+                                            : SettingValues.defaultCommentSorting == CommentSort.OLD
+                                                    ? 4 : SettingValues.defaultCommentSorting
+                                                    == CommentSort.QA ? 5 : 0;
 
             if (context.findViewById(R.id.settings_general_sorting_current_comment) != null) {
-                ((TextView) context.findViewById(R.id.settings_general_sorting_current_comment)).setText(
+                ((TextView) context.findViewById(
+                        R.id.settings_general_sorting_current_comment)).setText(
                         SortingUtil.getSortingCommentsStrings()[i2]);
             }
 
             if (context.findViewById(R.id.settings_general_sorting_comment) != null) {
-                context.findViewById(R.id.settings_general_sorting_comment).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final DialogInterface.OnClickListener l2 =
-                                new DialogInterface.OnClickListener() {
+                context.findViewById(R.id.settings_general_sorting_comment)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final DialogInterface.OnClickListener l2 =
+                                        new DialogInterface.OnClickListener() {
 
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        CommentSort commentSorting =
-                                                SettingValues.defaultCommentSorting;
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface,
+                                                    int i) {
+                                                CommentSort commentSorting =
+                                                        SettingValues.defaultCommentSorting;
 
                                         switch (i) {
                                             case 0:
@@ -657,20 +699,21 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     }
                                 };
 
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
-                        builder.setTitle(R.string.sorting_choose);
-                        Resources res = context.getBaseContext().getResources();
-                        builder.setSingleChoiceItems(new String[]{
-                                res.getString(R.string.sorting_best),
-                                res.getString(R.string.sorting_top),
-                                res.getString(R.string.sorting_new),
-                                res.getString(R.string.sorting_controversial),
-                                res.getString(R.string.sorting_old), res.getString(R.string.sorting_ama)
-                        }, i2, l2);
-                        builder.show();
-                    }
-                });
+                                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(
+                                        SettingsGeneralFragment.this.context);
+                                builder.setTitle(R.string.sorting_choose);
+                                Resources res = context.getBaseContext().getResources();
+                                builder.setSingleChoiceItems(new String[]{
+                                        res.getString(R.string.sorting_best),
+                                        res.getString(R.string.sorting_top),
+                                        res.getString(R.string.sorting_new),
+                                        res.getString(R.string.sorting_controversial),
+                                        res.getString(R.string.sorting_old),
+                                        res.getString(R.string.sorting_ama)
+                                }, i2, l2);
+                                builder.show();
+                            }
+                        });
             }
         }
     }
@@ -679,11 +722,12 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         {
             View notifs = context.findViewById(R.id.settings_general_redditnotifs);
             if (notifs != null) {
-                if (!Reddit.isPackageInstalled("com.reddit.frontpage") ||
-                        Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                if (!Reddit.isPackageInstalled("com.reddit.frontpage")
+                        || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     notifs.setVisibility(View.GONE);
                     if (context.findViewById(R.id.settings_general_installreddit) != null) {
-                        context.findViewById(R.id.settings_general_installreddit).setVisibility(View.VISIBLE);
+                        context.findViewById(R.id.settings_general_installreddit)
+                                .setVisibility(View.VISIBLE);
                     }
                 } else {
                     if (((Reddit) context.getApplication()).isNotificationAccessEnabled()) {
@@ -693,25 +737,32 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                             single.setEnabled(false);
                         }
                     } else {
-                        final SwitchCompat single = context.findViewById(R.id.settings_general_piggyback);
+                        final SwitchCompat single =
+                                context.findViewById(R.id.settings_general_piggyback);
                         if (single != null) {
                             single.setChecked(false);
                             single.setEnabled(true);
-                            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                                    single.setChecked(false);
-                                    Snackbar s = Snackbar.make(single, "Give Slide notification access", Snackbar.LENGTH_LONG);
-                                    s.setAction("Go to settings", new View.OnClickListener() {
+                            single.setOnCheckedChangeListener(
+                                    new CompoundButton.OnCheckedChangeListener() {
                                         @Override
-                                        public void onClick(View view) {
-                                            context.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                                        public void onCheckedChanged(CompoundButton compoundButton,
+                                                boolean b) {
+                                            single.setChecked(false);
+                                            Snackbar s = Snackbar.make(single,
+                                                    "Give Slide notification access",
+                                                    Snackbar.LENGTH_LONG);
+                                            s.setAction("Go to settings",
+                                                    new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            context.startActivity(new Intent(
+                                                                    "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
 
+                                                        }
+                                                    });
+                                            s.show();
                                         }
                                     });
-                                    s.show();
-                                }
-                            });
                         }
                     }
                 }
@@ -753,12 +804,11 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                 SettingValues.timePeriod = SortingUtil.timePeriod;
                 ((TextView) context.findViewById(R.id.settings_general_sorting_current)).setText(
                         SortingUtil.getSortingStrings()[SortingUtil.getSortingId("")]
-                                + " > "
-                                + SortingUtil.getSortingTimesStrings()[SortingUtil.getSortingTimeId(
-                                "")]);
+                                 + " > " + SortingUtil.getSortingTimesStrings()[SortingUtil.getSortingTimeId("")]);
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
+        AlertDialogWrapper.Builder builder =
+                new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
                 SortingUtil.getSortingTimeId(""), l2);
@@ -785,7 +835,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         if (!subs.toString().isEmpty()) {
             subText = subs.toString().substring(0, subs.toString().length() - 2);
         }
-        ((TextView) context.findViewById(R.id.settings_general_sub_notifs_current)).setText(subText);
+        ((TextView) context.findViewById(R.id.settings_general_sub_notifs_current)).setText(
+                subText);
     }
 
     private String input;
@@ -847,8 +898,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         final ArrayList<String> toCheck = new ArrayList<>(subThresholds.keySet());
         final String[] finalAll = all;
-        new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context).setMultiChoiceItems(finalAll, checked,
-                new DialogInterface.OnMultiChoiceClickListener() {
+        new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context).setMultiChoiceItems(
+                finalAll, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         if (!isChecked) {
@@ -871,15 +922,16 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new MaterialDialog.Builder(SettingsGeneralFragment.this.context).title(
+                                new MaterialDialog.Builder(
+                                        SettingsGeneralFragment.this.context).title(
                                         R.string.reorder_add_subreddit)
                                         .inputRangeRes(2, 21, R.color.md_red_500)
                                         .alwaysCallInputCallback()
-                                        .input(context.getString(R.string.reorder_subreddit_name), null,
-                                                false, new MaterialDialog.InputCallback() {
+                                        .input(context.getString(R.string.reorder_subreddit_name),
+                                                null, false, new MaterialDialog.InputCallback() {
                                                     @Override
                                                     public void onInput(MaterialDialog dialog,
-                                                                        CharSequence raw) {
+                                                            CharSequence raw) {
                                                         input = raw.toString()
                                                                 .replaceAll("\\s",
                                                                         ""); //remove whitespace from input
@@ -889,7 +941,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog,
-                                                                @NonNull DialogAction which) {
+                                                    @NonNull DialogAction which) {
                                                 new AsyncGetSubreddit().execute(input);
                                             }
                                         })
@@ -897,7 +949,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog,
-                                                                @NonNull DialogAction which) {
+                                                    @NonNull DialogAction which) {
 
                                             }
                                         })
@@ -943,7 +995,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                         @Override
                         public boolean onSelection(MaterialDialog dialog, View itemView, int which,
-                                                   CharSequence text) {
+                                CharSequence text) {
                             for (String s : toAdd) {
                                 subsRaw.add(s + ":" + text);
                             }
@@ -985,14 +1037,16 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     @Override
                     public void run() {
                         try {
-                            new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context).setTitle(
+                            new AlertDialogWrapper.Builder(
+                                    SettingsGeneralFragment.this.context).setTitle(
                                     R.string.subreddit_err)
-                                    .setMessage(context.getString(R.string.subreddit_err_msg, params[0]))
+                                    .setMessage(context.getString(R.string.subreddit_err_msg,
+                                            params[0]))
                                     .setPositiveButton(R.string.btn_ok,
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                                    int which) {
+                                                        int which) {
                                                     dialog.dismiss();
 
                                                 }
@@ -1018,10 +1072,10 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(context,
-                    context.getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                    Toast.LENGTH_LONG).show();
-            ((TextView) context.findViewById(R.id.settings_general_location)).setText(folder.getAbsolutePath());
+            Toast.makeText(context, context.getString(R.string.settings_set_image_location,
+                    folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
+            ((TextView) context.findViewById(R.id.settings_general_location)).setText(
+                    folder.getAbsolutePath());
         }
     }
 

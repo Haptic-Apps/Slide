@@ -11,10 +11,10 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 7/9/2015.
  */
 public class FontPreferences {
-    private final static String FONT_STYLE_POST = "FONT_STYLE_POST";
+    private final static String FONT_STYLE_POST    = "FONT_STYLE_POST";
     private final static String FONT_STYLE_COMMENT = "FONT_STYLE_COMMENT";
-    private final static String FONT_COMMENT = "FONT_COMMENT";
-    private final static String FONT_TITLE = "FONT_TITLE";
+    private final static String FONT_COMMENT       = "FONT_COMMENT";
+    private final static String FONT_TITLE         = "FONT_TITLE";
 
     private final Context context;
 
@@ -31,37 +31,40 @@ public class FontPreferences {
     }
 
     public FontStyle getPostFontStyle() {
-        return FontStyle.valueOf(open().getString(FONT_STYLE_POST,
-                FontStyle.Medium.name()));
+        return FontStyle.valueOf(open().getString(FONT_STYLE_POST, FontStyle.Medium.name()));
     }
 
     public FontStyleComment getCommentFontStyle() {
-        return FontStyleComment.valueOf(open().getString(FONT_STYLE_COMMENT,
-                FontStyleComment.Medium.name()));
+        return FontStyleComment.valueOf(
+                open().getString(FONT_STYLE_COMMENT, FontStyleComment.Medium.name()));
     }
 
 
     public FontTypeComment getFontTypeComment() {
-        return FontTypeComment.valueOf(open().getString(FONT_COMMENT,
-                FontTypeComment.Regular.name()));
+        return FontTypeComment.valueOf(
+                open().getString(FONT_COMMENT, FontTypeComment.Regular.name()));
     }
+
     public FontTypeTitle getFontTypeTitle() {
-        return FontTypeTitle.valueOf(open().getString(FONT_TITLE,
-                FontTypeTitle.Regular.name()));
+        return FontTypeTitle.valueOf(open().getString(FONT_TITLE, FontTypeTitle.Regular.name()));
     }
 
     public void setPostFontStyle(FontStyle style) {
         edit().putString(FONT_STYLE_POST, style.name()).commit();
     }
+
     public void setCommentFontStyle(FontStyleComment style) {
         edit().putString(FONT_STYLE_COMMENT, style.name()).commit();
     }
+
     public void setCommentFont(FontTypeComment style) {
         edit().putString(FONT_COMMENT, style.name()).commit();
     }
+
     public void setTitleFont(FontTypeTitle style) {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
+
     public enum FontStyle {
         Tiny(R.style.FontStyle_TinyPost, R.string.font_size_tiny),
         Smaller(R.style.FontStyle_SmallerPost, R.string.font_size_smaller),
@@ -114,15 +117,13 @@ public class FontPreferences {
     }
 
 
-
     public enum FontTypeComment {
         Slab(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_REGULAR, "Slab"),
         Condensed(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_REGULAR, "Condensed"),
         Light(RobotoTypefaces.TYPEFACE_ROBOTO_LIGHT, "Light"),
-        Regular(RobotoTypefaces.TYPEFACE_ROBOTO_REGULAR, "Regular"),
-        System(-1, "System");
+        Regular(RobotoTypefaces.TYPEFACE_ROBOTO_REGULAR, "Regular"), System(-1, "System");
 
-        private final int typeface;
+        private final int    typeface;
         private final String title;
 
         public int getTypeface() {
@@ -138,6 +139,7 @@ public class FontPreferences {
             this.title = title;
         }
     }
+
     public enum FontTypeTitle {
         Slab(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_LIGHT, "Slab Light"),
         SlabReg(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_REGULAR, "Slab Regular"),
@@ -150,7 +152,7 @@ public class FontPreferences {
         CondensedBold(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_BOLD, "Condensed Bold"),
         System(-1, "System");
 
-        private final int typeface;
+        private final int    typeface;
         private final String title;
 
         public int getTypeface() {

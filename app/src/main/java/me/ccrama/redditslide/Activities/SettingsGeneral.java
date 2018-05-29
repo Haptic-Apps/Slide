@@ -36,7 +36,7 @@ public class SettingsGeneral extends BaseActivityAnim
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         SettingsGeneralFragment.doNotifText(this);
     }

@@ -36,9 +36,12 @@ public class Shortcut extends BaseActivity {
         }
 
         if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+            bitmap = Bitmap.createBitmap(1, 1,
+                    Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
         } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            bitmap =
+                    Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                            Bitmap.Config.ARGB_8888);
         }
 
         Canvas canvas = new Canvas(bitmap);
@@ -68,16 +71,18 @@ public class Shortcut extends BaseActivity {
         setContentView(R.layout.activity_setup_widget);
         setupAppBar(R.id.toolbar, R.string.shortcut_creation_title, true, true);
         header = getLayoutInflater().inflate(R.layout.shortcut_header, null);
-        ListView list = (ListView)findViewById(R.id.subs);
+        ListView list = (ListView) findViewById(R.id.subs);
 
         list.addHeaderView(header);
 
-        final ArrayList<String> sorted = UserSubscriptions.getSubscriptionsForShortcut(Shortcut.this);
-        final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
+        final ArrayList<String> sorted =
+                UserSubscriptions.getSubscriptionsForShortcut(Shortcut.this);
+        final SubChooseAdapter adapter =
+                new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
         list.setAdapter(adapter);
 
         (header.findViewById(R.id.sort)).clearFocus();
-        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
+        ((EditText) header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 

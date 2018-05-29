@@ -107,8 +107,8 @@ public class ReaderMode extends BaseActivityAnim {
                     URLConnection con = url.openConnection();
                     Pattern p = Pattern.compile("text/html;\\s+charset=([^\\s]+)\\s*");
                     Matcher m = p.matcher(con.getContentType());
-/* If Content-Type doesn't match this pre-conception, choose default and
- * hope for the best. */
+                    /* If Content-Type doesn't match this pre-conception, choose default and
+                     * hope for the best. */
                     String charset = m.matches() ? m.group(1) : "ISO-8859-1";
                     Reader r = new InputStreamReader(con.getInputStream(), charset);
                     StringBuilder buf = new StringBuilder();
@@ -137,7 +137,7 @@ public class ReaderMode extends BaseActivityAnim {
         @Override
         protected void onPostExecute(Void aVoid) {
             ((SwipeRefreshLayout) ReaderMode.this.findViewById(R.id.refresh)).setRefreshing(false);
-            ((SwipeRefreshLayout) ReaderMode.this.findViewById(R.id.refresh)).setEnabled(false);
+            ReaderMode.this.findViewById(R.id.refresh).setEnabled(false);
 
             if (articleText != null) {
                 display(title, articleText);

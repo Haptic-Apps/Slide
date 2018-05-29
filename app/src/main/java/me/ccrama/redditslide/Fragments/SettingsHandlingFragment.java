@@ -56,19 +56,20 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
         shortlink.setOnCheckedChangeListener(this);
 
         if (!Reddit.videoPlugin) {
-            context.findViewById(R.id.settings_handling_video).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                "market://details?id=" + context.getString(
-                                        R.string.youtube_plugin_package))));
-                    } catch (android.content.ActivityNotFoundException anfe) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                "http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
-                    }
-                }
-            });
+            context.findViewById(R.id.settings_handling_video)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                        "market://details?id=" + context.getString(
+                                                R.string.youtube_plugin_package))));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                        "http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
+                            }
+                        }
+                    });
         } else {
             context.findViewById(R.id.settings_handling_video).setVisibility(View.GONE);
         }
@@ -90,7 +91,8 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
         setUpBrowserLinkHandling();
 
         /* activity_settings_handling_child.xml does not load these elements so we need to null check */
-        if (context.findViewById(R.id.domain) != null & context.findViewById(R.id.domainlist) != null) {
+        if (context.findViewById(R.id.domain) != null
+                & context.findViewById(R.id.domainlist) != null) {
             domain = context.findViewById(R.id.domain);
             domain.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
@@ -221,8 +223,9 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                 s = s.trim();
                 final String finalS = s;
                 domains.add(finalS);
-                final View t = context.getLayoutInflater().inflate(R.layout.account_textview,
-                        ((LinearLayout) context.findViewById(R.id.domainlist)), false);
+                final View t = context.getLayoutInflater()
+                        .inflate(R.layout.account_textview,
+                                ((LinearLayout) context.findViewById(R.id.domainlist)), false);
 
                 ((TextView) t.findViewById(R.id.name)).setText(s);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {

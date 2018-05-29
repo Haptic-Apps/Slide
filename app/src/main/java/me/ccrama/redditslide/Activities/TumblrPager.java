@@ -163,7 +163,7 @@ public class TumblrPager extends FullScreenActivity
         ToolbarColorizeHelper.colorizeToolbar(mToolbar, Color.WHITE, this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(getIntent().hasExtra(SUBREDDIT)){
+        if (getIntent().hasExtra(SUBREDDIT)) {
             this.subreddit = getIntent().getStringExtra(SUBREDDIT);
         }
 
@@ -193,8 +193,7 @@ public class TumblrPager extends FullScreenActivity
 
         @Override
         public void onError() {
-            Intent i =
-                    new Intent(TumblrPager.this, Website.class);
+            Intent i = new Intent(TumblrPager.this, Website.class);
             i.putExtra(Website.EXTRA_URL, url);
             startActivity(i);
             finish();
@@ -268,7 +267,7 @@ public class TumblrPager extends FullScreenActivity
     ViewPager p;
 
     public List<Photo> images;
-    public String subreddit;
+    public String      subreddit;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -374,7 +373,8 @@ public class TumblrPager extends FullScreenActivity
             final MediaVideoView v = (MediaVideoView) gif;
             v.clearFocus();
 
-            final String url = ((TumblrPager) getActivity()).images.get(i).getOriginalSize().getUrl();
+            final String url =
+                    ((TumblrPager) getActivity()).images.get(i).getOriginalSize().getUrl();
 
             new GifUtils.AsyncLoadGif(getActivity(),
                     (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
@@ -382,7 +382,8 @@ public class TumblrPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, true, (TextView) rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
+            }, false, true, true, (TextView) rootView.findViewById(R.id.size),
+                    ((TumblrPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -496,10 +497,12 @@ public class TumblrPager extends FullScreenActivity
             final Photo current = ((TumblrPager) getActivity()).images.get(i);
             final String url = current.getOriginalSize().getUrl();
             boolean lq = false;
-            if (SettingValues.loadImageLq && (SettingValues.lowResAlways
-                    || (!NetworkUtil.isConnectedWifi(getActivity())
-                    && SettingValues.lowResMobile)) && current.getAltSizes()!= null&&! current.getAltSizes().isEmpty()) {
-                String lqurl = current.getAltSizes().get(current.getAltSizes().size()/2).getUrl();
+            if (SettingValues.loadImageLq
+                    && (SettingValues.lowResAlways
+                    || (!NetworkUtil.isConnectedWifi(getActivity()) && SettingValues.lowResMobile))
+                    && current.getAltSizes() != null
+                    && !current.getAltSizes().isEmpty()) {
+                String lqurl = current.getAltSizes().get(current.getAltSizes().size() / 2).getUrl();
                 loadImage(rootView, this, lqurl);
                 lq = true;
             } else {
@@ -554,7 +557,8 @@ public class TumblrPager extends FullScreenActivity
                     } else {
                         typeface = Typeface.DEFAULT;
                     }
-                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTypeface(typeface);
+                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTypeface(
+                            typeface);
                 }
                 {
                     int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
@@ -564,7 +568,8 @@ public class TumblrPager extends FullScreenActivity
                     } else {
                         typeface = Typeface.DEFAULT;
                     }
-                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTypeface(typeface);
+                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTypeface(
+                            typeface);
                 }
                 final SlidingUpPanelLayout l = rootView.findViewById(R.id.sliding_layout);
                 rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
@@ -698,12 +703,14 @@ public class TumblrPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(TumblrPager.this).setTitle(R.string.set_save_location)
+                new AlertDialogWrapper.Builder(TumblrPager.this).setTitle(
+                        R.string.set_save_location)
                         .setMessage(R.string.set_save_location_msg)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(TumblrPager.this).chooseButton(
+                                new FolderChooserDialogCreate.Builder(
+                                        TumblrPager.this).chooseButton(
                                         R.string.btn_select)  // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
                                                 .getPath())  // changes initial path, defaults to external storage directory
@@ -727,7 +734,8 @@ public class TumblrPager extends FullScreenActivity
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(TumblrPager.this).chooseButton(
+                                new FolderChooserDialogCreate.Builder(
+                                        TumblrPager.this).chooseButton(
                                         R.string.btn_select)  // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
                                                 .getPath())  // changes initial path, defaults to external storage directory
