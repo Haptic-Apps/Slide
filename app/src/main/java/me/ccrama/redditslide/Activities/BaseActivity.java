@@ -1,10 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -132,6 +131,9 @@ public class BaseActivity extends PeekViewActivity
         applyOverrideLanguage();
 
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setAutofill();
+        }
 
         /**
          * Enable fullscreen immersive mode if setting is checked
@@ -164,6 +166,12 @@ public class BaseActivity extends PeekViewActivity
             }
         }
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    protected void setAutofill() {
+        getWindow().getDecorView()
+                .setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
     }
 
     @Override

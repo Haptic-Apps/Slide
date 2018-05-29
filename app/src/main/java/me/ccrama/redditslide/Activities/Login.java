@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -116,6 +116,12 @@ public class Login extends BaseActivityAnim {
         });
 
         webView.loadUrl(authorizationUrl);
+    }
+
+    @Override
+    @TargetApi(Build.VERSION_CODES.O)
+    protected void setAutofill() {
+        getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_AUTO);
     }
 
     private void doSubStrings(ArrayList<Subreddit> subs) {
