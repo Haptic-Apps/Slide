@@ -722,6 +722,21 @@ public class GifUtils {
 
                     if (getProxy().isCached(url.toString())) {
                         progressBar.setVisibility(View.GONE);
+                        if (gifSave != null) {
+                            gifSave.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    saveGif(getProxy().getCacheFile(url.toString()), c, subreddit);
+                                }
+                            });
+                        } else if (doOnClick != null) {
+                            MediaView.doOnClick = new Runnable() {
+                                @Override
+                                public void run() {
+                                    saveGif(getProxy().getCacheFile(url.toString()), c, subreddit);
+                                }
+                            };
+                        }
                     } else {
                         getProxy().registerCacheListener(new CacheListener() {
                             @Override
@@ -747,13 +762,6 @@ public class GifUtils {
                                                 public void run() {
                                                     saveGif(getProxy().getCacheFile(url), c,
                                                             subreddit);
-                                                    try {
-                                                        Toast.makeText(c, c.getString(
-                                                                R.string.mediaview_notif_title),
-                                                                Toast.LENGTH_SHORT).show();
-                                                    } catch (Exception ignored) {
-
-                                                    }
                                                 }
                                             };
                                         }
