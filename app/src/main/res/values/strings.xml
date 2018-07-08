@@ -1202,4 +1202,6 @@
     <string name="search_settings">Search settings</string>
     <string name="firefox">Firefox</string>
     <string name="show_collapse_expand_nav_bar">Show collapse/expand button in the comment navigation bar</string>
+    <string name="page_not_found">Page not found</string>
+    <string name="page_does_not_exist">The page you requested does not exist</string>
 </resources>

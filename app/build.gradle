@@ -125,6 +125,7 @@ dependencies {
     implementation 'me.everything:overscroll-decor-android:1.0.4'
     implementation 'com.mikepenz:aboutlibraries:5.8.1'
     implementation 'com.googlecode.mp4parser:isoparser:1.1.21'
+    implementation 'org.apache.commons:commons-text:1.4'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-all:1.3'
