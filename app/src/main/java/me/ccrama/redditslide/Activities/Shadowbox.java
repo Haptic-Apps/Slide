@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 
 import net.dean.jraw.models.Submission;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.List;
 

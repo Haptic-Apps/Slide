@@ -20,7 +20,7 @@ import android.text.Html;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.paginators.InboxPaginator;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.List;

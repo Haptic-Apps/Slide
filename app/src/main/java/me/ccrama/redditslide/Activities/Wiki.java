@@ -1,32 +1,32 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-
-import net.dean.jraw.managers.WikiManager;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
+import net.dean.jraw.managers.WikiManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Wiki extends BaseActivityAnim {
+public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener {
 
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_PAGE = "page";
@@ -37,6 +37,7 @@ public class Wiki extends BaseActivityAnim {
     private Wiki.OverviewPagerAdapter adapter;
     private List<String> pages;
     private String page;
+    private static String globalCustomCss;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -49,6 +50,7 @@ public class Wiki extends BaseActivityAnim {
         setShareUrl("https://reddit.com/r/" + subreddit + "/wiki/");
 
         applyColorTheme(subreddit);
+        createCustomCss();
         setContentView(R.layout.activity_slidetabs);
         setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);
 
@@ -67,7 +69,55 @@ public class Wiki extends BaseActivityAnim {
 
         new AsyncGetWiki().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
+
+    private void createCustomCss() {
+        StringBuilder customCssBuilder = new StringBuilder();
+        customCssBuilder.append("<style>");
+        TypedArray ta = obtainStyledAttributes(
+                new int[]{R.attr.activity_background, R.attr.fontColor, R.attr.colorAccent});
+        customCssBuilder.append("html { ")
+                .append("background: ".concat(getHexFromColorInt(ta.getColor(0, Color.WHITE))).concat(";"))
+                .append("color: ".concat(getHexFromColorInt(ta.getColor(1, Color.BLACK))).concat(";"))
+                .append("; }");
+        customCssBuilder.append("a { ")
+                .append("color: ".concat(getHexFromColorInt(ta.getColor(2, Color.BLUE))).concat(";"))
+                .append("; }");
+        ta.recycle();
+        // TODO: Implement horizontal scrolling to Wiki table views
+        //customCssBuilder.append("table { display: block; overflow-x: auto; white-space: nowrap; }");
+        customCssBuilder.append("</style>");
+        globalCustomCss = customCssBuilder.toString();
+    }
+
+    private static String getHexFromColorInt(@ColorInt int colorInt) {
+        return String.format("#%06X", (0xFFFFFF & colorInt));
+    }
+
+    public static String getGlobalCustomCss() {
+        return globalCustomCss;
+    }
+
     public WikiManager wiki;
+
+    @Override
+    public void embeddedWikiLinkClicked(String wikiPageTitle) {
+        if (pages.contains(wikiPageTitle)) {
+            pager.setCurrentItem(pages.indexOf(wikiPageTitle));
+        } else {
+            new AlertDialogWrapper.Builder(this)
+                    .setTitle(R.string.page_not_found)
+                    .setMessage(R.string.page_does_not_exist)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create()
+                    .show();
+        }
+    }
+
     private class AsyncGetWiki extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -160,6 +210,7 @@ public class Wiki extends BaseActivityAnim {
         @Override
         public Fragment getItem(int i) {
             Fragment f = new WikiPage();
+            ((WikiPage) f).setListener(Wiki.this);
             Bundle args = new Bundle();
 
             args.putString("title", pages.get(i));
@@ -179,7 +230,6 @@ public class Wiki extends BaseActivityAnim {
                 return pages.size();
             }
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {
