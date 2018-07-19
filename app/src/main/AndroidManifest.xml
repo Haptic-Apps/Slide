@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.ccrama.redditslide" android:installLocation="auto">
-          
-package="taco.apkmirror" android:installLocation="auto">
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.NFC"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -16,7 +15,6 @@ package="taco.apkmirror" android:installLocation="auto">
             android:fullBackupContent="true"
             android:hardwareAccelerated="true"
             android:icon="@mipmap/ic_launcher"
-            android:installLocation="auto"
             android:label="@string/app_name"
             android:resizeableActivity="true"
             android:roundIcon="@mipmap/icon_round"
