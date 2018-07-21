@@ -33,7 +33,7 @@
                 android:background="#00000000" />
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.view.ViewPager
+        <me.ccrama.redditslide.Views.ToggleSwipeViewPager
             android:id="@+id/content_view"
             android:layout_width="match_parent"
             android:background="?attr/activity_background"

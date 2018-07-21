@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 public class ToggleSwipeViewPager extends ViewPager {
     private boolean mEnableSwiping = true;
     private boolean swipeLeftOnly = false;
+    private boolean mSwipeDisabledUntilRelease = false;
     private float mStartDragX;
 
     public ToggleSwipeViewPager(Context context) {
@@ -31,6 +32,12 @@ public class ToggleSwipeViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            if (mSwipeDisabledUntilRelease) {
+                setSwipingEnabled(true);
+                mSwipeDisabledUntilRelease = false;
+            }
+        }
         try {
             return (mEnableSwiping || swipeLeftOnly) && super.onInterceptTouchEvent(ev);
         } catch (IllegalArgumentException ex) {
@@ -45,6 +52,11 @@ public class ToggleSwipeViewPager extends ViewPager {
 
     public void setSwipingEnabled(boolean enabled) {
         mEnableSwiping = enabled;
+    }
+
+    public void disableSwipingUntilRelease() {
+        setSwipingEnabled(false);
+        mSwipeDisabledUntilRelease = true;
     }
 
 }
