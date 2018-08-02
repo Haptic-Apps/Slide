@@ -476,7 +476,7 @@ public class SettingValues {
 
 
     public static boolean isNight() {
-        if (tabletUI && nightMode) {
+        if (isPro && nightMode) {
             if (Reddit.isNightModeAuto) {
                 return (Reddit.getAppContext().getResources().getConfiguration().uiMode
                         & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
