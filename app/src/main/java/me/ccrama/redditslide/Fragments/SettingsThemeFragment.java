@@ -433,96 +433,101 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                                     });
                         }
                     }
-                    {
-                        final List<String> timesStart = new ArrayList<String>() {{
-                            add("6pm");
-                            add("7pm");
-                            add("8pm");
-                            add("9pm");
-                            add("10pm");
-                            add("11pm");
-                        }};
-                        final Spinner startSpinner = dialoglayout.findViewById(R.id.start_spinner);
-                        final ArrayAdapter<String> startAdapter =
-                                new ArrayAdapter<>(context,
-                                        android.R.layout.simple_spinner_item, timesStart);
-                        startAdapter.setDropDownViewResource(
-                                android.R.layout.simple_spinner_dropdown_item);
-                        startSpinner.setAdapter(startAdapter);
+                    if (!Reddit.isNightModeAuto) {
+                        {
+                            final List<String> timesStart = new ArrayList<String>() {{
+                                add("6pm");
+                                add("7pm");
+                                add("8pm");
+                                add("9pm");
+                                add("10pm");
+                                add("11pm");
+                            }};
+                            dialoglayout.findViewById(R.id.start_spinner_layout)
+                                    .setVisibility(View.VISIBLE);
+                            final Spinner startSpinner =
+                                    dialoglayout.findViewById(R.id.start_spinner);
+                            final ArrayAdapter<String> startAdapter = new ArrayAdapter<>(context,
+                                    android.R.layout.simple_spinner_item, timesStart);
+                            startAdapter.setDropDownViewResource(
+                                    android.R.layout.simple_spinner_dropdown_item);
+                            startSpinner.setAdapter(startAdapter);
 
-                        //set the currently selected pref
-                        startSpinner.setSelection(startAdapter.getPosition(
-                                Integer.toString(SettingValues.nightStart).concat("pm")));
+                            //set the currently selected pref
+                            startSpinner.setSelection(startAdapter.getPosition(
+                                    Integer.toString(SettingValues.nightStart).concat("pm")));
 
-                        startSpinner.setOnItemSelectedListener(
-                                new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view,
-                                                               int position, long id) {
-                                        //get the time, but remove the "pm" from the string when parsing
-                                        final int time = Integer.parseInt(
-                                                ((String) startSpinner.getItemAtPosition(
-                                                        position)).replaceAll("pm", ""));
+                            startSpinner.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                                            //get the time, but remove the "pm" from the string when parsing
+                                            final int time = Integer.parseInt(
+                                                    ((String) startSpinner.getItemAtPosition(
+                                                            position)).replaceAll("pm", ""));
 
-                                        SettingValues.nightStart = time;
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREF_NIGHT_START, time)
-                                                .apply();
-                                    }
+                                            SettingValues.nightStart = time;
+                                            SettingValues.prefs.edit()
+                                                    .putInt(SettingValues.PREF_NIGHT_START, time)
+                                                    .apply();
+                                        }
 
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
 
-                                    }
-                                });
-                    }
-                    {
-                        final List<String> timesEnd = new ArrayList<String>() {{
-                            add("12am");
-                            add("1am");
-                            add("2am");
-                            add("3am");
-                            add("4am");
-                            add("5am");
-                            add("6am");
-                            add("7am");
-                            add("8am");
-                            add("9am");
-                            add("10am");
-                        }};
-                        final Spinner endSpinner = dialoglayout.findViewById(R.id.end_spinner);
-                        final ArrayAdapter<String> endAdapter =
-                                new ArrayAdapter<>(context,
-                                        android.R.layout.simple_spinner_item, timesEnd);
-                        endAdapter.setDropDownViewResource(
-                                android.R.layout.simple_spinner_dropdown_item);
-                        endSpinner.setAdapter(endAdapter);
+                                        }
+                                    });
+                        }
+                        {
+                            final List<String> timesEnd = new ArrayList<String>() {{
+                                add("12am");
+                                add("1am");
+                                add("2am");
+                                add("3am");
+                                add("4am");
+                                add("5am");
+                                add("6am");
+                                add("7am");
+                                add("8am");
+                                add("9am");
+                                add("10am");
+                            }};
+                            dialoglayout.findViewById(R.id.end_spinner_layout)
+                                    .setVisibility(View.VISIBLE);
+                            final Spinner endSpinner = dialoglayout.findViewById(R.id.end_spinner);
+                            final ArrayAdapter<String> endAdapter = new ArrayAdapter<>(context,
+                                    android.R.layout.simple_spinner_item, timesEnd);
+                            endAdapter.setDropDownViewResource(
+                                    android.R.layout.simple_spinner_dropdown_item);
+                            endSpinner.setAdapter(endAdapter);
 
-                        //set the currently selected pref
-                        endSpinner.setSelection(endAdapter.getPosition(
-                                Integer.toString(SettingValues.nightEnd).concat("am")));
+                            //set the currently selected pref
+                            endSpinner.setSelection(endAdapter.getPosition(
+                                    Integer.toString(SettingValues.nightEnd).concat("am")));
 
-                        endSpinner.setOnItemSelectedListener(
-                                new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view,
-                                                               int position, long id) {
-                                        //get the time, but remove the "am" from the string when parsing
-                                        final int time = Integer.parseInt(
-                                                ((String) endSpinner.getItemAtPosition(
-                                                        position)).replaceAll("am", ""));
+                            endSpinner.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                                            //get the time, but remove the "am" from the string when parsing
+                                            final int time = Integer.parseInt(
+                                                    ((String) endSpinner.getItemAtPosition(
+                                                            position)).replaceAll("am", ""));
 
-                                        SettingValues.nightEnd = time;
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREF_NIGHT_END, time)
-                                                .apply();
-                                    }
+                                            SettingValues.nightEnd = time;
+                                            SettingValues.prefs.edit()
+                                                    .putInt(SettingValues.PREF_NIGHT_END, time)
+                                                    .apply();
+                                        }
 
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
 
-                                    }
-                                });
+                                        }
+                                    });
+                        }
                     }
                     {
                         Button okayButton = dialoglayout.findViewById(R.id.ok);
