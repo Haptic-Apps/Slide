@@ -175,7 +175,7 @@ public class SettingsBackup extends BaseActivityAnim {
         setContentView(R.layout.activity_settings_sync);
         setupAppBar(R.id.toolbar, R.string.settings_title_backup, true, true);
 
-        if (SettingValues.tabletUI) {
+        if (SettingValues.isPro) {
 
             findViewById(R.id.backfile).setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -307,7 +307,7 @@ public class DoEditorActions {
         baseView.findViewById(R.id.draw).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SettingValues.tabletUI) {
+                if (SettingValues.isPro) {
                     doDraw(a, editText, fm);
                 } else {
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(a).setTitle(

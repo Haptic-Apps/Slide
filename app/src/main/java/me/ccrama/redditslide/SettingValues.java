@@ -1,6 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
@@ -105,21 +106,22 @@ public class SettingValues {
     public static final String PREF_SELFTEXT_IMAGE_COMMENT = "selftextImageComment";
     public static final String SYNCCIT_AUTH                = "SYNCCIT_AUTH";
     public static final String SYNCCIT_NAME                = "SYNCCIT_NAME";
-    public static final String PREF_BLUR                 = "blur";
-    public static final String PREF_ALBUM_SWIPE          = "albumswipe";
-    public static final String PREF_COMMENT_NAV          = "commentVolumeNav";
-    public static final String PREF_COLOR_COMMENT_DEPTH  = "colorCommentDepth";
-    public static final String COMMENT_DEPTH             = "commentDepth";
-    public static final String COMMENT_COUNT             = "commentcount";
-    public static final String PREF_USER_FILTERS         = "userFilters";
-    public static final String PREF_COLOR_ICON           = "colorIcon";
-    public static final String PREF_PEEK                 = "peek";
-    public static final String PREF_LARGE_LINKS          = "largeLinks";
-    public static final String PREF_LARGE_DEPTH          = "largeDepth";
-    public static final String PREF_TITLE_TOP            = "titleTop";
-    public static final String PREF_HIGHLIGHT_COMMENT_OP = "commentOP";
-    public static final String PREF_LONG_LINK            = "shareLongLink";
-    public static final String PREF_SELECTED_BROWSER     = "selectedBrowser";
+    public static final String PREF_BLUR                   = "blur";
+    public static final String PREF_ALBUM_SWIPE            = "albumswipe";
+    public static final String PREF_COMMENT_NAV            = "commentVolumeNav";
+    public static final String PREF_COLOR_COMMENT_DEPTH    = "colorCommentDepth";
+    public static final String COMMENT_DEPTH               = "commentDepth";
+    public static final String COMMENT_COUNT               = "commentcount";
+    public static final String PREF_USER_FILTERS           = "userFilters";
+    public static final String PREF_COLOR_ICON             = "colorIcon";
+    public static final String PREF_PEEK                   = "peek";
+    public static final String PREF_LARGE_LINKS            = "largeLinks";
+    public static final String PREF_LARGE_DEPTH            = "largeDepth";
+    public static final String PREF_TITLE_TOP              = "titleTop";
+    public static final String PREF_HIGHLIGHT_COMMENT_OP   = "commentOP";
+    public static final String PREF_LONG_LINK              = "shareLongLink";
+    public static final String PREF_SELECTED_BROWSER       = "selectedBrowser";
+    public static final String PREF_SELECTED_DRAWER_ITEMS  = "selectedDrawerItems";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -205,7 +207,8 @@ public class SettingValues {
     public static boolean fab     = true;
     public static int     fabType = Constants.FAB_POST;
     public static boolean hideButton;
-    public static boolean tabletUI;
+    public static boolean isPro;
+    public static boolean customtabs;
     public static boolean titleTop;
     public static boolean dualPortrait;
     public static boolean singleColumnMultiWindow;
@@ -239,6 +242,7 @@ public class SettingValues {
     public static boolean highlightCommentOP;
     public static boolean highlightTime;
     public static String  selectedBrowser;
+    public static long    selectedDrawerItems;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -389,6 +393,7 @@ public class SettingValues {
         colorIcon = prefs.getBoolean(PREF_COLOR_ICON, false);
         peek = prefs.getBoolean(PREF_PEEK, false);
         selectedBrowser = prefs.getString(PREF_SELECTED_BROWSER, "");
+        selectedDrawerItems = prefs.getLong(PREF_SELECTED_DRAWER_ITEMS, -1);
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
@@ -471,8 +476,17 @@ public class SettingValues {
 
 
     public static boolean isNight() {
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return (hour >= nightStart + 12 || hour < nightEnd) && tabletUI && nightMode;
+        if (tabletUI && nightMode) {
+            if (Reddit.isNightModeAuto) {
+                return (Reddit.getAppContext().getResources().getConfiguration().uiMode
+                        & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+            } else {
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                return hour >= nightStart + 12 || hour < nightEnd;
+            }
+        } else {
+            return false;
+        }
     }
 
     public static Sorting getBaseSubmissionSort(String sub) {
