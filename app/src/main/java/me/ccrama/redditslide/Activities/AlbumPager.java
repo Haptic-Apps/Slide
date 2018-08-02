@@ -217,7 +217,7 @@ public class AlbumPager extends FullScreenActivity
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Intent i =
                                                         new Intent(AlbumPager.this, Website.class);
-                                                i.putExtra(Website.EXTRA_URL, url);
+                                                i.putExtra(LinkUtil.EXTRA_URL, url);
                                                 startActivity(i);
                                                 finish();
                                             }

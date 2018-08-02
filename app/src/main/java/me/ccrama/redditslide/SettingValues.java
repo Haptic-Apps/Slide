@@ -10,6 +10,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.Calendar;
 import java.util.Locale;
 
+import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SortingUtil;
@@ -36,15 +37,14 @@ public class SettingValues {
     public static final String PREF_COLOR_BACK                = "colorBack";
     public static final String PREF_IMAGE_SUBFOLDERS          = "imageSubfolders";
     public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
+    public static final String PREF_READER_MODE               = "readerDefault";
     public static final String PREF_READER_NIGHT              = "readernight";
     public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
     public static final String PREF_EXPANDED_TOOLBAR          = "expandedToolbar";
     public static final String PREF_SWAP                      = "Swap";
-    public static final String PREFS_WEB                      = "web";
     public static final String PREF_ACTIONBAR_VISIBLE         = "actionbarVisible";
     public static final String PREF_SMALL_TAG                 = "smallTag";
     public static final String PREF_ACTIONBAR_TAP             = "actionbarTap";
-    public static final String PREF_CUSTOMTABS                = "customtabs";
     public static final String PREF_STORE_HISTORY             = "storehistory";
     public static final String PREF_STORE_NSFW_HISTORY        = "storensfw";
     public static final String PREF_SCROLL_SEEN               = "scrollSeen";
@@ -72,21 +72,20 @@ public class SettingValues {
     public static final String PREF_LOW_RES_ALWAYS            = "lowResAlways";
     public static final String PREF_LOW_RES_MOBILE            = "lowRes";
     public static final String PREF_IMAGE_LQ                  = "imageLq";
-    public static final String PREF_COLOR_SUB_NAME          = "colorSubName";
-    public static final String PREF_OVERRIDE_LANGUAGE       = "overrideLanguage";
-    public static final String PREF_IMMERSIVE_MODE          = "immersiveMode";
-    public static final String PREF_SHOW_DOMAIN             = "showDomain";
-    public static final String PREF_CARD_TEXT               = "cardText";
-    public static final String PREF_ZOOM_DEFAULT            = "zoomDefault";
-    public static final String PREF_SUBREDDIT_SEARCH_METHOD = "subredditSearchMethod";
-    public static final String PREF_BACK_BUTTON_BEHAVIOR    = "backButtonBehavior";
-    public static final String PREF_READER                  = "readerDefault";
-    public static final String PREF_LQ_LOW                  = "lqLow";
-    public static final String PREF_LQ_MID                  = "lqMid";
-    public static final String PREF_LQ_HIGH                 = "lqHigh";
-    public static final String PREF_SOUND_NOTIFS            = "soundNotifs";
-    public static final String PREF_COOKIES                 = "storeCookies";
-    public static final String PREF_NIGHT_START             = "nightStart";
+    public static final String PREF_COLOR_SUB_NAME            = "colorSubName";
+    public static final String PREF_OVERRIDE_LANGUAGE         = "overrideLanguage";
+    public static final String PREF_IMMERSIVE_MODE            = "immersiveMode";
+    public static final String PREF_SHOW_DOMAIN               = "showDomain";
+    public static final String PREF_CARD_TEXT                 = "cardText";
+    public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
+    public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
+    public static final String PREF_BACK_BUTTON_BEHAVIOR      = "backButtonBehavior";
+    public static final String PREF_LQ_LOW                    = "lqLow";
+    public static final String PREF_LQ_MID                    = "lqMid";
+    public static final String PREF_LQ_HIGH                   = "lqHigh";
+    public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
+    public static final String PREF_COOKIES                   = "storeCookies";
+    public static final String PREF_NIGHT_START               = "nightStart";
     public static final String PREF_NIGHT_END                 = "nightEnd";
     public static final String PREF_SHOW_NSFW_CONTENT         = "showNSFWContent";
     public static final String PREF_HIDE_NSFW_PREVIEW         = "hideNSFWPreviews";
@@ -94,6 +93,7 @@ public class SettingValues {
     public static final String PREF_IGNORE_SUB_SETTINGS       = "ignoreSub";
     public static final String PREF_HIGHLIGHT_TIME            = "highlightTime";
     public static final String PREF_MUTE                      = "muted";
+    public static final String PREF_LINK_HANDLING_MODE        = "linkHandlingMode";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
@@ -169,14 +169,13 @@ public class SettingValues {
     public static boolean colorEverywhere;
     public static boolean gif;
     public static boolean colorCommentDepth;
-    public static boolean web;
     public static boolean commentVolumeNav;
     public static boolean postNav;
     public static boolean cropImage;
     public static boolean smallTag;
     public static boolean typeInfoLine;
     public static boolean votesInfoLine;
-    public static boolean reader;
+    public static boolean readerMode;
     public static boolean collapseComments;
     public static boolean collapseCommentsDefault;
     public static boolean rightHandedCommentMenu;
@@ -187,6 +186,7 @@ public class SettingValues {
     public static int     backButtonBehavior;
     public static int     nightStart;
     public static int     nightEnd;
+    public static int     linkHandlingMode;
 
     public static int previews;
 
@@ -271,7 +271,7 @@ public class SettingValues {
         overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
         immersiveMode = prefs.getBoolean(PREF_IMMERSIVE_MODE, false);
         largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
-        reader = prefs.getBoolean(PREF_READER, false);
+        readerMode = prefs.getBoolean(PREF_READER_MODE, false);
         imageSubfolders = prefs.getBoolean(PREF_IMAGE_SUBFOLDERS, false);
         isMuted = prefs.getBoolean(PREF_MUTE, false);
 
@@ -340,11 +340,9 @@ public class SettingValues {
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
         swap = prefs.getBoolean(PREF_SWAP, false);
         hideSelftextLeadImage = prefs.getBoolean(PREF_SELFTEXT_IMAGE_COMMENT, false);
-        web = prefs.getBoolean(PREFS_WEB, true);
         image = prefs.getBoolean(PREF_IMAGE, true);
         cache = true;
         cacheDefault = false;
-        customtabs = prefs.getBoolean(PREF_CUSTOMTABS, false);
         storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
         upvotePercentage = prefs.getBoolean(PREF_UPVOTE_PERCENTAGE, false);
         storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, false);
@@ -353,6 +351,8 @@ public class SettingValues {
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
         notifSound = prefs.getBoolean(PREF_SOUND_NOTIFS, false);
         cookies = prefs.getBoolean(PREF_COOKIES, true);
+        linkHandlingMode = prefs.getInt(PREF_LINK_HANDLING_MODE,
+                SettingsHandlingFragment.LinkHandlingMode.EXTERNAL.getValue());
 
         previews = prefs.getInt(PREVIEWS_LEFT, 10);
         nightStart = prefs.getInt(PREF_NIGHT_START, 9);
@@ -513,6 +513,4 @@ public class SettingValues {
     public enum ColorMatchingMode {
         ALWAYS_MATCH, MATCH_EXTERNALLY
     }
-
-
 }

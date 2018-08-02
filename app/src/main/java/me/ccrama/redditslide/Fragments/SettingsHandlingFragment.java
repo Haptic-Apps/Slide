@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.KeyEvent;
@@ -16,8 +17,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -73,9 +76,22 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             context.findViewById(R.id.settings_handling_video).setVisibility(View.GONE);
         }
 
+        final SwitchCompat readerMode = context.findViewById(R.id.settings_handling_reader_mode);
+        readerMode.setChecked(SettingValues.readerMode);
+        readerMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingValues.readerMode = isChecked;
+                SettingValues.prefs.edit()
+                        .putBoolean(SettingValues.PREF_READER_MODE, SettingValues.readerMode)
+                        .apply();
+                context.findViewById(R.id.settings_handling_readernight)
+                        .setEnabled(SettingValues.nightMode && SettingValues.readerMode);
+            }
+        });
+
         final SwitchCompat readernight = context.findViewById(R.id.settings_handling_readernight);
-        readernight.setEnabled(
-                SettingValues.nightMode && SettingValues.web && SettingValues.reader);
+        readernight.setEnabled(SettingValues.nightMode && SettingValues.readerMode);
         readernight.setChecked(SettingValues.readerNight);
         readernight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -109,32 +125,16 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
     }
 
     private void setUpBrowserLinkHandling() {
-        ((RadioGroup) context.findViewById(R.id.settings_handling_select_browser_type)).check(
-                SettingValues.web ? R.id.settings_handling_browser_type_internal_browser
-                        : SettingValues.customtabs ? R.id.settings_handling_browser_type_custom_tabs
-                                : SettingValues.reader
-                                        ? R.id.settings_handling_browser_type_reader_mode
-                                        : R.id.settings_handling_browser_type_external_browser);
-        ((RadioGroup) context.findViewById(
-                R.id.settings_handling_select_browser_type)).setOnCheckedChangeListener(
+        RadioGroup radioGroup = context.findViewById(R.id.settings_handling_select_browser_type);
+        radioGroup.check(LinkHandlingMode.idResFromValue(SettingValues.linkHandlingMode));
+        radioGroup.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        SettingValues.web =
-                                checkedId == R.id.settings_handling_browser_type_internal_browser;
-                        SettingValues.customtabs =
-                                checkedId == R.id.settings_handling_browser_type_custom_tabs;
-                        SettingValues.reader =
-                                checkedId == R.id.settings_handling_browser_type_reader_mode;
-
+                        SettingValues.linkHandlingMode = LinkHandlingMode.valueFromIdRes(checkedId);
                         SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREFS_WEB, SettingValues.web)
-                                .apply();
-                        SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREF_CUSTOMTABS, SettingValues.customtabs)
-                                .apply();
-                        SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREF_READER, SettingValues.reader)
+                                .putInt(SettingValues.PREF_LINK_HANDLING_MODE,
+                                        SettingValues.linkHandlingMode)
                                 .apply();
                     }
                 });
@@ -239,4 +239,40 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
         }
     }
 
+    public enum LinkHandlingMode {
+        EXTERNAL(0, R.id.settings_handling_browser_type_external_browser),
+        INTERNAL(1, R.id.settings_handling_browser_type_internal_browser),
+        CUSTOM_TABS(2, R.id.settings_handling_browser_type_custom_tabs);
+
+        private static BiMap<Integer, Integer> sBiMap =
+                HashBiMap.create(new HashMap<Integer, Integer>() {{
+                    put(EXTERNAL.getValue(), EXTERNAL.getIdRes());
+                    put(INTERNAL.getValue(), INTERNAL.getIdRes());
+                    put(CUSTOM_TABS.getValue(), CUSTOM_TABS.getIdRes());
+                }});
+        private int mValue;
+        @IdRes
+        private int mIdRes;
+
+        LinkHandlingMode(int value, @IdRes int stringRes) {
+            mValue = value;
+            mIdRes = stringRes;
+        }
+
+        public int getValue() {
+            return mValue;
+        }
+
+        public int getIdRes() {
+            return mIdRes;
+        }
+
+        public static int idResFromValue(int value) {
+            return sBiMap.get(value);
+        }
+
+        public static int valueFromIdRes(@IdRes int idRes) {
+            return sBiMap.inverse().get(idRes);
+        }
+    }
 }

@@ -360,7 +360,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
             @Override
             public void onError() {
                 Intent i = new Intent(getActivity(), Website.class);
-                i.putExtra(Website.EXTRA_URL, url);
+                i.putExtra(LinkUtil.EXTRA_URL, url);
                 startActivity(i);
                 getActivity().finish();
             }
