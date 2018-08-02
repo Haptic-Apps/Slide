@@ -214,7 +214,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
                 return true;
             case R.id.gallery:
-                if (SettingValues.tabletUI) {
+                if (SettingValues.isPro) {
                     List<Submission> posts =
                             ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
@@ -282,7 +282,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 }
                 return true;
             case R.id.action_shadowbox:
-                if (SettingValues.tabletUI) {
+                if (SettingValues.isPro) {
                     List<Submission> posts =
                             ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {

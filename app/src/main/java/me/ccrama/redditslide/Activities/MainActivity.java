@@ -512,8 +512,8 @@ public class MainActivity extends BaseActivity
             } else {
                 inflater.inflate(R.menu.menu_subreddit_overview, menu);
             }
-            //Only show the "Share Slide" menu item if the user doesn't have Pro installed
-            if (SettingValues.tabletUI) {
+            // Hide the "Share Slide" menu if the user has Pro installed
+            if (SettingValues.isPro) {
                 menu.findItem(R.id.share).setVisible(false);
             }
             if (SettingValues.fab && SettingValues.fabType == Constants.FAB_DISMISS) {
@@ -745,7 +745,7 @@ public class MainActivity extends BaseActivity
             }
             return true;
             case R.id.gallery:
-                if (SettingValues.tabletUI) {
+                if (SettingValues.isPro) {
                     List<Submission> posts =
                             ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
@@ -820,7 +820,7 @@ public class MainActivity extends BaseActivity
                 }
                 return true;
             case R.id.action_shadowbox:
-                if (SettingValues.tabletUI) {
+                if (SettingValues.isPro) {
                     List<Submission> posts =
                             ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
@@ -1018,7 +1018,7 @@ public class MainActivity extends BaseActivity
                                                 && s.getSubmissionFlair()
                                                 .getText()
                                                 .equalsIgnoreCase("PRO")
-                                                && !SettingValues.tabletUI
+                                                && !SettingValues.isPro
                                                 && !Reddit.appRestart.contains(
                                                 "announcement" + s.getFullName())) {
                                             Reddit.appRestart.edit()
@@ -2022,7 +2022,7 @@ public class MainActivity extends BaseActivity
         if (Authentication.didOnline) {
             View support = header.findViewById(R.id.support);
 
-            if (SettingValues.tabletUI) {
+            if (SettingValues.isPro) {
                 support.setVisibility(View.GONE);
             } else {
                 header.findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {

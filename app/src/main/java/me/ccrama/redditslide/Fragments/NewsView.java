@@ -322,7 +322,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                     context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
         }
         if (orientation == Configuration.ORIENTATION_LANDSCAPE
-                && SettingValues.tabletUI
+                && SettingValues.isPro
                 && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT
