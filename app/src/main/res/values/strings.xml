@@ -594,6 +594,8 @@
     <string name="settings_set_image_location">Images will be saved to %s</string>
     <string name="settings_general_immersive_mode">Immersive fullscreen mode</string>
     <string name="settings_general_immersive_mode_desc">Hide the status and navigation bars (experimental)</string>
+    <string name="settings_general_title_drawer_items">Drawer Items</string>
+    <string name="settings_general_subtitle_drawer_items">Select which drawer items to display</string>
 
 
     <!-- Settings titles displayed in settings activity-->
