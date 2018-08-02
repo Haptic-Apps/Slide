@@ -10,12 +10,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import net.dean.jraw.managers.WikiManager;
@@ -32,12 +32,13 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
     public static final String EXTRA_PAGE = "page";
 
     private TabLayout tabs;
-    private ViewPager pager;
+    private ToggleSwipeViewPager pager;
     private String subreddit;
     private Wiki.OverviewPagerAdapter adapter;
     private List<String> pages;
     private String page;
     private static String globalCustomCss;
+    private static String globalCustomJavaScript;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -51,6 +52,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
 
         applyColorTheme(subreddit);
         createCustomCss();
+        createCustomJavaScript();
         setContentView(R.layout.activity_slidetabs);
         setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);
 
@@ -64,7 +66,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(Wiki.this).getColor("no sub"));
 
-        pager = (ViewPager) findViewById(R.id.content_view);
+        pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Palette.getColor(subreddit));
 
         new AsyncGetWiki().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -83,10 +85,24 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                 .append("color: ".concat(getHexFromColorInt(ta.getColor(2, Color.BLUE))).concat(";"))
                 .append("; }");
         ta.recycle();
-        // TODO: Implement horizontal scrolling to Wiki table views
-        //customCssBuilder.append("table { display: block; overflow-x: auto; white-space: nowrap; }");
+        customCssBuilder.append("table, code { display: block; overflow-x: scroll; }");
+        customCssBuilder.append("table { white-space: nowrap; }");
         customCssBuilder.append("</style>");
         globalCustomCss = customCssBuilder.toString();
+    }
+
+    private void createCustomJavaScript() {
+        globalCustomJavaScript = "<script type=\"text/javascript\">" +
+                "window.addEventListener('touchstart', function onSlideUserTouch(e) {" +
+                "var element = e.target;" +
+                "while(element) {" +
+                "if(element.tagName && (element.tagName.toLowerCase() === 'table' || element.tagName.toLowerCase() === 'code')) {" +
+                "Slide.overflowTouched();" +
+                "return;" +
+                "} else {" +
+                "element = element.parentNode;" +
+                "}}}, false)" +
+                "</script>";
     }
 
     private static String getHexFromColorInt(@ColorInt int colorInt) {
@@ -95,6 +111,10 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
 
     public static String getGlobalCustomCss() {
         return globalCustomCss;
+    }
+
+    public static String getGlobalCustomJavaScript() {
+        return globalCustomJavaScript;
     }
 
     public WikiManager wiki;
@@ -116,6 +136,11 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                     .create()
                     .show();
         }
+    }
+
+    @Override
+    public void overflowTouched() {
+        pager.disableSwipingUntilRelease();
     }
 
     private class AsyncGetWiki extends AsyncTask<Void, Void, Void> {
