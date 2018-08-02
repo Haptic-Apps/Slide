@@ -20,8 +20,7 @@ import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.SortingUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -160,7 +159,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                                 MultiredditOverview.searchMulti);
                         ((SubmissionSearchPaginatorMultireddit) paginator).setSearchSorting(
                                 SubmissionSearchPaginatorMultireddit.SearchSort.valueOf(
-                                        Reddit.search.toString()));
+                                        SortingUtil.search.toString()));
                         ((SubmissionSearchPaginatorMultireddit) paginator).setSyntax(
                                 SubmissionSearchPaginatorMultireddit.SearchSyntax.LUCENE);
 
@@ -169,7 +168,8 @@ public class SubredditSearchPosts extends GeneralPosts {
                         if (!subreddit.isEmpty()) {
                             ((SubmissionSearchPaginator) paginator).setSubreddit(subreddit);
                         }
-                        ((SubmissionSearchPaginator) paginator).setSearchSorting(Reddit.search);
+                        ((SubmissionSearchPaginator) paginator).setSearchSorting(
+                                SortingUtil.search);
                         ((SubmissionSearchPaginator) paginator).setSyntax(
                                 SubmissionSearchPaginator.SearchSyntax.LUCENE);
 

@@ -215,7 +215,8 @@ public class Authentication {
                                                                 public void onClick(
                                                                         DialogInterface dialog,
                                                                         int which) {
-                                                                    Reddit.forceRestart(context);
+                                                                    Reddit.forceRestart(context,
+                                                                            false);
 
                                                                 }
                                                             })
