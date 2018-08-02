@@ -1,10 +1,12 @@
 package me.ccrama.redditslide;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -115,6 +118,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public        boolean      active;
     private       ImageLoader  defaultImageLoader;
     public static OkHttpClient client;
+
+    public static boolean isNightModeAuto = false;
 
     public static void forceRestart(Context context, boolean forceLoadScreen) {
         if (forceLoadScreen) {
@@ -475,6 +480,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             client = new OkHttpClient();
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setNightModeAuto();
+        }
+
         overrideLanguage =
                 getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE,
                         false);
@@ -512,7 +521,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         doLanguages();
         lastPosition = new ArrayList<>();
 
-        new SetupIAB().execute();
+        if (BuildConfig.FLAVOR == "withGPlay") {
+            new SetupIAB().execute();
+        }
 
         if (!appRestart.contains("startScreen")) {
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
@@ -680,5 +691,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static Context getAppContext() {
         return mApplication.getApplicationContext();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private static void setNightModeAuto() {
+        UiModeManager uiModeManager =
+                (UiModeManager) getAppContext().getSystemService(Context.UI_MODE_SERVICE);
+        if (uiModeManager != null) {
+            uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            isNightModeAuto = true;
+        } else {
+            isNightModeAuto = false;
+        }
     }
 }
