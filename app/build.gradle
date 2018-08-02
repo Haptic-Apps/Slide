@@ -15,7 +15,7 @@ android {
     }
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        versionCode 309
+        versionCode 310
         minSdkVersion 15
         targetSdkVersion 27
         compileSdkVersion 27
