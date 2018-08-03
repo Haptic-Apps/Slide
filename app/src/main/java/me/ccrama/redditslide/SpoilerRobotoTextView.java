@@ -201,7 +201,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             String inner = "<a href=\"/spoiler\">spoiler&lt; [[s[ "
                     + text
                     + "]s]]</a>";
-            html = html.replace(text, inner);
+
+            int start = matcher.start(1);
+            html = html.substring(0, start)
+                    + inner
+                    + html.substring(start + text.length());
         }
         return html;
     }
