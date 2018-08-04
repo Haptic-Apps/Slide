@@ -323,7 +323,7 @@ public class Tutorial extends AppCompatActivity {
                 public void onClick(View v) {
                     Reddit.colors.edit().putString("Tutorial", "S").commit();
                     Reddit.appRestart.edit().putString("startScreen", "a").apply();
-                    Reddit.forceRestart(getActivity());
+                    Reddit.forceRestart(getActivity(), false);
                 }
             });
             return v;

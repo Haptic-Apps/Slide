@@ -60,6 +60,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -156,7 +157,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -172,7 +174,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -205,7 +208,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(Html.fromHtml(submission.getTitle()));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
@@ -251,7 +254,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         public void onClick(View v) {
                             String urlString = "https://reddit.com" + submission.getPermalink();
                             Intent i = new Intent(mContext, Website.class);
-                            i.putExtra(Website.EXTRA_URL, urlString);
+                            i.putExtra(LinkUtil.EXTRA_URL, urlString);
                             mContext.startActivity(i);
                         }
                     });
@@ -320,7 +323,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 }
                             });
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
 
@@ -332,7 +336,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, null, null);
 
-            final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
+            final ImageView hideButton = holder.itemView.findViewById(R.id.hide);
             if (hideButton != null && isHiddenPost) {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override

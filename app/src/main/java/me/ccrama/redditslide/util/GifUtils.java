@@ -32,7 +32,6 @@ import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
-import com.googlecode.mp4parser.authoring.builder.Mp4Builder;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 import com.googlecode.mp4parser.authoring.tracks.CroppedTrack;
 
@@ -45,7 +44,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.BufferOverflowException;
@@ -435,8 +433,8 @@ public class GifUtils {
                         } else {
                             if (closeIfNull) {
                                 Intent web = new Intent(c, Website.class);
-                                web.putExtra(Website.EXTRA_URL, url);
-                                web.putExtra(Website.EXTRA_COLOR, Color.BLACK);
+                                web.putExtra(LinkUtil.EXTRA_URL, url);
+                                web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
                                 c.startActivity(web);
                                 c.finish();
                             }
@@ -479,8 +477,8 @@ public class GifUtils {
                         } else {
                             if (closeIfNull) {
                                 Intent web = new Intent(c, Website.class);
-                                web.putExtra(Website.EXTRA_URL, url);
-                                web.putExtra(Website.EXTRA_COLOR, Color.BLACK);
+                                web.putExtra(LinkUtil.EXTRA_URL, url);
+                                web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
                                 c.startActivity(web);
                                 c.finish();
                             }
@@ -615,8 +613,8 @@ public class GifUtils {
                             onError();
                             if (closeIfNull) {
                                 Intent web = new Intent(c, Website.class);
-                                web.putExtra(Website.EXTRA_URL, url);
-                                web.putExtra(Website.EXTRA_COLOR, Color.BLACK);
+                                web.putExtra(LinkUtil.EXTRA_URL, url);
+                                web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
                                 c.startActivity(web);
                                 c.finish();
                             }
@@ -643,8 +641,8 @@ public class GifUtils {
                     LogUtil.e("We shouldn't be here!");
                     if (closeIfNull) {
                         Intent web = new Intent(c, Website.class);
-                        web.putExtra(Website.EXTRA_URL, url);
-                        web.putExtra(Website.EXTRA_COLOR, Color.BLACK);
+                        web.putExtra(LinkUtil.EXTRA_URL, url);
+                        web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
                         c.startActivity(web);
                         c.finish();
                     }
@@ -695,7 +693,7 @@ public class GifUtils {
         }
 
         public void writeGif(final URL url, final ProgressBar progressBar, final Activity c,
-                final String subreddit) throws Exception {
+                final String subreddit) {
             if (size != null && c != null && !getProxy().isCached(url.toString())) {
                 getRemoteFileSize(url.toString(), client, size, c);
             }
@@ -782,7 +780,7 @@ public class GifUtils {
         }
 
         public void WriteGifMuxed(final URL url, final ProgressBar progressBar, final Activity c,
-                final String subreddit) throws Exception {
+                final String subreddit) {
             if (size != null && c != null && !getProxy().isCached(url.toString())) {
                 getRemoteFileSize(url.toString(), client, size, c);
             }
@@ -1101,7 +1099,7 @@ public class GifUtils {
         }
 
         @Override
-        public int write(ByteBuffer inputBuffer) throws IOException {
+        public int write(ByteBuffer inputBuffer) {
             int inputBytes = inputBuffer.remaining();
 
             if (inputBytes > byteBuffer.remaining()) {
@@ -1124,7 +1122,7 @@ public class GifUtils {
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
             dumpToFile();
             isOpen = false;
         }

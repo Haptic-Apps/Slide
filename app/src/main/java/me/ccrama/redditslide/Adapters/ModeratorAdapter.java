@@ -63,6 +63,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -154,7 +155,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -170,7 +172,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -202,7 +205,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(Html.fromHtml(submission.getTitle()));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
@@ -248,7 +251,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View v) {
                             String urlString = "https://reddit.com" + submission.getPermalink();
                             Intent i = new Intent(mContext, Website.class);
-                            i.putExtra(Website.EXTRA_URL, urlString);
+                            i.putExtra(LinkUtil.EXTRA_URL, urlString);
                             mContext.startActivity(i);
                         }
                     });
@@ -317,7 +320,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 }
                             });
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            TextView tv =
+                                    view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
 
@@ -329,7 +333,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, null, null);
 
-            final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
+            final ImageView hideButton = holder.itemView.findViewById(R.id.hide);
             if (hideButton != null) {
                 hideButton.setVisibility(View.GONE);
             }
@@ -370,7 +374,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             titleString.append(spacer);
 
             {
-                final ImageView mod = (ImageView) holder.itemView.findViewById(R.id.mod);
+                final ImageView mod = holder.itemView.findViewById(R.id.mod);
                 try {
                     if (UserSubscriptions.modOf.contains(comment.getSubredditName())) {
                         //todo
@@ -635,8 +639,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_distinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -671,8 +674,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_undistinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -707,8 +709,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv =
-                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 

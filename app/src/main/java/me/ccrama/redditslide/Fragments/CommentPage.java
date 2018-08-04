@@ -728,7 +728,7 @@ public class CommentPage extends Fragment {
                         }
                         return true;
                     case R.id.shadowbox:
-                        if (SettingValues.tabletUI) {
+                        if (SettingValues.isPro) {
                             if (comments.comments != null && comments.submission != null) {
                                 ShadowboxComments.comments = new ArrayList<>();
                                 for (CommentObject c : comments.comments) {
@@ -1048,7 +1048,7 @@ public class CommentPage extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
-                            Reddit.forceRestart(getActivity());
+                            Reddit.forceRestart(getActivity(), false);
                         }
                     })
                     .show();

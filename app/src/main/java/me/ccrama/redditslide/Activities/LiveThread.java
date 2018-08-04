@@ -61,6 +61,7 @@ import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TwitterObject;
@@ -204,58 +205,69 @@ public class LiveThread extends BaseActivityAnim {
                         com.neovisionaries.ws.client.WebSocket ws = new WebSocketFactory().createSocket(thread.getWebsocketUrl());
                         ws.addListener(new WebSocketListener() {
                             @Override
-                            public void onStateChanged(com.neovisionaries.ws.client.WebSocket websocket, WebSocketState newState) {
-
+                            public void onStateChanged(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketState newState) {
                             }
 
                             @Override
-                            public void onConnected(com.neovisionaries.ws.client.WebSocket websocket, Map<String, List<String>> headers) {
-
+                            public void onConnected(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    Map<String, List<String>> headers) {
                             }
 
                             @Override
-                            public void onConnectError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause) {
-
+                            public void onConnectError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause) {
                             }
 
                             @Override
-                            public void onDisconnected(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) {
-
+                            public void onDisconnected(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame serverCloseFrame,
+                                    WebSocketFrame clientCloseFrame, boolean closedByServer) {
                             }
 
                             @Override
-                            public void onFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onFrame(com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onContinuationFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onContinuationFrame(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onTextFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onTextFrame(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onBinaryFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onBinaryFrame(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onCloseFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onCloseFrame(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onPingFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onPingFrame(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onPongFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onPongFrame(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
@@ -265,13 +277,9 @@ public class LiveThread extends BaseActivityAnim {
                                     try {
                                         LiveUpdate u = new LiveUpdate(o.readTree(s).get("payload").get("data"));
                                         updates.add(0, u);
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
+                                        runOnUiThread(() ->
                                                 adapter.notifyItemInserted(0);
-                                                baseRecycler.smoothScrollToPosition(0);
-                                            }
-                                        });
+                                                baseRecycler.smoothScrollToPosition(0));
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -291,92 +299,101 @@ public class LiveThread extends BaseActivityAnim {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-
                                 } /* todoelse if(s.contains("delete")){
                                     updates.remove(0);
                                     adapter.notifyItemRemoved(0);
                                 }*/
-
                             }
 
                             @Override
-                            public void onBinaryMessage(com.neovisionaries.ws.client.WebSocket websocket, byte[] binary) {
-
+                            public void onBinaryMessage(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    byte[] binary) {
                             }
 
                             @Override
-                            public void onSendingFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onSendingFrame(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onFrameSent(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onFrameSent(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onFrameUnsent(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) {
-
+                            public void onFrameUnsent(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onThreadCreated(WebSocket websocket, ThreadType threadType, Thread thread) {
-
+                            public void onError(com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause) {
                             }
 
                             @Override
-                            public void onThreadStarted(WebSocket websocket, ThreadType threadType, Thread thread) {
-
+                            public void onFrameError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause, WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onThreadStopping(WebSocket websocket, ThreadType threadType, Thread thread) {
-
+                            public void onMessageError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause, List<WebSocketFrame> frames) {
                             }
 
                             @Override
-                            public void onError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause) {
-
+                            public void onMessageDecompressionError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause, byte[] compressed) {
                             }
 
                             @Override
-                            public void onFrameError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, WebSocketFrame frame) {
-
+                            public void onTextMessageError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause, byte[] data) {
                             }
 
                             @Override
-                            public void onMessageError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, List<WebSocketFrame> frames) {
-
+                            public void onSendError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause, WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onMessageDecompressionError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, byte[] compressed) {
-
+                            public void onUnexpectedError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocketException cause) {
                             }
 
                             @Override
-                            public void onTextMessageError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, byte[] data) {
-
+                            public void handleCallbackError(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    Throwable cause) {
                             }
 
                             @Override
-                            public void onSendError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, WebSocketFrame frame) {
-
+                            public void onSendError(com.neovisionaries.ws.client.WebSocket websocket,
+                                                    WebSocketException cause, WebSocketFrame frame) {
                             }
 
                             @Override
-                            public void onUnexpectedError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause) {
-
+                            public void onUnexpectedError(com.neovisionaries.ws.client.WebSocket websocket,
+                                                          WebSocketException cause) {
                             }
 
                             @Override
-                            public void handleCallbackError(com.neovisionaries.ws.client.WebSocket websocket, Throwable cause) {
-
+                            public void handleCallbackError(com.neovisionaries.ws.client.WebSocket websocket,
+                                                            Throwable cause) {
                             }
 
-                            @Override
-                            public void onSendingHandshake(com.neovisionaries.ws.client.WebSocket websocket, String requestLine, List<String[]> headers) {
-
+                            public void onSendingHandshake(
+                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    String requestLine, List<String[]> headers) {
                             }
                         });
                         ws.connect();
@@ -388,7 +405,6 @@ public class LiveThread extends BaseActivityAnim {
                     return null;
                 }
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
         }
     }
 
@@ -437,7 +453,7 @@ public class LiveThread extends BaseActivityAnim {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(LiveThread.this, Website.class);
-                        i.putExtra(Website.EXTRA_URL, url);
+                        i.putExtra(LinkUtil.EXTRA_URL, url);
                         startActivity(i);
                     }
                 });
@@ -446,12 +462,7 @@ public class LiveThread extends BaseActivityAnim {
                 if (ContentType.hostContains(host, "imgur.com")) {
                     LogUtil.v("Imgur");
                     holder.imageArea.setVisibility(View.VISIBLE);
-                    holder.imageArea.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            holder.go.callOnClick();
-                        }
-                    });
+                    holder.imageArea.setOnClickListener((View v) -> holder.go.callOnClick());
                     ((Reddit) getApplicationContext()).getImageLoader().displayImage(url, holder.imageArea);
                 } else if (ContentType.hostContains(host, "twitter.com")) {
                     LogUtil.v("Twitter");
@@ -460,7 +471,6 @@ public class LiveThread extends BaseActivityAnim {
                     new LoadTwitter(holder.twitterArea, url).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
-
         }
 
         public class LoadTwitter extends AsyncTask<String, Void, Void> {
@@ -500,8 +510,6 @@ public class LiveThread extends BaseActivityAnim {
                     view.loadData(twitter.getHtml().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
                 }
             }
-
-
         }
 
 
@@ -518,7 +526,6 @@ public class LiveThread extends BaseActivityAnim {
             WebView twitterArea;
             View go;
 
-
             public ItemHolder(View itemView) {
                 super(itemView);
                 title = itemView.findViewById(R.id.title);
@@ -530,9 +537,7 @@ public class LiveThread extends BaseActivityAnim {
                 twitterArea.getSettings().setJavaScriptEnabled(true);
                 twitterArea.setBackgroundColor(Color.TRANSPARENT);
                 twitterArea.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
-
             }
-
         }
     }
 
@@ -596,5 +601,4 @@ public class LiveThread extends BaseActivityAnim {
             commentOverflow.removeAllViews();
         }
     }
-
 }

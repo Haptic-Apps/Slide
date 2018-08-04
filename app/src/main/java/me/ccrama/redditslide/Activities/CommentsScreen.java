@@ -121,7 +121,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        popup = SettingValues.tabletUI
+        popup = SettingValues.isPro
                 && getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE
                 && !SettingValues.fullCommentOverride;

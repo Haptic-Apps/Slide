@@ -1,10 +1,12 @@
 package me.ccrama.redditslide;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,18 +16,14 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -40,11 +38,9 @@ import com.lusfold.androidkeyvaluestore.KVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.http.NetworkException;
-import net.dean.jraw.paginators.Sorting;
-import net.dean.jraw.paginators.SubmissionSearchPaginator;
-import net.dean.jraw.paginators.TimePeriod;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.tuple.Triple;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -56,13 +52,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -75,6 +68,7 @@ import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
 import okhttp3.Dns;
 import okhttp3.OkHttpClient;
@@ -96,17 +90,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static HttpProxyCacheServer proxy;
 
     public static IabHelper mHelper;
-    public static       SubmissionSearchPaginator.SearchSort search                          =
-            SubmissionSearchPaginator.SearchSort.RELEVANCE;
     public static       long                                 enter_animation_time            =
             enter_animation_time_original;
     public static final int                                  enter_animation_time_multiplier = 1;
 
     public static Authentication authentication;
 
-    public static Sorting defaultSorting;
-
-    public static TimePeriod        timePeriod;
     public static SharedPreferences colors;
     public static SharedPreferences appRestart;
     public static SharedPreferences tags;
@@ -114,12 +103,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int                      dpWidth;
     public static int                      notificationTime;
     public static boolean                  videoPlugin;
-    public static boolean                  multipleBrowsers;
     public static NotificationJobScheduler notifications;
     public static       boolean isLoading = false;
     public static final long    time      = System.currentTimeMillis();
     public static boolean            fabClear;
-    public static ArrayList<Integer> lastposition;
+    public static ArrayList<Integer> lastPosition;
     public static int                currentPosition;
     public static SharedPreferences  cachedData;
     public static final boolean noGapps = true; //for testing
@@ -127,12 +115,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean            isRestarting;
     public static AutoCacheScheduler autoCache;
     public static boolean            peek;
-    private final List<Listener> listeners = new ArrayList<>();
     public        boolean      active;
     private       ImageLoader  defaultImageLoader;
     public static OkHttpClient client;
 
-    public static void forceRestart(Context context) {
+    public static boolean isNightModeAuto = false;
+
+    public static void forceRestart(Context context, boolean forceLoadScreen) {
+        if (forceLoadScreen) {
+            appRestart.edit().putString("startScreen", "").apply();
+            appRestart.edit().putBoolean("isRestarting", true).apply();
+        }
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").apply();
         }
@@ -142,44 +135,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         ProcessPhoenix.triggerRebirth(context, new Intent(context, MainActivity.class));
     }
 
-    public static void forceRestart(Context c, boolean forceLoadScreen) {
-        appRestart.edit().putString("startScreen", "").apply();
-        appRestart.edit().putBoolean("isRestarting", true).apply();
-        forceRestart(c);
+    private static int dpToPx(int dp, float xy) {
+        return Math.round(dp * xy / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    /**
-     * Converts px to dp
-     *
-     * @param px to convert to dp
-     * @param c  context of view
-     * @return dp
-     */
-    public static int pxToDp(int px, Context c) {
-        final DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
-        return Math.round(px / (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
-    /**
-     * Converts dp to px, uses vertical density
-     *
-     * @param dp to convert to px
-     * @return px
-     */
     public static int dpToPxVertical(int dp) {
-        final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
+        return dpToPx(dp, Resources.getSystem().getDisplayMetrics().ydpi);
     }
 
-    /**
-     * Converts dp to px, uses horizontal density
-     *
-     * @param dp to convert to px
-     * @return px
-     */
     public static int dpToPxHorizontal(int dp) {
-        final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return dpToPx(dp, Resources.getSystem().getDisplayMetrics().xdpi);
     }
 
     public static void defaultShareText(String title, String url, Context c) {
@@ -193,35 +158,21 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }
 
-    public static boolean isPackageInstalled(final Context ctx, String s) {
+    public static boolean isPackageInstalled(String s) {
         try {
-            final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo(s, 0);
+            final PackageInfo pi = getAppContext().getPackageManager().getPackageInfo(s, 0);
             if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
         return false;
     }
 
-    private static boolean isPackageInstalled(final Context ctx) {
-        try {
-            final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo(ctx.getString(R.string.ui_unlock_package), 0);
-            if (pi != null && pi.applicationInfo.enabled) return true;
-        } catch (final Throwable ignored) {
-        }
-        return false;
+    private static boolean isProPackageInstalled() {
+        return isPackageInstalled(getAppContext().getString(R.string.ui_unlock_package));
     }
 
-    private static boolean isVideoPluginInstalled(final Context ctx) {
-        try {
-            final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi =
-                    pm.getPackageInfo(ctx.getString(R.string.youtube_plugin_package), 0);
-            if (pi != null && pi.applicationInfo.enabled) return true;
-        } catch (final Throwable ignored) {
-        }
-        return false;
+    private static boolean isVideoPluginInstalled() {
+        return isPackageInstalled(getAppContext().getString(R.string.youtube_plugin_package));
     }
 
     public static BiMap<String, String> getInstalledBrowsers() {
@@ -289,164 +240,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return f;
     }
 
-    public static Integer getSortingId(String subreddit) {
-        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
-        Sorting sort =
-                sorting.containsKey(subreddit) ? sorting.get(subreddit) : Reddit.defaultSorting;
-
-        return getSortingId(sort);
-    }
-
-    public static Integer getSortingId(Sorting sort) {
-        switch (sort) {
-            case HOT:
-                return 0;
-            case NEW:
-                return 1;
-            case RISING:
-                return 2;
-            case TOP:
-                return 3;
-            case CONTROVERSIAL:
-                return 4;
-            default:
-                return 0;
-        }
-    }
-
-    public static Integer getSortingIdTime(String subreddit) {
-        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
-        TimePeriod time = times.containsKey(subreddit) ? times.get(subreddit) : Reddit.timePeriod;
-
-        return getSortingIdTime(time);
-    }
-
-    public static Integer getSortingIdTime(TimePeriod time) {
-        switch (time) {
-            case HOUR:
-                return 0;
-            case DAY:
-                return 1;
-            case WEEK:
-                return 2;
-            case MONTH:
-                return 3;
-            case YEAR:
-                return 4;
-            case ALL:
-                return 5;
-            default:
-                return 0;
-        }
-    }
-
-    public static Integer getSortingIdSearch() {
-        return timePeriod == TimePeriod.HOUR ? 0 : timePeriod == TimePeriod.DAY ? 1
-                : timePeriod == TimePeriod.WEEK ? 2 : timePeriod == TimePeriod.MONTH ? 3
-                        : timePeriod == TimePeriod.YEAR ? 4 : 5;
-    }
-
-    public static Integer getSortingIdSearch(Search s) {
-        return s.time == TimePeriod.HOUR ? 0 : s.time == TimePeriod.DAY ? 1
-                : s.time == TimePeriod.WEEK ? 2
-                        : s.time == TimePeriod.MONTH ? 3 : s.time == TimePeriod.YEAR ? 4 : 5;
-    }
-
-    public static Integer getTypeSearch() {
-        return search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0
-                : search == SubmissionSearchPaginator.SearchSort.TOP ? 1
-                        : search == SubmissionSearchPaginator.SearchSort.NEW ? 2 : 3;
-    }
-
-    public static String[] getSortingStrings(Context c) {
-        String[] current = new String[]{
-                c.getString(R.string.sorting_hot), c.getString(R.string.sorting_new),
-                c.getString(R.string.sorting_rising), c.getString(R.string.sorting_top),
-                c.getString(R.string.sorting_controversial),
-        };
-        return current;
-    }
-
-    public static Spannable[] getSortingSpannables(Context c, String currentSub) {
-        return getSortingSpannables(c, getSortingId(currentSub), currentSub);
-
-    }
-
-    public static Spannable[] getSortingSpannables(Context c, Sorting sorting) {
-        return getSortingSpannables(c, getSortingId(sorting), " ");
-    }
-
-    private static Spannable[] getSortingSpannables(Context c, int sortingId, String sub) {
-        ArrayList<Spannable> spannables = new ArrayList<>();
-        String[] sortingStrings = getSortingStrings(c);
-        for (int i = 0; i < sortingStrings.length; i++) {
-            SpannableString spanString = new SpannableString(sortingStrings[i]);
-            if (i == sortingId) {
-                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(c).getColor(sub)),
-                        0, spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-            }
-            spannables.add(spanString);
-        }
-        return spannables.toArray(new Spannable[spannables.size()]);
-    }
-
-    public static String[] getSortingStringsTime(Context c) {
-        String[] current = new String[]{
-                c.getString(R.string.sorting_hour), c.getString(R.string.sorting_day),
-                c.getString(R.string.sorting_week), c.getString(R.string.sorting_month),
-                c.getString(R.string.sorting_year), c.getString(R.string.sorting_all),
-        };
-        return current;
-    }
-
-    public static Spannable[] getSortingSpannablesTime(Context c, String currentSub) {
-        return getSortingSpannablesTime(c, getSortingIdTime(currentSub), currentSub);
-    }
-
-    public static Spannable[] getSortingSpannablesTime(Context c, TimePeriod time) {
-        return getSortingSpannablesTime(c, getSortingIdTime(time), " ");
-    }
-
-    private static Spannable[] getSortingSpannablesTime(Context c, int sortingId, String sub) {
-        ArrayList<Spannable> spannables = new ArrayList<>();
-        String[] sortingStrings = getSortingStringsTime(c);
-        for (int i = 0; i < sortingStrings.length; i++) {
-            SpannableString spanString = new SpannableString(sortingStrings[i]);
-            if (i == sortingId) {
-                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(c).getColor(sub)),
-                        0, spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-            }
-            spannables.add(spanString);
-        }
-        return spannables.toArray(new Spannable[spannables.size()]);
-    }
-
-    public static String[] getSortingStringsComments(Context c) {
-        return new String[]{
-                c.getString(R.string.sorting_best), c.getString(R.string.sorting_top),
-                c.getString(R.string.sorting_new), c.getString(R.string.sorting_controversial),
-                c.getString(R.string.sorting_old), c.getString(R.string.sorting_ama),
-        };
-    }
-
-    public static String[] getSearch(Context c) {
-        return new String[]{
-                c.getString(R.string.search_relevance), c.getString(R.string.search_top),
-                c.getString(R.string.search_new), c.getString(R.string.search_comments)
-        };
-    }
-
-    public static String[] getSortingStringsSearch(Context c) {
-        return new String[]{
-                c.getString(R.string.sorting_search_hour), c.getString(R.string.sorting_search_day),
-                c.getString(R.string.sorting_search_week),
-                c.getString(R.string.sorting_search_month),
-                c.getString(R.string.sorting_search_year), c.getString(R.string.sorting_search_all),
-        };
-    }
-
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -466,7 +259,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityResumed(Activity activity) {
-        doLanguages(activity);
+        doLanguages();
         if (client == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.dns(new GfycatIpv4Dns());
@@ -529,7 +322,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                                                   .putBoolean("forceoffline",
                                                                                           true)
                                                                                   .apply();
-                                                                          Reddit.forceRestart(c);
+                                                                          Reddit.forceRestart(c,
+                                                                                  false);
                                                                       }
                                                                   })
                                                           .show();
@@ -648,7 +442,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        doLanguages(activity);
+        doLanguages();
     }
 
     @Override
@@ -686,6 +480,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             client = new OkHttpClient();
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setNightModeAuto();
+        }
+
         overrideLanguage =
                 getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE,
                         false);
@@ -715,15 +513,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
         ImageFlairs.flairs = getSharedPreferences("FLAIRS", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
-        defaultSorting = SettingValues.defaultSorting;
-        timePeriod = SettingValues.timePeriod;
+        SortingUtil.defaultSorting = SettingValues.defaultSorting;
+        SortingUtil.timePeriod = SettingValues.timePeriod;
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
         KVStore.init(this, "SEEN");
-        doLanguages(this);
-        lastposition = new ArrayList<>();
+        doLanguages();
+        lastPosition = new ArrayList<>();
 
-        new SetupIAB().execute();
+        if (BuildConfig.FLAVOR == "withGPlay") {
+            new SetupIAB().execute();
+        }
 
         if (!appRestart.contains("startScreen")) {
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
@@ -761,137 +561,74 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             notificationTime = 360;
         }
 
-        SettingValues.tabletUI = isPackageInstalled(this) || FDroid.isFDroid;
-        videoPlugin = isVideoPluginInstalled(this);
+        SettingValues.isPro = isProPackageInstalled() || FDroid.isFDroid;
+        videoPlugin = isVideoPluginInstalled();
 
         GifCache.init(this);
 
         setupNotificationChannels();
     }
 
-    public void doLanguages(Context c) {
+    public void doLanguages() {
         if (SettingValues.overrideLanguage) {
             Locale locale = new Locale("en_US");
             Locale.setDefault(locale);
-            Configuration config = c.getResources().getConfiguration();
+            Configuration config = getResources().getConfiguration();
             config.locale = locale;
-            c.getResources().updateConfiguration(config, null);
+            getResources().updateConfiguration(config, null);
         }
     }
 
     public boolean isNotificationAccessEnabled() {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
-                Integer.MAX_VALUE)) {
-            if (NotificationPiggyback.class.getName().equals(service.service.getClassName())) {
-                return true;
+        if (manager != null) {
+            for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
+                    Integer.MAX_VALUE)) {
+                if (NotificationPiggyback.class.getName().equals(service.service.getClassName())) {
+                    return true;
+                }
             }
         }
-
         return false;
     }
 
 
-    public static String CHANNEL_IMG           = "IMG_DOWNLOADS";
-    public static String CHANNEL_COMMENT_CACHE = "POST_SYNC";
-    public static String CHANNEL_MAIL          = "MAIL_NOTIFY";
-    public static String CHANNEL_MAIL_SOUND    = "MAIL_NOTIFY_SOUND";
-    public static String CHANNEL_MODMAIL       = "MODMAIL_NOTIFY";
-    public static String CHANNEL_MODMAIL_SOUND = "MODMAIL_NOTIFY_SOUND";
-    public static String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
+    public static final String CHANNEL_IMG           = "IMG_DOWNLOADS";
+    public static final String CHANNEL_COMMENT_CACHE = "POST_SYNC";
+    public static final String CHANNEL_MAIL          = "MAIL_NOTIFY";
+    public static final String CHANNEL_MODMAIL       = "MODMAIL_NOTIFY";
+    public static final String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
 
     public void setupNotificationChannels() {
         if (SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            // Each triple contains the channel ID, name, and importance level
+            List<Triple<String, String, Integer>> notificationTripleList =
+                    new ArrayList<Triple<String, String, Integer>>() {{
+                        add(Triple.of(CHANNEL_IMG, "Image downloads",
+                                NotificationManager.IMPORTANCE_LOW));
+                        add(Triple.of(CHANNEL_COMMENT_CACHE, "Comment caching",
+                                NotificationManager.IMPORTANCE_LOW));
+                        add(Triple.of(CHANNEL_MAIL, "Reddit mail",
+                                NotificationManager.IMPORTANCE_HIGH));
+                        add(Triple.of(CHANNEL_MODMAIL, "Reddit modmail",
+                                NotificationManager.IMPORTANCE_HIGH));
+                        add(Triple.of(CHANNEL_SUBCHECKING, "Submission post checking",
+                                NotificationManager.IMPORTANCE_LOW));
+                    }};
 
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            {
-                String channelId = CHANNEL_IMG;
-                int importance = NotificationManager.IMPORTANCE_LOW;
+            for (Triple<String, String, Integer> notificationTriple : notificationTripleList) {
                 NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Image downloads", importance);
+                        new NotificationChannel(notificationTriple.getLeft(),
+                                notificationTriple.getMiddle(), notificationTriple.getRight());
                 notificationChannel.enableLights(true);
-                notificationChannel.setShowBadge(false);
-                notificationChannel.setLightColor(Palette.getColor(""));
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
-            }
-            {
-                String channelId = CHANNEL_COMMENT_CACHE;
-                int importance = NotificationManager.IMPORTANCE_LOW;
-                NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Comment caching", importance);
-                notificationChannel.enableLights(true);
-                notificationChannel.setShowBadge(false);
-                notificationChannel.setLightColor(Palette.getColor(""));
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
-            }
-            {
-                String channelId = CHANNEL_MAIL;
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Reddit mail", importance);
-                notificationChannel.enableLights(true);
-                notificationChannel.setSound(null, null);
-                notificationChannel.setShowBadge(true);
-                notificationChannel.setLightColor(Palette.getColor(""));
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
-            }
-            {
-                String channelId = CHANNEL_MAIL_SOUND;
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Reddit mail", importance);
-                notificationChannel.enableLights(true);
-                notificationChannel.setShowBadge(true);
-                notificationChannel.enableVibration(true);
-                notificationChannel.setLightColor(Palette.getColor(""));
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
-            }
-            {
-                String channelId = CHANNEL_MODMAIL;
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Reddit modmail", importance);
-                notificationChannel.enableLights(true);
-                notificationChannel.setSound(null, null);
-                notificationChannel.setShowBadge(true);
-                notificationChannel.setLightColor(getResources().getColor(R.color.md_red_500));
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
-            }
-            {
-                String channelId = CHANNEL_MODMAIL_SOUND;
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Reddit modmail", importance);
-                notificationChannel.enableLights(true);
-                notificationChannel.setShowBadge(true);
-                notificationChannel.enableVibration(true);
-                notificationChannel.setLightColor(getResources().getColor(R.color.md_red_500));
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
-            }
-            {
-                String channelId = CHANNEL_SUBCHECKING;
-                int importance = NotificationManager.IMPORTANCE_LOW;
-                NotificationChannel notificationChannel =
-                        new NotificationChannel(channelId, "Submission post checking", importance);
-                notificationChannel.enableLights(true);
-                notificationChannel.setSound(null, null);
-                notificationChannel.setLightColor(Palette.getColor(""));
-                notificationChannel.setShowBadge(false);
+                notificationChannel.setShowBadge(
+                        notificationTriple.getRight() == NotificationManager.IMPORTANCE_HIGH);
+                notificationChannel.setLightColor(
+                        notificationTriple.getLeft().contains("MODMAIL") ? getResources().getColor(
+                                R.color.md_red_500, null) : Palette.getColor(""));
                 if (notificationManager != null) {
                     notificationManager.createNotificationChannel(notificationChannel);
                 }
@@ -899,59 +636,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-    public static void setSorting(String s, Sorting sort) {
-        sorting.put(s.toLowerCase(Locale.ENGLISH), sort);
-    }
-
-    public static final Map<String, Sorting> sorting = new HashMap<>();
-
-    public static Sorting getSorting(String subreddit, Sorting defaultSort) {
-        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
-        if (sorting.containsKey(subreddit)) {
-            return sorting.get(subreddit);
-        } else {
-            return defaultSort;
-        }
-    }
-
-    public static TimePeriod getTime(String subreddit, TimePeriod defaultTime) {
-        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
-        if (times.containsKey(subreddit)) {
-            return times.get(subreddit);
-        } else {
-            return defaultTime;
-        }
-    }
-
-    public static void setTime(String s, TimePeriod sort) {
-        times.put(s.toLowerCase(Locale.ENGLISH), sort);
-    }
-
-    public static final Map<String, TimePeriod> times = new HashMap<>();
-
-    public static TimePeriod getTime(String subreddit) {
-        subreddit = subreddit.toLowerCase(Locale.ENGLISH);
-        if (times.containsKey(subreddit)) {
-            return times.get(subreddit);
-        } else {
-            return Reddit.timePeriod;
-        }
-    }
-
-    public interface Listener {
-        void onBecameForeground();
-
-        void onBecameBackground();
-    }
-
-    private class SetupIAB extends AsyncTask<Void, Void, Void> {
-
+    private static class SetupIAB extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             if (mHelper == null) {
                 try {
-                    mHelper = new IabHelper(Reddit.this,
-                            SecretConstants.getBase64EncodedPublicKey(getBaseContext()));
+                    mHelper = new IabHelper(getAppContext(),
+                            SecretConstants.getBase64EncodedPublicKey(getAppContext()));
                     mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
                         public void onIabSetupFinished(IabResult result) {
                             if (!result.isSuccess()) {
@@ -1000,5 +691,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static Context getAppContext() {
         return mApplication.getApplicationContext();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private static void setNightModeAuto() {
+        UiModeManager uiModeManager =
+                (UiModeManager) getAppContext().getSystemService(Context.UI_MODE_SERVICE);
+        if (uiModeManager != null) {
+            uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            isNightModeAuto = true;
+        } else {
+            isNightModeAuto = false;
+        }
     }
 }

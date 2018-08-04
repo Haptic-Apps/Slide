@@ -295,7 +295,7 @@ public class Settings extends BaseActivity
 
     private void setSettingItems() {
         View pro = findViewById(R.id.settings_child_pro);
-        if (SettingValues.tabletUI) {
+        if (SettingValues.isPro) {
             pro.setVisibility(View.GONE);
         } else {
             pro.setOnClickListener(new OnSingleClickListener() {
@@ -473,7 +473,7 @@ public class Settings extends BaseActivity
                   /*  Intent inte = new Intent(Overview.this, Overview.class);
                     inte.putExtra("type", UpdateSubreddits.COLLECTIONS);
                     Overview.this.startActivity(inte);*/
-                if (SettingValues.tabletUI) {
+                if (SettingValues.isPro) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
                     final AlertDialogWrapper.Builder builder =

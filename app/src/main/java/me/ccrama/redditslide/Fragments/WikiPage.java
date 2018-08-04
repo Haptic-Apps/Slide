@@ -1,15 +1,18 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import me.ccrama.redditslide.Activities.Wiki;
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -70,12 +73,15 @@ public class WikiPage extends Fragment {
     }
 
     private void setUpWebView() {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new WikiPageJavaScriptInterface(), "Slide");
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.toLowerCase().startsWith(wikiUrl.toLowerCase()) && listener != null) {
                     String pagePiece = url.toLowerCase().replace(wikiUrl.toLowerCase(), "")
-                            .split("/")[0]
+                            .split("\\?")[0]
                             .split("#")[0];
                     listener.embeddedWikiLinkClicked(pagePiece);
                 } else {
@@ -94,12 +100,19 @@ public class WikiPage extends Fragment {
                 }
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        }
     }
 
     private void onDomRetrieved(String dom) {
         webView.loadDataWithBaseURL(
                 wikiUrl,
-                "<head>".concat(Wiki.getGlobalCustomCss()).concat("</head>").concat(dom),
+                "<head>".concat(Wiki.getGlobalCustomCss())
+                        .concat(Wiki.getGlobalCustomJavaScript())
+                        .concat("</head>")
+                        .concat(dom),
                 "text/html",
                 "utf-8",
                 null);
@@ -139,7 +152,16 @@ public class WikiPage extends Fragment {
         }
     }
 
+    private class WikiPageJavaScriptInterface {
+        @JavascriptInterface
+        public void overflowTouched() {
+            listener.overflowTouched();
+        }
+    }
+
     public interface WikiPageListener {
         void embeddedWikiLinkClicked(String wikiPageTitle);
+
+        void overflowTouched();
     }
 }

@@ -50,6 +50,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.SortingUtil;
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -192,6 +193,14 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     /* Allow SettingsGeneral and Settings Activity classes to use the same XML functionality */
     public void Bind() {
+        context.findViewById(R.id.settings_general_drawer_items)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DrawerItemsDialog(new MaterialDialog.Builder(context)).show();
+                    }
+                });
+
         {
             SwitchCompat single = context.findViewById(R.id.settings_general_immersivemode);
 
@@ -540,7 +549,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         if (context.findViewById(R.id.settings_general_sorting_current) != null) {
             ((TextView) context.findViewById(R.id.settings_general_sorting_current)).setText(
-                    Reddit.getSortingStrings(context.getBaseContext())[Reddit.getSortingId("")]);
+                    SortingUtil.getSortingStrings()[SortingUtil.getSortingId("")]);
         }
 
         {
@@ -556,41 +565,41 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         switch (i) {
                                             case 0:
-                                                Reddit.defaultSorting = Sorting.HOT;
+                                                SortingUtil.defaultSorting = Sorting.HOT;
                                                 break;
                                             case 1:
-                                                Reddit.defaultSorting = Sorting.NEW;
+                                                SortingUtil.defaultSorting = Sorting.NEW;
                                                 break;
                                             case 2:
-                                                Reddit.defaultSorting = Sorting.RISING;
+                                                SortingUtil.defaultSorting = Sorting.RISING;
                                                 break;
                                             case 3:
-                                                Reddit.defaultSorting = Sorting.TOP;
+                                                SortingUtil.defaultSorting = Sorting.TOP;
                                                 askTimePeriod();
                                                 return;
                                             case 4:
-                                                Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                                SortingUtil.defaultSorting = Sorting.CONTROVERSIAL;
                                                 askTimePeriod();
                                                 return;
                                         }
                                         SettingValues.prefs.edit()
                                                 .putString("defaultSorting",
-                                                        Reddit.defaultSorting.name())
+                                                        SortingUtil.defaultSorting.name())
                                                 .apply();
-                                        SettingValues.defaultSorting = Reddit.defaultSorting;
+                                        SettingValues.defaultSorting = SortingUtil.defaultSorting;
 
                                         if (context.findViewById(R.id.settings_general_sorting_current) != null) {
                                             ((TextView) context.findViewById(R.id.settings_general_sorting_current)).setText(
-                                                    Reddit.getSortingStrings(context.getBaseContext())[Reddit.getSortingId("")]);
+                                                    SortingUtil.getSortingStrings()[SortingUtil.getSortingId(
+                                                            "")]);
                                         }
                                     }
                                 };
                         AlertDialogWrapper.Builder builder =
                                 new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
                         builder.setTitle(R.string.sorting_choose);
-                        builder.setSingleChoiceItems(
-                                Reddit.getSortingStrings(context.getBaseContext()),
-                                Reddit.getSortingId(""), l2);
+                        builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
+                                SortingUtil.getSortingId(""), l2);
                         builder.show();
                     }
                 });
@@ -609,7 +618,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
             if (context.findViewById(R.id.settings_general_sorting_current_comment) != null) {
                 ((TextView) context.findViewById(R.id.settings_general_sorting_current_comment)).setText(
-                        Reddit.getSortingStringsComments(context.getBaseContext())[i2]);
+                        SortingUtil.getSortingCommentsStrings()[i2]);
             }
 
             if (context.findViewById(R.id.settings_general_sorting_comment) != null) {
@@ -651,7 +660,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                         SettingValues.defaultCommentSorting = commentSorting;
                                         if (context.findViewById(R.id.settings_general_sorting_current_comment) != null) {
                                             ((TextView) context.findViewById(R.id.settings_general_sorting_current_comment)).setText(
-                                                    Reddit.getSortingStringsComments(context.getBaseContext())[i]);
+                                                    SortingUtil.getSortingCommentsStrings()[i]);
                                         }
                                     }
                                 };
@@ -678,7 +687,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         {
             View notifs = context.findViewById(R.id.settings_general_redditnotifs);
             if (notifs != null) {
-                if (!Reddit.isPackageInstalled(context, "com.reddit.frontpage") ||
+                if (!Reddit.isPackageInstalled("com.reddit.frontpage") ||
                         Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     notifs.setVisibility(View.GONE);
                     if (context.findViewById(R.id.settings_general_installreddit) != null) {
@@ -725,41 +734,42 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        Reddit.timePeriod = TimePeriod.HOUR;
+                        SortingUtil.timePeriod = TimePeriod.HOUR;
                         break;
                     case 1:
-                        Reddit.timePeriod = TimePeriod.DAY;
+                        SortingUtil.timePeriod = TimePeriod.DAY;
                         break;
                     case 2:
-                        Reddit.timePeriod = TimePeriod.WEEK;
+                        SortingUtil.timePeriod = TimePeriod.WEEK;
                         break;
                     case 3:
-                        Reddit.timePeriod = TimePeriod.MONTH;
+                        SortingUtil.timePeriod = TimePeriod.MONTH;
                         break;
                     case 4:
-                        Reddit.timePeriod = TimePeriod.YEAR;
+                        SortingUtil.timePeriod = TimePeriod.YEAR;
                         break;
                     case 5:
-                        Reddit.timePeriod = TimePeriod.ALL;
+                        SortingUtil.timePeriod = TimePeriod.ALL;
                         break;
                 }
                 SettingValues.prefs.edit()
-                        .putString("defaultSorting", Reddit.defaultSorting.name())
+                        .putString("defaultSorting", SortingUtil.defaultSorting.name())
                         .apply();
-                SettingValues.prefs.edit()
-                        .putString("timePeriod", Reddit.timePeriod.name())
+                SettingValues.prefs.edit().putString("timePeriod", SortingUtil.timePeriod.name())
                         .apply();
-                SettingValues.defaultSorting = Reddit.defaultSorting;
-                SettingValues.timePeriod = Reddit.timePeriod;
+                SettingValues.defaultSorting = SortingUtil.defaultSorting;
+                SettingValues.timePeriod = SortingUtil.timePeriod;
                 ((TextView) context.findViewById(R.id.settings_general_sorting_current)).setText(
-                        Reddit.getSortingStrings(context.getBaseContext())[Reddit.getSortingId(
-                                "")] + " > " + Reddit.getSortingStringsTime(context.getBaseContext())[Reddit.getSortingIdTime("")]);
+                        SortingUtil.getSortingStrings()[SortingUtil.getSortingId("")]
+                                + " > "
+                                + SortingUtil.getSortingTimesStrings()[SortingUtil.getSortingTimeId(
+                                "")]);
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStringsTime(context.getBaseContext()),
-                Reddit.getSortingIdTime(""), l2);
+        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
+                SortingUtil.getSortingTimeId(""), l2);
         builder.show();
     }
 

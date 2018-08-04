@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.SubChooseAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
+import me.ccrama.redditslide.util.SortingUtil;
 
 /**
  * Created by carlo_000 on 5/4/2016.
@@ -128,8 +128,9 @@ public class SetupWidget extends BaseActivity {
                 if (i == 3 || i == 4) {
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
                     builder.setTitle(R.string.sorting_choose);
-                    builder.setSingleChoiceItems(
-                            Reddit.getSortingStringsTime(getBaseContext()), Reddit.getSortingIdTime(""), new DialogInterface.OnClickListener() {
+                    builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
+                            SortingUtil.getSortingTimeId(""),
+                            new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     SubredditWidgetProvider.setSortingTime(appWidgetId, i, SetupWidget.this);
@@ -168,8 +169,8 @@ public class SetupWidget extends BaseActivity {
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(
-                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(""), l2);
+        builder.setSingleChoiceItems(SortingUtil.getSortingStrings(), SortingUtil.getSortingId(""),
+                l2);
         builder.show();
         // this intent is essential to show the widget
         // if this intent is not included,you can't show

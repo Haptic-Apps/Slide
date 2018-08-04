@@ -43,10 +43,6 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class Website extends BaseActivityAnim {
 
-    public static final String EXTRA_URL        = "url";
-    public static final String EXTRA_COLOR      = "color";
-    public static final String ADAPTER_POSITION = "adapter_position";
-
     WebView              v;
     String               url;
     int                  subredditColor;
@@ -79,7 +75,7 @@ public class Website extends BaseActivityAnim {
         MenuItem item = menu.findItem(R.id.store_cookies);
         item.setChecked(SettingValues.cookies);
 
-        if (!getIntent().hasExtra(ADAPTER_POSITION)) {
+        if (!getIntent().hasExtra(LinkUtil.ADAPTER_POSITION)) {
             menu.findItem(R.id.comments).setVisible(false);
         }
         return true;
@@ -108,7 +104,7 @@ public class Website extends BaseActivityAnim {
                 v.goBack();
                 return true;
             case R.id.comments:
-                final int commentUrl = getIntent().getExtras().getInt(ADAPTER_POSITION);
+                final int commentUrl = getIntent().getExtras().getInt(LinkUtil.ADAPTER_POSITION);
                 finish();
                 SubmissionsView.datachanged(commentUrl);
                 break;
@@ -134,7 +130,6 @@ public class Website extends BaseActivityAnim {
                             @Override
                             public void onReceiveValue(String html) {
                                 Intent i = new Intent(Website.this, ReaderMode.class);
-
                                 if (html != null && !html.isEmpty()) {
                                     ReaderMode.html = html;
                                     LogUtil.v(html);
@@ -142,7 +137,7 @@ public class Website extends BaseActivityAnim {
                                     ReaderMode.html = "";
                                     i.putExtra("url", v.getUrl());
                                 }
-                                i.putExtra(ReaderMode.EXTRA_COLOR, subredditColor);
+                                i.putExtra(LinkUtil.EXTRA_COLOR, subredditColor);
                                 startActivity(i);
 
                             }
@@ -175,8 +170,9 @@ public class Website extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme("");
         setContentView(R.layout.activity_web);
-        url = getIntent().getExtras().getString(EXTRA_URL, "");
-        subredditColor = getIntent().getExtras().getInt(EXTRA_COLOR, Palette.getDefaultColor());
+        url = getIntent().getExtras().getString(LinkUtil.EXTRA_URL, "");
+        subredditColor =
+                getIntent().getExtras().getInt(LinkUtil.EXTRA_COLOR, Palette.getDefaultColor());
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setupAppBar(R.id.toolbar, "", true, subredditColor, R.id.appbar);
@@ -352,7 +348,8 @@ public class Website extends BaseActivityAnim {
             } else {
                 ad = loadedUrls.get(url);
             }
-            return ad && (currentURL != null && !currentURL.contains("twitter.com")) && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
+            return ad && (currentURL != null && !currentURL.contains("twitter.com")) && SettingValues.isPro
+                    ? AdBlocker.createEmptyResource()
                     : super.shouldInterceptRequest(view, url);
         }
 

@@ -845,7 +845,7 @@ public class MediaView extends FullScreenActivity
                         } catch (Exception e2) {
                             e2.printStackTrace();
                             Intent i = new Intent(MediaView.this, Website.class);
-                            i.putExtra(Website.EXTRA_URL, finalUrl);
+                            i.putExtra(LinkUtil.EXTRA_URL, finalUrl);
                             MediaView.this.startActivity(i);
                             finish();
                         }
@@ -900,14 +900,14 @@ public class MediaView extends FullScreenActivity
                                         });
                             } else {
                                 Intent i = new Intent(MediaView.this, Website.class);
-                                i.putExtra(Website.EXTRA_URL, finalUrl);
+                                i.putExtra(LinkUtil.EXTRA_URL, finalUrl);
                                 MediaView.this.startActivity(i);
                                 finish();
                             }
                         } catch (Exception e2) {
                             e2.printStackTrace();
                             Intent i = new Intent(MediaView.this, Website.class);
-                            i.putExtra(Website.EXTRA_URL, finalUrl);
+                            i.putExtra(LinkUtil.EXTRA_URL, finalUrl);
                             MediaView.this.startActivity(i);
                             finish();
                         }
@@ -941,7 +941,7 @@ public class MediaView extends FullScreenActivity
                     doLoadImage(url);
                 } else {
                     Intent i = new Intent(MediaView.this, Website.class);
-                    i.putExtra(Website.EXTRA_URL, contentUrl);
+                    i.putExtra(LinkUtil.EXTRA_URL, contentUrl);
                     MediaView.this.startActivity(i);
                     finish();
                 }
@@ -1000,7 +1000,7 @@ public class MediaView extends FullScreenActivity
                                     actuallyLoaded = finalUrl2;
                                 } else if (!imageShown) {
                                     Intent i = new Intent(MediaView.this, Website.class);
-                                    i.putExtra(Website.EXTRA_URL, finalUrl2);
+                                    i.putExtra(LinkUtil.EXTRA_URL, finalUrl2);
                                     MediaView.this.startActivity(i);
                                     finish();
                                 }

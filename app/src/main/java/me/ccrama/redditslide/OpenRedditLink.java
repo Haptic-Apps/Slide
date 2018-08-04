@@ -204,7 +204,7 @@ public class OpenRedditLink {
                         LinkUtil.openUrl(oldUrl, Palette.getStatusBarColor(), (Activity) context);
                     } else {
                         i = new Intent(context, Website.class);
-                        i.putExtra(Website.EXTRA_URL, oldUrl);
+                        i.putExtra(LinkUtil.EXTRA_URL, oldUrl);
                     }
                 } else {
                     return false;

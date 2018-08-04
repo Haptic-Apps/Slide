@@ -369,7 +369,7 @@ public class SettingsBackup extends BaseActivityAnim
     @Override
     protected void onStart() {
         super.onStart();
-        if (SettingValues.tabletUI) mGoogleApiClient.connect();
+        if (SettingValues.isPro) mGoogleApiClient.connect();
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -378,7 +378,7 @@ public class SettingsBackup extends BaseActivityAnim
         setContentView(R.layout.activity_settings_sync);
         setupAppBar(R.id.toolbar, R.string.settings_title_backup, true, true);
 
-        if (SettingValues.tabletUI) {
+        if (SettingValues.isPro) {
             mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(Drive.API)
                     .addScope(Drive.SCOPE_FILE)
                     .addScope(Drive.SCOPE_APPFOLDER)

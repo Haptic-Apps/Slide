@@ -39,6 +39,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.SortingUtil;
 
 public class Search extends BaseActivityAnim {
 
@@ -112,13 +113,15 @@ public class Search extends BaseActivityAnim {
 
                 //When the .name() is returned for both of the ENUMs, it will be in all caps.
                 //So, make it lowercase, then capitalize the first letter of each.
-                getSupportActionBar()
-                        .setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
+                getSupportActionBar().setSubtitle(StringUtils.capitalize(
+                        SortingUtil.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils
+                        .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
         builder.setTitle(R.string.sorting_time_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStringsSearch(getBaseContext()), Reddit.getSortingIdSearch(this), l2);
+        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
+                SortingUtil.getSortingSearchId(this), l2);
         builder.show();
     }
 
@@ -129,29 +132,30 @@ public class Search extends BaseActivityAnim {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        Reddit.search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
+                        SortingUtil.search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
                         break;
                     case 1:
-                        Reddit.search = SubmissionSearchPaginator.SearchSort.TOP;
+                        SortingUtil.search = SubmissionSearchPaginator.SearchSort.TOP;
                         break;
                     case 2:
-                        Reddit.search = SubmissionSearchPaginator.SearchSort.NEW;
+                        SortingUtil.search = SubmissionSearchPaginator.SearchSort.NEW;
                         break;
                     case 3:
-                        Reddit.search = SubmissionSearchPaginator.SearchSort.COMMENTS;
+                        SortingUtil.search = SubmissionSearchPaginator.SearchSort.COMMENTS;
                         break;
                 }
                 reloadSubs();
 
                 //When the .name() is returned for both of the ENUMs, it will be in all caps.
                 //So, make it lowercase, then capitalize the first letter of each.
-                getSupportActionBar()
-                        .setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
+                getSupportActionBar().setSubtitle(StringUtils.capitalize(
+                        SortingUtil.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils
+                        .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSearch(getBaseContext()), Reddit.getTypeSearch(), l2);
+        builder.setSingleChoiceItems(SortingUtil.getSearch(), SortingUtil.getSearchType(), l2);
         builder.show();
     }
 
@@ -253,7 +257,10 @@ public class Search extends BaseActivityAnim {
 
         //When the .name() is returned for both of the ENUMs, it will be in all caps.
         //So, make it lowercase, then capitalize the first letter of each.
-        getSupportActionBar().setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase(Locale.ENGLISH)) + " › " + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
+        getSupportActionBar().setSubtitle(
+                StringUtils.capitalize(SortingUtil.search.name().toLowerCase(Locale.ENGLISH))
+                        + " › "
+                        + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
@@ -341,7 +348,7 @@ public class Search extends BaseActivityAnim {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             singleColumnMultiWindow = ((Activity)context).isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
         }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI && !singleColumnMultiWindow) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT
                 && SettingValues.dualPortrait) {
