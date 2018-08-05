@@ -190,7 +190,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private String wrapAlternateSpoilers(String html) {
-        String replacement = "<a href=\"/spoiler\">spoiler&lt; [[s[ $1]s]]</a>";
+        String replacement = "<a href=\"/spoiler\">spoiler&lt; [[s[$1]s]]</a>";
 
         html = htmlSpoilerPattern.matcher(html).replaceAll(replacement);
         html = nativeSpoilerPattern.matcher(html).replaceAll(replacement);
@@ -722,7 +722,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 sequence.setSpan(new URLSpanNoUnderline("#spoilerhidden"), start, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 // spoiler text has a space at the front
-                sequence.setSpan(backgroundColorSpan, start + 1, end - 4,
+                sequence.setSpan(backgroundColorSpan, start, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 sequence.setSpan(underneathColorSpan, start, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);
