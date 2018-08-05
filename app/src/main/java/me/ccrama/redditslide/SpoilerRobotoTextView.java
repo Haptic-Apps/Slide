@@ -190,23 +190,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private String wrapAlternateSpoilers(String html) {
-        html = formatSpoilers(html, htmlSpoilerPattern.matcher(html));
-        html = formatSpoilers(html, nativeSpoilerPattern.matcher(html));
-        return html;
-    }
+        String replacement = "<a href=\"/spoiler\">spoiler&lt; [[s[ $1]s]]</a>";
 
-    private String formatSpoilers(String html, Matcher matcher) {
-        while (matcher.find()) {
-            String text = matcher.group(1);
-            String inner = "<a href=\"/spoiler\">spoiler&lt; [[s[ "
-                    + text
-                    + "]s]]</a>";
-
-            int start = matcher.start(1);
-            html = html.substring(0, start)
-                    + inner
-                    + html.substring(start + text.length());
-        }
+        html = htmlSpoilerPattern.matcher(html).replaceAll(replacement);
+        html = nativeSpoilerPattern.matcher(html).replaceAll(replacement);
         return html;
     }
 
