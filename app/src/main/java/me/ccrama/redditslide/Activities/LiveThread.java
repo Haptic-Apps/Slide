@@ -277,9 +277,10 @@ public class LiveThread extends BaseActivityAnim {
                                     try {
                                         LiveUpdate u = new LiveUpdate(o.readTree(s).get("payload").get("data"));
                                         updates.add(0, u);
-                                        runOnUiThread(() ->
+                                        runOnUiThread(() -> {
                                                 adapter.notifyItemInserted(0);
-                                                baseRecycler.smoothScrollToPosition(0));
+                                                baseRecycler.smoothScrollToPosition(0);
+                                        });
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
