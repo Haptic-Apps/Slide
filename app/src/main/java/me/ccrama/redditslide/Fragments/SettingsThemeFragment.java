@@ -2,13 +2,18 @@ package me.ccrama.redditslide.Fragments;
 
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ArrayRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Pair;
@@ -16,20 +21,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.Slide;
 import me.ccrama.redditslide.ColorPreferences;
@@ -39,8 +32,13 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import org.apache.commons.lang3.ArrayUtils;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsFragment.RestartActivity> {
@@ -380,7 +378,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 }
             }
         });
-        LinearLayout nightMode = (LinearLayout) context.findViewById(R.id.settings_theme_night);
+        final LinearLayout nightMode = (LinearLayout) context.findViewById(R.id.settings_theme_night);
         assert nightMode != null;
         nightMode.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -398,16 +396,27 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                             //todo save
                         }
                     });
-                    SwitchCompat s = dialog.findViewById(R.id.enabled);
-                    s.setChecked(SettingValues.nightMode);
-                    s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    final Spinner startSpinner =
+                            dialoglayout.findViewById(R.id.start_spinner);
+                    final Spinner endSpinner =
+                            dialoglayout.findViewById(R.id.end_spinner);
+                    AppCompatSpinner nightModeStateSpinner = dialog.findViewById(R.id.night_mode_state);
+                    nightModeStateSpinner.setAdapter(NightModeArrayAdapter.createFromResource(dialog.getContext(), R.array.night_mode_state, android.R.layout.simple_spinner_dropdown_item));
+                    nightModeStateSpinner.setSelection(SettingValues.nightModeState);
+                    nightModeStateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            SettingValues.nightMode = isChecked;
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            startSpinner.setEnabled(position == SettingValues.NightModeState.MANUAL.ordinal());
+                            endSpinner.setEnabled(position == SettingValues.NightModeState.MANUAL.ordinal());
+                            SettingValues.nightModeState = position;
                             SettingValues.prefs.edit()
-                                    .putBoolean(SettingValues.PREF_NIGHT_MODE, isChecked)
+                                    .putInt(SettingValues.PREF_NIGHT_MODE_STATE, position)
                                     .apply();
                             SettingsThemeFragment.changed = true;
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
                     for (final Pair<Integer, Integer> pair : ColorPreferences.themePairList) {
@@ -433,101 +442,98 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                                     });
                         }
                     }
-                    if (!Reddit.isNightModeAuto) {
-                        {
-                            final List<String> timesStart = new ArrayList<String>() {{
-                                add("6pm");
-                                add("7pm");
-                                add("8pm");
-                                add("9pm");
-                                add("10pm");
-                                add("11pm");
-                            }};
-                            dialoglayout.findViewById(R.id.start_spinner_layout)
-                                    .setVisibility(View.VISIBLE);
-                            final Spinner startSpinner =
-                                    dialoglayout.findViewById(R.id.start_spinner);
-                            final ArrayAdapter<String> startAdapter = new ArrayAdapter<>(context,
-                                    android.R.layout.simple_spinner_item, timesStart);
-                            startAdapter.setDropDownViewResource(
-                                    android.R.layout.simple_spinner_dropdown_item);
-                            startSpinner.setAdapter(startAdapter);
+                    {
+                        startSpinner.setEnabled(SettingValues.nightModeState == SettingValues.NightModeState.MANUAL.ordinal());
+                        endSpinner.setEnabled(SettingValues.nightModeState == SettingValues.NightModeState.MANUAL.ordinal());
+                        final List<String> timesStart = new ArrayList<String>() {{
+                            add("6pm");
+                            add("7pm");
+                            add("8pm");
+                            add("9pm");
+                            add("10pm");
+                            add("11pm");
+                        }};
+                        dialoglayout.findViewById(R.id.start_spinner_layout)
+                                .setVisibility(View.VISIBLE);
+                        final ArrayAdapter<String> startAdapter = new ArrayAdapter<>(context,
+                                android.R.layout.simple_spinner_item, timesStart);
+                        startAdapter.setDropDownViewResource(
+                                android.R.layout.simple_spinner_dropdown_item);
+                        startSpinner.setAdapter(startAdapter);
 
-                            //set the currently selected pref
-                            startSpinner.setSelection(startAdapter.getPosition(
-                                    Integer.toString(SettingValues.nightStart).concat("pm")));
+                        //set the currently selected pref
+                        startSpinner.setSelection(startAdapter.getPosition(
+                                Integer.toString(SettingValues.nightStart).concat("pm")));
 
-                            startSpinner.setOnItemSelectedListener(
-                                    new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view,
-                                                int position, long id) {
-                                            //get the time, but remove the "pm" from the string when parsing
-                                            final int time = Integer.parseInt(
-                                                    ((String) startSpinner.getItemAtPosition(
-                                                            position)).replaceAll("pm", ""));
+                        startSpinner.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view,
+                                                               int position, long id) {
+                                        //get the time, but remove the "pm" from the string when parsing
+                                        final int time = Integer.parseInt(
+                                                ((String) startSpinner.getItemAtPosition(
+                                                        position)).replaceAll("pm", ""));
 
-                                            SettingValues.nightStart = time;
-                                            SettingValues.prefs.edit()
-                                                    .putInt(SettingValues.PREF_NIGHT_START, time)
-                                                    .apply();
-                                        }
+                                        SettingValues.nightStart = time;
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREF_NIGHT_START, time)
+                                                .apply();
+                                    }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
 
-                                        }
-                                    });
-                        }
-                        {
-                            final List<String> timesEnd = new ArrayList<String>() {{
-                                add("12am");
-                                add("1am");
-                                add("2am");
-                                add("3am");
-                                add("4am");
-                                add("5am");
-                                add("6am");
-                                add("7am");
-                                add("8am");
-                                add("9am");
-                                add("10am");
-                            }};
-                            dialoglayout.findViewById(R.id.end_spinner_layout)
-                                    .setVisibility(View.VISIBLE);
-                            final Spinner endSpinner = dialoglayout.findViewById(R.id.end_spinner);
-                            final ArrayAdapter<String> endAdapter = new ArrayAdapter<>(context,
-                                    android.R.layout.simple_spinner_item, timesEnd);
-                            endAdapter.setDropDownViewResource(
-                                    android.R.layout.simple_spinner_dropdown_item);
-                            endSpinner.setAdapter(endAdapter);
+                                    }
+                                });
+                    }
+                    {
+                        final List<String> timesEnd = new ArrayList<String>() {{
+                            add("12am");
+                            add("1am");
+                            add("2am");
+                            add("3am");
+                            add("4am");
+                            add("5am");
+                            add("6am");
+                            add("7am");
+                            add("8am");
+                            add("9am");
+                            add("10am");
+                        }};
+                        dialoglayout.findViewById(R.id.end_spinner_layout)
+                                .setVisibility(View.VISIBLE);
+                        final ArrayAdapter<String> endAdapter = new ArrayAdapter<>(context,
+                                android.R.layout.simple_spinner_item, timesEnd);
+                        endAdapter.setDropDownViewResource(
+                                android.R.layout.simple_spinner_dropdown_item);
+                        endSpinner.setAdapter(endAdapter);
 
-                            //set the currently selected pref
-                            endSpinner.setSelection(endAdapter.getPosition(
-                                    Integer.toString(SettingValues.nightEnd).concat("am")));
+                        //set the currently selected pref
+                        endSpinner.setSelection(endAdapter.getPosition(
+                                Integer.toString(SettingValues.nightEnd).concat("am")));
 
-                            endSpinner.setOnItemSelectedListener(
-                                    new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view,
-                                                int position, long id) {
-                                            //get the time, but remove the "am" from the string when parsing
-                                            final int time = Integer.parseInt(
-                                                    ((String) endSpinner.getItemAtPosition(
-                                                            position)).replaceAll("am", ""));
+                        endSpinner.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view,
+                                                               int position, long id) {
+                                        //get the time, but remove the "am" from the string when parsing
+                                        final int time = Integer.parseInt(
+                                                ((String) endSpinner.getItemAtPosition(
+                                                        position)).replaceAll("am", ""));
 
-                                            SettingValues.nightEnd = time;
-                                            SettingValues.prefs.edit()
-                                                    .putInt(SettingValues.PREF_NIGHT_END, time)
-                                                    .apply();
-                                        }
+                                        SettingValues.nightEnd = time;
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREF_NIGHT_END, time)
+                                                .apply();
+                                    }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
 
-                                        }
-                                    });
-                        }
+                                    }
+                                });
                     }
                     {
                         Button okayButton = dialoglayout.findViewById(R.id.ok);
@@ -574,4 +580,13 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
         });
     }
 
+    private static class NightModeArrayAdapter {
+        public static ArrayAdapter<? extends CharSequence> createFromResource(@NonNull Context context, @ArrayRes int textArrayResId, @LayoutRes int layoutTypeResId) {
+            CharSequence[] strings = context.getResources().getTextArray(textArrayResId);
+            if (!Reddit.canUseNightModeAuto) {
+                strings = ArrayUtils.remove(strings, SettingValues.NightModeState.AUTOMATIC.ordinal());
+            }
+            return new ArrayAdapter<>(context, layoutTypeResId, Arrays.asList(strings));
+        }
+    }
 }

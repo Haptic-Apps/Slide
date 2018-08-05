@@ -23,7 +23,8 @@
 
                 <TextView
                         android:id="@+id/title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:padding="18dp"
                         android:text="@string/night_mode"
@@ -31,17 +32,14 @@
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
-                <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/enabled"
-                        android:layout_width="match_parent"
+                <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/night_mode_state"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="18dp"
                         android:backgroundTint="?attr/tintColor"
-                        android:button="@null"
-                        android:buttonTint="?attr/tintColor"
-                        android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/fontColor"
-                        android:textColorHint="?attr/fontColor"/>
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginRight="18dp"/>
             </LinearLayout>
 
             <LinearLayout
