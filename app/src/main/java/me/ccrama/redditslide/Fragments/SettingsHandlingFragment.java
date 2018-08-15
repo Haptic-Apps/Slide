@@ -10,21 +10,15 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
@@ -86,12 +80,12 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                         .putBoolean(SettingValues.PREF_READER_MODE, SettingValues.readerMode)
                         .apply();
                 context.findViewById(R.id.settings_handling_readernight)
-                        .setEnabled(SettingValues.nightMode && SettingValues.readerMode);
+                        .setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
             }
         });
 
         final SwitchCompat readernight = context.findViewById(R.id.settings_handling_readernight);
-        readernight.setEnabled(SettingValues.nightMode && SettingValues.readerMode);
+        readernight.setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
         readernight.setChecked(SettingValues.readerNight);
         readernight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
