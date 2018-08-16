@@ -2,18 +2,16 @@ package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-
+import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
+import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.SortingUtil;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.Calendar;
 import java.util.Locale;
-
-import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
-import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.SortingUtil;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -25,6 +23,7 @@ public class SettingValues {
     public static final String PREF_FAB_TYPE                  = "FabType";
     public static final String PREF_DAY_TIME                  = "day";
     public static final String PREF_VOTE_GESTURES             = "voteGestures";
+    public static final String PREF_NIGHT_MODE_STATE = "nightModeState";
     public static final String PREF_NIGHT_MODE                = "nightMode";
     public static final String PREF_NIGHT_THEME               = "nightTheme";
     public static final String PREF_TYPE_IN_TEXT              = "typeInText";
@@ -212,7 +211,7 @@ public class SettingValues {
     public static boolean titleTop;
     public static boolean dualPortrait;
     public static boolean singleColumnMultiWindow;
-    public static boolean nightMode;
+    public static int nightModeState;
     public static boolean imageSubfolders;
     public static boolean autoTime;
     public static boolean albumSwipe;
@@ -297,7 +296,9 @@ public class SettingValues {
 
         highlightTime = prefs.getBoolean(PREF_HIGHLIGHT_TIME, true);
 
-        nightMode = prefs.getBoolean(PREF_NIGHT_MODE, false);
+        // TODO: Remove the old pref check in a later version
+        // This handles forward migration from the old night_mode boolean state
+        nightModeState = prefs.getInt(PREF_NIGHT_MODE_STATE, prefs.getBoolean(PREF_NIGHT_MODE, false) ? NightModeState.MANUAL.ordinal() : NightModeState.DISABLED.ordinal());
         nightTheme = prefs.getInt(PREF_NIGHT_THEME, 0);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
@@ -476,8 +477,8 @@ public class SettingValues {
 
 
     public static boolean isNight() {
-        if (isPro && nightMode) {
-            if (Reddit.isNightModeAuto) {
+        if (isPro && NightModeState.isEnabled()) {
+            if (Reddit.canUseNightModeAuto && nightModeState == NightModeState.AUTOMATIC.ordinal()) {
                 return (Reddit.getAppContext().getResources().getConfiguration().uiMode
                         & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
             } else {
@@ -512,5 +513,13 @@ public class SettingValues {
 
     public enum ColorMatchingMode {
         ALWAYS_MATCH, MATCH_EXTERNALLY
+    }
+
+    public enum NightModeState {
+        DISABLED, MANUAL, AUTOMATIC;
+
+        public static boolean isEnabled() {
+            return nightModeState != DISABLED.ordinal();
+        }
     }
 }

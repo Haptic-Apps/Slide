@@ -190,23 +190,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private String wrapAlternateSpoilers(String html) {
-        html = formatSpoilers(html, htmlSpoilerPattern.matcher(html));
-        html = formatSpoilers(html, nativeSpoilerPattern.matcher(html));
-        return html;
-    }
+        String replacement = "<a href=\"/spoiler\">spoiler&lt; [[s[$1]s]]</a>";
 
-    private String formatSpoilers(String html, Matcher matcher) {
-        while (matcher.find()) {
-            String text = matcher.group(1);
-            String inner = "<a href=\"/spoiler\">spoiler&lt; [[s[ "
-                    + text
-                    + "]s]]</a>";
-
-            int start = matcher.start(1);
-            html = html.substring(0, start)
-                    + inner
-                    + html.substring(start + text.length());
-        }
+        html = htmlSpoilerPattern.matcher(html).replaceAll(replacement);
+        html = nativeSpoilerPattern.matcher(html).replaceAll(replacement);
         return html;
     }
 
@@ -735,7 +722,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 sequence.setSpan(new URLSpanNoUnderline("#spoilerhidden"), start, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 // spoiler text has a space at the front
-                sequence.setSpan(backgroundColorSpan, start + 1, end - 4,
+                sequence.setSpan(backgroundColorSpan, start, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 sequence.setSpan(underneathColorSpan, start, end - 4,
                         Spannable.SPAN_INCLUSIVE_INCLUSIVE);

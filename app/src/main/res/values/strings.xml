@@ -74,6 +74,9 @@
     <string name="theme_black">AMOLED black</string>
     <string name="theme_dark_blue">Dark blue</string>
     <string name="night_mode">Night Mode</string>
+    <string name="disabled">Disabled</string>
+    <string name="manual">Manual</string>
+    <string name="automatic">Automatic</string>
     <string name="theme_default_color">Primary color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
