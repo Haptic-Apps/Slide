@@ -478,12 +478,13 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+
         if (pager != null
                 && SettingValues.commentPager
                 && pager.getCurrentItem() == toOpenComments
                 && SettingValues.commentVolumeNav
                 && pager.getAdapter() instanceof OverviewPagerAdapterComment) {
-            int keyCode = event.getKeyCode();
             if (SettingValues.commentVolumeNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
@@ -499,8 +500,13 @@ public class MainActivity extends BaseActivity
                 return super.dispatchKeyEvent(event);
             }
         }
-        return super.dispatchKeyEvent(event);
-
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return true;
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_SEARCH:
+                return onKeyDown(keyCode, event);
+            default:
+                return super.dispatchKeyEvent(event);
+        }
     }
 
     @Override
@@ -1420,6 +1426,14 @@ public class MainActivity extends BaseActivity
         dismissProgressDialog();
         Slide.hasStarted = false;
         super.onDestroy();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return true;
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            return onOptionsItemSelected(menu.findItem(R.id.search));
+        }
+        return false;
     }
 
     public static String abbreviate(final String str, final int maxWidth) {

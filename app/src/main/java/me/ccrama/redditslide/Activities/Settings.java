@@ -8,14 +8,17 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -52,6 +55,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 
@@ -164,6 +168,31 @@ public class Settings extends BaseActivity
         outState.putInt("position", scrollY);
         outState.putString("prev_text", prev_text);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_SEARCH
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            onOptionsItemSelected(mToolbar.getMenu().findItem(R.id.search));
+//            (findViewById(R.id.settings_search)).requestFocus();
+            MotionEvent motionEventDown = MotionEvent.obtain(
+                    SystemClock.uptimeMillis(),
+                    SystemClock.uptimeMillis(),
+                    MotionEvent.ACTION_DOWN,
+                    0, 0, 0
+            );
+            MotionEvent motionEventUp = MotionEvent.obtain(
+                    SystemClock.uptimeMillis(),
+                    SystemClock.uptimeMillis(),
+                    MotionEvent.ACTION_UP,
+                    0, 0, 0
+            );
+            (findViewById(R.id.settings_search)).dispatchTouchEvent(motionEventDown);
+            (findViewById(R.id.settings_search)).dispatchTouchEvent(motionEventUp);
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     private void BuildLayout(String text) {

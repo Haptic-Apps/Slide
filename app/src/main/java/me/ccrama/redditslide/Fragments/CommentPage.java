@@ -110,6 +110,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -119,7 +120,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
  *
  * @see CommentsScreen
  */
-public class CommentPage extends Fragment {
+public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickListener {
 
     boolean np;
     public boolean archived, locked, contest;
@@ -695,331 +696,7 @@ public class CommentPage extends Fragment {
             }
         });
         toolbar.inflateMenu(R.menu.menu_comment_items);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.search: {
-                        if (comments.comments != null && comments.submission != null) {
-                            DataShare.sharedComments = comments.comments;
-                            DataShare.subAuthor = comments.submission.getAuthor();
-                            Intent i = new Intent(getActivity(), CommentSearch.class);
-                            if (getActivity() instanceof MainActivity) {
-                                getActivity().startActivityForResult(i, 423);
-                            } else {
-                                startActivityForResult(i, 423);
-                            }
-                        }
-                    }
-                    return true;
-                    case R.id.sidebar:
-                        doSidebarOpen();
-                        return true;
-                    case R.id.related:
-                        if (adapter.submission.isSelfPost()) {
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                    "Selftext posts have no related submissions")
-                                    .setPositiveButton(R.string.btn_ok, null)
-                                    .show();
-                        } else {
-                            Intent i = new Intent(getActivity(), Related.class);
-                            i.putExtra(Related.EXTRA_URL, adapter.submission.getUrl());
-                            startActivity(i);
-                        }
-                        return true;
-                    case R.id.shadowbox:
-                        if (SettingValues.isPro) {
-                            if (comments.comments != null && comments.submission != null) {
-                                ShadowboxComments.comments = new ArrayList<>();
-                                for (CommentObject c : comments.comments) {
-                                    if (c instanceof CommentItem) {
-                                        if (c.comment.getComment()
-                                                .getDataNode()
-                                                .get("body_html")
-                                                .asText()
-                                                .contains("&lt;/a")) {
-                                            String body = c.comment.getComment()
-                                                    .getDataNode()
-                                                    .get("body_html")
-                                                    .asText();
-                                            String url;
-                                            String[] split = body.split("&lt;a href=\"");
-                                            if (split.length > 1) {
-                                                for (String chunk : split) {
-                                                    url = chunk.substring(0,
-                                                            chunk.indexOf("\"", 1));
-                                                    ContentType.Type t =
-                                                            ContentType.getContentType(url);
-
-                                                    if (ContentType.mediaType(t)) {
-                                                        ShadowboxComments.comments.add(
-                                                                new CommentUrlObject(c.comment,
-                                                                        url, subreddit));
-                                                    }
-
-                                                }
-                                            } else {
-                                                int start = body.indexOf("&lt;a href=\"");
-                                                url = body.substring(start,
-                                                        body.indexOf("\"", start + 1));
-                                                ContentType.Type t =
-                                                        ContentType.getContentType(url);
-
-                                                if (ContentType.mediaType(t)) {
-                                                    ShadowboxComments.comments.add(
-                                                            new CommentUrlObject(c.comment, url, subreddit));
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-                                if (!ShadowboxComments.comments.isEmpty()) {
-                                    Intent i = new Intent(getActivity(), ShadowboxComments.class);
-                                    startActivity(i);
-                                } else {
-                                    Snackbar.make(mSwipeRefreshLayout,
-                                            R.string.shadowbox_comments_nolinks,
-                                            Snackbar.LENGTH_SHORT).show();
-                                }
-                            }
-                        } else {
-                            AlertDialogWrapper.Builder b =
-                                    new AlertDialogWrapper.Builder(getContext()).setTitle(
-                                            R.string.general_shadowbox_comments_ispro)
-                                            .setMessage(R.string.pro_upgrade_msg)
-                                            .setPositiveButton(R.string.btn_yes_exclaim,
-                                                    new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog,
-                                                                int whichButton) {
-                                                            try {
-                                                                startActivity(new Intent(
-                                                                        Intent.ACTION_VIEW,
-                                                                        Uri.parse(
-                                                                                "market://details?id="
-                                                                                        + getString(
-                                                                                        R.string.ui_unlock_package))));
-                                                            } catch (ActivityNotFoundException e) {
-                                                                startActivity(new Intent(
-                                                                        Intent.ACTION_VIEW,
-                                                                        Uri.parse(
-                                                                                "http://play.google.com/store/apps/details?id="
-                                                                                        + getString(
-                                                                                        R.string.ui_unlock_package))));
-                                                            }
-                                                        }
-                                                    })
-                                            .setNegativeButton(R.string.btn_no_danks,
-                                                    new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog,
-                                                                int whichButton) {
-                                                            dialog.dismiss();
-                                                        }
-                                                    });
-                            b.show();
-                        }
-                        return true;
-                    case R.id.sort: {
-                        openPopup(toolbar);
-                        return true;
-                    }
-                    case R.id.content: {
-                        if (adapter != null && adapter.submission != null) {
-                            if (!PostMatch.openExternal(adapter.submission.getUrl())) {
-                                ContentType.Type type =
-                                        ContentType.getContentType(adapter.submission);
-                                switch (type) {
-                                    case VID_ME:
-                                    case STREAMABLE:
-                                        if (SettingValues.video) {
-                                            Intent myIntent =
-                                                    new Intent(getActivity(), MediaView.class);
-                                            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
-                                            myIntent.putExtra(MediaView.EXTRA_URL,
-                                                    adapter.submission.getUrl());
-                                            getActivity().startActivity(myIntent);
-
-                                        } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl());
-                                        }
-                                        break;
-                                    case IMGUR:
-                                    case XKCD:
-                                        Intent i2 = new Intent(getActivity(), MediaView.class);
-                                        i2.putExtra(MediaView.SUBREDDIT, subreddit);
-                                        if (adapter.submission.getDataNode().has("preview")
-                                                && adapter.submission.getDataNode()
-                                                .get("preview")
-                                                .get("images")
-                                                .get(0)
-                                                .get("source")
-                                                .has("height")
-                                                && type
-                                                != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                                            String previewUrl = adapter.submission.getDataNode()
-                                                    .get("preview")
-                                                    .get("images")
-                                                    .get(0)
-                                                    .get("source")
-                                                    .get("url")
-                                                    .asText();
-                                            i2.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
-                                        }
-                                        i2.putExtra(MediaView.EXTRA_URL,
-                                                adapter.submission.getUrl());
-                                        getActivity().startActivity(i2);
-                                        break;
-                                    case EMBEDDED:
-                                        if (SettingValues.video) {
-                                            String data = adapter.submission.getDataNode()
-                                                    .get("media_embed")
-                                                    .get("content")
-                                                    .asText();
-                                            {
-                                                Intent i = new Intent(getActivity(),
-                                                        FullscreenVideo.class);
-                                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
-                                                getActivity().startActivity(i);
-                                            }
-                                        } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl());
-                                        }
-                                        break;
-                                    case REDDIT:
-                                        PopulateSubmissionViewHolder.openRedditContent(
-                                                adapter.submission.getUrl(), getActivity());
-                                        break;
-                                    case LINK:
-                                        LinkUtil.openUrl(adapter.submission.getUrl(),
-                                                Palette.getColor(
-                                                        adapter.submission.getSubredditName()),
-                                                getActivity());
-                                        break;
-                                    case NONE:
-                                    case SELF:
-                                        if (adapter.submission.getSelftext().isEmpty()) {
-                                            Snackbar s =
-                                                    Snackbar.make(rv, R.string.submission_nocontent,
-                                                            Snackbar.LENGTH_SHORT);
-                                            View view = s.getView();
-                                            TextView tv = view.findViewById(
-                                                    android.support.design.R.id.snackbar_text);
-                                            tv.setTextColor(Color.WHITE);
-                                            s.show();
-
-                                        } else {
-                                            LayoutInflater inflater =
-                                                    getActivity().getLayoutInflater();
-                                            final View dialoglayout =
-                                                    inflater.inflate(R.layout.parent_comment_dialog,
-                                                            null);
-                                            final AlertDialogWrapper.Builder builder =
-                                                    new AlertDialogWrapper.Builder(getActivity());
-                                            adapter.setViews(adapter.submission.getDataNode()
-                                                            .get("selftext_html")
-                                                            .asText(),
-                                                    adapter.submission.getSubredditName(),
-                                                    (SpoilerRobotoTextView) dialoglayout.findViewById(
-                                                            R.id.firstTextView),
-                                                    (CommentOverflow) dialoglayout.findViewById(
-                                                            R.id.commentOverflow));
-                                            builder.setView(dialoglayout);
-                                            builder.show();
-                                        }
-                                        break;
-                                    case ALBUM:
-                                        if (SettingValues.album) {
-                                            if (SettingValues.albumSwipe) {
-                                                Intent i =
-                                                        new Intent(getActivity(), AlbumPager.class);
-                                                i.putExtra(Album.EXTRA_URL,
-                                                        adapter.submission.getUrl());
-                                                i.putExtra(AlbumPager.SUBREDDIT, subreddit);
-                                                getActivity().startActivity(i);
-                                                getActivity().overridePendingTransition(
-                                                        R.anim.slideright, R.anim.fade_out);
-                                            } else {
-                                                Intent i = new Intent(getActivity(), Album.class);
-                                                i.putExtra(Album.EXTRA_URL,
-                                                        adapter.submission.getUrl());
-                                                i.putExtra(Album.SUBREDDIT, subreddit);
-                                                getActivity().startActivity(i);
-                                                getActivity().overridePendingTransition(
-                                                        R.anim.slideright, R.anim.fade_out);
-                                            }
-                                        } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl());
-
-                                        }
-                                        break;
-                                    case TUMBLR:
-                                        if (SettingValues.image) {
-                                            if (SettingValues.albumSwipe) {
-                                                Intent i = new Intent(getActivity(),
-                                                        TumblrPager.class);
-                                                i.putExtra(Album.EXTRA_URL,
-                                                        adapter.submission.getUrl());
-                                                i.putExtra(TumblrPager.SUBREDDIT, subreddit);
-                                                getActivity().startActivity(i);
-                                                getActivity().overridePendingTransition(
-                                                        R.anim.slideright, R.anim.fade_out);
-                                            } else {
-                                                Intent i = new Intent(getActivity(), Tumblr.class);
-                                                i.putExtra(Tumblr.SUBREDDIT, subreddit);
-                                                i.putExtra(Album.EXTRA_URL,
-                                                        adapter.submission.getUrl());
-                                                getActivity().startActivity(i);
-                                                getActivity().overridePendingTransition(
-                                                        R.anim.slideright, R.anim.fade_out);
-                                            }
-                                        } else {
-                                            LinkUtil.openExternally(adapter.submission.getUrl());
-
-                                        }
-                                        break;
-                                    case IMAGE:
-                                        PopulateSubmissionViewHolder.openImage(type, getActivity(),
-                                                adapter.submission, null, -1);
-                                        break;
-                                    case VREDDIT_REDIRECT:
-                                    case VREDDIT_DIRECT:
-                                    case GIF:
-                                        PopulateSubmissionViewHolder.openGif(getActivity(),
-                                                adapter.submission, -1);
-                                        break;
-                                    case VIDEO:
-                                        if (!LinkUtil.tryOpenWithVideoPlugin(
-                                                adapter.submission.getUrl())) {
-                                            LinkUtil.openUrl(adapter.submission.getUrl(),
-                                                    Palette.getStatusBarColor(), getActivity());
-                                        }
-                                }
-                            } else {
-                                LinkUtil.openExternally(adapter.submission.getUrl());
-                            }
-                        }
-                    }
-                    return true;
-                    case R.id.reload:
-                        if (comments != null) {
-                            mSwipeRefreshLayout.setRefreshing(true);
-                            comments.loadMore(adapter, subreddit);
-                        }
-                        return true;
-                    case R.id.collapse: {
-                        if (adapter != null) {
-                            adapter.collapseAll();
-                        }
-                    }
-                    return true;
-                    case android.R.id.home:
-                        getActivity().onBackPressed();
-                        return true;
-
-                }
-                return false;
-            }
-        });
+        toolbar.setOnMenuItemClickListener(this);
 
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1061,6 +738,329 @@ public class CommentPage extends Fragment {
             doAdapter(false);
         }
         return v;
+    }
+
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search: {
+                if (comments.comments != null && comments.submission != null) {
+                    DataShare.sharedComments = comments.comments;
+                    DataShare.subAuthor = comments.submission.getAuthor();
+                    Intent i = new Intent(getActivity(), CommentSearch.class);
+                    if (getActivity() instanceof MainActivity) {
+                        getActivity().startActivityForResult(i, 423);
+                    } else {
+                        startActivityForResult(i, 423);
+                    }
+                }
+            }
+            return true;
+            case R.id.sidebar:
+                doSidebarOpen();
+                return true;
+            case R.id.related:
+                if (adapter.submission.isSelfPost()) {
+                    new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                            "Selftext posts have no related submissions")
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
+                } else {
+                    Intent i = new Intent(getActivity(), Related.class);
+                    i.putExtra(Related.EXTRA_URL, adapter.submission.getUrl());
+                    startActivity(i);
+                }
+                return true;
+            case R.id.shadowbox:
+                if (SettingValues.isPro) {
+                    if (comments.comments != null && comments.submission != null) {
+                        ShadowboxComments.comments = new ArrayList<>();
+                        for (CommentObject c : comments.comments) {
+                            if (c instanceof CommentItem) {
+                                if (c.comment.getComment()
+                                        .getDataNode()
+                                        .get("body_html")
+                                        .asText()
+                                        .contains("&lt;/a")) {
+                                    String body = c.comment.getComment()
+                                            .getDataNode()
+                                            .get("body_html")
+                                            .asText();
+                                    String url;
+                                    String[] split = body.split("&lt;a href=\"");
+                                    if (split.length > 1) {
+                                        for (String chunk : split) {
+                                            url = chunk.substring(0,
+                                                    chunk.indexOf("\"", 1));
+                                            ContentType.Type t =
+                                                    ContentType.getContentType(url);
+
+                                            if (ContentType.mediaType(t)) {
+                                                ShadowboxComments.comments.add(
+                                                        new CommentUrlObject(c.comment,
+                                                                url, subreddit));
+                                            }
+
+                                        }
+                                    } else {
+                                        int start = body.indexOf("&lt;a href=\"");
+                                        url = body.substring(start,
+                                                body.indexOf("\"", start + 1));
+                                        ContentType.Type t =
+                                                ContentType.getContentType(url);
+
+                                        if (ContentType.mediaType(t)) {
+                                            ShadowboxComments.comments.add(
+                                                    new CommentUrlObject(c.comment, url, subreddit));
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                        if (!ShadowboxComments.comments.isEmpty()) {
+                            Intent i = new Intent(getActivity(), ShadowboxComments.class);
+                            startActivity(i);
+                        } else {
+                            Snackbar.make(mSwipeRefreshLayout,
+                                    R.string.shadowbox_comments_nolinks,
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    AlertDialogWrapper.Builder b =
+                            new AlertDialogWrapper.Builder(getContext()).setTitle(
+                                    R.string.general_shadowbox_comments_ispro)
+                                    .setMessage(R.string.pro_upgrade_msg)
+                                    .setPositiveButton(R.string.btn_yes_exclaim,
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog,
+                                                                    int whichButton) {
+                                                    try {
+                                                        startActivity(new Intent(
+                                                                Intent.ACTION_VIEW,
+                                                                Uri.parse(
+                                                                        "market://details?id="
+                                                                                + getString(
+                                                                                R.string.ui_unlock_package))));
+                                                    } catch (ActivityNotFoundException e) {
+                                                        startActivity(new Intent(
+                                                                Intent.ACTION_VIEW,
+                                                                Uri.parse(
+                                                                        "http://play.google.com/store/apps/details?id="
+                                                                                + getString(
+                                                                                R.string.ui_unlock_package))));
+                                                    }
+                                                }
+                                            })
+                                    .setNegativeButton(R.string.btn_no_danks,
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog,
+                                                                    int whichButton) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                    b.show();
+                }
+                return true;
+            case R.id.sort: {
+                openPopup(toolbar);
+                return true;
+            }
+            case R.id.content: {
+                if (adapter != null && adapter.submission != null) {
+                    if (!PostMatch.openExternal(adapter.submission.getUrl())) {
+                        ContentType.Type type =
+                                ContentType.getContentType(adapter.submission);
+                        switch (type) {
+                            case VID_ME:
+                            case STREAMABLE:
+                                if (SettingValues.video) {
+                                    Intent myIntent =
+                                            new Intent(getActivity(), MediaView.class);
+                                    myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                                    myIntent.putExtra(MediaView.EXTRA_URL,
+                                            adapter.submission.getUrl());
+                                    getActivity().startActivity(myIntent);
+
+                                } else {
+                                    LinkUtil.openExternally(adapter.submission.getUrl());
+                                }
+                                break;
+                            case IMGUR:
+                            case XKCD:
+                                Intent i2 = new Intent(getActivity(), MediaView.class);
+                                i2.putExtra(MediaView.SUBREDDIT, subreddit);
+                                if (adapter.submission.getDataNode().has("preview")
+                                        && adapter.submission.getDataNode()
+                                        .get("preview")
+                                        .get("images")
+                                        .get(0)
+                                        .get("source")
+                                        .has("height")
+                                        && type
+                                        != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                    String previewUrl = adapter.submission.getDataNode()
+                                            .get("preview")
+                                            .get("images")
+                                            .get(0)
+                                            .get("source")
+                                            .get("url")
+                                            .asText();
+                                    i2.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                                }
+                                i2.putExtra(MediaView.EXTRA_URL,
+                                        adapter.submission.getUrl());
+                                getActivity().startActivity(i2);
+                                break;
+                            case EMBEDDED:
+                                if (SettingValues.video) {
+                                    String data = adapter.submission.getDataNode()
+                                            .get("media_embed")
+                                            .get("content")
+                                            .asText();
+                                    {
+                                        Intent i = new Intent(getActivity(),
+                                                FullscreenVideo.class);
+                                        i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                        getActivity().startActivity(i);
+                                    }
+                                } else {
+                                    LinkUtil.openExternally(adapter.submission.getUrl());
+                                }
+                                break;
+                            case REDDIT:
+                                PopulateSubmissionViewHolder.openRedditContent(
+                                        adapter.submission.getUrl(), getActivity());
+                                break;
+                            case LINK:
+                                LinkUtil.openUrl(adapter.submission.getUrl(),
+                                        Palette.getColor(
+                                                adapter.submission.getSubredditName()),
+                                        getActivity());
+                                break;
+                            case NONE:
+                            case SELF:
+                                if (adapter.submission.getSelftext().isEmpty()) {
+                                    Snackbar s =
+                                            Snackbar.make(rv, R.string.submission_nocontent,
+                                                    Snackbar.LENGTH_SHORT);
+                                    View view = s.getView();
+                                    TextView tv = view.findViewById(
+                                            android.support.design.R.id.snackbar_text);
+                                    tv.setTextColor(Color.WHITE);
+                                    s.show();
+
+                                } else {
+                                    LayoutInflater inflater =
+                                            getActivity().getLayoutInflater();
+                                    final View dialoglayout =
+                                            inflater.inflate(R.layout.parent_comment_dialog,
+                                                    null);
+                                    final AlertDialogWrapper.Builder builder =
+                                            new AlertDialogWrapper.Builder(getActivity());
+                                    adapter.setViews(adapter.submission.getDataNode()
+                                                    .get("selftext_html")
+                                                    .asText(),
+                                            adapter.submission.getSubredditName(),
+                                            (SpoilerRobotoTextView) dialoglayout.findViewById(
+                                                    R.id.firstTextView),
+                                            (CommentOverflow) dialoglayout.findViewById(
+                                                    R.id.commentOverflow));
+                                    builder.setView(dialoglayout);
+                                    builder.show();
+                                }
+                                break;
+                            case ALBUM:
+                                if (SettingValues.album) {
+                                    if (SettingValues.albumSwipe) {
+                                        Intent i =
+                                                new Intent(getActivity(), AlbumPager.class);
+                                        i.putExtra(Album.EXTRA_URL,
+                                                adapter.submission.getUrl());
+                                        i.putExtra(AlbumPager.SUBREDDIT, subreddit);
+                                        getActivity().startActivity(i);
+                                        getActivity().overridePendingTransition(
+                                                R.anim.slideright, R.anim.fade_out);
+                                    } else {
+                                        Intent i = new Intent(getActivity(), Album.class);
+                                        i.putExtra(Album.EXTRA_URL,
+                                                adapter.submission.getUrl());
+                                        i.putExtra(Album.SUBREDDIT, subreddit);
+                                        getActivity().startActivity(i);
+                                        getActivity().overridePendingTransition(
+                                                R.anim.slideright, R.anim.fade_out);
+                                    }
+                                } else {
+                                    LinkUtil.openExternally(adapter.submission.getUrl());
+
+                                }
+                                break;
+                            case TUMBLR:
+                                if (SettingValues.image) {
+                                    if (SettingValues.albumSwipe) {
+                                        Intent i = new Intent(getActivity(),
+                                                TumblrPager.class);
+                                        i.putExtra(Album.EXTRA_URL,
+                                                adapter.submission.getUrl());
+                                        i.putExtra(TumblrPager.SUBREDDIT, subreddit);
+                                        getActivity().startActivity(i);
+                                        getActivity().overridePendingTransition(
+                                                R.anim.slideright, R.anim.fade_out);
+                                    } else {
+                                        Intent i = new Intent(getActivity(), Tumblr.class);
+                                        i.putExtra(Tumblr.SUBREDDIT, subreddit);
+                                        i.putExtra(Album.EXTRA_URL,
+                                                adapter.submission.getUrl());
+                                        getActivity().startActivity(i);
+                                        getActivity().overridePendingTransition(
+                                                R.anim.slideright, R.anim.fade_out);
+                                    }
+                                } else {
+                                    LinkUtil.openExternally(adapter.submission.getUrl());
+
+                                }
+                                break;
+                            case IMAGE:
+                                PopulateSubmissionViewHolder.openImage(type, getActivity(),
+                                        adapter.submission, null, -1);
+                                break;
+                            case VREDDIT_REDIRECT:
+                            case VREDDIT_DIRECT:
+                            case GIF:
+                                PopulateSubmissionViewHolder.openGif(getActivity(),
+                                        adapter.submission, -1);
+                                break;
+                            case VIDEO:
+                                if (!LinkUtil.tryOpenWithVideoPlugin(
+                                        adapter.submission.getUrl())) {
+                                    LinkUtil.openUrl(adapter.submission.getUrl(),
+                                            Palette.getStatusBarColor(), getActivity());
+                                }
+                        }
+                    } else {
+                        LinkUtil.openExternally(adapter.submission.getUrl());
+                    }
+                }
+            }
+            return true;
+            case R.id.reload:
+                if (comments != null) {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    comments.loadMore(adapter, subreddit);
+                }
+                return true;
+            case R.id.collapse: {
+                if (adapter != null) {
+                    adapter.collapseAll();
+                }
+            }
+            return true;
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
+
+        }
+        return false;
     }
 
     private void doSidebarOpen() {
@@ -1973,6 +1973,8 @@ public class CommentPage extends Fragment {
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             goUp();
             return true;
+        } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            return onMenuItemClick(toolbar.getMenu().findItem(R.id.search));
         }
         return false;
     }
