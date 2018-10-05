@@ -56,7 +56,7 @@ If you are a developer and wish to contribute to the app please fork the project
 and submit a pull request.
 
 If you have any questions, feel free to
-[ask in the IRC channel](https://kiwiirc.com/client/irc.snoonet.org/#slide) or
+[ask in the `#android-dev` Discord channel](https://discord.gg/HeShMsX) or
 [drop me a message](https://www.reddit.com/message/compose/?to=ccrama) on Reddit.
 
 ## Changelog
