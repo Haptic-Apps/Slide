@@ -131,6 +131,9 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         case 4:
                             p.setSorting(Sorting.CONTROVERSIAL);
                             break;
+                        case 5:
+                            p.setSorting(Sorting.BEST);
+                            break;
                     }
                     switch (SubredditWidgetProvider.getSortingTime(id, mContext)) {
                         case 0:

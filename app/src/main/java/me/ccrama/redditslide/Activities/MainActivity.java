@@ -3520,6 +3520,10 @@ public class MainActivity extends BaseActivity
                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final Spannable[] base = SortingUtil.getSortingSpannables(id);
         for (Spannable s : base) {
+            // Do not add option for "Best" in any subreddit except for the frontpage.
+            if (!id.equals("frontpage") && s.toString().equals(getString(R.string.sorting_best))) {
+                continue;
+            }
             MenuItem m = popup.getMenu().add(s);
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -3562,6 +3566,12 @@ public class MainActivity extends BaseActivity
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.CONTROVERSIAL);
                         openPopupTime();
+                        break;
+                    case 5:
+                        SortingUtil.setSorting(
+                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                Sorting.BEST);
+                        reloadSubs();
                         break;
                 }
                 return true;
