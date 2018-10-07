@@ -71,6 +71,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                     return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 case KeyEvent.KEYCODE_VOLUME_DOWN:
                     return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
+                case KeyEvent.KEYCODE_SEARCH:
+                    return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 default:
                     return super.dispatchKeyEvent(event);
             }
