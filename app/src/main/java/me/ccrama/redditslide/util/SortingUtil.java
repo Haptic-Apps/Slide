@@ -39,6 +39,8 @@ public class SortingUtil {
                 return 3;
             case CONTROVERSIAL:
                 return 4;
+            case BEST:
+                return 5;
             default:
                 return 0;
         }
@@ -123,6 +125,7 @@ public class SortingUtil {
                 Reddit.getAppContext().getString(R.string.sorting_rising),
                 Reddit.getAppContext().getString(R.string.sorting_top),
                 Reddit.getAppContext().getString(R.string.sorting_controversial),
+                Reddit.getAppContext().getString(R.string.sorting_best),
         };
         return current;
     }
