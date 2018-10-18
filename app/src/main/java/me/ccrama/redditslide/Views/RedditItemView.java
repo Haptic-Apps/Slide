@@ -164,12 +164,17 @@ public class RedditItemView extends RelativeLayout {
 
         @Override
         protected Account doInBackground(Void... params) {
-            return Authentication.reddit.getUser(id);
+            try {
+                return Authentication.reddit.getUser(id);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override
         protected void onPostExecute(Account account) {
-            if (account != null) {
+            if (account != null && (account.getDataNode().has("is_suspended")
+                    && !account.getDataNode().get("is_suspended").asBoolean())) {
                 View content = LayoutInflater.from(getContext())
                         .inflate(R.layout.account_pop, RedditItemView.this, false);
                 RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
@@ -286,7 +291,11 @@ public class RedditItemView extends RelativeLayout {
 
         @Override
         protected Comment doInBackground(Void... params) {
-            return (Comment) Authentication.reddit.get("t1_" + id).get(0);
+            try {
+                return (Comment) Authentication.reddit.get("t1_" + id).get(0);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override
@@ -316,7 +325,11 @@ public class RedditItemView extends RelativeLayout {
 
         @Override
         protected Submission doInBackground(Void... params) {
-            return Authentication.reddit.getSubmission(id);
+            try {
+                return Authentication.reddit.getSubmission(id);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override
