@@ -24,9 +24,8 @@ import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.WindowManager;
+import android.widget.*;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -36,8 +35,10 @@ import com.cocosw.bottomsheet.BottomSheet;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Contribution;
+import net.dean.jraw.models.Ruleset;
 import net.dean.jraw.models.Submission;
 
+import net.dean.jraw.models.SubredditRule;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
@@ -408,8 +409,6 @@ public class PopulateNewsViewHolder {
     }
 
     public String reason;
-
-    public String reportReason;
 
     boolean[] chosen    = new boolean[]{false, false, false};
     boolean[] oldChosen = new boolean[]{false, false, false};
@@ -860,62 +859,85 @@ public class PopulateNewsViewHolder {
                                 StringEscapeUtils.escapeHtml4(submission.getUrl()), mContext);
                         break;
                     case 12:
-                        reportReason = "";
-                        new MaterialDialog.Builder(mContext).input(
-                                mContext.getString(R.string.input_reason_for_report), null, true,
-                                new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                                        reportReason = input.toString();
-                                    }
-                                })
+                        final MaterialDialog reportDialog = new MaterialDialog.Builder(mContext)
+                                .customView(R.layout.report_dialog, true)
                                 .title(R.string.report_post)
-                                .alwaysCallInputCallback()
-                                .inputType(InputType.TYPE_CLASS_TEXT
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                                        | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
-                                .onNegative(null)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        new AsyncTask<Void, Void, Void>() {
-                                            @Override
-                                            protected Void doInBackground(Void... params) {
-                                                try {
-                                                    new AccountManager(
-                                                            Authentication.reddit).report(
-                                                            submission, reportReason);
-                                                } catch (ApiException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                return null;
-                                            }
-
-                                            @Override
-                                            protected void onPostExecute(Void aVoid) {
-                                                if (holder.itemView != null) {
-                                                    try {
-                                                        Snackbar s = Snackbar.make(holder.itemView,
-                                                                R.string.msg_report_sent,
-                                                                Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
-                                                    } catch (Exception ignored) {
-
-                                                    }
-                                                }
-                                            }
-                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                        RadioGroup reasonGroup = dialog.getCustomView()
+                                                .findViewById(R.id.report_reasons);
+                                        String reportReason;
+                                        if (reasonGroup.getCheckedRadioButtonId() == R.id.report_other) {
+                                            reportReason = ((EditText) dialog.getCustomView()
+                                                    .findViewById(R.id.input_report_reason)).getText().toString();
+                                        } else {
+                                            reportReason = ((RadioButton) reasonGroup
+                                                    .findViewById(reasonGroup.getCheckedRadioButtonId()))
+                                                    .getText().toString();
+                                        }
+                                        new AsyncReportTask(submission, holder.itemView)
+                                                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, reportReason);
                                     }
-                                })
-                                .show();
+                                }).build();
 
+                        final RadioGroup reasonGroup = reportDialog.getCustomView().findViewById(R.id.report_reasons);
+
+                        reasonGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                if (checkedId == R.id.report_other)
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.VISIBLE);
+                                else
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.GONE);
+                            }
+                        });
+
+                        // Load sub's report reasons and show the appropriate ones
+                        new AsyncTask<Void, Void, Ruleset>() {
+                            @Override
+                            protected Ruleset doInBackground(Void... voids) {
+                                Ruleset rules = Authentication.reddit.getRules(submission.getSubredditName());
+                                return rules;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Ruleset rules) {
+                                reportDialog.getCustomView().findViewById(R.id.report_loading).setVisibility(View.GONE);
+                                if (rules.getSubredditRules().size() > 0) {
+                                    TextView subHeader = new TextView(mContext);
+                                    subHeader.setText(mContext.getString(R.string.report_sub_rules,
+                                            submission.getSubredditName()));
+                                    reasonGroup.addView(subHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (SubredditRule rule : rules.getSubredditRules()) {
+                                    if (rule.getKind() == SubredditRule.RuleKind.LINK
+                                            || rule.getKind() == SubredditRule.RuleKind.ALL) {
+                                        RadioButton btn = new RadioButton(mContext);
+                                        btn.setText(rule.getViolationReason());
+                                        reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                        btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                    }
+                                }
+                                if (rules.getSiteRules().size() > 0) {
+                                    TextView siteHeader = new TextView(mContext);
+                                    siteHeader.setText(R.string.report_site_rules);
+                                    reasonGroup.addView(siteHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (String rule : rules.getSiteRules()) {
+                                    RadioButton btn = new RadioButton(mContext);
+                                    btn.setText(rule);
+                                    reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                    btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                }
+                            }
+                        }.execute();
+
+                        reportDialog.show();
                         break;
                     case 8:
                         Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
@@ -1200,6 +1222,36 @@ public class PopulateNewsViewHolder {
             holder.title.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
+        }
+    }
+
+    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
+        private Submission submission;
+        private View contextView;
+
+        public AsyncReportTask(Submission submission, View contextView) {
+            this.submission = submission;
+            this.contextView = contextView;
+        }
+
+        @Override
+        protected Void doInBackground(String... reason) {
+            try {
+                new AccountManager(Authentication.reddit).report(submission, reason[0]);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+            View view = s.getView();
+            TextView tv = view.findViewById(
+                    android.support.design.R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            s.show();
         }
     }
 }

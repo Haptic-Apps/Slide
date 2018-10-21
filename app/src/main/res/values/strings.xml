@@ -1027,6 +1027,18 @@
     <string name="set_save_location">Set image save location</string>
     <string name="set_save_location_msg">Slide\'s image save location has not been set yet. Would you like to set this now?</string>
 
+    <!-- Report flow -->
+    <string name="btn_report">Report</string>
+    <string name="report_post">Report post</string>
+    <string name="report_comment">Report comment</string>
+    <string name="report_loading">Loading reasons…</string>
+    <string name="report_sub_rules">/r/%s Rules</string>
+    <string name="report_site_rules">Reddit Rules</string>
+    <string name="report_another_reason">Another Reason</string>
+    <string name="report_other">Other</string>
+    <string name="input_reason_for_report">Reason for reporting</string>
+    <string name="msg_report_sent">Report sent</string>
+
     <!-- Unsorted ¯\\_(ツ)_/¯ -->
     <string name="comment_load_more_number_unknown">Load more comments</string>
     <string name="card_right_thumb">Right-aligned thumbnail</string>
@@ -1057,11 +1069,6 @@
     <string name="save_for_offline_viewing">Save submissions for offline viewing</string>
     <string name="btn_collapse_children_all">Collapse child comments</string>
     <string name="btn_open_content">Open content</string>
-    <string name="btn_report">Report</string>
-    <string name="report_post">Report post</string>
-    <string name="report_comment">Report comment</string>
-    <string name="input_reason_for_report">Reason for reporting</string>
-    <string name="msg_report_sent">Report sent</string>
     <string name="load_videos_internally">Load videos internally</string>
     <string name="load_videos_internally_content">Would you like to try out the Slide Video plugin? This will allow you to view videos (like YouTube) internally!</string>
     <string name="do_not_show_again">Don\'t show again</string>
