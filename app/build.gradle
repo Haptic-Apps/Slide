@@ -81,7 +81,7 @@ ext {
 dependencies {
     withGPlayImplementation 'com.google.android.gms:play-services-drive:10.2.0'
 
-    implementation 'com.github.ccrama:JRAW:b30799fdc8'
+    implementation 'com.github.ccrama:JRAW:c2bc59eb5e'
     implementation "com.google.guava:guava:23.0-android"
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     //noinspection GradleDependency
