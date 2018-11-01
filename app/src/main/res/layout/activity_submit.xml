@@ -97,7 +97,7 @@
                     android:backgroundTint="?attr/tintColor"
                     android:textCursorDrawable="@drawable/cursor"
                     android:hint="@string/editor_title"
-                    android:inputType="text|textCapSentences"
+                    android:inputType="text|textAutoCorrect|textCapSentences"
                     android:maxLines="1"
                     android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
