@@ -31,6 +31,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import me.ccrama.redditslide.Views.ImageInsertEditText;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
@@ -86,6 +87,8 @@ public class Submit extends BaseActivity {
     private View         link;
     private View         self;
     public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_BODY = "body";
+    public static final String EXTRA_IS_SELF = "is_self";
 
     AsyncTask<Void, Void, Subreddit> tchange;
 
@@ -121,6 +124,7 @@ public class Submit extends BaseActivity {
 
         Intent intent = getIntent();
         final String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
+        final String initialBody = intent.getStringExtra(EXTRA_BODY);
 
         self = findViewById(R.id.selftext);
         final AutoCompleteTextView subredditText =
@@ -139,6 +143,9 @@ public class Submit extends BaseActivity {
                 && !subreddit.contains("/m/")
                 && !subreddit.contains("+")) {
             subredditText.setText(subreddit);
+        }
+        if (initialBody != null) {
+            ((ImageInsertEditText) self.findViewById(R.id.bodytext)).setText(initialBody);
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
                 UserSubscriptions.getAllSubreddits(this));
@@ -304,7 +311,8 @@ public class Submit extends BaseActivity {
                 findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this, null, null);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras()
                 .getString(Intent.EXTRA_TEXT, "")
-                .isEmpty()) {
+                .isEmpty()
+                && !intent.getBooleanExtra(EXTRA_IS_SELF, false)) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (data.contains("\n")) {
                 ((EditText) findViewById(R.id.titletext)).setText(

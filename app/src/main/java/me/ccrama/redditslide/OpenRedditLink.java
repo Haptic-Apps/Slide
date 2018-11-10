@@ -109,6 +109,40 @@ public class OpenRedditLink {
                 }
                 break;
             }
+            case SUBMIT: {
+                i = new Intent(context, Submit.class);
+                i.putExtra(Submit.EXTRA_SUBREDDIT, parts[2]);
+                Uri urlParams = Uri.parse(oldUrl);
+                if (urlParams.getQueryParameterNames().contains("title")) {
+                    // Submit already uses EXTRA_SUBJECT for title and EXTRA_TEXT for URL for sharing so we use those
+                    i.putExtra(Intent.EXTRA_SUBJECT, urlParams.getQueryParameter("title"));
+                }
+
+                boolean isSelfText = false;
+
+                // Reddit behavior: If selftext is true or if selftext doesn't exist and text does exist then page
+                // defaults to showing self post page. If selftext is false, or doesn't exist and no text then the page
+                // defaults to showing the link post page.
+                // We say isSelfText=true for the "no selftext, no text, no url" condition because that's slide's
+                // default behavior for the submit page, whereas reddit's behavior would say isSelfText=false.
+                if (urlParams.getQueryParameterNames().contains("selftext")
+                        && urlParams.getQueryParameter("selftext").equals("true")) {
+                    isSelfText = true;
+                } else if (!urlParams.getQueryParameterNames().contains("selftext")
+                        && (urlParams.getQueryParameterNames().contains("text")
+                            || !urlParams.getQueryParameterNames().contains("url"))) {
+                    isSelfText = true;
+                }
+
+                i.putExtra(Submit.EXTRA_IS_SELF, isSelfText);
+                if (urlParams.getQueryParameterNames().contains("text")) {
+                    i.putExtra(Submit.EXTRA_BODY, urlParams.getQueryParameter("text"));
+                }
+                if (urlParams.getQueryParameterNames().contains("url")) {
+                    i.putExtra(Intent.EXTRA_TEXT, urlParams.getQueryParameter("url"));
+                }
+                break;
+            }
             case COMMENT_PERMALINK: {
                 i = new Intent(context, CommentsScreenSingle.class);
                 if (parts[1].equalsIgnoreCase("u") || parts[1].equalsIgnoreCase("user")) {
@@ -313,6 +347,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/search.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/search?q= [optional]
             return RedditLinkType.SEARCH;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/submit.*")) {
+            // Submit post link. Format: reddit.com/r/$subreddit/submit
+            return RedditLinkType.SUBMIT;
         } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
             // Permalink to comments. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
@@ -352,6 +389,7 @@ public class OpenRedditLink {
         MESSAGE,
         MULTIREDDIT,
         LIVE,
+        SUBMIT,
         HOME,
         OTHER
     }
