@@ -64,6 +64,7 @@ import me.ccrama.redditslide.util.SortingUtil;
 public class MultiredditOverview extends BaseActivityAnim {
 
     public static final String EXTRA_PROFILE = "profile";
+    public static final String EXTRA_MULTI = "multi";
 
     public static MultiReddit          searchMulti;
     public        OverviewPagerAdapter adapter;
@@ -71,6 +72,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     private       String               profile;
     private       TabLayout            tabs;
     private       List<MultiReddit>    usedArray;
+    private       String               initialMulti;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -434,8 +436,10 @@ public class MultiredditOverview extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         profile = "";
+        initialMulti = "";
         if (getIntent().getExtras() != null) {
             profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
+            initialMulti = getIntent().getExtras().getString(EXTRA_MULTI, "");
         }
         if (profile.equalsIgnoreCase(Authentication.name)) {
             profile = "";
@@ -625,6 +629,14 @@ public class MultiredditOverview extends BaseActivityAnim {
                 pager.setAdapter(adapter);
                 pager.setOffscreenPageLimit(1);
                 tabs.setupWithViewPager(pager);
+                if (!initialMulti.isEmpty()) {
+                    for (int i = 0; i < usedArray.size(); i++) {
+                        if (usedArray.get(i).getDisplayName().equalsIgnoreCase(initialMulti)) {
+                            pager.setCurrentItem(i);
+                            break;
+                        }
+                    }
+                }
                 tabs.setSelectedTabIndicatorColor(
                         new ColorPreferences(MultiredditOverview.this).getColor(
                                 usedArray.get(0).getDisplayName()));

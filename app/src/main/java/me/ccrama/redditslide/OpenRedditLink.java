@@ -7,16 +7,7 @@ import android.net.Uri;
 
 import java.util.Arrays;
 
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
-import me.ccrama.redditslide.Activities.LiveThread;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.OpenContent;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Search;
-import me.ccrama.redditslide.Activities.SendMessage;
-import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.Activities.Wiki;
+import me.ccrama.redditslide.Activities.*;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -179,6 +170,12 @@ public class OpenRedditLink {
                 i.putExtra(SubredditView.EXTRA_SUBREDDIT, parts[2]);
                 break;
             }
+            case MULTIREDDIT: {
+                i = new Intent(context, MultiredditOverview.class);
+                i.putExtra(MultiredditOverview.EXTRA_PROFILE, parts[2]);
+                i.putExtra(MultiredditOverview.EXTRA_MULTI, parts[4]);
+                break;
+            }
             case MESSAGE: {
                 i = new Intent(context, SendMessage.class);
                 try {
@@ -328,6 +325,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+.*")) {
             // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
             return RedditLinkType.SUBREDDIT;
+        } else if (url.matches("(?i)reddit\\.com/u(?:ser)?/[a-z0-9-_]+.*/m/[a-z0-9_]+.*")) {
+            // Multireddit. Format: reddit.com/u [or user]/$username/m/$multireddit/$sort [optional]
+            return RedditLinkType.MULTIREDDIT;
         } else if (url.matches("(?i)reddit\\.com/u(?:ser)?/[a-z0-9-_]+.*")) {
             // User. Format: reddit.com/u [or user]/$username/$page [optional]
             return RedditLinkType.USER;
