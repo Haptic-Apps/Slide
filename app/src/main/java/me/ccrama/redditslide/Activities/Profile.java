@@ -233,7 +233,8 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
-        if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()) {
+        if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()
+                && !name.equalsIgnoreCase(Authentication.name)) {
             try {
                 new AlertDialogWrapper.Builder(Profile.this)
                         .setTitle(R.string.account_suspended)
