@@ -120,7 +120,12 @@ public class OpenRedditLink {
             }
             case COMMENT_PERMALINK: {
                 i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                if (parts[1].equalsIgnoreCase("u") || parts[1].equalsIgnoreCase("user")) {
+                    // Prepend u_ because user profile posts are made to /r/u_username
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, "u_" + parts[2]);
+                } else {
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                }
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 if (parts.length >= 7) {
@@ -150,7 +155,12 @@ public class OpenRedditLink {
             }
             case SUBMISSION: {
                 i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                if (parts[1].equalsIgnoreCase("u") || parts[1].equalsIgnoreCase("user")) {
+                    // Prepend u_ because user profile posts are made to /r/u_username
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, "u_" + parts[2]);
+                } else {
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                }
                 i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
@@ -306,11 +316,11 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/search.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/search?q= [optional]
             return RedditLinkType.SEARCH;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
-            // Permalink to comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
+        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
+            // Permalink to comments. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/comments/\\w+.*")) {
-            // Submission. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
+        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+.*")) {
+            // Submission. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [optional]
             return RedditLinkType.SUBMISSION;
         } else if (url.matches("(?i)reddit\\.com/comments/\\w+.*")) {
             // Submission without a given subreddit. Format: reddit.com/comments/$post_id/$post_title [optional]
