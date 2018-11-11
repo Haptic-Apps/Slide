@@ -8,8 +8,6 @@ import android.support.v4.view.ViewPager;
 
 import net.dean.jraw.models.Submission;
 
-import org.apache.commons.text.StringEscapeUtils;
-
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
@@ -28,7 +26,6 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -191,13 +188,13 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                             .get(0)
                             .get("source")
                             .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                        previewUrl = StringEscapeUtils.escapeHtml4(submission.getDataNode()
+                        previewUrl = submission.getDataNode()
                                 .get("preview")
                                 .get("images")
                                 .get(0)
                                 .get("source")
                                 .get("url")
-                                .asText());
+                                .asText();
                     }
                     args.putString("contentUrl", submission.getUrl());
                     args.putString("firstUrl", previewUrl);
