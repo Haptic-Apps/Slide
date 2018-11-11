@@ -388,8 +388,8 @@ public class CheckForMail extends BroadcastReceiver {
                                 new NotificationCompat.BigTextStyle();
                         notiStyle.setBigContentTitle("/r/" + s.getSubredditName());
 
-                        notiStyle.bigText(Html.fromHtml(s.getTitle() + c.getString(
-                                R.string.submission_properties_seperator_comments))
+                        notiStyle.bigText(Html.fromHtml(s.getTitle() + " " + c.getString(
+                                R.string.submission_properties_seperator_comments)) + " "
                                 + s.getAuthor());
 
 
@@ -404,11 +404,11 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setChannelId(Reddit.CHANNEL_SUBCHECKING)
                                         .setContentTitle("/r/"
                                                 + s.getSubredditName()
-                                                + c.getString(
-                                                R.string.submission_properties_seperator_comments)
+                                                + " " + c.getString(
+                                                R.string.submission_properties_seperator_comments) + " "
                                                 + Html.fromHtml(s.getTitle()))
-                                        .setContentText(Html.fromHtml(s.getTitle() + c.getString(
-                                                R.string.submission_properties_seperator_comments))
+                                        .setContentText(Html.fromHtml(s.getTitle()) + " " + c.getString(
+                                                R.string.submission_properties_seperator_comments) + " "
                                                 + s.getAuthor())
                                         .setColor(Palette.getColor(s.getSubredditName()))
                                         .setStyle(notiStyle)
