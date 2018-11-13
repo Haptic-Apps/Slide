@@ -2133,7 +2133,12 @@ public class SubredditView extends BaseActivity {
         @Override
         protected Subreddit doInBackground(final String... params) {
             try {
-                return Authentication.reddit.getSubreddit(params[0]);
+                Subreddit result = Authentication.reddit.getSubreddit(params[0]);
+                if (result.isNsfw() == null) {
+                    // Sub is probably a user profile backing subreddit for a deleted/suspended user
+                    throw new Exception("Sub has null values where it shouldn't");
+                }
+                return result;
             } catch (Exception e) {
                 runOnUiThread(new Runnable() {
                     @Override
