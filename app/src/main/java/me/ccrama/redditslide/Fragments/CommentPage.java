@@ -457,16 +457,18 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                 @Override
                 public void onClick(View v) {
                     if (adapter != null && adapter.currentComments != null) {
-                        int parentCount, opCount, linkCount, gildCount;
+                        int parentCount, opCount, linkCount, awardCount;
                         parentCount = 0;
                         opCount = 0;
                         linkCount = 0;
-                        gildCount = 0;
+                        awardCount = 0;
                         String op = adapter.submission.getAuthor();
                         for (CommentObject o : adapter.currentComments) {
                             if (o.comment != null && !(o instanceof MoreChildItem)) {
                                 if (o.comment.isTopLevel()) parentCount++;
-                                if (o.comment.getComment().getTimesGilded() > 0) gildCount++;
+                                if (o.comment.getComment().getTimesGilded() > 0
+                                        || o.comment.getComment().getTimesSilvered() > 0
+                                        || o.comment.getComment().getTimesPlatinized() > 0) awardCount++;
                                 if (o.comment.getComment().getAuthor() != null
                                         && o.comment.getComment().getAuthor().equals(op)) {
                                     opCount++;
@@ -505,8 +507,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         +
                                         ((Authentication.isLoggedIn) ? "You" + "," : "")
                                         +
-                                        "Gilded ("
-                                        + gildCount
+                                        "Awarded ("
+                                        + awardCount
                                         + ")")
                                         .toArray(new String[Authentication.isLoggedIn ? 6 : 5]),
                                 getCurrentSort(), new DialogInterface.OnClickListener() {
@@ -574,7 +576,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                         .show();
                                                 break;
                                             case 5:
-                                                currentSort = CommentNavType.YOU;
+                                                currentSort = (Authentication.isLoggedIn ? CommentNavType.YOU
+                                                        : CommentNavType.GILDED); // gilded is 5 if not logged in
                                                 break;
                                             case 4:
                                                 currentSort = CommentNavType.LINK;
@@ -2085,7 +2088,9 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
                             break;
                         case GILDED:
-                            matches = o.comment.getComment().getTimesGilded() > 0;
+                            matches = (o.comment.getComment().getTimesGilded() > 0
+                                    || o.comment.getComment().getTimesSilvered() > 0
+                                    || o.comment.getComment().getTimesPlatinized() > 0);
                             break;
                         case OP:
                             matches = adapter.submission != null && o.comment.getComment()
@@ -2189,7 +2194,9 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 matches = o.comment.getComment().getCreated().getTime() > sortTime;
                                 break;
                             case GILDED:
-                                matches = o.comment.getComment().getTimesGilded() > 0;
+                                matches = (o.comment.getComment().getTimesGilded() > 0
+                                        || o.comment.getComment().getTimesSilvered() > 0
+                                        || o.comment.getComment().getTimesPlatinized() > 0);
                                 break;
                             case OP:
                                 matches = adapter.submission != null && o.comment.getComment()
