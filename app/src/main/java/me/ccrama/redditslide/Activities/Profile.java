@@ -658,7 +658,9 @@ public class Profile extends BaseActivityAnim {
                                 view.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        LinkUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                        LinkUtil.openUrl(LinkUtil.formatURL(t.getAboutUrl()).toString(),
+                                                Palette.getColorUser(account.getFullName()),
+                                                Profile.this);
                                     }
                                 });
                             }
