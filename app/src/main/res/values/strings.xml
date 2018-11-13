@@ -468,6 +468,8 @@
     <string name="mod_btn_submission_flair_text">Set flair text</string>
     <string name="mod_btn_mark_nsfw">Mark NSFW</string>
     <string name="mod_btn_unmark_nsfw">Unmark NSFW</string>
+    <string name="mod_btn_mark_spoiler">Mark as spoiler</string>
+    <string name="mod_btn_unmark_spoiler">Unmark as spoiler</string>
     <string name="mod_btn_pin">Pin</string>
     <string name="mod_btn_unpin">Unpin</string>
     <string name="mod_btn_remove">Remove</string>

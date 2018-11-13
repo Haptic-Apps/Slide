@@ -1465,9 +1465,9 @@ public class PopulateSubmissionViewHolder {
 
         final boolean isSpoiler = submission.getDataNode().get("spoiler").asBoolean();
         if (isSpoiler) {
-            b.sheet(12, nsfw, "Unmark as spoiler");
+            b.sheet(12, nsfw, res.getString(R.string.mod_btn_unmark_spoiler));
         } else {
-            b.sheet(12, nsfw, "Mark as spoiler");
+            b.sheet(12, nsfw, res.getString(R.string.mod_btn_mark_spoiler));
         }
 
         final boolean locked = submission.isLocked();
@@ -3047,6 +3047,12 @@ public class PopulateSubmissionViewHolder {
                                 b.sheet(4, nsfw_drawable,
                                         mContext.getString(R.string.mod_btn_mark_nsfw));
                             }
+                            if (submission.getDataNode().get("spoiler").asBoolean()) {
+                                b.sheet(5, nsfw_drawable, mContext.getString(R.string.mod_btn_unmark_spoiler));
+                            } else {
+                                b.sheet(5, nsfw_drawable, mContext.getString(R.string.mod_btn_mark_spoiler));
+                            }
+
                             b.sheet(2, delete_drawable,
                                     mContext.getString(R.string.delete_submission));
 
@@ -3431,6 +3437,13 @@ public class PopulateSubmissionViewHolder {
                                                 unNsfwSubmission(mContext, submission, holder);
                                             } else {
                                                 setPostNsfw(mContext, submission, holder);
+                                            }
+                                            break;
+                                        case 5:
+                                            if (submission.getDataNode().get("spoiler").asBoolean()) {
+                                                unSpoiler(mContext, submission, holder);
+                                            } else {
+                                                setSpoiler(mContext, submission, holder);
                                             }
                                             break;
                                     }
