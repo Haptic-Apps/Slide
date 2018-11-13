@@ -17,7 +17,16 @@
             android:layout_margin="16dp"
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:id="@+id/profile"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <me.ccrama.redditslide.Views.ImageInsertEditText
                 android:id="@+id/entry"
