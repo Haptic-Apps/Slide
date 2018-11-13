@@ -454,6 +454,13 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
+        if (submission.getDataNode().get("is_original_content").asBoolean()) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0OC\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, true),
+                    0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
 
         if (submission.getSubmissionFlair().getText() != null && !submission.getSubmissionFlair()
                 .getText()
