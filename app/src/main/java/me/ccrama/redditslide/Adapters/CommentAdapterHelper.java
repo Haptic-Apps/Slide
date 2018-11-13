@@ -669,7 +669,7 @@ public class CommentAdapterHelper {
         final boolean stickied = comment.getDataNode().has("stickied") && comment.getDataNode()
                 .get("stickied")
                 .asBoolean();
-        if (baseNode.isTopLevel()) {
+        if (baseNode.isTopLevel() && comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
             if (!stickied) {
                 b.sheet(4, pin, mContext.getString(R.string.mod_sticky));
             } else {
