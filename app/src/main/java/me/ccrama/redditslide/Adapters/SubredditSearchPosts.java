@@ -35,12 +35,13 @@ public class SubredditSearchPosts extends GeneralPosts {
 
     public Activity parent;
 
-    public SubredditSearchPosts(String subreddit, String term, Activity parent) {
+    public SubredditSearchPosts(String subreddit, String term, Activity parent, boolean multireddit) {
         if (subreddit != null) {
             this.subreddit = subreddit;
         }
         this.parent = parent;
         this.term = term;
+        this.multireddit = multireddit;
     }
 
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) {
