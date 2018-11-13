@@ -1038,6 +1038,7 @@
     <string name="fab_hide">Hide viewed posts</string>
     <string name="fab_create">Create new post</string>
     <string name="fab_disabled">Disabled</string>
+    <string name="fab_search">Search posts</string>
     <string name="handling_internal_browser">Internal browser</string>
     <string name="handling_external_browser">External browser</string>
     <string name="mode_list">List</string>

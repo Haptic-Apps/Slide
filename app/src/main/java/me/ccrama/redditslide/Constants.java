@@ -47,6 +47,7 @@ public class Constants {
 
     public static final int FAB_DISMISS = 1;
     public static final int FAB_POST = 2;
+    public static final int FAB_SEARCH = 3;
 
     public enum BackButtonBehaviorOptions {
         Default(0), ConfirmExit(1), OpenDrawer(2);

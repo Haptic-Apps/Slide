@@ -12,4 +12,8 @@
         android:id="@+id/hide"
         android:title="@string/fab_hide"/>
 
+    <item
+        android:id="@+id/search"
+        android:title="@string/fab_search"/>
+
 </menu>
