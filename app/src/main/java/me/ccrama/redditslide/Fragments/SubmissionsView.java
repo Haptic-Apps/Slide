@@ -27,18 +27,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
+import me.ccrama.redditslide.Activities.*;
 import net.dean.jraw.models.Submission;
 
 import java.util.List;
 import java.util.Locale;
 
-import me.ccrama.redditslide.Activities.BaseActivity;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.Submit;
-import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -165,6 +164,70 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         Intent inte = new Intent(getActivity(), Submit.class);
                         inte.putExtra(Submit.EXTRA_SUBREDDIT, id);
                         getActivity().startActivity(inte);
+                    }
+                });
+            } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
+                fab.setImageResource(R.drawable.search);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    String term;
+                    @Override
+                    public void onClick(View v) {
+                        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
+                                .title(R.string.search_title)
+                                .alwaysCallInputCallback()
+                                .input(getString(R.string.search_msg), "",
+                                        new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(MaterialDialog materialDialog,
+                                                                CharSequence charSequence) {
+                                                term = charSequence.toString();
+                                            }
+                                        });
+
+                        //Add "search current sub" if it is not frontpage/all/random
+                        if (!id.equalsIgnoreCase("frontpage")
+                                && !id.equalsIgnoreCase("all")
+                                && !id.contains(".")
+                                && !id.contains("/m/")
+                                && !id.equalsIgnoreCase("friends")
+                                && !id.equalsIgnoreCase("random")
+                                && !id.equalsIgnoreCase("popular")
+                                && !id.equalsIgnoreCase("myrandom")
+                                && !id.equalsIgnoreCase("randnsfw")) {
+                            builder.positiveText(getString(R.string.search_subreddit, id))
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                                            @NonNull DialogAction dialogAction) {
+                                            Intent i = new Intent(getActivity(), Search.class);
+                                            i.putExtra(Search.EXTRA_TERM, term);
+                                            i.putExtra(Search.EXTRA_SUBREDDIT, id);
+                                            startActivity(i);
+                                        }
+                                    });
+                            builder.neutralText(R.string.search_all)
+                                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                                            @NonNull DialogAction dialogAction) {
+                                            Intent i = new Intent(getActivity(), Search.class);
+                                            i.putExtra(Search.EXTRA_TERM, term);
+                                            startActivity(i);
+                                        }
+                                    });
+                        } else {
+                            builder.positiveText(R.string.search_all)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                                            @NonNull DialogAction dialogAction) {
+                                            Intent i = new Intent(getActivity(), Search.class);
+                                            i.putExtra(Search.EXTRA_TERM, term);
+                                            startActivity(i);
+                                        }
+                                    });
+                        }
+                        builder.show();
                     }
                 });
             } else {

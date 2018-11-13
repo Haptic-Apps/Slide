@@ -279,7 +279,7 @@ public class SettingValues {
 
         fab = prefs.getBoolean(PREF_FAB, true);
         fabType = prefs.getInt(PREF_FAB_TYPE, Constants.FAB_DISMISS);
-        if (fabType > 2 || fabType < 0) {
+        if (fabType > 3 || fabType < 0) {
             fabType = Constants.FAB_DISMISS;
             prefs.edit().putInt(PREF_FAB_TYPE, Constants.FAB_DISMISS).apply();
         }

@@ -344,12 +344,29 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                             .putBoolean(SettingValues.PREF_FAB, true)
                                             .apply();
                                     break;
+                                case R.id.search:
+                                    SettingValues.fab = true;
+                                    SettingValues.fabType = Constants.FAB_SEARCH;
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREF_FAB_TYPE, Constants.FAB_SEARCH)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_FAB, true)
+                                            .apply();
+                                    break;
                             }
-                            ((TextView) context.findViewById(R.id.settings_general_fab_current)).setText(
-                                    SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS
-                                            ? context.getString(R.string.fab_hide)
-                                            : context.getString(R.string.fab_create))
-                                            : context.getString(R.string.fab_disabled));
+                            final TextView fabTitle = context.findViewById(R.id.settings_general_fab_current);
+                            if (SettingValues.fab) {
+                                if (SettingValues.fabType == Constants.FAB_DISMISS) {
+                                    fabTitle.setText(R.string.fab_hide);
+                                } else if (SettingValues.fabType == Constants.FAB_POST) {
+                                    fabTitle.setText(R.string.fab_create);
+                                } else {
+                                    fabTitle.setText(R.string.fab_search);
+                                }
+                            } else {
+                                fabTitle.setText(R.string.fab_disabled);
+                            }
 
                             return true;
                         }
