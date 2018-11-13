@@ -127,7 +127,7 @@ public class Related extends BaseActivityAnim {
             }
         });
 
-        posts = new SubredditSearchPosts("", "url:" + url, this);
+        posts = new SubredditSearchPosts("", "url:" + url, this, false);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 
