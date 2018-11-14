@@ -278,6 +278,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         if (locked) {
             lockedV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             shownHeaders += lockedV.getMeasuredHeight();
+            lockedV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
             lockedV.setVisibility(View.GONE);
         }
@@ -285,6 +286,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         if (contest) {
             contestV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             shownHeaders += contestV.getMeasuredHeight();
+            contestV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
             contestV.setVisibility(View.GONE);
         }

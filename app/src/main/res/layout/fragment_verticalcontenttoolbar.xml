@@ -120,7 +120,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_locked"
-                    android:textColor="?attr/fontColor"
+                    android:textColor="@color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -130,7 +130,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_contest"
-                    android:textColor="?attr/fontColor"
+                    android:textColor="@color/white"
                     android:textSize="12sp"/>
 
             <TextView
