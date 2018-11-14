@@ -177,7 +177,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ignore subreddit media preferences"
+                    android:text="@string/settings_reddit_media_pref"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp" />
             </LinearLayout>
