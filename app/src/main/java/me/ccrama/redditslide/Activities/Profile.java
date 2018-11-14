@@ -16,6 +16,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -571,6 +574,15 @@ public class Profile extends BaseActivityAnim {
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(name);
+
+                    if (account.getDataNode().has("is_employee")
+                            && account.getDataNode().get("is_employee").asBoolean()) {
+                        SpannableStringBuilder admin = new SpannableStringBuilder("[A]");
+                        admin.setSpan(new RelativeSizeSpan(.67f), 0, admin.length(),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        title.append(" ");
+                        title.append(admin);
+                    }
 
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
