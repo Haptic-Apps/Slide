@@ -121,6 +121,7 @@
     <string name="drawer_moderation">Moderation</string>
     <string name="drawer_offline">Slide is in offline mode</string>
     <string name="drawer_offline_retry">Try to enter online mode</string>
+    <string name="drawer_guest_mode">Browse as guest</string>
 
 
     <!-- Sidebar items (That's the one on the right) -->
