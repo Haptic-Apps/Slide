@@ -775,6 +775,7 @@
     <string name="category_create_new">New category</string>
     <string name="profile_category_loading">Loading categories</string>
     <string name="profile_category_select">Select category</string>
+    <string name="profile_saved_categories">Saved categories</string>
 
     <!-- Setting subheaders -->
     <string name="sorting">Sorting</string>
