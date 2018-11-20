@@ -14,7 +14,7 @@ android {
         disable 'MissingTranslation'
     }
     defaultConfig {
-        applicationId "me.ccrama.redditslide"
+        applicationId "net.alephcom.saferead"
         versionCode 311
         minSdkVersion 15
         targetSdkVersion 27
@@ -39,11 +39,11 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            resValue "string", "app_name", "Slide"
+            resValue "string", "app_name", "SafeRead"
         }
         debug {
             applicationIdSuffix ".debug"
-            resValue "string", "app_name", "Slide (debug)"
+            resValue "string", "app_name", "SafeRead (debug)"
         }
 
     }
@@ -81,7 +81,8 @@ ext {
 dependencies {
     withGPlayImplementation 'com.google.android.gms:play-services-drive:10.2.0'
 
-    implementation 'com.github.ccrama:JRAW:b30799fdc8'
+    implementation 'com.github.ccrama:JRAW:c2bc59eb5e'
+    //implementation 'net.dean.jraw:JRAW-Android:1.1.0'
     implementation "com.google.guava:guava:23.0-android"
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     //noinspection GradleDependency

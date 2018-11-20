@@ -136,7 +136,7 @@ public class PostMatch {
         baseSubreddit = baseSubreddit.toLowerCase(Locale.ENGLISH);
         boolean gifs = isGif(baseSubreddit);
         boolean images = isImage(baseSubreddit);
-        boolean nsfw = isNsfw(baseSubreddit);
+        boolean nsfw = true; //isNsfw(baseSubreddit);
         boolean albums = isAlbums(baseSubreddit);
         boolean urls = isUrls(baseSubreddit);
         boolean selftext = isSelftext(baseSubreddit);
@@ -154,6 +154,8 @@ public class PostMatch {
                 contentMatch = true;
             }
         }
+        //contentMatch = true; //Disable NSFW Content
+
         switch (ContentType.getContentType(s)) {
             case REDDIT:
             case EMBEDDED:
@@ -272,7 +274,7 @@ public class PostMatch {
     }
 
     public static boolean isNsfw(String baseSubreddit) {
-        return filters.getBoolean(baseSubreddit + "_nsfwFilter", false);
+        return filters.getBoolean(baseSubreddit + "_nsfwFilter", true);
     }
 
     public static boolean isSelftext(String baseSubreddit) {
