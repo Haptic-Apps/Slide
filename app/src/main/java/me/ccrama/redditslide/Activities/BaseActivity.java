@@ -473,7 +473,7 @@ public class BaseActivity extends PeekViewActivity
             if (title == null || title.equals("")) title = getString(R.string.app_name);
 
             Bitmap bitmap= BitmapFactory.decodeResource(getResources(),(  title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
-                    : R.mipmap.ic_launcher));
+                    : R.drawable.ic_launcher));
 
             setTaskDescription(
                     new ActivityManager.TaskDescription(title, bitmap, color));
