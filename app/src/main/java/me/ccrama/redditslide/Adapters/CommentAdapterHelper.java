@@ -42,6 +42,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 
+import me.ccrama.redditslide.Toolbox.*;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
@@ -50,10 +51,7 @@ import net.dean.jraw.models.*;
 
 import org.apache.commons.text.StringEscapeUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
@@ -635,6 +633,7 @@ public class CommentAdapterHelper {
         final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
         final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
         final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
+        final Drawable note = mContext.getResources().getDrawable(R.drawable.note);
 
         //Tint drawables
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -646,6 +645,7 @@ public class CommentAdapterHelper {
         pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        note.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -661,6 +661,8 @@ public class CommentAdapterHelper {
             b.sheet(0, report, mContext.getResources()
                     .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
         }
+
+        b.sheet(24, note, mContext.getString(R.string.mod_usernotes_view));
 
         b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
@@ -729,7 +731,9 @@ public class CommentAdapterHelper {
                             case 23:
                                 showBan(mContext, adapter.listView, comment, "", "", "", "");
                                 break;
-
+                            case 24:
+                                ToolboxUI.showUsernotes(mContext, comment.getAuthor(), comment.getSubredditName());
+                                break;
                         }
                     }
                 });
@@ -1391,6 +1395,20 @@ public class CommentAdapterHelper {
                 titleString.append(pinned);
                 titleString.append(" ");
             }
+        }
+
+        if (Authentication.mod && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()) != null
+                && Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
+                        .getNotesForUser(comment.getAuthor()) != null) {
+            SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
+                    Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
+                            .getDisplayNoteForUser(comment.getAuthor()) + "\u00A0");
+            note.setSpan(new RoundedBackgroundSpan(mContext.getResources().getColor(R.color.white),
+                    Color.parseColor(Toolbox.getUsernotesForSubreddit(
+                            comment.getSubredditName()).getDisplayColorForUser(comment.getAuthor())
+                    ), false, mContext), 0, note.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(note);
+            titleString.append(" ");
         }
 
         if (adapter.removed.contains(comment.getFullName()) || (comment.getBannedBy() != null

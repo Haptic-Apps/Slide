@@ -39,6 +39,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
 import net.dean.jraw.fluent.FluentRedditClient;
@@ -1432,6 +1433,7 @@ public class PopulateSubmissionViewHolder {
         final Drawable distinguish =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled,
                         null);
+        final Drawable note = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.note, null);
 
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -1448,6 +1450,7 @@ public class PopulateSubmissionViewHolder {
         spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         lock.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        note.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -1458,6 +1461,8 @@ public class PopulateSubmissionViewHolder {
 
         b.sheet(0, report,
                 res.getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
+
+        b.sheet(24, note, res.getString(R.string.mod_usernotes_view));
 
         boolean approved = false;
         String whoApproved = "";
@@ -1620,6 +1625,9 @@ public class PopulateSubmissionViewHolder {
                     case 23:
                         //ban a user
                         showBan(mContext, holder.itemView, submission, "", "", "", "");
+                        break;
+                    case 24:
+                        ToolboxUI.showUsernotes(mContext, submission.getAuthor(), submission.getSubredditName());
                         break;
                 }
             }

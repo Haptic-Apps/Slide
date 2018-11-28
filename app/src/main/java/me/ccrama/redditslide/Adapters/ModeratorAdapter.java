@@ -17,12 +17,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
+import android.text.style.*;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +32,9 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 
+import me.ccrama.redditslide.Toolbox.Toolbox;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -353,6 +354,54 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHold;
             final Comment comment = (Comment) dataSet.posts.get(i);
 
+            SpannableStringBuilder author = new SpannableStringBuilder(comment.getAuthor());
+            final int authorcolor = Palette.getFontColorUser(comment.getAuthor());
+
+            if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                        0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                        0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                        0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (Authentication.name != null && comment.getAuthor()
+                    .toLowerCase(Locale.ENGLISH)
+                    .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                                false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (authorcolor != 0) {
+                author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            if (Authentication.mod && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()) != null
+                    && Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
+                    .getNotesForUser(comment.getAuthor()) != null) {
+                SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
+                        Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
+                                .getDisplayNoteForUser(comment.getAuthor()) + "\u00A0");
+                note.setSpan(new RoundedBackgroundSpan(mContext.getResources().getColor(R.color.white),
+                        Color.parseColor(Toolbox.getUsernotesForSubreddit(
+                                comment.getSubredditName()).getDisplayColorForUser(comment.getAuthor())
+                        ), false, mContext), 0, note.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.append(" ");
+                author.append(note);
+            }
+
+            holder.user.setText(author);
+            holder.user.append(mContext.getResources().getString(R.string.submission_properties_seperator));
+            holder.user.setVisibility(View.VISIBLE);
+
             holder.score.setText(comment.getScore() + " " + mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
 
             if (Authentication.isLoggedIn) {
@@ -568,6 +617,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
         final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
         final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
+        final Drawable note = mContext.getResources().getDrawable(R.drawable.note);
 
         //Tint drawables
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -579,6 +629,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        note.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -594,6 +645,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             b.sheet(0, report, mContext.getResources()
                     .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
         }
+
+        b.sheet(24, note, mContext.getString(R.string.mod_usernotes_view));
 
         b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
@@ -644,7 +697,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             case 23:
                                 CommentAdapterHelper.showBan(mContext, holder.itemView, comment, "", "", "", "");
                                 break;
-
+                            case 24:
+                                ToolboxUI.showUsernotes(mContext, comment.getAuthor(), comment.getSubredditName());
+                                break;
                         }
                     }
                 });

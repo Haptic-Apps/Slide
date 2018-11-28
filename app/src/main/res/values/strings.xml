@@ -505,6 +505,11 @@
         <item quantity="other">View %d reports</item>
     </plurals>
 
+    <!-- Toolbox-related stuff -->
+    <string name="mod_usernotes_view">View usernotes</string>
+    <string name="mod_usernotes_title">Usernotes for %s</string>
+    <string name="mod_usernotes_add">Add a usernote</string>
+
     <!-- Pleasantly asking the user if he made his mind up -->
     <string name="really_remove_submission">Really remove this submission?</string>
     <string name="really_pin_submission">Really pin this submission?</string>

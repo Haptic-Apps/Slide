@@ -350,7 +350,7 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/submit.*")) {
             // Submit post link. Format: reddit.com/r/$subreddit/submit
             return RedditLinkType.SUBMIT;
-        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
+        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/[\\w-]*/.*")) {
             // Permalink to comments. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
         } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+.*")) {
