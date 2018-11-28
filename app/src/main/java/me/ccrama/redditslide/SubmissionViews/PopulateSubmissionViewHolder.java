@@ -42,6 +42,7 @@ import com.devspark.robototextview.RobotoTypefaces;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
 import net.dean.jraw.fluent.FluentRedditClient;
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
@@ -1490,10 +1491,12 @@ public class PopulateSubmissionViewHolder {
         }
 
         final boolean stickied = submission.isStickied();
-        if (stickied) {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
-        } else {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
+        if (!SubmissionCache.removed.contains(submission.getFullName())) {
+            if (stickied) {
+                b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
+            } else {
+                b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
+            }
         }
 
         final boolean distinguished =
@@ -1970,7 +1973,7 @@ public class PopulateSubmissionViewHolder {
             protected Boolean doInBackground(Void... params) {
                 try {
                     new ModerationManager(Authentication.reddit).setSticky(submission, true);
-                } catch (ApiException e) {
+                } catch (ApiException | NetworkException e) {
                     e.printStackTrace();
                     return false;
 
