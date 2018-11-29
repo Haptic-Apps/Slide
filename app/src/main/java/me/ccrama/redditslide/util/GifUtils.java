@@ -358,7 +358,7 @@ public class GifUtils {
         public void loadGfycat(String name, Gson gson) throws Exception {
             showProgressBar(c, progressBar, false);
             if (!name.startsWith("/")) name = "/" + name;
-            String gfycatUrl = "https://gfycat.com/cajax/get" + name;
+            String gfycatUrl = "https://api.gfycat.com/v1/gfycats" + name;
             LogUtil.v(gfycatUrl);
             final JsonObject result = HttpUtil.getJsonObject(client, gson, gfycatUrl);
             String obj = "";
