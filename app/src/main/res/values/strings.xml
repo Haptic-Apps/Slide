@@ -607,6 +607,7 @@
     <string name="settings_general_immersive_mode_desc">Hide the status and navigation bars (experimental)</string>
     <string name="settings_general_title_drawer_items">Drawer Items</string>
     <string name="settings_general_subtitle_drawer_items">Select which drawer items to display</string>
+    <string name="settings_moderation">Moderation</string>
 
 
     <!-- Settings titles displayed in settings activity-->
@@ -714,6 +715,14 @@
     <string name="settings_theme_night_end_at">End at\u0020</string>
     <string name="settings_general_inbox_snd">Sound and vibrate</string>
     <string name="settings_enable_notifs">Enable inbox notifications</string>
+    <string name="settings_mod_toolbox_header">Toolbox</string>
+    <string name="settings_mod_toolbox_enabled">Enable Toolbox functionality</string>
+    <string name="settings_mod_toolbox_desc">May cause a slight performance decrease</string>
+    <string name="settings_mod_removal_reasons">Removal reason type</string>
+    <string name="settings_mod_removal_slide">Slide \"remove with reason\"</string>
+    <string name="settings_mod_removal_toolbox">Toolbox removal reasons</string>
+    <string name="settings_mod_removal_reddit">Reddit removal reasons</string>
+    <string name="settings_mod_toolbox_refresh">Force refresh Toolbox data</string>
 
     <!-- Quick setting toggles in the drawer -->
     <string name="toggle_night_mode">Night mode</string>

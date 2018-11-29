@@ -662,7 +662,9 @@ public class CommentAdapterHelper {
                     .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
         }
 
-        b.sheet(24, note, mContext.getString(R.string.mod_usernotes_view));
+        if (SettingValues.toolboxEnabled) {
+            b.sheet(24, note, mContext.getString(R.string.mod_usernotes_view));
+        }
 
         b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
@@ -1397,9 +1399,11 @@ public class CommentAdapterHelper {
             }
         }
 
-        if (Authentication.mod && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()) != null
-                && Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
-                        .getNotesForUser(comment.getAuthor()) != null) {
+        if (SettingValues.toolboxEnabled
+                && Authentication.mod
+                && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()) != null
+                && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()).getNotesForUser(
+                        comment.getAuthor()) != null) {
             SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
                     Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
                             .getDisplayNoteForUser(comment.getAuthor()) + "\u00A0");

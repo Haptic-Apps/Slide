@@ -1462,7 +1462,9 @@ public class PopulateSubmissionViewHolder {
         b.sheet(0, report,
                 res.getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
 
-        b.sheet(24, note, res.getString(R.string.mod_usernotes_view));
+        if (SettingValues.toolboxEnabled) {
+            b.sheet(24, note, res.getString(R.string.mod_usernotes_view));
+        }
 
         boolean approved = false;
         String whoApproved = "";

@@ -121,6 +121,8 @@ public class SettingValues {
     public static final String PREF_LONG_LINK              = "shareLongLink";
     public static final String PREF_SELECTED_BROWSER       = "selectedBrowser";
     public static final String PREF_SELECTED_DRAWER_ITEMS  = "selectedDrawerItems";
+    public static final String PREF_MOD_REMOVAL_TYPE       = "removalReasonType";
+    public static final String PREF_MOD_TOOLBOX_ENABLED = "toolboxEnabled";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -243,6 +245,8 @@ public class SettingValues {
     public static String  selectedBrowser;
     public static long    selectedDrawerItems;
     public static ForcedState forcedNightModeState = ForcedState.NOT_FORCED;
+    public static boolean toolboxEnabled;
+    public static int     removalReasonType;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -396,6 +400,9 @@ public class SettingValues {
         peek = prefs.getBoolean(PREF_PEEK, false);
         selectedBrowser = prefs.getString(PREF_SELECTED_BROWSER, "");
         selectedDrawerItems = prefs.getLong(PREF_SELECTED_DRAWER_ITEMS, -1);
+
+        toolboxEnabled = prefs.getBoolean(PREF_MOD_TOOLBOX_ENABLED, false);
+        removalReasonType = prefs.getInt(PREF_MOD_REMOVAL_TYPE, RemovalReasonType.SLIDE.ordinal());
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
@@ -532,6 +539,10 @@ public class SettingValues {
 
     public static boolean hasSort(String subreddit) {
         return prefs.contains("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH));
+    }
+
+    public enum RemovalReasonType {
+        SLIDE, TOOLBOX, REDDIT
     }
 
     public enum ColorIndicator {

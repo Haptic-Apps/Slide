@@ -257,9 +257,11 @@ public class SubmissionCache {
             titleString.append(pinned);
         }
 
-        if (Authentication.mod && Toolbox.getUsernotesForSubreddit(submission.getSubredditName()) != null
-                && Toolbox.getUsernotesForSubreddit(submission.getSubredditName())
-                .getNotesForUser(submission.getAuthor()) != null) {
+        if (SettingValues.toolboxEnabled
+                && Authentication.mod
+                && Toolbox.getUsernotesForSubreddit(submission.getSubredditName()) != null
+                && Toolbox.getUsernotesForSubreddit(submission.getSubredditName()).getNotesForUser(
+                        submission.getAuthor()) != null) {
             SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
                     Toolbox.getUsernotesForSubreddit(submission.getSubredditName())
                             .getDisplayNoteForUser(submission.getAuthor()) + "\u00A0");

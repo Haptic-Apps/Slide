@@ -17,7 +17,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.*;
@@ -384,9 +383,11 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
-            if (Authentication.mod && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()) != null
-                    && Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
-                    .getNotesForUser(comment.getAuthor()) != null) {
+            if (SettingValues.toolboxEnabled
+                    && Authentication.mod
+                    && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()) != null
+                    && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()).getNotesForUser(
+                            comment.getAuthor()) != null) {
                 SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
                         Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
                                 .getDisplayNoteForUser(comment.getAuthor()) + "\u00A0");
@@ -646,7 +647,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
         }
 
-        b.sheet(24, note, mContext.getString(R.string.mod_usernotes_view));
+        if (SettingValues.toolboxEnabled) {
+            b.sheet(24, note, mContext.getString(R.string.mod_usernotes_view));
+        }
 
         b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
