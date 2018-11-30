@@ -730,7 +730,7 @@ public class SubredditView extends BaseActivity {
                 }
             });
             dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
-            if (Authentication.didOnline && Authentication.isLoggedIn) {
+            if (Authentication.didOnline && Authentication.isLoggedIn && false) { //Disable this temporarily
                 new AsyncTask<View, Void, View>() {
                     List<FlairTemplate> flairs;
                     ArrayList<String> flairText;
