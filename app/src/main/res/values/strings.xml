@@ -121,6 +121,7 @@
     <string name="drawer_moderation">Moderation</string>
     <string name="drawer_offline">Slide is in offline mode</string>
     <string name="drawer_offline_retry">Try to enter online mode</string>
+    <string name="drawer_guest_mode">Browse as guest</string>
 
 
     <!-- Sidebar items (That's the one on the right) -->
@@ -163,7 +164,7 @@
 
 
     <!-- Comment text options -->
-    <string name="comment_gild">Gild comment</string>
+    <string name="comment_gild">Award comment</string>
     <string name="comment_share">Share comment</string>
     <string name="comment_delete">Delete comment</string>
     <string name="comment_delete_msg">Do you really want to delete this comment? This cannot be undone</string>
@@ -679,7 +680,8 @@
     <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
     <string name="settings_fab_create">Show \"create comment\" FAB</string>
     <string name="settings_right_handed_comment_menu">Right-handed comment reply menu</string>
-    <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to \'Always Show\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
+    <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, enable \'Ignore subreddit media preferences\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
+    <string name="settings_reddit_media_pref">Ignore subreddit media preferences</string>
     <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
     <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo subreddit tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
     <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
@@ -775,6 +777,7 @@
     <string name="category_create_new">New category</string>
     <string name="profile_category_loading">Loading categories</string>
     <string name="profile_category_select">Select category</string>
+    <string name="profile_saved_categories">Saved categories</string>
 
     <!-- Setting subheaders -->
     <string name="sorting">Sorting</string>

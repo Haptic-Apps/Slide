@@ -6,7 +6,7 @@
     <item
         android:id="@+id/category"
         android:icon="@drawable/collection"
-        android:title="@string/sorting_change_sorting"
+        android:title="@string/profile_saved_categories"
         app:showAsAction="always"/>
 
     <item
