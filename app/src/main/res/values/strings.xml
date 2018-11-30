@@ -164,7 +164,7 @@
 
 
     <!-- Comment text options -->
-    <string name="comment_gild">Gild comment</string>
+    <string name="comment_gild">Award comment</string>
     <string name="comment_share">Share comment</string>
     <string name="comment_delete">Delete comment</string>
     <string name="comment_delete_msg">Do you really want to delete this comment? This cannot be undone</string>
