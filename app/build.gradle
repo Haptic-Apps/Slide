@@ -13,7 +13,7 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 313
+        versionCode 314
         versionName androidGitVersion.name()
 
         multiDexEnabled = true
@@ -54,12 +54,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-    }
-
-    compileOptions {
-        encoding = 'UTF-8'
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
