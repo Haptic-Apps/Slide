@@ -11,8 +11,8 @@ android:
   - tools
   - platform-tools
 
-  - build-tools-27.0.3
-  - android-27
+  - build-tools-28.0.3
+  - android-28
 
   - extra-android-m2repository
   - extra-google-m2repository
@@ -26,7 +26,7 @@ jdk:
 
 # workaround for https://github.com/travis-ci/travis-ci/issues/8874
 before_install:
-- yes | sdkmanager "platforms;android-27"
+- yes | sdkmanager "platforms;android-28"
 
 script:
 - ./gradlew assemble lint{With,No}GPlay{Debug,Release} test{With,No}GPlay{Debug,Release}UnitTest
