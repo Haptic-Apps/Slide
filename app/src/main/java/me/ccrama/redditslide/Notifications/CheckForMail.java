@@ -21,7 +21,8 @@ import android.text.Html;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.InboxPaginator;
-import net.dean.jraw.paginators.SubmissionSearchPaginator;
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.SubredditPaginator;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -387,8 +388,8 @@ public class CheckForMail extends BroadcastReceiver {
                                 new NotificationCompat.BigTextStyle();
                         notiStyle.setBigContentTitle("/r/" + s.getSubredditName());
 
-                        notiStyle.bigText(Html.fromHtml(s.getTitle() + c.getString(
-                                R.string.submission_properties_seperator_comments))
+                        notiStyle.bigText(Html.fromHtml(s.getTitle() + " " + c.getString(
+                                R.string.submission_properties_seperator_comments)) + " "
                                 + s.getAuthor());
 
 
@@ -403,11 +404,11 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setChannelId(Reddit.CHANNEL_SUBCHECKING)
                                         .setContentTitle("/r/"
                                                 + s.getSubredditName()
-                                                + c.getString(
-                                                R.string.submission_properties_seperator_comments)
+                                                + " " + c.getString(
+                                                R.string.submission_properties_seperator_comments) + " "
                                                 + Html.fromHtml(s.getTitle()))
-                                        .setContentText(Html.fromHtml(s.getTitle() + c.getString(
-                                                R.string.submission_properties_seperator_comments))
+                                        .setContentText(Html.fromHtml(s.getTitle()) + " " + c.getString(
+                                                R.string.submission_properties_seperator_comments) + " "
                                                 + s.getAuthor())
                                         .setColor(Palette.getColor(s.getSubredditName()))
                                         .setStyle(notiStyle)
@@ -429,7 +430,6 @@ public class CheckForMail extends BroadcastReceiver {
         protected List<Submission> doInBackground(Void... params) {
             try {
                 long lastTime = (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
-                int offsetSeconds = 28800; //8 hours in seconds
                 ArrayList<Submission> toReturn = new ArrayList<>();
                 ArrayList<String> rawSubs =
                         Reddit.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));
@@ -448,39 +448,26 @@ public class CheckForMail extends BroadcastReceiver {
                 }
 
                 String first = "";
-                int count = 0, totalCount = 0;
+                boolean skipFirst = false;
+                ArrayList<String> finalSubs = new ArrayList<>();
                 for (String s : subThresholds.keySet()) {
-                    first = first + s + "+";
-                    count++;
-                    totalCount++;
-                    if (count == 3 || totalCount == subThresholds.keySet().size()) {
-                        first = first.substring(0, first.length() - 1);
-                        SubmissionSearchPaginator unread =
-                                new SubmissionSearchPaginator(Authentication.reddit,
-                                        "timestamp:" + ((lastTime / 1000) + offsetSeconds)
-                                                //Go an hour back just in case
-                                                + ".." + ((System.currentTimeMillis() / 1000)
-                                                + offsetSeconds));
-                        LogUtil.v("/r/" + first + "/search?q=timestamp:" + ((lastTime / 1000)
-                                + offsetSeconds) + ".." + ((System.currentTimeMillis() / 1000)
-                                + offsetSeconds));
-                        unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.NEW);
-                        unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
-                        unread.setSubreddit(first);
-                        unread.setLimit(30);
-                        if (unread.hasNext()) {
-                            for (Submission subm : unread.next()) {
-                                if (subm.getScore() >= subThresholds.get(
-                                        subm.getSubredditName().toLowerCase(Locale.ENGLISH))
-                                        && !HasSeen.getSeen(subm)
-                                        && subm.getDataNode().get("created").asLong()
-                                        + offsetSeconds >= lastTime / 1000) {
-                                    toReturn.add(subm);
-                                }
-                            }
+                    if (!s.isEmpty() && !skipFirst) {
+                        finalSubs.add(s);
+                    } else {
+                        skipFirst = true;
+                        first = s;
+                    }
+                }
+                SubredditPaginator unread = new SubredditPaginator(Authentication.reddit, first,
+                        finalSubs.toArray(new String[finalSubs.size()]));
+                unread.setSorting(Sorting.NEW);
+                unread.setLimit(30);
+                if (unread.hasNext()) {
+                    for (Submission subm : unread.next()) {
+                        if (subm.getCreated().getTime() > lastTime && subm.getScore() >= subThresholds.get(subm.getSubredditName().toLowerCase()) && !HasSeen
+                                .getSeen(subm)) {
+                            toReturn.add(subm);
                         }
-                        first = "";
-                        count = 0;
                     }
                 }
                 return toReturn;
