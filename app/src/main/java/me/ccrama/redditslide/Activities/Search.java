@@ -309,7 +309,7 @@ public class Search extends BaseActivityAnim {
             }
         });
 
-        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(Locale.ENGLISH), this);
+        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(Locale.ENGLISH), this, multireddit);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 

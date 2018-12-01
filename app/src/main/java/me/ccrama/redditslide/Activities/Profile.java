@@ -16,6 +16,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -233,7 +236,8 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
-        if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()) {
+        if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()
+                && !name.equalsIgnoreCase(Authentication.name)) {
             try {
                 new AlertDialogWrapper.Builder(Profile.this)
                         .setTitle(R.string.account_suspended)
@@ -571,6 +575,15 @@ public class Profile extends BaseActivityAnim {
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(name);
 
+                    if (account.getDataNode().has("is_employee")
+                            && account.getDataNode().get("is_employee").asBoolean()) {
+                        SpannableStringBuilder admin = new SpannableStringBuilder("[A]");
+                        admin.setSpan(new RelativeSizeSpan(.67f), 0, admin.length(),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        title.append(" ");
+                        title.append(admin);
+                    }
+
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -657,7 +670,9 @@ public class Profile extends BaseActivityAnim {
                                 view.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        LinkUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                        LinkUtil.openUrl(LinkUtil.formatURL(t.getAboutUrl()).toString(),
+                                                Palette.getColorUser(account.getFullName()),
+                                                Profile.this);
                                     }
                                 });
                             }

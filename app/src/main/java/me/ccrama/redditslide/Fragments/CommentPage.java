@@ -278,6 +278,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         if (locked) {
             lockedV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             shownHeaders += lockedV.getMeasuredHeight();
+            lockedV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
             lockedV.setVisibility(View.GONE);
         }
@@ -285,6 +286,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         if (contest) {
             contestV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             shownHeaders += contestV.getMeasuredHeight();
+            contestV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
             contestV.setVisibility(View.GONE);
         }
@@ -329,14 +331,16 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LayoutInflater inflater = getActivity().getLayoutInflater();
+                    final MaterialDialog replyDialog = new MaterialDialog.Builder(getActivity())
+                            .customView(R.layout.edit_comment, false)
+                            .cancelable(false)
+                            .build();
+                    final View replyView = replyDialog.getCustomView();
 
-                    final View dialoglayout = inflater.inflate(R.layout.comment_menu, null);
-                    dialoglayout.findViewById(R.id.menu).setVisibility(View.GONE);
-                    final AlertDialogWrapper.Builder builder =
-                            new AlertDialogWrapper.Builder(getActivity());
+                    // Make the account selector visible
+                    replyView.findViewById(R.id.profile).setVisibility(View.VISIBLE);
 
-                    final EditText e = dialoglayout.findViewById(R.id.replyLine);
+                    final EditText e = replyView.findViewById(R.id.entry);
 
                     //Tint the replyLine appropriately if the base theme is Light or Sepia
                     if (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5) {
@@ -346,25 +350,22 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         e.getBackground().setColorFilter(TINT, PorterDuff.Mode.SRC_IN);
                     }
 
-                    DoEditorActions.doActions(e, dialoglayout,
+                    DoEditorActions.doActions(e, replyView,
                             getActivity().getSupportFragmentManager(), getActivity(),
                             adapter.submission.isSelfPost() ? adapter.submission.getSelftext()
                                     : null, new String[]{adapter.submission.getAuthor()});
 
-                    builder.setCancelable(false).setView(dialoglayout);
-                    final Dialog d = builder.create();
-                    d.getWindow()
+                    replyDialog.getWindow()
                             .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-                    d.show();
-                    dialoglayout.findViewById(R.id.discard)
+                    replyView.findViewById(R.id.cancel)
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    d.dismiss();
+                                    replyDialog.dismiss();
                                 }
                             });
-                    final TextView profile = dialoglayout.findViewById(R.id.profile);
+                    final TextView profile = replyView.findViewById(R.id.profile);
                     final String[] changedProfile = {Authentication.name};
                     profile.setText("/u/".concat(changedProfile[0]));
                     profile.setOnClickListener(new View.OnClickListener() {
@@ -383,23 +384,24 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                             final int i = keys.indexOf(changedProfile[0]);
 
-                            AlertDialogWrapper.Builder builder =
-                                    new AlertDialogWrapper.Builder(getContext());
-                            builder.setTitle(getString(R.string.replies_switch_accounts));
-                            builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            changedProfile[0] = keys.get(which);
-                                            profile.setText("/u/".concat(changedProfile[0]));
-                                        }
-                                    });
+                            MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
+                            builder.title(getString(R.string.replies_switch_accounts));
+                            builder.items(keys.toArray(new String[keys.size()]));
+                            builder.itemsCallbackSingleChoice(i, new MaterialDialog.ListCallbackSingleChoice() {
+                                @Override
+                                public boolean onSelection(MaterialDialog dialog, View itemView,
+                                                           int which, CharSequence text) {
+                                    changedProfile[0] = keys.get(which);
+                                    profile.setText("/u/".concat(changedProfile[0]));
+                                    return true;
+                                }
+                            });
                             builder.alwaysCallSingleChoiceCallback();
-                            builder.setNegativeButton(R.string.btn_cancel, null);
+                            builder.negativeText(R.string.btn_cancel);
                             builder.show();
                         }
                     });
-                    dialoglayout.findViewById(R.id.send)
+                    replyView.findViewById(R.id.submit)
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -407,10 +409,12 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                     adapter.new ReplyTaskComment(adapter.submission,
                                             changedProfile[0]).execute(
                                             e.getText().toString());
-                                    d.dismiss();
+                                    replyDialog.dismiss();
                                 }
 
                             });
+
+                    replyDialog.show();
                 }
             });
         }
@@ -457,16 +461,18 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                 @Override
                 public void onClick(View v) {
                     if (adapter != null && adapter.currentComments != null) {
-                        int parentCount, opCount, linkCount, gildCount;
+                        int parentCount, opCount, linkCount, awardCount;
                         parentCount = 0;
                         opCount = 0;
                         linkCount = 0;
-                        gildCount = 0;
+                        awardCount = 0;
                         String op = adapter.submission.getAuthor();
                         for (CommentObject o : adapter.currentComments) {
                             if (o.comment != null && !(o instanceof MoreChildItem)) {
                                 if (o.comment.isTopLevel()) parentCount++;
-                                if (o.comment.getComment().getTimesGilded() > 0) gildCount++;
+                                if (o.comment.getComment().getTimesGilded() > 0
+                                        || o.comment.getComment().getTimesSilvered() > 0
+                                        || o.comment.getComment().getTimesPlatinized() > 0) awardCount++;
                                 if (o.comment.getComment().getAuthor() != null
                                         && o.comment.getComment().getAuthor().equals(op)) {
                                     opCount++;
@@ -505,8 +511,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         +
                                         ((Authentication.isLoggedIn) ? "You" + "," : "")
                                         +
-                                        "Gilded ("
-                                        + gildCount
+                                        "Awarded ("
+                                        + awardCount
                                         + ")")
                                         .toArray(new String[Authentication.isLoggedIn ? 6 : 5]),
                                 getCurrentSort(), new DialogInterface.OnClickListener() {
@@ -574,7 +580,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                         .show();
                                                 break;
                                             case 5:
-                                                currentSort = CommentNavType.YOU;
+                                                currentSort = (Authentication.isLoggedIn ? CommentNavType.YOU
+                                                        : CommentNavType.GILDED); // gilded is 5 if not logged in
                                                 break;
                                             case 4:
                                                 currentSort = CommentNavType.LINK;
@@ -2085,7 +2092,9 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
                             break;
                         case GILDED:
-                            matches = o.comment.getComment().getTimesGilded() > 0;
+                            matches = (o.comment.getComment().getTimesGilded() > 0
+                                    || o.comment.getComment().getTimesSilvered() > 0
+                                    || o.comment.getComment().getTimesPlatinized() > 0);
                             break;
                         case OP:
                             matches = adapter.submission != null && o.comment.getComment()
@@ -2189,7 +2198,9 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 matches = o.comment.getComment().getCreated().getTime() > sortTime;
                                 break;
                             case GILDED:
-                                matches = o.comment.getComment().getTimesGilded() > 0;
+                                matches = (o.comment.getComment().getTimesGilded() > 0
+                                        || o.comment.getComment().getTimesSilvered() > 0
+                                        || o.comment.getComment().getTimesPlatinized() > 0);
                                 break;
                             case OP:
                                 matches = adapter.submission != null && o.comment.getComment()

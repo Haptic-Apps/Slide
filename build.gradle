@@ -2,12 +2,13 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         google()
+        maven { url "https://jitpack.io" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         // ./gradlew dependencyUpdates
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -18,10 +19,13 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://jitpack.io" }
-        maven {
-            url 'https://maven.google.com'
-        }
         google()
+        maven { url "https://jitpack.io" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

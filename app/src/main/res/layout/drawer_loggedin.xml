@@ -129,6 +129,32 @@
         </LinearLayout>
 
         <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:id="@+id/guest_mode"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+                android:paddingStart="0dp">
+
+            <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="26dp"
+                    android:tint="#fff"
+                    app:srcCompat="@drawable/person"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/drawer_guest_mode"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
                 android:id="@+id/add"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"

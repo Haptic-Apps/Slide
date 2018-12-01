@@ -35,10 +35,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -49,11 +46,7 @@ import net.dean.jraw.ApiException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
-import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
-import net.dean.jraw.models.DistinguishedStatus;
-import net.dean.jraw.models.Submission;
-import net.dean.jraw.models.VoteDirection;
+import net.dean.jraw.models.*;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -86,8 +79,6 @@ import me.ccrama.redditslide.util.LinkUtil;
  * Created by Carlos on 8/4/2016.
  */
 public class CommentAdapterHelper {
-    public static String reportReason;
-
     public static void showOverflowBottomSheet(final CommentAdapter adapter, final Context mContext,
             final CommentViewHolder holder, final CommentNode baseNode) {
 
@@ -183,32 +174,86 @@ public class CommentAdapterHelper {
                     break;
                     case 16:
                         //report
-                        reportReason = "";
-                        new MaterialDialog.Builder(mContext).input(
-                                mContext.getString(R.string.input_reason_for_report), null, true,
-                                new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                                        reportReason = input.toString();
-                                    }
-                                })
+                        final MaterialDialog reportDialog = new MaterialDialog.Builder(mContext)
+                                .customView(R.layout.report_dialog, true)
                                 .title(R.string.report_comment)
-                                .alwaysCallInputCallback()
-                                .inputType(InputType.TYPE_CLASS_TEXT
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                                        | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
-                                .onNegative(null)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        new AsyncReportTask(adapter.currentBaseNode,
-                                                adapter.listView).execute();
+                                        RadioGroup reasonGroup = dialog.getCustomView()
+                                                .findViewById(R.id.report_reasons);
+                                        String reportReason;
+                                        if (reasonGroup.getCheckedRadioButtonId() == R.id.report_other) {
+                                            reportReason = ((EditText) dialog.getCustomView()
+                                                    .findViewById(R.id.input_report_reason)).getText().toString();
+                                        } else {
+                                            reportReason = ((RadioButton) reasonGroup
+                                                    .findViewById(reasonGroup.getCheckedRadioButtonId()))
+                                                    .getText().toString();
+                                        }
+                                        new AsyncReportTask(adapter.currentBaseNode, adapter.listView)
+                                                .execute(reportReason);
                                     }
-                                })
-                                .show();
+                                }).build();
+
+                        final RadioGroup reasonGroup = reportDialog.getCustomView().findViewById(R.id.report_reasons);
+
+                        reasonGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                if (checkedId == R.id.report_other)
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.VISIBLE);
+                                else
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.GONE);
+                            }
+                        });
+
+                        // Load sub's report reasons and show the appropriate ones
+                        new AsyncTask<Void, Void, Ruleset>() {
+                            @Override
+                            protected Ruleset doInBackground(Void... voids) {
+                                Ruleset rules = Authentication.reddit.getRules(adapter.currentBaseNode.getComment()
+                                        .getSubredditName());
+                                return rules;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Ruleset rules) {
+                                reportDialog.getCustomView().findViewById(R.id.report_loading).setVisibility(View.GONE);
+                                if (rules.getSubredditRules().size() > 0) {
+                                    TextView subHeader = new TextView(mContext);
+                                    subHeader.setText(mContext.getString(R.string.report_sub_rules,
+                                            adapter.currentBaseNode.getComment().getSubredditName()));
+                                    reasonGroup.addView(subHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (SubredditRule rule : rules.getSubredditRules()) {
+                                    if (rule.getKind() == SubredditRule.RuleKind.COMMENT
+                                            || rule.getKind() == SubredditRule.RuleKind.ALL) {
+                                        RadioButton btn = new RadioButton(mContext);
+                                        btn.setText(rule.getViolationReason());
+                                        reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                        btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                    }
+                                }
+                                if (rules.getSiteRules().size() > 0) {
+                                    TextView siteHeader = new TextView(mContext);
+                                    siteHeader.setText(R.string.report_site_rules);
+                                    reasonGroup.addView(siteHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (String rule : rules.getSiteRules()) {
+                                    RadioButton btn = new RadioButton(mContext);
+                                    btn.setText(rule);
+                                    reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                    btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                }
+                            }
+                        }.execute();
+
+                        reportDialog.show();
                         break;
                     case 10:
                         //View comment parent
@@ -624,7 +669,7 @@ public class CommentAdapterHelper {
         final boolean stickied = comment.getDataNode().has("stickied") && comment.getDataNode()
                 .get("stickied")
                 .asBoolean();
-        if (baseNode.isTopLevel()) {
+        if (baseNode.isTopLevel() && comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
             if (!stickied) {
                 b.sheet(4, pin, mContext.getString(R.string.mod_sticky));
             } else {
@@ -1248,28 +1293,62 @@ public class CommentAdapterHelper {
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getTimesGilded() > 0) {
-            //if the comment has only been gilded once, don't show a number
-            final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                    : "\u200Ax" + Integer.toString(comment.getTimesGilded());
-            SpannableStringBuilder gilded =
-                    new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);
             int fontsize =
                     (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
             a.recycle();
-            Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
-            float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(gilded);
-            titleString.append(" ");
+            // Add silver, gold, platinum icons and counts in that order
+            if (comment.getTimesSilvered() > 0) {
+                final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
+                        : "\u200Ax" + Integer.toString(comment.getTimesSilvered());
+                SpannableStringBuilder silvered =
+                        new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                silvered.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(silvered);
+                titleString.append(" ");
+            }
+            if (comment.getTimesGilded() > 0) {
+                final String timesGilded = (comment.getTimesGilded() == 1) ? ""
+                        : "\u200Ax" + Integer.toString(comment.getTimesGilded());
+                SpannableStringBuilder gilded =
+                        new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(gilded);
+                titleString.append(" ");
+            }
+            if (comment.getTimesPlatinized() > 0) {
+                final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
+                        : "\u200Ax" + Integer.toString(comment.getTimesPlatinized());
+                SpannableStringBuilder platinized =
+                        new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                platinized.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(platinized);
+                titleString.append(" ");
+            }
         }
         if (UserTags.isUserTagged(comment.getAuthor())) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
@@ -1523,7 +1602,7 @@ public class CommentAdapterHelper {
         }
     }
 
-    public static class AsyncReportTask extends AsyncTask<Void, Void, Void> {
+    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
         private CommentNode baseNode;
         private View        contextView;
 
@@ -1533,10 +1612,9 @@ public class CommentAdapterHelper {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... reason) {
             try {
-                new AccountManager(Authentication.reddit).report(baseNode.getComment(),
-                        reportReason);
+                new AccountManager(Authentication.reddit).report(baseNode.getComment(), reason[0]);
             } catch (ApiException e) {
                 e.printStackTrace();
             }

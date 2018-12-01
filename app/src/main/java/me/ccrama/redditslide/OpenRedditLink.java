@@ -7,16 +7,7 @@ import android.net.Uri;
 
 import java.util.Arrays;
 
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
-import me.ccrama.redditslide.Activities.LiveThread;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.OpenContent;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Search;
-import me.ccrama.redditslide.Activities.SendMessage;
-import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.Activities.Wiki;
+import me.ccrama.redditslide.Activities.*;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -118,9 +109,48 @@ public class OpenRedditLink {
                 }
                 break;
             }
+            case SUBMIT: {
+                i = new Intent(context, Submit.class);
+                i.putExtra(Submit.EXTRA_SUBREDDIT, parts[2]);
+                Uri urlParams = Uri.parse(oldUrl);
+                if (urlParams.getQueryParameterNames().contains("title")) {
+                    // Submit already uses EXTRA_SUBJECT for title and EXTRA_TEXT for URL for sharing so we use those
+                    i.putExtra(Intent.EXTRA_SUBJECT, urlParams.getQueryParameter("title"));
+                }
+
+                boolean isSelfText = false;
+
+                // Reddit behavior: If selftext is true or if selftext doesn't exist and text does exist then page
+                // defaults to showing self post page. If selftext is false, or doesn't exist and no text then the page
+                // defaults to showing the link post page.
+                // We say isSelfText=true for the "no selftext, no text, no url" condition because that's slide's
+                // default behavior for the submit page, whereas reddit's behavior would say isSelfText=false.
+                if (urlParams.getQueryParameterNames().contains("selftext")
+                        && urlParams.getQueryParameter("selftext").equals("true")) {
+                    isSelfText = true;
+                } else if (!urlParams.getQueryParameterNames().contains("selftext")
+                        && (urlParams.getQueryParameterNames().contains("text")
+                            || !urlParams.getQueryParameterNames().contains("url"))) {
+                    isSelfText = true;
+                }
+
+                i.putExtra(Submit.EXTRA_IS_SELF, isSelfText);
+                if (urlParams.getQueryParameterNames().contains("text")) {
+                    i.putExtra(Submit.EXTRA_BODY, urlParams.getQueryParameter("text"));
+                }
+                if (urlParams.getQueryParameterNames().contains("url")) {
+                    i.putExtra(Intent.EXTRA_TEXT, urlParams.getQueryParameter("url"));
+                }
+                break;
+            }
             case COMMENT_PERMALINK: {
                 i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                if (parts[1].equalsIgnoreCase("u") || parts[1].equalsIgnoreCase("user")) {
+                    // Prepend u_ because user profile posts are made to /r/u_username
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, "u_" + parts[2]);
+                } else {
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                }
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 if (parts.length >= 7) {
@@ -150,7 +180,12 @@ public class OpenRedditLink {
             }
             case SUBMISSION: {
                 i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                if (parts[1].equalsIgnoreCase("u") || parts[1].equalsIgnoreCase("user")) {
+                    // Prepend u_ because user profile posts are made to /r/u_username
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, "u_" + parts[2]);
+                } else {
+                    i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                }
                 i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
                 i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
@@ -167,6 +202,12 @@ public class OpenRedditLink {
             case SUBREDDIT: {
                 i = new Intent(context, SubredditView.class);
                 i.putExtra(SubredditView.EXTRA_SUBREDDIT, parts[2]);
+                break;
+            }
+            case MULTIREDDIT: {
+                i = new Intent(context, MultiredditOverview.class);
+                i.putExtra(MultiredditOverview.EXTRA_PROFILE, parts[2]);
+                i.putExtra(MultiredditOverview.EXTRA_MULTI, parts[4]);
                 break;
             }
             case MESSAGE: {
@@ -306,11 +347,14 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/search.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/search?q= [optional]
             return RedditLinkType.SEARCH;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
-            // Permalink to comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/submit.*")) {
+            // Submit post link. Format: reddit.com/r/$subreddit/submit
+            return RedditLinkType.SUBMIT;
+        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
+            // Permalink to comments. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/comments/\\w+.*")) {
-            // Submission. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
+        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+.*")) {
+            // Submission. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [optional]
             return RedditLinkType.SUBMISSION;
         } else if (url.matches("(?i)reddit\\.com/comments/\\w+.*")) {
             // Submission without a given subreddit. Format: reddit.com/comments/$post_id/$post_title [optional]
@@ -318,6 +362,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+.*")) {
             // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
             return RedditLinkType.SUBREDDIT;
+        } else if (url.matches("(?i)reddit\\.com/u(?:ser)?/[a-z0-9-_]+.*/m/[a-z0-9_]+.*")) {
+            // Multireddit. Format: reddit.com/u [or user]/$username/m/$multireddit/$sort [optional]
+            return RedditLinkType.MULTIREDDIT;
         } else if (url.matches("(?i)reddit\\.com/u(?:ser)?/[a-z0-9-_]+.*")) {
             // User. Format: reddit.com/u [or user]/$username/$page [optional]
             return RedditLinkType.USER;
@@ -342,6 +389,7 @@ public class OpenRedditLink {
         MESSAGE,
         MULTIREDDIT,
         LIVE,
+        SUBMIT,
         HOME,
         OTHER
     }

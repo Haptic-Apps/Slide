@@ -81,7 +81,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
                     if (read.contains("Slide_backupEND>")) {
 
-                        String[] files = read.split("END>");
+                        String[] files = read.split("END>\\s*");
                         progress.dismiss();
                         progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                 R.string.backup_restoring)

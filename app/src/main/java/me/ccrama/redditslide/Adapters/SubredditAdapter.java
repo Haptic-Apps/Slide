@@ -105,6 +105,12 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Subreddit sub = dataSet.posts.get(i);
 
             holder.name.setText(sub.getDisplayName());
+            if (sub.getLocalizedSubscriberCount() != null) {
+                holder.subscribers.setText(context.getString(R.string.subreddit_subscribers_string,
+                        sub.getLocalizedSubscriberCount()));
+            } else {
+                holder.subscribers.setVisibility(View.GONE);
+            }
 
             holder.color.setBackgroundResource(R.drawable.circle);
             holder.color.getBackground().setColorFilter(Palette.getColor(sub.getDisplayName().toLowerCase(Locale.ENGLISH)), PorterDuff.Mode.MULTIPLY);

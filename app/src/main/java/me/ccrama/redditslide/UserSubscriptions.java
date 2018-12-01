@@ -442,6 +442,8 @@ public class UserSubscriptions {
             // but some other user's multis obviously can't be so
             // don't return until we've loaded them.
             loadPublicMultireddits(callback, profile);
+        } else {
+            callback.onComplete(public_multireddits.get(profile));
         }
     }
 

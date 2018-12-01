@@ -20,10 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
+import me.ccrama.redditslide.Activities.Search;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Submission;
@@ -118,6 +120,42 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                                         startActivity(i);
                                     }
                                 }).show();
+                    }
+                });
+            } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
+                fab.setImageResource(R.drawable.search);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    String term;
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println(posts.multiReddit.getDisplayName());
+                        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
+                                .title(R.string.search_title)
+                                .alwaysCallInputCallback()
+                                .input(getString(R.string.search_msg), "",
+                                        new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(
+                                                    MaterialDialog materialDialog,
+                                                    CharSequence charSequence) {
+                                                term = charSequence.toString();
+                                            }
+                                        });
+
+                        builder.positiveText(getString(R.string.search_subreddit,
+                                "/m/" + posts.multiReddit.getDisplayName()))
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog materialDialog,
+                                                        @NonNull DialogAction dialogAction) {
+                                        Intent i = new Intent(getActivity(), Search.class);
+                                        i.putExtra(Search.EXTRA_TERM, term);
+                                        i.putExtra(Search.EXTRA_MULTIREDDIT, posts.multiReddit.getDisplayName());
+                                        startActivity(i);
+                                    }
+                                });
+
+                        builder.show();
                     }
                 });
             } else {

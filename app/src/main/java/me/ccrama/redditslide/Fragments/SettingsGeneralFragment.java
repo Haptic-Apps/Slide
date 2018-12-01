@@ -26,6 +26,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rey.material.widget.Slider;
 
+import me.ccrama.redditslide.*;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
@@ -38,16 +39,9 @@ import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.SettingsViewType;
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate.FolderCallback;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
@@ -344,12 +338,29 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                             .putBoolean(SettingValues.PREF_FAB, true)
                                             .apply();
                                     break;
+                                case R.id.search:
+                                    SettingValues.fab = true;
+                                    SettingValues.fabType = Constants.FAB_SEARCH;
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREF_FAB_TYPE, Constants.FAB_SEARCH)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_FAB, true)
+                                            .apply();
+                                    break;
                             }
-                            ((TextView) context.findViewById(R.id.settings_general_fab_current)).setText(
-                                    SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS
-                                            ? context.getString(R.string.fab_hide)
-                                            : context.getString(R.string.fab_create))
-                                            : context.getString(R.string.fab_disabled));
+                            final TextView fabTitle = context.findViewById(R.id.settings_general_fab_current);
+                            if (SettingValues.fab) {
+                                if (SettingValues.fabType == Constants.FAB_DISMISS) {
+                                    fabTitle.setText(R.string.fab_hide);
+                                } else if (SettingValues.fabType == Constants.FAB_POST) {
+                                    fabTitle.setText(R.string.fab_create);
+                                } else {
+                                    fabTitle.setText(R.string.fab_search);
+                                }
+                            } else {
+                                fabTitle.setText(R.string.fab_disabled);
+                            }
 
                             return true;
                         }
@@ -811,12 +822,16 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             }
         }
 
-        //List of all subreddits of the multi
-        List<String> sorted = new ArrayList<>();
-        //Add all user subs that aren't already on the list
-        for (String s : UserSubscriptions.sort(UserSubscriptions.getSubscriptions(context))) {
-            sorted.add(s);
+        // Get list of user's subscriptions
+        CaseInsensitiveArrayList subs = UserSubscriptions.getSubscriptions(context);
+        // Add any subs that the user has notifications for but isn't subscribed to
+        for (String s : subThresholds.keySet()) {
+            if (!subs.contains(s)) {
+                subs.add(s);
+            }
         }
+
+        List<String> sorted = UserSubscriptions.sort(subs);
 
         //Array of all subs
         String[] all = new String[sorted.size()];
