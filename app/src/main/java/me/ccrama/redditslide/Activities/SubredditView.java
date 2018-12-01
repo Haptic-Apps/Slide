@@ -730,7 +730,7 @@ public class SubredditView extends BaseActivity {
                 }
             });
             dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
-            if (Authentication.didOnline && Authentication.isLoggedIn && false) { //Disable this temporarily
+            if (Authentication.didOnline && Authentication.isLoggedIn) {
                 new AsyncTask<View, Void, View>() {
                     List<FlairTemplate> flairs;
                     ArrayList<String> flairText;
@@ -741,7 +741,6 @@ public class SubredditView extends BaseActivity {
                     protected View doInBackground(View... params) {
                         try {
                             m = new AccountManager(Authentication.reddit);
-                            System.out.println(subOverride);
                             JsonNode node = m.getFlairChoicesRootNode(subOverride, null);
                             flairs = m.getFlairChoices(subOverride, node);
 
@@ -964,7 +963,7 @@ public class SubredditView extends BaseActivity {
                             });
                         }
                     }
-                }.execute();
+                }.execute((View) dialoglayout.findViewById(R.id.flair));
             }
         } else {
             if (drawerLayout != null) {
