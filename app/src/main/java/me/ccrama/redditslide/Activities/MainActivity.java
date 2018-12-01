@@ -3256,7 +3256,7 @@ public class MainActivity extends BaseActivity
                         }
                     }
                 };
-                currentFlair.execute(dialoglayout.findViewById(R.id.flair));
+                currentFlair.execute((View) dialoglayout.findViewById(R.id.flair));
             }
         } else {
             if (drawerLayout != null) {
