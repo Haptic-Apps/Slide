@@ -500,7 +500,7 @@ public class MainActivity extends BaseActivity
                 return super.dispatchKeyEvent(event);
             }
         }
-        if (event.getAction() != KeyEvent.ACTION_DOWN) return true;
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event);
         switch (keyCode) {
             case KeyEvent.KEYCODE_SEARCH:
                 return onKeyDown(keyCode, event);
@@ -1433,7 +1433,7 @@ public class MainActivity extends BaseActivity
         if (keyCode == KeyEvent.KEYCODE_SEARCH) {
             return onOptionsItemSelected(menu.findItem(R.id.search));
         }
-        return false;
+        return super.onKeyDown(keyCode, event);
     }
 
     public static String abbreviate(final String str, final int maxWidth) {
