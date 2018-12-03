@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/comment"
+        android:title="@string/toolbox_removal_comment"/>
+
+    <item
+        android:id="@+id/pm"
+        android:title="@string/toolbox_removal_pm"/>
+
+    <item
+        android:id="@+id/both"
+        android:title="@string/toolbox_removal_both"/>
+
+    <item
+        android:id="@+id/none"
+        android:title="@string/toolbox_removal_none"/>
+
+</menu>

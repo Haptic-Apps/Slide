@@ -475,6 +475,7 @@
     <string name="mod_btn_unpin">Unpin</string>
     <string name="mod_btn_remove">Remove</string>
     <string name="mod_btn_remove_reason">Remove with reason</string>
+    <string name="mod_btn_spam">Mark as spam</string>
     <string name="mod_btn_author">Author profile</string>
     <string name="mod_btn_ban">Ban</string>
     <string name="mod_ban_user">Ban user</string>
@@ -509,6 +510,17 @@
     <string name="mod_usernotes_view">View usernotes</string>
     <string name="mod_usernotes_title">Usernotes for %s</string>
     <string name="mod_usernotes_add">Add a usernote</string>
+    <string name="toolbox_removal_title">Removal reasons for %s</string>
+    <string name="toolbox_removal_header">Include header:</string>
+    <string name="toolbox_removal_footer">Include footer:</string>
+    <string name="toolbox_removal_comment">Reply with a comment to the item that is removed</string>
+    <string name="toolbox_removal_sticky">Sticky the removal comment</string>
+    <string name="toolbox_removal_pm">Send as PM</string>
+    <string name="toolbox_removal_modmail">Send PM as modmail</string>
+    <string name="toolbox_removal_both">Send as both PM and reply</string>
+    <string name="toolbox_removal_none">None, only log the removal</string>
+    <string name="toolbox_removal_lock">Lock the removed thread</string>
+    <string name="toolbox_logreason_placeholder">Log reason</string>
 
     <!-- Pleasantly asking the user if he made his mind up -->
     <string name="really_remove_submission">Really remove this submission?</string>
@@ -723,6 +735,10 @@
     <string name="settings_mod_removal_toolbox">Toolbox removal reasons</string>
     <string name="settings_mod_removal_reddit">Reddit removal reasons</string>
     <string name="settings_mod_toolbox_refresh">Force refresh Toolbox data</string>
+    <string name="settings_mod_toolbox_message">Method of sending removal reasons</string>
+    <string name="settings_mod_toolbox_sticky">Sticky removal comments</string>
+    <string name="settings_mod_toolbox_lock">Lock threads after leaving a removal reason</string>
+    <string name="settings_mod_toolbox_modmail">Send removal reasons as a subreddit</string>
 
     <!-- Quick setting toggles in the drawer -->
     <string name="toggle_night_mode">Night mode</string>

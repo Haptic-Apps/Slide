@@ -1,15 +1,19 @@
 package me.ccrama.redditslide.Toolbox;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 public class RemovalReasons {
-    private String pmSubject;
+    @SerializedName("pmsubject") private String pmSubject;
     private String header;
     private String footer;
-    private String logSub;
-    private String logTitle;
-    private String logReason;
-    private String banTitle; // Is this even used by Toolbox?
+    @SerializedName("logsub") private String logSub;
+    @SerializedName("logtitle") private String logTitle;
+    @SerializedName("logreason") private String logReason;
+    @SerializedName("bantitle") private String banTitle; // Is this even used by Toolbox? For mod button bans maybe (not a removal reason thing...)?
 
     private List<RemovalReason> reasons;
 
@@ -18,15 +22,26 @@ public class RemovalReasons {
     }
 
     public String getPmSubject() {
+        if (pmSubject.isEmpty()) {
+            return "Your {kind} was removed from /r/{subreddit}";
+        }
         return pmSubject;
     }
 
     public String getHeader() {
-        return header;
+        try {
+            return URLDecoder.decode(header, "UTF-8"); // header is url encoded
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     public String getFooter() {
-        return footer;
+        try {
+            return URLDecoder.decode(footer, "UTF-8"); // footer is url encoded
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     public String getLogSub() {
@@ -34,6 +49,9 @@ public class RemovalReasons {
     }
 
     public String getLogTitle() {
+        if (logTitle.isEmpty()) {
+            return "Removed: {kind} by /u/{author} to /r/{subreddit}";
+        }
         return logTitle;
     }
 
@@ -63,7 +81,11 @@ public class RemovalReasons {
         }
 
         public String getText() {
-            return text;
+            try {
+                return URLDecoder.decode(text, "UTF-8"); // text is url encoded
+            } catch (UnsupportedEncodingException e) {
+                return null;
+            }
         }
 
         public String getFlairText() {

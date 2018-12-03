@@ -1471,7 +1471,7 @@ public class PopulateSubmissionViewHolder {
         b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
         b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
                 .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason))
-                .sheet(30, spam, "Mark as spam");
+                .sheet(30, spam, res.getString(R.string.mod_btn_spam));
 
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
         b.sheet(20, flair, res.getString(R.string.mod_btn_submission_flair));
@@ -1611,7 +1611,48 @@ public class PopulateSubmissionViewHolder {
                         removeSubmission(mContext, submission, posts, recyclerview, holder, false);
                         break;
                     case 7:
-                        doRemoveSubmissionReason(mContext, submission, posts, recyclerview, holder);
+                        if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.TOOLBOX.ordinal()
+                                && ToolboxUI.canShowRemoval(submission.getSubredditName())) {
+                            ToolboxUI.showRemoval(mContext, submission, new ToolboxUI.CompletedRemovalCallback() {
+                                @Override
+                                public void onComplete(boolean success) {
+                                    if (success) {
+                                        SubmissionCache.removed.add(submission.getFullName());
+                                        SubmissionCache.approved.remove(submission.getFullName());
+
+                                        SubmissionCache.updateInfoSpannable(submission, mContext,
+                                                submission.getSubredditName());
+
+                                        if (mContext instanceof ModQueue) {
+                                            final int pos = posts.indexOf(submission);
+                                            posts.remove(submission);
+
+                                            if (pos == 0) {
+                                                recyclerview.getAdapter().notifyDataSetChanged();
+                                            } else {
+                                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                            }
+                                        } else {
+                                            recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
+                                        }
+                                        Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
+                                                Snackbar.LENGTH_LONG);
+
+                                        View view = s.getView();
+                                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                                        tv.setTextColor(Color.WHITE);
+                                        s.show();
+
+                                    } else {
+                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                                .setMessage(R.string.err_retry_later)
+                                                .show();
+                                    }
+                                }
+                            });
+                        } else { // Show a Slide reason dialog if we can't show a toolbox or reddit one
+                            doRemoveSubmissionReason(mContext, submission, posts, recyclerview, holder);
+                        }
                         break;
                     case 30:
                         removeSubmission(mContext, submission, posts, recyclerview, holder, true);
@@ -1783,7 +1824,7 @@ public class PopulateSubmissionViewHolder {
             protected Boolean doInBackground(Void... params) {
                 try {
                     new ModerationManager(Authentication.reddit).remove(submission, spam);
-                } catch (ApiException e) {
+                } catch (ApiException | NetworkException e) {
                     e.printStackTrace();
                     return false;
 
