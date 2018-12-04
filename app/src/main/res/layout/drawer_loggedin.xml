@@ -431,59 +431,6 @@
                 android:textStyle="bold"/>
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/expand_settings"
-                  xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="?attr/activity_background"
-                  android:orientation="vertical"
-                  android:visibility="gone"
-                  android:weightSum="5">
-
-        <RelativeLayout
-                android:id="@+id/base"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-                android:paddingStart="24dp">
-
-            <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/circle"
-                    android:tint="?attr/card_background"/>
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="36dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:text="@string/theme_base"
-                    android:textSize="14sp"/>
-        </RelativeLayout>
-
-        <android.support.v7.widget.SwitchCompat
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:paddingEnd="24dp"
-                android:paddingStart="24dp"
-                android:text="Data saving mode"
-                android:textSize="14sp"/>
-
-        <android.support.v7.widget.SwitchCompat
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:paddingEnd="24dp"
-                android:paddingStart="24dp"
-                android:text="Right hand thumbnail mode"
-                android:textSize="14sp"/>
-    </LinearLayout>
-
     <LinearLayout
             android:id="@+id/support"
             android:layout_width="match_parent"
@@ -595,7 +542,79 @@
                     android:textSize="14sp"
                     android:textStyle="bold"/>
         </LinearLayout>
+
+        <ImageView
+                android:id="@+id/godown_settings"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="2dp"
+                android:gravity="center"
+                android:padding="14dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:theme="@style/Ripple.List"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/down"/>
     </RelativeLayout>
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/expand_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/activity_background"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/toggle_night_mode"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="24dp"
+                android:text="@string/toggle_night_mode"
+                android:textSize="14sp"
+                android:visibility="gone"/>
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/toggle_immersive_mode"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="24dp"
+                android:text="@string/toggle_immersive_mode"
+                android:textSize="14sp"/>
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/toggle_nsfw"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="24dp"
+                android:text="@string/toggle_nsfw"
+                android:textSize="14sp"/>
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/toggle_right_thumbnails"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="24dp"
+                android:text="@string/toggle_right_thumbnails"
+                android:textSize="14sp"/>
+
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/toggle_reader_mode"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="24dp"
+                android:text="@string/toggle_reader_mode"
+                android:textSize="14sp"/>
+    </LinearLayout>
 
     <View
             android:id="@+id/drawer_divider"

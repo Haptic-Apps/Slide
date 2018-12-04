@@ -171,6 +171,7 @@ public class LinkUtil {
                         Reddit.getAppContext().getString(R.string.youtube_plugin_package),
                         Reddit.getAppContext().getString(R.string.youtube_plugin_class));
                 sharingIntent.putExtra("url", removeUnusedParameters(url));
+                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 Reddit.getAppContext().startActivity(sharingIntent);
                 return true;
 
