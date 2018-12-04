@@ -710,6 +710,13 @@
     <string name="settings_general_inbox_snd">Sound and vibrate</string>
     <string name="settings_enable_notifs">Enable inbox notifications</string>
 
+    <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_night_mode">Night mode</string>
+    <string name="toggle_immersive_mode">Immersive mode</string>
+    <string name="toggle_nsfw">Show NSFW content</string>
+    <string name="toggle_right_thumbnails">Right-aligned thumbnails</string>
+    <string name="toggle_reader_mode">Use reader mode</string>
+
     <!-- View types -->
     <string name="view_type_tabs">Subreddit tabs</string>
     <string name="view_type_none">No subreddit tabs</string>

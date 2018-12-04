@@ -94,6 +94,17 @@ public class BaseActivity extends PeekViewActivity
         }
     }
 
+    public void showDecor() {
+        try {
+            if (!SettingValues.immersiveMode) {
+                final View decorView = getWindow().getDecorView();
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                decorView.setOnSystemUiVisibilityChangeListener(null);
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

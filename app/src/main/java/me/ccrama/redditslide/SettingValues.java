@@ -242,6 +242,7 @@ public class SettingValues {
     public static boolean highlightTime;
     public static String  selectedBrowser;
     public static long    selectedDrawerItems;
+    public static ForcedState forcedNightModeState = ForcedState.NOT_FORCED;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -477,13 +478,40 @@ public class SettingValues {
 
 
     public static boolean isNight() {
+        /* Logic for the now rather complicated night mode:
+         *
+         * Normal       | Forced            | Actual state
+         * -----------------------------------------------------
+         * Disabled     | On/Off            | Forced state
+         * On           | On - gets unset   | On
+         * Off          | Off - gets unset  | Off
+         * On           | Off               | Off
+         * Off          | On                | On
+         * On/Off       | Unset             | Normal state
+         *
+         * Forced night mode state is intentionally not persisted between app runs and defaults to unset
+         */
         if (isPro && NightModeState.isEnabled()) {
+            boolean night = false;
+
             if (Reddit.canUseNightModeAuto && nightModeState == NightModeState.AUTOMATIC.ordinal()) {
-                return (Reddit.getAppContext().getResources().getConfiguration().uiMode
+                night = (Reddit.getAppContext().getResources().getConfiguration().uiMode
                         & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-            } else {
+            } else if (nightModeState == NightModeState.MANUAL.ordinal()) {
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                return hour >= nightStart + 12 || hour < nightEnd;
+                night = hour >= nightStart + 12 || hour < nightEnd;
+            }
+
+            // unset forced state if forcing is now unnecessary - allows for normal night mode on/off transitions
+            if ((night && forcedNightModeState == ForcedState.FORCED_ON)
+                    || (!night && forcedNightModeState == ForcedState.FORCED_OFF)) {
+                forcedNightModeState = ForcedState.NOT_FORCED;
+            }
+
+            if (forcedNightModeState == ForcedState.FORCED_ON || forcedNightModeState == ForcedState.FORCED_OFF) {
+                return forcedNightModeState == ForcedState.FORCED_ON;
+            } else {
+                return night;
             }
         } else {
             return false;
@@ -519,7 +547,11 @@ public class SettingValues {
         DISABLED, MANUAL, AUTOMATIC;
 
         public static boolean isEnabled() {
-            return nightModeState != DISABLED.ordinal();
+            return nightModeState != DISABLED.ordinal() || forcedNightModeState != ForcedState.NOT_FORCED;
         }
+    }
+
+    public enum ForcedState {
+        NOT_FORCED, FORCED_ON, FORCED_OFF
     }
 }
