@@ -91,7 +91,7 @@ public class SoftKeyboardStateWatcher implements ViewTreeObserver.OnGlobalLayout
 
 /*
 FROM: https://stackoverflow.com/a/19354201
-USAGE EXSAMPLE:
+USAGE EXAMPLE:
 final SoftKeyboardStateWatcher softKeyboardStateWatcher
     = new SoftKeyboardStateWatcher(findViewById(R.id.activity_main_layout);
 
