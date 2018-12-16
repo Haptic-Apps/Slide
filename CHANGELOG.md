@@ -1,3 +1,264 @@
+6.0.1 / 2018-11-30
+==================
+  * Adaptive icon by Michael Cook (@cookicons)
+  * Support for new Gfycat API
+  * Add selectable subreddit rules for quicker reports for moderators
+  * Autocorrect text in submit post screen title
+  * Search FAB option
+  * Guest mode has been moved to the sidebar header
+  * Searchable settings menu, now you don't have to go through ten settings menus to find what you are looking for!
+  * Support for native Reddit spoiler markdown
+  * Improved lock/contest mode headers
+  * Much more robust link handling system, your link handling settings WILL BE RESET with this version!
+  * Night mode now matches automatic night times on Android M and above
+  * Completely new wiki implementation that is much faster and links actually work!
+  * Setting to change the items displayed in drawer (inbox, discover, multireddits, etc)
+  * Option for a bottom bar button that collapses/shows all comments
+  * Support for 'Best' sorting
+  * Support for Reddit Silver and Platinum
+  * Subscriber counts in Discover
+  * App themes are now per-user (guest can have a different theme color, for example)
+  * You can switch accounts from the comment reply FAB
+  * Option to select any installed browser for your external browser settings (overrides your device default)
+  * Internal browser fullscreen support
+  * Your phone will no longer try to autofill text with passwords
+  * Contest mode banner uses the correct font color
+  * Fixed comment screen rotation
+  * Fixed post notifications
+  * Many other bug fixes and improvements!
+
+5.8.7 / 2018-06-10
+==================
+  * Support for old/new.reddit.com links
+
+5.8.6 / 2018-04-21
+==================
+  * Option to disable comment inbox replies
+  * Added an option to make the back button open the Slide drawer (can now set it to show a quit dialog, exit immediately, or show navigation drawer, thanks to Contributor PiwwowPants)
+  * Fixed crashing in Shadowbox mode with v.redd.it videos
+  * Fixed "htts" link sharing
+  * Confirm dialog before backing up or restore (thanks to Contributor YusefOuda)
+
+5.8.5 / 2018-04-03
+==================
+  * Support for Firefox as your default Slide browser (separate from the Android default browser)
+  * Fixed the Reddit flair issue that popped up a few days ago
+  * Support for devices running Android P
+  * Moved quote button closer to the front of the editor menu
+  * Button to remove user color
+  * Option to share long Reddit links instead of shortlinks
+  * Many more bug fixes and improvements!
+
+5.8 / 2018-03-02
+================
+  * Crosspost submissions from the submission menu, and new UI for crossposted submissions
+  * Added new "@" button on the comment reply menu which shows you a history of authors in the current comment chain and allows you to easily tag users in your comment
+  * Added a mute button to videos (v.redd.it with sound and .mp4s)
+  * Support v.redd.it videos with sound, and downloading these videos saves an actual mp4 file to your device!
+  * Implements ExoPlayer to revamp video views with new video codec support, a new video interface, improved seekbar, and more refined pause/play toggle
+  * Externally opened links or notifications will open in a second task, and closing the activity won't switch you back to Slide underneath
+  * Slide now shares the shortlink when sharing a submission
+  * Setting for colored time indicator for new comments since last visit
+  * New "deep" theme (dark purple based)
+  * Added new feature to highlight top-level comment OPs with a purple line (can be disabled in settings)
+  * Support for opening AMP links in Slide and improved intent link handling
+  * Fixed LTR font rendering in comments
+  * Fixed ending time of Night Mode bug
+  * Fixed image previews in Shadowbox mode
+  * Fixed Android notification sounds and 2x notifications
+  * Fixed image save notification not finishing
+  * Fixed bugs relating to file intents/fixed camera button for inserting images into comments and submissions
+  * Target Android 8.1
+  * Tons of other bug fixes and improvements!
+
+5.7.3 / 2018-02-14
+==================
+  * Fixes relating to how Reddit changed up the endpoint putting an unescaped ampersand in image links
+
+5.7.2 / 2017-12-07
+==================
+  * Removes dependency on third party API for gif displays in submissions and falls back to web when gif to MP4 conversion is not possible
+  * Adds streaming gif support for some longer gifs
+  * Adds wide color gamut support for media viewers
+  * Improves gif seekbar performance on API 26 and above
+
+5.7.1 / 2017-10-18
+==================
+  * The method for notification piggybacking has been changed and now Slide can remove the notification from Reddit! This means you will have to enable it again through Settings > General. Unfortunately this method will only work Jellybean and beyond
+  * Some card mode layout changes to fix some awkward padding and a small fix to restore from file (pro)
+
+5.7 / 2017-10-15
+================
+  * Notification piggybacking off of the Official Reddit app! When you get a message there, Slide will mirror that message and show you a new notification. Slide must have accessibility access for this to work, and only uses this access to mirror notifications from the Official Reddit App. Slide is open source, and you can view the [code](https://github.com/ccrama/Slide/blob/master/app/src/main/java/me/ccrama/redditslide/Notifications/NotificationPiggyback.java) here if you are interested in how Slide uses these permissions!
+  * Ability to block users from their profile (thanks to YusefOuda)
+  * Setting to swap info line and title line (will be default in a future version of Slide to match more with Slide on iOS, but the setting will remain)
+  * Copy a Reddit link to your clipboard, and Slide will ask if you want to open it upon entering the app
+  * Support for Android O notification channels
+  * NSFW previews are now tied to Slide accounts individually
+  * Insert image link as is if no caption is provided
+  * Adblock is now disabled for Twitter.com to reduce likelyhood of running into issues loading Twitter on the Internal browser
+  * Thumbnail settings are respected per-sub, but you can override this in content settings
+  * Setting to disable NSFW previews in collections, like [/r/all](https://www.reddit.com/r/all)
+  * Force image previews even if user has turned the setting off in reddit prefs (now only Slide settings affect image previews)
+  * Use Reddit for some Gif conversions
+  * Support for v.reddit.com links
+  * Setting for single column in multi-window
+  * Asks for confirmation before uploading to Imgur
+  * Discard button on draft save bar
+  * Fixed some drafts not saving
+  * Fixed icon size in Slide notifications on some devices
+  * Fixed account switching issue on Android O (Java 1.8 bug)
+  * Fixed Bootloop caused by Android AAPT2 on Cyanogenmod
+  * Fixed Reddit Server 403 Error some users were running into
+  * Target SDK 26
+  * NSFW subs work without being logged in
+  * Many other bug fixes and improvements!
+
+5.6.2 / 2017-05-23
+==================
+  * There was a server-side issue with the Reddit API and the Captcha system which caused sending all submissions and messages to fail, and this update fixes that by disabling Captcha checking all together (it appears as if sending messages/submitting posts doesn't need a Captcha through the API anymore)
+
+5.6 / 2017-04-23
+================
+  * Adds support for setting the default subreddit sorting in subreddit sidebar
+  * Temporarily switch accounts from the comment box
+  * Image Flair syncing based on code by [/u/ProgramTheWorld](https://www.reddit.com/u/ProgramTheWorld) (sync from sidebar, should work on most subs but please let me know if you find one that doesn't work!), [Screenshots](http://imgur.com/a/oGwNP)
+  * Option to download images to subreddit-specific subfolders
+  * Adds support for "Pin" system in reorder screen (pinned subs won't reorder when alphabetizing)
+  * Adds option for auto alphabetization in reorder screen for new subscriptions
+  * Adds new 'Pixel' base theme based on SystemUI colors of the Pixel [screenshot](http://i.imgur.com/3XfeKzI.jpg)
+  * Added Toast display with information when request fails to user
+  * Setting to make comment depth indicators wider
+  * Setting to open websites in Reader mode by default & Reader mode visual revamp
+  * PRO: Option to only show reader mode during night mode
+  * Made related submissions work again
+  * Mods: send message as subreddit
+  * Mods: support for adding/removing spoilers for moderators
+  * Mods: moderation menu for comments in modqueue
+  * Fixed issue on some devices where widget was black text on black background
+  * Fixed search bug some users were running into
+  * Fixed issue where it would say no multireddits are created
+  * Scaled down notification images to keep Android System from running out of memory
+  * Fixed the bug that no content would show after returning to app/reload after network failure
+  * Fixed IPv6 Gfycat issues
+  * Disabled swipe to exit on Subreddit Reorder screen
+  * Fixed donation system
+  * Many more bug fixes and improvements!
+
+5.5.5 / 2017-02-17
+==================
+  * Fixed the issue some users were having with laggy notifications while downloading images
+  * Added spoiler tag support
+  * Allowed you to add [r/popular](https://www.reddit.com/r/popular) to your subreddits (much like [r/all](https://www.reddit.com/r/all))
+  * Bug fixes with Immersive Mode
+  * Other bug fixes and improvements
+
+5.5.4 / 2016-12-20
+==================
+  * New Website header scrolling (no more double scroll header)
+  * Support for direct message links (like remindme)
+  * Three levels of datasaving settings thanks to [/u/touzainanboku](https://www.reddit.com/u/touzainanboku)
+  * Notifications now dismiss after clicking them
+  * Revamp of the Submit screen with ability to upload images, gifs, and albums (same as the edit bar on the text fields)
+  * Support GIF keyboard pre-Android N
+  * Improvements to immersive mode thanks to [/u/jseybold](https://www.reddit.com/u/jseybold)
+  * Lots of bug fixes and improvements
+
+5.5.3 / 2016-12-11
+==================
+  * Round icon support (Android 7.1.1, thanks to [/u/themichaelcook](https://www.reddit.com/u/themichaelcook)!)
+  * Bundled notifications (Android N and above), each message is expandable by itself!
+  * Immersive mode improvements
+  * Score formatting changed to follow Reddit's new formatting (20.2k instead of 20200) with option to show full score
+  * YouTube plugin updated to fix attribution link bug
+  * Lots of other bug fixes and improvements!
+
+5.5.2 / 2016-11-22
+==================
+  * Android 7.1 Features: [App Shortcuts](http://i.imgur.com/kNJHmdh.jpg) and [Image Keyboard](http://i.imgur.com/rbS6xuh.png) Support!
+  * New activity/image/gif loading transitions
+  * Option for immersive mode in Settings > General
+  * Long click subs in the sidebar to open them above the main screen
+  * Fixed older devices crashing when logging in
+  * Offline mode fixes (works with comment pager mode now)
+  * Fixed some issues with offline mode not working on certain view types
+  * Many bug fixes and improvements!
+
+5.5.1 / 2016-10-25
+=================
+  * Some bug fixes from the 5.5 release
+
+5.5 / 2016-10-21
+================
+  * Force touch links and images, enable this experimental feature in Settings > Link Handling
+  * Deepzoom single-image albums
+  * Improved image saving with new notification buttons to share/delete
+  * Mods can re-approve already approved content
+  * View information about our Open Source libraries in Settings > About!
+  * Tweaked subreddit and theme colors
+  * Comment highlighting improvements
+  * Table alignment now works
+  * "You" sort in comment navigation
+  * New image picker in the editor menu (bottom sheet with recent images, and can take images from the camera as well)
+  * Animated toolbar color change when switching pages
+  * Moderation works now when clicking through the widget
+  * Updated translations (thank you to all who contribute on [Crowdin]
+  * MANY other bug fixes and improvements!
+  (https://crowdin.com/project/slide-for-reddit)!)
+
+5.4.3.5 / 2016-09-10
+====================
+  * Fixes issues with content not loading after a network change
+  * Fixes the inability to upload images into comments
+  * Fixes some media players getting paused with gifs!
+
+5.4.3 / 2016-09-08
+==================
+  * Full Tumblr post integration! Looks and acts like the Album and Vertical Album views
+  * Related submissions in comment toolbar, and you can share links to Slide to view related submissions
+  * Improvements to offline mode (it will show last cached comments first instead of submissions)
+  * Albums have post/comment fonts
+  * Upload multiple images to Imgur albums
+  * Read Later button with a section under Profile > Read Later. Merged with offline save as well (thanks to [/u/mr_novembor](https://www.reddit.com/u/mr_novembor))
+  * Option for larger link font size
+  * New design for gilds (thanks to [/u/freundTech](https://www.reddit.com/u/freundTech))
+  * Redesigned some settings screens, Made Offline content settings more accessible
+  * Fixed a request bug that was making some of you guys slower, now it will be as fast as desktop all the time
+  * Revamp of mod tools, view who removed/approved submissions and comments and why, lock and unlock threads, instant feedback (submission view will change when you do actions on it), ability to distinguish submissions, removed "Are you sure?" dialogs and just execute the action, ability to see removed posts and comments for reapproval, see who removed/reapproved posts and comments, mod log, removal of the "Are you sure?" dialogs, and more!
+  * Child comment navigation is its own button now
+  * Option to disable comment navigation bar shortcut actions
+  * Hopefully fixed blank widget bug and duplicated thumbnail image bug
+  * Thanks to contributor [/u/freundTech](https://www.reddit.com/u/freundTech), all the reported Android N issues were addressed/fixed
+  * There is now a setting for tinting the Slide icon based on your main sub theme
+  * File size in image loading
+  * Improved text selection dialog
+  * Made post notifications actually work (introduced a bug last version), will be reliable as well!
+  * Slide is now 1.4mb smaller
+  * Fixed comment text field issues
+  * Fixed setting main color with colored icons enabled
+  * Tweaked gild icon
+  * Fixed gifs not displaying
+  * Fixed all gif issues (sound and closing)
+  * Fixed double bullets
+  * Tweaked mail notification system
+  * Long press for XKCD info/alttext
+  * Improvement to gif view and controls (fixed strange glitches that let you see the view on the sides even if it wasn't open)
+  * Fixed [r/random](https://www.reddit.com/r/random) and [r/randnsfw](https://www.reddit.com/r/randnsfw) bugs
+  * Fixed history being counted with history turned off
+  * MANY improvements to sidebar typing and subreddit selection, now it won't clear if the sub doesn't exist
+  * Many other bug fixes and improvements!
+
+5.4.2.3 / 2016-08-23
+====================
+  * XKCD Support!
+  * Fixed all reported bugs (spoilers, crashing when opening subs when not logged in, reported to my dev console, and more)
+  * New Red Shift theme
+  * Sidebar button in comment overflow menu
+  * Links clicked in the Website view will load in Slide views if possible (Reddit links, albums, etc)
+  * Turn data saving into a 3 choice menu (v5.4.2.2)
+  * Improvements to night mode menu (thanks [/u/inate71](https://www.reddit.com/u/inate71))!
+  * Copy menu now uses select dialog from quote menu (v5.4.2.2)
+
 5.4.2 / 2016-08-19
 ==================
   * TONS of Offline Mode improvements thanks to /u/mr_novembor including depth limit, comments to cache, and ability to cache individual posts for offline mode!
