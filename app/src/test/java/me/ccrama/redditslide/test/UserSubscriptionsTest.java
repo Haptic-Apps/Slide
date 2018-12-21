@@ -13,7 +13,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 
-
 /**
  * Created by Alex Macleod on 28/03/2016.
  */

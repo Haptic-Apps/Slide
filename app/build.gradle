@@ -17,6 +17,7 @@ android {
         versionName androidGitVersion.name()
 
         multiDexEnabled = true
+        vectorDrawables.useSupportLibrary = true
     }
 
     flavorDimensions "variant"
@@ -33,7 +34,7 @@ android {
         release {
             minifyEnabled false
             shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "Slide"
         }
         debug {
@@ -44,16 +45,7 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/*'
     }
 
     compileOptions {
@@ -85,12 +77,13 @@ robototextview {
 
 ext {
     supportLibVersion = '28.0.0'
-    robolectricVersion = '3.3.1'
-    powerMockitoVersion = '1.7.4' //2.0.0-RC.3
+    robolectricVersion = '3.8' //4.1
+    powerMockitoVersion = '2.0.0-RC.4'
 }
 
 dependencies {
-    withGPlayImplementation 'com.google.android.gms:play-services-drive:10.2.6' //16.0.0
+    withGPlayImplementation 'com.google.android.gms:play-services-drive:11.2.0'
+    //11.4.0, 11.6.0, 16.0.0
 
     implementation 'com.github.ccrama:JRAW:c2bc59eb5e'
     implementation 'com.github.ccrama:AndroidVideoCache:483e44579d'
@@ -100,50 +93,55 @@ dependencies {
     implementation 'com.github.ccrama:PeekAndPop:09adee29f1'
     implementation 'com.github.ccrama:JReadability:bb291880a5'
 
-    implementation "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support:customtabs:${supportLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:exifinterface:${supportLibVersion}"
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:cardview-v7:${supportLibVersion}"
     implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
     implementation "com.android.support:support-v13:${supportLibVersion}"
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.google.guava:guava:23.6.1-android' //27.0-android
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.guava:guava:23.6.1-android' //27.0.1-android
+
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    implementation 'org.apache.commons:commons-text:1.6'
+    implementation 'commons-io:commons-io:2.6'
+
+    implementation 'com.github.ligi:snackengage:0.6' //0.18
+    implementation 'com.github.rey5137:material:1.2.5'
+    implementation 'com.github.johnkil:Android-RobotoTextView:4.0.0'
+    implementation 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
+    implementation 'com.github.dasar:shiftcolorpicker:v0.5'
+    implementation 'com.github.ozodrukh:CircularReveal:1.3.1' //2.1.0
+
+    implementation 'com.mikepenz:aboutlibraries:6.1.1' //6.2.0
+    implementation 'com.mikepenz:itemanimators:1.0.2@aar' //1.1.0
+
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     //noinspection GradleDependency
     implementation 'com.afollestad.material-dialogs:commons:0.8.6.2' //0.9.6.0
+    implementation 'org.jetbrains:annotations:16.0.3' //requires compiling with java 1.8
+    implementation 'com.squareup.okhttp3:okhttp:3.7.0' //3.12.0
+    implementation 'jp.wasabeef:blurry:2.1.1' //3.0.0
     implementation 'com.jakewharton:process-phoenix:2.0.0'
-    implementation 'org.ligi:snackengage:0.5'
-    implementation 'com.github.rey5137:material:1.2.4'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0' //3.10.0
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.7.2' //3.10.0
     implementation 'com.cocosw:bottomsheet:1.3.0@aar'
     implementation 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
-    implementation 'org.apache.commons:commons-lang3:3.5' //3.8.1
-    implementation 'org.apache.commons:commons-text:1.4' //1.6
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'jp.wasabeef:blurry:2.1.1'
-    implementation 'com.github.johnkil.android-robototextview:robototextview:4.0.0'
-    implementation 'com.makeramen:roundedimageview:2.2.1' //2.3.0
+    implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
-    implementation 'com.sothree.slidinguppanel:library:3.3.1' //3.4.0
-    implementation 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
-    implementation 'com.github.dasar:shiftcolorpicker:v0.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.7.0' //3.11.0
-    implementation 'com.google.code.gson:gson:2.8.5'
-
-    implementation 'com.github.ozodrukh:CircularReveal:1.3.1' //2.1.0
-    implementation 'org.jetbrains:annotations-java5:15.0' //16.0.3
-    implementation 'com.mikepenz:itemanimators:1.0.2@aar' //1.1.0
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'com.neovisionaries:nv-websocket-client:1.31' //2.6
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.1' //2.8.0
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0' //2.8.0
     implementation 'me.everything:overscroll-decor-android:1.0.4'
-    implementation 'com.mikepenz:aboutlibraries:5.8.5' //5.9.0, 5.9.8, 6.0.0
     implementation 'com.googlecode.mp4parser:isoparser:1.1.22'
+    //implementation 'org.mp4parser:isoparser:1.9.37'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13-beta-1'
     testImplementation 'org.hamcrest:hamcrest-all:1.3'
-    testImplementation 'org.mockito:mockito-core:2.23.0'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation "org.robolectric:robolectric:${robolectricVersion}"
     testImplementation "org.robolectric:shadows-multidex:${robolectricVersion}"
     testImplementation "org.powermock:powermock-api-mockito2:${powerMockitoVersion}"

@@ -15,6 +15,7 @@ public class OpenRedditLinkTest {
     private String formatURL(String url) {
         return OpenRedditLink.formatRedditUrl(url);
     }
+
     private OpenRedditLink.RedditLinkType getType(String url) {
         return OpenRedditLink.getRedditLinkType(url);
     }

@@ -47,8 +47,8 @@ import java.util.Calendar;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.FileUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -57,9 +57,9 @@ import me.ccrama.redditslide.util.FileUtil;
 public class SettingsBackup extends BaseActivityAnim
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     MaterialDialog progress;
-    DriveFolder    appFolder;
-    String         title;
-    final private ResultCallback<DriveApi.MetadataBufferResult> newCallback  =
+    DriveFolder appFolder;
+    String title;
+    final private ResultCallback<DriveApi.MetadataBufferResult> newCallback =
             new ResultCallback<DriveApi.MetadataBufferResult>() {
                 @Override
                 public void onResult(DriveApi.MetadataBufferResult result) {
@@ -196,7 +196,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             finish();
                                                         }
                                                     })
@@ -401,7 +401,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
                                                 File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
 
                                                 if (prefsdir.exists() && prefsdir.isDirectory()) {
@@ -435,7 +435,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
 
                                             }
                                         })
@@ -461,7 +461,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
                                                 progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                                         R.string.backup_restoring)
                                                         .content(R.string.misc_please_wait)
@@ -488,7 +488,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
 
                                             }
                                         })
@@ -787,7 +787,6 @@ public class SettingsBackup extends BaseActivityAnim
             super.onPostExecute(result);
             if (progress.getCurrentProgress() == progress.getMaxProgress()) {
                 progress.dismiss();
-
 
                 new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
                         R.string.backup_restore_settings)

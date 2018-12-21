@@ -1,24 +1,24 @@
 # Slide [![Build Status](https://travis-ci.org/ccrama/Slide.svg?branch=master)](https://travis-ci.org/ccrama/Slide) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit) [![Discord](https://img.shields.io/discord/407573578985242635.svg)](https://discord.gg/hVWAY8A)
 
 
-<img src="app/src/main/res/drawable/ic_launcher.png" align="left"
-width="200"
-    hspace="10" vspace="10">
+<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png">
 
-Slide is an open source, ad free Reddit browser for Android. It is based around
+Slide is an open-source, ad-free Reddit browser for Android. It is based around
 the [Java Reddit API Wrapper](https://github.com/thatJavaNerd/JRAW).
 
-Slide is available on the Google Play Store and F-Droid.  
+Slide is available on the Google Play Store and F-Droid.
+
 <a href="https://play.google.com/store/apps/details?id=me.ccrama.redditslide">
     <img alt="Get it on Google Play"
         height="80"
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
 </a>
-<a href="https://f-droid.org/app/me.ccrama.redditslide">
+<a href="https://f-droid.org/packages/me.ccrama.redditslide/">
     <img alt="Get it on F-Droid"
         height="80"
-        src="https://f-droid.org/badge/get-it-on.png" />
-</a>  
+        src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" />
+</a>
+
 There is an active community for Slide on the
 [/r/slideforreddit](https://www.reddit.com/r/slideforreddit/) subreddit,
 which anybody is welcome to join.
