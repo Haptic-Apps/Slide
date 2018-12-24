@@ -12,7 +12,15 @@ public class Usernote {
     @SerializedName("m") private int mod;
     @SerializedName("w") private int warning;
 
+    public Usernote() { // for GSON
+    }
+
     public Usernote(String noteText, String link, long time, int mod, int warning) {
+        this.noteText = noteText;
+        this.link = link;
+        this.time = time;
+        this.mod = mod;
+        this.warning = warning;
     }
 
     public String getNoteText() {
@@ -33,6 +41,18 @@ public class Usernote {
 
     public int getWarning() {
         return warning;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Usernote) {
+            return ((Usernote) obj).warning == warning
+                    && ((Usernote) obj).mod == mod
+                    && ((Usernote) obj).time == time
+                    && ((Usernote) obj).noteText.equals(noteText)
+                    && ((Usernote) obj).link.equals(link);
+        }
+        return false;
     }
 
     /**

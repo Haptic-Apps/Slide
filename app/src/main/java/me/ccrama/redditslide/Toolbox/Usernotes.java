@@ -6,9 +6,11 @@ import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 /**
@@ -18,10 +20,87 @@ public class Usernotes {
     @SerializedName("ver") private int schema;
     private UsernotesConstants constants;
     @SerializedName("blob") private Map<String, List<Usernote>> notes;
+
     transient private String subreddit;
 
-    public Usernotes(String subreddit) {
+    public Usernotes() {
+        // for GSON
+    }
 
+    public Usernotes(int schema, UsernotesConstants constants, Map<String, List<Usernote>> notes, String subreddit) {
+        this.schema = schema;
+        this.constants = constants;
+        this.notes = notes;
+        this.subreddit = subreddit;
+    }
+
+    /**
+     * Add a usernote to this usernotes object
+     *
+     * Make sure to persist back to the wiki after doing this!
+     *
+     * @param user User to add note for
+     * @param noteText Note text
+     * @param link Toolbox link formatted link
+     * @param time Time in ms
+     * @param mod Mod making the note
+     * @param type optional warning type
+     */
+    public void createNote(String user, String noteText, String link, long time, String mod, String type) {
+        boolean modExists = false;
+        int modIndex = -1;
+        boolean typeExists = false;
+        int typeIndex = -1;
+
+        for (int i = 0; i < constants.getMods().length; i++) {
+            if (constants.getMods()[i].equals(mod)) {
+                modExists = true;
+                modIndex = i;
+                break;
+            }
+        }
+        for (int i = 0; i < constants.getTypes().length; i++) {
+            if ((constants.getTypes()[i] == null && type == null)
+                    || (constants.getTypes()[i] != null && constants.getTypes()[i].equals(type))) {
+                typeExists = true;
+                typeIndex = i;
+                break;
+            }
+        }
+
+        if (!modExists) {
+            modIndex = constants.addMod(mod);
+        }
+        if (!typeExists) {
+            typeIndex = constants.addType(type);
+        }
+
+        Usernote note = new Usernote(noteText, link, time / 1000, modIndex, typeIndex);
+
+        if (notes.containsKey(user)) {
+            notes.get(user).add(0, note);
+        } else {
+            List<Usernote> newList = new ArrayList<>();
+            newList.add(note);
+            notes.put(user, newList);
+        }
+    }
+
+    /**
+     * Remove a usernote for a user
+     *
+     * Make sure to persist back to the wiki after doing this!
+     *
+     * @param user User to remove note from
+     * @param note Note to remove
+     */
+    public void removeNote(String user, Usernote note) {
+        if (notes.get(user) != null) {
+            notes.get(user).remove(note);
+            if (notes.get(user).size() == 0) { // if we just removed the last note, remove the user too
+                notes.remove(user);
+            }
+        }
     }
 
     public int getSchema() {
@@ -52,6 +131,9 @@ public class Usernotes {
      */
     public String getDisplayNoteForUser(String user) {
         int count = getNotesForUser(user).size();
+        if (count == 0) {
+            return "";
+        }
         String noteText = StringUtils.abbreviate(getNotesForUser(user).get(0).getNoteText(), "…", 20);
         if (count > 1) {
             noteText += " (+" + (count - 1) + ")";
@@ -65,7 +147,11 @@ public class Usernotes {
      * @return Hex color string
      */
     public String getDisplayColorForUser(String user) {
-        return getColorFromWarningIndex(getNotesForUser(user).get(0).getWarning());
+        if (getNotesForUser(user).size() > 0) {
+            return getColorFromWarningIndex(getNotesForUser(user).get(0).getWarning());
+        } else {
+            return "#808080";
+        }
     }
 
     /**
@@ -74,8 +160,8 @@ public class Usernotes {
      * @return Hex color string
      */
     public String getColorFromWarningIndex(int index) {
-        if (Toolbox.getConfigForSubreddit(subreddit) != null) { // Subs can have usernotes without a toolbox config
-            return Toolbox.getConfigForSubreddit(subreddit).getUsernoteColor(constants.getTypeName(index));
+        if (Toolbox.getConfig(subreddit) != null) { // Subs can have usernotes without a toolbox config
+            return Toolbox.getConfig(subreddit).getUsernoteColor(constants.getTypeName(index));
         } else {
             String def = null;
             if (Toolbox.DEFAULT_USERNOTE_TYPES.get(constants.getTypeName(index)) != null) {
@@ -98,9 +184,9 @@ public class Usernotes {
      */
     public String getWarningTextFromWarningIndex(int index, boolean bracket) {
         StringBuilder result = new StringBuilder(bracket ? "[" : "");
-        if (Toolbox.getConfigForSubreddit(subreddit) != null) {
+        if (Toolbox.getConfig(subreddit) != null) {
             if (constants.getTypeName(index) != null) {
-                String text = Toolbox.getConfigForSubreddit(subreddit).getUsernoteText(constants.getTypeName(index));
+                String text = Toolbox.getConfig(subreddit).getUsernoteText(constants.getTypeName(index));
                 if (!text.isEmpty()) {
                     result.append(text);
                 } else {
@@ -110,9 +196,13 @@ public class Usernotes {
                 return "";
             }
         } else {
-            String def = Toolbox.DEFAULT_USERNOTE_TYPES.get(constants.getTypeName(index)).get("text");
-            if (def != null) {
-                result.append(def);
+            if (constants.getTypeName(index) != null) {
+                String def = Toolbox.DEFAULT_USERNOTE_TYPES.get(constants.getTypeName(index)).get("text");
+                if (def != null) {
+                    result.append(def);
+                } else {
+                    return "";
+                }
             } else {
                 return "";
             }
@@ -138,9 +228,8 @@ public class Usernotes {
      */
     public static class BlobDeserializer implements JsonDeserializer<Map<String, List<Usernote>>> {
         @Override
-        public Map<String, List<Usernote>> deserialize(JsonElement json,
-                                                       Type typeOfT,
-                                                       JsonDeserializationContext context) throws JsonParseException {
+        public Map<String, List<Usernote>> deserialize(JsonElement json, Type typeOfT,
+                JsonDeserializationContext context) throws JsonParseException {
 
             String decodedBlob = blobToJson(json.getAsString());
             if (decodedBlob == null) {
@@ -152,7 +241,7 @@ public class Usernotes {
             for (Map.Entry<String, JsonElement> userAndNotes : jsonBlob.getAsJsonObject().entrySet()) {
                 List<Usernote> notesList = new ArrayList<>();
                 for (JsonElement notesArray : userAndNotes.getValue().getAsJsonObject().get("ns").getAsJsonArray()) {
-                    notesList.add((Usernote) context.deserialize(notesArray, Usernote.class));
+                    notesList.add(context.deserialize(notesArray, Usernote.class));
                 }
                 result.put(userAndNotes.getKey().toLowerCase(), notesList);
             }
@@ -187,21 +276,97 @@ public class Usernotes {
     }
 
     /**
+     * Allows GSON to serialize the usernotes map into a blob
+     */
+    public static class BlobSerializer implements JsonSerializer<Map<String, List<Usernote>>> {
+        @Override
+        public JsonElement serialize(Map<String, List<Usernote>> src, Type srcType, JsonSerializationContext context) {
+            Map<String, Map<String, List<Usernote>>> notes = new HashMap<>();
+            for (String user : src.keySet()) {
+                Map<String, List<Usernote>> newNotes = new HashMap<>();
+                newNotes.put("ns", src.get(user));
+                notes.put(user, newNotes);
+            }
+            String encodedBlob = jsonToBlob(context.serialize(notes).toString());
+            return context.serialize(encodedBlob);
+        }
+
+        /**
+         * Converts a JSON string into a zlib compressed and base64 encoded blog
+         *
+         * @param json JSON to turn into blob
+         * @return Blob
+         */
+        public static String jsonToBlob(String json) {
+            // Adapted from https://stackoverflow.com/a/33022277
+            try {
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                DeflaterOutputStream deflater = new DeflaterOutputStream(output);
+                deflater.write(json.getBytes());
+                deflater.flush();
+                deflater.close();
+
+                return Base64.encodeToString(output.toByteArray(), Base64.NO_WRAP);
+            } catch (IOException e) {
+                return null;
+            }
+        }
+    }
+
+    /**
      * Class describing the "constants" field of a usernotes config
      */
-    public class UsernotesConstants {
+    public static class UsernotesConstants {
         @SerializedName("users") private String[] mods; // String array of mods. Usernote mod is index in this
         @SerializedName("warnings") private String[] types; // String array of used type names corresponding to types in the config/defaults. Usernote warning is index in this
 
         public UsernotesConstants() {
+            // for GSON
+        }
+
+        public UsernotesConstants(String[] mods, String[] types) {
+            this.mods = mods;
+            this.types = types;
         }
 
         public String[] getMods() {
             return mods;
         }
 
+        /**
+         * Add a new user to the mods array
+         *
+         * Does not check for duplicates!
+         *
+         * @param user User to add
+         * @return Index of added mod
+         */
+        public int addMod(String user) {
+            String[] newMods = new String[mods.length + 1];
+            System.arraycopy(mods, 0, newMods, 0, mods.length);
+            newMods[newMods.length - 1] = user;
+            mods = newMods;
+            return newMods.length - 1;
+        }
+
         public String[] getTypes() {
             return types;
+        }
+
+        /**
+         * Adds a type to the warnings array
+         *
+         * Does not check for duplicates!
+         *
+         * @param type Type to add
+         * @return Index of added type
+         */
+        public int addType(String type) {
+            String[] newTypes = new String[types.length + 1];
+            System.arraycopy(types, 0, newTypes, 0, types.length);
+            newTypes[newTypes.length - 1] = type;
+            types = newTypes;
+            return newTypes.length - 1;
         }
 
         public String getTypeName(int index) {

@@ -1,14 +1,21 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.support.v7.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.afollestad.materialdialogs.MaterialDialog;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Toolbox.Toolbox;
+import me.ccrama.redditslide.UserSubscriptions;
 
 public class SettingsModerationFragment {
     private Activity context;
@@ -79,6 +86,10 @@ public class SettingsModerationFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.toolboxEnabled = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MOD_TOOLBOX_ENABLED, isChecked).apply();
+                    for (String sub : UserSubscriptions.modOf) {
+                        Toolbox.ensureConfigCachedLoaded(sub);
+                        Toolbox.ensureUsernotesCachedLoaded(sub);
+                    }
                 }
             });
         }
@@ -186,6 +197,55 @@ public class SettingsModerationFragment {
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MOD_TOOLBOX_LOCK, isChecked).apply();
                 }
             });
+        }
+
+        { // Set up force refresh button
+            final RelativeLayout refresh = context.findViewById(R.id.settings_moderation_toolbox_refresh);
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MaterialDialog.Builder(context)
+                            .content(R.string.settings_mod_toolbox_refreshing)
+                            .progress(false, UserSubscriptions.modOf.size() * 2)
+                            .showListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialog) {
+                                    new AsyncRefreshToolboxTask(dialog).execute();
+                                }
+                            })
+                            .cancelable(false)
+                            .show();
+                }
+            });
+        }
+    }
+
+    private static class AsyncRefreshToolboxTask extends AsyncTask<Void, Void, Void> {
+        final MaterialDialog dialog;
+
+        AsyncRefreshToolboxTask(DialogInterface dialog) {
+            this.dialog = (MaterialDialog) dialog;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (String sub : UserSubscriptions.modOf) {
+                Toolbox.downloadToolboxConfig(sub);
+                publishProgress();
+                Toolbox.downloadUsernotes(sub);
+                publishProgress();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            dialog.dismiss();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... voids) {
+            dialog.incrementProgress(1);
         }
     }
 }

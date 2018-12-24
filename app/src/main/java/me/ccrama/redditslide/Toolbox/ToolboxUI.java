@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Toolbox;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -8,24 +9,23 @@ import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-
+import me.ccrama.redditslide.Activities.Reauthenticate;
+import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
+import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.managers.ModerationManager;
@@ -34,15 +34,14 @@ import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.Submission;
 
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.OpenRedditLink;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Misc UI stuff for toolbox - usernote display, removal display, etc.
@@ -64,11 +63,11 @@ public class ToolboxUI {
         if (thing instanceof Comment) {
             builder.title(context.getResources().getString(R.string.toolbox_removal_title,
                     ((Comment) thing).getSubredditName()));
-            removalReasons = Toolbox.getConfigForSubreddit(((Comment) thing).getSubredditName()).getRemovalReasons();
+            removalReasons = Toolbox.getConfig(((Comment) thing).getSubredditName()).getRemovalReasons();
         } else if (thing instanceof Submission) {
             builder.title(context.getResources().getString(R.string.toolbox_removal_title,
                     ((Submission) thing).getSubredditName()));
-            removalReasons = Toolbox.getConfigForSubreddit(((Submission) thing).getSubredditName()).getRemovalReasons();
+            removalReasons = Toolbox.getConfig(((Submission) thing).getSubredditName()).getRemovalReasons();
         } else {
             return;
         }
@@ -198,8 +197,8 @@ public class ToolboxUI {
      * @return whether a toolbox dialog can be shown
      */
     public static boolean canShowRemoval(String subreddit) {
-        return Toolbox.getConfigForSubreddit(subreddit) != null
-                && Toolbox.getConfigForSubreddit(subreddit).getRemovalReasons() != null;
+        return Toolbox.getConfig(subreddit) != null
+                && Toolbox.getConfig(subreddit).getRemovalReasons() != null;
     }
 
     /**
@@ -244,14 +243,97 @@ public class ToolboxUI {
      * @param context   context
      * @param author    user to show usernotes for
      * @param subreddit subreddit to get usernotes from
+     * @param currentLink Link, in Toolbox format, for the current item - used for adding usernotes
      */
-    public static void showUsernotes(final Context context, String author, String subreddit) {
+    public static void showUsernotes(final Context context, String author, String subreddit, String currentLink) {
         final UsernoteListAdapter adapter = new UsernoteListAdapter(context, subreddit, author);
         new MaterialDialog.Builder(context)
                 .title(context.getResources().getString(R.string.mod_usernotes_title, author))
                 .adapter(adapter, null)
                 .neutralText(R.string.mod_usernotes_add)
-                //.onNeutral(...) // TODO: add usernotes
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        // set up layout for add note dialog
+                        final LinearLayout layout = new LinearLayout(context);
+                        final Spinner spinner = new Spinner(context);
+                        final EditText noteText = new EditText(context);
+
+                        layout.addView(spinner);
+                        layout.addView(noteText);
+
+                        noteText.setHint(R.string.toolbox_note_text_placeholder);
+
+                        layout.setOrientation(LinearLayout.VERTICAL);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        spinner.setLayoutParams(params);
+                        noteText.setLayoutParams(params);
+
+                        // create list of types, add default "no type" type
+                        List<CharSequence> types = new ArrayList<>();
+                        SpannableStringBuilder defaultType = new SpannableStringBuilder(
+                                " " + context.getString(R.string.toolbox_note_default) + " ");
+                        defaultType.setSpan(new BackgroundColorSpan(Color.parseColor("#808080")),
+                                0, defaultType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        defaultType.setSpan(new ForegroundColorSpan(Color.WHITE), 0, defaultType.length(),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        types.add(defaultType);
+
+                        // add additional types
+                        ToolboxConfig config = Toolbox.getConfig(subreddit);
+
+                        final Map<String, Map<String, String>> typeMap;
+                        if (config != null
+                                && config.getUsernoteTypes() != null
+                                && config.getUsernoteTypes().size() > 0) {
+                             typeMap = Toolbox.getConfig(subreddit).getUsernoteTypes();
+                        } else {
+                            typeMap = Toolbox.DEFAULT_USERNOTE_TYPES;
+                        }
+
+                        for (String type : typeMap.keySet()) {
+                            SpannableStringBuilder typeString =
+                                    new SpannableStringBuilder(" [" + typeMap.get(type).get("text") + "] ");
+                            typeString.setSpan(new BackgroundColorSpan(Color.parseColor(typeMap.get(type).get("color"))),
+                                    0, typeString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            typeString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, typeString.length(),
+                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            types.add(typeString);
+                        }
+
+                        spinner.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                                types));
+
+                        // show add note dialog
+                        new MaterialDialog.Builder(context)
+                                .customView(layout, true)
+                                .autoDismiss(false)
+                                .positiveText(R.string.btn_add)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        if (noteText.getText().length() == 0) {
+                                            noteText.setError(context.getString(R.string.toolbox_note_text_required));
+                                            return;
+                                        }
+                                        int selected = spinner.getSelectedItemPosition();
+                                        new AsyncAddUsernoteTask(context).execute(
+                                                subreddit,
+                                                author,
+                                                noteText.getText().toString(),
+                                                currentLink,
+                                                selected - 1 >= 0 ? typeMap.keySet().toArray()[selected - 1].toString()
+                                                        : null
+                                        );
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .negativeText(R.string.btn_cancel)
+                                .onNegative((dialog1, which1) -> dialog1.dismiss())
+                                .show();
+                    }
+                })
                 .positiveText(R.string.btn_close)
                 .show();
     }
@@ -260,31 +342,31 @@ public class ToolboxUI {
         public UsernoteListAdapter(@NonNull Context context, String subreddit, String user) {
             super(context, R.layout.usernote_list_item, R.id.usernote_note_text);
 
-            final Usernotes usernotes = Toolbox.getUsernotesForSubreddit(subreddit);
+            final Usernotes usernotes = Toolbox.getUsernotes(subreddit);
 
             if (usernotes != null && usernotes.getNotesForUser(user) != null) {
                 for (Usernote note : usernotes.getNotesForUser(user)) {
                     String dateString = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
                             .format(new Date(note.getTime()));
 
-                    SpannableStringBuilder noteText = new SpannableStringBuilder(
+                    SpannableStringBuilder authorDateText = new SpannableStringBuilder(
                             usernotes.getModNameFromModIndex(note.getMod()) + "\n" + dateString);
-                    noteText.setSpan(new RelativeSizeSpan(.92f), noteText.length() - dateString.length(),
-                            noteText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    authorDateText.setSpan(new RelativeSizeSpan(.92f), authorDateText.length() - dateString.length(),
+                            authorDateText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                    SpannableStringBuilder warningText = new SpannableStringBuilder(
+                    SpannableStringBuilder noteText = new SpannableStringBuilder(
                             usernotes.getWarningTextFromWarningIndex(note.getWarning(), true));
-                    warningText.setSpan(new ForegroundColorSpan(
+                    noteText.setSpan(new ForegroundColorSpan(
                                     Color.parseColor(usernotes.getColorFromWarningIndex(note.getWarning()))),
-                            0, warningText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    if (warningText.length() > 0) {
-                        warningText.append(" ");
+                            0, noteText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    if (noteText.length() > 0) {
+                        noteText.append(" ");
                     }
-                    warningText.append(note.getNoteText());
+                    noteText.append(note.getNoteText());
 
                     String link = note.getLinkAsURL(subreddit);
 
-                    this.add(new UsernoteListItem(noteText, warningText, link));
+                    this.add(new UsernoteListItem(authorDateText, noteText, link, note, subreddit, user));
                 }
             }
         }
@@ -310,6 +392,15 @@ public class ToolboxUI {
                 }
             });
 
+            view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AsyncRemoveUsernoteTask(item.getNote(), getContext())
+                            .execute(item.getSubreddit(), item.getUser());
+                    remove(item);
+                }
+            });
+
             return view;
         }
     }
@@ -318,11 +409,18 @@ public class ToolboxUI {
         private CharSequence authorDatetime;
         private CharSequence noteText;
         private String link;
+        private Usernote note;
+        private String subreddit;
+        private String user;
 
-        public UsernoteListItem(CharSequence authorDatetime, CharSequence noteText, String link) {
+        public UsernoteListItem(CharSequence authorDatetime, CharSequence noteText, String link, Usernote note,
+                String subreddit, String user) {
             this.authorDatetime = authorDatetime;
             this.noteText = noteText;
             this.link = link;
+            this.note = note;
+            this.subreddit = subreddit;
+            this.user = user;
         }
 
         public CharSequence getAuthorDatetime() {
@@ -335,6 +433,18 @@ public class ToolboxUI {
 
         public String getLink() {
             return link;
+        }
+
+        public Usernote getNote() {
+            return note;
+        }
+
+        public String getSubreddit() {
+            return subreddit;
+        }
+
+        public String getUser() {
+            return user;
         }
     }
 
@@ -543,6 +653,108 @@ public class ToolboxUI {
                 boolean modmail, boolean sticky, boolean lock, boolean log, String logTitle, String logSub,
                 String[] flair) {
             super.execute(thing, action, removalReason, pmSubject, modmail, sticky, lock, log, logTitle, logSub, flair);
+        }
+    }
+
+    /**
+     * Add a usernote for a subreddit
+     * Parameters are:
+     * subreddit
+     * user
+     * note text
+     * link
+     * type
+     */
+    public static class AsyncAddUsernoteTask extends AsyncTask<String, Void, Boolean> {
+        private WeakReference<Context> contextRef;
+
+        AsyncAddUsernoteTask(Context context) {
+            this.contextRef = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            String reason;
+
+            Toolbox.downloadUsernotes(strings[0]);
+            if (Toolbox.getUsernotes(strings[0]) == null) {
+                Toolbox.createUsernotes(strings[0]);
+                reason = "create usernotes config";
+            } else {
+                reason = "create new note on user " + strings[1];
+            }
+            Toolbox.getUsernotes(strings[0]).createNote(
+                    strings[1], // user
+                    strings[2], // note text
+                    strings[3], // link
+                    System.currentTimeMillis(), // time
+                    Authentication.name, // mod
+                    strings[4] // type
+            );
+            try {
+                Toolbox.uploadUsernotes(strings[0], reason);
+            } catch (InvalidScopeException e) { // we don't have wikiedit scope, need to reauth to get it
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                final Context context = contextRef.get();
+                new MaterialDialog.Builder(context)
+                        .title(R.string.toolbox_wiki_edit_reauth)
+                        .content(R.string.toolbox_wiki_edit_reauth_question)
+                        .negativeText(R.string.misc_maybe_later)
+                        .positiveText(R.string.btn_yes)
+                        .onPositive((dialog1, which1) -> context.startActivity(
+                                new Intent(context, Reauthenticate.class)))
+                        .show();
+            }
+        }
+    }
+
+    /**
+     * Remove a usernote from a subreddit
+     * Parameters are:
+     * subreddit
+     * user
+     */
+    public static class AsyncRemoveUsernoteTask extends AsyncTask<String, Void, Boolean> {
+        private Usernote note;
+        private WeakReference<Context> contextRef;
+
+        AsyncRemoveUsernoteTask(Usernote note, Context context) {
+            this.note = note;
+            this.contextRef = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            Toolbox.downloadUsernotes(strings[0]);
+            Toolbox.getUsernotes(strings[0]).removeNote(strings[1], note);
+            try {
+                Toolbox.uploadUsernotes(strings[0], "delete note " + note.getTime() + " on user " + strings[1]);
+            } catch (InvalidScopeException e) { // we don't have wikiedit scope, need to reauth to get it
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                final Context context = contextRef.get();
+                new MaterialDialog.Builder(context)
+                        .title(R.string.toolbox_wiki_edit_reauth)
+                        .content(R.string.toolbox_wiki_edit_reauth_question)
+                        .negativeText(R.string.misc_maybe_later)
+                        .positiveText(R.string.btn_yes)
+                        .onPositive((dialog1, which1) -> context.startActivity(
+                                new Intent(context, Reauthenticate.class)))
+                        .show();
+            }
         }
     }
 

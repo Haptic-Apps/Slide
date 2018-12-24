@@ -1,11 +1,14 @@
 package me.ccrama.redditslide.Toolbox;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Reddit;
+import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.WikiManager;
 
@@ -19,8 +22,13 @@ import java.util.TreeMap;
  */
 public class Toolbox {
     public static final Map<String, Map<String, String>> DEFAULT_USERNOTE_TYPES = new HashMap<>();
+    private static final long CACHE_TIME_NONEXISTANT = 604800000; // 7 days
+    private static final long CACHE_TIME_CONFIG = 86400000; // 24 hours
+    private static final long CACHE_TIME_USERNOTES = 3600000; // 1 hour
+
     private static Map<String, Usernotes> notes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private static Map<String, ToolboxConfig> toolboxen = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private static Map<String, ToolboxConfig> toolboxConfigs = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private static SharedPreferences cache = Reddit.getAppContext().getSharedPreferences("toolbox_cache", 0);
 
     static { // Set the default usernote types. Yes this is ugly but java sucks for stuff like this.
         Map<String, String> goodUser = new HashMap<>();
@@ -66,7 +74,7 @@ public class Toolbox {
      * @param subreddit Sub to get notes for
      * @return Usernotes
      */
-    public static Usernotes getUsernotesForSubreddit(String subreddit) {
+    public static Usernotes getUsernotes(String subreddit) {
         return notes.get(subreddit);
     }
 
@@ -76,41 +84,146 @@ public class Toolbox {
      * @param subreddit Sub to get config fore
      * @return Toolbox config
      */
-    public static ToolboxConfig getConfigForSubreddit(String subreddit) {
-        return toolboxen.get(subreddit);
+    public static ToolboxConfig getConfig(String subreddit) {
+        return toolboxConfigs.get(subreddit);
+    }
+
+    public static void createUsernotes(String subreddit) {
+        notes.put(subreddit, new Usernotes(6, new Usernotes.UsernotesConstants(new String[] {}, new String[] {}),
+                new TreeMap<>(String.CASE_INSENSITIVE_ORDER), subreddit));
     }
 
     /**
-     * Load a subreddit's usernotes from the sub's usernotes wiki page
+     * Ensures that a subreddit's config is cached
      *
-     * @param subreddit Sub to load notes for
+     * @param subreddit Subreddit to cache
      */
-    public static void loadUsernotesForSubreddit(String subreddit) {
-        new AsyncLoadUsernotes().execute(subreddit);
+    public static void ensureConfigCachedLoaded(String subreddit) {
+        long lastCached = cache.getLong(subreddit + "_config_timestamp", -1);
+        boolean exists = cache.getBoolean(subreddit + "_config_exists", true);
+        if ((!exists && System.currentTimeMillis() - lastCached > CACHE_TIME_NONEXISTANT) // Sub doesn't have config
+                || System.currentTimeMillis() - lastCached > CACHE_TIME_CONFIG // Config outdated
+                || lastCached == -1) { // Config not cached
+            new AsyncLoadToolboxConfig().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subreddit);
+        } else {
+            Gson gson = new Gson();
+            try {
+                ToolboxConfig result = gson.fromJson(cache.getString(subreddit + "_config_data", null),
+                        ToolboxConfig.class);
+                if (result != null && result.getSchema() == 1) {
+                    toolboxConfigs.put(subreddit, result);
+                }
+            } catch (JsonParseException e) { // cached config was invalid
+                new AsyncLoadToolboxConfig().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subreddit);
+            }
+        }
     }
 
     /**
-     * Load a subreddit's toolbox config from the sub's toolbox wiki page
-     * @param subreddit Sub to load config for
+     * Ensures that a subreddit's usernotes are cached
+     *
+     * @param subreddit Subreddit to cache
      */
-    public static void loadConfigForSubreddit(String subreddit) {
-        new AsyncLoadToolboxConfig().execute(subreddit);
+    public static void ensureUsernotesCachedLoaded(String subreddit) {
+        long lastCached = cache.getLong(subreddit + "_usernotes_timestamp", -1);
+        boolean exists = cache.getBoolean(subreddit + "_usernotes_exists", true);
+        if ((!exists && System.currentTimeMillis() - lastCached > CACHE_TIME_NONEXISTANT) // Sub doesn't have usernotes
+                || System.currentTimeMillis() - lastCached > CACHE_TIME_USERNOTES // Usernotes outdated
+                || lastCached == -1) { // Usernotes not cached
+            new AsyncLoadUsernotes().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subreddit);
+        } else {
+            Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
+                    new Usernotes.BlobDeserializer()).create();
+            try {
+                Usernotes result = gson.fromJson(cache.getString(subreddit + "_usernotes_data", null), Usernotes.class);
+                if (result != null && result.getSchema() == 6) {
+                    result.setSubreddit(subreddit);
+                    notes.put(subreddit, result);
+                }
+            } catch (JsonParseException e) { // cached usernotes were invalid
+                new AsyncLoadUsernotes().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subreddit);
+            }
+        }
+    }
+
+    /**
+     * Download a subreddit's usernotes
+     *
+     * @param subreddit
+     */
+    public static void downloadUsernotes(String subreddit) {
+        WikiManager manager = new WikiManager(Authentication.reddit);
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
+                new Usernotes.BlobDeserializer()).create();
+        try {
+            String data = manager.get(subreddit, "usernotes").getContent();
+            Usernotes result = gson.fromJson(data, Usernotes.class);
+            cache.edit().putLong(subreddit + "_usernotes_timestamp", System.currentTimeMillis()).apply();
+            if (result != null && result.getSchema() == 6) {
+                result.setSubreddit(subreddit);
+                notes.put(subreddit, result);
+                cache.edit().putBoolean(subreddit + "_usernotes_exists", true)
+                        .putString(subreddit + "_usernotes_data", data).apply();
+            } else {
+                cache.edit().putBoolean(subreddit + "_usernotes_exists", false).apply();
+            }
+        } catch (NetworkException | JsonParseException e) {
+            if (e instanceof JsonParseException) {
+                notes.remove(subreddit);
+            }
+            cache.edit().putLong(subreddit + "_usernotes_timestamp", System.currentTimeMillis())
+                    .putBoolean(subreddit + "_usernotes_exists", false).apply();
+        }
+    }
+
+    /**
+     * Download a subreddit's Toolbox config
+     *
+     * @param subreddit
+     */
+    public static void downloadToolboxConfig(String subreddit) {
+        WikiManager manager = new WikiManager(Authentication.reddit);
+        Gson gson = new Gson();
+        try {
+            String data = manager.get(subreddit, "toolbox").getContent();
+            ToolboxConfig result = gson.fromJson(data, ToolboxConfig.class);
+            cache.edit().putLong(subreddit + "_config_timestamp", System.currentTimeMillis()).apply();
+            if (result != null && result.getSchema() == 1) {
+                toolboxConfigs.put(subreddit, result);
+                cache.edit().putBoolean(subreddit + "_config_exists", true)
+                        .putString(subreddit + "_config_data", data)
+                        .apply();
+            } else {
+                cache.edit().putBoolean(subreddit + "_config_exists", false).apply();
+            }
+        } catch (NetworkException | JsonParseException e) {
+            if (e instanceof JsonParseException) {
+                toolboxConfigs.remove(subreddit);
+            }
+            cache.edit().putLong(subreddit + "_config_timestamp", System.currentTimeMillis())
+                    .putBoolean(subreddit + "_config_exists", false).apply();
+        }
+    }
+
+    public static void uploadUsernotes(String subreddit, String editReason) {
+        WikiManager manager = new WikiManager(Authentication.reddit);
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
+                new Usernotes.BlobSerializer()).disableHtmlEscaping().create();
+        String data = gson.toJson(getUsernotes(subreddit));
+        try {
+            manager.edit(subreddit, "usernotes", data, "\"" + editReason + "\" via Slide");
+            cache.edit().putBoolean(subreddit + "_usernotes_exists", true)
+                    .putLong(subreddit + "_usernotes_timestamp", System.currentTimeMillis())
+                    .putString(subreddit + "_usernotes_data", data)
+                    .apply();
+        } catch (NetworkException | ApiException ignored) {
+        }
     }
 
     private static class AsyncLoadUsernotes extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... subreddit) {
-            WikiManager manager = new WikiManager(Authentication.reddit);
-            Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
-                    new Usernotes.BlobDeserializer()).create();
-            try {
-                Usernotes result = gson.fromJson(manager.get(subreddit[0], "usernotes").getContent(), Usernotes.class);
-                if (result != null && result.getSchema() == 6) {
-                    result.setSubreddit(subreddit[0]);
-                    notes.put(subreddit[0], result);
-                }
-            } catch (NetworkException | JsonParseException ignored) {
-            }
+            downloadUsernotes(subreddit[0]);
             return null;
         }
     }
@@ -118,16 +231,7 @@ public class Toolbox {
     private static class AsyncLoadToolboxConfig extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... subreddit) {
-            WikiManager manager = new WikiManager(Authentication.reddit);
-            Gson gson = new Gson();
-            try {
-                ToolboxConfig result = gson.fromJson(manager.get(subreddit[0], "toolbox").getContent(),
-                        ToolboxConfig.class);
-                if (result != null && result.getSchema() == 1) {
-                    toolboxen.put(subreddit[0], result);
-                }
-            } catch (NetworkException ignored) {
-            }
+            downloadToolboxConfig(subreddit[0]);
             return null;
         }
     }

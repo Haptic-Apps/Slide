@@ -1670,7 +1670,8 @@ public class PopulateSubmissionViewHolder {
                         showBan(mContext, holder.itemView, submission, "", "", "", "");
                         break;
                     case 24:
-                        ToolboxUI.showUsernotes(mContext, submission.getAuthor(), submission.getSubredditName());
+                        ToolboxUI.showUsernotes(mContext, submission.getAuthor(), submission.getSubredditName(),
+                                "l," + submission.getId());
                         break;
                 }
             }

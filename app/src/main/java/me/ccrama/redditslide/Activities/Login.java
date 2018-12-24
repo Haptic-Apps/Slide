@@ -70,7 +70,7 @@ public class Login extends BaseActivityAnim {
                 "identity", "modcontributors", "modconfig", "modothers", "modwiki", "creddits",
                 "livemanage", "account", "privatemessages", "modflair", "modlog", "report",
                 "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save",
-                "wikiread", "flair", "history", "mysubreddits"
+                "wikiread", "flair", "history", "mysubreddits", "wikiedit"
         };
         if (Authentication.reddit == null) {
             new Authentication(getApplicationContext());

@@ -259,14 +259,15 @@ public class SubmissionCache {
 
         if (SettingValues.toolboxEnabled
                 && Authentication.mod
-                && Toolbox.getUsernotesForSubreddit(submission.getSubredditName()) != null
-                && Toolbox.getUsernotesForSubreddit(submission.getSubredditName()).getNotesForUser(
-                        submission.getAuthor()) != null) {
+                && Toolbox.getUsernotes(submission.getSubredditName()) != null
+                && Toolbox.getUsernotes(submission.getSubredditName()).getNotesForUser(submission.getAuthor()) != null
+                && Toolbox.getUsernotes(submission.getSubredditName()).getNotesForUser(submission.getAuthor())
+                    .size() > 0) {
             SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
-                    Toolbox.getUsernotesForSubreddit(submission.getSubredditName())
+                    Toolbox.getUsernotes(submission.getSubredditName())
                             .getDisplayNoteForUser(submission.getAuthor()) + "\u00A0");
             note.setSpan(new RoundedBackgroundSpan(mContext.getResources().getColor(R.color.white),
-                    Color.parseColor(Toolbox.getUsernotesForSubreddit(
+                    Color.parseColor(Toolbox.getUsernotes(
                             submission.getSubredditName()).getDisplayColorForUser(submission.getAuthor())
                     ), false, mContext), 0, note.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");

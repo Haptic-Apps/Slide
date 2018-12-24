@@ -105,7 +105,6 @@ public class ToolboxConfig {
                     return null;
                 }
             }
-            System.out.println(jsonElement);
             return context.deserialize(jsonElement, type);
         }
 

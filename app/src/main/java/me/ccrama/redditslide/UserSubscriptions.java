@@ -294,8 +294,8 @@ public class UserSubscriptions {
         if (Authentication.mod) {
             doModOf();
             for (String sub : modOf) {
-                Toolbox.loadConfigForSubreddit(sub);
-                Toolbox.loadUsernotesForSubreddit(sub);
+                Toolbox.ensureConfigCachedLoaded(sub);
+                Toolbox.ensureUsernotesCachedLoaded(sub);
             }
         }
         doFriendsOf();

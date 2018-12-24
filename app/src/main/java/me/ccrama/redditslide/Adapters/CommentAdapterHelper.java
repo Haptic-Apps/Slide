@@ -767,7 +767,8 @@ public class CommentAdapterHelper {
                         showBan(mContext, adapter.listView, comment, "", "", "", "");
                         break;
                     case 24:
-                        ToolboxUI.showUsernotes(mContext, comment.getAuthor(), comment.getSubredditName());
+                        ToolboxUI.showUsernotes(mContext, comment.getAuthor(), comment.getSubredditName(),
+                                "l," + comment.getParentId() + "," + comment.getId());
                         break;
                 }
             }
@@ -1522,14 +1523,14 @@ public class CommentAdapterHelper {
 
         if (SettingValues.toolboxEnabled
                 && Authentication.mod
-                && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()) != null
-                && Toolbox.getUsernotesForSubreddit(comment.getSubredditName()).getNotesForUser(
-                        comment.getAuthor()) != null) {
+                && Toolbox.getUsernotes(comment.getSubredditName()) != null
+                && Toolbox.getUsernotes(comment.getSubredditName()).getNotesForUser(comment.getAuthor()) != null
+                && Toolbox.getUsernotes(comment.getSubredditName()).getNotesForUser(comment.getAuthor()).size() > 0) {
             SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
-                    Toolbox.getUsernotesForSubreddit(comment.getSubredditName())
+                    Toolbox.getUsernotes(comment.getSubredditName())
                             .getDisplayNoteForUser(comment.getAuthor()) + "\u00A0");
             note.setSpan(new RoundedBackgroundSpan(mContext.getResources().getColor(R.color.white),
-                    Color.parseColor(Toolbox.getUsernotesForSubreddit(
+                    Color.parseColor(Toolbox.getUsernotes(
                             comment.getSubredditName()).getDisplayColorForUser(comment.getAuthor())
                     ), false, mContext), 0, note.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(note);
