@@ -11,7 +11,6 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Toolbox.Toolbox;
@@ -25,9 +24,16 @@ public class SettingsModerationFragment {
     }
 
     public void Bind() {
-        { // Set up removal reason setting
-            final TextView removalReasonsCurrent = context.findViewById(R.id.settings_moderation_removal_reasons_current);
+        final TextView removalReasonsCurrent = context.findViewById(R.id.settings_moderation_removal_reasons_current);
+        final SwitchCompat toolboxEnabled = context.findViewById(R.id.settings_moderation_toolbox_enabled);
+        final TextView removalMessageCurrent = context.findViewById(R.id.settings_moderation_toolbox_message_current);
+        final RelativeLayout removalMessage = context.findViewById(R.id.settings_moderation_toolbox_message);
+        final SwitchCompat modmail = context.findViewById(R.id.settings_moderation_toolbox_modmail);
+        final SwitchCompat stickyMessage = context.findViewById(R.id.settings_moderation_toolbox_sticky);
+        final SwitchCompat lock = context.findViewById(R.id.settings_moderation_toolbox_lock);
+        final RelativeLayout refresh = context.findViewById(R.id.settings_moderation_toolbox_refresh);
 
+        { // Set up removal reason setting
             if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.SLIDE.ordinal()) {
                 removalReasonsCurrent.setText(context.getString(R.string.settings_mod_removal_slide));
             } else if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.TOOLBOX.ordinal()) {
@@ -41,6 +47,7 @@ public class SettingsModerationFragment {
                 public void onClick(View v) {
                     PopupMenu popupMenu = new PopupMenu(context, v);
                     popupMenu.getMenuInflater().inflate(R.menu.removal_reason_setings, popupMenu.getMenu());
+                    popupMenu.getMenu().findItem(R.id.toolbox).setEnabled(SettingValues.toolboxEnabled);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
@@ -49,27 +56,24 @@ public class SettingsModerationFragment {
                                     SettingValues.removalReasonType = SettingValues.RemovalReasonType.SLIDE.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.removalReasonType).apply();
+                                    removalReasonsCurrent.setText(
+                                            context.getString(R.string.settings_mod_removal_slide));
                                     break;
                                 case R.id.toolbox:
                                     SettingValues.removalReasonType = SettingValues.RemovalReasonType.TOOLBOX.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.removalReasonType).apply();
+                                    removalReasonsCurrent.setText(
+                                            context.getString(R.string.settings_mod_removal_toolbox));
                                     break;
                                 // For implementing reddit native removal reasons:
                                 /*case R.id.reddit:
                                     SettingValues.removalReasonType = SettingValues.RemovalReasonType.REDDIT.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.removalReasonType).apply();
+                                    removalReasonsCurrent.setText(
+                                            context.getString(R.string.settings_mod_removal_reddit));
                                     break;*/
-                            }
-
-                            if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.SLIDE.ordinal()) {
-                                removalReasonsCurrent.setText(context.getString(R.string.settings_mod_removal_slide));
-                            } else if (SettingValues.removalReasonType
-                                    == SettingValues.RemovalReasonType.TOOLBOX.ordinal()) {
-                                removalReasonsCurrent.setText(context.getString(R.string.settings_mod_removal_toolbox));
-                            } else {
-                                removalReasonsCurrent.setText(context.getString(R.string.settings_mod_removal_reddit));
                             }
                             return true;
                         }
@@ -80,24 +84,37 @@ public class SettingsModerationFragment {
         }
 
         { // Set up toolbox enabled switch
-            final SwitchCompat toolboxEnabled = context.findViewById(R.id.settings_moderation_toolbox_enabled);
             toolboxEnabled.setChecked(SettingValues.toolboxEnabled);
             toolboxEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.toolboxEnabled = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MOD_TOOLBOX_ENABLED, isChecked).apply();
+
+                    removalMessage.setEnabled(isChecked);
+                    modmail.setEnabled(isChecked);
+                    stickyMessage.setEnabled(isChecked);
+                    lock.setEnabled(isChecked);
+                    refresh.setEnabled(isChecked);
+
+                    if (!isChecked) {
+                        SettingValues.removalReasonType = SettingValues.RemovalReasonType.SLIDE.ordinal();
+                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
+                                SettingValues.removalReasonType).apply();
+                        removalReasonsCurrent.setText(context.getString(R.string.settings_mod_removal_slide));
+                    }
+
+                    // download and cache toolbox stuff in the background unless it's already loaded
                     for (String sub : UserSubscriptions.modOf) {
-                        Toolbox.ensureConfigCachedLoaded(sub);
-                        Toolbox.ensureUsernotesCachedLoaded(sub);
+                        Toolbox.ensureConfigCachedLoaded(sub, false);
+                        Toolbox.ensureUsernotesCachedLoaded(sub, false);
                     }
                 }
             });
         }
 
         { // Set up toolbox default removal type
-            final TextView removalMessageCurrent =
-                    context.findViewById(R.id.settings_moderation_toolbox_message_current);
+            removalMessage.setEnabled(SettingValues.toolboxEnabled);
 
             if (SettingValues.toolboxMessageType == SettingValues.ToolboxRemovalMessageType.COMMENT.ordinal()) {
                 removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_comment));
@@ -109,7 +126,7 @@ public class SettingsModerationFragment {
                 removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_none));
             }
 
-            context.findViewById(R.id.settings_moderation_toolbox_message).setOnClickListener(new View.OnClickListener() {
+            removalMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu popupMenu = new PopupMenu(context, v);
@@ -123,38 +140,29 @@ public class SettingsModerationFragment {
                                             SettingValues.ToolboxRemovalMessageType.COMMENT.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.toolboxMessageType).apply();
+                                    removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_comment));
                                     break;
                                 case R.id.pm:
                                     SettingValues.toolboxMessageType =
                                             SettingValues.ToolboxRemovalMessageType.PM.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.toolboxMessageType).apply();
+                                    removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_pm));
                                     break;
                                 case R.id.both:
                                     SettingValues.toolboxMessageType =
                                             SettingValues.ToolboxRemovalMessageType.BOTH.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.toolboxMessageType).apply();
+                                    removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_both));
                                     break;
                                 case R.id.none:
                                     SettingValues.toolboxMessageType =
                                             SettingValues.ToolboxRemovalMessageType.NONE.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.toolboxMessageType).apply();
+                                    removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_none));
                                     break;
-                            }
-
-                            if (SettingValues.toolboxMessageType
-                                    == SettingValues.ToolboxRemovalMessageType.COMMENT.ordinal()) {
-                                removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_comment));
-                            } else if (SettingValues.toolboxMessageType
-                                    == SettingValues.ToolboxRemovalMessageType.PM.ordinal()) {
-                                removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_pm));
-                            } else if (SettingValues.toolboxMessageType
-                                    == SettingValues.ToolboxRemovalMessageType.BOTH.ordinal()) {
-                                removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_both));
-                            } else {
-                                removalMessageCurrent.setText(context.getString(R.string.toolbox_removal_none));
                             }
                             return true;
                         }
@@ -165,7 +173,7 @@ public class SettingsModerationFragment {
         }
 
         { // Set up modmail switch
-            final SwitchCompat modmail = context.findViewById(R.id.settings_moderation_toolbox_modmail);
+            modmail.setEnabled(SettingValues.toolboxEnabled);
             modmail.setChecked(SettingValues.toolboxModmail);
             modmail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -177,7 +185,7 @@ public class SettingsModerationFragment {
         }
 
         { // Set up sticky switch
-            final SwitchCompat stickyMessage = context.findViewById(R.id.settings_moderation_toolbox_sticky);
+            stickyMessage.setEnabled(SettingValues.toolboxEnabled);
             stickyMessage.setChecked(SettingValues.toolboxSticky);
             stickyMessage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -189,7 +197,7 @@ public class SettingsModerationFragment {
         }
 
         { // Set up lock switch
-            final SwitchCompat lock = context.findViewById(R.id.settings_moderation_toolbox_lock);
+            lock.setEnabled(SettingValues.toolboxEnabled);
             lock.setChecked(SettingValues.toolboxLock);
             lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -201,7 +209,7 @@ public class SettingsModerationFragment {
         }
 
         { // Set up force refresh button
-            final RelativeLayout refresh = context.findViewById(R.id.settings_moderation_toolbox_refresh);
+            refresh.setEnabled(SettingValues.toolboxEnabled);
             refresh.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

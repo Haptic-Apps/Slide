@@ -99,6 +99,19 @@ public class Toolbox {
      * @param subreddit Subreddit to cache
      */
     public static void ensureConfigCachedLoaded(String subreddit) {
+        ensureConfigCachedLoaded(subreddit, true);
+    }
+
+    /**
+     * Ensures that a subreddit's config is cached
+     *
+     * @param subreddit Subreddit to cache
+     * @param thorough Whether to reload from net/cache if toolboxConfigs already contains something for subreddit
+     */
+    public static void ensureConfigCachedLoaded(String subreddit, boolean thorough) {
+        if (!thorough && toolboxConfigs.containsKey(subreddit)) {
+            return;
+        }
         long lastCached = cache.getLong(subreddit + "_config_timestamp", -1);
         boolean exists = cache.getBoolean(subreddit + "_config_exists", true);
         if ((!exists && System.currentTimeMillis() - lastCached > CACHE_TIME_NONEXISTANT) // Sub doesn't have config
@@ -125,6 +138,19 @@ public class Toolbox {
      * @param subreddit Subreddit to cache
      */
     public static void ensureUsernotesCachedLoaded(String subreddit) {
+        ensureUsernotesCachedLoaded(subreddit, true);
+    }
+
+    /**
+     * Ensures that a subreddit's usernotes are cached
+     *
+     * @param subreddit Subreddit to cache
+     * @param thorough Whether to reload from net/cache if notes already contains something for subreddit
+     */
+    public static void ensureUsernotesCachedLoaded(String subreddit, boolean thorough) {
+        if (!thorough && notes.containsKey(subreddit)) {
+            return;
+        }
         long lastCached = cache.getLong(subreddit + "_usernotes_timestamp", -1);
         boolean exists = cache.getBoolean(subreddit + "_usernotes_exists", true);
         if ((!exists && System.currentTimeMillis() - lastCached > CACHE_TIME_NONEXISTANT) // Sub doesn't have usernotes
@@ -217,6 +243,7 @@ public class Toolbox {
                     .putString(subreddit + "_usernotes_data", data)
                     .apply();
         } catch (NetworkException | ApiException ignored) {
+            ensureUsernotesCachedLoaded(subreddit); // load back from cache if we failed to upload. keeps state correct
         }
     }
 

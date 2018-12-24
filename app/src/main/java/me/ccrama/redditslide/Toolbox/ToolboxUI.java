@@ -197,7 +197,8 @@ public class ToolboxUI {
      * @return whether a toolbox dialog can be shown
      */
     public static boolean canShowRemoval(String subreddit) {
-        return Toolbox.getConfig(subreddit) != null
+        return SettingValues.toolboxEnabled
+                && Toolbox.getConfig(subreddit) != null
                 && Toolbox.getConfig(subreddit).getRemovalReasons() != null;
     }
 
