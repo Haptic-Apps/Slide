@@ -8,7 +8,7 @@
         android:id="@+id/toolbox"
         android:title="@string/settings_mod_removal_toolbox"/>
 
-    <item
-        android:id="@+id/reddit"
-        android:title="@string/settings_mod_removal_reddit"/>
+    <!--<item-->
+        <!--android:id="@+id/reddit"-->
+        <!--android:title="@string/settings_mod_removal_reddit"/>-->
 </menu>

@@ -55,11 +55,12 @@ public class SettingsModerationFragment {
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.removalReasonType).apply();
                                     break;
-                                case R.id.reddit:
+                                // For implementing reddit native removal reasons:
+                                /*case R.id.reddit:
                                     SettingValues.removalReasonType = SettingValues.RemovalReasonType.REDDIT.ordinal();
                                     SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
                                             SettingValues.removalReasonType).apply();
-                                    break;
+                                    break;*/
                             }
 
                             if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.SLIDE.ordinal()) {
