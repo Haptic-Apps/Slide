@@ -486,7 +486,7 @@
     <string name="mod_ban_reason">Ban reason</string>
     <string name="mod_ban_note_mod">Moderator note (optional)</string>
     <string name="mod_ban_note_user">User message (optional)</string>
-    <string name="mod_ban_time">Ban time (days)</string>
+    <string name="mod_ban_time">Ban time - leave blank for permanent</string>
     <string name="mod_ban_title">Ban /u/%1$s</string>
     <string name="mod_ban_requirements">Reason and time are required</string>
     <string name="mod_remove_template">Removed for\u0020</string>
