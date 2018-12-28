@@ -113,9 +113,9 @@ public class ToolboxUI {
 
         // Set up the removal reason list
         for (RemovalReasons.RemovalReason reason : removalReasons.getReasons()) {
-            CheckBox v = new CheckBox(context);
-            v.setText(reason.getTitle().isEmpty() ? reason.getText() : reason.getTitle());
-            reasonsList.addView(v);
+            CheckBox checkBox = new CheckBox(context);
+            checkBox.setText(reason.getTitle().isEmpty() ? reason.getText() : reason.getTitle());
+            reasonsList.addView(checkBox);
         }
 
         // Set default states of checkboxes/radiobuttons
@@ -182,7 +182,7 @@ public class ToolboxUI {
                         replaceTokens(removalReasons.getLogTitle(), thing)          // log post title
                                 .replace("{reason}", logReason.getText()),
                         removalReasons.getLogSub(),                                 // log sub
-                        new String[]{flairText.toString(), flairCSS.toString()}     // flair text and css
+                        new String[] { flairText.toString(), flairCSS.toString() }  // flair text and css
                 );
             }
         });
@@ -194,7 +194,7 @@ public class ToolboxUI {
      * Checks if a Toolbox removal dialog can be shown for a subreddit
      *
      * @param subreddit Subreddit
-     * @return whether a toolbox dialog can be shown
+     * @return whether a toolbox removal dialog can be shown
      */
     public static boolean canShowRemoval(String subreddit) {
         return SettingValues.toolboxEnabled
@@ -241,9 +241,9 @@ public class ToolboxUI {
     /**
      * Shows a user's usernotes in a dialog
      *
-     * @param context   context
-     * @param author    user to show usernotes for
-     * @param subreddit subreddit to get usernotes from
+     * @param context     context
+     * @param author      user to show usernotes for
+     * @param subreddit   subreddit to get usernotes from
      * @param currentLink Link, in Toolbox format, for the current item - used for adding usernotes
      */
     public static void showUsernotes(final Context context, String author, String subreddit, String currentLink) {
@@ -288,7 +288,7 @@ public class ToolboxUI {
                         if (config != null
                                 && config.getUsernoteTypes() != null
                                 && config.getUsernoteTypes().size() > 0) {
-                             typeMap = Toolbox.getConfig(subreddit).getUsernoteTypes();
+                            typeMap = Toolbox.getConfig(subreddit).getUsernoteTypes();
                         } else {
                             typeMap = Toolbox.DEFAULT_USERNOTE_TYPES;
                         }
@@ -704,6 +704,9 @@ public class ToolboxUI {
         protected void onPostExecute(Boolean success) {
             if (!success) {
                 final Context context = contextRef.get();
+                if (context == null) {
+                    return;
+                }
                 new MaterialDialog.Builder(context)
                         .title(R.string.toolbox_wiki_edit_reauth)
                         .content(R.string.toolbox_wiki_edit_reauth_question)
@@ -747,6 +750,9 @@ public class ToolboxUI {
         protected void onPostExecute(Boolean success) {
             if (!success) {
                 final Context context = contextRef.get();
+                if (context == null) {
+                    return;
+                }
                 new MaterialDialog.Builder(context)
                         .title(R.string.toolbox_wiki_edit_reauth)
                         .content(R.string.toolbox_wiki_edit_reauth_question)

@@ -165,6 +165,8 @@ public class Toolbox {
                 if (result != null && result.getSchema() == 6) {
                     result.setSubreddit(subreddit);
                     notes.put(subreddit, result);
+                } else {
+                    notes.remove(subreddit);
                 }
             } catch (JsonParseException e) { // cached usernotes were invalid
                 new AsyncLoadUsernotes().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subreddit);
@@ -231,6 +233,12 @@ public class Toolbox {
         }
     }
 
+    /**
+     * Upload a subreddit's usernotes to the wiki
+     *
+     * @param subreddit Sub to upload usernotes for
+     * @param editReason Reason for the wiki edit
+     */
     public static void uploadUsernotes(String subreddit, String editReason) {
         WikiManager manager = new WikiManager(Authentication.reddit);
         Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
@@ -242,7 +250,7 @@ public class Toolbox {
                     .putLong(subreddit + "_usernotes_timestamp", System.currentTimeMillis())
                     .putString(subreddit + "_usernotes_data", data)
                     .apply();
-        } catch (NetworkException | ApiException ignored) {
+        } catch (NetworkException | ApiException e) {
             ensureUsernotesCachedLoaded(subreddit); // load back from cache if we failed to upload. keeps state correct
         }
     }

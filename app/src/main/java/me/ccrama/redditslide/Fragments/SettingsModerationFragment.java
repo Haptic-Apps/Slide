@@ -219,7 +219,7 @@ public class SettingsModerationFragment {
                             .showListener(new DialogInterface.OnShowListener() {
                                 @Override
                                 public void onShow(DialogInterface dialog) {
-                                    new AsyncRefreshToolboxTask(dialog).execute();
+                                    new AsyncRefreshToolboxTask(dialog).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 }
                             })
                             .cancelable(false)
