@@ -99,18 +99,16 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_quote_white_48dp"/>
 
-        <TextView
+        <ImageButton
                 android:id="@+id/author"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:text=" @ "
-                android:textColor="?attr/tintColor"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                />
+                android:cropToPadding="true"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/mention"/>
 
         <ImageButton
                 android:id="@+id/bulletlist"
@@ -157,5 +155,16 @@
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/strike"/>
+
+        <ImageButton
+                android:id="@+id/spoiler"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:cropToPadding="true"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/hide"/>
     </LinearLayout>
 </HorizontalScrollView>
