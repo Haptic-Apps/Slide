@@ -10,15 +10,13 @@ public class MoreChildItem extends CommentObject {
     public MoreChildren children;
 
     @Override
-    public boolean isComment(){
+    public boolean isComment() {
         return false;
     }
+
     public MoreChildItem(CommentNode node, MoreChildren children) {
         comment = node;
         this.children = children;
-    }
-    @Override
-    public String getName() {
-        return comment.getComment().getFullName() + "more";
+        this.name = comment.getComment().getFullName() + "more";
     }
 }

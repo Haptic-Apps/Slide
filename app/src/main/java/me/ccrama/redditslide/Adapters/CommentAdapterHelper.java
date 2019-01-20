@@ -1306,7 +1306,7 @@ public class CommentAdapterHelper {
                         : "\u200Ax" + Integer.toString(comment.getTimesSilvered());
                 SpannableStringBuilder silvered =
                         new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
-                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
+                Bitmap image = adapter.awardIcons[0];
                 float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
                 image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
                         (int) Math.ceil(fontsize), true);
@@ -1322,7 +1322,7 @@ public class CommentAdapterHelper {
                         : "\u200Ax" + Integer.toString(comment.getTimesGilded());
                 SpannableStringBuilder gilded =
                         new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
+                Bitmap image = adapter.awardIcons[1];
                 float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
                 image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
                         (int) Math.ceil(fontsize), true);
@@ -1338,7 +1338,7 @@ public class CommentAdapterHelper {
                         : "\u200Ax" + Integer.toString(comment.getTimesPlatinized());
                 SpannableStringBuilder platinized =
                         new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
-                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
+                Bitmap image = adapter.awardIcons[2];
                 float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
                 image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
                         (int) Math.ceil(fontsize), true);
