@@ -187,7 +187,11 @@ public class Search extends BaseActivityAnim {
                             public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                 Intent i = new Intent(Search.this, Search.class);
                                 i.putExtra(Search.EXTRA_TERM, where);
-                                i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
+                                if (multireddit) {
+                                    i.putExtra(Search.EXTRA_MULTIREDDIT, subreddit);
+                                } else {
+                                    i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
+                                }
                                 startActivity(i);
                                 overridePendingTransition(0, 0);
                                 finish();

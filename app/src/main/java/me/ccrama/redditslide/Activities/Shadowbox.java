@@ -38,6 +38,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public PostLoader subredditPosts;
     public String subreddit;
     int firstPage;
+    private int count;
 
     public ViewPager pager;
 
@@ -71,6 +72,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
         subredditPosts.getPosts().addAll(submissions.submissions);
+        count = subredditPosts.getPosts().size();
 
         pager = (ViewPager) findViewById(R.id.content_view);
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -106,6 +108,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                count = subredditPosts.getPosts().size();
                 if (startIndex != -1) {
                     // TODO determine correct behaviour
                     //comments.notifyItemRangeInserted(startIndex, posts.posts.size());
@@ -123,6 +126,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                count = subredditPosts.getPosts().size();
                 submissionsPager.notifyDataSetChanged();
             }
         });
@@ -267,7 +271,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
         @Override
         public int getCount() {
-            return subredditPosts.getPosts().size() ;
+            return count;
         }
 
 
