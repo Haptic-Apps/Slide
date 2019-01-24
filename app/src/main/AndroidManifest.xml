@@ -645,6 +645,10 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
+                android:name=".Activities.SettingsModeration"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
+        <activity
                 android:name=".Activities.LiveThread"
                 android:alwaysRetainTaskState="true"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
