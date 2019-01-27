@@ -1,20 +1,20 @@
 package me.ccrama.redditslide;
 
+import android.database.Cursor;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
-
+import com.lusfold.androidkeyvaluestore.utils.CursorUtils;
+import me.ccrama.redditslide.Synccit.SynccitRead;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import me.ccrama.redditslide.Synccit.SynccitRead;
-import me.ccrama.redditslide.util.LogUtil;
-
+import static com.lusfold.androidkeyvaluestore.core.KVManagerImpl.COLUMN_KEY;
+import static com.lusfold.androidkeyvaluestore.core.KVManagerImpl.TABLE_NAME;
 import static me.ccrama.redditslide.OpenRedditLink.formatRedditUrl;
 import static me.ccrama.redditslide.OpenRedditLink.getRedditLinkType;
 
@@ -38,10 +38,19 @@ public class HasSeen {
                 if (fullname.contains("t3_")) {
                     fullname = fullname.substring(3, fullname.length());
                 }
-                if (!m.getByContains(fullname).isEmpty() && m.get(fullname) != null) {
+
+                // Check if KVStore has a key containing the fullname
+                // This is necessary because the KVStore library is limited and Carlos didn't realize the performance impact
+                Cursor cur = m.execQuery("SELECT * FROM ? WHERE ? LIKE '%?%' LIMIT 1",
+                        new String[] { TABLE_NAME, COLUMN_KEY, fullname });
+                boolean contains = cur != null && cur.getCount() > 0;
+                CursorUtils.closeCursorQuietly(cur);
+
+                if (contains) {
                     hasSeen.add(fullname);
+                    String value = m.get(fullname);
                     try {
-                        seenTimes.put(fullname, Long.valueOf(m.get(fullname)));
+                        if (value != null) seenTimes.put(fullname, Long.valueOf(value));
                     } catch (Exception e) {
 
                     }
@@ -61,14 +70,20 @@ public class HasSeen {
             if (fullname.contains("t3_")) {
                 fullname = fullname.substring(3, fullname.length());
             }
-            if (!m.getByContains(fullname).isEmpty()) {
+            // Check if KVStore has a key containing the fullname
+            // This is necessary because the KVStore library is limited and Carlos didn't realize the performance impact
+            Cursor cur = m.execQuery("SELECT * FROM ? WHERE ? LIKE '%?%' LIMIT 1",
+                    new String[] { TABLE_NAME, COLUMN_KEY, fullname });
+            boolean contains = cur != null && cur.getCount() > 0;
+            CursorUtils.closeCursorQuietly(cur);
+
+            if (contains) {
                 hasSeen.add(fullname);
                 String value = m.get(fullname);
                 try {
                     if (value != null) seenTimes.put(fullname, Long.valueOf(value));
                 } catch (Exception ignored) {
                 }
-
             }
         }
     }
