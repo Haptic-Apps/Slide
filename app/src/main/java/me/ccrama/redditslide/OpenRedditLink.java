@@ -317,8 +317,8 @@ public class OpenRedditLink {
         if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
 
         // Converts links such as reddit.com/help to reddit.com/r/reddit.com/wiki
-        if (url.matches("(?i)[^/]++/(?>wiki|help)(?>$|/.*)")) {
-            url = url.replaceFirst("(?i)/(?>wiki|help)", "/r/reddit.com/wiki");
+        if (url.matches("(?i)[^/]++/(?>w|wiki|help)(?>$|/.*)")) {
+            url = url.replaceFirst("(?i)/(?>w|wiki|help)", "/r/reddit.com/wiki");
         }
 
         return url;
@@ -338,8 +338,8 @@ public class OpenRedditLink {
             return RedditLinkType.LIVE;
         } else if (url.matches("(?i)reddit\\.com/message/compose.*")) {
             return RedditLinkType.MESSAGE;
-        } else if (url.matches("(?i)reddit\\.com(?:/r/[a-z0-9-_.]+)?/(?:wiki|help).*")) {
-            // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
+        } else if (url.matches("(?i)reddit\\.com(?:/r/[a-z0-9-_.]+)?/(?:w|wiki|help).*")) {
+            // Wiki link. Format: reddit.com/r/$subreddit/w[iki]/$page [optional]
             return RedditLinkType.WIKI;
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/about.*")) {
             // Unhandled link. Format: reddit.com/r/$subreddit/about/$page [optional]
@@ -350,7 +350,7 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/submit.*")) {
             // Submit post link. Format: reddit.com/r/$subreddit/submit
             return RedditLinkType.SUBMIT;
-        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
+        } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/[\\w-]*/.*")) {
             // Permalink to comments. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
         } else if (url.matches("(?i)reddit\\.com/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+.*")) {

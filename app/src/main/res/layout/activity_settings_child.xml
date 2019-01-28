@@ -123,6 +123,31 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <LinearLayout
+                android:id="@+id/settings_child_moderation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+            <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/mod"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_moderation"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

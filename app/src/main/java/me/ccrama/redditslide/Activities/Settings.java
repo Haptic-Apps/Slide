@@ -40,17 +40,7 @@ import java.util.List;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.FDroid;
-import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
-import me.ccrama.redditslide.Fragments.ManageOfflineContentFragment;
-import me.ccrama.redditslide.Fragments.SettingsCommentsFragment;
-import me.ccrama.redditslide.Fragments.SettingsDataFragment;
-import me.ccrama.redditslide.Fragments.SettingsFontFragment;
-import me.ccrama.redditslide.Fragments.SettingsFragment;
-import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
-import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
-import me.ccrama.redditslide.Fragments.SettingsHistoryFragment;
-import me.ccrama.redditslide.Fragments.SettingsRedditFragment;
-import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
+import me.ccrama.redditslide.Fragments.*;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -655,6 +645,17 @@ public class Settings extends BaseActivity
         } else {
             findViewById(R.id.settings_child_reddit_settings).setEnabled(false);
             findViewById(R.id.settings_child_reddit_settings).setAlpha(0.25f);
+        }
+
+        if (Authentication.mod) {
+            findViewById(R.id.settings_child_moderation).setVisibility(View.VISIBLE);
+            findViewById(R.id.settings_child_moderation).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Settings.this, SettingsModeration.class);
+                    startActivity(i);
+                }
+            });
         }
     }
 

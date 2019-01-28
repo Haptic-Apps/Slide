@@ -1084,7 +1084,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
             }
             if (baseSub != null) {
-                currentlySubbed = baseSub.isUserSubscriber();
+                currentlySubbed = Authentication.isLoggedIn && baseSub.isUserSubscriber();
                 subreddit = baseSub.getDisplayName();
                 try {
                     View sidebar =

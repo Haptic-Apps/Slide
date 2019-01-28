@@ -85,7 +85,7 @@ dependencies {
     withGPlayImplementation 'com.google.android.gms:play-services-drive:11.2.0'
     //11.4.0, 11.6.0, 16.0.0
 
-    implementation 'com.github.ccrama:JRAW:c2bc59eb5e'
+    implementation 'com.github.ccrama:JRAW:07c395b4df'
     implementation 'com.github.ccrama:AndroidVideoCache:483e44579d'
     implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'
     implementation 'com.github.ccrama:exomedia:4d4e5a490a'

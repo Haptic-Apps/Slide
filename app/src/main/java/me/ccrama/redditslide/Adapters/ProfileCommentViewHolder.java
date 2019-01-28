@@ -13,6 +13,7 @@ import me.ccrama.redditslide.Views.CommentOverflow;
  */
 public class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
     public final TextView title;
+    public final TextView user;
     public final TextView score;
     public final TextView time;
     public final View gild;
@@ -22,6 +23,7 @@ public class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
     public ProfileCommentViewHolder(View v) {
         super(v);
         title = (TextView) v.findViewById(R.id.title);
+        user = v.findViewById(R.id.user);
         score = (TextView) v.findViewById(R.id.score);
         time = (TextView) v.findViewById(R.id.time);
         gild = v.findViewById(R.id.gildtext);

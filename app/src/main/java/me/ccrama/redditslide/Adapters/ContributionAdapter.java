@@ -429,6 +429,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             holder.content.setTypeface(typeface);
 
+            ((TextView) holder.gild).setText("");
             if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
                 TypedArray a = mContext.obtainStyledAttributes(
                         new FontPreferences(mContext).getPostFontStyle().getResId(),

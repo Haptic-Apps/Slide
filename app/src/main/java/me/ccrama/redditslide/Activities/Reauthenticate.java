@@ -52,7 +52,7 @@ public class Reauthenticate extends BaseActivityAnim {
         setContentView(R.layout.activity_login);
         setupAppBar(R.id.toolbar, "Re-authenticate", true, true);
 
-        String[] scopes = {"identity", "modcontributors", "modconfig", "modothers", "modwiki", "creddits", "livemanage", "account", "privatemessages", "modflair", "modlog", "report", "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save", "wikiread", "flair", "history", "mysubreddits"};
+        String[] scopes = {"identity", "modcontributors", "modconfig", "modothers", "modwiki", "creddits", "livemanage", "account", "privatemessages", "modflair", "modlog", "report", "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save", "wikiread", "flair", "history", "mysubreddits", "wikiedit"};
         final OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
         final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
         String authorizationUrl = oAuthHelper.getAuthorizationUrl(credentials, true, scopes)

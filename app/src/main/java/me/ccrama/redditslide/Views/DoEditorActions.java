@@ -1,11 +1,7 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -25,11 +21,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-
+import gun0912.tedbottompicker.TedBottomPicker;
+import me.ccrama.redditslide.Activities.Draw;
+import me.ccrama.redditslide.*;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.SubmissionParser;
+import okhttp3.*;
+import okio.*;
+import org.apache.commons.text.StringEscapeUtils;
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -38,42 +40,11 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import gun0912.tedbottompicker.TedBottomPicker;
-import me.ccrama.redditslide.Activities.Draw;
-import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.Constants;
-import me.ccrama.redditslide.Drafts;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SecretConstants;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.SubmissionParser;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.ForwardingSink;
-import okio.Okio;
-import okio.Sink;
 
 /**
  * Created by carlo_000 on 10/18/2015.
@@ -105,20 +76,15 @@ public class DoEditorActions {
                     @Override
                     public void onClick(View v) {
                         if (authors.length == 1) {
-                            int pos = editText.getSelectionStart();
                             String author =  "/u/" + authors[0];
-                            editText.setText(editText.getText().toString() + author);
-                            editText.setSelection(pos + author.length()); //put the cursor between the symbols
-
+                            insertBefore(author, editText);
                         } else {
                             new AlertDialogWrapper.Builder(a).setTitle(R.string.authors_above)
                                     .setItems(authors, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            int pos = editText.getSelectionStart();
                                             String author =  "/u/" + authors[which];
-                                            editText.setText(editText.getText().toString() + author);
-                                            editText.setSelection(pos + author.length()); //put the cursor between the symbols
+                                            insertBefore(author, editText);
                                         }
                                     })
                                     .setNeutralButton(R.string.btn_cancel, null)
@@ -157,7 +123,22 @@ public class DoEditorActions {
                     //If the user doesn't have text selected, put the symbols around the cursor's position
                     int pos = editText.getSelectionStart();
                     editText.getText().insert(pos, "~~");
-                    editText.getText().insert(pos + 1, "~~");
+                    editText.getText().insert(pos + 2, "~~");
+                    editText.setSelection(pos + 2); //put the cursor between the symbols
+                }
+            }
+        });
+
+        baseView.findViewById(R.id.spoiler).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editText.hasSelection()) {
+                    wrapString(">!", "!<", editText); //If the user has text selected, wrap that text in the symbols
+                } else {
+                    //If the user doesn't have text selected, put the symbols around the cursor's position
+                    int pos = editText.getSelectionStart();
+                    editText.getText().insert(pos, ">!");
+                    editText.getText().insert(pos + 2, "!<");
                     editText.setSelection(pos + 2); //put the cursor between the symbols
                 }
             }
@@ -272,12 +253,6 @@ public class DoEditorActions {
                 }
             }
         });
-       /*todo baseView.findViewById(R.id.strikethrough).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wrapString("~~", editText);
-            }
-        });*/
         baseView.findViewById(R.id.imagerep).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -378,31 +353,32 @@ public class DoEditorActions {
 
                 if (oldComment != null) {
                     final TextView showText = new TextView(a);
-                    showText.setText(oldComment);
+                    showText.setText(StringEscapeUtils.unescapeHtml4(oldComment)); // text we get is escaped, we don't want that
                     showText.setTextIsSelectable(true);
                     int sixteen = Reddit.dpToPxVertical(24);
                     showText.setPadding(sixteen, 0, sixteen, 0);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
-                    builder.setView(showText)
-                            .setTitle(R.string.editor_actions_quote_comment)
-                            .setCancelable(true)
-                            .setPositiveButton(a.getString(R.string.btn_select),
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String selected = showText.getText()
-                                                    .toString()
-                                                    .substring(showText.getSelectionStart(),
-                                                            showText.getSelectionEnd());
-                                            if (selected.equals("")) {
-                                                insertBefore("> " + oldComment, editText);
-                                            } else {
-                                                insertBefore("> " + selected + "\n\n", editText);
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(a.getString(R.string.btn_cancel), null)
+                    MaterialDialog.Builder builder = new MaterialDialog.Builder(a);
+                    builder.customView(showText, false)
+                            .title(R.string.editor_actions_quote_comment)
+                            .cancelable(true)
+                            .positiveText(a.getString(R.string.btn_select))
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    String selected = showText.getText()
+                                            .toString()
+                                            .substring(showText.getSelectionStart(), showText.getSelectionEnd());
+                                    if (selected.equals("")) {
+                                        selected = StringEscapeUtils.unescapeHtml4(oldComment);
+                                    }
+                                    insertBefore("> " + selected.replaceAll("\n", "\n> ") + "\n\n", editText);
+                                }
+                            })
+                            .negativeText(a.getString(R.string.btn_cancel))
                             .show();
+                    InputMethodManager imm = (InputMethodManager) editText.getContext()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 } else {
                     insertBefore("> ", editText);
                 }
@@ -412,14 +388,30 @@ public class DoEditorActions {
         baseView.findViewById(R.id.bulletlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBefore("* ", editText);
+                int start = editText.getSelectionStart();
+                int end = editText.getSelectionEnd();
+                String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
+                if (!selected.equals("")) {
+                    selected = selected.replaceFirst("^[^\n]", "* $0").replaceAll("\n", "\n* ");
+                    editText.getText().replace(Math.min(start, end), Math.max(start, end), selected);
+                } else {
+                    insertBefore("* ", editText);
+                }
             }
         });
 
         baseView.findViewById(R.id.numlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBefore("1. ", editText);
+                int start = editText.getSelectionStart();
+                int end = editText.getSelectionEnd();
+                String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
+                if (!selected.equals("")) {
+                    selected = selected.replaceFirst("^[^\n]", "1. $0").replaceAll("\n", "\n1. ");
+                    editText.getText().replace(Math.min(start, end), Math.max(start, end), selected);
+                } else {
+                    insertBefore("1. ", editText);
+                }
             }
         });
 
@@ -610,11 +602,38 @@ public class DoEditorActions {
 //        editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
 //    }
 
+    /**
+     * Wrap selected text in one or multiple characters, handling newlines and spaces properly for markdown
+     * @param wrapText Character(s) to wrap the selected text in
+     * @param editText EditText
+     */
     public static void wrapString(String wrapText, EditText editText) {
+        wrapString(wrapText, wrapText, editText);
+    }
+
+    /**
+     * Wrap selected text in one or multiple characters, handling newlines, spaces, >s properly for markdown,
+     * with different start and end text.
+     * @param startWrap Character(s) to start wrapping with
+     * @param endWrap Character(s) to close wrapping with
+     * @param editText EditText
+     */
+    public static void wrapString(String startWrap, String endWrap, EditText editText) {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
-        editText.getText().insert(Math.min(start, end), wrapText);
-        editText.getText().insert(Math.max(start, end) + wrapText.length(), wrapText);
+        String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
+        // insert the wrapping character inside any selected spaces and >s because they stop markdown formatting
+        // we use replaceFirst because anchors (\A, \Z) aren't consumed
+        selected = selected.replaceFirst("\\A[\\n> ]*", "$0" + startWrap)
+                           .replaceFirst("[\\n> ]*\\Z", endWrap + "$0");
+        // 2+ newlines stop formatting, so we do the formatting on each instance of text surrounded by 2+ newlines
+        /* in case anyone needs to understand this in the future:
+         * ([^\n> ]) captures any character that isn't a newline, >, or space
+         * (\n[> ]*){2,} captures any number of two or more newlines with any combination of spaces or >s since markdown ignores those by themselves
+         * (?=[^\n> ]) performs a lookahead and ensures there's a character that isn't a newline, >, or space
+         */
+        selected = selected.replaceAll("([^\\n> ])(\\n[> ]*){2,}(?=[^\\n> ])", "$1" + endWrap + "$2" + startWrap);
+        editText.getText().replace(start, end, selected);
     }
 
     private static void setViews(String rawHTML, String subredditName,
@@ -807,35 +826,41 @@ public class DoEditorActions {
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
                         InputMethodManager.HIDE_IMPLICIT_ONLY);
 
+                if (DoEditorActions.e != null) {
+                    descriptionBox.setText(DoEditorActions.e.toString().substring(sStart, sEnd));
+                }
+
                 ta.recycle();
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_title_link)
-                        .setView(layout)
-                        .setPositiveButton(R.string.editor_action_link,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        String s = "["
-                                                + descriptionBox.getText().toString()
-                                                + "]("
-                                                + url
-                                                + ")";
-                                        if (descriptionBox.getText().toString().trim().isEmpty()) {
-                                            s = url + " ";
-                                        }
-                                        int start = Math.max(sStart, 0);
-                                        int end = Math.max(sEnd, 0);
-                                        if (DoEditorActions.e != null) {
-                                            DoEditorActions.e.insert(Math.max(start, end), s);
-                                            DoEditorActions.e = null;
-                                        }
-                                        sStart = 0;
-                                        sEnd = 0;
-                                    }
-                                })
+                new MaterialDialog.Builder(c).title(R.string.editor_title_link)
+                        .customView(layout, false)
+                        .positiveText(R.string.editor_action_link)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                                String s = "["
+                                        + descriptionBox.getText().toString()
+                                        + "]("
+                                        + url
+                                        + ")";
+                                if (descriptionBox.getText().toString().trim().isEmpty()) {
+                                    s = url + " ";
+                                }
+                                int start = Math.max(sStart, 0);
+                                int end = Math.max(sEnd, 0);
+                                if (DoEditorActions.e != null) {
+                                    DoEditorActions.e.insert(Math.max(start, end), s);
+                                    DoEditorActions.e.delete(start, end);
+                                    DoEditorActions.e = null;
+                                }
+                                sStart = 0;
+                                sEnd = 0;
+                            }
+                        })
+                        .canceledOnTouchOutside(false)
                         .show();
 
             } catch (Exception e) {
@@ -1055,31 +1080,36 @@ public class DoEditorActions {
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
 
+                if (DoEditorActions.e != null) {
+                    descriptionBox.setText(DoEditorActions.e.toString().substring(sStart, sEnd));
+                }
 
                 ta.recycle();
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_title_link)
-                        .setView(layout)
-                        .setPositiveButton(R.string.editor_action_link,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        String s = "["
-                                                + descriptionBox.getText().toString()
-                                                + "]("
-                                                + finalUrl
-                                                + ")";
-                                        int start = Math.max(sStart, 0);
-                                        int end = Math.max(sEnd, 0);
-                                        DoEditorActions.e.insert(Math.max(start, end), s);
-                                        DoEditorActions.e = null;
-                                        sStart = 0;
-                                        sEnd = 0;
-                                    }
-                                })
+                new MaterialDialog.Builder(c).title(R.string.editor_title_link)
+                        .customView(layout, false)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                dialog.dismiss();
+                                String s = "["
+                                        + descriptionBox.getText().toString()
+                                        + "]("
+                                        + finalUrl
+                                        + ")";
+                                int start = Math.max(sStart, 0);
+                                int end = Math.max(sEnd, 0);
+                                DoEditorActions.e.insert(Math.max(start, end), s);
+                                DoEditorActions.e.delete(start, end);
+                                DoEditorActions.e = null;
+                                sStart = 0;
+                                sEnd = 0;
+                            }
+                        })
+                        .positiveText(R.string.editor_action_link)
+                        .canceledOnTouchOutside(false)
                         .show();
 
             } catch (Exception e) {

@@ -82,6 +82,8 @@ public class PostMatch {
 
 
     public static boolean doesMatch(Submission s, String baseSubreddit, boolean ignore18) {
+        if (Hidden.id.contains(s.getFullName())) return true; // if it's hidden we're not going to show it regardless
+
         String title = s.getTitle();
         String body = s.getSelftext();
         String domain = s.getUrl();
@@ -114,18 +116,23 @@ public class PostMatch {
         }
 
         titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(Locale.ENGLISH), titles, false);
+        if (titlec) return true; // if title hides it, no need to do any more
 
         bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(Locale.ENGLISH), texts, false);
+        if (bodyc) return true; // if body hides it, no need to do any more
 
         userc = !SettingValues.userFilters.isEmpty() && contains(s.getAuthor().toLowerCase(Locale.ENGLISH), users, false);
+        if (userc) return true; // if username hides it, no need to do any more
 
         try {
             domainc = !SettingValues.domainFilters.isEmpty() && isDomain(domain.toLowerCase(Locale.ENGLISH), domains);
         } catch (MalformedURLException e) {
             domainc = false;
         }
+        if (domainc) return true; // if domain hides it, no need to do any more
 
         subredditc = !subreddit.equalsIgnoreCase(baseSubreddit) && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(Locale.ENGLISH), subreddits, true);
+        if (subredditc) return true; // if subreddit hides it, no need to do any more
 
         boolean contentMatch = false;
 
@@ -208,7 +215,7 @@ public class PostMatch {
             }
         }
 
-        return (titlec || bodyc || userc || domainc || subredditc || contentMatch || Hidden.id.contains(s.getFullName()));
+        return contentMatch; // contentMatch is only remaining test, so return it
     }
 
     public static boolean doesMatch(Submission s) {
