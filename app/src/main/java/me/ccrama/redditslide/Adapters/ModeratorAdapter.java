@@ -13,16 +13,15 @@ import android.content.res.TypedArray;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
+import android.text.style.*;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +31,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 
+import me.ccrama.redditslide.Toolbox.Toolbox;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import net.dean.jraw.ApiException;
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
@@ -353,6 +358,57 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHold;
             final Comment comment = (Comment) dataSet.posts.get(i);
 
+            SpannableStringBuilder author = new SpannableStringBuilder(comment.getAuthor());
+            final int authorcolor = Palette.getFontColorUser(comment.getAuthor());
+
+            if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                        0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                        0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                        0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (Authentication.name != null && comment.getAuthor()
+                    .toLowerCase(Locale.ENGLISH)
+                    .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
+                author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+                author.setSpan(
+                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                                false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (authorcolor != 0) {
+                author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            if (SettingValues.toolboxEnabled
+                    && Authentication.mod
+                    && Toolbox.getUsernotes(comment.getSubredditName()) != null
+                    && Toolbox.getUsernotes(comment.getSubredditName()).getNotesForUser(comment.getAuthor()) != null
+                    && Toolbox.getUsernotes(comment.getSubredditName()).getNotesForUser(comment.getAuthor())
+                        .size() > 0) {
+                SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
+                        Toolbox.getUsernotes(comment.getSubredditName())
+                                .getDisplayNoteForUser(comment.getAuthor()) + "\u00A0");
+                note.setSpan(new RoundedBackgroundSpan(mContext.getResources().getColor(R.color.white),
+                        Color.parseColor(Toolbox.getUsernotes(
+                                comment.getSubredditName()).getDisplayColorForUser(comment.getAuthor())
+                        ), false, mContext), 0, note.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.append(" ");
+                author.append(note);
+            }
+
+            holder.user.setText(author);
+            holder.user.append(mContext.getResources().getString(R.string.submission_properties_seperator));
+            holder.user.setVisibility(View.VISIBLE);
+
             holder.score.setText(comment.getScore() + " " + mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
 
             if (Authentication.isLoggedIn) {
@@ -430,6 +486,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.time.setText(titleString);
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
+            ((TextView) holder.gild).setText("");
             if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
                 TypedArray a = mContext.obtainStyledAttributes(
                         new FontPreferences(mContext).getPostFontStyle().getResId(),
@@ -559,7 +616,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //Initialize drawables
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
+        final Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
         final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
         final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
         final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
@@ -568,6 +625,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
         final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
         final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
+        final Drawable note = mContext.getResources().getDrawable(R.drawable.note);
+        final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.reportreason);
 
         //Tint drawables
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -579,6 +638,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        note.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        removeReason.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -595,9 +656,14 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
         }
 
-        b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
-        // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
+        if (SettingValues.toolboxEnabled) {
+            b.sheet(24, note, mContext.getString(R.string.mod_usernotes_view));
+        }
 
+        b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
+        b.sheet(6, remove, mContext.getString(R.string.btn_remove));
+        b.sheet(7, removeReason, mContext.getString(R.string.mod_btn_remove_reason));
+        b.sheet(10, spam, mContext.getString(R.string.mod_btn_spam));
 
         final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
         if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
@@ -608,48 +674,75 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         }
 
+        b.sheet(8, profile, mContext.getString(R.string.mod_btn_author));
         b.sheet(23, ban, mContext.getString(R.string.mod_ban_user));
 
-        b.sheet(6, remove, mContext.getString(R.string.btn_remove))
-                .sheet(10, spam, "Mark as spam")
-                .sheet(8, profile, mContext.getString(R.string.mod_btn_author))
-                .listener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                CommentAdapterHelper.viewReports(mContext, reports, reports2);
-                                break;
-                            case 1:
-                                doApproval(mContext, holder, comment);
-                                break;
-                            case 9:
-                                if (distinguished) {
-                                    unDistinguishComment(mContext, holder, comment);
-                                } else {
-                                    distinguishComment(mContext, holder, comment);
-                                }
-                                break;
-                            case 6:
-                                removeComment(mContext, holder, comment,  false);
-                                break;
-                            case 10:
-                                removeComment(mContext, holder, comment,  true);
-                                break;
-                            case 8:
-                                Intent i = new Intent(mContext, Profile.class);
-                                i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
-                                mContext.startActivity(i);
-                                break;
-                            case 23:
-                                CommentAdapterHelper.showBan(mContext, holder.itemView, comment, "", "", "", "");
-                                break;
-
+        b.listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        CommentAdapterHelper.viewReports(mContext, reports, reports2);
+                        break;
+                    case 1:
+                        doApproval(mContext, holder, comment);
+                        break;
+                    case 9:
+                        if (distinguished) {
+                            unDistinguishComment(mContext, holder, comment);
+                        } else {
+                            distinguishComment(mContext, holder, comment);
                         }
-                    }
-                });
+                        break;
+                    case 6:
+                        removeComment(mContext, holder, comment, false);
+                        break;
+                    case 7:
+                        if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.TOOLBOX.ordinal()
+                                && ToolboxUI.canShowRemoval(comment.getSubredditName())) {
+                            ToolboxUI.showRemoval(mContext, comment, new ToolboxUI.CompletedRemovalCallback() {
+                                @Override
+                                public void onComplete(boolean success) {
+                                    if (success) {
+                                        Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
+                                                Snackbar.LENGTH_LONG);
+                                        View view = s.getView();
+                                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                                        tv.setTextColor(Color.WHITE);
+                                        s.show();
+
+                                    } else {
+                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                                .setMessage(R.string.err_retry_later)
+                                                .show();
+                                    }
+                                }
+                            });
+                        } else { // Show a Slide reason dialog if we can't show a toolbox or reddit reason
+                            doRemoveCommentReason(mContext, holder, comment);
+                        }
+                        break;
+                    case 10:
+                        removeComment(mContext, holder, comment, true);
+                        break;
+                    case 8:
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
+                        mContext.startActivity(i);
+                        break;
+                    case 23:
+                        CommentAdapterHelper.showBan(mContext, holder.itemView, comment, "", "", "", "");
+                        break;
+                    case 24:
+                        ToolboxUI.showUsernotes(mContext, comment.getAuthor(), comment.getSubredditName(),
+                                "l," + comment.getParentId() + "," + comment.getId());
+                        break;
+                }
+            }
+        });
         b.show();
     }
+
     public static void doApproval(final Context mContext, final ProfileCommentViewHolder holder,
             final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
@@ -784,6 +877,87 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 return true;
             }
         }.execute();
+    }
+
+    /**
+     * Show a removal dialog to input a reason, then remove comment and post reason
+     * @param mContext context
+     * @param holder commentviewholder
+     * @param comment comment
+     */
+    public static void doRemoveCommentReason(final Context mContext, final ProfileCommentViewHolder holder,
+            final Comment comment) {
+        new MaterialDialog.Builder(mContext).title(R.string.mod_remove_title)
+                .positiveText(R.string.btn_remove)
+                .alwaysCallInputCallback()
+                .input(mContext.getString(R.string.mod_remove_hint),
+                        mContext.getString(R.string.mod_remove_template), false,
+                        new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            }
+                        })
+                .inputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                .neutralText(R.string.mod_remove_insert_draft)
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog,
+                            @NonNull DialogAction which) {
+
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(final MaterialDialog dialog, DialogAction which) {
+                        removeCommentReason(comment, mContext, holder, dialog.getInputEditText().getText().toString());
+                    }
+                })
+                .negativeText(R.string.btn_cancel)
+                .show();
+    }
+
+    /**
+     * Remove a comment and post a reason
+     * @param comment comment
+     * @param mContext context
+     * @param holder commentviewholder
+     * @param reason reason
+     */
+    public static void removeCommentReason(final Comment comment, final Context mContext,
+            ProfileCommentViewHolder holder, final String reason) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed, Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    new AccountManager(Authentication.reddit).reply(comment, reason);
+                    new ModerationManager(Authentication.reddit).remove(comment, false);
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(
+                            Authentication.reddit.get(comment.getFullName()).get(0),
+                            DistinguishedStatus.MODERATOR);
+                } catch (ApiException | NetworkException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return true;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 }

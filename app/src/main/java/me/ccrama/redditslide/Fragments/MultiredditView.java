@@ -128,7 +128,6 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     String term;
                     @Override
                     public void onClick(View v) {
-                        System.out.println(posts.multiReddit.getDisplayName());
                         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
                                 .title(R.string.search_title)
                                 .alwaysCallInputCallback()

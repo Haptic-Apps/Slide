@@ -10,9 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -98,6 +96,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     final static  int HEADER = 1;
     private final int SPACER = 6;
+    public final Bitmap[] awardIcons;
     public Context            mContext;
     public SubmissionComments dataSet;
     public Submission         submission;
@@ -117,7 +116,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     CommentPage       mPage;
     int               shifted;
     int               toShiftTo;
-    ArrayList<String> hidden;
+    HashSet<String> hidden;
     ArrayList<String> hiddenPersons;
     ArrayList<String> toCollapse;
     private String backedText         = "";
@@ -136,7 +135,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.fm = fm;
 
         this.submission = submission;
-        hidden = new ArrayList<>();
+        hidden = new HashSet<>();
         currentComments = dataSet.comments;
         if (currentComments != null) {
             for (int i = 0; i < currentComments.size(); i++) {
@@ -147,6 +146,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         toCollapse = new ArrayList<>();
 
         shifted = 0;
+
+        // As per reddit API gids: 0=silver, 1=gold, 2=platinum
+        awardIcons = new Bitmap[] {
+                BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver),
+                BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold),
+                BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum),
+        };
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView,
@@ -159,7 +165,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.dataSet = dataSet;
 
         this.submission = submission;
-        hidden = new ArrayList<>();
+        hidden = new HashSet<>();
         currentComments = dataSet.comments;
         if (currentComments != null) {
             for (int i = 0; i < currentComments.size(); i++) {
@@ -1362,8 +1368,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.strike)).setColorFilter(
                                     Color.WHITE);
-                            ((TextView) replyArea.findViewById(R.id.author)).setTextColor(
+                            ((ImageView) replyArea.findViewById(R.id.author)).setColorFilter(
                                     Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.spoiler)).setColorFilter(Color.WHITE);
                             replyLine.getBackground()
                                     .setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
                         }

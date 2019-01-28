@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import me.ccrama.redditslide.Toolbox.Toolbox;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
@@ -292,6 +293,10 @@ public class UserSubscriptions {
     public static void doOnlineSyncing() {
         if (Authentication.mod) {
             doModOf();
+            for (String sub : modOf) {
+                Toolbox.ensureConfigCachedLoaded(sub);
+                Toolbox.ensureUsernotesCachedLoaded(sub);
+            }
         }
         doFriendsOf();
         loadMultireddits();
