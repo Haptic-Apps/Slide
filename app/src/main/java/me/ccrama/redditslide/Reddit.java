@@ -537,7 +537,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             notificationTime = 360;
         }
 
-        SettingValues.isPro = isProPackageInstalled() || FDroid.isFDroid;
+        SettingValues.isPro = isProPackageInstalled() || BuildConfig.isFDroid;
         videoPlugin = isVideoPluginInstalled();
 
         GifCache.init(this);

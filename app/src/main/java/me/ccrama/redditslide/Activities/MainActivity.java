@@ -143,7 +143,6 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.FDroid;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.DrawerItemsDialog;
 import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
@@ -1242,7 +1241,7 @@ public class MainActivity extends BaseActivity
         }
 
 
-        if (!FDroid.isFDroid && Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this))
+        if (!BuildConfig.isFDroid && Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this))
 
         {
             // Display an snackbar that asks the user to rate the app after this
