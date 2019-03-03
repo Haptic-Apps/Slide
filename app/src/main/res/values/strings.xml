@@ -286,6 +286,7 @@
     <string name="multireddit_title_empty">Title can\'t be empty</string>
     <string name="multireddit_title_empty_msg">Please enter a title for your multireddit</string>
     <string name="multireddit_no_subs">No subreddits are added</string>
+    <string name="multireddit_save_err">The title of this multireddit already exists or there is no space for more subreddits here</string>
     <string name="multireddit_no_subs_msg">Please add some subreddits by clicking on the + button!</string>
     <string name="multireddit_selector">Select subreddits to add</string>
     <string name="multireddit_create_hint">Multireddit name</string>
