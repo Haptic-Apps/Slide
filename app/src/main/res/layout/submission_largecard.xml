@@ -164,6 +164,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_edit"
                 app:srcCompat="@drawable/edit" />
 
             <ImageView
@@ -176,6 +177,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_save"
                 app:srcCompat="@drawable/iconstarfilled" />
 
             <ImageView
@@ -188,6 +190,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_mod"
                 app:srcCompat="@drawable/mod" />
 
             <ImageView
@@ -200,6 +203,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_hide"
                 app:srcCompat="@drawable/hide" />
 
             <ImageView
@@ -212,6 +216,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted" />
 
             <ImageView
@@ -224,6 +229,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote" />
 
             <ImageView
@@ -236,6 +242,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>

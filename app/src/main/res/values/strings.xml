@@ -430,6 +430,14 @@
     <string name="btn_new">New</string>
     <string name="btn_upload">Upload</string>
 
+    <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Edit</string>
+    <string name="btn_hide">Hide</string>
+    <string name="btn_mod">Moderate</string>
+    <string name="btn_upvote">Upvote</string>
+    <string name="btn_downvote">Downvote</string>
+    <string name="btn_menu">Menu</string>
+
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
     <string name="backup_restoring">Restoring your settings</string>

@@ -188,6 +188,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_save"
                 app:srcCompat="@drawable/iconstarfilled" />
 
             <ImageView
@@ -201,6 +202,7 @@
 
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted" />
 
             <ImageView
@@ -214,6 +216,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote" />
 
 
@@ -227,6 +230,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>
