@@ -1147,11 +1147,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final Comment comment = baseNode.getComment();
             if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
                 upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                upvote.setContentDescription(mContext.getResources().getString(R.string.btn_upvoted));
             } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
                 downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
+                downvote.setContentDescription(mContext.getResources().getString(R.string.btn_downvoted));
             } else {
                 downvote.clearColorFilter();
+                downvote.setContentDescription(mContext.getResources().getString(R.string.btn_downvote));
                 upvote.clearColorFilter();
+                upvote.setContentDescription(mContext.getResources().getString(R.string.btn_upvote));
             }
             {
                 final ImageView mod = baseView.findViewById(R.id.mod);

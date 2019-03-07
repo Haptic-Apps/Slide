@@ -155,6 +155,7 @@
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/img_comments"
                 app:srcCompat="@drawable/commentchange" />
 
             <TextView

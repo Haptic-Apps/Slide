@@ -2680,6 +2680,7 @@ public class PopulateSubmissionViewHolder {
         }
 
         //Set the colors and styles for the score text depending on what state it is in
+        //TODO: update content descriptions
         switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
