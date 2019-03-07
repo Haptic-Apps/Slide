@@ -78,6 +78,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginStart="16dp"
             android:tag="tint"
+            android:contentDescription="@string/img_score"
             app:srcCompat="@drawable/upvoted" />
 
         <TextView
@@ -100,6 +101,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginStart="8dp"
             android:layout_toRightOf="@+id/score"
+            android:contentDescription="@string/img_comments"
             app:srcCompat="@drawable/commentchange" />
 
         <TextView

@@ -443,7 +443,7 @@
     <!-- Buttons Content labels for TalkBack accessibility active states-->
     <string name="btn_upvoted">Upvoted</string>
     <string name="btn_downvoted">Downvoted</string>
-    <string name="btn_saved">Saved</string>
+    <string name="btn_unsave">Unsave</string>
 
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>

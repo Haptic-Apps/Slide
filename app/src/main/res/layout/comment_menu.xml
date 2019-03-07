@@ -18,7 +18,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-            android:contentDescription="@string/btn_edit"
+                android:contentDescription="@string/btn_edit"
                 app:srcCompat="@drawable/edit"/>
 
         <ImageView
@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-            android:contentDescription="@string/btn_upvote"
+                android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted"/>
 
         <ImageView
@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-            android:contentDescription="@string/btn_downvote"
+                android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote"/>
 
         <ImageView
@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-            android:contentDescription="@string/btn_menu"
+                android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more"/>
 
         <ImageView
