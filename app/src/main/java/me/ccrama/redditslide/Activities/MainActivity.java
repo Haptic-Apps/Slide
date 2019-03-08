@@ -1615,9 +1615,13 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
+                        //TODO: fix this line:
+                        header.setContentDescription(getResources().getString(R.string.btn_collapse));
                         flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                     } else {
                         collapse(profStuff);
+                        //TODO: fix this line:
+                        header.setContentDescription(getResources().getString(R.string.btn_expand));
                         flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                     }
 
@@ -1763,9 +1767,13 @@ public class MainActivity extends BaseActivity
                     LinearLayout body = header.findViewById(R.id.expand_profile);
                     if (body.getVisibility() == View.GONE) {
                         expand(body);
+                        //TODO: fix this line:
+                        header.setContentDescription(getResources().getString(R.string.btn_collapse));
                         flipAnimator(false, view).start();
                     } else {
                         collapse(body);
+                        //TODO: fix this line:
+                        header.setContentDescription(getResources().getString(R.string.btn_expand));
                         flipAnimator(true, view).start();
                     }
                 }
@@ -1827,9 +1835,13 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
+                        //TODO: fix this line:
+                        header.setContentDescription(getResources().getString(R.string.btn_collapse));
                         flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                     } else {
                         collapse(profStuff);
+                        //TODO: fix this line:
+                        header.setContentDescription(getResources().getString(R.string.btn_expand));
                         flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                     }
 
@@ -2022,9 +2034,13 @@ public class MainActivity extends BaseActivity
             public void onClick(View v) {
                 if (expandSettings.getVisibility() == View.GONE) {
                     expand(expandSettings);
+                    //TODO: fix this line:
+                    header.setContentDescription(getResources().getString(R.string.btn_collapse));
                     flipAnimator(false, v).start();
                 } else {
                     collapse(expandSettings);
+                    //TODO: fix this line:
+                    header.setContentDescription(getResources().getString(R.string.btn_expand));
                     flipAnimator(true, v).start();
                 }
             }

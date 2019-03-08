@@ -45,6 +45,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="12dp"
+                    android:contentDescription="@string/btn_expand"
                     app:srcCompat="@drawable/down"/>
         </LinearLayout>
     </RelativeLayout>
@@ -259,6 +260,7 @@
                 android:textStyle="bold"
                 android:theme="@style/Ripple.List"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_expand"
                 app:srcCompat="@drawable/down"/>
     </RelativeLayout>
 
@@ -363,6 +365,7 @@
                 android:theme="@style/Ripple.List"
                 android:tint="?attr/tintColor"
                 android:visibility="gone"
+                android:contentDescription="@string/btn_close"
                 app:srcCompat="@drawable/close"/>
     </RelativeLayout>
 </LinearLayout>

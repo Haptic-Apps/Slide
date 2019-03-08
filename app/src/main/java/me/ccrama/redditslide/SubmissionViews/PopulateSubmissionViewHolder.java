@@ -2680,18 +2680,20 @@ public class PopulateSubmissionViewHolder {
         }
 
         //Set the colors and styles for the score text depending on what state it is in
-        //TODO: update content descriptions
+        //TODO: also set content descriptions
         switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500),
                         PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvoted));
                 holder.score.setTypeface(null, Typeface.BOLD);
                 downvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
                                 || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                 if (submission.getVote() != VoteDirection.UPVOTE) {
                     if (submission.getVote() == VoteDirection.DOWNVOTE) ++submissionScore;
                     ++submissionScore; //offset the score by +1
@@ -2702,12 +2704,14 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500),
                         PorterDuff.Mode.SRC_ATOP);
+                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvoted));
                 holder.score.setTypeface(null, Typeface.BOLD);
                 upvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
                                 || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                 if (submission.getVote() != VoteDirection.DOWNVOTE) {
                     if (submission.getVote() == VoteDirection.UPVOTE) --submissionScore;
                     --submissionScore; //offset the score by +1
@@ -2722,11 +2726,13 @@ public class PopulateSubmissionViewHolder {
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
                                 || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                 upvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
                                 || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                 break;
             }
         }

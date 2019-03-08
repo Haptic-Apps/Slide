@@ -439,11 +439,13 @@
     <string name="btn_menu">Menu</string>
     <string name="img_score">Score</string>
     <string name="img_comments">Comments</string>
+    <string name="btn_expand">Expand</string>
 
     <!-- Buttons Content labels for TalkBack accessibility active states-->
     <string name="btn_upvoted">Upvoted</string>
     <string name="btn_downvoted">Downvoted</string>
     <string name="btn_unsave">Unsave</string>
+    <string name="btn_collapse">Collapse</string>
 
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>

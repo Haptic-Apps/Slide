@@ -71,6 +71,7 @@
 
         <ImageView
             android:id="@+id/scoreimg"
+            android:labelFor="@+id/score"
             android:layout_width="15dp"
             android:layout_height="36dp"
             android:layout_alignParentBottom="true"
@@ -94,6 +95,7 @@
 
         <ImageView
             android:id="@+id/pointsimg"
+            android:labelFor="@+id/comments"
             android:layout_width="15dp"
             android:layout_height="36dp"
             android:layout_alignParentBottom="true"

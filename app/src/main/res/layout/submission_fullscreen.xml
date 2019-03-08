@@ -193,6 +193,7 @@
                     android:orientation="horizontal"/>
 
             <LinearLayout
+                    android:id="@+id/scoreimg"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -200,6 +201,7 @@
                     android:paddingStart="16dp">
 
                 <ImageView
+                        android:labelFor="@+id/score"
                         android:layout_width="15dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
@@ -231,6 +233,7 @@
                         android:visibility="gone"/>
 
                 <ImageView
+                        android:labelFor="@+id/comments"
                         android:layout_width="15dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
