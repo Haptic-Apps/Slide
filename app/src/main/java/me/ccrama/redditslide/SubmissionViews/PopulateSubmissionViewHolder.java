@@ -1126,6 +1126,7 @@ public class PopulateSubmissionViewHolder {
                         ((ImageView) holder.save).setColorFilter(
                                 ContextCompat.getColor(mContext, R.color.md_amber_500),
                                 PorterDuff.Mode.SRC_ATOP);
+                        ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_unsave));
                         s = Snackbar.make(holder.itemView, R.string.submission_info_saved,
                                 Snackbar.LENGTH_LONG);
                         if (Authentication.me.hasGold()) {
@@ -1147,6 +1148,8 @@ public class PopulateSubmissionViewHolder {
                                         && holder.itemView.getTag(holder.itemView.getId())
                                         .equals("none"))) || full) ? getCurrentTintColor(mContext)
                                         : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                        ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_save));
+
                     }
                     View view = s.getView();
                     TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
@@ -2680,7 +2683,7 @@ public class PopulateSubmissionViewHolder {
         }
 
         //Set the colors and styles for the score text depending on what state it is in
-        //TODO: also set content descriptions
+        //Also set content descriptions
         switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
@@ -2768,12 +2771,14 @@ public class PopulateSubmissionViewHolder {
                 ((ImageView) holder.save).setColorFilter(
                         ContextCompat.getColor(mContext, R.color.md_amber_500),
                         PorterDuff.Mode.SRC_ATOP);
+                ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_unsave));
             } else {
                 ((ImageView) holder.save).setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
                                 || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_save));
             }
             holder.save.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2949,6 +2954,7 @@ public class PopulateSubmissionViewHolder {
                                                 .equals("none") || full)) ? getCurrentTintColor(
                                                 mContext) : getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
+                                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvoted));
 
                                 AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton,
                                         ContextCompat.getColor(mContext, R.color.md_blue_500));
@@ -2970,6 +2976,7 @@ public class PopulateSubmissionViewHolder {
                                                 .equals("none") || full)) ? getCurrentTintColor(
                                                 mContext) : getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
+                                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                                 setSubmissionScoreText(submission, holder);
                             }
                             if (!full
@@ -3008,6 +3015,7 @@ public class PopulateSubmissionViewHolder {
                                                 .equals("none") || full)) ? getCurrentTintColor(
                                                 mContext) : getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
+                                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvoted));
 
                                 AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton,
                                         ContextCompat.getColor(mContext, R.color.md_orange_500));
@@ -3029,6 +3037,7 @@ public class PopulateSubmissionViewHolder {
                                                 .equals("none") || full)) ? getCurrentTintColor(
                                                 mContext) : getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
+                                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                                 setSubmissionScoreText(submission, holder);
 
                             }
