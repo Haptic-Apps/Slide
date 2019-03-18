@@ -430,6 +430,23 @@
     <string name="btn_new">New</string>
     <string name="btn_upload">Upload</string>
 
+    <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Edit</string>
+    <string name="btn_hide">Hide</string>
+    <string name="btn_mod">Moderate</string>
+    <string name="btn_upvote">Upvote</string>
+    <string name="btn_downvote">Downvote</string>
+    <string name="btn_menu">Menu</string>
+    <string name="img_score">Score</string>
+    <string name="img_comments">Comments</string>
+    <string name="btn_expand">Expand</string>
+
+    <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Upvoted</string>
+    <string name="btn_downvoted">Downvoted</string>
+    <string name="btn_unsave">Unsave</string>
+    <string name="btn_collapse">Collapse</string>
+
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
     <string name="backup_restoring">Restoring your settings</string>

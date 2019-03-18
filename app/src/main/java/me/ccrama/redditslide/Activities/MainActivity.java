@@ -1615,9 +1615,11 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
+                        header.setContentDescription(getResources().getString(R.string.btn_collapse));
                         flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                     } else {
                         collapse(profStuff);
+                        header.setContentDescription(getResources().getString(R.string.btn_expand));
                         flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                     }
 
@@ -1764,9 +1766,11 @@ public class MainActivity extends BaseActivity
                     if (body.getVisibility() == View.GONE) {
                         expand(body);
                         flipAnimator(false, view).start();
+                        view.findViewById(R.id.godown).setContentDescription(getResources().getString(R.string.btn_collapse));
                     } else {
                         collapse(body);
                         flipAnimator(true, view).start();
+                        view.findViewById(R.id.godown).setContentDescription(getResources().getString(R.string.btn_expand));
                     }
                 }
             });
@@ -1828,9 +1832,11 @@ public class MainActivity extends BaseActivity
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
                         flipAnimator(false, header.findViewById(R.id.headerflip)).start();
+                        header.findViewById(R.id.headerflip).setContentDescription(getResources().getString(R.string.btn_collapse));
                     } else {
                         collapse(profStuff);
                         flipAnimator(true, header.findViewById(R.id.headerflip)).start();
+                        header.findViewById(R.id.headerflip).setContentDescription(getResources().getString(R.string.btn_expand));
                     }
 
                 }
@@ -2022,9 +2028,11 @@ public class MainActivity extends BaseActivity
             public void onClick(View v) {
                 if (expandSettings.getVisibility() == View.GONE) {
                     expand(expandSettings);
+                    header.findViewById(R.id.godown_settings).setContentDescription(getResources().getString(R.string.btn_collapse));
                     flipAnimator(false, v).start();
                 } else {
                     collapse(expandSettings);
+                    header.findViewById(R.id.godown_settings).setContentDescription(getResources().getString(R.string.btn_expand));
                     flipAnimator(true, v).start();
                 }
             }

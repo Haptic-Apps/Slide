@@ -135,6 +135,7 @@
                 android:layout_marginEnd="4dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/img_score"
                 app:srcCompat="@drawable/upvoted" />
 
             <TextView
@@ -161,6 +162,7 @@
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/img_comments"
                 app:srcCompat="@drawable/commentchange" />
 
             <TextView
@@ -188,6 +190,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_save"
                 app:srcCompat="@drawable/iconstarfilled" />
 
             <ImageView
@@ -201,6 +204,7 @@
 
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted" />
 
             <ImageView
@@ -214,6 +218,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote" />
 
 
@@ -227,6 +232,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>

@@ -78,6 +78,7 @@
 
                 <ImageView
                     android:id="@+id/scoreimg"
+                    android:labelFor="@+id/score"
                     android:layout_width="15dp"
                     android:layout_height="36dp"
                     android:layout_below="@+id/information"
@@ -85,6 +86,7 @@
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="16dp"
                     android:tag="tintactionbar"
+                    android:contentDescription="@string/img_score"
                     android:src="@drawable/upvoted" />
 
                 <TextView
@@ -102,6 +104,7 @@
 
                 <ImageView
                     android:id="@+id/pointsimg"
+                    android:labelFor="@+id/comments"
                     android:layout_width="15dp"
                     android:layout_height="36dp"
                     android:layout_below="@+id/information"
@@ -110,6 +113,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_toRightOf="@+id/score"
                     android:tag="tintactionbar"
+                    android:contentDescription="@string/img_comments"
                     android:src="@drawable/commentwidget" />
 
                 <TextView

@@ -57,6 +57,7 @@
 
             <ImageView
                 android:id="@+id/scoreimg"
+                android:labelFor="@+id/score"
                 android:layout_width="15dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center_vertical"
@@ -64,6 +65,7 @@
                 android:layout_marginStart="16dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/img_score"
                 app:srcCompat="@drawable/upvoted" />
 
             <TextView
@@ -81,6 +83,7 @@
 
             <ImageView
                 android:id="@+id/pointsimg"
+                android:labelFor="@+id/comments"
                 android:layout_width="15dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
@@ -90,6 +93,7 @@
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/img_comments"
                 app:srcCompat="@drawable/commentchange" />
 
             <TextView
@@ -117,6 +121,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_save"
                 app:srcCompat="@drawable/iconstarfilled" />
 
             <ImageView
@@ -130,6 +135,7 @@
 
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted" />
 
             <ImageView
@@ -143,6 +149,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote" />
 
 
@@ -156,6 +163,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
+                android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>
