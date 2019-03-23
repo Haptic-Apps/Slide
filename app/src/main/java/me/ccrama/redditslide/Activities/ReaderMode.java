@@ -14,17 +14,9 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.wuman.jreadability.Readability;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
@@ -103,24 +95,15 @@ public class ReaderMode extends BaseActivityAnim {
         protected Void doInBackground(Void... params) {
             try {
                 if (url != null) {
-                    URL url = new URL(ReaderMode.this.url);
-                    URLConnection con = url.openConnection();
-                    Pattern p = Pattern.compile("text/html;\\s+charset=([^\\s]+)\\s*");
-                    Matcher m = p.matcher(con.getContentType());
-/* If Content-Type doesn't match this pre-conception, choose default and
- * hope for the best. */
-                    String charset = m.matches() ? m.group(1) : "ISO-8859-1";
-                    Reader r = new InputStreamReader(con.getInputStream(), charset);
-                    StringBuilder buf = new StringBuilder();
-                    while (true) {
-                        int ch = r.read();
-                        if (ch < 0) break;
-                        buf.append((char) ch);
-                    }
-                    html = buf.toString();
-                    ReadabilityWrapper readability = new ReadabilityWrapper(html);  // URL
+                    Connection connection = Jsoup.connect(ReaderMode.this.url);
+                    Document document = connection.get();
+
+                    html = document.html();
+                    title = document.title();
+
+                    Readability readability = new Readability(document);
                     readability.init();
-                    title = readability.getArticleTitle().text();
+
                     articleText = readability.outerHtml();
                 } else {
                     Readability readability =
@@ -202,33 +185,5 @@ public class ReaderMode extends BaseActivityAnim {
 
         }
         return false;
-    }
-
-    public static class ReadabilityWrapper extends Readability {
-
-        public ReadabilityWrapper(String html) {
-            super(html);
-        }
-
-        public ReadabilityWrapper(String html, String baseUri) {
-            super(html, baseUri);
-        }
-
-        public ReadabilityWrapper(File in, String charsetName, String baseUri) throws IOException {
-            super(in, charsetName, baseUri);
-        }
-
-        public ReadabilityWrapper(URL url, int timeoutMillis) throws IOException {
-            super(url, timeoutMillis);
-        }
-
-        public ReadabilityWrapper(Document doc) {
-            super(doc);
-        }
-
-        @Override
-        public Element getArticleTitle() {
-            return super.getArticleTitle();
-        }
     }
 }
