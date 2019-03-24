@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -119,7 +120,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
             }
         }
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemAnimator(new SlideUpAlphaAnimator());
+        rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
         rv.getLayoutManager().scrollToPosition(0);
 
         mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -407,7 +408,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
             }
             adapter.notifyItemRangeChanged(0, adapter.dataSet.posts.size());
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideUpAlphaAnimator());
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
             return originalDataSetPosts;
         }
 

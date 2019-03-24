@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
@@ -49,7 +50,7 @@ public class SubredditListView extends Fragment {
         final RecyclerView.LayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
 
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemAnimator(new SlideUpAlphaAnimator());
+        rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("no sub", getContext()));

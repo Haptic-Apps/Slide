@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -269,7 +270,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
             rv.setAdapter(adapter);
-            rv.setItemAnimator(new SlideUpAlphaAnimator());
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
             posts.loadMore(getActivity(), this, true, adapter);
 
             refreshLayout.setOnRefreshListener(
@@ -359,7 +360,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
             }
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideUpAlphaAnimator());
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
             return originalDataSetPosts;
         }
 
