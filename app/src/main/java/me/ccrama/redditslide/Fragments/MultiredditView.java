@@ -10,13 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -270,7 +270,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
             rv.setAdapter(adapter);
-            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
             posts.loadMore(getActivity(), this, true, adapter);
 
             refreshLayout.setOnRefreshListener(
@@ -360,7 +360,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
             }
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
             return originalDataSetPosts;
         }
 

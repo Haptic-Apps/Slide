@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
@@ -50,7 +50,7 @@ public class SubredditListView extends Fragment {
         final RecyclerView.LayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
 
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new DecelerateInterpolator()));
+        rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("no sub", getContext()));
