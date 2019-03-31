@@ -372,7 +372,7 @@ public class PopulateSubmissionViewHolder {
                             .getDataNode()
                             .get("media")
                             .get("reddit_video")
-                            .get("fallback_url")
+                            .get("dash_url")
                             .asText()).replace("&amp;", "&"));
                 } else if (submission.getDataNode().has("crosspost_parent_list")) {
                     myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
@@ -381,7 +381,7 @@ public class PopulateSubmissionViewHolder {
                             .get(0)
                             .get("media")
                             .get("reddit_video")
-                            .get("fallback_url")
+                            .get("dash_url")
                             .asText()).replace("&amp;", "&"));
                 } else {
                     new OpenVRedditTask(contextActivity, submission.getSubredditName()).executeOnExecutor(

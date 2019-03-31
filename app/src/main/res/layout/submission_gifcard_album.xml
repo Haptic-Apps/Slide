@@ -17,13 +17,13 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center">
 
-        <me.ccrama.redditslide.Views.MediaVideoView
+        <me.ccrama.redditslide.Views.ExoVideoView
             android:id="@+id/gif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
 
-        </me.ccrama.redditslide.Views.MediaVideoView>
+        </me.ccrama.redditslide.Views.ExoVideoView>
 
         <ProgressBar
             android:id="@+id/gifprogress"

@@ -17,7 +17,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
@@ -29,42 +28,23 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
+import me.ccrama.redditslide.Activities.*;
+import me.ccrama.redditslide.*;
+import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.ExoVideoView;
+import me.ccrama.redditslide.Views.ImageSource;
+import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.*;
 import net.dean.jraw.models.Submission;
-
+import okhttp3.OkHttpClient;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-
-import me.ccrama.redditslide.Activities.Album;
-import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.Activities.FullscreenVideo;
-import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.Shadowbox;
-import me.ccrama.redditslide.Activities.Tumblr;
-import me.ccrama.redditslide.Activities.TumblrPager;
-import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SecretConstants;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
-import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Views.ImageSource;
-import me.ccrama.redditslide.Views.MediaVideoView;
-import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.HttpUtil;
-import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
-import okhttp3.OkHttpClient;
 
 
 /**
@@ -78,7 +58,7 @@ public class MediaFragment extends Fragment {
     public  String                actuallyLoaded;
     public  int                   i;
     private ViewGroup             rootView;
-    private MediaVideoView        videoView;
+    private ExoVideoView          videoView;
     private boolean               imageShown;
     private float                 previous;
     private boolean               hidden;
@@ -106,7 +86,7 @@ public class MediaFragment extends Fragment {
         if (videoView != null) {
             if (isVisibleToUser) {
                 videoView.seekTo(0);
-                videoView.start();
+                videoView.play();
             } else {
                 videoView.pause();
             }
@@ -118,7 +98,7 @@ public class MediaFragment extends Fragment {
         super.onResume();
         if (videoView != null) {
             videoView.seekTo((int) stopPosition);
-            videoView.start();
+            videoView.play();
         }
     }
 
@@ -449,8 +429,8 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = rootView.findViewById(R.id.gifprogress);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
-                (MediaVideoView) rootView.findViewById(R.id.gif), loader,
-                rootView.findViewById(R.id.placeholder), false, false,
+                videoView, loader,
+                rootView.findViewById(R.id.placeholder), false,
                 !(getActivity() instanceof Shadowbox)
                         || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
         GifUtils.AsyncLoadGif.VideoType t = GifUtils.AsyncLoadGif.getVideoType(s.getUrl());
@@ -461,7 +441,7 @@ public class MediaFragment extends Fragment {
                 toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
                         .get("media")
                         .get("reddit_video")
-                        .get("fallback_url")
+                        .get("dash_url")
                         .asText()).replace("&amp;", "&");
             } else if (s.getDataNode().has("crosspost_parent_list")) {
                 toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
@@ -469,7 +449,7 @@ public class MediaFragment extends Fragment {
                         .get(0)
                         .get("media")
                         .get("reddit_video")
-                        .get("fallback_url")
+                        .get("dash_url")
                         .asText()).replace("&amp;", "&");
             } else {
                 //We shouldn't get here, will be caught in initializer
@@ -521,9 +501,8 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = rootView.findViewById(R.id.gifprogress);
-        gif = new GifUtils.AsyncLoadGif(getActivity(),
-                (MediaVideoView) rootView.findViewById(R.id.gif), loader,
-                rootView.findViewById(R.id.placeholder), false, false,
+        gif = new GifUtils.AsyncLoadGif(getActivity(), videoView, loader,
+                rootView.findViewById(R.id.placeholder), false,
                 !(getActivity() instanceof Shadowbox)
                         || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
 

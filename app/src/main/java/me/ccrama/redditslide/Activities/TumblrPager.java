@@ -19,21 +19,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
@@ -44,7 +31,20 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
+import me.ccrama.redditslide.Adapters.ImageGridAdapterTumblr;
+import me.ccrama.redditslide.*;
+import me.ccrama.redditslide.Fragments.BlankFragment;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
+import me.ccrama.redditslide.Tumblr.Photo;
+import me.ccrama.redditslide.Tumblr.TumblrUtils;
+import me.ccrama.redditslide.Views.ExoVideoView;
+import me.ccrama.redditslide.Views.ImageSource;
+import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.util.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -55,30 +55,6 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import me.ccrama.redditslide.Adapters.ImageGridAdapterTumblr;
-import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.Fragments.BlankFragment;
-import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.Tumblr.Photo;
-import me.ccrama.redditslide.Tumblr.TumblrUtils;
-import me.ccrama.redditslide.Views.ImageSource;
-import me.ccrama.redditslide.Views.MediaVideoView;
-import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
-import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
-import me.ccrama.redditslide.util.ShareUtil;
-import me.ccrama.redditslide.util.SubmissionParser;
 
 
 /**
@@ -347,13 +323,13 @@ public class TumblrPager extends FullScreenActivity
             if (this.isVisible()) {
                 if (!isVisibleToUser)   // If we are becoming invisible, then...
                 {
-                    ((MediaVideoView) gif).pause();
+                    ((ExoVideoView) gif).pause();
                     gif.setVisibility(View.GONE);
                 }
 
                 if (isVisibleToUser) // If we are becoming visible, then...
                 {
-                    ((MediaVideoView) gif).start();
+                    ((ExoVideoView) gif).play();
                     gif.setVisibility(View.VISIBLE);
 
                 }
@@ -371,18 +347,17 @@ public class TumblrPager extends FullScreenActivity
             gif = rootView.findViewById(R.id.gif);
 
             gif.setVisibility(View.VISIBLE);
-            final MediaVideoView v = (MediaVideoView) gif;
+            final ExoVideoView v = (ExoVideoView) gif;
             v.clearFocus();
 
             final String url = ((TumblrPager) getActivity()).images.get(i).getOriginalSize().getUrl();
 
-            new GifUtils.AsyncLoadGif(getActivity(),
-                    (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
+            new GifUtils.AsyncLoadGif(getActivity(), rootView.findViewById(R.id.gif), loader, null, new Runnable() {
                 @Override
                 public void run() {
 
                 }
-            }, false, true, true, (TextView) rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
+            }, false, true, (TextView) rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

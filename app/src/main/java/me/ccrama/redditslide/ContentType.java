@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
-
 import net.dean.jraw.models.Submission;
 
 import java.net.URI;
@@ -194,9 +193,6 @@ public class ContentType {
             }
             if (hostContains(host, "reddit.com", "redd.it")) {
                 return Type.REDDIT;
-            }
-            if (hostContains(host, "vid.me")) {
-                return Type.VID_ME;
             }
             if (hostContains(host, "deviantart.com")) {
                 return Type.DEVIANTART;

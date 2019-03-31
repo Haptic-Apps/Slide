@@ -23,13 +23,13 @@
                 android:gravity="center"
                 android:visibility="gone">
 
-            <me.ccrama.redditslide.Views.MediaVideoView
+            <me.ccrama.redditslide.Views.ExoVideoView
                     android:id="@+id/gif"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true">
 
-            </me.ccrama.redditslide.Views.MediaVideoView>
+            </me.ccrama.redditslide.Views.ExoVideoView>
 
             <FrameLayout
                     android:id="@+id/placeholder"

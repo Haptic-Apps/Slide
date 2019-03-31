@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -20,14 +19,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -37,6 +28,13 @@ import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 
 
 /**
@@ -98,13 +96,14 @@ public class PopMediaView {
     public void doLoadGif(final String dat, View v) {
         v.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
 
-        MediaVideoView videoView = (MediaVideoView) v.findViewById(R.id.gif);
+        ExoVideoView videoView = v.findViewById(R.id.gif);
 
         videoView.clearFocus();
         v.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) v.findViewById(R.id.gifprogress);
         v.findViewById(R.id.progress).setVisibility(View.GONE);
-        GifUtils.AsyncLoadGif gif = new GifUtils.AsyncLoadGif(((Activity) v.getContext()), (MediaVideoView) v.findViewById(R.id.gif), loader, null, null, false, true, true, "");
+        GifUtils.AsyncLoadGif gif = new GifUtils.AsyncLoadGif(((Activity) v.getContext()), videoView, loader, null,
+                null, false, true, "");
         gif.execute(dat);
     }
 

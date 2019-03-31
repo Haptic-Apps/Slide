@@ -23,7 +23,7 @@ public class SettingValues {
     public static final String PREF_FAB_TYPE                  = "FabType";
     public static final String PREF_DAY_TIME                  = "day";
     public static final String PREF_VOTE_GESTURES             = "voteGestures";
-    public static final String PREF_NIGHT_MODE_STATE = "nightModeState";
+    public static final String PREF_NIGHT_MODE_STATE          = "nightModeState";
     public static final String PREF_NIGHT_MODE                = "nightMode";
     public static final String PREF_NIGHT_THEME               = "nightTheme";
     public static final String PREF_TYPE_IN_TEXT              = "typeInText";
@@ -82,6 +82,7 @@ public class SettingValues {
     public static final String PREF_LQ_LOW                    = "lqLow";
     public static final String PREF_LQ_MID                    = "lqMid";
     public static final String PREF_LQ_HIGH                   = "lqHigh";
+    public static final String PREF_LQ_VIDEOS                 = "lqVideos";
     public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
     public static final String PREF_COOKIES                   = "storeCookies";
     public static final String PREF_NIGHT_START               = "nightStart";
@@ -229,6 +230,7 @@ public class SettingValues {
     public static boolean lqLow  = false;
     public static boolean lqMid  = true;
     public static boolean lqHigh = false;
+    public static boolean lqVideos;
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
     public static boolean typeInText;
@@ -323,6 +325,7 @@ public class SettingValues {
         lqLow = prefs.getBoolean(PREF_LQ_LOW, false);
         lqMid = prefs.getBoolean(PREF_LQ_MID, true);
         lqHigh = prefs.getBoolean(PREF_LQ_HIGH, false);
+        lqVideos = prefs.getBoolean(PREF_LQ_VIDEOS, true);
 
         noImages = prefs.getBoolean(PREF_NO_IMAGES, false);
 

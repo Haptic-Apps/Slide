@@ -87,15 +87,14 @@ ext {
     supportLibVersion = '28.0.0'
     robolectricVersion = '3.3.1'
     powerMockitoVersion = '1.7.4' //2.0.0-RC.3
+    exoPlayerVersion = '2.9.6' // need minSDK 16 for anything higher
 }
 
 dependencies {
     withGPlayImplementation 'com.google.android.gms:play-services-drive:10.2.6' //16.0.0
 
     implementation 'com.github.ccrama:JRAW:c2bc59eb5e'
-    implementation 'com.github.ccrama:AndroidVideoCache:483e44579d'
     implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'
-    implementation 'com.github.ccrama:exomedia:4d4e5a490a'
     implementation 'com.github.ccrama:commonmark-java:07b304b575'
     implementation 'com.github.ccrama:PeekAndPop:09adee29f1'
     implementation 'com.github.ccrama:JReadability:bb291880a5'
@@ -107,6 +106,11 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
     implementation "com.android.support:support-v13:${supportLibVersion}"
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation "com.google.android.exoplayer:exoplayer-core:${exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:extension-okhttp:${exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:exoplayer-dash:${exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:exoplayer-ui:${exoPlayerVersion}"
 
     implementation 'com.google.guava:guava:23.6.1-android' //27.0-android
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
