@@ -106,6 +106,7 @@ dependencies {
     implementation "com.android.support:cardview-v7:${supportLibVersion}"
     implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
     implementation "com.android.support:support-v13:${supportLibVersion}"
+    implementation "com.android.support:interpolator:${supportLibVersion}"
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.google.guava:guava:23.6.1-android' //27.0-android
