@@ -9,9 +9,11 @@ import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +116,11 @@ public class ToolboxUI {
         // Set up the removal reason list
         for (RemovalReasons.RemovalReason reason : removalReasons.getReasons()) {
             CheckBox checkBox = new CheckBox(context);
+            checkBox.setMaxLines(2);
+            checkBox.setEllipsize(TextUtils.TruncateAt.END);
+            final TypedValue tv = new TypedValue();
+            final boolean found = context.getTheme().resolveAttribute(R.attr.fontColor, tv, true);
+            checkBox.setTextColor(found ? tv.data : Color.WHITE);
             checkBox.setText(reason.getTitle().isEmpty() ? reason.getText() : reason.getTitle());
             reasonsList.addView(checkBox);
         }

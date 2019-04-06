@@ -293,9 +293,11 @@ public class UserSubscriptions {
     public static void doOnlineSyncing() {
         if (Authentication.mod) {
             doModOf();
-            for (String sub : modOf) {
-                Toolbox.ensureConfigCachedLoaded(sub);
-                Toolbox.ensureUsernotesCachedLoaded(sub);
+            if (modOf != null) {
+                for (String sub : modOf) {
+                    Toolbox.ensureConfigCachedLoaded(sub);
+                    Toolbox.ensureUsernotesCachedLoaded(sub);
+                }
             }
         }
         doFriendsOf();

@@ -22,7 +22,8 @@
                     android:text="@string/toolbox_removal_header"
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:textColor="?attr/fontColor"/>
 
             <TextView
                     android:id="@+id/toolbox_header_text"
@@ -34,7 +35,9 @@
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="4dp"
-                    android:text="Your submission has been removed for the following reason(s):"/>
+                    android:text="Your submission has been removed for the following reason(s):"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
 
         </RelativeLayout>
 
@@ -67,7 +70,8 @@
                     android:text="@string/toolbox_removal_footer"
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:textColor="?attr/fontColor"/>
 
             <TextView
                     android:id="@+id/toolbox_footer_text"
@@ -79,7 +83,9 @@
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="4dp"
-                    android:text="Please message the moderators with any concerns."/>
+                    android:text="Please message the moderators with any concerns."
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
 
         </RelativeLayout>
 
@@ -99,7 +105,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/toolbox_removal_comment"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:textColor="?attr/fontColor"/>
 
             <CheckBox
                     android:id="@+id/sticky_comment"
@@ -107,13 +114,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/toolbox_removal_sticky"
                     android:layout_marginStart="24dp"
-                    android:layout_marginLeft="24dp"/>
+                    android:layout_marginLeft="24dp"
+                    android:textColor="?attr/fontColor"/>
 
             <RadioButton
                     android:id="@+id/pm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/toolbox_removal_pm"/>
+                    android:text="@string/toolbox_removal_pm"
+                    android:textColor="?attr/fontColor"/>
 
             <CheckBox
                     android:id="@+id/pm_modmail"
@@ -121,20 +130,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/toolbox_removal_modmail"
                     android:layout_marginStart="24dp"
-                    android:layout_marginLeft="24dp"/>
+                    android:layout_marginLeft="24dp"
+                    android:textColor="?attr/fontColor"/>
 
             <RadioButton
                     android:id="@+id/both"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/toolbox_removal_both"/>
+                    android:text="@string/toolbox_removal_both"
+                    android:textColor="?attr/fontColor"/>
 
             <RadioButton
                     android:id="@+id/none"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/toolbox_removal_none"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    android:textColor="?attr/fontColor"/>
 
         </RadioGroup>
         
@@ -142,7 +154,8 @@
                 android:id="@+id/lock"
                 android:layout_width="match_parent" 
                 android:layout_height="wrap_content"
-                android:text="@string/toolbox_removal_lock"/>
+                android:text="@string/toolbox_removal_lock"
+                android:textColor="?attr/fontColor"/>
 
         <EditText
                 android:id="@+id/toolbox_log_reason"
@@ -150,7 +163,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/toolbox_logreason_placeholder"
                 android:inputType="text"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:importantForAutofill="no"/>
 
     </LinearLayout>
 </ScrollView>
