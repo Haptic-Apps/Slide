@@ -473,6 +473,10 @@ public class MultiredditOverview extends BaseActivityAnim {
                         .toLowerCase(Locale.ENGLISH);
         final Spannable[] base = SortingUtil.getSortingSpannables("multi" + id);
         for (Spannable s : base) {
+            // Do not add option for "Best" in any subreddit except for the frontpage.
+            if (s.toString().equals(getString(R.string.sorting_best))) {
+                continue;
+            }
             MenuItem m = popup.getMenu().add(s);
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

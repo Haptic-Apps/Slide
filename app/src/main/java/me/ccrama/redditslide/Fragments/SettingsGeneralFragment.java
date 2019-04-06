@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Spannable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -606,11 +608,25 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                         }
                                     }
                                 };
+
                         AlertDialogWrapper.Builder builder =
                                 new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
                         builder.setTitle(R.string.sorting_choose);
-                        builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
-                                SortingUtil.getSortingId(""), l2);
+
+                        // Remove the "Best" sorting option from settings because it is only supported on the frontpage.
+                        int skip = -1;
+                        List<String> sortingStrings = new ArrayList<>(Arrays.asList(SortingUtil.getSortingStrings()));
+                        for (int i = 0; i < sortingStrings.size(); i++) {
+                            if (sortingStrings.get(i).equals(context.getString(R.string.sorting_best))) {
+                                skip = i;
+                                break;
+                            }
+                        }
+                        if (skip != -1) {
+                            sortingStrings.remove(skip);
+                        }
+
+                        builder.setSingleChoiceItems(sortingStrings.toArray(new String[0]), SortingUtil.getSortingId(""), l2);
                         builder.show();
                     }
                 });
