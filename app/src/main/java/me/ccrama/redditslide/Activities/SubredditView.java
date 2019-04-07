@@ -1169,6 +1169,10 @@ public class SubredditView extends BaseActivity {
                         SortingUtil.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         openPopupTime();
                         break;
+                    case 5:
+                        SortingUtil.setSorting(subreddit, Sorting.BEST);
+                        reloadSubs();
+                        break;
                 }
                 return true;
             }

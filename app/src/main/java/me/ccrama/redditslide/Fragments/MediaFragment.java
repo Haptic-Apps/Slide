@@ -477,7 +477,7 @@ public class MediaFragment extends Fragment {
 
             }
 
-        } else if (t.shouldLoadPreview() && s.getDataNode().has("preview") && s.getDataNode()
+        } else if ((t.shouldLoadPreview() || s.getUrl().contains("i.redd.it")) && s.getDataNode().has("preview") && s.getDataNode()
                 .get("preview")
                 .get("images")
                 .get(0)

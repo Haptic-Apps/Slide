@@ -343,7 +343,7 @@ public class GifUtils {
             if (url.contains("v.redd.it")) {
                 return VideoType.VREDDIT;
             }
-            if (url.contains(".mp4") || url.contains("webm") || url.contains("redditmedia.com")) {
+            if (url.contains(".mp4") || url.contains("webm") || url.contains("redditmedia.com") || url.contains("preview.redd.it")) {
                 return VideoType.DIRECT;
             }
             if (url.contains("gfycat") && !url.contains("mp4")) return VideoType.GFYCAT;
