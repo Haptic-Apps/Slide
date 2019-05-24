@@ -232,6 +232,22 @@
     <string name="delete_submission">Delete submission</string>
     <string name="set_submission_flair">Set submission flair</string>
 
+    <!-- Editor buttons -->
+    <string name="editor_save_draft">Save draft</string>
+    <string name="editor_chose_draft">Chose draft</string>
+    <string name="editor_insert_image">Insert image</string>
+    <string name="editor_draw">Insert and draw on image</string>
+    <string name="editor_link">Insert link</string>
+    <string name="editor_bold">Bold</string>
+    <string name="editor_italics">Italics</string>
+    <string name="editor_quote">Quote</string>
+    <string name="editor_author">Mention author</string>
+    <string name="editor_list">Bullet list</string>
+    <string name="editor_num_list">Numbered list</string>
+    <string name="editor_size">Large font</string>
+    <string name="editor_strike">Strikethrough</string>
+    <string name="editor_spoiler">Spoiler</string>
+
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Photo saved</string>
     <string name="video_saved">Video saved</string>
@@ -440,6 +456,14 @@
     <string name="img_score">Score</string>
     <string name="img_comments">Comments</string>
     <string name="btn_expand">Expand</string>
+    <string name="btn_nav_up">Navigate up</string>
+    <string name="btn_nav_mode">Set navigation mode</string>
+    <string name="btn_nav_collapse_expand">Collapse/expand</string>
+    <string name="btn_nav_down">Navigate down</string>
+    <string name="btn_fab_reply">Reply</string>
+    <string name="btn_fab_post">Create new post</string>
+    <string name="btn_fab_hide">Hide viewed posts</string>
+    <string name="btn_fab_search">Search posts</string>
 
     <!-- Buttons Content labels for TalkBack accessibility active states-->
     <string name="btn_upvoted">Upvoted</string>
@@ -1242,7 +1266,7 @@
     <string name="mod_log">Mod log</string>
     <string name="navigation_bar_vote_gestures">Navigation bar vote gestures</string>
     <string name="nav_gestures_description">Upvote and downvote by swiping on the comment navigation arrows</string>
-    <string name="subreddit_sidebar_progress">Getting sidebar...</string>
+    <string name="subreddit_sidebar_progress">Getting sidebar…</string>
     <string name="manage_your_subreddits">Manage your subreddits</string>
     <string name="enlarge_links">Enlarge links</string>
     <string name="enlarge_links_warning">May cause some lines to be bigger than others, but makes links easier to touch</string>

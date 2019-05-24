@@ -160,6 +160,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
 
             if (SettingValues.fabType == Constants.FAB_POST) {
                 fab.setImageResource(R.drawable.add);
+                fab.setContentDescription(getString(R.string.btn_fab_post));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -170,6 +171,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                 });
             } else {
                 fab.setImageResource(R.drawable.hide);
+                fab.setContentDescription(getString(R.string.btn_fab_hide));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
