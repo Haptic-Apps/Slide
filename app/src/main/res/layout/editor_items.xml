@@ -12,65 +12,71 @@
             android:orientation="horizontal">
 
         <ImageButton
-                android:id="@+id/savedraft"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:cropToPadding="true"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/savecontent"/>
+            android:id="@+id/savedraft"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/editor_save_draft"
+            android:cropToPadding="true"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/savecontent" />
 
         <ImageButton
-                android:id="@+id/draft"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:cropToPadding="true"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/restorefile"/>
+            android:id="@+id/draft"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/editor_chose_draft"
+            android:cropToPadding="true"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/restorefile" />
 
         <ImageButton
-                android:id="@+id/imagerep"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:cropToPadding="true"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/image"/>
+            android:id="@+id/imagerep"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/editor_insert_image"
+            android:cropToPadding="true"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/image" />
 
         <ImageButton
-                android:id="@+id/draw"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:cropToPadding="true"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/draw"/>
+            android:id="@+id/draw"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/editor_draw"
+            android:cropToPadding="true"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/draw" />
 
         <ImageButton
-                android:id="@+id/link"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:cropToPadding="true"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/link"/>
+            android:id="@+id/link"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/editor_link"
+            android:cropToPadding="true"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/link" />
 
         <ImageButton
                 android:id="@+id/bold"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_bold"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
@@ -82,6 +88,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_italics"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
@@ -93,6 +100,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_quote"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
@@ -104,6 +112,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_author"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
@@ -115,6 +124,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_list"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
@@ -126,30 +136,31 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_num_list"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"/>
 
-
         <ImageButton
                 android:id="@+id/size"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_size"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/fontsizedarker"/>
 
-
         <ImageButton
                 android:id="@+id/strike"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_strike"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
@@ -161,6 +172,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/editor_spoiler"
                 android:cropToPadding="true"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
