@@ -247,7 +247,7 @@ public class ImageFlairs {
 
         FlairStylesheet(String stylesheetString) {
             stylesheetString =
-                    stylesheetString.replaceAll("@media[^{]+\\{([\\s\\S]+?\\})\\s*\\}", "");
+                    stylesheetString.replaceAll("@media[^{]+\\{([\\s\\S]+?})\\s*}", "");
             stylesheetString = stylesheetString.replaceAll("~.", " .");
             this.stylesheetString = stylesheetString;
 
@@ -272,7 +272,7 @@ public class ImageFlairs {
          */
         String getClass(String cssDefinitionString, String className) {
             Pattern propertyDefinition = Pattern.compile(
-                    "(?<! )\\." + className + "(?!-|\\[|[A-Za-z0-9_.])([^\\{]*)*\\{(.+?)\\}");
+                    "(?<! )\\." + className + "(?!-|\\[|[A-Za-z0-9_.])([^{]*)*\\{(.+?)}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
             String properties = null;
@@ -500,7 +500,7 @@ public class ImageFlairs {
 
         Dimensions getBackgroundOffset(String classDefinitionString) {
             Pattern positionDefinitionPx =
-                    Pattern.compile("([+-]?\\d+|0)\\/+([+-]?\\d+|0)(px|)");
+                    Pattern.compile("([+-]?\\d+|0)/+([+-]?\\d+|0)(px|)");
            String backgroundPositionProperty = getProperty(classDefinitionString, "background");
             if (backgroundPositionProperty == null) {
                 return new Dimensions();
@@ -641,7 +641,7 @@ public class ImageFlairs {
          * @return
          */
         List<String> getListOfFlairIds() {
-            Pattern flairId = Pattern.compile("\\.flair-(\\w+)\\s*(\\{|\\,|\\:|)");
+            Pattern flairId = Pattern.compile("\\.flair-(\\w+)\\s*(\\{|,|:|)");
             Matcher matches = flairId.matcher(stylesheetString);
 
             List<String> flairIds = new ArrayList<>();
