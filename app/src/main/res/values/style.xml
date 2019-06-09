@@ -14,7 +14,7 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="FontStyle"></style>
+    <style name="FontStyle" />
 
     <style name="FontStyle.HugeComment">
         <item name="font_commenttitle">20sp</item>

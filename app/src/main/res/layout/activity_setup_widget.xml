@@ -15,5 +15,5 @@
         android:layout_height="match_parent"
         android:fadeScrollbars="true"
         android:orientation="vertical"
-        android:scrollbars="vertical"></ListView>
+        android:scrollbars="vertical" />
 </LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ScrimInsetsView"></declare-styleable>
+    <declare-styleable name="ScrimInsetsView" />
     <declare-styleable name="FontStyle">
         <attr name="font_cardtitle" format="dimension" />
         <attr name="font_cardinfo" format="dimension" />
