@@ -62,48 +62,57 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this,
-                    getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                    Toast.LENGTH_LONG).show();
+            Reddit.appRestart
+                    .edit()
+                    .putString("imagelocation", folder.getAbsolutePath())
+                    .apply();
+
+            Toast.makeText(
+                    this,
+                    getString(R.string.settings_set_image_location,  folder.getAbsolutePath()),
+                    Toast.LENGTH_LONG
+            ).show();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
 
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-        if (id == R.id.slider) {
-            SettingValues.albumSwipe = true;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
-            Intent i = new Intent(Album.this, AlbumPager.class);
-            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
-            i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
-            if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
-                i.putExtra(MediaView.SUBMISSION_URL,
-                        getIntent().getStringExtra(MediaView.SUBMISSION_URL));
-            }
-            i.putExtra("url", url);
-            startActivity(i);
-            finish();
-        }
-        if (id == R.id.grid) {
-            mToolbar.findViewById(R.id.grid).callOnClick();
-        }
-        if (id == R.id.comments) {
-            SubmissionsView.datachanged(adapterPosition);
-            finish();
-        }
-        if (id == R.id.external) {
-            LinkUtil.openExternally(url);
-        }
-        if (id == R.id.download) {
-            for (final Image elem : images) {
-                doImageSave(false, elem.getImageUrl());
-            }
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.slider:
+                SettingValues.albumSwipe = true;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
+
+                Intent i = new Intent(Album.this, AlbumPager.class);
+                i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
+                if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
+                    i.putExtra(MediaView.SUBMISSION_URL,
+                            getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+                }
+                i.putExtra("url", url);
+
+                startActivity(i);
+                finish();
+                break;
+            case R.id.grid:
+                mToolbar.findViewById(R.id.grid).callOnClick();
+                break;
+            case R.id.comments:
+                SubmissionsView.datachanged(adapterPosition);
+                finish();
+                break;
+            case R.id.external:
+                LinkUtil.openExternally(url);
+                break;
+            case R.id.download:
+                for (final Image elem : images) {
+                    doImageSave(false, elem.getImageUrl());
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
