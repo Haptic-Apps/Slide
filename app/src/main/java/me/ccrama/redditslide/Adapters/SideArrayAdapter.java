@@ -324,8 +324,6 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             return results;
         }
 
-
-        @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             fitems = (CaseInsensitiveArrayList) results.values;
