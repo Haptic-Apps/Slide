@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 319
         versionName androidGitVersion.name()

@@ -1173,7 +1173,7 @@ public class MainActivity extends BaseActivity
             LogUtil.v("Starting main 2 " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
-            Reddit.appRestart.edit().putBoolean("isRestarting", false).commit();
+            Reddit.appRestart.edit().putBoolean("isRestarting", false).apply();
             Reddit.isRestarting = false;
             UserSubscriptions.doMainActivitySubs(this);
         }
@@ -1662,7 +1662,7 @@ public class MainActivity extends BaseActivity
                                         }
                                         Authentication.authentication.edit()
                                                 .putStringSet("accounts", done)
-                                                .commit();
+                                                .apply();
                                         dialog2.dismiss();
                                         accountList.removeView(t);
                                         if (accName.equalsIgnoreCase(Authentication.name)) {
@@ -1681,7 +1681,7 @@ public class MainActivity extends BaseActivity
                                                         Authentication.authentication.edit()
                                                                 .putString("lasttoken", accounts.get(s))
                                                                 .remove("backedCreds")
-                                                                .commit();
+                                                                .apply();
                                                     } else {
                                                         ArrayList<String> tokens = new ArrayList<>(
                                                                 Authentication.authentication.getStringSet(
@@ -1694,7 +1694,7 @@ public class MainActivity extends BaseActivity
                                                                 .putString("lasttoken",
                                                                         tokens.get(index))
                                                                 .remove("backedCreds")
-                                                                .commit();
+                                                                .apply();
                                                     }
                                                     Authentication.name = s;
                                                     UserSubscriptions.switchAccounts();
@@ -1709,7 +1709,7 @@ public class MainActivity extends BaseActivity
                                                 Authentication.authentication.edit()
                                                         .remove("lasttoken")
                                                         .remove("backedCreds")
-                                                        .commit();
+                                                        .apply();
                                                 UserSubscriptions.switchAccounts();
                                                 Reddit.forceRestart(MainActivity.this, true);
                                             }
@@ -1799,7 +1799,7 @@ public class MainActivity extends BaseActivity
             header.findViewById(R.id.offline).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
+                    Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
                     Reddit.forceRestart(MainActivity.this, false);
                 }
             });
@@ -1878,7 +1878,7 @@ public class MainActivity extends BaseActivity
                                         }
                                         Authentication.authentication.edit()
                                                 .putStringSet("accounts", done)
-                                                .commit();
+                                                .apply();
                                         dialog2.dismiss();
                                         accountList.removeView(t);
 
@@ -1892,7 +1892,7 @@ public class MainActivity extends BaseActivity
                                                         Authentication.authentication.edit()
                                                                 .putString("lasttoken", accounts.get(s))
                                                                 .remove("backedCreds")
-                                                                .commit();
+                                                                .apply();
 
                                                     } else {
                                                         ArrayList<String> tokens = new ArrayList<>(
@@ -1902,7 +1902,7 @@ public class MainActivity extends BaseActivity
                                                                 .putString("lasttoken", tokens.get(
                                                                         keys.indexOf(s)))
                                                                 .remove("backedCreds")
-                                                                .commit();
+                                                                .apply();
                                                     }
                                                     Authentication.name = s;
                                                     UserSubscriptions.switchAccounts();
@@ -1915,7 +1915,7 @@ public class MainActivity extends BaseActivity
                                                 Authentication.authentication.edit()
                                                         .remove("lasttoken")
                                                         .remove("backedCreds")
-                                                        .commit();
+                                                        .apply();
                                                 UserSubscriptions.switchAccounts();
                                                 Reddit.forceRestart(MainActivity.this, true);
                                             }
@@ -1937,14 +1937,14 @@ public class MainActivity extends BaseActivity
                                 Authentication.authentication.edit()
                                         .putString("lasttoken", accounts.get(accName))
                                         .remove("backedCreds")
-                                        .commit();
+                                        .apply();
                             } else {
                                 ArrayList<String> tokens = new ArrayList<>(
                                         Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
                                 Authentication.authentication.edit()
                                         .putString("lasttoken", tokens.get(keys.indexOf(accName)))
                                         .remove("backedCreds")
-                                        .commit();
+                                        .apply();
                             }
                             Authentication.isLoggedIn = true;
                             Authentication.name = accName;
@@ -1967,7 +1967,7 @@ public class MainActivity extends BaseActivity
             header.findViewById(R.id.offline).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
+                    Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
                     Reddit.forceRestart(MainActivity.this, false);
                 }
             });
@@ -2015,7 +2015,7 @@ public class MainActivity extends BaseActivity
             header.findViewById(R.id.online).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    Reddit.appRestart.edit().remove("forceoffline").commit();
+                    Reddit.appRestart.edit().remove("forceoffline").apply();
                     Reddit.forceRestart(MainActivity.this, false);
                 }
             });
@@ -2574,7 +2574,7 @@ public class MainActivity extends BaseActivity
                                                                                                     CheckForMail.SUBS_TO_GET,
                                                                                                     Reddit.arrayToString(
                                                                                                             subs))
-                                                                                            .commit();
+                                                                                            .apply();
                                                                                     return true;
                                                                                 }
                                                                             })
@@ -4125,7 +4125,7 @@ public class MainActivity extends BaseActivity
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog,
                                 @NonNull DialogAction which) {
-                            Reddit.appRestart.edit().remove("forceoffline").commit();
+                            Reddit.appRestart.edit().remove("forceoffline").apply();
                             Reddit.forceRestart(MainActivity.this, false);
                         }
                     })
@@ -4880,7 +4880,7 @@ public class MainActivity extends BaseActivity
                             accounts.add(name + ":" + Authentication.refresh);
                             Authentication.authentication.edit()
                                     .putStringSet("accounts", accounts)
-                                    .commit(); //force commit
+                                    .apply(); //force commit
                         }
                         Authentication.isLoggedIn = true;
                         Reddit.notFirst = true;

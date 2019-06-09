@@ -321,7 +321,7 @@ public class Tutorial extends AppCompatActivity {
             v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Reddit.colors.edit().putString("Tutorial", "S").commit();
+                    Reddit.colors.edit().putString("Tutorial", "S").apply();
                     Reddit.appRestart.edit().putString("startScreen", "a").apply();
                     Reddit.forceRestart(getActivity(), false);
                 }

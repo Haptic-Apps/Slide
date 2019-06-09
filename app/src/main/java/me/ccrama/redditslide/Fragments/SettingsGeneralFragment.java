@@ -999,7 +999,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
     private void saveAndUpdateSubs(ArrayList<String> subs) {
         Reddit.appRestart.edit()
                 .putString(CheckForMail.SUBS_TO_GET, Reddit.arrayToString(subs))
-                .commit();
+                .apply();
         setSubText();
     }
 

@@ -198,7 +198,7 @@ public class ManageOfflineContentFragment {
                         Reddit.cachedData.edit()
                                 .putInt("hour", d.getHour())
                                 .putInt("minute", d.getMinute())
-                                .commit();
+                                .apply();
                         Reddit.autoCache = new AutoCacheScheduler(context);
                         Reddit.autoCache.start(context.getApplicationContext());
                         updateTime();

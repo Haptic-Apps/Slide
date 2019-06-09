@@ -1713,7 +1713,7 @@ public class SubredditView extends BaseActivity {
                                                                                                         CheckForMail.SUBS_TO_GET,
                                                                                                         Reddit.arrayToString(
                                                                                                                 subs))
-                                                                                                .commit();
+                                                                                                .apply();
                                                                                         return true;
                                                                                     }
                                                                                 })

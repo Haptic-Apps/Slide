@@ -730,7 +730,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                     .setPositiveButton(R.string.btn_offline, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
+                            Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
                             Reddit.forceRestart(getActivity(), false);
                         }
                     })

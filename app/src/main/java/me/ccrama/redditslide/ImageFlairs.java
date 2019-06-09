@@ -51,7 +51,7 @@ public class ImageFlairs {
                 super.onPostExecute(flairStylesheet);
                 d.dismiss();
                 if (flairStylesheet != null) {
-                    flairs.edit().putBoolean(subreddit.toLowerCase(Locale.ENGLISH), true).commit();
+                    flairs.edit().putBoolean(subreddit.toLowerCase(Locale.ENGLISH), true).apply();
                     d = new AlertDialogWrapper.Builder(context).setTitle("Subreddit flairs synced")
                             .setMessage("Slide found and synced "
                                     + flairStylesheet.count
@@ -69,7 +69,7 @@ public class ImageFlairs {
                         b.setNeutralButton("Report no flairs", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(context, "Not all subreddits can be parsed, but send a message to SlideBot and hopefully we can add support for this subreddit :)\n\nPlease, only send one report.", Toast.LENGTH_LONG);
+                                Toast.makeText(context, "Not all subreddits can be parsed, but send a message to SlideBot and hopefully we can add support for this subreddit :)\n\nPlease, only send one report.", Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(context, SendMessage.class);
                                 i.putExtra(SendMessage.EXTRA_NAME, "slidebot");
                                 i.putExtra(SendMessage.EXTRA_MESSAGE, "/r/" + subreddit);

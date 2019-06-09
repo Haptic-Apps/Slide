@@ -164,6 +164,6 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         drawView.setPaintStrokeColor(selectedColor);
         color.getBackground().setColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY);
 
-        Reddit.colors.edit().putInt("drawColor", selectedColor).commit();
+        Reddit.colors.edit().putInt("drawColor", selectedColor).apply();
     }
 }
