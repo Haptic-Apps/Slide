@@ -7,7 +7,6 @@
     <string name="general_confirm_exit_msg">هل تريد حقاً الخروج من سلايد؟</string>
     <string name="general_enable_shadowbox">نمط Shadowbox</string>
     <string name="pro_upgrade_msg">يمكنك الترقية إلى Slide لـ Reddit Pro للاستمتاع ببعض الميزات الجديدة في تحقيق ذلك:\n\n- أداة حظر الإعلانات عرض القارئ في عرض موقع الويب \n- لاقتصاص والرسم على الصور لتحميل\n- وضع عمود لوحي قابل للتخصيص \n- الوضع الليلي التلقائي mode\n- Shadowbox and ومعارض المحتوى معرض \n- تعليق Shadowbox عرض\n- النسخ الاحتياطي والاستعادة إلى Google Drive والملف\n- دعم البرامج مفتوحة المصدر والبرامج الخالية من الإعلانات!\n\nهل ترغب في دعم Slide for Reddit؟?</string>
-    <string name="general_pro_msg">لقد اخترت إنشاء بعض الميزات من الشريحة بدون قفل عن طريق شراء مفتاح إلغاء قفل Pro من متجرPlay. \n\nهذا هو للحفاظ على التنمية مستمرة, وبدلاً من عرض الإعلانات في الإصدار المجاني من Slide! \n\nالمدرجة في هذا هو وضع متعدد الأعمدة, وضع Shadowbox (للحصول على صور subreddits) ووضع المعرض والنسخ الاحتياطي والاستعادة إلى Google Drive وللملف والرسم / اقتصاص الصور!\n\nهل تريد فتح Slide For Reddit Pro؟</string>
     <string name="general_open_settings">الشريط الجانبي</string>
     <string name="general_sub_sync">مزامنة الاشتراكات</string>
     <string name="general_gallerymode_ispro">وضع المعرض هو ميزة Pro</string>
@@ -15,11 +14,9 @@
     <string name="general_shadowbox_comments_ispro">تعليق وضع Shadowbox هو ميزة Pro</string>
     <string name="general_shadowbox_ispro">وضع Shadowbox هو ميزة Pro</string>
     <string name="general_nighttheme_ispro">الوضع الليلي التلقائي هو ميزة Pro</string>
-    <string name="general_backup_ispro">إعدادات النسخ الاحتياطي هي ميزة Pro</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">لم يتم حفظ البيانات</string>
     <string name="submission_info_saved">تم حفظ الادخال</string>
-    <string name="submission_info_cached">تسليم تم تخزينة مؤقتا</string>
     <string name="submission_info_archived">هذا منشور مؤرشف. لن تتمكن من التصويت أو التعليق</string>
     <string name="submission_post_saved">حُفظ المنشور</string>
     <string name="submission_info_hidden">المنشور مخفى للأبد</string>
@@ -47,7 +44,6 @@
     <string name="submission_comment_copied">نص التعليق الذي تم نسخه</string>
     <string name="submission_nocontent">تسليم ليس له محتوى</string>
     <string name="submission_link_copied">تم نسخ الرابط</string>
-    <string name="submission_text_copied">تم نسخ الالنص الذاتي</string>
     <string name="submission_removed">تسليم تمت إزالته</string>
     <plurals name="points">
         <item quantity="zero">0 نقاط</item>
@@ -127,7 +123,6 @@
     <string name="profile_friend">صديق</string>
     <string name="profile_add_friend">أضف كصديق</string>
     <string name="profile_remove_friend">حذف صديق</string>
-    <string name="profile_manage_accounts">إدارة الحسابات</string>
     <string name="profile_remove_account">هل ترغب حقًا في إزالة هذا الحساب؟</string>
     <string name="profile_remove">حذف الحساب</string>
     <string name="profile_history">السّجل</string>
@@ -176,7 +171,6 @@
     <string name="err_title">حدث خطأ!</string>
     <string name="err_invalid_url">الرابط غير صالح</string>
     <string name="err_loading_content">خطأ في تحميل المحتوى</string>
-    <string name="err_connection_lost">يبدو أنك فقدت الاتصال بشبكة الإنترنت. يرجى الاتصال بالإنترنت والذهاب مرة أخرى!</string>
     <string name="err_something_wrong">آه ، لقد حدث خطأ ما</string>
     <string name="err_couldnt_save_choose_new">لا يمكن حفظ لslide إلى الدليل المحدد. هل ترغب في اختيار موقع الحفظ جديدة؟</string>
     <string name="err_share_image">حدث خطأ أثناء مشاركة الصوره</string>
@@ -187,7 +181,6 @@
     <string name="err_comment_post">آه...، نشر هذا التعليق فشل!</string>
     <string name="err_comment_post_reason">السبب: %1$s</string>
     <string name="err_comment_post_message">تم حفظ الرسالة \n\nYour كمسودة. الرجاء المحاولة مرة أخرى لاحقاً.</string>
-    <string name="err_comment_post_copy">نسخ تعليق</string>
     <string name="err_connection_failed_msg">فشل الاتصال Reddit. الرجاء التحقق من اتصال الإنترنت الخاص بك وحاول مرة أخرى، أو الدخول في وضع دون اتصال.</string>
     <string name="err_block_user">خطأ أثناء حظر المستخدم</string>
     <!-- Gif -->
@@ -225,7 +218,6 @@
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">ألبوم غير صالح للعمل</string>
     <string name="type_img">صورة</string>
-    <string name="type_vid">فيديو</string>
     <string name="type_videos">مقاطع فيديو</string>
     <string name="type_nsfw_video">فيديو غير صالح للعمل</string>
     <string name="type_emb">مضمّن</string>
@@ -258,7 +250,6 @@
     <string name="misc_err">خطأ</string>
     <string name="misc_none">لاشيء</string>
     <string name="misc_score_hidden">النقاط مخفية</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_continue">متابعة</string>
     <string name="misc_copy_text">نسخ الكتابه</string>
     <!-- Goto User -->
@@ -308,7 +299,6 @@
     <!-- Search -->
     <string name="search_goto">اذهب الى</string>
     <!-- Captcha -->
-    <string name="captcha_title">أثبت أنك لست روبوت</string>
     <!-- Settings -->
     <string name="settings_layout_default">شكل الموضوع</string>
     <string name="settings_link_album">عرض الالبومات بالداخل</string>
@@ -342,10 +332,8 @@
     <!--Search methods -->
     <!-- Back button behavior -->
     <!-- Subscription managing -->
-    <string name="btn_add_subreddit">إضافة سوبريديت</string>
     <string name="reorder_subreddit_name">اسم السوبريديت</string>
     <string name="reorder_remove_title">إزالة هذا سوبريديت؟</string>
-    <string name="reorder_remove_msg">لن يتم الغاء الاشتراك, لاكن لن ترى هذا السوبريديت بالقائمة الجانبيه الخاصه بك!</string>
     <!-- Save categories -->
     <!-- Setting subheaders -->
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -356,7 +344,6 @@
     <string name="title_inbox">صندوق الوارد</string>
     <string name="title_theme_settings">المظهر</string>
     <string name="title_create_multi">أنشاء multireddit</string>
-    <string name="title_mod">مشرف</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">هذا المبلغ&#8230;</string>
     <string name="donate_info_student">أنا مطور طالب، وأنا ممتن جداً للتبرع السخي! أنهم ساهموا في جعل Slide (مجاني) حقيقه :)</string>

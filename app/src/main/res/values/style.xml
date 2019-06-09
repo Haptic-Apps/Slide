@@ -98,11 +98,6 @@
         <item name="android:background">?android:selectableItemBackground</item>
     </style>
 
-    <style name="spinnerItemStyle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style parent="BottomSheet.Dialog" name="BottomSheet.StyleDialog.Light">
         <item name="android:textColorPrimary">#DE000000</item>
         <item name="android:textColorSecondary">#8A000000</item>
@@ -182,10 +177,6 @@
 
     <style parent="BottomSheet.List.Dark" name="BottomSheetDark.StyleList">
         <item name="android:layoutAnimation">@null</item>
-    </style>
-
-    <style parent="swipestyle" name="AppTheme">
-        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
     </style>
 
     <style parent="swipestyle" name="Theme.AMOLED">

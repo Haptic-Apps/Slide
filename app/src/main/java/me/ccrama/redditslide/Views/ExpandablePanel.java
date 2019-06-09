@@ -29,7 +29,7 @@ public class ExpandablePanel extends RelativeLayout {
     private int mCollapsedHeight;
     private int mContentHeight;
     private int mContentWidth;
-    private int mAnimationDuration = 0;
+    private int mAnimationDuration;
 
     private OnExpandListener mListener;
 

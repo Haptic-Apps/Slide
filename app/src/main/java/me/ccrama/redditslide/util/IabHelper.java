@@ -140,7 +140,7 @@ public class IabHelper {
     // The item type of the current purchase flow
     private String               mPurchasingItemType;
     // Public key for verifying signature, in base64 encoding
-    private String mSignatureBase64 = null;
+    private String mSignatureBase64;
     // The listener registered on launchPurchaseFlow, which we have to call back when
     // the purchase finishes
     private OnIabPurchaseFinishedListener mPurchaseListener;

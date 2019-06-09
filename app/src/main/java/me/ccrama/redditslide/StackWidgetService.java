@@ -57,28 +57,12 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         if (position <= getCount()) {
 
             final Submission submission = submissions.get(position);
-
-            String url = "";
-            ContentType.Type type = ContentType.getContentType(submission);
-            if (type == ContentType.Type.IMAGE) {
-                url = submission.getUrl();
-            } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height") && submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
-
-                url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-
-            } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-                url = submission.getThumbnail();
-            }
             try {
-
                 //todo rv.setImageViewBitmap(R.id.thumbnail, Glide.with(mContext).load(url).asBitmap().);
                 rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
-
-
             } catch (Exception e) {
                 Log.v(LogUtil.getTag(), e.toString());
             }
-
 
             rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
 

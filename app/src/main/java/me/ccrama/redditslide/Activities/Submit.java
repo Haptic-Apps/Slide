@@ -626,7 +626,7 @@ public class Submit extends BaseActivity {
 
         public boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
             BufferedOutputStream buffer = null;
-            boolean didFinish = false;
+            boolean didFinish;
 
             try {
                 buffer = new BufferedOutputStream(new FileOutputStream(file));
@@ -809,7 +809,7 @@ public class Submit extends BaseActivity {
 
         public boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
             BufferedOutputStream buffer = null;
-            boolean didFinish = false;
+            boolean didFinish;
 
             try {
                 buffer = new BufferedOutputStream(new FileOutputStream(file));
@@ -868,7 +868,7 @@ public class Submit extends BaseActivity {
                             }
                         })
                         .build();
-                Response response = null;
+                Response response;
                 try {
                     response = client.newCall(request).execute();
 

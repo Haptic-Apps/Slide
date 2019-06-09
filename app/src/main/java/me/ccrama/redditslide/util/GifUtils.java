@@ -1191,7 +1191,7 @@ public class GifUtils {
                 double presentationTimeUs = 0;
                 int audioTrackIdx = 0;
                 int totalBytesRead = 0;
-                int percentComplete = 0;
+                int percentComplete;
                 do {
                     int inputBufIndex = 0;
                     while (inputBufIndex != -1 && hasMoreData) {

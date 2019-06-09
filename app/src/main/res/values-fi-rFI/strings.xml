@@ -6,8 +6,6 @@
     <string name="general_confirm_exit_msg">Haluatko varmasti poistua?</string>
     <string name="general_enable_shadowbox">Ota Shadowbox-tila käyttöön</string>
     <string name="pro_upgrade_msg">Päivitä Slide for Reddit Pro:hon nauttiaksesi mahtavia uusia ominaisuuksia kuten esimerkiksi:\n\n-Mainosten Esto ja Lukijatila\n- Kuvien Rajaaminen ja Piirtäminen\n- Tabletin sarakkeiden muokkaaminen\n- Automaattinen yötila\n- Varjolaatikkon ja Gallerian sisältönäkymä\n Kommentin Varjolaatikon Näkymä\n- Tiedostoon/Google Driveen Varmuuskopiointi ja Palauttaminen\n- Mainosvapaan ja avoin lähdekoodin ohjelmiston tukeminen!\n\nHaluaisitko tukea Slide for Reddit:ta?</string>
-    <string name="general_pro_msg">Minä haluan ottaa jotkut Sliden ominaisuukset käyttöön ostamalla Pro:n avain Play Kaupasta. \n\nTämä mahdollistaa kehityksen jatkaa ja estää mainoksia Sliden ilmaisessa versiossa!\n\nSinä saat monisarakkeiden, varjolaatikkojen (kuvasubredditeille), galleriatilan, tiedostoon/Google Driveen varmuskopioinnin ja palauttamisen, ja kuvien piirtäminen/rajaaminen!\n\n Haluaisitko avata Slide for Reddit Pro?</string>
-    <string name="general_pro_msg_crop">Minä haluan ottaa jotkut Sliden ominaisuukset käyttöön (kuvien piirtäminen ja rajaaminen mukaan lukien) ostamalla Pro:n avain Play Kaupasta. \n\nTämä mahdollistaa kehityksen jatkaa ja estää mainoksia Sliden ilmaisessa versiossa!\n\nSinä saat monisarakkeiden, varjolaatikkojen (kuvasubredditeille), galleriatilan, tiedostoon/Google Driveen varmuskopioinnin ja palauttamisen, ja kuvien piirtäminen/rajaaminen!\n\n Haluaisitko avata Slide for Reddit Pro?</string>
     <string name="general_open_settings">Avaa Subreddit asetukset</string>
     <string name="general_sub_sync">Synkronoidaan tilauksia</string>
     <string name="general_gallerymode_ispro">Galleriatila on Pro-ominaisuus</string>
@@ -15,11 +13,9 @@
     <string name="general_shadowbox_comments_ispro">Kommentin Varjolaatikko on Pro-ominaisuus</string>
     <string name="general_shadowbox_ispro">Varjolaatikkotila on Pro-ominaisuus</string>
     <string name="general_nighttheme_ispro">Automaattinen yötila on Pro-ominaisuus</string>
-    <string name="general_backup_ispro">Asetusten varmuuskopiointi on Pro-ominaisuus</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Viestiä ei tallentanut</string>
     <string name="submission_info_saved">Viesti tallennettu</string>
-    <string name="submission_info_cached">Viesti tallennettu välimuistiin</string>
     <string name="submission_info_archived">Tämä ketju on arkistoitu. Sinä et voi äänestää tai kommentoida.</string>
     <string name="submission_post_saved">Postaus talletettu</string>
     <string name="submission_info_hidden">Postaus piiloitettu ikuisesti.</string>
@@ -47,12 +43,7 @@
     <string name="submission_comment_copied">Kommentin teksti kopioitu</string>
     <string name="submission_nocontent">Syöte on tyhjä</string>
     <string name="submission_link_copied">Linkki kopioitu</string>
-    <string name="submission_text_copied">Viesti kopioitu</string>
     <string name="submission_removed">Viesti poistettiin</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d piste</item>
-        <item quantity="other">%d pistettä</item>
-    </plurals>
     <plurals name="points">
         <item quantity="one">pst</item>
         <item quantity="other">pst</item>
@@ -157,12 +148,6 @@
     <string name="sorting_month">kuukausi</string>
     <string name="sorting_year">vuosi</string>
     <string name="sorting_all">koko ajalta</string>
-    <string name="sorting_search_hour">Viimeisin tunti</string>
-    <string name="sorting_search_day">Viimeiset 24 tuntia</string>
-    <string name="sorting_search_week">Viimeisin viikko</string>
-    <string name="sorting_search_month">Viimeisin kuukausi</string>
-    <string name="sorting_search_year">Viimeisin vuosi</string>
-    <string name="sorting_search_all">Kaikelta ajalta</string>
     <string name="sorting_defaultfor">Oletusarvo /r/%1$s</string>
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">URL</string>
@@ -198,7 +183,6 @@
     <string name="err_file_not_found">Tiedostoa ei löydy</string>
     <string name="err_comment_post_reason">Syy: %1$s</string>
     <string name="err_comment_post_message">\n\nViestisi on tallennettu luonnoksena. Yritä uudelleen myöhemmin.</string>
-    <string name="err_comment_post_copy">Kopioi kommentti</string>
     <string name="err_connection_failed_msg">Yhteys Redditiin epäonnistui. Tarkista verkkoyhteyden tila ja yritä uudelleen, tai siirry offline-tilaan.</string>
     <!-- Gif -->
     <string name="gif_err_title">GIF:iä ei löytynyt</string>
@@ -207,7 +191,6 @@
     <string name="multireddit_err_msg">Haluatko luoda uuden multiredditin?</string>
     <string name="public_multireddit_err_title">Ei multiredditejä!</string>
     <!-- Content types -->
-    <string name="type_vid">Video</string>
     <string name="type_videos">Videot</string>
     <string name="type_emb">Upotettu</string>
     <string name="type_imgur">Imgur-sisältö</string>
@@ -237,7 +220,6 @@
     <string name="misc_none">Ei mitään</string>
     <string name="misc_retry">Haluatko yrittää uudelleen?</string>
     <string name="misc_score_hidden">pisteet piilotettu</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Tilatut</string>
     <string name="misc_continue">Jatka</string>
     <string name="misc_unsubscribed">Tilaus peruutettu</string>
@@ -276,7 +258,6 @@
     <!-- Moderation tools -->
     <string name="mod_unmoderated">Tarkastamaton</string>
     <string name="mod_reports">Raportit</string>
-    <string name="mod_approve">Haluatko varmasti hyväksyä tämän julkaisun?</string>
     <string name="mod_approved">Julkaisu hyväksytty</string>
     <string name="mod_btn_approve">Hyväksy</string>
     <string name="mod_btn_ban">Porttikielto</string>
@@ -300,8 +281,6 @@
     <string name="search_new">Uudet</string>
     <string name="search_comments">Kommentit</string>
     <!-- Captcha -->
-    <string name="captcha">Syötä yllä oleva koodi</string>
-    <string name="captcha_title">Todista että et ole robotti</string>
     <!-- Settings -->
     <string name="settings_reddit_prefs">Redditin asetukset</string>
     <string name="settings_accent_title">Muokkaa aksenttiväriä</string>
@@ -327,41 +306,33 @@
     <string name="settings_section_clear_history">Tyhjennä historia</string>
     <string name="settings_section_data_saving_mode">Virransäästötila</string>
     <string name="settings_section_image_quality">Kuvan laatu</string>
-    <string name="settings_section_hide_images">Piilota kuvat</string>
     <string name="settings_synccit_username">Käyttäjänimi</string>
     <string name="settings_synccit_connected">Yhdistetty onnistuneesti!</string>
     <string name="settings_font_system">Järjestelmä</string>
     <string name="settings_manage_subscriptions">Hallinnoi tilauksiasi</string>
     <string name="settings_redditprefs_over18">Olen yli 18-vuotias ja tahdon nähdä NSFW-sisällön</string>
     <string name="settings_links_force_external">Avaa ulkoisessa selaimessa</string>
-    <string name="settings_data_low_quality">Lataa heikkolaatuiset kuvat</string>
     <string name="settings_section_content">Sisältö</string>
     <!-- Quick setting toggles in the drawer -->
     <!-- View types -->
     <!--Search methods -->
     <!-- Back button behavior -->
     <!-- Subscription managing -->
-    <string name="FAQ">UKK</string>
     <string name="deleting">Poistetaan&#8230;</string>
-    <string name="btn_add_subreddit">Lisää subredditti</string>
     <string name="subscribe_caps">TILAA</string>
     <string name="unsubscribe_caps">PERUUTA TILAUS</string>
     <string name="reorder_subreddits_title">Valitse lisättävä subredditti</string>
     <string name="reorder_subreddit_name">Subredditin nimi</string>
     <string name="reorder_remove_title">Poistetaanko tämä subredditti?</string>
-    <string name="reorder_remove_msg">Tilaustasi ei peruta, mutta et näe enää tätä subreddittiä sivupalkissasi!</string>
     <!-- Save categories -->
-    <string name="category_create_new">Uusi kategoria</string>
     <!-- Setting subheaders -->
     <!-- Titles displayed in action bar / head / recents overview-->
     <string name="title_share">Jaa</string>
     <string name="title_login">Kirjaudu Reddittiin</string>
-    <string name="title_reorder_subs">Järjestä subredditit</string>
     <string name="title_multireddits">Multiredditit</string>
     <string name="title_inbox">Postilaatikko</string>
     <string name="title_theme_settings">Teema</string>
     <string name="title_create_multi">Luo multiredditti</string>
-    <string name="title_mod">Moderaattori</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">Tämä määrä&#8230;</string>
     <string name="donate_btn">Lahjoita</string>

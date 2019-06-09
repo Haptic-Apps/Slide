@@ -13,10 +13,6 @@
     <string name="submission_save">Spaar artikel</string>
     <string name="submission_not_found">Oeps, onderwerp nie gevind nie!</string>
     <string name="submission_not_found_msg">Jammer, kon nie onderwerp vind nie</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d punt</item>
-        <item quantity="other">%d punte</item>
-    </plurals>
     <!-- Theme settings -->
     <string name="theme_light">Lig</string>
     <string name="theme_dark">Donker</string>

@@ -63,9 +63,7 @@ android {
     }
 
     lintOptions {
-        quiet true
-        abortOnError false
-        ignoreWarnings true
+        enable 'UnusedAttribute', 'UnusedQuantity', 'UnusedResources', 'UnusedIds', 'UnusedNamespace'
         // Translations are crowd-sourced
         disable 'MissingTranslation'
     }

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/settings_comments_child"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/settings_comments_displayHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -317,7 +315,6 @@
         android:layout_height="56dp"
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
-        android:id="@+id/settings_comments_redditnotifs"
         android:orientation="horizontal"
         android:paddingStart="16dp">
 
@@ -362,7 +359,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_comments_navigationHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -594,7 +590,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_comments_collapseCommentsHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

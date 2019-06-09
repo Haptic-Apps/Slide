@@ -38,10 +38,6 @@
     <string name="submission_share_permalink">Dela länk</string>
     <string name="submission_comment_copied">Kommentarstext kopierad</string>
     <string name="submission_link_copied">Länk kopierad</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d poäng</item>
-        <item quantity="other">%d poäng</item>
-    </plurals>
     <plurals name="new_messages">
         <item quantity="one">%d nytt meddelande</item>
         <item quantity="other">%d nytt meddelande</item>
@@ -135,7 +131,6 @@
     <string name="err_title">Hoppsan, något gick fel!</string>
     <string name="err_invalid_url">Ogiltig webbadress</string>
     <string name="err_loading_content">Fel vid laddning av innehåll</string>
-    <string name="err_connection_lost">Hoppsan! Du verkar ha förlorat internet-anslutning. Anslut till internet och gå tillbaka!</string>
     <string name="err_general">Hoppsan, ett fel uppstod</string>
     <string name="err_no_connection">Reddit kunde inte nås. Vill du försöka igen?</string>
     <string name="err_retry_later">Försök igen om en minut!</string>
@@ -166,7 +161,6 @@
     <string name="type_title_only">Titel inlägg</string>
     <string name="type_album">Album</string>
     <string name="type_img">Bild</string>
-    <string name="type_vid">Video</string>
     <string name="type_emb">Inbäddad</string>
     <string name="type_imgur">Innehåll från Imgur</string>
     <!-- Content types plural (Content filters) -->
@@ -189,19 +183,16 @@
     <string name="misc_none">Ingen</string>
     <string name="misc_retry">Vill du försöka igen?</string>
     <string name="misc_score_hidden">poäng dolt</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Prenumererar</string>
     <string name="misc_continue">Fortsätt</string>
     <string name="misc_unsubscribed">Prenumeration avslutad</string>
     <string name="misc_no_more_posts">Inga fler inlägg!</string>
     <string name="misc_please_wait">Vänligen vänta&#8230;</string>
     <string name="misc_img_share">Dela bild med</string>
-    <string name="misc_link_chooser">Öppna URL med</string>
     <string name="misc_copy_text">Kopiera text</string>
     <!-- Goto User -->
     <string name="user_enter">Ange användarnamn</string>
     <string name="user_btn_goto">Gå till användaren</string>
-    <string name="user_invalid_msg">Reddit användarnamn kan endast innehålla bokstäver, siffror, understreck och bindestreck.</string>
     <!-- Buttons -->
     <string name="btn_add">Lägg till</string>
     <string name="btn_cancel">Avbryt</string>
@@ -239,11 +230,7 @@
     <!-- Moderation tools -->
     <string name="mod_mail">Mod Mail</string>
     <string name="mod_reports">Rapporter</string>
-    <string name="mod_approve">Vill du verkligen att godkänna detta inlägg?</string>
     <string name="mod_approved">Inlägg godkänt.</string>
-    <string name="mod_mark_nsfw">Vill du verkligen markera detta som NSFW?</string>
-    <string name="mod_remove_nsfw">Vill du verkligen ta bort NSFW-taggen?</string>
-    <string name="mod_flair_post">Flair-inlägg</string>
     <string name="mod_flair_hint">Flair-text</string>
     <string name="mod_no_reports">Inga rapporter</string>
     <string name="mod_btn_approve">Godkänn</string>
@@ -254,10 +241,8 @@
     <string name="wiki_err">Ingen wiki hittades</string>
     <string name="wiki_err_msg">Denna subreddit har ingen wiki!</string>
     <!-- Subreddits -->
-    <string name="subreddit_subscribers">%1$d prenumeranter</string>
     <string name="subreddit_err_msg">Subreddit %1$s kunde inte hittas. Kanske den stavades fel?</string>
     <string name="subreddit_err">Subredditen hittades inte</string>
-    <string name="subreddit_chooser">Välj en subreddit</string>
     <!-- Search -->
     <string name="search_comments_hint">Sök kommentarer</string>
     <string name="search_goto">Gå till</string>
@@ -266,8 +251,6 @@
     <string name="search_all">Sök alla</string>
     <string name="search_subreddit">Sök %1$s</string>
     <!-- Captcha -->
-    <string name="captcha">Ange koden ovan</string>
-    <string name="captcha_title">Bevisa att du inte är en robot</string>
     <!-- Settings -->
     <string name="settings_reddit_prefs">Reddit-inställningar</string>
     <string name="settings_accent_title">Redigera accentfärg</string>
@@ -329,7 +312,6 @@
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Inkorgen</string>
     <string name="title_theme_settings">Temainställningar</string>
-    <string name="title_mod">Moderator</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">Detta belopp&#8230;</string>
     <string name="donate_info_student">Jag är en student utvecklare, och är mycket tacksam för era generösa donationer! De har hjälpt till att förverkliga (gratis) Slide :)</string>
@@ -345,7 +327,6 @@
     <string name="donate_success_msg">Tack så mycket för ert stöd av Slide for Reddit! Det betyder verkligen mycket för mig. Om du stöter på några problem, skicka mig ett mail eller skapa ett inlägg i /r/slideforreddit när som helst!</string>
     <string name="donate_success_btn">Varsågod!</string>
     <!-- Offline mode -->
-    <string name="offline_caching">Lagrar bidrag i cache</string>
     <string name="offline_msg">Gå online och uppdatera subreddit</string>
     <!-- Website -->
     <!-- Time -->

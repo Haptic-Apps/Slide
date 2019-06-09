@@ -46,7 +46,6 @@
     <!-- Gif -->
     <!-- Multireddits -->
     <!-- Content types -->
-    <string name="type_vid">Físeán</string>
     <!-- Content types plural (Content filters) -->
     <!-- Inbox/mail -->
     <string name="mail_author_wrote">Scríobh %1$s&#8230;</string>

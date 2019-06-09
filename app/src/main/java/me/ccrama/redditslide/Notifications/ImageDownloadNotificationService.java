@@ -123,7 +123,7 @@ public class ImageDownloadNotificationService extends Service {
                                                 .getDiscCache()
                                                 .get(finalUrl);
                                         if (f != null && f.exists()) {
-                                            File f_out = null;
+                                            File f_out;
                                             try {
                                                 if(SettingValues.imageSubfolders && !subreddit.isEmpty()){
                                                     File directory = new File( Reddit.appRestart.getString("imagelocation",
@@ -221,7 +221,7 @@ public class ImageDownloadNotificationService extends Service {
                     new String[]{localAbsoluteFilePath.getAbsolutePath()}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
                         public void onScanCompleted(String path, Uri uri) {
-                            PendingIntent pContentIntent, pShareIntent, pDeleteIntent, pEditIntent;
+                            PendingIntent pContentIntent, pShareIntent, pDeleteIntent;
                             Uri photoURI = FileUtil.getFileUri(localAbsoluteFilePath,
                                     ImageDownloadNotificationService.this);
 
@@ -255,10 +255,6 @@ public class ImageDownloadNotificationService extends Service {
                                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                                                     | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 }
-
-                                pEditIntent =
-                                        PendingIntent.getActivity(getApplicationContext(), id + 1,
-                                                shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                             }
 
                             {
@@ -301,7 +297,6 @@ public class ImageDownloadNotificationService extends Service {
                                     .setChannelId(Reddit.CHANNEL_IMG)
                                     .addAction(R.drawable.ic_share, getString(R.string.share_image),
                                             pShareIntent)
-                                    //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
                                     .addAction(R.drawable.ic_delete, getString(R.string.btn_delete),
                                             pDeleteIntent)
                                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
@@ -328,7 +323,7 @@ public class ImageDownloadNotificationService extends Service {
                             ? String.format("%03d_", index) : "") + UUID.randomUUID().toString() + (
                             URL.endsWith("png") ? ".png" : ".jpg"));
 
-            FileOutputStream out = null;
+            FileOutputStream out;
             f.createNewFile();
             out = new FileOutputStream(f);
             bitmap.compress(

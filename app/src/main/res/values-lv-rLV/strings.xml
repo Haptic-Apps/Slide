@@ -50,7 +50,6 @@
     <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
     <!-- Goto User -->
     <string name="user_btn_goto">Doties uz lietotāja profilu</string>
-    <string name="user_invalid_msg">Reddit lietotājvārds drīkst saturēt tikai burtus, ciparus, zemsvītras un domuzīmes.</string>
     <!-- Buttons -->
     <string name="btn_add">Pievienot</string>
     <string name="btn_cancel">Atcelt</string>
@@ -68,7 +67,6 @@
     <!-- Backup -->
     <!-- Vote -->
     <!-- Moderation tools -->
-    <string name="mod_mark_nsfw">Vai tiešām vēlaties šo marķēt NSFW?</string>
     <!-- Toolbox-related stuff -->
     <!-- Pleasantly asking the user if he made his mind up -->
     <!-- If he did -->
@@ -82,7 +80,6 @@
     <string name="search_all">Meklēt visos</string>
     <string name="search_subreddit">Meklēt %1$s</string>
     <!-- Captcha -->
-    <string name="captcha_title">Pierādiet ka neesat robots</string>
     <!-- Settings -->
     <string name="settings_accent_title">Uzstādīt akcentu krāsu</string>
     <string name="settings_link_album">Iebūvētais albumu skatītājs</string>

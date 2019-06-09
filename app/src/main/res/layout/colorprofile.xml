@@ -279,8 +279,7 @@
                             app:srcCompat="@drawable/close" />
 
                     <TextView
-                            android:id="@+id/block"
-                            android:layout_width="wrap_content"
+                        android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/profile_block_user"
                             android:textColor="?attr/fontColor"

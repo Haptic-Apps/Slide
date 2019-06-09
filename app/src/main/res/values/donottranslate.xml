@@ -1,7 +1,5 @@
 <resources>
 
-    <string name="hello_world">Hello world!</string>
-
     <string name="youtube_plugin_package">ccrama.me.slideyoutubeplugin</string>
     <string name="ui_unlock_package">me.ccrama.slideforreddittabletuiunlock</string>
     <string name="youtube_plugin_class">ccrama.me.slideyoutubeplugin.YouTubeView</string>
@@ -16,7 +14,6 @@
     <string name="submission_properties_seperator_comments">"•"</string>
 
     <string name="submission_properties_seperator">"  •  "</string>
-    <string name="general_pro">Slide for Reddit Pro</string>
 
 
     <string name="settings_font_regular">Regular</string>

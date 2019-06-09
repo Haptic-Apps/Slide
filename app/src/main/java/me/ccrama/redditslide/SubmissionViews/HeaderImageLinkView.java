@@ -639,11 +639,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         v.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                x += getScrollX();
-                y += getScrollY();
-
                 HeaderImageLinkView.this.event = event;
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {

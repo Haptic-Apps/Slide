@@ -11,7 +11,6 @@
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Postarea nu a fost salvată</string>
     <string name="submission_info_saved">Postare salvată</string>
-    <string name="submission_info_cached">Postare salvată</string>
     <string name="submission_info_archived">Aceasta este o publicare arhivată. Nu veți putea vota sau comenta.</string>
     <string name="submission_post_saved">Postare salvată</string>
     <string name="submission_info_hidden">Postare ascunsă permanent.</string>
@@ -38,13 +37,7 @@
     <string name="submission_comment_copied">Textul comentariului copiat</string>
     <string name="submission_nocontent">Postarea nu are conținut</string>
     <string name="submission_link_copied">Link copiat</string>
-    <string name="submission_text_copied">Selftext copiat</string>
     <string name="submission_removed">Postare ștearsă</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d punct</item>
-        <item quantity="few">%d punct</item>
-        <item quantity="other">%d punct</item>
-    </plurals>
     <plurals name="comments">
         <item quantity="one">cmt</item>
         <item quantity="few">cmt</item>
@@ -111,7 +104,6 @@
     <string name="profile_friend">Prieten</string>
     <string name="profile_add_friend">Adaugă prieten</string>
     <string name="profile_remove_friend">Elimină prieten</string>
-    <string name="profile_manage_accounts">Gestionează conturile</string>
     <string name="profile_remove_account">Eşti sigur că vrei să ştergi acest cont?</string>
     <string name="profile_remove">Șterge contul</string>
     <string name="profile_history">Istoric</string>
@@ -158,12 +150,6 @@
     <string name="sorting_month">lună</string>
     <string name="sorting_year">an</string>
     <string name="sorting_all">oricând</string>
-    <string name="sorting_search_hour">Ultima oră</string>
-    <string name="sorting_search_day">Ultimele 24 de ore</string>
-    <string name="sorting_search_week">Săptămâna trecută</string>
-    <string name="sorting_search_month">Luna trecută</string>
-    <string name="sorting_search_year">Anul trecut</string>
-    <string name="sorting_search_all">Dintotdeauna</string>
     <string name="sorting_defaultfor">Implicit pentru /r/%1$s</string>
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">URL</string>
@@ -173,7 +159,6 @@
     <string name="editor_title">Titlu</string>
     <string name="editor_err_msg">Vă rugăm să încercaţi din nou în câteva secunde.</string>
     <string name="editor_uploading_image">Se încarcă imaginea pe Imgur</string>
-    <string name="editor_self">Selftext</string>
     <string name="editor_select_img">Alege o imagine</string>
     <string name="editor_hint_optional_body">Conținut (opțional)</string>
     <string name="editor_submit">Postează</string>
@@ -183,13 +168,11 @@
     <string name="delete_submission">Șterge postare</string>
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Fotografie salvată</string>
-    <string name="video_saved">Video salvat</string>
     <string name="gif_saved">GIF salvat</string>
     <!-- General errors / errors without a category -->
     <string name="err_title">O! Ceva nu merge cum trebuie!</string>
     <string name="err_invalid_url">Link invalid</string>
     <string name="err_loading_content">Eroare la încărcarea conținutului</string>
-    <string name="err_connection_lost">O! Se pare că s-a pierdut conexiunea la internet. Conectează-te și încearcă din nou!</string>
     <string name="err_general">O! S-a produs o eroare</string>
     <string name="err_no_connection">Nu s-a putut ajunge la Reddit. Dorești sa încerci din nou?</string>
     <string name="err_retry_later">Încearcă din nou într-un minut!</string>
@@ -198,7 +181,6 @@
     <string name="err_authentication">Autentificare eșuată</string>
     <string name="err_submit_restricted">Acest subreddit este restricţionat</string>
     <string name="err_submit_restricted_text">Nu ai voie să postezi aici. Te rugăm să alegi alt subreddit</string>
-    <string name="err_upload_unaccessible">Asiguraţi-vă că imaginea este accesibilă şi încercaţi din nou!</string>
     <string name="error_video_not_found">Video inexistent</string>
     <string name="error_video_message">O eroare s-a produs la încărcarea acestui video</string>
     <string name="error_album_not_found">Albumul nu a fost găsit</string>
@@ -211,7 +193,6 @@
     <string name="err_share_image">Eroare în timpul distribuirii imaginii</string>
     <string name="err_file_not_found">Fișierul nu a fost găsit</string>
     <string name="err_comment_post">Oh, postarea acestui comentariu este eșuată!</string>
-    <string name="err_comment_post_copy">Copiază comentariu</string>
     <string name="err_connection_failed_msg">Conexiunea la Reddit a eșuat. Te rugăm să verifici conexiunea la internet și să încerci din nou, sau intră întră în modul offline.</string>
     <!-- Gif -->
     <string name="gif_err_title">Nu s-a găsit GIF-ul</string>
@@ -238,7 +219,6 @@
     <string name="type_album">Album</string>
     <string name="type_nsfw_album">Album NSFW</string>
     <string name="type_img">Imagine</string>
-    <string name="type_vid">Video</string>
     <string name="type_videos">Videouri</string>
     <string name="type_nsfw_video">Video NSFW</string>
     <string name="type_emb">Încorporat</string>
@@ -280,21 +260,18 @@
     <string name="misc_none">Nimic</string>
     <string name="misc_retry">Dorești sa încerci din nou?</string>
     <string name="misc_score_hidden">scor ascuns</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Abonat</string>
     <string name="misc_continue">Continuă</string>
     <string name="misc_unsubscribed">Dezabonat</string>
     <string name="misc_no_more_posts">Nu mai sunt postări!</string>
     <string name="misc_please_wait">Răbdare&#8230;</string>
     <string name="misc_img_share">Distribuie imaginea cu</string>
-    <string name="misc_link_chooser">Deschide URL-ul cu</string>
     <string name="misc_copy_text">Copiază textul</string>
     <string name="misc_rate_title">Îți place Slide?</string>
     <string name="misc_rate_msg">Evaluează!</string>
     <!-- Goto User -->
     <string name="user_enter">Introdu numele de utilizator</string>
     <string name="user_btn_goto">Du-te la utilizator</string>
-    <string name="user_invalid_msg">Numele de utilizator de Reddit poate conține doar litere, numere, liniuțe și liniuțe joase.</string>
     <!-- Buttons -->
     <string name="btn_add">Adaugă</string>
     <string name="btn_cancel">Anulează</string>
@@ -320,7 +297,6 @@
     <string name="btn_delete">Șterge</string>
     <string name="btn_time">Perioada de timp</string>
     <string name="btn_message">Mesaj</string>
-    <string name="btn_add_domain">Adaugă un domeniu</string>
     <string name="btn_select">Selectează</string>
     <string name="btn_view">VEZI</string>
     <string name="btn_changelog">Istoricul schimbărilor</string>
@@ -349,15 +325,10 @@
     <string name="mod_modqueue">Modqueue</string>
     <string name="mod_unmoderated">Nemoderat</string>
     <string name="mod_reports">Raporturi</string>
-    <string name="mod_approve">Ești sigur că vrei sa aprobi acest post?</string>
     <string name="mod_approved">Post aprobat.</string>
-    <string name="mod_mark_nsfw">Ești sigur ca vrei sa marchezi acest post ca NSFW?</string>
-    <string name="mod_remove_nsfw">Ești sigur că vrei sa elimini eticheta NSFW?</string>
-    <string name="mod_flair_post">Adaugă flair</string>
     <string name="mod_flair_hint">Text flair</string>
     <string name="mod_no_reports">Nu există rapoarte</string>
     <string name="mod_btn_approve">Aprobă</string>
-    <string name="mod_btn_approved">Aprobat de /u/%1$s</string>
     <string name="mod_btn_submission_flair">Setează flair</string>
     <string name="mod_btn_mark_nsfw">Marchează NSFW</string>
     <string name="mod_btn_unmark_nsfw">Demarchează NSFW</string>
@@ -374,7 +345,6 @@
     <string name="mod_ban_reason">Motivul blocării</string>
     <string name="mod_ban_note_mod">Nota moderatorului (optional)</string>
     <string name="mod_ban_title">Blochează /u/%1$s</string>
-    <string name="mod_ban_requirements">Motivul și timpul sunt necesare</string>
     <string name="mod_remove_template">Eliminat pentru\u0020</string>
     <string name="mod_remove_hint">Motivul eliminării</string>
     <string name="mod_remove_title">Care este motivul pentru eliminarea acestei postări?</string>
@@ -382,19 +352,16 @@
     <string name="reauth_complete">Reautentificare completă!</string>
     <!-- Toolbox-related stuff -->
     <!-- Pleasantly asking the user if he made his mind up -->
-    <string name="really_remove_submission">Sigur elimini această postare?</string>
     <!-- If he did -->
     <!-- Subreddit Wiki -->
     <string name="wiki_err">Nu s-a găsit wiki</string>
     <string name="wiki_err_msg">Acest subreddit nu are wiki!</string>
     <!-- Subreddits -->
-    <string name="subreddit_subscribers">%1$d abonați</string>
     <string name="subreddit_subscribers_string">%1$s abonați</string>
     <string name="subreddit_active_users_string_new">%1$s sunt aici acum</string>
     <string name="subreddit_err_msg">Subreddit-ul %1$s nu s-a putut găsi. Ești sigur că l-ai scris bine?</string>
     <string name="subreddit_err_msg_new">Subreddit-ul %1$s nu a putut fi găsit. Poate că este scris greșit sau nu ai acces la acest subreddit.</string>
     <string name="subreddit_err">Nu s-a găsit subreddit</string>
-    <string name="subreddit_chooser">Alege un subreddit</string>
     <!-- Search -->
     <string name="search_comments_hint">Caută comentarii</string>
     <string name="search_goto">Du-te la</string>
@@ -406,8 +373,6 @@
     <string name="search_new">Nou</string>
     <string name="search_comments">Comentarii</string>
     <!-- Captcha -->
-    <string name="captcha">Introdu codul de mai sus</string>
-    <string name="captcha_title">Demonstrează că nu ești un robot</string>
     <!-- Settings -->
     <string name="settings_reddit_prefs">Setări Reddit</string>
     <string name="settings_accent_title">Modifică culoarea principală</string>
@@ -485,22 +450,16 @@
     <string name="settings_font_system">Sistem</string>
     <string name="settings_redditprefs_over18">Am peste 18 ani și vreau să văd continut NSFW</string>
     <string name="settings_layout_view">Mod de vizualizare</string>
-    <string name="settings_data_lowqaul_desc">Altfel, deschide întotdeauna imagini de bună calitate</string>
-    <string name="settings_data_lowqaul">Incarcă imaginea de calitate mai slabă dacă este posibil</string>
     <string name="settings_subredditspecific_bigpic">Afișează întotdeauna imagini mari in acest subreddit</string>
     <string name="settings_layout_picture_mode">Mod imagine</string>
-    <string name="settings_reddit_thumbnail_mode">Modul de miniatură</string>
     <string name="settings_links_force_external">Deschide în browser extern</string>
     <string name="settings_layout_show_domain">Afișează domeniul în linia info</string>
     <string name="settings_layout_show_content_type">Afișează tipul conținutului în linia info</string>
     <string name="settings_general_comment_last_visit">Arată comentariile noi de la ultima vizită</string>
     <string name="settings_comment_hide_selftext_image">Ascunde imaginea pentru previzualizarea postărilor text</string>
-    <string name="settings_reddit_syncing">Sincronizare cu Reddit</string>
-    <string name="settings_data_low_quality">Încarcă imaginile de calitate slabă</string>
     <string name="settings_view_type">Tip de vizualizare</string>
     <string name="settings_data">Economisire de date</string>
     <string name="settings_section_content">Conținut</string>
-    <string name="settings_about_changelog_post">Vezi jurnalul cu schimbări</string>
     <string name="settings_backup_include_personal_title">Incluzi informații personale?</string>
     <string name="settings_theme_night_start_at">Începe la\u0020</string>
     <string name="settings_theme_night_end_at">Înceie la\u0020</string>
@@ -518,20 +477,15 @@
     <string name="reorder_fab_domain">Domeniu</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
     <string name="reorder_remove_unsubsribe">Șterge &amp; Dezabonare</string>
-    <string name="reorder_selected">\u0020selectat</string>
     <string name="reorder_move">Mută sus</string>
     <string name="reorder_domain_placeholder">\u0020(doar numele domeniului)</string>
     <string name="reorder_not_found_err">Subreddit-ul nu a fost găsit, iată câteva sugestii</string>
     <string name="reorder_subscribed_toast">Abonat la /r/%1$s</string>
     <string name="reorder_unsubscribed_toast">Dezabonat de la /r/%1$s</string>
-    <string name="FAQ">Întrebări frecvente</string>
     <string name="alphabetize_subreddits">Alfabetizează subreddit-urile</string>
     <string name="sync_subscriptions">Sincronizează abonamentele</string>
     <string name="cannot_be_undone">Această acțiune nu poate fi anulată.</string>
     <string name="deleting">Se șterge&#8230;</string>
-    <string name="btn_add_subreddit">Adaugă un subreddit</string>
-    <string name="btn_add_collection">Adaugă o colecție</string>
-    <string name="add_to_subs">ADAUGĂ LA ABONAMENTE</string>
     <string name="sub_added">Subreddit adăugat!</string>
     <string name="reorder_subs_FAQ">Ordonarea subreddit-urilor FAQ</string>
     <string name="subscribe_to">Abonează-te la /r/%1$s</string>
@@ -542,7 +496,6 @@
     <string name="reorder_subreddits_title">Alege ce subreddit vrei să adaugi</string>
     <string name="reorder_subreddit_name">Numele subreddit-ului</string>
     <string name="reorder_remove_title">Elimini acest subreddit?</string>
-    <string name="reorder_remove_msg">Nu vei fi dezabonat, dar nu vei mai vedea subredditul acesta în bara laterală!</string>
     <string name="reorder_sync_complete">Sincronizare completă</string>
     <string name="reorder_loading_title">Se încarcă subreddit-urile tale</string>
     <string name="reorder_url_err">URL invalid</string>
@@ -551,7 +504,6 @@
     <string name="category_set_name_hint">Numele categoriei</string>
     <string name="category_categorize">CLASIFICĂ</string>
     <string name="category_set_error">Eroare la setarea categoriei</string>
-    <string name="category_create_new">Categorie nouă</string>
     <string name="profile_category_select">Selectează categoria</string>
     <!-- Setting subheaders -->
     <string name="sorting">Sortare</string>
@@ -564,7 +516,6 @@
     <string name="navigation">Navigare</string>
     <string name="collapse_comments">Acțiune de colapsare</string>
     <string name="nsfw">Conținut NSFW</string>
-    <string name="content_thumbnails">Miniaturile conținutului</string>
     <string name="view_reddit_settings">Deschide setările Reddit în browser</string>
     <string name="font_styles">Stilul fonturilor</string>
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -574,12 +525,10 @@
     <string name="title_settings">Setări</string>
     <string name="title_share">Distribuie folosind</string>
     <string name="title_login">Conectează-te pe Reddit</string>
-    <string name="title_reorder_subs">Reorganizează subreddits</string>
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Inbox</string>
     <string name="title_theme_settings">Temă</string>
     <string name="title_create_multi">Crează un multireddit</string>
-    <string name="title_mod">Moderator</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">Suma aceasta&#8230;</string>
     <string name="donate_info_student">Ca programator student, sunt toate recunoscător pentru donațiile voastre generoase! M-au ajutat să din Slide o realitate (gratuită) :)</string>
@@ -595,7 +544,6 @@
     <string name="donate_success_msg">Mulțumesc foarte mult pentru sprijinul oferit către Slide for Reddit! Înseamnă foarte mult pentru mine. Dacă se ivește vreo problemă, trimite-mi un email sau raportează pe Github în orice moment!</string>
     <string name="donate_success_btn">Ești binevenit!</string>
     <!-- Offline mode -->
-    <string name="offline_caching">Salvând postările</string>
     <string name="offline_msg">Conectează-te la internet și reîmprospătează subreddit-ul ca să faci asta</string>
     <string name="offline_last_update">Ultima actualizare: %1$s</string>
     <string name="offline_comments_not_loaded">Ca să vezi comentariile offline, trebuie să te conectezi și sa selectezi „Salvează comentariile în cache” din meniul cu 3 puncte din dreapta.</string>
@@ -604,7 +552,6 @@
     <string name="offline_caching_title">Se memorează %1$s</string>
     <string name="offline_caching_complete">Memorare completă</string>
     <!-- Website -->
-    <string name="website_back">Mergi înapoi</string>
     <string name="website_external">Deschide în browser extern</string>
     <!-- Time -->
     <string name="time_just_now">Chiar acum</string>
@@ -623,7 +570,6 @@
     <string name="time_days_short">%d zile</string>
     <string name="time_hours_short">%d ore</string>
     <string name="time_minutes_short">%d luni</string>
-    <string name="time_seconds_short">%d secunde</string>
     <!-- Strings present during the login process -->
     <string name="login_subscribe_rslideforreddit">Te abonezi la /r/slideforreddit?</string>
     <string name="login_subscribe_rslideforreddit_desc">Doriți să vă abonați la /r/slideforreddit pentru noutăți și raportare de probleme?</string>
@@ -647,14 +593,10 @@
     <!-- Subreddit post notifiactions -->
     <string name="sub_post_notifs_title">Vrei să fii notificat de postări noi în\n/r/%1$s?</string>
     <string name="sub_post_notifs_title_settings">Vrei să fii notificat de postări noi?</string>
-    <string name="sub_post_notifs_menu">Fii notificat de postări noi</string>
     <string name="sub_post_notify">Notifică</string>
-    <string name="sub_post_notifs_text">Slida va verifica postările noi la fiecare 10 minute. Poți anula această funcție în notificarea postărilor</string>
     <string name="sub_post_notifs_threshold">Pragul scorului</string>
     <string name="sub_post_notifs_settings_none">Nu sunt subreddit-uri de notificat</string>
-    <string name="sub_post_notifs_settings_title">Subreddituri de verificat</string>
     <!-- Internal browser -->
-    <string name="internal_browser_extracting_progress">Se extrage articolul&#8230;</string>
     <string name="internal_browser_storecookies">Salvează cookie-urile paginilor</string>
     <string name="internal_browser_readermode">Mod de citit</string>
     <!-- Live thread -->
@@ -664,13 +606,9 @@
     <!-- Used when viewing media -->
     <string name="mediaview_notif_title">Se descarcă imaginea&#8230;</string>
     <string name="mediaview_notif_text">Descărcare în curs</string>
-    <string name="mediaview_converting_fail">Convertirea gif-ului prin Gfycat nu a mers</string>
-    <string name="mediaview_converting_fail_btn">Deschide pe web</string>
     <string name="mediaview_save">Salvează %1$s</string>
     <string name="mediaview_saving">Se salvează %1$s</string>
     <!-- Drafts -->
-    <string name="draft_saving">Salvează ciornă</string>
-    <string name="draft_saved">Ciornă salvată</string>
     <string name="choose_draft">Selectează o ciornă</string>
     <string name="dialog_no_drafts">Nu sunt ciorne încă</string>
     <string name="msg_save_draft">Mesaj salvat ca și ciornă</string>
@@ -693,8 +631,6 @@
     <!-- Strings for alert dialogs -->
     <string name="force_change_subscription">Nu s-a putut schimba abonamentul</string>
     <string name="never_load_images">Nu încărca imagini</string>
-    <string name="low_quality_images_in_image_viewer">Imagini de joasă calitate în vizualizatorul de imagini</string>
-    <string name="load_medium_quality_imgur_images">Încarcă imagini Imgur de calitate medie</string>
     <string name="choose_color_title">Alege o culoare</string>
     <!-- Sidebar strings (multis, flairs) -->
     <string name="sidebar_submods">Moderatorii /r/%s</string>
@@ -714,7 +650,6 @@
     <string name="cache_wifi_only">Cache doar pe WiFi</string>
     <!-- Saving location setting -->
     <string name="set_gif_save_loc">Selectează locația de salvare pentru GIFuri</string>
-    <string name="set_video_save_loc">Selectează locația de salvare pentru videouri</string>
     <string name="set_save_location">Selectează locația pentru imagini</string>
     <!-- Report flow -->
     <string name="btn_report">Reportează</string>
@@ -757,9 +692,6 @@
     <string name="submission_info_locked">Această postare este blocată. Nu puteți vota sau comenta.</string>
     <string name="card_background_tint">Fundal card</string>
     <string name="subreddit_name_tint">Numele subreddit-ului</string>
-    <string name="thumb_type_always">Afișează întotdeauna</string>
-    <string name="thumb_type_off">Nu arată</string>
-    <string name="thumb_type_sub">Afișează setări subreddit</string>
     <string name="tutorial_swipe_description">Trageți din marginea stângă pentru ieșire.\n\nSetarea se aplică pentru imagini, GIF-uri, albume, setări si nu numai!</string>
     <string name="handling_browser">Browser</string>
     <string name="btn_open_comments">Deschide comentariile</string>
@@ -773,7 +705,6 @@
     <string name="msg_sent_failure">Mesajul nu a fost trimis</string>
     <string name="msg_send_user_dne">Acel utilizator nu există</string>
     <string name="editor_actions_quote_comment">Selectează text de citat</string>
-    <string name="content_removed">[removed]</string>
     <string name="guest">Vizitator</string>
     <string name="open_externally">Deschide extern</string>
     <string name="vertical_album_view">Vedere verticală de album</string>
@@ -807,13 +738,10 @@
     <string name="clear_all_sub_themes_msg">Nu puteți recupera această acțiune</string>
     <string name="title_not_found">Titlul nu a fost găsit</string>
     <string name="really_delete_submission">Sigur ștergi această postare? Nu poți da înapoi</string>
-    <string name="unsticky_comment">Sigur dezlipești acest comentariu?</string>
     <string name="comment_removed">Comentariu şters</string>
     <string name="set_nav_mode">Setează modul de navigare</string>
     <string name="rate_slide">Acordă o notă pentru Slide</string>
     <string name="empty_preview_text">Nimic de văzut ¯\\_(ツ)_/¯</string>
-    <string name="low_quality_through_imgur_higher_resolution">Calitate joasă prin Imgur (calitate mai înaltă)</string>
-    <string name="low_quality_through_reddit_lower_resolution">Calitate joasă prin Reddit (rezoluție mai joasă)</string>
     <string name="mod_log">Jurnalul moderatorului</string>
     <string name="manage_your_subreddits">Organzează-ți subreddit-urile</string>
     <string name="enlarge_links">Mărește linkuri</string>

@@ -19,10 +19,6 @@
     <string name="submission_gild">Malfermi en retumilo</string>
     <string name="submission_save">Konservi afiŝon</string>
     <string name="submission_copy_text">Kopii tekston</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d poento</item>
-        <item quantity="other">%d poentoj</item>
-    </plurals>
     <plurals name="comments">
         <item quantity="one">kmt</item>
         <item quantity="other">kmtj</item>
@@ -101,7 +97,6 @@
     <string name="type_gif">Movbildo</string>
     <string name="type_album">Albumo</string>
     <string name="type_img">Bildo</string>
-    <string name="type_vid">Video</string>
     <!-- Content types plural (Content filters) -->
     <!-- Inbox/mail -->
     <string name="mail_author_wrote">%1$s skribis&#8230;</string>
@@ -117,7 +112,6 @@
     </plurals>
     <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
     <string name="misc_err">Eraro</string>
-    <string name="misc_nsfw">MPL/NSFW</string>
     <string name="misc_continue">Daŭrigi</string>
     <string name="misc_copy_text">Kopii tekston</string>
     <!-- Goto User -->
@@ -152,7 +146,6 @@
     <!-- If he did -->
     <!-- Subreddit Wiki -->
     <!-- Subreddits -->
-    <string name="subreddit_subscribers">%1$d abonantoj</string>
     <!-- Search -->
     <string name="search_title">Serĉi</string>
     <!-- Captcha -->

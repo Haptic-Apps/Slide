@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/settings_history_child"
-              android:orientation="vertical"
+    android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <TextView
             style="@style/TextAppearance.AppCompat.Body2"
-            android:id="@+id/settings_history_saveHistoryHeader"
-            android:text="@string/settings_section_save_history"
+        android:text="@string/settings_section_save_history"
             android:tag="label"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
@@ -140,8 +138,7 @@
 
     <TextView
             style="@style/TextAppearance.AppCompat.Body2"
-            android:id="@+id/settings_history_clearHistoryHeader"
-            android:text="@string/settings_section_clear_history"
+        android:text="@string/settings_section_clear_history"
             android:tag="label"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"

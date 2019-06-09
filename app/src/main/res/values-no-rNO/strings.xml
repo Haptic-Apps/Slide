@@ -29,10 +29,6 @@
     <string name="submission_tap_gif">Trykk for å laste inn GIF</string>
     <string name="submission_not_found">Uff da, fant ikke posten.</string>
     <string name="submission_not_found_msg">Fant ikke posten</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d poeng</item>
-        <item quantity="other">%d poeng</item>
-    </plurals>
     <plurals name="new_messages">
         <item quantity="one">%d ny melding</item>
         <item quantity="other">%d nye meldinger</item>
@@ -96,7 +92,6 @@
     <string name="profile_friend">Venn</string>
     <string name="profile_add_friend">Legg til venn</string>
     <string name="profile_remove_friend">Fjern venn</string>
-    <string name="profile_manage_accounts">Administrer kontoer</string>
     <string name="profile_remove_account">Ønsker du virkelig å fjerne denne kontoen?</string>
     <string name="profile_remove">Slett konto</string>
     <string name="profile_history">Logg</string>
@@ -153,7 +148,6 @@
     <string name="err_title">Uff da, noe gikk galt.</string>
     <string name="err_invalid_url">Ugyldig nettadresse</string>
     <string name="err_loading_content">Klarte ikke laste inn innhold</string>
-    <string name="err_connection_lost">Uff da, du har mistet nettilkoblingen din midlertidig. Sjekk at du er koblet til Internett og prøv igjen.</string>
     <string name="err_general">Uff da, det oppstod en feil</string>
     <string name="err_no_connection">Klarte ikke koble til Reddit. Prøve på nytt?</string>
     <string name="err_retry_later">Vent et minutt og prøv igjen.</string>
@@ -164,7 +158,6 @@
     <string name="error_video_message">En feil oppstod under lasting av videoen</string>
     <string name="err_comment_post">Oida, publisering av denne kommentaren mislyktes!</string>
     <string name="err_comment_post_message">\n\nKommentaren din er blitt lagret som en kladd. Vennligst prøv igjen senere.</string>
-    <string name="err_comment_post_copy">Kopier kommentar</string>
     <!-- Gif -->
     <string name="gif_err_title">Fant ikke GIF-en</string>
     <string name="gif_err_msg">Klarte ikke laste inn GIF-en. Prøv på nytt.</string>
@@ -190,7 +183,6 @@
     <string name="type_album">Album</string>
     <string name="type_nsfw_album">NSFW-album</string>
     <string name="type_img">Bilde</string>
-    <string name="type_vid">Video</string>
     <string name="type_nsfw_video">NSFW-video</string>
     <string name="type_emb">Innebygget</string>
     <string name="type_nsfw_emb">NSFW-innebygd</string>
@@ -231,19 +223,16 @@
     <string name="misc_none">Ingen</string>
     <string name="misc_retry">Vil du prøve igjen?</string>
     <string name="misc_score_hidden">poeng skjules</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Abonnerer</string>
     <string name="misc_continue">Fortsett</string>
     <string name="misc_unsubscribed">Abonnement avsluttet</string>
     <string name="misc_no_more_posts">Ingen flere innlegg!</string>
     <string name="misc_please_wait">Vennligst vent&#8230;</string>
     <string name="misc_img_share">Del bilde med</string>
-    <string name="misc_link_chooser">Åpne URL med</string>
     <string name="misc_copy_text">Kopier tekst</string>
     <!-- Goto User -->
     <string name="user_enter">Skriv inn brukernavn</string>
     <string name="user_btn_goto">Gå til bruker</string>
-    <string name="user_invalid_msg">Reddit-brukernavn kan bare inneholde bokstaver, tall, understrek og bindestrek.</string>
     <!-- Buttons -->
     <string name="btn_add">Legg til</string>
     <string name="btn_cancel">Avbryt</string>
@@ -291,15 +280,10 @@
     <string name="mod_modqueue">Modkø</string>
     <string name="mod_unmoderated">Umoderert</string>
     <string name="mod_reports">Rapporter</string>
-    <string name="mod_approve">Godta dette innlegget?</string>
     <string name="mod_approved">Post godkjent.</string>
-    <string name="mod_mark_nsfw">Merke dette som NSFW?</string>
-    <string name="mod_remove_nsfw">Fjerne NSFW-merket?</string>
-    <string name="mod_flair_post">Rediger flair</string>
     <string name="mod_flair_hint">Flair-tekst</string>
     <string name="mod_no_reports">Ingen rapporter</string>
     <string name="mod_btn_approve">Godkjenn</string>
-    <string name="mod_btn_approved">Godkjent av /u/%1$s</string>
     <string name="mod_btn_submission_flair">Angi \"flair\"</string>
     <string name="mod_btn_mark_nsfw">Merk NSFW</string>
     <string name="mod_btn_unmark_nsfw">Fjern NSFW-merking</string>
@@ -316,11 +300,9 @@
     <string name="wiki_err">Fant ingen wiki</string>
     <string name="wiki_err_msg">Denne subredditen har ingen wiki.</string>
     <!-- Subreddits -->
-    <string name="subreddit_subscribers">%1$d abonnenter</string>
     <string name="subreddit_err_msg">Fant ikke subredditen %1$s. Sjekk at navnet er stavet riktig.</string>
     <string name="subreddit_err_msg_new">Finner ikke subreddit %1$s. Kanskje det er stavet feil, eller du har ikke tilgang til denne subreddit.</string>
     <string name="subreddit_err">Fant ikke subredditen</string>
-    <string name="subreddit_chooser">Velg en subreddit</string>
     <!-- Search -->
     <string name="search_comments_hint">Søk i kommentarene</string>
     <string name="search_goto">Gå til</string>
@@ -330,8 +312,6 @@
     <string name="search_subreddit">Søk %1$s</string>
     <string name="search_relevance">Relevanse</string>
     <!-- Captcha -->
-    <string name="captcha">Skriv inn koden ovenfor</string>
-    <string name="captcha_title">Vis at du ikke er en robot</string>
     <!-- Settings -->
     <string name="settings_reddit_prefs">Reddit-innstillinger</string>
     <string name="settings_accent_title">Velg aksentfarge</string>
@@ -404,25 +384,19 @@
     <string name="settings_comments_swap_long">Bytt langt trykk med korte trykk</string>
     <string name="settings_redditprefs_over18">Jeg er over 18 år og vil se NSFW-innhold</string>
     <string name="settings_layout_view">Visningsmodus</string>
-    <string name="settings_data_lowqaul_desc">Ellers, alltid åpne høykvalitetsbilder</string>
-    <string name="settings_data_lowqaul">Last inn lavere bildekvalitet hvis mulig</string>
     <string name="settings_subredditspecific_bigpic">Vis alltid store bilder i denne subreddit</string>
     <string name="settings_layout_picture_mode">Bildemodus</string>
     <string name="settings_general_expanded_toolbar">Utvidet verktøylinjemeny</string>
     <string name="settings_general_expanded_toolbar_desc">Vis flere alternativer på verktøylinjen til subredditen</string>
     <string name="settings_theme_tinting">Fargelagte innlegg-modus</string>
-    <string name="settings_reddit_thumbnail_mode">Miniatyrbildemodus</string>
     <string name="settings_layout_actionbar_mode">Verktøyslinjemodus</string>
     <string name="settings_theme_tint_outside_desc">Legg til farge kun i multireddits, hovedsiden og alle</string>
     <string name="settings_layout_small_content_tag">Mindre innholds-tag</string>
     <string name="settings_links_force_external">Tving ekstern nettleser</string>
-    <string name="settings_links_force_external_desc">Velg domener som alltid vil åpnes eksternt</string>
     <string name="settings_layout_show_domain">Vis domene i infolinjen</string>
-    <string name="settings_general_swipeanywhere_description">Dra hvor som helst for å avslutte</string>
     <string name="settings_general_comment_last_visit">Vis antall kommentarer siden siste besøk</string>
     <string name="settings_right_handed_comment_menu">Høyrehendt kommentarmeny</string>
     <string name="settings_comment_hide_selftext_image">Skjul hovedbilde i selvtekst-innlegg</string>
-    <string name="settings_data_low_quality">Last inn lavkvalitetsbilder</string>
     <string name="settings_view_type">Visningstype</string>
     <string name="settings_data">Datalagring</string>
     <string name="settings_card_show_selftext">Vis første avsnitt av selvtekster</string>
@@ -436,11 +410,9 @@
     <!--Search methods -->
     <!-- Back button behavior -->
     <!-- Subscription managing -->
-    <string name="btn_add_subreddit">Legg til en subreddit</string>
     <string name="reorder_subreddits_title">Velg en subreddit å legge til</string>
     <string name="reorder_subreddit_name">Subreddit-navn</string>
     <string name="reorder_remove_title">Fjern denne subredditen?</string>
-    <string name="reorder_remove_msg">Abonnementet vil ikke avsluttes, men du vil ikke se denne denne subredditen i sidemenyen!</string>
     <string name="reorder_sync_complete">Synkronisering fullført</string>
     <!-- Save categories -->
     <!-- Setting subheaders -->
@@ -454,7 +426,6 @@
     <string name="navigation">Navigasjon</string>
     <string name="collapse_comments">Skjulte handlinger</string>
     <string name="nsfw">NSFW-innhold</string>
-    <string name="content_thumbnails">Innholdsminiatyrbilder</string>
     <string name="view_reddit_settings">Åpne reddit-innstillinger i nettleser</string>
     <!-- Titles displayed in action bar / head / recents overview-->
     <string name="title_subreddit_settings">Subredditinnstillinger</string>
@@ -463,12 +434,10 @@
     <string name="title_settings">Innstillinger</string>
     <string name="title_share">Del via</string>
     <string name="title_login">Logg inn på Reddit</string>
-    <string name="title_reorder_subs">Ordne subreddits</string>
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Innboks</string>
     <string name="title_theme_settings">Temainnstillinger</string>
     <string name="title_create_multi">Opprett en multireddit</string>
-    <string name="title_mod">Moderator</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">Dette beløpet&#8230;</string>
     <string name="donate_info_student">Jeg er en studentutvikler, og er veldig takknemlig for deres sjenerøse donasjoner! De har bidratt til å gjøre Slide til en (gratis) virkelighet :)</string>
@@ -484,7 +453,6 @@
     <string name="donate_success_msg">Takk så mye for støtten til Slide for Reddit! Den er av stor betydning. Hvis du støter på problemer med appen, send meg en e-post eller skriv på /r/slideforreddit når som helst!</string>
     <string name="donate_success_btn">Værsågod!</string>
     <!-- Offline mode -->
-    <string name="offline_caching">Cacher innlegg</string>
     <string name="offline_msg">Vennligst gå online og oppdater subredditen for å gjøre det</string>
     <string name="offline_last_update">Sist oppdatert %1$s</string>
     <string name="offline_comments_not_loaded">Vennligst gå tilbake og velg \'Cache kommentarer\' fra 3 punkts-menyen for å vise kommentarer i frakoblet modus</string>
@@ -525,7 +493,6 @@
     <string name="time_days_short">%ddag</string>
     <string name="time_hours_short">%dt</string>
     <string name="time_minutes_short">%dm</string>
-    <string name="time_seconds_short">%ds</string>
     <!-- Strings present during the login process -->
     <string name="login_subscribe_rslideforreddit">Abonnere på /r/slideforreddit?</string>
     <string name="login_subscribe_rslideforreddit_desc">Ønsker du å abonnere på /r/slideforreddit for å få de siste nyhetene og for å rapportere problemer?</string>
@@ -602,9 +569,6 @@
     <string name="submission_info_locked">Dette er et arkivert innlegg. Du vil ikke kunne stemme eller kommentere.</string>
     <string name="card_background_tint">Kortbakgrunn</string>
     <string name="login_failed_err_decline">Vær sikker på at du ikke valgte \"avslå\" på det forrige skjermbildet og prøv igjen om et par øyeblikk</string>
-    <string name="thumb_type_always">Vis alltid</string>
-    <string name="thumb_type_off">Vis aldri</string>
-    <string name="thumb_type_sub">Vis per subreddit-innstillinger</string>
     <string name="tutorial_swipe_navigation">Swipe-navigasjon</string>
     <string name="tutorial_swipe_description">Dra fra venstre kant for å lukke.\n\nDette gjelder bilder, GIFs, albumer, innstillinger og mer!</string>
     <string name="handling_browser">Nettleser</string>
@@ -616,7 +580,6 @@
     <string name="type_selftext">Selvtekst</string>
     <string name="submission_unhide">Vis skjult innlegg</string>
     <string name="submission_info_unhidden">Innlegg ikke skjult</string>
-    <string name="content_removed">[fjernet]</string>
     <string name="guest">Gjest</string>
     <string name="album_slide_view">Horisontal albumvisning</string>
     <string name="album_grid">Albumrutenett</string>

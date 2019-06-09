@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/settings_datasaving_child"
-              android:orientation="vertical"
+    android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
 
     <TextView
             style="@style/TextAppearance.AppCompat.Body2"
-            android:id="@+id/settings_datasaving_dataSavingModeHeader"
-            android:text="@string/settings_section_data_saving_mode"
+        android:text="@string/settings_section_data_saving_mode"
             android:tag="label"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
@@ -59,8 +57,7 @@
 
         <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
-                android:id="@+id/settings_datasaving_imageQualityHeader"
-                android:text="@string/settings_section_image_quality"
+            android:text="@string/settings_section_image_quality"
                 android:tag="label"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"

@@ -64,9 +64,8 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         if (position == 0 && !dataSet.posts.isEmpty()) {
             return SPACER;
-        } else if (!dataSet.posts.isEmpty()) {
-            position -= 1;
         }
+
         return MESSAGE;
     }
 

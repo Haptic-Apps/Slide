@@ -1730,8 +1730,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         TextView titleTv = null;
         for (int i = 0; i < toolbar.getChildCount(); i++) {
             View view = toolbar.getChildAt(i);
-            CharSequence text = null;
-            if (view instanceof TextView && (text = ((TextView) view).getText()) != null) {
+            if (view instanceof TextView && (((TextView) view).getText()) != null) {
                 titleTv = (TextView) view;
             }
         }

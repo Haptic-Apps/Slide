@@ -11,11 +11,9 @@
     <string name="general_gallerymode_ispro">Режим са галеријом је функционалност из Pro верзије</string>
     <string name="general_cropdraw_ispro">Опсецање и цртање на отпремљеним сликама је функционалност из Pro верзије</string>
     <string name="general_nighttheme_ispro">Аутоматски ноћни режим је функционалност из Pro верзије</string>
-    <string name="general_backup_ispro">Прављење резервнр копија поставки је функционалност из Pro верзије</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Објава није сачувана</string>
     <string name="submission_info_saved">Објава сачувана</string>
-    <string name="submission_info_cached">Објава кеширана</string>
     <string name="submission_info_archived">Ово је архивиран пост. Нећете моћи да гласате или коментаришете на њега.</string>
     <string name="submission_post_saved">Пост снимљен</string>
     <string name="submission_info_hidden">Пост сакривен заувек.</string>
@@ -43,13 +41,7 @@
     <string name="submission_comment_copied">Коментар копиран</string>
     <string name="submission_nocontent">Објава нема никакав садржај</string>
     <string name="submission_link_copied">Веза копирана</string>
-    <string name="submission_text_copied">Selftext копиран</string>
     <string name="submission_removed">Објава уклоњена</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d поен</item>
-        <item quantity="few">%d поена</item>
-        <item quantity="other">%d поена</item>
-    </plurals>
     <plurals name="new_messages">
         <item quantity="one">%d нова порука</item>
         <item quantity="few">%d нове поруке</item>
@@ -127,7 +119,6 @@
     <string name="profile_friend">Пријатељ</string>
     <string name="profile_add_friend">Додај пријатеља</string>
     <string name="profile_remove_friend">Уклони пријатеља</string>
-    <string name="profile_manage_accounts">Управљање налозима</string>
     <string name="profile_remove_account">Да ли стварно желите да уклоните овај налог?</string>
     <string name="profile_remove">Избриши налог</string>
     <string name="profile_history">Историја</string>
@@ -174,12 +165,6 @@
     <string name="sorting_month">месец</string>
     <string name="sorting_year">година</string>
     <string name="sorting_all">одувек</string>
-    <string name="sorting_search_hour">Претходни сат</string>
-    <string name="sorting_search_day">Претходних 24 сата</string>
-    <string name="sorting_search_week">Претходна недеља</string>
-    <string name="sorting_search_month">Претходни месец</string>
-    <string name="sorting_search_year">Претходна година</string>
-    <string name="sorting_search_all">Одувек</string>
     <string name="sorting_defaultfor">Подразумевано за /r/%1$s</string>
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">Адреса</string>
@@ -190,7 +175,6 @@
     <string name="editor_err_msg">Молимо покушајте поново за неколико секунди</string>
     <string name="editor_uploading_image">Отпремам слику на Imgur</string>
     <string name="editor_upload_image_question">Отпреми слику на Imgur?</string>
-    <string name="editor_self">Selftext</string>
     <string name="editor_select_img">Изабери слику</string>
     <string name="editor_hint_optional_body">Текст (опционо)</string>
     <string name="editor_submit">Пошаљи пост</string>
@@ -201,13 +185,11 @@
     <string name="set_submission_flair">Постави значку објаве</string>
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Слика сачувана</string>
-    <string name="video_saved">Видео сачуван</string>
     <string name="gif_saved">GIF сачуван</string>
     <!-- General errors / errors without a category -->
     <string name="err_title">Ух, нешто је пошло наопако!</string>
     <string name="err_invalid_url">Погрешна адреса</string>
     <string name="err_loading_content">Грешка при учитавању садржаја</string>
-    <string name="err_connection_lost">Пих! Изгледа да је веза са интернетом изгубљена. Повежи се опет на Интернет и врати се!</string>
     <string name="err_general">Ух, појавила се грешка</string>
     <string name="err_no_connection">Не може да се дође до Редита. Да ли желите да пробате поново?</string>
     <string name="err_retry_later">Покушајте поново за минут!</string>
@@ -215,7 +197,6 @@
     <string name="err_authentication">Неуспело пријављивање</string>
     <string name="err_submit_restricted">Овај субредит је ограничен</string>
     <string name="err_submit_restricted_text">Не можете да објављујете постове овде. Одаберите други субредит</string>
-    <string name="err_upload_unaccessible">Проверите да може да се приступи слици и покушајте поново!</string>
     <string name="error_video_not_found">Видео није нађен</string>
     <string name="error_video_message">Дошло је до грешке приликом учитавања видео снимка</string>
     <string name="error_album_not_found">Албум није нађен</string>
@@ -231,7 +212,6 @@
     <string name="err_comment_post">Ух, објављивање коментара није успело!</string>
     <string name="err_comment_post_reason">Разлог: %1$s</string>
     <string name="err_comment_post_message">\n\nВаша порука је сачувана као нацрт. Покушајте касније поново.</string>
-    <string name="err_comment_post_copy">Копирај коментар</string>
     <string name="err_block_user">Грешка приликом блокирања корисника</string>
     <!-- Gif -->
     <string name="gif_err_title">GIF није нађен</string>
@@ -268,7 +248,6 @@
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">NSFW албум</string>
     <string name="type_img">Слика</string>
-    <string name="type_vid">Видео</string>
     <string name="type_videos">Видео снимци</string>
     <string name="type_nsfw_video">NSFW видео</string>
     <string name="type_emb">Уграђен</string>
@@ -314,14 +293,12 @@
     <string name="misc_retry">Да ли желите да покушате поново?</string>
     <string name="misc_retry_draft">Да ли желите да пробате поново? \nНацрт Ваше објаве је сачуван</string>
     <string name="misc_score_hidden">оцена сакривена</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Претплаћен</string>
     <string name="misc_continue">Настави</string>
     <string name="misc_unsubscribed">Претплата отказана</string>
     <string name="misc_no_more_posts">Нема више постова!</string>
     <string name="misc_please_wait">Молимо сачекајте&#8230;</string>
     <string name="misc_img_share">Подели слику са</string>
-    <string name="misc_link_chooser">Отвори адресу са</string>
     <string name="misc_copy_text">Копирај текст</string>
     <string name="misc_maybe_later">Можда касније</string>
     <string name="misc_try_again">Покушајте поново</string>
@@ -334,7 +311,6 @@
     <!-- Goto User -->
     <string name="user_enter">Унеси корисничко име</string>
     <string name="user_btn_goto">Иди на корисника</string>
-    <string name="user_invalid_msg">Редит корисничка имена могу имати само слова, бројеве, доње црте и цртице</string>
     <!-- Buttons -->
     <string name="btn_add">Додај</string>
     <string name="btn_cancel">Откажи</string>
@@ -360,7 +336,6 @@
     <string name="btn_delete">Обриши</string>
     <string name="btn_time">Временски период</string>
     <string name="btn_message">Порука</string>
-    <string name="btn_add_domain">Додај домен</string>
     <string name="btn_select">Изабери</string>
     <string name="btn_view">ПОГЛЕДАЈ</string>
     <string name="btn_changelog">Дневник измена</string>
@@ -388,15 +363,10 @@
     <string name="mod_mail">Мод пошта</string>
     <string name="mod_unmoderated">Немодерисани</string>
     <string name="mod_reports">Извештаји</string>
-    <string name="mod_approve">Да ли стварно желите да одобрите овај пост?</string>
     <string name="mod_approved">Пост одобрен</string>
-    <string name="mod_mark_nsfw">Да ли стварно желите да означите ово као NSFW?</string>
-    <string name="mod_remove_nsfw">Да ли стварно желите да уклоните NSFW ознаку?</string>
-    <string name="mod_flair_post">Значка на посту</string>
     <string name="mod_flair_hint">Текст значке</string>
     <string name="mod_no_reports">Нема извештаја</string>
     <string name="mod_btn_approve">Одобри</string>
-    <string name="mod_btn_approved">Одобрио корисник /u/%1$s</string>
     <string name="mod_btn_submission_flair">Постави значку</string>
     <string name="mod_btn_submission_flair_text">Постави текст значке</string>
     <string name="mod_btn_mark_nsfw">Означи као NSFW</string>
@@ -425,9 +395,6 @@
     </plurals>
     <!-- Toolbox-related stuff -->
     <!-- Pleasantly asking the user if he made his mind up -->
-    <string name="really_remove_submission">Стварно желите да уклоните ову објаву?</string>
-    <string name="really_pin_submission">Стварно желите да прикачите ову објаву?</string>
-    <string name="really_unpin_submission">Стварно желите да откачите ову објаву?</string>
     <!-- If he did -->
     <string name="really_pin_submission_message">Објава закачена</string>
     <string name="really_unpin_submission_message">Објава откачена</string>
@@ -435,13 +402,11 @@
     <string name="wiki_err">Вики није нађен</string>
     <string name="wiki_err_msg">Овај субредит нема вики!</string>
     <!-- Subreddits -->
-    <string name="subreddit_subscribers">%1$d претплатника</string>
     <string name="subreddit_subscribers_string">%1$s претплатника</string>
     <string name="subreddit_active_users_string_new">%1$s сада овде</string>
     <string name="subreddit_err_msg">Не могу да пронађем субредит %1$s. Можда сте га откуцали погрешно?</string>
     <string name="subreddit_err_msg_new">Не могу да пронађем субредит %1$s. Можда сте га откуцали погрешно, или му немате приступ.</string>
     <string name="subreddit_err">Субредит није нађен</string>
-    <string name="subreddit_chooser">Одаберите субредит</string>
     <!-- Search -->
     <string name="search_comments_hint">Претражи коментаре</string>
     <string name="search_goto">Иди на</string>
@@ -454,8 +419,6 @@
     <string name="search_comments">Коментари</string>
     <string name="no_posts_found">Није нађен ниједан пост</string>
     <!-- Captcha -->
-    <string name="captcha">Унесите шифру изнад</string>
-    <string name="captcha_title">Докажите да нисте бот</string>
     <!-- Settings -->
     <string name="settings_reddit_prefs">Reddit поставке</string>
     <string name="settings_delete_sub_settings">Да ли стварно желите да обришете поставке за %1$s?</string>
@@ -519,7 +482,6 @@
     <string name="settings_section_clear_history">Очисти историјат</string>
     <string name="settings_section_data_saving_mode">Режим штедње података</string>
     <string name="settings_section_image_quality">Квалитет слике</string>
-    <string name="settings_section_hide_images">Сакриј слике</string>
     <string name="settings_comment_color">Обојени индикатор дубине коментара</string>
     <string name="settings_volume_nav_comments">Кретање кроз коментаре дугмићима за звук</string>
     <string name="settings_synccit_auth">Ауторизациони код</string>
@@ -538,23 +500,17 @@
     <string name="settings_comments_swap_long">Замени радње за дугачко притискање и за тапкање</string>
     <string name="settings_redditprefs_over18">Имам преко 18 година и желим да видим NSFW садржаје</string>
     <string name="settings_layout_view">Режим приказа</string>
-    <string name="settings_data_lowqaul_desc">Иначе увек отварај слике високог квалитета</string>
-    <string name="settings_data_lowqaul">Учитавај слике мањег квалитета ако је могуће</string>
     <string name="settings_subredditspecific_bigpic">Увек приказуј велике слике у овом субредиту</string>
     <string name="settings_layout_picture_mode">Режим слика</string>
     <string name="settings_general_expanded_toolbar">Проширени мени траке са алаткама</string>
-    <string name="settings_reddit_thumbnail_mode">Режим малих сличица</string>
     <string name="settings_layout_small_content_tag">Мања ознака садржаја</string>
     <string name="settings_links_force_external">Форсирај екстерни веб читач</string>
-    <string name="settings_links_force_external_desc">Одаберите домене које ће се увек отварати спољним веб читачем</string>
     <string name="settings_layout_show_domain">Прикажи домене у инфо линији</string>
     <string name="settings_layout_show_content_type">Прикажи тип садржаја у инфо линији</string>
     <string name="settings_layout_show_votes_comments">Прикажи гласове/коментаре у инфо линији</string>
     <string name="settings_general_comment_last_visit">Прикажи број коментара од последње посете</string>
     <string name="settings_comment_hide_selftext_image">Сакриј главну слику на selftext постовима</string>
-    <string name="settings_reddit_syncing">Синхронизација са Редитом</string>
     <string name="settings_filter_flair">Филтери значака</string>
-    <string name="settings_data_low_quality">Учитавај слике мањег квалитета</string>
     <string name="settings_view_type">Тип приказа</string>
     <string name="settings_data">Штедња података</string>
     <string name="settings_card_show_selftext">Прикажи први пасус selftext-а</string>
@@ -583,20 +539,15 @@
     <string name="reorder_fab_subreddit">Субредит</string>
     <string name="reorder_add_subscribe">Додај &amp; претплати се</string>
     <string name="reorder_remove_unsubsribe">Уклони &amp; откажи претплату</string>
-    <string name="reorder_selected">\u0020означено</string>
     <string name="reorder_move">Помери на врх</string>
     <string name="reorder_domain_placeholder">\u0020(само име домена)</string>
     <string name="reorder_not_found_err">Субредит није нађен, ево неких предлога</string>
     <string name="reorder_subscribed_toast">Претплаћен на /r/%1$s</string>
     <string name="reorder_unsubscribed_toast">Отказана претплата са /r/%1$s</string>
-    <string name="FAQ">ЧПП</string>
     <string name="alphabetize_subreddits">Сортирај субредите по абецеди</string>
     <string name="sync_subscriptions">Синхронизовање претплата</string>
     <string name="cannot_be_undone">Ово се не може поништити.</string>
     <string name="deleting">Брисање&#8230;</string>
-    <string name="btn_add_subreddit">Додај субредит</string>
-    <string name="btn_add_collection">Додај збирку</string>
-    <string name="add_to_subs">ДОДАЈ У ПРЕТПЛАТЕ</string>
     <string name="sub_added">Субредит додат!</string>
     <string name="reorder_subs_FAQ">ЧПП преуређивање субредита</string>
     <string name="subscribe_to">Претплати се на /r/%1$s</string>
@@ -612,7 +563,6 @@
     <string name="category_set_name_hint">Име категорије</string>
     <string name="category_categorize">КАТЕГОРИШИ</string>
     <string name="category_set_error">Грешка у постављању категорија</string>
-    <string name="category_create_new">Нова категорија</string>
     <string name="profile_category_loading">Учитавам категорије</string>
     <string name="profile_category_select">Одаберите категорију</string>
     <!-- Setting subheaders -->
@@ -624,7 +574,6 @@
     <string name="navigation">Навигација</string>
     <string name="collapse_comments">Радње за скупљање</string>
     <string name="nsfw">NSFW садржај</string>
-    <string name="content_thumbnails">Мале сличице за садржај</string>
     <string name="view_reddit_settings">Отворите Реддит поставке у веб прегледачу</string>
     <string name="font_styles">Стилови фонта</string>
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -633,12 +582,10 @@
     <string name="title_settings">Подешавања</string>
     <string name="title_share">Подели користећи</string>
     <string name="title_login">Пријава на Reddit</string>
-    <string name="title_reorder_subs">Преуређивање субредита</string>
     <string name="title_multireddits">Мултиредити</string>
     <string name="title_inbox">Примљене поруке</string>
     <string name="title_theme_settings">Тема</string>
     <string name="title_create_multi">Направи мултиредит</string>
-    <string name="title_mod">Модератор</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">Овај износ&#8230;</string>
     <string name="donate_btn">Донирај</string>
@@ -651,13 +598,11 @@
     <string name="donate_success_title">Донирање успело!</string>
     <string name="donate_success_btn">Нема на чему!</string>
     <!-- Offline mode -->
-    <string name="offline_caching">Кеширам објаве</string>
     <string name="offline_msg">Идите на интернет и освежите субредите да бисте урадили ово</string>
     <string name="offline_last_update">Последње ажурирано %1$s</string>
     <string name="offline_caching_title">Кеширам %1$s</string>
     <string name="offline_caching_complete">Кеширање завршено</string>
     <!-- Website -->
-    <string name="website_back">Иди назад</string>
     <string name="website_external">Отвори у спољном веб читачу</string>
     <plurals name="reorder_subs_added">
         <item quantity="one">Додат %d субредит</item>
@@ -701,7 +646,6 @@
     <string name="time_days_short">%dд</string>
     <string name="time_hours_short">%dh</string>
     <string name="time_minutes_short">%dm</string>
-    <string name="time_seconds_short">%ds</string>
     <!-- Strings present during the login process -->
     <string name="login_subscribe_rslideforreddit">Претплати се на /r/slideforreddit?</string>
     <string name="login_sync_colors">Синхронизуј боје сад?</string>
@@ -726,18 +670,14 @@
     <string name="discover_trending">У порасту</string>
     <!-- Subreddit post notifiactions -->
     <string name="sub_post_notifs_err">Обавештења можете додати само на појединачни субредит</string>
-    <string name="sub_post_notifs_settings_title">Субредити за проверу</string>
     <!-- Internal browser -->
     <!-- Live thread -->
     <!-- Used when viewing media -->
     <string name="mediaview_notif_title">Преузимам слику&#8230;</string>
     <string name="mediaview_notif_text">Преузимање у току</string>
-    <string name="mediaview_converting_fail_btn">Отвори на вебу</string>
     <string name="mediaview_save">Сачувај %1$s</string>
     <string name="mediaview_saving">Чувам %1$s</string>
     <!-- Drafts -->
-    <string name="draft_saving">Чувам нацрт</string>
-    <string name="draft_saved">Нацрт сачуван</string>
     <string name="choose_draft">Одаберите нацрт</string>
     <string name="dialog_no_drafts">Још нема нацрта</string>
     <string name="msg_save_draft">Порука снимљена као нацрт</string>
@@ -754,7 +694,6 @@
     <string name="shortcut_creation_title">Нова пречица</string>
     <!-- Strings for alert dialogs -->
     <string name="never_load_images">Не учитавај слике</string>
-    <string name="low_quality_images_in_image_viewer">Слике лошијег квалитета у прегледачу слика</string>
     <string name="choose_color_title">Изаберите боју</string>
     <string name="enter_text_to_filter_click_enter_to_add">Унесите текст за филтрирање, кликните enter да га додате</string>
     <!-- Sidebar strings (multis, flairs) -->
@@ -821,9 +760,6 @@
     <string name="submission_info_locked">Ово је закључани пост. Нећете моћи да коментаришете.</string>
     <string name="card_background_tint">Позадина картице</string>
     <string name="subreddit_name_tint">Име субредита</string>
-    <string name="thumb_type_always">Увек прикажи</string>
-    <string name="thumb_type_off">Никада не приказуј</string>
-    <string name="thumb_type_sub">Приказуј у зависности од поставки субредита</string>
     <string name="handling_browser">Веб читач</string>
     <string name="submit_replies_to_inbox">Пошаљи одговоре у пријемно сандуче</string>
     <string name="btn_preview">Претпреглед</string>
@@ -836,10 +772,8 @@
     <string name="msg_sent_failure">Неуспешно слање поруке</string>
     <string name="msg_send_user_dne">Овај корисник не постоји</string>
     <string name="editor_actions_quote_comment">Изаберите текст за цитирање</string>
-    <string name="content_removed">[removed]</string>
     <string name="guest">Гост</string>
     <string name="album_grid">Мрежа албума</string>
-    <string name="album_saving">Чувам албум</string>
     <string name="open_externally">Отвори у спољном веб читачу</string>
     <string name="vertical_album_view">Вертикални поглед албума</string>
     <string name="download_album">Скини албум</string>
@@ -866,7 +800,6 @@
     <string name="clear_all_sub_themes_msg">Не можете да опозовете ову радњу</string>
     <string name="title_not_found">Наслов није нађен</string>
     <string name="really_delete_submission">Стварно желите да обришете ову објаву? Ово је неповратна акција</string>
-    <string name="remove_comment">Стварно желите да уклоните овај коментар?</string>
     <string name="comment_removed">Коментар уклоњен</string>
     <string name="set_nav_mode">Постави режим навигације</string>
     <string name="rate_slide">Оцени Slide</string>
@@ -901,5 +834,4 @@
     <string name="disable_replies_comment">Искључи одговоре на коментаре у пријемном сандучету</string>
     <string name="replies_disabled_comment">Одговори на коментаре онемогућени</string>
     <string name="replies_enabled_comment">Одговори на коментаре омогућени</string>
-    <string name="firefox">Фајерфокс</string>
 </resources>

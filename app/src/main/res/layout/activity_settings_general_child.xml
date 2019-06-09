@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/settings_general_child"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/settings_general_displayHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -174,7 +172,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_notificationsHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -350,7 +347,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_sortingHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -434,7 +430,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_downloadsHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -532,7 +527,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/settings_general_miscHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

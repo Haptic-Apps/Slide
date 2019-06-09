@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/settings_moderation_child"
-              android:layout_width="match_parent"
+    android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
     <TextView
-            android:id="@+id/settings_moderation_general_header"
-            style="@style/TextAppearance.AppCompat.Body2"
+        style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingEnd="16dp"
@@ -51,8 +49,7 @@
     </RelativeLayout>
 
     <TextView
-            android:id="@+id/settings_moderation_toolbox_header"
-            style="@style/TextAppearance.AppCompat.Body2"
+        style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingEnd="16dp"

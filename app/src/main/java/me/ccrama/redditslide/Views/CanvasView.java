@@ -270,7 +270,7 @@ public class CanvasView extends View {
         float y = textY;
 
         for (int i = 0, len = this.text.length(); i < len; i += modNumChars) {
-            String substring = "";
+            String substring;
 
             if ((i + modNumChars) < len) {
                 substring = this.text.substring(i, (i + modNumChars));

@@ -6,8 +6,6 @@
     <string name="general_confirm_exit_msg">Bạn có thực sự muốn thoát khỏi Slide?</string>
     <string name="general_enable_shadowbox">Kích hoạt chế độ Shadowbox</string>
     <string name="pro_upgrade_msg">Nâng cấp lên Slide for Reddit Pro để trải nghiệm nhiều tính năng mới bao gồm: \n\n- Chặn quảng cáo và Chế Đồ Đọc trong trang Web\n- Cắt và vẽ lên ảnh trước khi tải lên\n- Chế độ theo dõi theo cột cho Tablet\n- Tự động chuyển chế độ ban đêm\n- Chế độ theo dõi theo Shadowbox và thư viện ảnh\n- Chế độ theo dõi bình luận theo Shadowbox\n- Sao lưu và phục hồi vào Google Drive và vào file\n- Ủng hộ phần mềm mở và không quảng cáo!\n\nBạn có muốn ủng hộ Silde for Reddit không?</string>
-    <string name="general_pro_msg">Tôi đã chọn một số chức năng của Slide có thể được mở khóa bằng cách mua \"Pro unlock key\" từ cửa hàng Play. \n\nĐiều này giúp cho tôi tiếp tục việt phát triển phần mềm, thay vì phải dùng quảng cáo trong phiên bản Slide miễn phí!\n\nNhững chức năng này bao gồm giao diện nhiều cột, Shadowbox (cho các subreddits ảnh), thư viện ảnh, sao lưu và phục hồi lên Google Drive và vào file, và vẽ/cắt ảnh!\n\nBạn có muốn mở khóa Slide for Reddit Pro không?</string>
-    <string name="general_pro_msg_crop">Tôi đã chọn một số chức năng của Slide (bao gồm cắt và vẽ lên ảnh) có thể được mở khóa bằng cách mua \"Pro unlock key\" từ cửa hàng Play. \n\nĐiều này giúp cho tôi tiếp tục việt phát triển phần mềm, thay vì phải dùng quảng cáo trong phiên bản Slide miễn phí!\n\nNhững chức năng này bao gồm giao diện nhiều cột, Shadowbox (cho các subreddits ảnh), thư viện ảnh, sao lưu và phục hồi lên Google Drive và vào file, và hơn thế nữa!\n\nBạn có muốn mở khóa Slide for Reddit Pro không?</string>
     <string name="general_open_settings">Thanh tiện ích</string>
     <string name="general_sub_sync">Đồng bộ các mục theo dõi</string>
     <string name="general_gallerymode_ispro">Thư viện ảnh là chức năng của phiên bản Pro</string>
@@ -15,11 +13,9 @@
     <string name="general_shadowbox_comments_ispro">Theo dõi bình luận bằng Shadowbox là chức năng của phiên bản Pro</string>
     <string name="general_shadowbox_ispro">Chế độ Shadowbox là chức năng của phiên bản Pro</string>
     <string name="general_nighttheme_ispro">Tự động chuyển chế độ ban đêm là chức năng của phiên bản Pro</string>
-    <string name="general_backup_ispro">Sao lưu tùy chọn là chức năng của phiên bản Pro</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Đã bỏ lưu bài đăng</string>
     <string name="submission_info_saved">Đã lưu bài đăng</string>
-    <string name="submission_info_cached">Đã trữ bài đăng</string>
     <string name="submission_info_archived">Chủ đề này đã bị lưu trữ. Bạn không thể bình chọn hoặc bình luận</string>
     <string name="submission_post_saved">Đã lưu chủ đề</string>
     <string name="submission_info_hidden">Ẩn chủ đề mãi mãi</string>
@@ -47,11 +43,7 @@
     <string name="submission_comment_copied">Đã sao chép bình luận</string>
     <string name="submission_nocontent">Bài đăng không có nội dung</string>
     <string name="submission_link_copied">Đã sao chép địa chỉ</string>
-    <string name="submission_text_copied">Đã sao chép bài viết</string>
     <string name="submission_removed">Đã xóa bài đăng</string>
-    <plurals name="submission_points">
-        <item quantity="other">%d điểm</item>
-    </plurals>
     <plurals name="new_messages">
         <item quantity="other">%d tin nhắn mới</item>
     </plurals>
@@ -73,7 +65,6 @@
     <!-- User profile -->
     <string name="profile_add_friend">Thêm bạn</string>
     <string name="profile_remove_friend">Xóa bạn</string>
-    <string name="profile_manage_accounts">Quản lý tài khoản</string>
     <string name="profile_remove_account">Bạn thực sự muốn xóa tài khoản này?</string>
     <string name="profile_remove">Xóa tài khoản</string>
     <string name="profile_history">Lịch sử</string>

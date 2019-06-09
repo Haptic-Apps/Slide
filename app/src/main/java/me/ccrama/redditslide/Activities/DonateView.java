@@ -118,10 +118,6 @@ public class DonateView extends BaseActivityAnim {
         findViewById(R.id.donate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = "";
-                if (Authentication.isLoggedIn) {
-                    name = Authentication.name;
-                }
                 if (Reddit.mHelper != null) {
                     Reddit.mHelper.flagEndAsync();
                 }

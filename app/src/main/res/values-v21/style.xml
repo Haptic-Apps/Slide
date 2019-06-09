@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="swipestyle">
-        <item name="colorPrimary">#e64a19</item>
-        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
-        <item name="android:alertDialogStyle">@style/Theme.AppCompat.Dialog.Alert</item>
-        <item name="android:colorBackground">#000000</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="android:windowContentTransitions">true</item>
-    </style>
-
     <style name="Ripple.List">
         <item name="android:background">?android:selectableItemBackgroundBorderless</item>
     </style>

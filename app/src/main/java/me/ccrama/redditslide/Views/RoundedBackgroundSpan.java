@@ -15,8 +15,8 @@ import com.devspark.robototextview.RobotoTypefaces;
  */
 public class RoundedBackgroundSpan extends ReplacementSpan {
 
-    private int backgroundColor = 0;
-    private int textColor = 0;
+    private int backgroundColor;
+    private int textColor;
     private boolean half;
     private Context c;
 

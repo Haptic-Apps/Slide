@@ -99,7 +99,6 @@
     <string name="profile_friend">Ven</string>
     <string name="profile_add_friend">Tilføj ven</string>
     <string name="profile_remove_friend">Fjern ven</string>
-    <string name="profile_manage_accounts">Administrer konti</string>
     <string name="profile_remove_account">Vil du virkelig fjerne din konto?</string>
     <string name="profile_remove">Slet konto</string>
     <string name="profile_history">Historik</string>
@@ -146,12 +145,6 @@
     <string name="sorting_month">måned</string>
     <string name="sorting_year">år</string>
     <string name="sorting_all">altid</string>
-    <string name="sorting_search_hour">Sidste time</string>
-    <string name="sorting_search_day">Sidste 24 timer</string>
-    <string name="sorting_search_week">Sidste uge</string>
-    <string name="sorting_search_month">Sidste måned</string>
-    <string name="sorting_search_year">Sidste år</string>
-    <string name="sorting_search_all">For altid</string>
     <string name="sorting_defaultfor">Standard for /r/%1$s</string>
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">URL</string>
@@ -161,7 +154,6 @@
     <string name="editor_title">Titel</string>
     <string name="editor_err_msg">Prøv venligst igen om et par sekunder</string>
     <string name="editor_uploading_image">Upload billede til Imgur</string>
-    <string name="editor_self">Selftext</string>
     <string name="editor_select_img">Vælg billede</string>
     <string name="editor_hint_optional_body">Tekst (valgfrit)</string>
     <string name="editor_submit">Indsend et indlæg</string>
@@ -169,13 +161,11 @@
     <string name="delete_submission">Slet indlæg</string>
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Billede gemt</string>
-    <string name="video_saved">Video gemt</string>
     <string name="gif_saved">GIF gemt</string>
     <!-- General errors / errors without a category -->
     <string name="err_title">Ups! Noget gik galt</string>
     <string name="err_invalid_url">Ugyldig URL</string>
     <string name="err_loading_content">Fejl ved indlæsning af indhold</string>
-    <string name="err_connection_lost">Ups! Det ser ud, som om du har mistet internetforbindelsen. Forbind venligst til internettet og gå tilbage!</string>
     <string name="err_general">Ups! En fejl opstod</string>
     <string name="err_no_connection">Kunne ikke forbinde til Reddit. Vil du prøve igen?</string>
     <string name="err_retry_later">Prøv igen om et minut!</string>
@@ -204,7 +194,6 @@
     <string name="type_album">Album</string>
     <string name="type_nsfw_album">NSWF-album</string>
     <string name="type_img">Billede</string>
-    <string name="type_vid">Video</string>
     <string name="type_nsfw_video">NSWF-video</string>
     <string name="type_emb">Indlejret</string>
     <string name="type_nsfw_emb">NSWF-indlejring</string>
@@ -254,10 +243,7 @@
     <string name="mod_mail">Moderatorbesked</string>
     <string name="mod_mail_unread">Moderatorbesked ulæst</string>
     <string name="mod_modqueue">Moderatorkø</string>
-    <string name="mod_approve">Vil du virkelig godkende dette indlæg?</string>
     <string name="mod_approved">Indlæg godkendt</string>
-    <string name="mod_mark_nsfw">Vil du virkelig markere dette som NSFW?</string>
-    <string name="mod_remove_nsfw">Vil du virkelig fjerne dette NSWF-tag?</string>
     <!-- Toolbox-related stuff -->
     <!-- Pleasantly asking the user if he made his mind up -->
     <!-- If he did -->
