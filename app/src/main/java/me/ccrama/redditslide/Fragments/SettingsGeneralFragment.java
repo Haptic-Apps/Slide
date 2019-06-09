@@ -13,7 +13,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
-import android.text.Spannable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;

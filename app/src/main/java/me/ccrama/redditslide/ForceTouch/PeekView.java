@@ -35,7 +35,6 @@ import me.ccrama.redditslide.ForceTouch.util.NavigationUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PeekMediaView;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class PeekView extends FrameLayout {
 

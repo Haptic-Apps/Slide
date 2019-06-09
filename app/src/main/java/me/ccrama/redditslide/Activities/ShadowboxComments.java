@@ -7,32 +7,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
-import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import me.ccrama.redditslide.Adapters.CommentUrlObject;
-import me.ccrama.redditslide.Adapters.MultiredditPosts;
-import me.ccrama.redditslide.Adapters.SubmissionDisplay;
-import me.ccrama.redditslide.Adapters.SubredditPosts;
-import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.AlbumFullComments;
-import me.ccrama.redditslide.Fragments.MediaFragment;
 import me.ccrama.redditslide.Fragments.MediaFragmentComment;
-import me.ccrama.redditslide.Fragments.SelftextFull;
-import me.ccrama.redditslide.Fragments.TitleFull;
-import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.LastComments;
-import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.

@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 
 import me.ccrama.redditslide.R;

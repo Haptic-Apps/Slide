@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Adapters.ModLogAdapter;
 import me.ccrama.redditslide.Adapters.ModLogPosts;
-import me.ccrama.redditslide.Adapters.ModeratorAdapter;
-import me.ccrama.redditslide.Adapters.ModeratorPosts;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;

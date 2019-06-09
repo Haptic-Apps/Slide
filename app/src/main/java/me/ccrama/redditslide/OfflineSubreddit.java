@@ -1,7 +1,6 @@
 package me.ccrama.redditslide;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Environment;
 
 import com.fasterxml.jackson.databind.JsonNode;
