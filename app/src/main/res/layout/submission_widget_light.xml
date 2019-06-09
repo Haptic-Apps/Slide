@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/card"
@@ -31,7 +31,7 @@
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
             <RelativeLayout
@@ -40,8 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_below="@+id/bigpic"
-                android:layout_toLeftOf="@+id/secondMenu"
-                android:layout_toRightOf="@+id/thumbimage2">
+                android:layout_toEndOf="@+id/thumbimage2">
 
                 <TextView
                     android:id="@+id/title"
@@ -65,7 +64,7 @@
                 <TextView
                     android:id="@+id/information"
                     android:layout_width="wrap_content"
-                    android:layout_toRightOf="@+id/subreddit"
+                    android:layout_toEndOf="@+id/subreddit"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
                     android:textColor="#424242"
@@ -96,7 +95,7 @@
                     android:layout_height="36dp"
                     android:layout_below="@+id/information"
                     android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@+id/scoreimg"
+                    android:layout_toEndOf="@+id/scoreimg"
                     android:textColor="#424242"
                     android:gravity="center_vertical"
                     android:tag="tintactionbar"
@@ -113,7 +112,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
-                    android:layout_toRightOf="@+id/score"
+                    android:layout_toEndOf="@+id/score"
                     android:tag="tintactionbar"
                     android:contentDescription="@string/img_comments"
                     android:src="@drawable/commentwidget" />
@@ -123,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@+id/pointsimg"
+                    android:layout_toEndOf="@+id/pointsimg"
                     android:layout_below="@+id/information"
                     android:gravity="center_vertical"
                     android:textColor="#424242"

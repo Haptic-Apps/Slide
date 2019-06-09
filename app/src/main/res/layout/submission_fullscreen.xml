@@ -258,7 +258,7 @@
                     style="@style/Ripple.List"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
