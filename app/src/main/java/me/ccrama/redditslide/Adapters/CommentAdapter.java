@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.graphics.*;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentManager;
@@ -28,68 +29,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
-
-import net.dean.jraw.ApiException;
-import net.dean.jraw.RedditClient;
-import net.dean.jraw.http.UserAgent;
-import net.dean.jraw.managers.AccountManager;
-import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
-import net.dean.jraw.models.Contribution;
-import net.dean.jraw.models.Submission;
-import net.dean.jraw.models.VoteDirection;
-
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-
-import me.ccrama.redditslide.ActionStates;
+import me.ccrama.redditslide.*;
 import me.ccrama.redditslide.Activities.BaseActivity;
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.BuildConfig;
-import me.ccrama.redditslide.Constants;
-import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.Fragments.CommentPage;
-import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.ImageFlairs;
-import me.ccrama.redditslide.LastComments;
-import me.ccrama.redditslide.OpenRedditLink;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+import net.dean.jraw.ApiException;
+import net.dean.jraw.RedditClient;
+import net.dean.jraw.http.UserAgent;
+import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.models.*;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.*;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -569,7 +538,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     mPage.overrideFab = false;
                                     currentlyEditingId = "";
                                     backedText = "";
-                                    View view = ((Activity) mContext).getCurrentFocus();
+                                    View view = ((Activity) mContext).findViewById(android.R.id.content);
                                     if (view != null) {
                                         InputMethodManager imm =
                                                 (InputMethodManager) mContext.getSystemService(
@@ -722,6 +691,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                replyLine.setOnFocusChangeListener((v, b) -> {
+                    if (b) {
+                        v.postDelayed(() -> {
+                            if (!v.hasFocus())
+                                v.requestFocus();
+                        }, 100);
+                    }
+                });
+            }
             replyLine.requestFocus();
             InputMethodManager imm =
                     (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -749,7 +729,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 currentlyEditing = null;
                                 editingPosition = -1;
                                 //Hide soft keyboard
-                                View view = ((Activity) mContext).getCurrentFocus();
+                                View view = ((Activity) mContext).findViewById(android.R.id.content);
                                 if (view != null) {
                                     InputMethodManager imm =
                                             (InputMethodManager) mContext.getSystemService(
@@ -760,6 +740,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
         } else {
+            View view = ((Activity) mContext).findViewById(android.R.id.content);
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
             collapseAndHide(replyArea);
         }
     }
@@ -1433,7 +1418,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 builder.show();
                             }
                         });
-                        replyLine.requestFocus();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            replyLine.setOnFocusChangeListener((view, b) -> {
+                                System.out.println("focus: " + b);
+                                if (b) {
+                                    view.postDelayed(() -> {
+                                        System.out.println("delayed " + view.hasFocus());
+                                        if (!view.hasFocus())
+                                            view.requestFocus();
+                                    }, 100);
+                                }
+                            });
+                        }
+                        replyLine.requestFocus(); // TODO: Not working when called a second time
                         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
                                 Context.INPUT_METHOD_SERVICE);
                         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
@@ -1481,7 +1478,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             editingPosition = -1;
                         }
                         //Hide soft keyboard
-                        View view = ((Activity) mContext).getCurrentFocus();
+                        View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
                             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
                                     Context.INPUT_METHOD_SERVICE);
@@ -1497,7 +1494,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         currentlyEditingId = "";
                         backedText = "";
                         mPage.overrideFab = false;
-                        View view = ((Activity) mContext).getCurrentFocus();
+                        View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
                             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
                                     Context.INPUT_METHOD_SERVICE);
@@ -1676,7 +1673,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
-                            View view = ((Activity) mContext).getCurrentFocus();
+                            View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
                                         (InputMethodManager) mContext.getSystemService(
@@ -1744,7 +1741,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
-                            View view = ((Activity) mContext).getCurrentFocus();
+                            View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
                                         (InputMethodManager) mContext.getSystemService(
@@ -1801,7 +1798,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
-                            View view = ((Activity) mContext).getCurrentFocus();
+                            View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
                                         (InputMethodManager) mContext.getSystemService(
