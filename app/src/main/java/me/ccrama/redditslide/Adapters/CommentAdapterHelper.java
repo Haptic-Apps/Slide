@@ -1505,10 +1505,18 @@ public class CommentAdapterHelper {
         }
         if (comment.getAuthorFlair() != null && (comment.getAuthorFlair().getText() != null
                 || comment.getAuthorFlair().getCssClass() != null)) {
+
             String flairText = null;
-            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+            if (comment.getAuthorFlair() != null &&
+                    comment.getAuthorFlair().getText() != null &&
+                    !comment.getAuthorFlair().getText().isEmpty()) {
+
                 flairText = comment.getAuthorFlair().getText();
-            } else if (!comment.getAuthorFlair().getCssClass().isEmpty()) {
+
+            } else if (comment.getAuthorFlair() != null &&
+                    comment.getAuthorFlair().getCssClass() != null &&
+                    !comment.getAuthorFlair().getCssClass().isEmpty()) {
+
                 flairText = comment.getAuthorFlair().getCssClass();
             }
 
