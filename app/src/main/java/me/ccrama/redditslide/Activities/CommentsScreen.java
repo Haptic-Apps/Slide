@@ -13,25 +13,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
-
+import android.view.inputmethod.InputMethodManager;
+import me.ccrama.redditslide.Adapters.MultiredditPosts;
+import me.ccrama.redditslide.Adapters.SubmissionDisplay;
+import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.*;
+import me.ccrama.redditslide.Fragments.BlankFragment;
+import me.ccrama.redditslide.Fragments.CommentPage;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import me.ccrama.redditslide.Adapters.MultiredditPosts;
-import me.ccrama.redditslide.Adapters.SubmissionDisplay;
-import me.ccrama.redditslide.Adapters.SubredditPosts;
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Fragments.BlankFragment;
-import me.ccrama.redditslide.Fragments.CommentPage;
-import me.ccrama.redditslide.LastComments;
-import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PostLoader;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing the post and its
@@ -81,6 +74,12 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        InputMethodManager imm = (InputMethodManager) getSystemService(BaseActivityAnim.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
+    }
 
     @Override
     public void onDestroy() {
