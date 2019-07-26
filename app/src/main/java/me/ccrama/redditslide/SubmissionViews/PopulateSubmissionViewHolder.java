@@ -3,12 +3,7 @@ package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -32,14 +27,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
-
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
-
+import me.ccrama.redditslide.*;
+import me.ccrama.redditslide.Activities.*;
+import me.ccrama.redditslide.Adapters.CommentAdapter;
+import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
+import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Toolbox.ToolboxUI;
+import me.ccrama.redditslide.Views.AnimateHelper;
+import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Views.DoEditorActions;
+import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.*;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
 import net.dean.jraw.fluent.FluentRedditClient;
@@ -48,61 +53,9 @@ import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.*;
-
 import org.apache.commons.text.StringEscapeUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import me.ccrama.redditslide.ActionStates;
-import me.ccrama.redditslide.Activities.Album;
-import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.FullscreenVideo;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.ModQueue;
-import me.ccrama.redditslide.Activities.MultiredditOverview;
-import me.ccrama.redditslide.Activities.PostReadLater;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Reauthenticate;
-import me.ccrama.redditslide.Activities.Search;
-import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Activities.Tumblr;
-import me.ccrama.redditslide.Activities.TumblrPager;
-import me.ccrama.redditslide.Adapters.CommentAdapter;
-import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.CommentCacheAsync;
-import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DataShare;
-import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.Hidden;
-import me.ccrama.redditslide.LastComments;
-import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.OpenRedditLink;
-import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.ReadLater;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubmissionCache;
-import me.ccrama.redditslide.UserSubscriptions;
-import me.ccrama.redditslide.Views.AnimateHelper;
-import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Views.DoEditorActions;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.Vote;
-import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
-import me.ccrama.redditslide.util.OnSingleClickListener;
-import me.ccrama.redditslide.util.SubmissionParser;
+import java.util.*;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -1766,10 +1719,10 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    new AccountManager(Authentication.reddit).reply(submission, reason);
+                    String toDistinguish = new AccountManager(Authentication.reddit).reply(submission, reason);
                     new ModerationManager(Authentication.reddit).remove(submission, false);
                     new ModerationManager(Authentication.reddit).setDistinguishedStatus(
-                            Authentication.reddit.get(submission.getFullName()).get(0),
+                            Authentication.reddit.get("t1_" + toDistinguish).get(0),
                             DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();
