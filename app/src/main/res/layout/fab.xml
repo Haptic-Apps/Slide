@@ -3,6 +3,7 @@
     android:id="@+id/post_floating_action_button"
     android:layout_width="56dp"
     android:layout_height="56dp"
+    android:contentDescription="@string/btn_fab_post"
     app:srcCompat="@drawable/add"
     app:elevation="4dp"
     app:fabSize="normal"
