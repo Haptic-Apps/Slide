@@ -17,15 +17,14 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
 
     private Activity context;
 
-    public ArrayList<String> domains = new ArrayList<>();
     EditText domain;
 
     public SettingsHandlingFragment(Activity context) {
@@ -106,8 +105,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        SettingValues.alwaysExternal =
-                                SettingValues.alwaysExternal + ", " + domain.getText().toString();
+                        SettingValues.alwaysExternal.add(domain.getText().toString().toLowerCase(Locale.ENGLISH).trim());
                         domain.setText("");
                         updateFilters();
                     }
@@ -206,29 +204,17 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
     }
 
     private void updateFilters() {
-        domains = new ArrayList<>();
-
         ((LinearLayout) context.findViewById(R.id.domainlist)).removeAllViews();
-        for (String s : SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
-            if (!s.isEmpty() && (!Reddit.videoPlugin || (!s.contains("youtube.co") && !s.contains(
-                    "youtu.be")))) {
-                s = s.trim();
-                final String finalS = s;
-                domains.add(finalS);
+        for (String s : SettingValues.alwaysExternal) {
+            if (!s.isEmpty() && (!Reddit.videoPlugin || (!s.contains("youtube.co") && !s.contains("youtu.be")))) {
                 final View t = context.getLayoutInflater().inflate(R.layout.account_textview,
-                        ((LinearLayout) context.findViewById(R.id.domainlist)), false);
-
+                        context.findViewById(R.id.domainlist), false);
                 ((TextView) t.findViewById(R.id.name)).setText(s);
-                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        domains.remove(finalS);
-                        SettingValues.alwaysExternal = Reddit.arrayToString(domains);
-                        updateFilters();
-                    }
+                t.findViewById(R.id.remove).setOnClickListener(v -> {
+                    SettingValues.alwaysExternal.remove(s);
+                    updateFilters();
                 });
                 ((LinearLayout) context.findViewById(R.id.domainlist)).addView(t);
-
             }
         }
     }

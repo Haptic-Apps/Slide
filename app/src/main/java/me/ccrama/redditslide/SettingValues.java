@@ -10,8 +10,7 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
-import java.util.Calendar;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -198,12 +197,14 @@ public class SettingValues {
     public static String synccitName;
     public static String synccitAuth;
 
-    public static String  titleFilters;
-    public static String  textFilters;
-    public static String  domainFilters;
-    public static String  subredditFilters;
-    public static String  flairFilters;
-    public static String  alwaysExternal;
+    public static Set<String>   titleFilters;
+    public static Set<String>   textFilters;
+    public static Set<String>   domainFilters;
+    public static Set<String>   subredditFilters;
+    public static Set<String>   flairFilters;
+    public static Set<String>   alwaysExternal;
+    public static Set<String>   userFilters;
+
     public static boolean loadImageLq;
     public static boolean ignoreSubSetting;
     public static boolean hideNSFWCollection;
@@ -238,7 +239,6 @@ public class SettingValues {
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
     public static boolean typeInText;
-    public static String  userFilters;
     public static boolean notifSound;
     public static boolean cookies;
     public static boolean colorIcon;
@@ -373,14 +373,16 @@ public class SettingValues {
         nightEnd = prefs.getInt(PREF_NIGHT_END, 5);
 
         fabComments = prefs.getBoolean(PREF_COMMENT_FAB, false);
-        titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");
-        textFilters = prefs.getString(PREF_TEXT_FILTERS, "");
-        domainFilters = prefs.getString(PREF_DOMAIN_FILTERS, "");
-        subredditFilters = prefs.getString(PREF_SUBREDDIT_FILTERS, "");
-        alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
-        flairFilters = prefs.getString(PREF_FLAIR_FILTERS, "");
-        userFilters = prefs.getString(PREF_USER_FILTERS, "");
         largeLinks = prefs.getBoolean(PREF_LARGE_LINKS, false);
+
+        // SharedPreferences' StringSets should never be modified, so we duplicate them into a new HashSet
+        titleFilters = new HashSet<>(prefs.getStringSet(PREF_TITLE_FILTERS, new HashSet<>()));
+        textFilters = new HashSet<>(prefs.getStringSet(PREF_TEXT_FILTERS, new HashSet<>()));
+        domainFilters = new HashSet<>(prefs.getStringSet(PREF_DOMAIN_FILTERS, new HashSet<>()));
+        subredditFilters = new HashSet<>(prefs.getStringSet(PREF_SUBREDDIT_FILTERS, new HashSet<>()));
+        alwaysExternal = new HashSet<>(prefs.getStringSet(PREF_ALWAYS_EXTERNAL, new HashSet<>()));
+        flairFilters = new HashSet<>(prefs.getStringSet(PREF_FLAIR_FILTERS, new HashSet<>()));
+        userFilters = new HashSet<>(prefs.getStringSet(PREF_USER_FILTERS, new HashSet<>()));
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
         singleColumnMultiWindow = prefs.getBoolean(PREF_SINGLE_COLUMN_MULTI, false);
