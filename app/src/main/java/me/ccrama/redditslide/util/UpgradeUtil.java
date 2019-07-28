@@ -42,7 +42,7 @@ public class UpgradeUtil {
         if (colors != null && !colors.contains("Tutorial")) return;
 
         SharedPreferences upgradePrefs = context.getSharedPreferences("upgradeUtil", 0);
-        final int CURRENT = upgradePrefs.getInt("VERSION", 2);
+        final int CURRENT = upgradePrefs.getInt("VERSION", 0);
 
         // Exit if we're up to date
         if (CURRENT == VERSION) return;
@@ -89,6 +89,14 @@ public class UpgradeUtil {
             Set<String> flairFilters = flairFilterStr.isEmpty() ? new HashSet<>() :
                     new HashSet<>(Arrays.asList(flairFilterStr.replaceAll("^[,]+", "")
                             .toLowerCase(Locale.ENGLISH).split("[,]+")));
+            // verify flairs filters are valid
+            HashSet<String> invalid = new HashSet<>();
+            for (String s : flairFilters) {
+                if (!s.contains(":")) {
+                    invalid.add(s);
+                }
+            }
+            flairFilters.removeAll(invalid);
 
             Set<String> subredditFilters = subredditFilterStr.isEmpty() ? new HashSet<>() :
                     new HashSet<>(Arrays.asList(subredditFilterStr.replaceAll("^[,\\s]+", "")

@@ -1420,10 +1420,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         });
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             replyLine.setOnFocusChangeListener((view, b) -> {
-                                System.out.println("focus: " + b);
                                 if (b) {
                                     view.postDelayed(() -> {
-                                        System.out.println("delayed " + view.hasFocus());
                                         if (!view.hasFocus())
                                             view.requestFocus();
                                     }, 100);
