@@ -244,7 +244,8 @@ public class ContentType {
         if (basicType.equals(Type.LINK) && submission.getDataNode().has("media_embed") && submission
                 .getDataNode()
                 .get("media_embed")
-                .has("content")) {
+                .has("content")
+                && !submission.getDomain().contains("twitter.com")) {
             return Type.EMBEDDED;
         }
 
