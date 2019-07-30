@@ -21,8 +21,5 @@ android:
 notifications:
   email: false
 
-jdk:
-- oraclejdk8
-
 script:
 - ./gradlew assemble lint{With,No}GPlay{Debug,Release} test{With,No}GPlay{Debug,Release}UnitTest
