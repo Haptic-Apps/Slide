@@ -10,7 +10,18 @@ import android.support.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import me.ccrama.redditslide.Activities.*;
+import me.ccrama.redditslide.Activities.CommentsScreenSingle;
+import me.ccrama.redditslide.Activities.LiveThread;
+import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.MultiredditOverview;
+import me.ccrama.redditslide.Activities.OpenContent;
+import me.ccrama.redditslide.Activities.Profile;
+import me.ccrama.redditslide.Activities.Search;
+import me.ccrama.redditslide.Activities.SendMessage;
+import me.ccrama.redditslide.Activities.Submit;
+import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Activities.Website;
+import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -294,13 +305,25 @@ public class OpenRedditLink {
 
         Uri uri = LinkUtil.formatURL(url);
 
-        if (uri.getPath().startsWith("/amp/s/amp.reddit.com")) {
-            List<String> segments = uri.getPathSegments();
-            Uri.Builder builder = uri.buildUpon().authority("reddit.com");
+        if (uri.getHost().equals("www.google.com")) {
+            String ampURL = uri.getQueryParameter("url");
+            if (ampURL != null) {
+                Uri ampURI = Uri.parse(ampURL);
+                String host = ampURI.getHost();
+                if (host != null && host.equals("amp.reddit.com")) {
+                    uri = ampURI;
+                }
+            }
 
-            appendPathSegments(builder, segments.subList(3, segments.size()));
+            if (uri.getPath().startsWith("/amp/s/amp.reddit.com")) {
+                List<String> segments = uri.getPathSegments();
+                Uri.Builder builder = uri.buildUpon().authority("reddit.com").path(null);
 
-            uri = builder.build();
+                appendPathSegments(builder, segments.subList(3, segments.size()));
+
+                uri = builder.build();
+            }
+
         }
 
         if (uri.getHost().matches("(?i).+\\.reddit\\.com")) { // tests for subdomain
