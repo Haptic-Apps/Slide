@@ -541,8 +541,6 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 10:
-
-
                         String[] choices;
                         final String flair = submission.getSubmissionFlair().getText() != null
                                 ? submission.getSubmissionFlair().getText() : "";
@@ -558,21 +556,14 @@ public class PopulateSubmissionViewHolder {
                                             submission.getDomain())
                             };
 
-                            chosen = new boolean[]{
-                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase(
-                                            Locale.ENGLISH).split(",")).contains(
-                                            submission.getSubredditName()
-                                                    .toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                    SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                            .split(",")).contains(
-                                    submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                            chosen = new boolean[] {
+                                    SettingValues.subredditFilters.contains(
+                                            submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.userFilters.contains(
+                                            submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.domainFilters.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                                    SettingValues.alwaysExternal.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH))
                             };
                             oldChosen = chosen.clone();
@@ -589,24 +580,16 @@ public class PopulateSubmissionViewHolder {
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
                         }
-                        chosen = new boolean[]{
-                                Arrays.asList(
-                                        SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                        chosen = new boolean[] {
+                                SettingValues.subredditFilters.contains(
                                         submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(
-                                        submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.userFilters.contains(
+                                submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                SettingValues.domainFilters.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.alwaysExternal.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.flairFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(baseSub + ":" + flair)
+                                SettingValues.flairFilters.contains(baseSub + ":" + flair.toLowerCase(Locale.ENGLISH).trim())
                         };
                         oldChosen = chosen.clone();
 
@@ -625,142 +608,88 @@ public class PopulateSubmissionViewHolder {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 boolean filtered = false;
-                                                SharedPreferences.Editor e =
-                                                        SettingValues.prefs.edit();
+                                                SharedPreferences.Editor e = SettingValues.prefs.edit();
                                                 if (chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters
-                                                                    + (
-                                                                    (SettingValues.subredditFilters.isEmpty()
-                                                                            || SettingValues.subredditFilters
-                                                                            .endsWith(",")) ? ""
-                                                                            : ",")
-                                                                    + submission.getSubredditName();
+                                                    SettingValues.subredditFilters.add(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
-                                                    PostMatch.subreddits = null;
-                                                } else if (!chosen[0]
-                                                        && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters.replace(
-                                                                    submission.getSubredditName(),
-                                                                    "");
+                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                                    SettingValues.subredditFilters.remove(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
                                                     e.apply();
-                                                    PostMatch.subreddits = null;
                                                 }
                                                 if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters + ((
-                                                                    SettingValues.userFilters.isEmpty()
-                                                                            || SettingValues.userFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getAuthor();
+                                                    SettingValues.userFilters.add(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
-                                                    PostMatch.users = null;
-                                                } else if (!chosen[1]
-                                                        && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters.replace(
-                                                                    submission.getAuthor(), "");
+                                                } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                                    SettingValues.userFilters.remove(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
                                                     e.apply();
-                                                    PostMatch.users = null;
                                                 }
                                                 if (chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters + ((
-                                                                    SettingValues.domainFilters.isEmpty()
-                                                                            || SettingValues.domainFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
+                                                    SettingValues.domainFilters.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
-                                                    PostMatch.domains = null;
-                                                } else if (!chosen[2]
-                                                        && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters.replace(
-                                                                    submission.getDomain(), "");
+                                                } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.domainFilters.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
                                                     e.apply();
-                                                    PostMatch.domains = null;
                                                 }
                                                 if (chosen[3] && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal + ((
-                                                                    SettingValues.alwaysExternal.isEmpty()
-                                                                            || SettingValues.alwaysExternal
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                    SettingValues.alwaysExternal.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
-                                                } else if (!chosen[3]
-                                                        && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal.replace(
-                                                                    submission.getDomain(), "");
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                                    SettingValues.alwaysExternal.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
                                                 }
                                                 if (chosen.length > 4) {
                                                     if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters + ((
-                                                                        SettingValues.flairFilters.isEmpty()
-                                                                                || SettingValues.flairFilters
-                                                                                .endsWith(",")) ? ""
-                                                                        : ",") + (baseSub
-                                                                        + ":"
-                                                                        + flair);
-                                                        e.putString(
+                                                        SettingValues.flairFilters.add((baseSub + ":" + flair)
+                                                                .toLowerCase(Locale.ENGLISH).trim());
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                         filtered = true;
-                                                    } else if (!chosen[4]
-                                                            && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters.toLowerCase(
-                                                                        Locale.ENGLISH)
-                                                                        .replace((baseSub
-                                                                                        + ":"
-                                                                                        + flair).toLowerCase(
-                                                                                Locale.ENGLISH),
-                                                                                "");
-                                                        e.putString(
+                                                    } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
+                                                        SettingValues.flairFilters.remove((baseSub + ":" + flair)
+                                                                        .toLowerCase(Locale.ENGLISH).trim());
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                     }
                                                 }
                                                 if (filtered) {
                                                     e.apply();
-                                                    PostMatch.domains = null;
-                                                    PostMatch.subreddits = null;
-                                                    PostMatch.users = null;
-                                                    ArrayList<Contribution> toRemove =
-                                                            new ArrayList<>();
+                                                    ArrayList<Contribution> toRemove = new ArrayList<>();
                                                     for (Contribution s : posts) {
                                                         if (s instanceof Submission
-                                                                && PostMatch.doesMatch(
-                                                                (Submission) s)) {
+                                                                && PostMatch.doesMatch((Submission) s)) {
                                                             toRemove.add(s);
                                                         }
                                                     }
