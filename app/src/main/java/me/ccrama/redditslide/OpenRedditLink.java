@@ -153,7 +153,7 @@ public class OpenRedditLink {
                 // We say isSelfText=true for the "no selftext, no text, no url" condition because that's slide's
                 // default behavior for the submit page, whereas reddit's behavior would say isSelfText=false.
                 boolean isSelfText = uri.getBooleanQueryParameter("selftext", false)
-                        || uri.getBooleanQueryParameter("text", false)
+                        || uri.getQueryParameter("text") != null
                         || !uri.getBooleanQueryParameter("url", false);
 
                 i.putExtra(Submit.EXTRA_IS_SELF, isSelfText);
