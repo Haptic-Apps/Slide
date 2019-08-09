@@ -41,16 +41,31 @@ public class OpenRedditLinkTest {
                 is(RedditLinkType.COMMENT_PERMALINK));
         assertThat(getType("https://www.reddit.com/r/announcements/comments/eorhm//c19qk6j"),
                 is(RedditLinkType.COMMENT_PERMALINK));
+        assertThat(getType("https://www.reddit.com/r/announcements/comments/eorhm//c19qk6j/"),
+                is(RedditLinkType.COMMENT_PERMALINK));
     }
 
     @Test
     public void detectsHome() {
         assertThat(getType("https://www.reddit.com/"), is(RedditLinkType.HOME));
+        assertThat(getType("np.reddit.com"), is(RedditLinkType.HOME));
     }
 
     @Test
     public void detectsLive() {
         assertThat(getType("https://www.reddit.com/live/x9gf3donjlkq"), is(RedditLinkType.LIVE));
+    }
+
+    @Test
+    public void detectsMessage() {
+        assertThat(getType("https://www.reddit.com/message/compose?to=ccrama&subject=&message="),
+                is(RedditLinkType.MESSAGE));
+    }
+
+    @Test
+    public void detectsMultiReddit() {
+        assertThat(getType("https://www.reddit.com/user/alexendoo/m/reddit/"),
+                is(RedditLinkType.MULTIREDDIT));
     }
 
     @Test
@@ -65,7 +80,7 @@ public class OpenRedditLinkTest {
 
     @Test
     public void detectsSearch() {
-//        assertThat(getType("https://www.reddit.com/search?q=test"),
+//FIXME:        assertThat(getType("https://www.reddit.com/search?q=test"),
 //                is(RedditLinkType.SEARCH));
         assertThat(
                 getType("https://www.reddit.com/r/Android/search?q=test&restrict_sr=on&sort=relevance&t=all"),
@@ -91,13 +106,24 @@ public class OpenRedditLinkTest {
     }
 
     @Test
+    public void detectsSubmit() {
+//FIXME:        assertThat(getType("https://www.reddit.com/submit?selftext=true"),
+//                is(RedditLinkType.SUBMIT));
+        assertThat(getType("https://www.reddit.com/r/Android/submit"), is(RedditLinkType.SUBMIT));
+        assertThat(getType("https://www.reddit.com/r/Android/submit?selftext=true"),
+                is(RedditLinkType.SUBMIT));
+    }
+
+    @Test
     public void detectsSubreddit() {
         assertThat(getType("https://www.reddit.com/r/android"), is(RedditLinkType.SUBREDDIT));
+        assertThat(getType("https://android.reddit.com/"), is(RedditLinkType.SUBREDDIT));
     }
 
     @Test
     public void detectsUser() {
         assertThat(getType("https://www.reddit.com/u/l3d00m"), is(RedditLinkType.USER));
+        assertThat(getType("https://www.reddit.com/user/l3d00m"), is(RedditLinkType.USER));
     }
 
     @Test
