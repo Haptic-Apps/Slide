@@ -357,7 +357,7 @@ public class OpenRedditLink {
         if (!segments.isEmpty() && segments.get(0).matches("w|wiki|help")) {
             Uri.Builder builder = uri.buildUpon().path("/r/reddit.com/wiki");
 
-            appendPathSegments(builder, segments);
+            appendPathSegments(builder, segments.subList(1, segments.size()));
 
             uri = builder.build();
         }
@@ -396,7 +396,7 @@ public class OpenRedditLink {
         } else if (path.matches("(?i)/r/[a-z0-9-_.]+/submit.*")) {
             // Submit post link. Format: reddit.com/r/$subreddit/submit
             return RedditLinkType.SUBMIT;
-        } else if (path.matches("(?i)/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/[\\w-]*/.*")) {
+        } else if (path.matches("(?i)/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+/[\\w-]*/.+")) {
             // Permalink to comments. Format: reddit.com/r [or u or user]/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
         } else if (path.matches("(?i)/(?:r|u(?:ser)?)/[a-z0-9-_.]+/comments/\\w+.*")) {

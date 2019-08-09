@@ -153,7 +153,7 @@ public class OpenRedditLinkTest {
 
     @Test
     public void formatsProtocol() {
-        assertThat(formatURL("http://reddit.com"), is("https://reddit.com"));
+        assertThat(formatURL("http://reddit.com"), is("http://reddit.com"));
         assertThat(formatURL("Https://reddit.com"), is("https://reddit.com"));
         assertThat(formatURL("https://reddit.com"), is("https://reddit.com"));
     }
