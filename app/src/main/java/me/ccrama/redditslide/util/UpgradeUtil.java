@@ -19,12 +19,13 @@ package me.ccrama.redditslide.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import me.ccrama.redditslide.SettingValues;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+
+import me.ccrama.redditslide.SettingValues;
 
 public class UpgradeUtil {
     // Increment for each needed change
@@ -37,11 +38,15 @@ public class UpgradeUtil {
      * Runs any upgrade actions required between versions in an organised way
      */
     public static void upgrade(Context context) {
-        // Exit if this is the first start
         SharedPreferences colors = context.getSharedPreferences("COLOR", 0);
-        if (colors != null && !colors.contains("Tutorial")) return;
-
         SharedPreferences upgradePrefs = context.getSharedPreferences("upgradeUtil", 0);
+
+        // Exit if this is the first start
+        if (colors != null && !colors.contains("Tutorial")) {
+            upgradePrefs.edit().putInt("VERSION", VERSION).apply();
+            return;
+        }
+
         final int CURRENT = upgradePrefs.getInt("VERSION", 0);
 
         // Exit if we're up to date
