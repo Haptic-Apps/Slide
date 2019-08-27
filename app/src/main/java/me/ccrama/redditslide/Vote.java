@@ -13,19 +13,21 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.VoteDirection;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by ccrama on 9/19/2015.
  */
 public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 
     private final VoteDirection direction;
-    private View v;
-    private Context c;
+    private WeakReference<View> v;
+    private WeakReference<Context> c;
 
     public Vote(Boolean b, View v, Context c) {
         direction = b ? VoteDirection.UPVOTE : VoteDirection.DOWNVOTE;
-        this.v = v;
-        this.c = c;
+        this.v = new WeakReference<>(v);
+        this.c = new WeakReference<>(c);
         Reddit.setDefaultErrorHandler(c);
 
     }
@@ -34,8 +36,8 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 
         direction = VoteDirection.NO_VOTE;
 
-        this.v = v;
-        this.c = c;
+        this.v = new WeakReference<>(v);
+        this.c = new WeakReference<>(c);
 
     }
 
@@ -46,11 +48,11 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
             try {
                 new AccountManager(Authentication.reddit).vote(sub[0], direction);
             } catch (ApiException | RuntimeException e) {
-                ((Activity) c).runOnUiThread(new Runnable() {
+                ((Activity) c.get()).runOnUiThread(new Runnable() {
                     public void run() {
                         try {
-                            if (v != null && c != null && v.getContext() != null) {
-                                Snackbar s = Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT);
+                            if (v != null && c != null && v.get() != null) {
+                                Snackbar s = Snackbar.make(v.get(), R.string.vote_err, Snackbar.LENGTH_SHORT);
                                 View view = s.getView();
                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                 tv.setTextColor(Color.WHITE);
@@ -66,11 +68,11 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
                 e.printStackTrace();
             }
         } else {
-            ((Activity) c).runOnUiThread(new Runnable() {
+            ((Activity) c.get()).runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        if (v != null && c != null && v.getContext() != null) {
-                            Snackbar s = Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT);
+                        if (v != null && c != null && v.get() != null) {
+                            Snackbar s = Snackbar.make(v.get(), R.string.vote_err_login, Snackbar.LENGTH_SHORT);
                             View view = s.getView();
                             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
