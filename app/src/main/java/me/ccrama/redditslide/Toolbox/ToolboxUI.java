@@ -17,14 +17,18 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import me.ccrama.redditslide.Activities.Reauthenticate;
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.OpenRedditLink;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
+
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
@@ -44,6 +48,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import me.ccrama.redditslide.Activities.Reauthenticate;
+import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 
 /**
  * Misc UI stuff for toolbox - usernote display, removal display, etc.
@@ -346,6 +357,43 @@ public class ToolboxUI {
                 .show();
     }
 
+    /**
+     * Appends a usernote to builder if a usernote in the subreddit is available, and the current
+     * user has it enabled.
+     *
+     * @param context Android context
+     * @param builder The builder to append the usernote to
+     * @param subreddit The subreddit to look for notes in
+     * @param user The user to look for
+     */
+    public static void appendToolboxNote(Context context, SpannableStringBuilder builder,
+            String subreddit, String user) {
+        if (!SettingValues.toolboxEnabled || !Authentication.mod) {
+            return;
+        }
+
+        Usernotes notes = Toolbox.getUsernotes(subreddit);
+        if (notes == null) {
+            return;
+        }
+
+        List<Usernote> notesForUser = notes.getNotesForUser(user);
+        if (notesForUser == null || notesForUser.isEmpty()) {
+            return;
+        }
+
+        SpannableStringBuilder noteBuilder =
+                new SpannableStringBuilder("\u00A0" + notes.getDisplayNoteForUser(user) + "\u00A0");
+
+        noteBuilder.setSpan(
+                new RoundedBackgroundSpan(context.getResources().getColor(R.color.white),
+                        notes.getDisplayColorForUser(user), false, context), 0,
+                noteBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder.append(" ");
+        builder.append(noteBuilder);
+    }
+
     public static class UsernoteListAdapter extends ArrayAdapter<UsernoteListItem> {
         public UsernoteListAdapter(@NonNull Context context, String subreddit, String user) {
             super(context, R.layout.usernote_list_item, R.id.usernote_note_text);
@@ -365,7 +413,7 @@ public class ToolboxUI {
                     SpannableStringBuilder noteText = new SpannableStringBuilder(
                             usernotes.getWarningTextFromWarningIndex(note.getWarning(), true));
                     noteText.setSpan(new ForegroundColorSpan(
-                                    Color.parseColor(usernotes.getColorFromWarningIndex(note.getWarning()))),
+                                    usernotes.getColorFromWarningIndex(note.getWarning())),
                             0, noteText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     if (noteText.length() > 0) {
                         noteText.append(" ");
