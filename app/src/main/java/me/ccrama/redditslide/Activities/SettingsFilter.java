@@ -14,12 +14,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Visuals.Palette;
 
 import java.util.Locale;
 import java.util.Set;
+
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by l3d00m on 11/13/2015.
@@ -51,7 +52,20 @@ public class SettingsFilter extends BaseActivityAnim {
         domain.setOnEditorActionListener(makeOnEditorActionListener(SettingValues.domainFilters::add));
         subreddit.setOnEditorActionListener(makeOnEditorActionListener(SettingValues.subredditFilters::add));
         user.setOnEditorActionListener(makeOnEditorActionListener(SettingValues.userFilters::add));
-        flair.setOnEditorActionListener(makeOnEditorActionListener(SettingValues.flairFilters::add));
+
+        flair.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                String text = v.getText().toString().toLowerCase(Locale.ENGLISH).trim();
+                if (text.matches(".+:.+")) {
+                    SettingValues.flairFilters.add(text);
+                    v.setText("");
+                    updateFilters();
+                }
+            }
+
+            return false;
+        });
+
         updateFilters();
     }
 
@@ -66,8 +80,9 @@ public class SettingsFilter extends BaseActivityAnim {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (!v.getText().toString().toLowerCase(Locale.ENGLISH).trim().isEmpty()) {
-                        filtersAdd.accept(v.getText().toString().toLowerCase(Locale.ENGLISH).trim());
+                    String text = v.getText().toString().toLowerCase(Locale.ENGLISH).trim();
+                    if (!text.isEmpty()) {
+                        filtersAdd.accept(text);
                         v.setText("");
                         updateFilters();
                     }
