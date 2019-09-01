@@ -44,7 +44,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         // Calling get() method just one time so it wont produce NPEs
         // As subsequent access may produce NPEs
         View view = v.get();
-        Context context = null;
+        Context context = c.get();
         if (Authentication.isLoggedIn) {
             try {
                 new AccountManager(Authentication.reddit).vote(sub[0], direction);
