@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Services;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 
@@ -23,9 +24,6 @@ public class CommentScreenTask {
 
     public static class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
 
-        boolean locked = false;
-        boolean archived = false;
-        boolean contest = false;
         private WeakReference<CommentsScreenSingle> activity;
 
         public AsyncGetSubredditName(@NotNull CommentsScreenSingle activity) {
@@ -39,59 +37,62 @@ public class CommentScreenTask {
 
         @Override
         protected String doInBackground(String... params) {
-            try {
-                final Submission s = Authentication.reddit.getSubmission(params[0]);
-                if (SettingValues.storeHistory) {
-                    if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw()) {
-                        HasSeen.addSeen(s.getFullName());
-                    }
-                    LastComments.setComments(s);
-                }
-                HasSeen.setHasSeenSubmission(new ArrayList<Submission>() {{
-                    this.add(s);
-                }});
-
-                if(s.getSubredditName() == null){
-                    //subreddit = "Promoted";
-                    activity.get().update(s, "Promoted");
-                } else {//
-                    //subreddit = s.getSubredditName();
-                    activity.get().update(s, s.getSubredditName());
-                }
-                return "";
-
-            } catch (Exception e) {
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            CommentsScreenSingle screenSingle = this.activity.get();
+            if (screenSingle != null) {
                 try {
-                    activity.get().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(activity.get()).setTitle(
-                                    R.string.submission_not_found)
-                                    .setMessage(R.string.submission_not_found_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    activity.get().finish();
-                                                }
-                                            })
-                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            activity.get().finish();
-                                        }
-                                    })
-                                    .show();
+                    final Submission s = Authentication.reddit.getSubmission(params[0]);
+                    if (SettingValues.storeHistory) {
+                        if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw()) {
+                            HasSeen.addSeen(s.getFullName());
                         }
-                    });
-                } catch (Exception ignored) {
+                        LastComments.setComments(s);
+                    }
+                    HasSeen.setHasSeenSubmission(new ArrayList<Submission>() {{
+                        this.add(s);
+                    }});
 
+                    if(s.getSubredditName() == null){
+                        //subreddit = "Promoted";
+                        screenSingle.update(s, "Promoted");
+                    } else {//
+                        //subreddit = s.getSubredditName();
+                        screenSingle.update(s, s.getSubredditName());
+                    }
+                    return "";
+
+                } catch (Exception e) {
+                    try {
+                        screenSingle.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(screenSingle).setTitle(
+                                        R.string.submission_not_found)
+                                        .setMessage(R.string.submission_not_found_msg)
+                                        .setPositiveButton(R.string.btn_ok,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                                        int which) {
+                                                        screenSingle.finish();
+                                                    }
+                                                })
+                                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                            @Override
+                                            public void onDismiss(DialogInterface dialog) {
+                                                screenSingle.finish();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        });
+                    } catch (Exception ignored) {
+
+                    }
                 }
-                return null;
             }
-
-
+            return null;
         }
     }
 

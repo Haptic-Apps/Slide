@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Services;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.webkit.WebView;
 
 import net.dean.jraw.managers.InboxManager;
@@ -34,49 +35,55 @@ public class InboxTask {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (Authentication.reddit == null) {
-                new Authentication(context.get());
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            Context context = this.context.get();
+
+            if (Authentication.reddit == null && context != null) {
+                new Authentication(context);
             }
 
-            try {
-                Authentication.me = Authentication.reddit.me();
-                Authentication.mod = Authentication.me.isMod();
+            if (context != null) {
+                try {
+                    Authentication.me = Authentication.reddit.me();
+                    Authentication.mod = Authentication.me.isMod();
 
-                Authentication.authentication.edit()
-                        .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
-                        .apply();
+                    Authentication.authentication.edit()
+                            .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
+                            .apply();
 
-                if (Reddit.notificationTime != -1) {
-                    Reddit.notifications = new NotificationJobScheduler(context.get());
-                    Reddit.notifications.start(context.get());
-                }
-
-                if (Reddit.cachedData.contains("toCache")) {
-                    Reddit.autoCache = new AutoCacheScheduler(context.get());
-                    Reddit.autoCache.start(context.get());
-                }
-
-                final String name = Authentication.me.getFullName();
-                Authentication.name = name;
-                LogUtil.v("AUTHENTICATED");
-                UserSubscriptions.doCachedModSubs();
-
-                if (Authentication.reddit.isAuthenticated()) {
-                    final Set<String> accounts =
-                            Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                    if (accounts.contains(name)) { //convert to new system
-                        accounts.remove(name);
-                        accounts.add(name + ":" + Authentication.refresh);
-                        Authentication.authentication.edit()
-                                .putStringSet("accounts", accounts)
-                                .apply(); //force commit
+                    if (Reddit.notificationTime != -1) {
+                        Reddit.notifications = new NotificationJobScheduler(context);
+                        Reddit.notifications.start(context);
                     }
-                    Authentication.isLoggedIn = true;
-                    Reddit.notFirst = true;
+
+                    if (Reddit.cachedData.contains("toCache")) {
+                        Reddit.autoCache = new AutoCacheScheduler(context);
+                        Reddit.autoCache.start(context);
+                    }
+
+                    final String name = Authentication.me.getFullName();
+                    Authentication.name = name;
+                    LogUtil.v("AUTHENTICATED");
+                    UserSubscriptions.doCachedModSubs();
+
+                    if (Authentication.reddit.isAuthenticated()) {
+                        final Set<String> accounts =
+                                Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                        if (accounts.contains(name)) { //convert to new system
+                            accounts.remove(name);
+                            accounts.add(name + ":" + Authentication.refresh);
+                            Authentication.authentication.edit()
+                                    .putStringSet("accounts", accounts)
+                                    .apply(); //force commit
+                        }
+                        Authentication.isLoggedIn = true;
+                        Reddit.notFirst = true;
+                    }
+
+                } catch (Exception ignored){
+
                 }
-
-            } catch (Exception ignored){
-
             }
             return null;
         }
@@ -89,7 +96,6 @@ public class InboxTask {
 
         public ReadStatus(@NotNull Inbox inbox) {
             this.inbox = new WeakReference<>(inbox);
-
         }
 
         @Override
@@ -105,8 +111,11 @@ public class InboxTask {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (changed) { //restart the fragment
-                inbox.get().updateInboxUI();
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            Inbox inbox = this.inbox.get();
+            if (changed && inbox != null) { //restart the fragment
+                inbox.updateInboxUI();
             }
         }
     }

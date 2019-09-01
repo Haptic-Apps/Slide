@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Services;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.text.Html;
@@ -51,189 +52,194 @@ public class LiveThreadTask {
 
         @Override
         protected Void doInBackground(Void... params) {
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            LiveThread liveThread = this.activity.get();
+            if (liveThread != null) {
+                try {
+                    com.neovisionaries.ws.client.WebSocket ws = new WebSocketFactory().createSocket(liveThread.thread.getWebsocketUrl());
+                    ws.addListener(new WebSocketListener() {
+                        @Override
+                        public void onStateChanged(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketState newState) {
 
-            try {
-                com.neovisionaries.ws.client.WebSocket ws = new WebSocketFactory().createSocket(activity.get().thread.getWebsocketUrl());
-                ws.addListener(new WebSocketListener() {
-                    @Override
-                    public void onStateChanged(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketState newState) {
+                        }
 
-                    }
+                        @Override
+                        public void onConnected(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                Map<String, List<String>> headers) {
 
-                    @Override
-                    public void onConnected(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            Map<String, List<String>> headers) {
+                        }
 
-                    }
+                        @Override
+                        public void onConnectError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketException cause) {
 
-                    @Override
-                    public void onConnectError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketException cause) {
+                        }
 
-                    }
+                        @Override
+                        public void onDisconnected(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame serverCloseFrame,
+                                WebSocketFrame clientCloseFrame, boolean closedByServer) {
 
-                    @Override
-                    public void onDisconnected(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame serverCloseFrame,
-                            WebSocketFrame clientCloseFrame, boolean closedByServer) {
+                        }
 
-                    }
+                        @Override
+                        public void onFrame(com.neovisionaries.ws.client.WebSocket websocket,
+                                            WebSocketFrame frame) {
 
-                    @Override
-                    public void onFrame(com.neovisionaries.ws.client.WebSocket websocket,
-                                        WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onContinuationFrame(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onContinuationFrame(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onTextFrame(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onTextFrame(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onBinaryFrame(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onBinaryFrame(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onCloseFrame(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onCloseFrame(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onPingFrame(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onPingFrame(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onPongFrame(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onPongFrame(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onTextMessage(
+                                com.neovisionaries.ws.client.WebSocket websocket, String s) {
+                            liveThread.updateLive(s);
+                        }
 
-                    @Override
-                    public void onTextMessage(
-                            com.neovisionaries.ws.client.WebSocket websocket, String s) {
-                        activity.get().updateLive(s);
-                    }
+                        @Override
+                        public void onBinaryMessage(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                byte[] binary) {
 
-                    @Override
-                    public void onBinaryMessage(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            byte[] binary) {
+                        }
 
-                    }
+                        @Override
+                        public void onSendingFrame(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onSendingFrame(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onFrameSent(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onFrameSent(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onFrameUnsent(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketFrame frame) {
 
-                    @Override
-                    public void onFrameUnsent(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onError(com.neovisionaries.ws.client.WebSocket websocket,
+                                            WebSocketException cause) {
 
-                    @Override
-                    public void onError(com.neovisionaries.ws.client.WebSocket websocket,
-                                        WebSocketException cause) {
+                        }
 
-                    }
+                        @Override
+                        public void onFrameError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketException cause, WebSocketFrame frame) {
 
-                    @Override
-                    public void onFrameError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketException cause, WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onMessageError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketException cause, List<WebSocketFrame> frames) {
 
-                    @Override
-                    public void onMessageError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketException cause, List<WebSocketFrame> frames) {
+                        }
 
-                    }
+                        @Override
+                        public void onMessageDecompressionError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketException cause, byte[] compressed) {
 
-                    @Override
-                    public void onMessageDecompressionError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketException cause, byte[] compressed) {
+                        }
 
-                    }
+                        @Override
+                        public void onTextMessageError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketException cause, byte[] data) {
 
-                    @Override
-                    public void onTextMessageError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketException cause, byte[] data) {
+                        }
 
-                    }
+                        @Override
+                        public void onSendError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketException cause, WebSocketFrame frame) {
 
-                    @Override
-                    public void onSendError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketException cause, WebSocketFrame frame) {
+                        }
 
-                    }
+                        @Override
+                        public void onUnexpectedError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                WebSocketException cause) {
 
-                    @Override
-                    public void onUnexpectedError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            WebSocketException cause) {
+                        }
 
-                    }
+                        @Override
+                        public void handleCallbackError(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                Throwable cause) {
 
-                    @Override
-                    public void handleCallbackError(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            Throwable cause) {
+                        }
 
-                    }
+                        @Override
+                        public void onSendingHandshake(
+                                com.neovisionaries.ws.client.WebSocket websocket,
+                                String requestLine, List<String[]> headers) {
 
-                    @Override
-                    public void onSendingHandshake(
-                            com.neovisionaries.ws.client.WebSocket websocket,
-                            String requestLine, List<String[]> headers) {
-
-                    }
-                });
-                ws.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (WebSocketException e) {
-                e.printStackTrace();
+                        }
+                    });
+                    ws.connect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (WebSocketException e) {
+                    e.printStackTrace();
+                }
             }
+
             return null;
         }
     }
@@ -249,31 +255,46 @@ public class LiveThreadTask {
 
         @Override
         public void onPreExecute() {
-            d = new MaterialDialog.Builder(activity.get())
-                    .title(R.string.livethread_loading_title)
-                    .content(R.string.misc_please_wait)
-                    .progress(true, 100)
-                    .cancelable(false)
-                    .show();
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            LiveThread liveThread = this.activity.get();
+            if (liveThread != null) {
+                d = new MaterialDialog.Builder(activity.get())
+                        .title(R.string.livethread_loading_title)
+                        .content(R.string.misc_please_wait)
+                        .progress(true, 100)
+                        .cancelable(false)
+                        .show();
+            }
+
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            try {
-                activity.get().thread = new LiveThreadManager(Authentication.reddit).get(activity.get().getIntent().getStringExtra(EXTRA_LIVEURL));
-            } catch(Exception e){
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            LiveThread liveThread = this.activity.get();
+            if (liveThread != null) {
+                try {
+                    liveThread.thread = new LiveThreadManager(Authentication.reddit).get(activity.get().getIntent().getStringExtra(EXTRA_LIVEURL));
+                } catch(Exception e){
+                }
             }
+
             return null;
         }
 
         @Override
         public void onPostExecute(Void aVoid) {
-            if (activity.get().thread == null) {
-                activity.get().updateToolBar();
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            LiveThread liveThread = this.activity.get();
+            if (liveThread.thread == null) {
+                liveThread.updateToolBar();
             }
             else {
                 d.dismiss();
-                activity.get().updateToolBar();
+                liveThread.updateToolBar();
             }
         }
     }
@@ -288,14 +309,24 @@ public class LiveThreadTask {
 
         @Override
         protected Void doInBackground(Void... params) {
-            activity.get().paginator = new LiveThreadManager(Authentication.reddit).stream(activity.get().thread);
-            activity.get().updates = new ArrayList<>(activity.get().paginator.accumulateMerged(5));
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            LiveThread liveThread = this.activity.get();
+            if (liveThread != null) {
+                liveThread.paginator = new LiveThreadManager(Authentication.reddit).stream(liveThread.thread);
+                liveThread.updates = new ArrayList<>(activity.get().paginator.accumulateMerged(5));
+            }
             return null;
         }
 
         @Override
         public void onPostExecute(Void aVoid) {
-            activity.get().doLiveThreadUpdates();
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            LiveThread liveThread = this.activity.get();
+            if (liveThread != null) {
+                liveThread.doLiveThreadUpdates();
+            }
         }
     }
 
@@ -332,8 +363,11 @@ public class LiveThreadTask {
 
         @Override
         public void onPostExecute(Void aVoid) {
-            if (twitter != null && twitter.getHtml() != null) {
-                view.get().loadData(twitter.getHtml().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
+            // Calling get() method just one time so it wont produce NPEs
+            // As subsequent access may produce NPEs
+            WebView view = this.view.get();
+            if (twitter != null && twitter.getHtml() != null && view != null) {
+                view.loadData(twitter.getHtml().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
             }
         }
 
