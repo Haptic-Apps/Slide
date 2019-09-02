@@ -107,31 +107,22 @@ public class LiveThread extends BaseActivityAnim {
     public void onDestroy() {
         super.onDestroy();
         //todo finish
-        loadTwitter = null;
-        liveUpdateThread = null;
-        paginatorThread = null;
-        dialogThread = null;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
         if (loadTwitter != null) {
             loadTwitter.cancel(true);
+            loadTwitter = null;
         }
-
         if (liveUpdateThread != null) {
             liveUpdateThread.cancel(true);
+            liveUpdateThread = null;
         }
-
         if (dialogThread != null) {
             dialogThread.cancel(true);
+            paginatorThread = null;
         }
-
         if (paginatorThread != null) {
             paginatorThread.cancel(true);
+            dialogThread = null;
         }
-
     }
 
     @Override

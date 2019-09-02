@@ -220,17 +220,12 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (asyncGetSubredditName != null) {
-            asyncGetSubredditName.cancel(true);
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
-        asyncGetSubredditName = null;
+        if (asyncGetSubredditName != null) {
+            asyncGetSubredditName.cancel(true);
+            asyncGetSubredditName = null;
+        }
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

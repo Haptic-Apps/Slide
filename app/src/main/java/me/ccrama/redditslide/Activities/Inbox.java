@@ -218,20 +218,15 @@ public class Inbox extends BaseActivityAnim {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         if (authenticationVerify != null) {
             authenticationVerify.cancel(true);
+            authenticationVerify = null;
         }
         if (readStatus != null) {
             readStatus.cancel(true);
+            readStatus = null;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        authenticationVerify = null;
-        readStatus = null;
     }
 }
