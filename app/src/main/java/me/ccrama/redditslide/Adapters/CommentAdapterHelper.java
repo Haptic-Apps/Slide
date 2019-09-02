@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -36,24 +35,37 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 
-import me.ccrama.redditslide.Toolbox.*;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
-import net.dean.jraw.models.*;
+import net.dean.jraw.models.Comment;
+import net.dean.jraw.models.CommentNode;
+import net.dean.jraw.models.DistinguishedStatus;
+import net.dean.jraw.models.Ruleset;
+import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.SubredditRule;
+import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.text.StringEscapeUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
@@ -66,6 +78,8 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Toolbox.Toolbox;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.CommentOverflow;
@@ -1536,21 +1550,7 @@ public class CommentAdapterHelper {
             }
         }
 
-        if (SettingValues.toolboxEnabled
-                && Authentication.mod
-                && Toolbox.getUsernotes(comment.getSubredditName()) != null
-                && Toolbox.getUsernotes(comment.getSubredditName()).getNotesForUser(comment.getAuthor()) != null
-                && Toolbox.getUsernotes(comment.getSubredditName()).getNotesForUser(comment.getAuthor()).size() > 0) {
-            SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
-                    Toolbox.getUsernotes(comment.getSubredditName())
-                            .getDisplayNoteForUser(comment.getAuthor()) + "\u00A0");
-            note.setSpan(new RoundedBackgroundSpan(mContext.getResources().getColor(R.color.white),
-                    Color.parseColor(Toolbox.getUsernotes(
-                            comment.getSubredditName()).getDisplayColorForUser(comment.getAuthor())
-                    ), false, mContext), 0, note.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(note);
-            titleString.append(" ");
-        }
+        ToolboxUI.appendToolboxNote(mContext, titleString, comment.getSubredditName(), comment.getAuthor());
 
         if (adapter.removed.contains(comment.getFullName()) || (comment.getBannedBy() != null
                 && !adapter.approved.contains(comment.getFullName()))) {

@@ -1,15 +1,30 @@
 package me.ccrama.redditslide.Toolbox;
 
+import android.support.annotation.ColorInt;
 import android.util.Base64;
-import com.google.gson.*;
+
+import com.google.android.exoplayer2.util.ColorParser;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.SerializedName;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -142,36 +157,48 @@ public class Usernotes {
     }
 
     /**
-     * Get the hex color for the primary displayed usernote of a user
+     * Get the color for the primary displayed usernote of a user
      * @param user User
-     * @return Hex color string
+     * @return A color int
      */
-    public String getDisplayColorForUser(String user) {
+    @ColorInt
+    public int getDisplayColorForUser(String user) {
         if (getNotesForUser(user).size() > 0) {
             return getColorFromWarningIndex(getNotesForUser(user).get(0).getWarning());
         } else {
-            return "#808080";
+            return 0xFF808080;
         }
     }
 
     /**
-     * Get a color string from a warning index
+     * Get a color from a warning index
      * @param index Index
-     * @return Hex color string
+     * @return A color int
      */
-    public String getColorFromWarningIndex(int index) {
-        if (Toolbox.getConfig(subreddit) != null) { // Subs can have usernotes without a toolbox config
-            return Toolbox.getConfig(subreddit).getUsernoteColor(constants.getTypeName(index));
+    @ColorInt
+    public int getColorFromWarningIndex(int index) {
+        String color = "#808080";
+
+        ToolboxConfig config = Toolbox.getConfig(subreddit);
+        if (config != null) { // Subs can have usernotes without a toolbox config
+            color = config.getUsernoteColor(constants.getTypeName(index));
         } else {
-            String def = null;
-            if (Toolbox.DEFAULT_USERNOTE_TYPES.get(constants.getTypeName(index)) != null) {
-                def = Toolbox.DEFAULT_USERNOTE_TYPES.get(constants.getTypeName(index)).get("color");
+            Map<String, String> defaults =
+                    Toolbox.DEFAULT_USERNOTE_TYPES.get(constants.getTypeName(index));
+
+            if (defaults != null) {
+                String defaultColor = defaults.get("color");
+
+                if (defaultColor != null) {
+                    color = defaultColor;
+                }
             }
-            if (def != null) {
-                return def;
-            } else {
-                return "#808080"; // gray for non-typed or unknown type notes, same as Toolbox
-            }
+        }
+
+        try {
+            return ColorParser.parseCssColor(color);
+        } catch (IllegalArgumentException e) {
+            return 0xFF808080;
         }
     }
 
