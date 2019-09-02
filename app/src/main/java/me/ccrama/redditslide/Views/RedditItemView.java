@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Html;
@@ -81,21 +82,20 @@ public class RedditItemView extends RelativeLayout {
     public void loadUrl(PeekMediaView v, String url, ProgressBar progress) {
 
         this.progress = progress;
-        url = OpenRedditLink.formatRedditUrl(url);
+        Uri uri = OpenRedditLink.formatRedditUrl(url);
 
-        if (url.isEmpty()) {
+        if (uri == null) {
             v.doLoadLink(url);
         } else if (url.startsWith("np")) {
-            url = url.substring(2);
+            uri = uri.buildUpon().authority(uri.getHost().substring(2)).build();
         }
-        String[] parts = url.split("/");
-        if (parts[parts.length - 1].startsWith("?")) parts = Arrays.copyOf(parts, parts.length - 1);
+        List<String> parts = uri.getPathSegments();
 
-        contentType = OpenRedditLink.getRedditLinkType(url);
+        contentType = OpenRedditLink.getRedditLinkType(uri);
 
         switch (contentType) {
             case SHORTENED: {
-                new AsyncLoadSubmission(parts[1]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubmission(parts.get(0)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case LIVE: {
@@ -111,11 +111,11 @@ public class RedditItemView extends RelativeLayout {
                 break;
             }
             case COMMENT_PERMALINK: {
-                String submission = parts[4];
-                if (parts.length >= 7) {
+                String submission = parts.get(3);
+                if (parts.size() >= 6) {
                     //is likely a comment
-                    String end = parts[6];
-                    if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
+                    String end = parts.get(5);
+
                     if (end.length() >= 3) {
                         new AsyncLoadComment(end).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     } else {
@@ -128,19 +128,19 @@ public class RedditItemView extends RelativeLayout {
                 break;
             }
             case SUBMISSION: {
-                new AsyncLoadSubmission(parts[4]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubmission(parts.get(3)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case SUBMISSION_WITHOUT_SUB: {
-                new AsyncLoadSubmission(parts[2]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubmission(parts.get(1)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case SUBREDDIT: {
-                new AsyncLoadSubreddit(parts[2]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubreddit(parts.get(1)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case USER: {
-                String name = parts[2];
+                String name = parts.get(1);
                 new AsyncLoadProfile(name).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
