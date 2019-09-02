@@ -2278,7 +2278,6 @@ public class MainActivity extends BaseActivity
         SettingValues.prefs.edit()
                 .putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL, domains)
                 .apply();
-        getSharedPreferences("upgradeUtil", 0).edit().putInt("VERSION", 2).apply();
 
         SettingValues.alwaysExternal = domains;
     }
