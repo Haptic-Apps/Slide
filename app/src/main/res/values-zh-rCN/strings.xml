@@ -204,6 +204,7 @@
     <string name="edit_selftext">编辑帖文</string>
     <string name="delete_submission">删除提交</string>
     <string name="set_submission_flair">设置提交的签名</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">图片已保存</string>
     <string name="video_saved">视频已保存</string>
@@ -1111,7 +1112,6 @@
     <string name="mod_log">版主日志</string>
     <string name="navigation_bar_vote_gestures">导航栏投票手势</string>
     <string name="nav_gestures_description">滑动评论导航箭头来投票↑↓</string>
-    <string name="subreddit_sidebar_progress">正在获取侧栏...</string>
     <string name="manage_your_subreddits">管理你的版块</string>
     <string name="enlarge_links">放大链接</string>
     <string name="enlarge_links_warning">可能会导致一些线比其他线条更大, 但使链接更容易接触</string>
@@ -1134,7 +1134,7 @@
     <string name="setting_notification_piggybacking_desc">只有在官方Reddit应用程序获得推送通知时才能检查邮件</string>
     <string name="install_notif_piggyback">安装官方的 Reddit 应用程序以启用通知捎带</string>
     <string name="success_block_user">用户已屏蔽</string>
-    <string name="settings_highlight_time_desc"><![CDATA[需要在设置 > 帖子布局中启用“显示上次查看后的评论数量”]]></string>
+    <string name="settings_highlight_time_desc">需要在设置 &gt; 帖子布局中启用“显示上次查看后的评论数量”</string>
     <string name="settings_colored_time">为新评论使用彩色时间气泡</string>
     <string name="theme_deep">深色</string>
     <string name="type_vreddit">Reddit 视频</string>

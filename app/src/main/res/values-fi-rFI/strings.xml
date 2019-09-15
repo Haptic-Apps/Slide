@@ -178,6 +178,7 @@
     <string name="editor_hint_subreddit">Subredditti</string>
     <string name="editor_finding_title">Haetaan otsikkoa</string>
     <string name="edit_selftext">Muokkaa selftext</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Kuva tallennettu</string>
     <!-- General errors / errors without a category -->

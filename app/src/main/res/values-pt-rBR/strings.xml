@@ -201,6 +201,7 @@
     <string name="edit_selftext">Editar selftext</string>
     <string name="delete_submission">Apagar envio</string>
     <string name="set_submission_flair">Definir flair do envio</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Imagem Salva</string>
     <string name="video_saved">Vídeo salvo</string>
@@ -1065,7 +1066,6 @@
     <string name="mod_log">Log de Mod</string>
     <string name="navigation_bar_vote_gestures">Gestos de voto na barra de navegação</string>
     <string name="nav_gestures_description">Upvote e Downvote deslizando nas setas de navegação de comentários</string>
-    <string name="subreddit_sidebar_progress">Obtendo barra lateral...</string>
     <string name="manage_your_subreddits">Gerir os seus subreddits</string>
     <string name="enlarge_links">Ampliar links</string>
     <string name="enlarge_links_warning">Pode tornar algumas linhas maiores que outras, mas torna os links mais fáceis de tocar</string>
@@ -1086,7 +1086,7 @@
     <string name="setting_notification_piggybacking_desc">Verificar e-mail apenas quando o aplicativo oficial do Reddit receber uma notificação push</string>
     <string name="install_notif_piggyback">Instale o aplicativo de Reddit oficial para ativar a notificação Piggybacking</string>
     <string name="success_block_user">Usuário bloqueado com sucesso</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Requer contagem de comentários \'Mostrar comentário desde a última visita\' para ser habilitado em Configurações > Layout de postagem]]></string>
+    <string name="settings_highlight_time_desc">Requer contagem de comentários \'Mostrar comentário desde a última visita\' para ser habilitado em Configurações &gt; Layout de postagem</string>
     <string name="settings_colored_time">Bolha de tempo colorida para novos comentários</string>
     <string name="theme_deep">Profundo</string>
     <string name="type_vreddit">Vídeo do Reddit</string>

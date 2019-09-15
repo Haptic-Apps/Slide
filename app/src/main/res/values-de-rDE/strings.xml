@@ -83,6 +83,9 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="theme_black">AMOLED Schwarz</string>
     <string name="theme_dark_blue">Dunkelblau</string>
     <string name="night_mode">Nachtmodus</string>
+    <string name="disabled">Deaktiviert</string>
+    <string name="manual">Manuell</string>
+    <string name="automatic">Automatisch</string>
     <string name="theme_default_color">Hauptfarbe</string>
     <string name="theme_subreddit_color">Farbe ändern</string>
     <string name="theme_accent_color">Akzentfarbe</string>
@@ -92,6 +95,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="theme_amoled_contrast">AMOLED mit Kontrast</string>
     <string name="theme_night">Nacht Modus</string>
     <!-- Font settings -->
+    <string name="font_size_comment">Kommentar-Schriftgröße</string>
+    <string name="font_size_post">Beitrags-Schriftgröße</string>
     <string name="font_size_huge">Riesig</string>
     <string name="font_size_larger">Größer</string>
     <string name="font_size_large">Groß</string>
@@ -118,6 +123,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="drawer_moderation">Moderation</string>
     <string name="drawer_offline">Slide ist im Offline-Modus</string>
     <string name="drawer_offline_retry">Versuche, zum Online-Modus zu wechseln</string>
+    <string name="drawer_guest_mode">Als Gast browsen</string>
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_wiki">Subreddit-Wiki</string>
     <string name="sidebar_mods">Subreddit Moderatoren</string>
@@ -212,6 +218,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="edit_selftext">Selftext bearbeiten</string>
     <string name="delete_submission">Beitrag löschen</string>
     <string name="set_submission_flair">Beitrag-Flair setzen</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Foto gespeichert</string>
     <string name="video_saved">Video wurde gespeichert</string>
@@ -395,7 +402,13 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="btn_new">Neu</string>
     <string name="btn_upload">Hochladen</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Bearbeiten</string>
+    <string name="btn_hide">Ausblenden</string>
+    <string name="btn_mod">Moderieren</string>
+    <string name="btn_menu">Menü</string>
+    <string name="img_comments">Kommentare</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_unsave">Nicht mehr speichern</string>
     <!-- Backup -->
     <string name="backup_success">Sicherung erfolgreich!</string>
     <string name="backup_restoring">Wiederherstellen deiner Einstellungen</string>
@@ -432,10 +445,13 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="mod_btn_submission_flair_text">Flair-Text setzen</string>
     <string name="mod_btn_mark_nsfw">Als NSFW markieren</string>
     <string name="mod_btn_unmark_nsfw">NSFW-Markierung entfernen</string>
+    <string name="mod_btn_mark_spoiler">Als Spoiler markieren</string>
+    <string name="mod_btn_unmark_spoiler">Nicht mehr als Spoiler markieren</string>
     <string name="mod_btn_pin">Anpinnen</string>
     <string name="mod_btn_unpin">Lösen</string>
     <string name="mod_btn_remove">Entfernen</string>
     <string name="mod_btn_remove_reason">Mit Begründung entfernen</string>
+    <string name="mod_btn_spam">Als Spam markieren</string>
     <string name="mod_btn_author">Autorenprofil</string>
     <string name="mod_btn_ban">Bannen</string>
     <string name="mod_ban_user">Benutzer bannen</string>
@@ -464,6 +480,20 @@ Möchten Sie Slide for Reddit unterstützen?</string>
         <item quantity="other">%d Berichte anzeigen</item>
     </plurals>
     <!-- Toolbox-related stuff -->
+    <string name="mod_usernotes_view">Benutzernotizen anzeigen</string>
+    <string name="mod_usernotes_title">Benutzernotizen für %s</string>
+    <string name="mod_usernotes_add">Benutzernotiz hinzufügen</string>
+    <string name="toolbox_removal_title">Gründe für das Löschen von %s</string>
+    <string name="toolbox_removal_comment">Antworte mit einem Kommentar auf das Element, das entfernt wird</string>
+    <string name="toolbox_removal_sticky">Kommentar auf Entfernen anpinnen</string>
+    <string name="toolbox_removal_pm">Als private Nachricht senden</string>
+    <string name="toolbox_removal_modmail">Private Nachricht als Modmail senden</string>
+    <string name="toolbox_removal_both">Als private Nachricht und als Antwort senden</string>
+    <string name="toolbox_removal_none">Keine, nur die Entfernung protokollieren</string>
+    <string name="toolbox_removal_lock">Entfernten Thread sperren</string>
+    <string name="toolbox_note_text_required">Text erforderlich</string>
+    <string name="toolbox_note_default">Kein Typ</string>
+    <string name="toolbox_wiki_edit_reauth_question">Möchten Sie sich jetzt wieder in Slide einloggen?</string>
     <!-- Pleasantly asking the user if he made his mind up -->
     <string name="really_remove_submission">Diesen Beitrag wirklich entfernen?</string>
     <string name="really_pin_submission">Diesen Beitrag wirklich anpinnen?</string>
@@ -542,11 +572,13 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="settings_font_comment">Kommentar-Schriftart</string>
     <string name="settings_comment_crop">Hauptbild in Kommentaransicht zuschneiden</string>
     <string name="settings_general_scroll_read">Beiträge nach Vorbeiscrollen als gelesen markieren</string>
+    <string name="settings_link_chrome">Benutzerdefinierte Tabs</string>
     <string name="settings_image_location">Bild/GIF Speicher-Verzeichnis auswählen</string>
     <string name="settings_image_location_unset">Noch nicht festgelegt</string>
     <string name="settings_set_image_location">Bilder werden in %s gespeichert</string>
     <string name="settings_general_immersive_mode">Vollbildmodus</string>
     <string name="settings_general_immersive_mode_desc">Ausblenden der Status und Navigationsleisten (experimentell)</string>
+    <string name="settings_moderation">Moderation</string>
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_backup">Sichern &amp; Wiederherstellen</string>
     <string name="settings_title_default_theme">Haupt-Theme</string>
@@ -623,6 +655,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="settings_general_comment_last_visit">Anzahl der Kommentare seit dem letzten Besuch anzeigen</string>
     <string name="settings_fab_create">Zeige \"Kommentar erstellen\" FAB</string>
     <string name="settings_right_handed_comment_menu">Rechtshänder Kommentar Menü</string>
+    <string name="settings_reddit_description">Diese Einstellungen ändern was die Reddit API zu Slide zurücksendet.\n\nUm Thumbnails in allen Subreddits zu sehen, aktivierte \'Subreddit Medieneinstellungen ignorieren\'\n\nUm alle NSFW Inhalte anzuzeigen, schalte \'NSFW Fotos verbergen\' aus und schalte \'Ich bin über 18\' ein</string>
+    <string name="settings_reddit_media_pref">Subreddit Medieneinstellungen ignorieren</string>
     <string name="settings_description_synccit">Synccit erlaubt dir deinen Beitragsverlauf zwischen Geräten und deinem Browser zu synchronisieren</string>
     <string name="settings_description_view_type">Ansichtstypen beeinflussen die Hauptansicht und auch die Ansicht in Subreddits.\n\nKommentarfenster: Kommentare erscheinen neben Beiträgen durch wischen und werden beim Zurückwechseln automatisch gespeichert, damit du nichts verlierst.\n\nNicht-Subreddit Tabs: Wischen zwischen Subreddits ist deaktiviert\n\nSubreddit Tabs: Wischen um zwischen Subreddits zu wechseln</string>
     <string name="settings_comment_hide_selftext_image">Beitragsbild bei Selftext Beiträgen ausblenden</string>
@@ -650,7 +684,21 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="settings_theme_night_end_at">Ende um\u0020</string>
     <string name="settings_general_inbox_snd">Töne und Vibration</string>
     <string name="settings_enable_notifs">Benachrichtigungen für Posteingang aktivieren</string>
+    <string name="settings_mod_toolbox_header">Toolbox</string>
+    <string name="settings_mod_toolbox_enabled">Toolbox-Funktionalität aktivieren</string>
+    <string name="settings_mod_toolbox_desc">Kann die Leistung etwas reduzieren</string>
+    <string name="settings_mod_removal_reasons">Art des Grundes für Entfernen</string>
+    <string name="settings_mod_removal_slide">Slide \"mit Grund entfernen\"</string>
+    <string name="settings_mod_removal_reddit">Gründe für das Löschen von Reddit</string>
+    <string name="settings_mod_toolbox_refresh">Aktualisierung der Toolbox-Daten erzwingen</string>
+    <string name="settings_mod_toolbox_sticky">Angepinnte Kommentare auf Entfernen</string>
+    <string name="settings_mod_toolbox_refreshing">Toolbox-Daten für alle Subreddits aktualisieren</string>
     <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_night_mode">Nachtmodus</string>
+    <string name="toggle_immersive_mode">Vollbildmodus</string>
+    <string name="toggle_nsfw">NSFW-Inhalt anzeigen</string>
+    <string name="toggle_right_thumbnails">Rechtsbündige Thumbnails</string>
+    <string name="toggle_reader_mode">Lesemodus verwenden</string>
     <!-- View types -->
     <string name="view_type_tabs">Subreddit-Tabs</string>
     <string name="view_type_none">Keine Subreddit-Tabs</string>
@@ -714,6 +762,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="category_create_new">Neue Kategorie</string>
     <string name="profile_category_loading">Lade Kategorien</string>
     <string name="profile_category_select">Kategorie auswählen</string>
+    <string name="profile_saved_categories">Gespeicherte Kategorien</string>
     <!-- Setting subheaders -->
     <string name="sorting">Sortierung</string>
     <string name="display">Anzeige</string>
@@ -799,10 +848,10 @@ Möchten Sie Slide for Reddit unterstützen?</string>
         <item quantity="other">%d Sekunden</item>
     </plurals>
     <!-- Time: shorthand durations for example 1 hour → 1h -->
-    <string name="time_years_short">%dj</string>
-    <string name="time_days_short">%dt</string>
-    <string name="time_hours_short">%ds</string>
-    <string name="time_minutes_short">%dm</string>
+    <string name="time_years_short">%da</string>
+    <string name="time_days_short">%dd</string>
+    <string name="time_hours_short">%dh</string>
+    <string name="time_minutes_short">%dmin</string>
     <string name="time_seconds_short">%ds</string>
     <!-- Strings present during the login process -->
     <string name="login_subscribe_rslideforreddit">/r/slideforreddit abonnieren?</string>
@@ -940,6 +989,11 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="btn_report">Melden</string>
     <string name="report_post">Beitrag melden</string>
     <string name="report_comment">Kommentar melden</string>
+    <string name="report_loading">Lade Gründe&#8230;</string>
+    <string name="report_sub_rules">/r/%s Regeln</string>
+    <string name="report_site_rules">Reddit-Regeln</string>
+    <string name="report_another_reason">Anderer Grund</string>
+    <string name="report_other">Anders</string>
     <string name="input_reason_for_report">Grund für die Meldung</string>
     <string name="msg_report_sent">Beitrag wurde gemeldet</string>
     <!-- Unsorted ¯\\_(ツ)_/¯ -->
@@ -953,6 +1007,9 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="fab_hide">Angesehene Beiträge ausblenden</string>
     <string name="fab_create">Neuen Beitrag hinzufügen</string>
     <string name="fab_disabled">Deaktiviert</string>
+    <string name="fab_search">Beiträge suchen</string>
+    <string name="handling_internal_browser">Interner Browser</string>
+    <string name="handling_external_browser">Externer Browser</string>
     <string name="mode_list">Liste</string>
     <string name="mode_centered">Karte mit zentrierten Bild</string>
     <string name="mode_card">Karten</string>
@@ -1076,7 +1133,6 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="mod_log">Mod Log</string>
     <string name="navigation_bar_vote_gestures">Navigationsleisten Bewertungs-Gesten</string>
     <string name="nav_gestures_description">Bewerte positiv und negativ, indem du über die Kommentarnavigations-Pfeile wischst</string>
-    <string name="subreddit_sidebar_progress">Sidebar wird geladen...</string>
     <string name="manage_your_subreddits">Deine Subreddits verwalten</string>
     <string name="enlarge_links">Links vergrößern</string>
     <string name="enlarge_links_warning">Kann dazu führen, dass manche Zeilen größer sind als andere. Links sind jedoch einfacher zu klicken</string>
@@ -1087,6 +1143,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="mod_ban_reason_required">Grund ist erforderlich</string>
     <string name="settings_abbreviate_post_scores">Verkürze Post Punkte (z. B. 24,0 k)</string>
     <string name="settings_wide_depth_indicators">Breite Indikatoren für Kommentartiefe</string>
+    <string name="settings_link_reader_mode_title">Lesemodus verwenden</string>
+    <string name="settings_link_reader_mode_description">Alle Links im Lesemodus öffnen. Der Browser-Typ wird beim Öffnen im Lesemodus verwendet.</string>
     <string name="settings_link_reader_night">Link-Lesemodus und Nachtmodus</string>
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Bilder in Subreddit-spezifische Ordner speichern</string>
@@ -1097,7 +1155,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="setting_notification_piggybacking_desc">Nur wenn die offizielle Reddit-App eine Push-Benachrichtigung erhält, auf Mail prüfen</string>
     <string name="install_notif_piggyback">Installieren Sie die offizielle Reddit-App, um Benachrichtigungs-Piggybacking zu aktivieren</string>
     <string name="success_block_user">Benutzer erfolgreich geblockt</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Benötigt dass \'Anzahl der Kommentare seit dem letzten Besuch anzeigen\' in Einstellungen > Beitragslayout aktiviert ist]]></string>
+    <string name="settings_highlight_time_desc">Benötigt dass \'Anzahl der Kommentare seit dem letzten Besuch anzeigen\' in Einstellungen &gt; Beitragslayout aktiviert ist</string>
     <string name="settings_colored_time">Farbige Zeitblase für neue Kommentare</string>
     <string name="theme_deep">Tief</string>
     <string name="type_vreddit">Reddit Video</string>
@@ -1109,5 +1167,11 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="disable_replies_comment">Kommentar Antworten im Posteingang deaktivieren</string>
     <string name="replies_disabled_comment">Kommentar Antworten deaktiviert</string>
     <string name="replies_enabled_comment">Kommentar Antworten aktiviert</string>
+    <string name="replies_switch_accounts">Zu anderem Konto wechseln</string>
+    <string name="browser_choose">Browser auswählen</string>
+    <string name="search_settings">Einstellungen durchsuchen</string>
     <string name="firefox">Firefox</string>
+    <string name="show_collapse_expand_nav_bar">Zeige den aufklappen/zuklappen-Button in der Kommentarnavigation</string>
+    <string name="page_not_found">Seite nicht gefunden</string>
+    <string name="page_does_not_exist">Die angeforderte Seite existiert nicht</string>
 </resources>

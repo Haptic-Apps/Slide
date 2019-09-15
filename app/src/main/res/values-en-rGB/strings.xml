@@ -201,6 +201,7 @@
     <string name="edit_selftext">Edit selftext</string>
     <string name="delete_submission">Delete submission</string>
     <string name="set_submission_flair">Set submission flair</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Photo saved</string>
     <string name="video_saved">Video saved</string>
@@ -1065,7 +1066,6 @@
     <string name="mod_log">Mod log</string>
     <string name="navigation_bar_vote_gestures">Navigation bar vote gestures</string>
     <string name="nav_gestures_description">Upvote and downvote by swiping on the comment navigation arrows</string>
-    <string name="subreddit_sidebar_progress">Getting sidebar...</string>
     <string name="manage_your_subreddits">Manage your subreddits</string>
     <string name="enlarge_links">Enlarge links</string>
     <string name="enlarge_links_warning">May cause some lines to be bigger than others, but makes links easier to touch</string>
@@ -1086,7 +1086,7 @@
     <string name="setting_notification_piggybacking_desc">Check for mail only when the official Reddit app gets a push notification</string>
     <string name="install_notif_piggyback">Install the official Reddit app to enable Notification Piggybacking</string>
     <string name="success_block_user">User successfully blocked</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Requires \'Show comment count since last visit\' to be enabled in \'Post Layout\' under \'Settings\'.]]></string>
+    <string name="settings_highlight_time_desc">Requires \'Show comment count since last visit\' to be enabled in Settings &gt; Post Layout</string>
     <string name="settings_colored_time">Coloured time bubble for new comments</string>
     <string name="theme_deep">Deep</string>
     <string name="type_vreddit">Reddit Video</string>

@@ -102,6 +102,7 @@
     <string name="drawer_moderation">Moderacja</string>
     <string name="drawer_offline">Slide jest w trybie offline</string>
     <string name="drawer_offline_retry">Spróbuj przejść w tryb online</string>
+    <string name="drawer_guest_mode">Przeglądaj jako gość</string>
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_wiki">Wiki subreddita</string>
     <string name="sidebar_mods">Moderatorzy subreddita</string>
@@ -196,6 +197,7 @@
     <string name="edit_selftext">Edytuj tekst</string>
     <string name="delete_submission">Usuń post</string>
     <string name="set_submission_flair">Ustaw flarę postu</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Zdjęcie zapisane</string>
     <string name="video_saved">Film zapisany</string>
@@ -383,7 +385,15 @@
     <string name="btn_new">Nowe</string>
     <string name="btn_upload">Prześlij</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Edytuj</string>
+    <string name="btn_hide">Schowaj</string>
+    <string name="btn_mod">Moderuj</string>
+    <string name="btn_menu">Menu</string>
+    <string name="img_score">Ocena</string>
+    <string name="img_comments">Komentarze</string>
+    <string name="btn_expand">Rozwiń</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_collapse">Zwiń</string>
     <!-- Backup -->
     <string name="backup_success">Kopia zapasowa wykonana pomyślnie!</string>
     <string name="backup_restoring">Przywracanie ustawień</string>
@@ -418,10 +428,13 @@
     <string name="mod_btn_submission_flair_text">Ustaw tekst flary</string>
     <string name="mod_btn_mark_nsfw">Oznacz NSFW</string>
     <string name="mod_btn_unmark_nsfw">Odznacz NSFW</string>
+    <string name="mod_btn_mark_spoiler">Oznacz jako spoiler</string>
+    <string name="mod_btn_unmark_spoiler">Odznacz jako spoiler</string>
     <string name="mod_btn_pin">Przypnij</string>
     <string name="mod_btn_unpin">Odepnij</string>
     <string name="mod_btn_remove">Usuń</string>
     <string name="mod_btn_remove_reason">Usuń z powodem</string>
+    <string name="mod_btn_spam">Oznacz jako spam</string>
     <string name="mod_btn_author">Profil autora</string>
     <string name="mod_btn_ban">Zbanuj</string>
     <string name="mod_ban_user">Zbanuj użytkownika</string>
@@ -452,6 +465,8 @@
         <item quantity="other">Przejrzyj %d zgłoszeń</item>
     </plurals>
     <!-- Toolbox-related stuff -->
+    <string name="toolbox_removal_header">Dołącz nagłówek:</string>
+    <string name="toolbox_removal_footer">Dołącz stopkę:</string>
     <!-- Pleasantly asking the user if he made his mind up -->
     <string name="really_remove_submission">Naprawdę usunąć ten post?</string>
     <string name="really_pin_submission">Naprawdę przypiąć ten post?</string>
@@ -535,6 +550,7 @@
     <string name="settings_set_image_location">Obrazy będą zapisywane w %s</string>
     <string name="settings_general_immersive_mode">Tryb pełnoekranowy</string>
     <string name="settings_general_immersive_mode_desc">Ukryj paski statusu i nawigacji (eksperymentalne)</string>
+    <string name="settings_moderation">Moderacja</string>
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_backup">Kopia zapasowa i przywracanie</string>
     <string name="settings_title_default_theme">Główny motyw</string>
@@ -638,7 +654,12 @@
     <string name="settings_theme_night_end_at">Kończ o\u0020</string>
     <string name="settings_general_inbox_snd">Dźwięki i wibracje</string>
     <string name="settings_enable_notifs">Włącz powiadomienia w skrzynce</string>
+    <string name="settings_mod_toolbox_desc">Może lekko zmniejszyć wydajność</string>
+    <string name="settings_mod_toolbox_message">Metoda wysyłania przyczyny usunięcia</string>
+    <string name="settings_mod_toolbox_lock">Zablokuj wątki po zostawieniu powodu usunięcia</string>
     <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_night_mode">Tryb nocny</string>
+    <string name="toggle_nsfw">Pokaż zawartość NSFW</string>
     <!-- View types -->
     <string name="view_type_tabs">Z zakładkami</string>
     <string name="view_type_none">Bez zakładek</string>
@@ -701,6 +722,7 @@
     <string name="category_create_new">Nowa kategoria</string>
     <string name="profile_category_loading">Ładowanie kategorii</string>
     <string name="profile_category_select">Wybierz kategorię</string>
+    <string name="profile_saved_categories">Zapisz kategorie</string>
     <!-- Setting subheaders -->
     <string name="sorting">Sortowanie</string>
     <string name="display">Wyświetlanie</string>
@@ -951,6 +973,8 @@
     <string name="fab_hide">Ukryj przeglądnięte posty</string>
     <string name="fab_create">Utwórz nowy post</string>
     <string name="fab_disabled">Wyłączony</string>
+    <string name="handling_internal_browser">Wbudowana przeglądarka</string>
+    <string name="handling_external_browser">Zewnętrzna przeglądarka</string>
     <string name="mode_list">Lista</string>
     <string name="mode_centered">Karty z wycentrowanym obrazem</string>
     <string name="mode_card">Karta</string>
@@ -1070,7 +1094,6 @@
     <string name="mod_log">Dziennik moderaci</string>
     <string name="navigation_bar_vote_gestures">Gesty głosowania paska nawigacji</string>
     <string name="nav_gestures_description">Głosuj przesuwając strzałki w pasku nawigacji komentarzy</string>
-    <string name="subreddit_sidebar_progress">Pobieranie sidebara...</string>
     <string name="manage_your_subreddits">Zarządzaj subredditami</string>
     <string name="enlarge_links">Powiększ linki</string>
     <string name="enlarge_links_warning">Może powiększać niektóre linie, lecz ułatwia klikania linków</string>
@@ -1080,10 +1103,16 @@
     <string name="sub_post_notifs_msg">Slide będzie sprawdzał nowe posty podczas sprawdzania skrzynki odbiorczej (powiadomienia muszą być włączone)</string>
     <string name="mod_ban_reason_required">Wymagany powód</string>
     <string name="settings_abbreviate_post_scores">Skracaj wyniki postów (np. 24.0k)</string>
+    <string name="settings_wide_depth_indicators">Szeroka indykacja drzew komentarzy</string>
+    <string name="settings_link_reader_mode_title">Użyj trybu czytnika</string>
     <string name="theme_pixel">Piksel</string>
     <string name="content_settings">Ustawienia treści</string>
     <string name="setting_titleTop">Pokaż tytuł powyżej linią informacji</string>
+    <string name="theme_deep">Głęboki</string>
     <string name="btn_reset_color">ZRESTARTUJ KOLOR</string>
     <string name="settings_shortlink_description">Linki będą udostępniane jako \'https://redd.it/\'</string>
+    <string name="replies_disabled_comment">Odpowiedzi do komentarzy są wyłączone</string>
+    <string name="replies_enabled_comment">Odpowiedzi do komentarzy są włączone</string>
+    <string name="browser_choose">Wybierz przeglądarkę</string>
     <string name="firefox">Firefox</string>
 </resources>

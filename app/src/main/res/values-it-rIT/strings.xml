@@ -74,6 +74,7 @@
     <string name="night_mode">Modalità Notte</string>
     <string name="disabled">Disabilitato</string>
     <string name="manual">Manuale</string>
+    <string name="automatic">Automatico</string>
     <string name="theme_default_color">Colore principale</string>
     <string name="theme_subreddit_color">Cambia colore</string>
     <string name="theme_accent_color">Colore particolari</string>
@@ -83,6 +84,8 @@
     <string name="theme_amoled_contrast">AMOLED con contrasto</string>
     <string name="theme_night">Tema notturno</string>
     <!-- Font settings -->
+    <string name="font_size_comment">Dimensione carattere del commento</string>
+    <string name="font_size_post">Dimensione carattere del post</string>
     <string name="font_size_huge">Enorme</string>
     <string name="font_size_larger">Più grande</string>
     <string name="font_size_large">Grande</string>
@@ -109,6 +112,7 @@
     <string name="drawer_moderation">Moderazione</string>
     <string name="drawer_offline">Slide è in modalità offline</string>
     <string name="drawer_offline_retry">Prova ad entrare in modalità online</string>
+    <string name="drawer_guest_mode">Naviga come ospite</string>
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_wiki">Wiki del subreddit</string>
     <string name="sidebar_mods">Moderatori del subreddit</string>
@@ -145,6 +149,7 @@
     <string name="profile_info">Informazioni profilo</string>
     <string name="profile_block_user">Blocca utente</string>
     <!-- Comment text options -->
+    <string name="comment_gild">Premia il commento</string>
     <string name="comment_share">Condividi commento</string>
     <string name="comment_delete">Elimina commento</string>
     <string name="comment_delete_msg">Vuoi davvero eliminare questo commento? Quest\'azione è irreversibile.</string>
@@ -203,6 +208,7 @@
     <string name="edit_selftext">Modifica post di testo</string>
     <string name="delete_submission">Elimina post</string>
     <string name="set_submission_flair">Imposta etichetta del post</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Foto salvata</string>
     <string name="video_saved">Video salvato</string>
@@ -253,6 +259,7 @@
     <string name="multireddit_title_empty">Il titolo non può essere vuoto</string>
     <string name="multireddit_title_empty_msg">Inserisci un titolo per il multireddit</string>
     <string name="multireddit_no_subs">Nessun subreddit aggiunto</string>
+    <string name="multireddit_save_err">Il titolo di questo multireddit esiste già o non c\'è spazio per altri subreddit qui</string>
     <string name="multireddit_no_subs_msg">Inserisci qualche subreddit cliccando sul bottone “+”!</string>
     <string name="multireddit_selector">Seleziona i subreddit da aggiungere</string>
     <string name="multireddit_create_hint">Nome multireddit</string>
@@ -386,7 +393,20 @@
     <string name="btn_new">Nuovi</string>
     <string name="btn_upload">Carica</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Modifica</string>
+    <string name="btn_hide">Nascondi</string>
+    <string name="btn_mod">Modera</string>
+    <string name="btn_upvote">Vota positivamente</string>
+    <string name="btn_downvote">Vota negativamente</string>
+    <string name="btn_menu">Menu</string>
+    <string name="img_score">Punteggio</string>
+    <string name="img_comments">Commenti</string>
+    <string name="btn_expand">Espandi</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Votato positivamente</string>
+    <string name="btn_downvoted">Votato negativamente</string>
+    <string name="btn_unsave">Annulla salvataggio</string>
+    <string name="btn_collapse">Nascondi</string>
     <!-- Backup -->
     <string name="backup_success">Backup riuscito!</string>
     <string name="backup_restoring">Ripristino delle tue impostazioni in corso</string>
@@ -423,10 +443,13 @@
     <string name="mod_btn_submission_flair_text">Imposta testo dell\'etichetta</string>
     <string name="mod_btn_mark_nsfw">Segna come NSFW</string>
     <string name="mod_btn_unmark_nsfw">Togli flag NSFW</string>
+    <string name="mod_btn_mark_spoiler">Segna come spoiler</string>
+    <string name="mod_btn_unmark_spoiler">Non segnare come spoiler</string>
     <string name="mod_btn_pin">Metti in evidenza</string>
     <string name="mod_btn_unpin">Non mettere più in evidenza</string>
     <string name="mod_btn_remove">Rimuovi</string>
     <string name="mod_btn_remove_reason">Rimuovi con motivazione</string>
+    <string name="mod_btn_spam">Segna come spam</string>
     <string name="mod_btn_author">Profilo autore</string>
     <string name="mod_btn_ban">Ban</string>
     <string name="mod_ban_user">Banna utente</string>
@@ -437,6 +460,7 @@
     <string name="mod_ban_reason">Motivo del ban</string>
     <string name="mod_ban_note_mod">Nota del moderatore (opzionale)</string>
     <string name="mod_ban_note_user">Messaggio dell\'utente (opzionale)</string>
+    <string name="mod_ban_time">Durata del ban - lasciare bianco per permanente</string>
     <string name="mod_ban_title">Ban /u/%1$s</string>
     <string name="mod_ban_requirements">Sono richieste motivazioni e durata</string>
     <string name="mod_remove_template">Rimosso per\u0020</string>
@@ -455,6 +479,25 @@
         <item quantity="other">Leggi %d segnalazioni</item>
     </plurals>
     <!-- Toolbox-related stuff -->
+    <string name="mod_usernotes_view">Visualizza note utente</string>
+    <string name="mod_usernotes_title">Note utente per %s</string>
+    <string name="mod_usernotes_add">Aggiungi una nota utente</string>
+    <string name="toolbox_removal_title">Motivi di rimozione per %s</string>
+    <string name="toolbox_removal_header">Aggiungi intestazione:</string>
+    <string name="toolbox_removal_footer">Aggiungi a piè di pagina:</string>
+    <string name="toolbox_removal_comment">Rispondi con un commento all\'oggetto che è stato rimosso</string>
+    <string name="toolbox_removal_sticky">Fissa in alto il commento di rimozione</string>
+    <string name="toolbox_removal_pm">Manda come PM</string>
+    <string name="toolbox_removal_modmail">Manda PM come modmail</string>
+    <string name="toolbox_removal_both">Manda sia come PM che come risposta</string>
+    <string name="toolbox_removal_none">Niente, aggiungi solo il log della rimozione</string>
+    <string name="toolbox_removal_lock">Blocca la discussione rimossa</string>
+    <string name="toolbox_logreason_placeholder">Motivo del log</string>
+    <string name="toolbox_note_text_required">È necessario il testo della nota</string>
+    <string name="toolbox_note_text_placeholder">Qualcosa sull\'utente&#8230;</string>
+    <string name="toolbox_note_default">Nessun tipo</string>
+    <string name="toolbox_wiki_edit_reauth">Per aggiungere o rimuovere note utente, Slide deve re-autenticarti</string>
+    <string name="toolbox_wiki_edit_reauth_question">Vuoi effettuare nuovamente l\'accesso a Slide ora?</string>
     <!-- Pleasantly asking the user if he made his mind up -->
     <string name="really_remove_submission">Vuoi davvero rimuovere questo post?</string>
     <string name="really_pin_submission">Vuoi davvero fissare in alto questo post?</string>
@@ -533,11 +576,14 @@
     <string name="settings_font_comment">Carattere dei commenti</string>
     <string name="settings_comment_crop">Taglia immagine troppo grande nella vista commenti</string>
     <string name="settings_general_scroll_read">Segna post come già letti quando vengono scrollati</string>
+    <string name="settings_link_chrome">Schede personalizzate</string>
     <string name="settings_image_location">Salva immagini/GIF in</string>
     <string name="settings_image_location_unset">Non ancora impostato</string>
     <string name="settings_set_image_location">Le immagini verranno salvate in %s</string>
     <string name="settings_general_immersive_mode">Modalità schermo intero immersive</string>
     <string name="settings_general_immersive_mode_desc">Nascondi le barre di stato e di navigazione (sperimentale)</string>
+    <string name="settings_general_title_drawer_items">Elementi del Menu</string>
+    <string name="settings_general_subtitle_drawer_items">Seleziona quali elementi del menu visualizzare</string>
     <string name="settings_moderation">Moderazione</string>
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_backup">Backup &amp; ripristino</string>
@@ -549,7 +595,7 @@
     <string name="settings_title_sub_theme">Temi dei subreddit</string>
     <string name="settings_title_sorting">Ordine predefinito</string>
     <string name="settings_title_support">Contribuisci con una donazione</string>
-    <string name="settings_title_about">Informazioni su</string>
+    <string name="settings_title_about">Informazioni</string>
     <string name="settings_title_multi_column">Multi-colonna</string>
     <string name="settings_title_fab">Floating Action Button</string>
     <string name="settings_title_comments">Commenti</string>
@@ -615,6 +661,8 @@
     <string name="settings_general_comment_last_visit">Mostra il numero di commenti dall\'ultima visita</string>
     <string name="settings_fab_create">Mostra FAB \"crea commento\"</string>
     <string name="settings_right_handed_comment_menu">Menu di risposta dei commenti per destrorsi</string>
+    <string name="settings_reddit_description">Queste impostazioni cambiano cosa le API di Reddit ritornano a Slide.\n\nPer vedere le miniature in tutti i subreddit, cambia la Modalità miniatura in \"Mostra sempre\"\n\nPer vedere tutti i contenuti NSFW disattiva \"Nascondi tutte le foto NSFW\" e invece attiva \"Ho più di 18 anni e voglio visualizzare contenuti NSFW\"</string>
+    <string name="settings_reddit_media_pref">Ignora le preferenze sui contenuti multimediali del subreddit</string>
     <string name="settings_description_synccit">Synccit ti permette di sincronizzare la cronologia del post tra i tuoi dispositivi e il browser</string>
     <string name="settings_description_view_type">La scelta della visualizzazione incide sia sulla schermata principale sia su quella di un singolo subreddit.\n\nPannello commenti: i commenti scorrono dal fianco dei post e viene ricordato il punto in cui sei arrivato a leggere\n\nSenza schede: non puoi fare swipe tra i subreddit\n\nSubreddit a schede: fai slide tra i tuoi subreddit</string>
     <string name="settings_comment_hide_selftext_image">Nascondi immagine principale nei post di testo</string>
@@ -643,7 +691,24 @@
     <string name="settings_general_inbox_snd">Suoni e vibrazioni</string>
     <string name="settings_enable_notifs">Abilità le notifiche dei messaggi in arrivo</string>
     <string name="settings_mod_toolbox_header">Toolbox</string>
+    <string name="settings_mod_toolbox_enabled">Abilita funzionalità Toolbox</string>
+    <string name="settings_mod_toolbox_desc">Può causare una lieve diminuzione delle prestazioni</string>
+    <string name="settings_mod_removal_reasons">Tipologia di ragione dell\'eliminazione</string>
+    <string name="settings_mod_removal_slide">Slide \"rimuovi con motivazione\"</string>
+    <string name="settings_mod_removal_toolbox">Motivi della rimozione della Toolbox</string>
+    <string name="settings_mod_removal_reddit">Motivi della rimozione di Reddit</string>
+    <string name="settings_mod_toolbox_refresh">Forza aggiornamento dati Toolbox</string>
+    <string name="settings_mod_toolbox_message">Metodo di invio dei motivi di rimozione</string>
+    <string name="settings_mod_toolbox_sticky">Fissa in alto il commento di rimozione</string>
+    <string name="settings_mod_toolbox_lock">Blocca i thread dopo aver lasciato un motivo di rimozione</string>
+    <string name="settings_mod_toolbox_modmail">Invia motivi di rimozione come subreddit</string>
+    <string name="settings_mod_toolbox_refreshing">Aggiornamento dati Toolbox per tutti i subreddit</string>
     <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_night_mode">Modalità notturna</string>
+    <string name="toggle_immersive_mode">Modalità immersiva</string>
+    <string name="toggle_nsfw">Mostra contenuto NSFW</string>
+    <string name="toggle_right_thumbnails">Miniature allineate a destra</string>
+    <string name="toggle_reader_mode">Usa la modalità lettura</string>
     <!-- View types -->
     <string name="view_type_tabs">Subreddit a schede</string>
     <string name="view_type_none">Senza schede</string>
@@ -707,6 +772,7 @@
     <string name="category_create_new">Nuova categoria</string>
     <string name="profile_category_loading">Caricando categorie</string>
     <string name="profile_category_select">Seleziona la categoria</string>
+    <string name="profile_saved_categories">Categorie salvate</string>
     <!-- Setting subheaders -->
     <string name="sorting">Ordine</string>
     <string name="display">Mostra</string>
@@ -716,7 +782,7 @@
     <string name="post_info">Informazioni post</string>
     <string name="post_buttons">Bottoni post</string>
     <string name="navigation">Navigazione</string>
-    <string name="collapse_comments">Azioni di collassamento</string>
+    <string name="collapse_comments">Azioni di compressione</string>
     <string name="nsfw">Contenuto NSFW</string>
     <string name="content_thumbnails">Miniature contenuti</string>
     <string name="view_reddit_settings">Apri impostazioni di Reddit nel browser</string>
@@ -933,6 +999,9 @@
     <string name="btn_report">Segnala</string>
     <string name="report_post">Segnala post</string>
     <string name="report_comment">Segnala commento</string>
+    <string name="report_loading">Caricamento motivi&#8230;</string>
+    <string name="report_sub_rules">/r/%s Regole</string>
+    <string name="report_site_rules">Regole di Reddit</string>
     <string name="report_another_reason">Altri motivi</string>
     <string name="report_other">Altro</string>
     <string name="input_reason_for_report">Motivazione della segnalazione</string>
@@ -948,6 +1017,9 @@
     <string name="fab_hide">Nascondi post già visti</string>
     <string name="fab_create">Crea nuovo post</string>
     <string name="fab_disabled">Disabilitato</string>
+    <string name="fab_search">Cerca post</string>
+    <string name="handling_internal_browser">Browser integrato</string>
+    <string name="handling_external_browser">Browser esterno</string>
     <string name="mode_list">Lista</string>
     <string name="mode_centered">Card con immagine centrata</string>
     <string name="mode_card">Scheda</string>
@@ -963,7 +1035,7 @@
     <string name="filter_content">Filtra questo contenuto</string>
     <string name="content_to_hide">Contenuto da nascondere in %1$s</string>
     <string name="save_for_offline_viewing">Salva il post per la visualizzazione offline</string>
-    <string name="btn_collapse_children_all">Collassa commenti figli</string>
+    <string name="btn_collapse_children_all">Nascondi i commenti figli</string>
     <string name="btn_open_content">Apri contenuto</string>
     <string name="load_videos_internally">Carica video internamente</string>
     <string name="load_videos_internally_content">Vorresti provare il plugin Slide Video? Ti permetterà di visualizzare i video (come quelli di YouTube) internamente!</string>
@@ -1071,7 +1143,6 @@
     <string name="mod_log">Log di moderazione</string>
     <string name="navigation_bar_vote_gestures">Gesti voto della navigation bar</string>
     <string name="nav_gestures_description">Vota facendo swipe sulle frecce di navigazione dei commenti</string>
-    <string name="subreddit_sidebar_progress">Ottenendo la sidebar...</string>
     <string name="manage_your_subreddits">Gestisci i tuoi subreddit</string>
     <string name="enlarge_links">Allarga link</string>
     <string name="enlarge_links_warning">Potrebbe rendere alcune righe più grandi delle altre, ma i link sono più facili da toccare</string>
@@ -1082,6 +1153,8 @@
     <string name="mod_ban_reason_required">È richiesto il motivo</string>
     <string name="settings_abbreviate_post_scores">Abbrevia i punteggi dei post (es. 24.0k)</string>
     <string name="settings_wide_depth_indicators">Allarga gli indicatori di profondità commento</string>
+    <string name="settings_link_reader_mode_title">Usa la modalità lettura</string>
+    <string name="settings_link_reader_mode_description">Apri tutti i link in modalità reader. La tipologia di browser scelta verrà utilizzata quando si aprirà dalla modalità reader.</string>
     <string name="settings_link_reader_night">Modalità Lettore Link e Modalità Notte</string>
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Salva le immagini in sottocartelle di specifici subreddit</string>
@@ -1092,7 +1165,7 @@
     <string name="setting_notification_piggybacking_desc">Controlla la posta solo quando l\'app ufficiale di Reddit riceve una notifica push</string>
     <string name="install_notif_piggyback">Installa l\'app Reddit ufficiale per abilitare le notifiche Piggybacking</string>
     <string name="success_block_user">Utente bloccato con successo</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Richiede \'Mostra il conteggio dei commenti dall'ultima visita\' da abilitare in Impostazioni > Post layout]]></string>
+    <string name="settings_highlight_time_desc">Richiede \'Mostra il conteggio dei commenti dall\'ultima visita\' da abilitare in Impostazioni &gt; Post layout</string>
     <string name="settings_colored_time">Bolla temporale colorata per nuovi commenti</string>
     <string name="theme_deep">In profondità</string>
     <string name="type_vreddit">Reddit Video</string>
@@ -1104,6 +1177,11 @@
     <string name="disable_replies_comment">Disabilita le risposte della casella di posta dei commenti</string>
     <string name="replies_disabled_comment">Risposte ai commenti disabilitati</string>
     <string name="replies_enabled_comment">Risposte ai commenti abilitati</string>
+    <string name="replies_switch_accounts">Passa a un altro account</string>
+    <string name="browser_choose">Seleziona un browser</string>
+    <string name="search_settings">Impostazioni di ricerca</string>
     <string name="firefox">Firefox</string>
+    <string name="show_collapse_expand_nav_bar">Mostra il pulsante nascondi/espandi nella barra di navigazione dei commenti</string>
     <string name="page_not_found">Pagina non trovata</string>
+    <string name="page_does_not_exist">La pagina richiesta non esiste</string>
 </resources>

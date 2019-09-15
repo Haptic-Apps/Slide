@@ -201,6 +201,7 @@
     <string name="edit_selftext">Editar selftext</string>
     <string name="delete_submission">Eliminar post</string>
     <string name="set_submission_flair">Poner etiqueta del post</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Foto guardada</string>
     <string name="video_saved">Video guardado</string>
@@ -1065,7 +1066,6 @@
     <string name="mod_log">Registro de mod</string>
     <string name="navigation_bar_vote_gestures">Gestos de la Barra de Navegación</string>
     <string name="nav_gestures_description">Upvote y Downvote deslizando en las flechas de navegación de comentarios</string>
-    <string name="subreddit_sidebar_progress">Obteniendo Barra Lateral...</string>
     <string name="manage_your_subreddits">Administra tus subreddits</string>
     <string name="enlarge_links">Ampliar los enlaces</string>
     <string name="enlarge_links_warning">Puede causar que algunas líneas sean más grandes que otras, pero hace más fácil tocar los enlaces</string>
@@ -1086,7 +1086,7 @@
     <string name="setting_notification_piggybacking_desc">Revisa el correo sólo cuando la aplicación oficial de Reddit reciba una notificación push</string>
     <string name="install_notif_piggyback">Descarga la aplicación oficial de Reddit para activar Reemplazo de las Notificaciones</string>
     <string name="success_block_user">Usuario bloqueado con éxito</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Necesita que \'Mostrar número de comentarios desde la última visita\' esté activado en Configuración > Diseño del post]]></string>
+    <string name="settings_highlight_time_desc">Necesita que \'Mostrar número de comentarios desde la última visita\' esté activado en Configuración &gt; Diseño del post</string>
     <string name="settings_colored_time">Burbujas de colores de tiempo de nuevos comentarios</string>
     <string name="theme_deep">Profundo</string>
     <string name="type_vreddit">Video de Reddit</string>

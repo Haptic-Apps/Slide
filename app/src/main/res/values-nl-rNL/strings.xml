@@ -181,6 +181,7 @@
     <string name="editor_submit">Een bericht plaatsen</string>
     <string name="editor_hint_subreddit">Subreddit</string>
     <string name="edit_selftext">Wijzig zelftekst</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Afbeelding opgeslagen</string>
     <string name="video_saved">Video opgeslagen</string>

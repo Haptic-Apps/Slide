@@ -197,6 +197,7 @@
     <string name="edit_selftext">Sunting selftext</string>
     <string name="delete_submission">Hapus kiriman</string>
     <string name="set_submission_flair">Set flair kiriman</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Foto disimpan</string>
     <string name="video_saved">Video disimpan</string>
@@ -1044,7 +1045,6 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="mod_log">Mod log</string>
     <string name="navigation_bar_vote_gestures">Tombol navigasi gestur suara</string>
     <string name="nav_gestures_description">Dukung dan tidak dukung dengan menggesek pada panah navigasi komentar</string>
-    <string name="subreddit_sidebar_progress">Mendapatkan sidebar...</string>
     <string name="manage_your_subreddits">Mengelola subreddits Anda</string>
     <string name="enlarge_links">Memperbesar link</string>
     <string name="enlarge_links_warning">Dapat menyebabkan beberapa baris lebih besar daripada yang lain, tetapi membuat link mudah untuk menyentuh</string>
@@ -1065,7 +1065,7 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="setting_notification_piggybacking_desc">Periksa surat hanya saat aplikasi Reddit resmi mendapat pemberitahuan</string>
     <string name="install_notif_piggyback">Menginstal aplikasi Reddit resmi untuk mengaktifkan pemberitahuan Piggybacking</string>
     <string name="success_block_user">Pengguna berhasil diblokir</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Opsi \'Tampilkan jumlah komentar sejak kunjungan terakhir\' harus aktif di Pengaturan > Tata Letak Pos]]></string>
+    <string name="settings_highlight_time_desc">Opsi \'Tampilkan jumlah komentar sejak kunjungan terakhir\' harus aktif di Pengaturan &gt; Tata Letak Pos</string>
     <string name="settings_colored_time">Gelembung waktu berwarna untuk komentar baru</string>
     <string name="type_vreddit">Video Reddit</string>
     <string name="authors_above">Pengirim diatas</string>

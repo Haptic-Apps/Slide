@@ -181,6 +181,7 @@
     <string name="editor_finding_title">Găsirea titlului</string>
     <string name="edit_selftext">Editare selftext</string>
     <string name="delete_submission">Șterge postare</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Fotografie salvată</string>
     <string name="video_saved">Video salvat</string>
