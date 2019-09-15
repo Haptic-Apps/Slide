@@ -1289,7 +1289,7 @@
     <string name="setting_notification_piggybacking_desc">Check for mail only when the official Reddit app gets a push notification</string>
     <string name="install_notif_piggyback">Install the official Reddit app to enable Notification Piggybacking</string>
     <string name="success_block_user">User blocked successfully</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Requires \'Show comment count since last visit\' to be enabled in Settings > Post Layout]]></string>
+    <string name="settings_highlight_time_desc">Requires \'Show comment count since last visit\' to be enabled in Settings &gt; Post Layout</string>
     <string name="settings_colored_time">Colored time bubble for new comments</string>
     <string name="theme_deep">Deep</string>
     <string name="type_vreddit">Reddit Video</string>
