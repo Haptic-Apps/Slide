@@ -408,14 +408,13 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/multireddits"
+        android:id="@+id/multi"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
         android:paddingStart="0dp">
         <LinearLayout
-            android:id="@+id/multi"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?android:selectableItemBackground"
@@ -443,7 +442,7 @@
 
         </LinearLayout>
         <ImageView
-            android:id="@+id/multireddits_flip"
+            android:id="@+id/godown_multireddits"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
@@ -460,11 +459,12 @@
             app:srcCompat="@drawable/down" />
     </RelativeLayout>
     <LinearLayout
-        android:id="@+id/multireddits_area"
+        android:id="@+id/expand_multireddits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/activity_background"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
     </LinearLayout>
     <LinearLayout
             android:id="@+id/support"

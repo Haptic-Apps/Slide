@@ -1483,7 +1483,7 @@ public class MainActivity extends BaseActivity
         if (Authentication.isLoggedIn && Authentication.didOnline) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, drawerSubList, false);
-            LinearLayout multiReddits = header.findViewById(R.id.multi);
+            RelativeLayout multiReddits = header.findViewById(R.id.multi);
             headerMain = header;
             hea = header.findViewById(R.id.back);
 
@@ -1523,20 +1523,19 @@ public class MainActivity extends BaseActivity
                     return true;
                 }
             });
-            LinearLayout multireddits_area = header.findViewById(R.id.multireddits_area);
+            LinearLayout multireddits_area = header.findViewById(R.id.expand_multireddits);
 
-            multireddits_area.setVisibility(View.GONE);
-            findViewById(R.id.multireddits_flip).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.godown_multireddits).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (multireddits_area.getVisibility() == View.GONE) {
                         expand(multireddits_area);
-                        flipAnimator(false, header.findViewById(R.id.multireddits_flip)).start();
-                        header.findViewById(R.id.multireddits_flip).setContentDescription(getResources().getString(R.string.btn_collapse));
+                        flipAnimator(false, header.findViewById(R.id.godown_multireddits)).start();
+                        header.findViewById(R.id.godown_multireddits).setContentDescription(getResources().getString(R.string.btn_collapse));
                     } else {
                         collapse(multireddits_area);
-                        flipAnimator(true, header.findViewById(R.id.multireddits_flip)).start();
-                        header.findViewById(R.id.multireddits_flip).setContentDescription(getResources().getString(R.string.btn_expand));
+                        flipAnimator(true, header.findViewById(R.id.godown_multireddits)).start();
+                        header.findViewById(R.id.godown_multireddits).setContentDescription(getResources().getString(R.string.btn_expand));
                     }
 
                 }
@@ -4848,35 +4847,17 @@ public class MainActivity extends BaseActivity
     public class SyncMultiReddits extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            try {
-                UserSubscriptions.syncMultiReddits(MainActivity.this);
-            } catch (final Exception e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialogWrapper.Builder(MainActivity.this)
-                                        .setTitle(R.string.err_title)
-                                        .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
-                                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                finish();
-                                            }
-                                        }).create().show();
-                            }
-                        });
-                e.printStackTrace();
-            }
+            UserSubscriptions.syncMultiReddits(MainActivity.this);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            LinearLayout multireddits_area = headerMain.findViewById(R.id.multireddits_area);
+            LinearLayout multiredditsArea = headerMain.findViewById(R.id.expand_multireddits);
 
             for (MultiReddit multiReddit : UserSubscriptions.multireddits) {
                 final View t =
-                        getLayoutInflater().inflate(R.layout.multireddit_textview_white, multireddits_area,
+                        getLayoutInflater().inflate(R.layout.multireddit_textview_white, multiredditsArea,
                                 false);
                 ((TextView) t.findViewById(R.id.name)).setText(multiReddit.getDisplayName());
 
@@ -4887,7 +4868,7 @@ public class MainActivity extends BaseActivity
                     startActivity(intent);
                 });
 
-                multireddits_area.addView(t);
+                multiredditsArea.addView(t);
             }
         }
     }
