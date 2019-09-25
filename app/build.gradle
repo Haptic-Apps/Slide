@@ -2,7 +2,6 @@ plugins {
     id 'com.gladed.androidgitversion' version '0.4.13'
     id 'com.github.ben-manes.versions' version '0.27.0'
     id 'com.android.application'
-    id 'com.devspark.robototextview.gradle-plugin'
 }
 
 android {
@@ -69,18 +68,6 @@ android {
     }
 }
 
-robototextview {
-    include "Roboto-Light",
-            "Roboto-Regular",
-            "Roboto-Bold",
-            "Roboto-Medium",
-            "RobotoSlab-Light",
-            "RobotoSlab-Regular",
-            "RobotoCondensed-Light",
-            "RobotoCondensed-Regular",
-            "RobotoCondensed-Bold"
-}
-
 ext {
     robolectricVersion = '4.3.1'
     powerMockitoVersion = '2.0.5'
@@ -96,6 +83,7 @@ dependencies {
     implementation 'com.github.ccrama:commonmark-java:07b304b575'
     implementation 'com.github.ccrama:PeekAndPop:09adee29f1'
     implementation 'com.github.ccrama:JReadability:bb291880a5'
+    implementation 'com.github.Alexendoo:Android-RobotoTextView:f6d0eb5ac7'
 
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -121,7 +109,6 @@ dependencies {
     implementation 'org.apache.commons:commons-text:1.4'
     implementation 'commons-io:commons-io:2.6'
     implementation 'jp.wasabeef:blurry:3.0.0'
-    implementation 'com.github.johnkil.android-robototextview:robototextview:4.0.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
