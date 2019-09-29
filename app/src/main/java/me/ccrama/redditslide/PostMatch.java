@@ -1,25 +1,39 @@
 package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
-
 import net.dean.jraw.models.Submission;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Created by carlo_000 on 1/13/2016.
  */
 public class PostMatch {
-    public static boolean contains(String target, String[] strings, boolean totalMatch) {
-        for (String s : strings) {
-            s = s.toLowerCase(Locale.ENGLISH).trim();
-            if (!s.isEmpty() && !s.equals("\n") && totalMatch ? target.equals(s) : target.contains(s)) {
-                return true;
+    /**
+     * Checks if a string is totally or partially contained in a set of strings
+     *
+     * @param target     string to check
+     * @param strings    set of strings to check in
+     * @param totalMatch only allow total match, no partial matches
+     * @return if the string is contained in the set of strings
+     */
+    public static boolean contains(String target, Set<String> strings, boolean totalMatch) {
+        // filters are always stored lowercase
+        if (totalMatch) {
+            return strings.contains(target.toLowerCase(Locale.ENGLISH).trim());
+        } else if (strings.contains(target.toLowerCase(Locale.ENGLISH).trim())) {
+            return true;
+        } else {
+            for (String s : strings) {
+                if (target.toLowerCase(Locale.ENGLISH).trim().contains(s)) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     /**
@@ -31,7 +45,7 @@ public class PostMatch {
      * @return If the target is covered by any strings
      * @throws MalformedURLException
      */
-    public static boolean isDomain(String target, String[] strings) throws MalformedURLException {
+    public static boolean isDomain(String target, Set<String> strings) throws MalformedURLException {
         URL domain = new URL(target);
         for (String s : strings) {
             if (!s.contains("/")) {
@@ -60,26 +74,14 @@ public class PostMatch {
     }
 
     public static boolean openExternal(String url) {
-        if (externalDomain == null) {
-            externalDomain = SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
         try {
-            return !SettingValues.alwaysExternal.isEmpty() && isDomain(url.toLowerCase(Locale.ENGLISH), externalDomain);
+            return isDomain(url.toLowerCase(Locale.ENGLISH), SettingValues.alwaysExternal);
         } catch (MalformedURLException e) {
             return false;
         }
     }
 
     public static SharedPreferences filters;
-
-    public static String[] titles = null;
-    public static String[] texts = null;
-    public static String[] domains = null;
-    public static String[] subreddits = null;
-    public static String[] externalDomain = null;
-    public static String[] flairs = null;
-    public static String[] users = null;
-
 
     public static boolean doesMatch(Submission s, String baseSubreddit, boolean ignore18) {
         if (Hidden.id.contains(s.getFullName())) return true; // if it's hidden we're not going to show it regardless
@@ -88,51 +90,22 @@ public class PostMatch {
         String body = s.getSelftext();
         String domain = s.getUrl();
         String subreddit = s.getSubredditName();
-        String flair = s.getSubmissionFlair().getText() != null?s.getSubmissionFlair().getText():"";
+        String flair = s.getSubmissionFlair().getText() != null ? s.getSubmissionFlair().getText() : "";
 
-        boolean titlec;
-        boolean bodyc;
-        boolean domainc;
-        boolean subredditc;
-        boolean userc;
+        if (contains(title, SettingValues.titleFilters, false)) return true;
 
-        if (titles == null) {
-            titles = SettingValues.titleFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
-        if (texts == null) {
-            texts = SettingValues.textFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
-        if (domains == null) {
-            domains = SettingValues.domainFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
-        if (subreddits == null) {
-            subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
-        if (flairs == null) {
-            flairs = SettingValues.flairFilters.replaceAll("^[,]+", "").split("[,]+");
-        }
-        if (users == null) {
-            users = SettingValues.userFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
+        if (contains(body, SettingValues.textFilters, false)) return true;
 
-        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(Locale.ENGLISH), titles, false);
-        if (titlec) return true; // if title hides it, no need to do any more
-
-        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(Locale.ENGLISH), texts, false);
-        if (bodyc) return true; // if body hides it, no need to do any more
-
-        userc = !SettingValues.userFilters.isEmpty() && contains(s.getAuthor().toLowerCase(Locale.ENGLISH), users, false);
-        if (userc) return true; // if username hides it, no need to do any more
+        if (contains(s.getAuthor(), SettingValues.userFilters, false)) return true;
 
         try {
-            domainc = !SettingValues.domainFilters.isEmpty() && isDomain(domain.toLowerCase(Locale.ENGLISH), domains);
-        } catch (MalformedURLException e) {
-            domainc = false;
+            if (isDomain(domain.toLowerCase(Locale.ENGLISH), SettingValues.domainFilters)) return true;
+        } catch (MalformedURLException ignored) {
         }
-        if (domainc) return true; // if domain hides it, no need to do any more
 
-        subredditc = !subreddit.equalsIgnoreCase(baseSubreddit) && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(Locale.ENGLISH), subreddits, true);
-        if (subredditc) return true; // if subreddit hides it, no need to do any more
+        if (!subreddit.equalsIgnoreCase(baseSubreddit) && contains(subreddit, SettingValues.subredditFilters, true)) {
+            return true;
+        }
 
         boolean contentMatch = false;
 
@@ -154,7 +127,7 @@ public class PostMatch {
             if (!SettingValues.showNSFWContent) {
                 contentMatch = true;
             }
-            if(ignore18){
+            if (ignore18) {
                 contentMatch = false;
             }
             if (nsfw) {
@@ -202,20 +175,20 @@ public class PostMatch {
                 break;
         }
 
-        if(!flair.isEmpty())
-        for(String flairText : flairs){
-            if(flairText.toLowerCase(Locale.ENGLISH).startsWith(baseSubreddit)){
-                String[] split = flairText.split(":");
-                if(split[0].equalsIgnoreCase(baseSubreddit)){
-                    if(flair.equalsIgnoreCase(split[1].trim())){
-                        contentMatch = true;
-                        break;
+        if (!flair.isEmpty())
+            for (String flairText : SettingValues.flairFilters) {
+                if (flairText.toLowerCase(Locale.ENGLISH).startsWith(baseSubreddit)) {
+                    String[] split = flairText.split(":");
+                    if (split[0].equalsIgnoreCase(baseSubreddit)) {
+                        if (flair.equalsIgnoreCase(split[1].trim())) {
+                            contentMatch = true;
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        return contentMatch; // contentMatch is only remaining test, so return it
+        return contentMatch;
     }
 
     public static boolean doesMatch(Submission s) {
@@ -226,29 +199,19 @@ public class PostMatch {
 
         boolean titlec;
         boolean bodyc;
-        boolean domainc;
+        boolean domainc = false;
         boolean subredditc;
 
-        if (titles == null) {
-            titles = SettingValues.titleFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
-        if (texts == null) {
-            texts = SettingValues.textFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
-        if (domains == null) {
-            domains = SettingValues.domainFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        }
-        if (subreddits == null) {
-            subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+        titlec = contains(title, SettingValues.titleFilters, false);
+
+        bodyc = contains(body, SettingValues.textFilters, false);
+
+        try {
+            domainc = isDomain(domain.toLowerCase(Locale.ENGLISH), SettingValues.domainFilters);
+        } catch (MalformedURLException ignored) {
         }
 
-        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(Locale.ENGLISH), titles, false);
-
-        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(Locale.ENGLISH), texts, false);
-
-        domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(Locale.ENGLISH), domains, false);
-
-        subredditc = subreddit != null && !subreddit.isEmpty() && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(Locale.ENGLISH), subreddits, true);
+        subredditc = subreddit != null && !subreddit.isEmpty() && contains(subreddit, SettingValues.subredditFilters, true);
 
         return (titlec || bodyc || domainc || subredditc);
     }

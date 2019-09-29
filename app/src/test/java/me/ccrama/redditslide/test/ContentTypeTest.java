@@ -3,6 +3,9 @@ package me.ccrama.redditslide.test;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Arrays;
+
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ContentType.Type;
 import me.ccrama.redditslide.Reddit;
@@ -19,7 +22,12 @@ public class ContentTypeTest {
 
     @BeforeClass
     public static void setUp() {
-        SettingValues.alwaysExternal = "twitter.com,github.com,t.co,example.com/path";
+        SettingValues.alwaysExternal = new HashSet<>(Arrays.asList(
+                "twitter.com",
+                "github.com",
+                "t.co",
+                "example.com/path"
+        ));
     }
 
     @Test

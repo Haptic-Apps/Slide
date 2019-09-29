@@ -33,6 +33,7 @@
     <string name="editor_action_link">IEVIETOT</string>
     <string name="editor_title">Virsraksts</string>
     <string name="editor_select_img">Izvēlaties attēlu</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <!-- General errors / errors without a category -->
     <string name="err_retry_later">Pēc minūtes mēģini vēlreiz!</string>

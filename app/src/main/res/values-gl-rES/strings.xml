@@ -43,6 +43,7 @@
     <string name="editor_url">URL</string>
     <string name="editor_text">Texto</string>
     <string name="editor_title">Título</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <!-- General errors / errors without a category -->
     <string name="err_invalid_url">URL inválida</string>

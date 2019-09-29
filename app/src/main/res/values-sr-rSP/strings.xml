@@ -199,6 +199,7 @@
     <string name="edit_selftext">Измени selftext</string>
     <string name="delete_submission">Обриши објаву</string>
     <string name="set_submission_flair">Постави значку објаве</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Слика сачувана</string>
     <string name="video_saved">Видео сачуван</string>
@@ -881,7 +882,6 @@
     <string name="draw_undo">Опозови</string>
     <string name="empty_preview_text">Нема овде ништа ¯\\_(ツ)_/¯</string>
     <string name="theme_red_shift">Црвени помак</string>
-    <string name="subreddit_sidebar_progress">Дохватам бочну траку...</string>
     <string name="manage_your_subreddits">Управљајте субредитима</string>
     <string name="enlarge_links">Увећај линкове</string>
     <string name="type_tumblr">Tumblr</string>

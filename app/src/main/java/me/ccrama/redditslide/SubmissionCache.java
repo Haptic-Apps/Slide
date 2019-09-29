@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.WeakHashMap;
 
 import me.ccrama.redditslide.Adapters.CommentAdapterHelper;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -257,22 +258,7 @@ public class SubmissionCache {
             titleString.append(pinned);
         }
 
-        if (SettingValues.toolboxEnabled
-                && Authentication.mod
-                && Toolbox.getUsernotes(submission.getSubredditName()) != null
-                && Toolbox.getUsernotes(submission.getSubredditName()).getNotesForUser(submission.getAuthor()) != null
-                && Toolbox.getUsernotes(submission.getSubredditName()).getNotesForUser(submission.getAuthor())
-                    .size() > 0) {
-            SpannableStringBuilder note = new SpannableStringBuilder("\u00A0" +
-                    Toolbox.getUsernotes(submission.getSubredditName())
-                            .getDisplayNoteForUser(submission.getAuthor()) + "\u00A0");
-            note.setSpan(new RoundedBackgroundSpan(mContext.getResources().getColor(R.color.white),
-                    Color.parseColor(Toolbox.getUsernotes(
-                            submission.getSubredditName()).getDisplayColorForUser(submission.getAuthor())
-                    ), false, mContext), 0, note.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(note);
-        }
+        ToolboxUI.appendToolboxNote(mContext, titleString, submission.getSubredditName(), submission.getAuthor());
 
         /* too big, might add later todo
         if (submission.getAuthorFlair() != null && submission.getAuthorFlair().getText() != null && !submission.getAuthorFlair().getText().isEmpty()) {

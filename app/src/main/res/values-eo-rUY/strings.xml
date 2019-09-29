@@ -85,6 +85,7 @@
     <string name="editor_title">Titolo</string>
     <string name="editor_submit">Afiŝi</string>
     <string name="editor_hint_subreddit">Subreddit</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Foto konservita</string>
     <!-- General errors / errors without a category -->

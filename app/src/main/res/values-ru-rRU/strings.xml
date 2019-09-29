@@ -209,6 +209,7 @@
     <string name="edit_selftext">Редактировать описание</string>
     <string name="delete_submission">Удалить сабмит</string>
     <string name="set_submission_flair">Добавить категорию сабмита</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Фото сохранено</string>
     <string name="video_saved">Видео сохранено</string>
@@ -396,7 +397,15 @@
     <string name="btn_new">Новый</string>
     <string name="btn_upload">Загрузить</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Изменить</string>
+    <string name="btn_upvote">Плюс</string>
+    <string name="btn_downvote">Минус</string>
+    <string name="btn_menu">Меню</string>
+    <string name="img_comments">Комментарии</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Поддержал</string>
+    <string name="btn_downvoted">Опустил</string>
+    <string name="btn_unsave">Не сохранено</string>
     <!-- Backup -->
     <string name="backup_success">Резервное копир-е успешно!</string>
     <string name="backup_restoring">Восстановление настроек</string>
@@ -1070,7 +1079,6 @@
     <string name="mod_log">Лог модератора</string>
     <string name="navigation_bar_vote_gestures">Жесты голосования в панели навигации</string>
     <string name="nav_gestures_description">Голосуйте за и против, проводя по стрелкам навигации</string>
-    <string name="subreddit_sidebar_progress">Загрузка сайдбара...</string>
     <string name="manage_your_subreddits">Управление сабреддитами</string>
     <string name="enlarge_links">Увеличить ссылки</string>
     <string name="enlarge_links_warning">На ссылки будет проще нажимать, но некоторые линии могут стать больше других</string>
@@ -1089,7 +1097,7 @@
     <string name="setting_notification_piggybacking_desc">Проверять почту только когда официальное приложение Reddit получает push-уведомление</string>
     <string name="install_notif_piggyback">Установите оффициальное приложение Reddit, чтобы получать уведомления</string>
     <string name="success_block_user">Пользователь успешно заблокирован</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Необходимо включить \'Показывать кол-во новых комментариев с последнего посещения\' в Настройки > Разметка Записи]]></string>
+    <string name="settings_highlight_time_desc">Необходимо включить \'Показывать кол-во новых комментариев с последнего посещения\' в Настройки &gt; Разметка Записи</string>
     <string name="theme_deep">Deep</string>
     <string name="type_vreddit">Видео с Reddit</string>
     <string name="authors_above">Авторы выше</string>
