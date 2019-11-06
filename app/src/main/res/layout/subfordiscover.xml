@@ -24,7 +24,7 @@
             android:adjustViewBounds="true"
             android:background="@drawable/circle" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
@@ -36,7 +36,7 @@
             android:textColor="?attr/fontColor"
             android:textSize="16sp" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/subscribers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

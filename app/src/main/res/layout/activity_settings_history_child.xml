@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             style="@style/TextAppearance.AppCompat.Body2"
             android:id="@+id/settings_history_saveHistoryHeader"
             android:text="@string/settings_section_save_history"
@@ -32,7 +32,7 @@
                 android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_store_history"
@@ -75,7 +75,7 @@
                 android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_store_nsfw_history"
@@ -117,7 +117,7 @@
                 android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_general_scroll_read"
@@ -138,7 +138,7 @@
                 android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             style="@style/TextAppearance.AppCompat.Body2"
             android:id="@+id/settings_history_clearHistoryHeader"
             android:text="@string/settings_section_clear_history"
@@ -166,7 +166,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clear_submission_history"
@@ -197,7 +197,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clear_subreddit_history"

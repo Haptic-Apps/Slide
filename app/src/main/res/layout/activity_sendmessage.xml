@@ -32,7 +32,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/oldMSG"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/sendas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:layout_marginTop="8dp"
                 android:textColorHint="?attr/fontColor">
 
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="?attr/fontColor">
 
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/subject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,8 +91,7 @@
                     android:maxLength="300"
                     android:maxLines="1"
                     android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect"
-                    android:textColor="?attr/fontColor">
-                </EditText>
+                    android:textColor="?attr/fontColor"/>
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -120,7 +119,7 @@
             <include
                 layout="@layout/editor_items"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

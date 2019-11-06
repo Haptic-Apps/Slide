@@ -40,6 +40,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
+                    <android.support.text.emoji.widget.EmojiTextView
+                        android:id="@+id/testetv"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+
                     <AutoCompleteTextView
                         android:id="@+id/toolbar_search"
                         android:layout_width="wrap_content"

@@ -8,7 +8,7 @@
     android:background="@color/md_deep_orange_500">
 
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/restart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

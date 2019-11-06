@@ -33,7 +33,7 @@
                 android:layout_toLeftOf="@+id/secondMenu"
                 android:layout_toRightOf="@+id/thumbimage2">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

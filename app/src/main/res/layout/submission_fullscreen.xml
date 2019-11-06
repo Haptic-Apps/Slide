@@ -85,7 +85,7 @@
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/contenttitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                             android:textColor="?attr/fontColor"
                             android:textSize="16sp"/>
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/contenturl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/crosstitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                             android:textColor="?attr/fontColor"
                             android:textSize="16sp"/>
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/crossinfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -211,7 +211,7 @@
                         android:contentDescription="@string/img_score"
                         app:srcCompat="@drawable/upvoted"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/score"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
@@ -221,7 +221,7 @@
                         android:text="400"
                         android:textSize="?attr/font_cardinfo"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/percent"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
@@ -244,7 +244,7 @@
                         android:contentDescription="@string/img_comments"
                         app:srcCompat="@drawable/commentchange"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/comments"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
@@ -350,7 +350,7 @@
                 android:padding="16dp"
                 android:visibility="gone">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:text="/u/ccrama"
                     android:textSize="14sp"
@@ -379,7 +379,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/discard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -391,7 +391,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/preview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -405,7 +405,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/send"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

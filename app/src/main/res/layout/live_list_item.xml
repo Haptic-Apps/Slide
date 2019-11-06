@@ -20,7 +20,7 @@
         android:paddingBottom="12dp"
         android:background="?android:selectableItemBackground">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

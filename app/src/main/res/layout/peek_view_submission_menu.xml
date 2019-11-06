@@ -6,7 +6,7 @@
         android:background="#3f000000"
         >
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="match_parent"
             android:id="@+id/title"
             android:text="https://imgur.com/a/duARTe"
@@ -40,7 +40,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"
@@ -61,7 +61,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"
@@ -82,7 +82,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"
@@ -103,7 +103,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"
@@ -124,7 +124,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"
@@ -145,7 +145,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"
@@ -166,7 +166,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"
@@ -187,7 +187,7 @@
                     style="@style/BottomSheet.ListItemImage"
                     tools:ignore="ContentDescription" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@id/bs_list_title"
                     android:text="/u/ccrama"
                     android:textColor="#fff"

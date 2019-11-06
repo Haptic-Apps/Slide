@@ -34,7 +34,7 @@
             android:paddingBottom="4dp"
             android:scrollbars="none">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     android:textColor="?attr/fontColor"
                     android:textSize="?attr/font_cardinfo"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_cardinfo"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
@@ -64,7 +64,7 @@
                 android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_cardinfo"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

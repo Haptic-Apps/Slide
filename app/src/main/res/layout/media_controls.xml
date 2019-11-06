@@ -20,7 +20,7 @@
             android:visibility="gone"
             tools:visibility="visible">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/exomedia_controls_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:textStyle="bold"
                 tools:text="The Video Title"/>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/exomedia_controls_sub_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:textSize="14sp"
                 tools:text="The Video Album"/>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/exomedia_controls_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/exomedia_controls_current_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                     android:layout_weight="1"
                     tools:ignore="RtlHardcoded"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/exomedia_controls_end_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

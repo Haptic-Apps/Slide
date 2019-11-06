@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/titletext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <EditText
+                    <android.support.text.emoji.widget.EmojiEditText
                         android:id="@+id/crossposttext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                         android:hint="@string/btn_crosspost" />
                 </android.support.design.widget.TextInputLayout>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/suggest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

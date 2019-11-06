@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/settings_font_linksHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -38,14 +38,14 @@
                 android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/enlarge_links"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha=".86"
@@ -88,7 +88,7 @@
                 android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/show_content_type_text_beside_links"
@@ -109,7 +109,7 @@
                 android:textColorHint="?attr/fontColor"/>
         </RelativeLayout>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/settings_font_fontStylesHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -135,7 +135,7 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/commentchange" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -162,7 +162,7 @@
                 android:orientation="vertical"
                 android:paddingEnd="16dp">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -171,7 +171,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/settings_font_commentFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -261,7 +261,7 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_size_white_48dp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -288,7 +288,7 @@
                 android:orientation="vertical"
                 android:paddingEnd="16dp">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -297,7 +297,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/settings_font_postFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

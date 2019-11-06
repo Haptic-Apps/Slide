@@ -8,7 +8,7 @@
               android:paddingEnd="12dp"
               android:background="?android:selectableItemBackground">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/usernote_author_datetime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
             android:textSize="13sp"
             android:padding="4dp"/>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/usernote_note_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

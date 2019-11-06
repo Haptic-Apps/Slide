@@ -17,7 +17,7 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/title"
         android:layout_toRightOf="@+id/thumbimage2"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

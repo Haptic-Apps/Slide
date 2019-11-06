@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/fontColor"
@@ -51,7 +51,7 @@
                         app:sl_minValue="1"
                         app:sl_secondaryColor="?attr/tintColor"
                         app:sl_stepValue="15"/>
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="match_parent"
                         android:padding="8dp"
                         android:textColor="?attr/fontColor"

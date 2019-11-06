@@ -89,7 +89,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/discard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/preview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/send"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

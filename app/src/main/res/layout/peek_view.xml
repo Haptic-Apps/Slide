@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         android:background="#3f000000"
         >
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="match_parent"
             android:id="@+id/title"
             android:text="https://imgur.com/a/duARTe"

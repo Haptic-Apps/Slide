@@ -43,7 +43,7 @@
                         app:srcCompat="@drawable/link"
                         android:tint="?attr/tintColor" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -58,7 +58,7 @@
                     android:id="@+id/domainlist"
                     android:orientation="vertical"
                     android:layout_height="wrap_content"/>
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/domain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                         app:srcCompat="@drawable/fontsizedarker"
                         android:tint="?attr/tintColor" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -110,7 +110,7 @@
                     android:id="@+id/selftextlist"
                     android:orientation="vertical"
                     android:layout_height="wrap_content"/>
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:singleLine="true"
@@ -148,7 +148,7 @@
                         app:srcCompat="@drawable/infonew"
                         android:tint="?attr/tintColor" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -161,7 +161,7 @@
                     android:id="@+id/titlelist"
                     android:orientation="vertical"
                     android:layout_height="wrap_content"/>
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:singleLine="true"
@@ -199,7 +199,7 @@
                         app:srcCompat="@drawable/profile"
                         android:tint="?attr/tintColor" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -212,7 +212,7 @@
                     android:id="@+id/userlist"
                     android:orientation="vertical"
                     android:layout_height="wrap_content"/>
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/user"
                     android:layout_width="match_parent"
                     android:singleLine="true"
@@ -250,7 +250,7 @@
                         app:srcCompat="@drawable/sub"
                         android:tint="?attr/tintColor" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -265,7 +265,7 @@
                     android:layout_height="wrap_content">
 
                     </LinearLayout>
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/subreddit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -303,7 +303,7 @@
                         app:srcCompat="@drawable/flair"
                         android:tint="?attr/tintColor" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -318,7 +318,7 @@
                     android:layout_height="wrap_content">
 
                 </LinearLayout>
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/flair"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -21,7 +21,7 @@
         android:id="@+id/icon"
         android:src="@drawable/ic_launcher"
         android:layout_height="140dp" />
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:layout_width="match_parent"
         android:text="@string/welcome_start"
         android:textColor="#fff"

@@ -14,7 +14,7 @@
         android:id="@+id/header"
        >
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -51,7 +51,7 @@
 
                     android:id="@+id/tint_primary"
                     />
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
@@ -77,7 +77,7 @@
 
                     android:src="@drawable/circle"
                     />
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
@@ -102,7 +102,7 @@
                     android:tint="?attr/card_background"
                     android:src="@drawable/circle"
                     />
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
@@ -124,7 +124,7 @@
 
 
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="wrap_content"
 
             android:layout_height="56dp"

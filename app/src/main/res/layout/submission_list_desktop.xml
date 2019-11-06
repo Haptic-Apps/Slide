@@ -36,7 +36,7 @@
             android:tint="?attr/tintColor"
             android:contentDescription="@string/btn_upvote"
             app:srcCompat="@drawable/up" />
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/score"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerimage"
@@ -159,7 +159,7 @@
                 android:contentDescription="@string/img_comments"
                 app:srcCompat="@drawable/commentchange" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/comments"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"

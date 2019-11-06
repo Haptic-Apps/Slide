@@ -43,7 +43,7 @@
                 android:layout_toLeftOf="@+id/secondMenu"
                 android:layout_toRightOf="@+id/thumbimage2">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                     android:layout_marginStart="16dp"
                     android:textColor="#424242"
                     android:text="@string/example_title"/>
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/subreddit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                     android:textColor="#424242"
                     android:gravity="center_vertical"
                     />
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/information"
                     android:layout_width="wrap_content"
                     android:layout_toRightOf="@+id/subreddit"
@@ -90,7 +90,7 @@
                     android:contentDescription="@string/img_score"
                     android:src="@drawable/upvoted" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/score"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
@@ -118,7 +118,7 @@
                     android:contentDescription="@string/img_comments"
                     android:src="@drawable/commentwidget" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/comments"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"

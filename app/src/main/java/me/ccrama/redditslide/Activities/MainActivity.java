@@ -40,6 +40,9 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
+import android.support.text.emoji.widget.EmojiTextView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -908,6 +911,10 @@ public class MainActivity extends BaseActivity
         inNightMode = SettingValues.isNight();
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
+
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
+        EmojiCompat.init(config);
+
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             // Activity was brought to front and not created
             finish();
@@ -1094,6 +1101,10 @@ public class MainActivity extends BaseActivity
         applyColorTheme();
 
         setContentView(R.layout.activity_overview);
+
+        EmojiTextView emoji = (EmojiTextView) findViewById(R.id.testetv);
+        emoji.setText(new StringBuilder(new String(Character.toChars(0x1F60A))));
+
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());

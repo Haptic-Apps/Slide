@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:background="@drawable/swipe"
         android:layout_height="match_parent"/>
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:layout_width="wrap_content"
         android:text="@string/tutorial_swipe_navigation"
         android:textColor="#fff"
@@ -18,7 +18,7 @@
         android:id="@+id/top"
         android:layout_marginTop="60dp"
         />
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:layout_width="wrap_content"
         android:text="@string/tutorial_swipe_description"
         android:textColor="#b6ffffff"
