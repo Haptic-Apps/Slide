@@ -3,12 +3,7 @@ package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -32,14 +27,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
-
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
-
+import me.ccrama.redditslide.*;
+import me.ccrama.redditslide.Activities.*;
+import me.ccrama.redditslide.Adapters.CommentAdapter;
+import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
+import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Toolbox.ToolboxUI;
+import me.ccrama.redditslide.Views.AnimateHelper;
+import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Views.DoEditorActions;
+import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.*;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
 import net.dean.jraw.fluent.FluentRedditClient;
@@ -48,61 +53,9 @@ import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.*;
-
 import org.apache.commons.text.StringEscapeUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import me.ccrama.redditslide.ActionStates;
-import me.ccrama.redditslide.Activities.Album;
-import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.FullscreenVideo;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.ModQueue;
-import me.ccrama.redditslide.Activities.MultiredditOverview;
-import me.ccrama.redditslide.Activities.PostReadLater;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Reauthenticate;
-import me.ccrama.redditslide.Activities.Search;
-import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Activities.Tumblr;
-import me.ccrama.redditslide.Activities.TumblrPager;
-import me.ccrama.redditslide.Adapters.CommentAdapter;
-import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.CommentCacheAsync;
-import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DataShare;
-import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.Hidden;
-import me.ccrama.redditslide.LastComments;
-import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.OpenRedditLink;
-import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.ReadLater;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubmissionCache;
-import me.ccrama.redditslide.UserSubscriptions;
-import me.ccrama.redditslide.Views.AnimateHelper;
-import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Views.DoEditorActions;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.Vote;
-import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
-import me.ccrama.redditslide.util.OnSingleClickListener;
-import me.ccrama.redditslide.util.SubmissionParser;
+import java.util.*;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -588,8 +541,6 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 10:
-
-
                         String[] choices;
                         final String flair = submission.getSubmissionFlair().getText() != null
                                 ? submission.getSubmissionFlair().getText() : "";
@@ -605,21 +556,14 @@ public class PopulateSubmissionViewHolder {
                                             submission.getDomain())
                             };
 
-                            chosen = new boolean[]{
-                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase(
-                                            Locale.ENGLISH).split(",")).contains(
-                                            submission.getSubredditName()
-                                                    .toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                    SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                            .split(",")).contains(
-                                    submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                            chosen = new boolean[] {
+                                    SettingValues.subredditFilters.contains(
+                                            submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.userFilters.contains(
+                                            submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.domainFilters.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                                    SettingValues.alwaysExternal.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH))
                             };
                             oldChosen = chosen.clone();
@@ -636,24 +580,16 @@ public class PopulateSubmissionViewHolder {
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
                         }
-                        chosen = new boolean[]{
-                                Arrays.asList(
-                                        SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                        chosen = new boolean[] {
+                                SettingValues.subredditFilters.contains(
                                         submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(
-                                        submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.userFilters.contains(
+                                submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                SettingValues.domainFilters.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.alwaysExternal.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.flairFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(baseSub + ":" + flair)
+                                SettingValues.flairFilters.contains(baseSub + ":" + flair.toLowerCase(Locale.ENGLISH).trim())
                         };
                         oldChosen = chosen.clone();
 
@@ -672,142 +608,88 @@ public class PopulateSubmissionViewHolder {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 boolean filtered = false;
-                                                SharedPreferences.Editor e =
-                                                        SettingValues.prefs.edit();
+                                                SharedPreferences.Editor e = SettingValues.prefs.edit();
                                                 if (chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters
-                                                                    + (
-                                                                    (SettingValues.subredditFilters.isEmpty()
-                                                                            || SettingValues.subredditFilters
-                                                                            .endsWith(",")) ? ""
-                                                                            : ",")
-                                                                    + submission.getSubredditName();
+                                                    SettingValues.subredditFilters.add(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
-                                                    PostMatch.subreddits = null;
-                                                } else if (!chosen[0]
-                                                        && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters.replace(
-                                                                    submission.getSubredditName(),
-                                                                    "");
+                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                                    SettingValues.subredditFilters.remove(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
                                                     e.apply();
-                                                    PostMatch.subreddits = null;
                                                 }
                                                 if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters + ((
-                                                                    SettingValues.userFilters.isEmpty()
-                                                                            || SettingValues.userFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getAuthor();
+                                                    SettingValues.userFilters.add(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
-                                                    PostMatch.users = null;
-                                                } else if (!chosen[1]
-                                                        && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters.replace(
-                                                                    submission.getAuthor(), "");
+                                                } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                                    SettingValues.userFilters.remove(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
                                                     e.apply();
-                                                    PostMatch.users = null;
                                                 }
                                                 if (chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters + ((
-                                                                    SettingValues.domainFilters.isEmpty()
-                                                                            || SettingValues.domainFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
+                                                    SettingValues.domainFilters.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
-                                                    PostMatch.domains = null;
-                                                } else if (!chosen[2]
-                                                        && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters.replace(
-                                                                    submission.getDomain(), "");
+                                                } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.domainFilters.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
                                                     e.apply();
-                                                    PostMatch.domains = null;
                                                 }
                                                 if (chosen[3] && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal + ((
-                                                                    SettingValues.alwaysExternal.isEmpty()
-                                                                            || SettingValues.alwaysExternal
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                    SettingValues.alwaysExternal.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
-                                                } else if (!chosen[3]
-                                                        && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal.replace(
-                                                                    submission.getDomain(), "");
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                                    SettingValues.alwaysExternal.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
                                                 }
                                                 if (chosen.length > 4) {
                                                     if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters + ((
-                                                                        SettingValues.flairFilters.isEmpty()
-                                                                                || SettingValues.flairFilters
-                                                                                .endsWith(",")) ? ""
-                                                                        : ",") + (baseSub
-                                                                        + ":"
-                                                                        + flair);
-                                                        e.putString(
+                                                        SettingValues.flairFilters.add((baseSub + ":" + flair)
+                                                                .toLowerCase(Locale.ENGLISH).trim());
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                         filtered = true;
-                                                    } else if (!chosen[4]
-                                                            && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters.toLowerCase(
-                                                                        Locale.ENGLISH)
-                                                                        .replace((baseSub
-                                                                                        + ":"
-                                                                                        + flair).toLowerCase(
-                                                                                Locale.ENGLISH),
-                                                                                "");
-                                                        e.putString(
+                                                    } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
+                                                        SettingValues.flairFilters.remove((baseSub + ":" + flair)
+                                                                        .toLowerCase(Locale.ENGLISH).trim());
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                     }
                                                 }
                                                 if (filtered) {
                                                     e.apply();
-                                                    PostMatch.domains = null;
-                                                    PostMatch.subreddits = null;
-                                                    PostMatch.users = null;
-                                                    ArrayList<Contribution> toRemove =
-                                                            new ArrayList<>();
+                                                    ArrayList<Contribution> toRemove = new ArrayList<>();
                                                     for (Contribution s : posts) {
                                                         if (s instanceof Submission
-                                                                && PostMatch.doesMatch(
-                                                                (Submission) s)) {
+                                                                && PostMatch.doesMatch((Submission) s)) {
                                                             toRemove.add(s);
                                                         }
                                                     }
@@ -1766,10 +1648,10 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    new AccountManager(Authentication.reddit).reply(submission, reason);
+                    String toDistinguish = new AccountManager(Authentication.reddit).reply(submission, reason);
                     new ModerationManager(Authentication.reddit).remove(submission, false);
                     new ModerationManager(Authentication.reddit).setDistinguishedStatus(
-                            Authentication.reddit.get(submission.getFullName()).get(0),
+                            Authentication.reddit.get("t1_" + toDistinguish).get(0),
                             DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();

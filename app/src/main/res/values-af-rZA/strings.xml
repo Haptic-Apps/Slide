@@ -73,6 +73,7 @@
     <string name="editor_title">Titel</string>
     <string name="editor_err_msg">Probeer weer in \'n paar sekondes.</string>
     <string name="editor_select_img">Kies prent</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Prent gebêre</string>
     <!-- General errors / errors without a category -->

@@ -199,6 +199,7 @@
     <string name="edit_selftext">I-edit ang selftext</string>
     <string name="delete_submission">I-delete ang pagsusumite</string>
     <string name="set_submission_flair">I-set ang flair ng pagsusumite</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Nai-save ang Larawan</string>
     <string name="video_saved">Nai-save ang video</string>

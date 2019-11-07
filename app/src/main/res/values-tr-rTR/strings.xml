@@ -201,6 +201,7 @@
     <string name="edit_selftext">Metini düzenle</string>
     <string name="delete_submission">Gönderiyi sil</string>
     <string name="set_submission_flair">Gönderi etiketini belirle</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Fotoğraf Kaydedildi</string>
     <string name="video_saved">Video kaydedildi</string>
@@ -1065,7 +1066,6 @@
     <string name="mod_log">Mod günlüğü</string>
     <string name="navigation_bar_vote_gestures">Gezinti çubuğu oy hareketleri</string>
     <string name="nav_gestures_description">Yorum kaydırma çubukları üzerinden sürerek artılama ve eksileme yap</string>
-    <string name="subreddit_sidebar_progress">Kenarçubuğu alınıyor...</string>
     <string name="manage_your_subreddits">Subredditlerini düzenle</string>
     <string name="enlarge_links">Bağlantıları büyüt</string>
     <string name="enlarge_links_warning">Bazı satırların diğerlerinden daha büyük olmasına sebep olabilir ama bağlantılara dokunmayı kolaylaştırır</string>
@@ -1085,7 +1085,7 @@
     <string name="setting_notification_piggybacking_desc">Yalnızca resmî Reddit uygulaması bir bildirim alırsa, postaları kontrol et</string>
     <string name="install_notif_piggyback">Bildirimleri çekmek için resmî Reddit uygulamasını indir</string>
     <string name="success_block_user">Kullanıcı başarıyla engellendi</string>
-    <string name="settings_highlight_time_desc"><![CDATA[\'Son ziyaretten beri yazılan yorum sayısını göster\' ayarının Ayarlar > Gönderi Düzeni'nden açılmasını gerektirir]]></string>
+    <string name="settings_highlight_time_desc">\'Son ziyaretten beri yazılan yorum sayısını göster\' ayarının Ayarlar &gt; Gönderi Düzeni\'nden açılmasını gerektirir</string>
     <string name="settings_colored_time">Yeni yorumlar için renklendirilmiş zaman balonu</string>
     <string name="theme_deep">Derin</string>
     <string name="type_vreddit">Reddit Video</string>

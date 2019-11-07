@@ -97,6 +97,7 @@
     <string name="editor_select_img">בחירת תמונה</string>
     <string name="editor_hint_optional_body">גוף פרסום (לא חובה)</string>
     <string name="editor_submit">הוסף פרסום</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">תמונה נשמרה</string>
     <!-- General errors / errors without a category -->

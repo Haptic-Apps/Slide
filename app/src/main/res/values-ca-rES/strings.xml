@@ -11,7 +11,7 @@
     <string name="general_pro_msg_crop">Eucat per convertir certes funcions d\'Slide (inclòs retallar i/o dibuixar sobre imatges) en funcions desbloquejables mitjançant la compra de la versió Pro a Play Store. \n\n la seva finalitat és mantenir el desenvolupament ininterromput, i no haver demostrar anuncis en la versió gratuïta!\n\nInclosos en aquest paquet trobareu el mode multi-columna, el mode Shadowbox (per subreddits d\'imatges), el mode galeria, còpies de restauració via Google Drive i via fitxers, i més!\n\nVoldríeu passar-vos a Slide for Reddit Pro?</string>
     <string name="general_open_settings">Barra lateral</string>
     <string name="general_sub_sync">Sincronitzant Subscripcions</string>
-    <string name="general_gallerymode_ispro">El mode galeria es una funcionalitat de la versió Pro</string>
+    <string name="general_gallerymode_ispro">El mode galeria és una funcionalitat de la versió Pro</string>
     <string name="general_cropdraw_ispro">Retallar i dibuixar en imatges pujades són característiques de pagament</string>
     <string name="general_shadowbox_comments_ispro">El mode Shadowbox per a comentaris és una funcionalitat de la versió Pro</string>
     <string name="general_shadowbox_ispro">El mode Shadowbox és una funcionalitat de la versió Pro</string>
@@ -31,8 +31,8 @@
     <string name="submission_share_title">Quin enllaç vols comparir?</string>
     <string name="submission_share_reddit">Enllaç de Reddit</string>
     <string name="submission_share_content">Enllaç de contingut</string>
-    <string name="submission_hide">Amagar post</string>
-    <string name="submission_report">Denunciar post</string>
+    <string name="submission_hide">Amagar publicació</string>
+    <string name="submission_report">Informar sobre la publicació</string>
     <string name="submission_gild">Obrir al navegador</string>
     <string name="submission_save">Desar la publicació</string>
     <string name="submission_save_image">Desar la imatge</string>
@@ -48,7 +48,7 @@
     <string name="submission_comment_copied">Text del comentari copiat</string>
     <string name="submission_nocontent">Aquesta contribució no consta de cap contingut</string>
     <string name="submission_link_copied">Enllaç copiat</string>
-    <string name="submission_text_copied">Text de la publicació copiat</string>
+    <string name="submission_text_copied">Publicació escrita copiada</string>
     <string name="submission_removed">Publicació eliminada</string>
     <plurals name="submission_points">
         <item quantity="one">%d punt</item>
@@ -60,7 +60,7 @@
     </plurals>
     <plurals name="points">
         <item quantity="one">pt</item>
-        <item quantity="other">ptcmt</item>
+        <item quantity="other">pts</item>
     </plurals>
     <plurals name="comments">
         <item quantity="one">comentari</item>
@@ -85,7 +85,7 @@
     <string name="theme_night">Tema nocturn</string>
     <!-- Font settings -->
     <string name="font_size_comment">Mida de la lletra dels comentaris</string>
-    <string name="font_size_post">Mida de la lletra de les contribucions</string>
+    <string name="font_size_post">Mida de la lletra de les publicacions</string>
     <string name="font_size_huge">Gegant</string>
     <string name="font_size_larger">Més gran</string>
     <string name="font_size_large">Gran</string>
@@ -94,9 +94,9 @@
     <string name="font_size_smaller">Molt petita</string>
     <string name="font_size_tiny">Diminuta</string>
     <!-- For editing the submission card layout -->
-    <string name="card_hide_post_button">Botó \"Ocultar contribució\" a la barra d\'accions</string>
+    <string name="card_hide_post_button">Botó \"Ocultar publicació\" a la barra d\'accions</string>
     <string name="card_tint_outside">Tintar només fora el subreddit</string>
-    <string name="card_save_button">Botó \"Desar contribució\" a la barra d\'accions</string>
+    <string name="card_save_button">Botó \"Desar publicació\" a la barra d\'accions</string>
     <!-- Settings for Multi-column view -->
     <string name="multi_column_title">Columna múltiple</string>
     <string name="multi_column_landscape">Apaïsat</string>
@@ -117,7 +117,7 @@
     <string name="sidebar_wiki">Wiki del subreddit</string>
     <string name="sidebar_mods">Moderadors del subreddit</string>
     <!-- User profile -->
-    <string name="profile_karma_link">Karma del post</string>
+    <string name="profile_karma_link">Karma de la publicació</string>
     <string name="profile_karma_comment">karma de comentari</string>
     <string name="profile_message">Missatge privat</string>
     <string name="profile_saved">Desat</string>
@@ -199,15 +199,16 @@
     <string name="editor_err_msg">Si us plau, torneu-ho a intentar en uns instants</string>
     <string name="editor_uploading_image">Penjant la imatge a Imgur</string>
     <string name="editor_upload_image_question">Penjar la imatge a Imgur?</string>
-    <string name="editor_self">Text de la publicació</string>
+    <string name="editor_self">Publicació escrita</string>
     <string name="editor_select_img">Seleccionar imatge</string>
     <string name="editor_hint_optional_body">Cos (opcional)</string>
     <string name="editor_submit">Enviar una publicació</string>
     <string name="editor_hint_subreddit">Subreddit</string>
     <string name="editor_finding_title">Cercant el títol</string>
-    <string name="edit_selftext">Editar el text de la publicació</string>
+    <string name="edit_selftext">Editar la Publicació escrita</string>
     <string name="delete_submission">Esborrar publicació</string>
     <string name="set_submission_flair">Establir una bandereta</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Imatge desada</string>
     <string name="video_saved">Vídeo desat</string>
@@ -258,6 +259,7 @@
     <string name="multireddit_title_empty">El títol no pot quedar buit</string>
     <string name="multireddit_title_empty_msg">Si us plau, entreu el títol del vostre multireddit</string>
     <string name="multireddit_no_subs">No s\'ha afegit cap subreddit</string>
+    <string name="multireddit_save_err">El títol d\'aquest multireddit ja existeix o no hi ha espai per afegir-hi més subreddits</string>
     <string name="multireddit_no_subs_msg">Si us plau, afegiu més subreddits prement el botó \"+\"!</string>
     <string name="multireddit_selector">Selecciona subreddits a afegir</string>
     <string name="multireddit_create_hint">Nom del multireddit</string>
@@ -277,7 +279,7 @@
     <string name="type_link">Enllaç</string>
     <string name="type_nsfw_link">Enllaç NSFW</string>
     <string name="type_gif">GIF</string>
-    <string name="type_title_only">Títol del post</string>
+    <string name="type_title_only">Títol de la publicació</string>
     <string name="type_album">Àlbum</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">Àlbum NSFW</string>
@@ -337,7 +339,7 @@
     <string name="misc_subscribed">Subscrit</string>
     <string name="misc_continue">Continuar</string>
     <string name="misc_unsubscribed">Subscripció cancel·lada</string>
-    <string name="misc_no_more_posts">No hi ha més posts!</string>
+    <string name="misc_no_more_posts">No hi ha més publicacions!</string>
     <string name="misc_please_wait">Si us plau, espereu&#8230;</string>
     <string name="misc_img_share">Compartir imatge amb</string>
     <string name="misc_link_chooser">Obrir enllaç amb</string>
@@ -391,7 +393,20 @@
     <string name="btn_new">Nou</string>
     <string name="btn_upload">Penjar</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Editar</string>
+    <string name="btn_hide">Ocultar</string>
+    <string name="btn_mod">Moderar</string>
+    <string name="btn_upvote">Votar positivament</string>
+    <string name="btn_downvote">Votar negativament</string>
+    <string name="btn_menu">Menú</string>
+    <string name="img_score">Puntuació</string>
+    <string name="img_comments">Comentaris</string>
+    <string name="btn_expand">Desplegar</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Votat positivament</string>
+    <string name="btn_downvoted">Votat negativament</string>
+    <string name="btn_unsave">Deixa de desar-ho</string>
+    <string name="btn_collapse">Replegar</string>
     <!-- Backup -->
     <string name="backup_success">Còpia de seguretat realitzada amb èxit!</string>
     <string name="backup_restoring">Restablint la vostra configuració</string>
@@ -414,14 +429,14 @@
     <string name="mod_mail_unread">Correu de moderació no llegit</string>
     <string name="mod_modqueue">Cua de moderació</string>
     <string name="mod_unmoderated">Sense moderar</string>
-    <string name="mod_reports">Denúncies</string>
+    <string name="mod_reports">Informes</string>
     <string name="mod_approve">Esteu segurs que voleu aprovar aquesta publicació?</string>
     <string name="mod_approved">Publicació aprovada</string>
     <string name="mod_mark_nsfw">Esteu segurs que voleu marcar-ho com a NSFW?</string>
     <string name="mod_remove_nsfw">Esteu segurs que voleu eliminar l\'etiqueta NSFW?</string>
     <string name="mod_flair_post">Bandereta de la publicació</string>
     <string name="mod_flair_hint">Text de la bandereta</string>
-    <string name="mod_no_reports">Sense denúncies</string>
+    <string name="mod_no_reports">Sense informes</string>
     <string name="mod_btn_approve">Aprovar</string>
     <string name="mod_btn_approved">Aprovat per /u/%1$s</string>
     <string name="mod_btn_submission_flair">Afegir bandereta</string>
@@ -460,7 +475,7 @@
     <string name="mod_unsticky">Desanclar</string>
     <string name="reauth_complete">Re-autentificació completada!</string>
     <plurals name="mod_btn_reports">
-        <item quantity="one">Veure %d denúncia</item>
+        <item quantity="one">Veure %d informe</item>
         <item quantity="other">Veure %d denúncies</item>
     </plurals>
     <!-- Toolbox-related stuff -->
@@ -552,9 +567,9 @@
     <string name="settings_colored_navigation_bar">Barra de navegació acolorida</string>
     <string name="settings_colored_icon">Color de la icona de l\'aplicació (experimental)</string>
     <string name="settings_colored_icon_desc">Potser requerirà reiniciar el dispositiu per tal de funcionar. També eliminarà la icona de la vostra pantalla principal.</string>
-    <string name="settings_filter_domain">Filtra dominis</string>
-    <string name="settings_filter_selfttext">Filtra text</string>
-    <string name="settings_filter_title">Filtra per títols</string>
+    <string name="settings_filter_domain">Filtrar dominis</string>
+    <string name="settings_filter_selfttext">Filtrar text</string>
+    <string name="settings_filter_title">Filtrar per títols</string>
     <string name="settings_filter_hint">Introduïu els valors corresponents separats per comes</string>
     <string name="settings_prefs_reddit">Veure totes les preferències de reddit.com</string>
     <string name="settings_font_post">Font del títol de la publicació</string>
@@ -620,7 +635,7 @@
     <string name="settings_backup_submission_only">només publicacions</string>
     <string name="settings_backup_comments">\u0020(comentaris)</string>
     <string name="settings_filter_profile">Filtres del perfil</string>
-    <string name="settings_subredditspecific_selftext">Mostrar sempre les visualitzacions prèvies de les publicacions de text en aquest subreddit</string>
+    <string name="settings_subredditspecific_selftext">Mostrar sempre les visualitzacions prèvies de les publicacions escrites en aquest subreddit</string>
     <string name="settings_font_system">Sistema</string>
     <string name="settings_manage_subscriptions">Gestionar les seves subscripcions</string>
     <string name="settings_comments_swap_long">Intercanviar les accions de toc i pressió</string>
@@ -650,7 +665,7 @@
     <string name="settings_reddit_media_pref">Ignorar les preferències de contingut multimèdia de cada subreddit</string>
     <string name="settings_description_synccit">Synccit us permet sincronitzar el vostre historial de publicacions entre dispositius i navegador</string>
     <string name="settings_description_view_type">Les diferents tipologies de visualització afecten tant la visió general com la de subreddits individuals.\n\nPanell de comentaris: els comentaris llisquen junt amb les publicacions i es desa la vostra localització a la pàgina després de lliscar enrere (per no perdre el vostre progrés)\n\nSense pestanyes de subreddits: inhabilita l\'opció de lliscar entre subreddits\n\nPestanyes de subreddits: llisqui entre els seus subreddits</string>
-    <string name="settings_comment_hide_selftext_image">Ocultar la primera imatge en les publicacions de text</string>
+    <string name="settings_comment_hide_selftext_image">Ocultar la primera imatge en les publicacions escrites</string>
     <string name="settings_reddit_syncing">Sincronitzant amb Reddit</string>
     <string name="settings_filter_flair">Filtrar per banderetes</string>
     <string name="settings_data_low_quality">Carregar imatges de poca qualitat</string>
@@ -798,7 +813,7 @@
     <string name="donate_err_title">Donació sense èxit :(</string>
     <string name="donate_err_msg">Desafortunadament, no s\'ha pogut completar la donació. Assegureu-vos que esteu connetctats a internet i torneu-ho a provar! Gràcies pel vostre suport!</string>
     <string name="donate_success_title">Donació amb èxit!</string>
-    <string name="donate_success_msg">Moltes gràcies pel teu suport a Slide for Reddit! Significa molt per mi. Si trobes qualsevol problema, envia\'m un correu electrònic o informen a GitHub quan vulguis!</string>
+    <string name="donate_success_msg">Moltes gràcies pel teu suport a Slide for Reddit! Significa molt per mi. Si trobes qualsevol problema, envia\'m un correu electrònic o informe\'n a GitHub quan vulguis!</string>
     <string name="donate_success_btn">No es mereixen!</string>
     <!-- Offline mode -->
     <string name="offline_caching">Desant les publicacions a la memòria cau</string>
@@ -981,16 +996,16 @@
     <string name="set_save_location">Establir la ubicació d\'emmagatzematge de les imatges</string>
     <string name="set_save_location_msg">Encara no heu establert cap ubicació d\'emmagatzematge per a imatges. Voldrieu establir-la ara?</string>
     <!-- Report flow -->
-    <string name="btn_report">Denunciar</string>
-    <string name="report_post">Denunciar publicació</string>
+    <string name="btn_report">Informar</string>
+    <string name="report_post">Informar sobre la publicació</string>
     <string name="report_comment">Denunciar el comentari</string>
     <string name="report_loading">Carregant raons&#8230;</string>
     <string name="report_sub_rules">Normes de /r/%s</string>
     <string name="report_site_rules">Normes de Reddit</string>
     <string name="report_another_reason">Una altra raó</string>
     <string name="report_other">Altre</string>
-    <string name="input_reason_for_report">Raó de la denúncia</string>
-    <string name="msg_report_sent">Denúncia enviada</string>
+    <string name="input_reason_for_report">Raó de l\'informe</string>
+    <string name="msg_report_sent">Informe enviat</string>
     <!-- Unsorted ¯\\_(ツ)_/¯ -->
     <string name="comment_load_more_number_unknown">Carregar més comentaris</string>
     <string name="card_right_thumb">Miniatura d\'imatge al lateral dret</string>
@@ -1006,7 +1021,7 @@
     <string name="handling_internal_browser">Navegador intern</string>
     <string name="handling_external_browser">Navegador extern</string>
     <string name="mode_list">Llista</string>
-    <string name="mode_centered">Targeta amb una imatge centrada</string>
+    <string name="mode_centered">Targeta amb imatge centrada</string>
     <string name="mode_card">Targeta</string>
     <string name="mode_thumbnail">Miniatura d\'imatge</string>
     <string name="mode_big_thumbnails">Miniatures d\'imatge amples</string>
@@ -1014,7 +1029,7 @@
     <string name="mode_bigpic">Imatge gran</string>
     <string name="press_actionbar">Premi la flexta per mostrar la barea d\'acció</string>
     <string name="tap_actionbar">Mantingui pressionat per la barra d\'acció</string>
-    <string name="always_actionbar">Mostra sempre la barra d\'acció</string>
+    <string name="always_actionbar">Mostrar sempre la barra d\'acció</string>
     <string name="sub_content_filter">Filtrar contingut al subreddit</string>
     <string name="submission_share_reddit_url">Compartir els comentaris</string>
     <string name="filter_content">Filtrar aquest contingut</string>
@@ -1050,7 +1065,7 @@
     <string name="sorting_default_comment">Ordre de comentaris per defecte</string>
     <string name="content_deleted">[eliminat]</string>
     <string name="thread_continue">Continuar aquest fil</string>
-    <string name="type_selftext">Text de la publicació</string>
+    <string name="type_selftext">Publicació escrita</string>
     <string name="submission_unhide">Mostrar publicació</string>
     <string name="submission_info_unhidden">La publicació es mostrarà</string>
     <string name="msg_sent_success">S\'ha enviat el missatge</string>
@@ -1128,7 +1143,6 @@
     <string name="mod_log">Registre de moderació</string>
     <string name="navigation_bar_vote_gestures">Vots gestuals a la barra de navegació</string>
     <string name="nav_gestures_description">Votar positivament o negativament deslliçant-se per les fletxes de navegació de comentaris</string>
-    <string name="subreddit_sidebar_progress">Obtenint la barra lateral...</string>
     <string name="manage_your_subreddits">Gestionar els teus subreddits</string>
     <string name="enlarge_links">Ampliar enllaços</string>
     <string name="enlarge_links_warning">Pot provocar que algunes línies siguin més gran que altres, però facilita tocar els enllaços</string>
@@ -1151,7 +1165,7 @@
     <string name="setting_notification_piggybacking_desc">Cercar novetats en la safata d\'entrada només quan l\'aplicació oficial de Reddit rebi una notificació emergent</string>
     <string name="install_notif_piggyback">Instal·li l\'aplicació oficial de Reddit per activar les notificacions connectades</string>
     <string name="success_block_user">Usuari bloquejat amb èxit</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Requereix que s'habiliti l'opció \'Mostrar el nombre de comentaris des de la darrera visita\' a Configuració > Disseny d'entrada]]></string>
+    <string name="settings_highlight_time_desc">Requereix que s\'habiliti l\'opció \'Mostrar el nombre de comentaris des de la darrera visita\' a Configuració &gt; Disseny d\'entrada</string>
     <string name="settings_colored_time">Tintar la bombolla horària per a comentaris nous</string>
     <string name="theme_deep">En profunditat</string>
     <string name="type_vreddit">Vídeo de Reddit</string>

@@ -129,6 +129,7 @@
     <string name="editor_hint_optional_body">Innehåll (valfritt)</string>
     <string name="editor_submit">Skicka ett inlägg</string>
     <string name="editor_hint_subreddit">Subreddit</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Fotot sparat</string>
     <!-- General errors / errors without a category -->

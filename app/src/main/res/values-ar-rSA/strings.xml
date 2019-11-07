@@ -170,6 +170,7 @@
     <string name="editor_hint_optional_body">الجسم (اختياري)</string>
     <string name="editor_submit">أرسِل المنشورة</string>
     <string name="editor_hint_subreddit">ريدّت فرعي</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">حُفظت الصورة</string>
     <!-- General errors / errors without a category -->

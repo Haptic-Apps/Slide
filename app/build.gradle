@@ -13,7 +13,7 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 319
+        versionCode 322
         versionName androidGitVersion.name()
 
         multiDexEnabled = true
@@ -69,6 +69,12 @@ android {
         // Translations are crowd-sourced
         disable 'MissingTranslation'
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 robototextview {
@@ -85,7 +91,7 @@ robototextview {
 
 ext {
     supportLibVersion = '28.0.0'
-    robolectricVersion = '3.3.1'
+    robolectricVersion = '4.3'
     powerMockitoVersion = '1.7.4' //2.0.0-RC.3
 }
 

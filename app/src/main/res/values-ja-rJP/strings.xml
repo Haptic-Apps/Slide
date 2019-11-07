@@ -118,14 +118,14 @@
     <string name="profile_message">プライベートメッセージ</string>
     <string name="profile_saved">保存しました</string>
     <string name="profile_read_later">後で読む</string>
-    <string name="profile_upvoted">↑投票しました</string>
+    <string name="profile_upvoted">ナイスしました</string>
     <string name="profile_err_title">ユーザーが見つかりませんでした。</string>
     <string name="profile_err_msg">Reddit ユーザーを取得できませんでした。</string>
     <string name="profile_overview">概要</string>
     <string name="profile_comments">コメント</string>
     <string name="profile_submitted">送信</string>
     <string name="profile_gilded">ゴールド</string>
-    <string name="profile_downvoted">↓投票しました</string>
+    <string name="profile_downvoted">イマイチしました</string>
     <string name="profile_hidden">非表示</string>
     <string name="profile_friend">友達</string>
     <string name="profile_add_friend">友達を追加</string>
@@ -204,6 +204,7 @@
     <string name="edit_selftext">Selftext を編集</string>
     <string name="delete_submission">サブミッションを削除</string>
     <string name="set_submission_flair">サブミッションのフレアーを設定</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">保存した写真</string>
     <string name="video_saved">動画を保存しました</string>
@@ -254,6 +255,7 @@
     <string name="multireddit_title_empty">タイトルを空にすることはできません</string>
     <string name="multireddit_title_empty_msg">Multireddit のタイトルを入力してください</string>
     <string name="multireddit_no_subs">Subreddits は追加されていません</string>
+    <string name="multireddit_save_err">このMultiredditのタイトルが既に存在するか、ここにSubredditを追加するスペースがありません</string>
     <string name="multireddit_no_subs_msg">+ ボタンをクリックして、Subreddits を追加してください!</string>
     <string name="multireddit_selector">追加する Subreddit を選択</string>
     <string name="multireddit_create_hint">Multireddit 名</string>
@@ -385,7 +387,20 @@
     <string name="btn_new">新規</string>
     <string name="btn_upload">アップロード</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">編集</string>
+    <string name="btn_hide">非表示</string>
+    <string name="btn_mod">モデレート</string>
+    <string name="btn_upvote">ナイス</string>
+    <string name="btn_downvote">イマイチ</string>
+    <string name="btn_menu">メニュー</string>
+    <string name="img_score">スコア</string>
+    <string name="img_comments">コメント</string>
+    <string name="btn_expand">展開</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">ナイスしました</string>
+    <string name="btn_downvoted">イマイチしました</string>
+    <string name="btn_unsave">未保存</string>
+    <string name="btn_collapse">折りたたむ</string>
     <!-- Backup -->
     <string name="backup_success">正常にバックアップしました!</string>
     <string name="backup_restoring">設定を復元します</string>
@@ -463,6 +478,19 @@
     <string name="toolbox_removal_title">%s の削除理由</string>
     <string name="toolbox_removal_header">ヘッダーに含む:</string>
     <string name="toolbox_removal_footer">フッターに含む:</string>
+    <string name="toolbox_removal_comment">削除されたアイテムへのコメントで返信する</string>
+    <string name="toolbox_removal_sticky">削除コメントに付箋を付ける</string>
+    <string name="toolbox_removal_pm">PMとして送信</string>
+    <string name="toolbox_removal_modmail">モデレーターとしてPMを送信</string>
+    <string name="toolbox_removal_both">PMと返信の両方として送信</string>
+    <string name="toolbox_removal_none">なし。削除のログとしてのみ</string>
+    <string name="toolbox_removal_lock">削除されたスレッドをロック</string>
+    <string name="toolbox_logreason_placeholder">ログの理由</string>
+    <string name="toolbox_note_text_required">メモのテキストが必要です</string>
+    <string name="toolbox_note_text_placeholder">ユーザーについて何か&#8230;</string>
+    <string name="toolbox_note_default">種類なし</string>
+    <string name="toolbox_wiki_edit_reauth">ユーザーメモを追加または削除するため、Slideは再認証する必要があります</string>
+    <string name="toolbox_wiki_edit_reauth_question">今すぐ Slide に再ログインしますか?</string>
     <!-- Pleasantly asking the user if he made his mind up -->
     <string name="really_remove_submission">このサブミッションを削除してもよろしいですか?</string>
     <string name="really_pin_submission">このサブミッションをピン留めしてもよろしいですか?</string>
@@ -541,11 +569,15 @@
     <string name="settings_font_comment">コメントのフォント</string>
     <string name="settings_comment_crop">コメント表示で先頭画像のトリミング</string>
     <string name="settings_general_scroll_read">スクロールで過ぎたときに既読として投稿をマーク</string>
+    <string name="settings_link_chrome">カスタムタブ</string>
     <string name="settings_image_location">画像/GIFの保存先を選択する</string>
     <string name="settings_image_location_unset">未設定です</string>
     <string name="settings_set_image_location">画像が %s に保存されるようになりました</string>
     <string name="settings_general_immersive_mode">イマーシブ全画面モード</string>
     <string name="settings_general_immersive_mode_desc">ステータスとナビゲーション バーを非表示にします (実験的)</string>
+    <string name="settings_general_title_drawer_items">ドロワーアイテム</string>
+    <string name="settings_general_subtitle_drawer_items">表示するドロワーアイテムを選択</string>
+    <string name="settings_moderation">モデレーション</string>
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_backup">バックアップ &amp; 復元</string>
     <string name="settings_title_default_theme">メイン テーマ</string>
@@ -622,6 +654,8 @@
     <string name="settings_general_comment_last_visit">前回訪問してからのコメント数を表示</string>
     <string name="settings_fab_create">\"コメントを作成\" FAB を表示</string>
     <string name="settings_right_handed_comment_menu">右利き用コメント返信メニュー</string>
+    <string name="settings_reddit_description">これらの設定は Reddit API が Slide に返す内容を変更します。\n\nすべての Subreddit でサムネイルを表示するには、「Subreddit メディア設定を無視する」を有効にします\n\nすべての NSFW コンテンツを表示するには、「NSFW 写真を非表示」をオフにして、「私は 18 歳以上です」をオンにします</string>
+    <string name="settings_reddit_media_pref">Subreddit メディア設定を無視する</string>
     <string name="settings_description_synccit">Synccit は、デバイスとお使いのブラウザーの間でサブミッションの履歴を同期することができます</string>
     <string name="settings_description_view_type">表示の種類はメイン画面と単一の Subreddit 画面に影響します。\n\nコメント ペイン: 投稿の横からコメントが引き出され、スワイプで戻った後にコメント ページの状態が保存されます (場所を忘れることはありません) \n\nSubreddit タブなし: Subreddit 間のスワイプを無効にします\n\nSubreddit タブ: Subreddits 間でスライドします</string>
     <string name="settings_comment_hide_selftext_image">自己テキスト投稿で、先頭の画像を非表示</string>
@@ -649,7 +683,25 @@
     <string name="settings_theme_night_end_at">終了時刻\u0020</string>
     <string name="settings_general_inbox_snd">サウンドとバイブレーション</string>
     <string name="settings_enable_notifs">受信通知を有効にする</string>
+    <string name="settings_mod_toolbox_header">ツールボックス</string>
+    <string name="settings_mod_toolbox_enabled">ツールボックス機能を有効にする</string>
+    <string name="settings_mod_toolbox_desc">パフォーマンスがわずかに低下する可能性があります</string>
+    <string name="settings_mod_removal_reasons">削除理由の種類</string>
+    <string name="settings_mod_removal_slide">Slide \"理由で削除\"</string>
+    <string name="settings_mod_removal_toolbox">ツールボックス削除理由</string>
+    <string name="settings_mod_removal_reddit">Reddit 削除理由</string>
+    <string name="settings_mod_toolbox_refresh">ツールボックスのデータを強制リフレッシュ</string>
+    <string name="settings_mod_toolbox_message">削除理由を送信する方法</string>
+    <string name="settings_mod_toolbox_sticky">削除コメントに付箋を付ける</string>
+    <string name="settings_mod_toolbox_lock">削除理由を残した後にスレッドをロックする</string>
+    <string name="settings_mod_toolbox_modmail">Subredditとして削除理由を送信</string>
+    <string name="settings_mod_toolbox_refreshing">すべてのSubredditのツールボックスデータを更新します</string>
     <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_night_mode">夜間モード</string>
+    <string name="toggle_immersive_mode">イマーシブモード</string>
+    <string name="toggle_nsfw">NSFW コンテンツを表示する</string>
+    <string name="toggle_right_thumbnails">サムネイルの右揃え</string>
+    <string name="toggle_reader_mode">リーダーモードを使用する</string>
     <!-- View types -->
     <string name="view_type_tabs">Subreddit タブ</string>
     <string name="view_type_none">Subreddit タブなし</string>
@@ -713,6 +765,7 @@
     <string name="category_create_new">新しいカテゴリー</string>
     <string name="profile_category_loading">カテゴリーの読み込み中</string>
     <string name="profile_category_select">カテゴリーを選択</string>
+    <string name="profile_saved_categories">保存したカテゴリー</string>
     <!-- Setting subheaders -->
     <string name="sorting">ソート設定</string>
     <string name="display">画面表示</string>
@@ -930,6 +983,11 @@
     <string name="btn_report">報告する</string>
     <string name="report_post">投稿を報告</string>
     <string name="report_comment">コメントを報告</string>
+    <string name="report_loading">理由を読み込んでいます&#8230;</string>
+    <string name="report_sub_rules">/r/%s ルール</string>
+    <string name="report_site_rules">Reddit ルール</string>
+    <string name="report_another_reason">別の理由</string>
+    <string name="report_other">その他</string>
     <string name="input_reason_for_report">報告する理由</string>
     <string name="msg_report_sent">報告を送信しました</string>
     <!-- Unsorted ¯\\_(ツ)_/¯ -->
@@ -944,6 +1002,8 @@
     <string name="fab_create">新しい投稿を作成</string>
     <string name="fab_disabled">無効</string>
     <string name="fab_search">投稿を検索</string>
+    <string name="handling_internal_browser">内部ブラウザー</string>
+    <string name="handling_external_browser">外部ブラウザー</string>
     <string name="mode_list">リスト</string>
     <string name="mode_centered">中央に画像のあるカード</string>
     <string name="mode_card">カード</string>
@@ -1066,7 +1126,6 @@
     <string name="mod_log">Mod ログ</string>
     <string name="navigation_bar_vote_gestures">ナビゲーションバーの投票ジェスチャー</string>
     <string name="nav_gestures_description">コメント ナビゲーションの矢印をスワイプして、↑投票と↓投票</string>
-    <string name="subreddit_sidebar_progress">サイドバーの取得中...</string>
     <string name="manage_your_subreddits">あなたの Subreddit を管理</string>
     <string name="enlarge_links">リンクを拡大</string>
     <string name="enlarge_links_warning">一部の行が他より大きくなりますが、リンクにタッチしやすくなります</string>
@@ -1077,6 +1136,8 @@
     <string name="mod_ban_reason_required">理由が必要です</string>
     <string name="settings_abbreviate_post_scores">投稿スコアを省略 (例 24.0k)</string>
     <string name="settings_wide_depth_indicators">ワイドなコメントの深さインジケーター</string>
+    <string name="settings_link_reader_mode_title">リーダーモードを使用する</string>
+    <string name="settings_link_reader_mode_description">すべてのリンクをリーダーモードで開きます。 ブラウザーの種類は、リーダーモードから開くときに使用されます。</string>
     <string name="settings_link_reader_night">読書モードと夜間モードをリンク</string>
     <string name="theme_pixel">ピクセル</string>
     <string name="save_images_to_subreddit_specific_subfolders">Subreddit 固有のサブフォルダーに画像を保存</string>
@@ -1087,7 +1148,7 @@
     <string name="setting_notification_piggybacking_desc">Reddit の公式アプリがプッシュ通知を取得した場合のみメールを確認します</string>
     <string name="install_notif_piggyback">通知のピギーバックができるように公式の Reddit アプリをインストール</string>
     <string name="success_block_user">ユーザーを正常にブロックしました</string>
-    <string name="settings_highlight_time_desc"><![CDATA[設定 > 投稿レイアウトで \'前回訪問してからのコメント数を表示\' を有効にする必要があります]]></string>
+    <string name="settings_highlight_time_desc">設定 &gt; 投稿レイアウトで \'前回訪問してからのコメント数を表示\' を有効にする必要があります</string>
     <string name="settings_colored_time">新しいコメントに色の付いたタイムバブル</string>
     <string name="theme_deep">ディープ</string>
     <string name="type_vreddit">Reddit ビデオ</string>
@@ -1099,5 +1160,11 @@
     <string name="disable_replies_comment">コメントの受信トレイの返信を無効にする</string>
     <string name="replies_disabled_comment">コメントの返信は無効です</string>
     <string name="replies_enabled_comment">コメントの返信は有効です</string>
+    <string name="replies_switch_accounts">別のアカウントに切り替え</string>
+    <string name="browser_choose">ブラウザーを選択</string>
+    <string name="search_settings">検索の設定</string>
     <string name="firefox">Firefox</string>
+    <string name="show_collapse_expand_nav_bar">コメントナビゲーションバーに折りたたみ/展開ボタンを表示する</string>
+    <string name="page_not_found">ページが見つかりません</string>
+    <string name="page_does_not_exist">リクエストしたページは存在しません</string>
 </resources>

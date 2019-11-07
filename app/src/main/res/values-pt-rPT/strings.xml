@@ -201,6 +201,7 @@
     <string name="edit_selftext">Editar selftext</string>
     <string name="delete_submission">Apagar submissão</string>
     <string name="set_submission_flair">Definir etiqueta da publicação</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Foto gravada</string>
     <string name="video_saved">Vídeo guardado</string>
@@ -1065,7 +1066,6 @@
     <string name="mod_log">Modo de registo</string>
     <string name="navigation_bar_vote_gestures">Gestos da barra de navegação</string>
     <string name="nav_gestures_description">Upvote e Downvote deslizando nas setas de navegação de comentários</string>
-    <string name="subreddit_sidebar_progress">A obter barra lateral...</string>
     <string name="manage_your_subreddits">Gerir os seus subreddits</string>
     <string name="enlarge_links">Ampliar as ligações</string>
     <string name="enlarge_links_warning">Pode causar algumas linhas ser maior do que outras, mas faz ligações mais fáceis de tocar</string>
@@ -1086,7 +1086,7 @@
     <string name="setting_notification_piggybacking_desc">Verificar por correio somente quando a aplicação oficial do Reddit recebe uma notificação push</string>
     <string name="install_notif_piggyback">Instalar a aplicação oficial do Reddit para ativar a notificação Piggybacking</string>
     <string name="success_block_user">Utilizador bloqueado com sucesso</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Requer a ativação de \'Mostrar contagem de comentários desde a última visita\' em Definições > Layout de Publicação]]></string>
+    <string name="settings_highlight_time_desc">Requer a ativação de \'Mostrar contagem de comentários desde a última visita\' em Definições &gt; Layout de Publicação</string>
     <string name="settings_colored_time">Bolha temporal colorida para novos comentários</string>
     <string name="theme_deep">Profundo</string>
     <string name="type_vreddit">Vídeo do Reddit</string>

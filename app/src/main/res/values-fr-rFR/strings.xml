@@ -208,6 +208,7 @@
     <string name="edit_selftext">Modifier la publication texte</string>
     <string name="delete_submission">Supprimer la publication</string>
     <string name="set_submission_flair">Définir le flair de la publication</string>
+    <!-- Editor buttons -->
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Photo Enregistrée</string>
     <string name="video_saved">Vidéo sauvegardée</string>
@@ -258,6 +259,7 @@
     <string name="multireddit_title_empty">Le titre ne peut pas être vide</string>
     <string name="multireddit_title_empty_msg">Veuillez entrer un nom pour votre multireddit</string>
     <string name="multireddit_no_subs">Aucun subreddit n\'est ajouté</string>
+    <string name="multireddit_save_err">Le titre de ce multi-reddit existe déjà ou il n\'y a plus d\'espace pour un subreddit en plus ici</string>
     <string name="multireddit_no_subs_msg">Veuillez ajouter des subreddits en appuyant sur le bouton + !</string>
     <string name="multireddit_selector">Sélectionnez des subreddits à ajouter</string>
     <string name="multireddit_create_hint">Nom du multireddit</string>
@@ -391,7 +393,20 @@
     <string name="btn_new">Nouveau</string>
     <string name="btn_upload">Envoyer</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Modifier</string>
+    <string name="btn_hide">Cacher</string>
+    <string name="btn_mod">Modérer</string>
+    <string name="btn_upvote">Haut-voter</string>
+    <string name="btn_downvote">Bas-voter</string>
+    <string name="btn_menu">Menu</string>
+    <string name="img_score">Score</string>
+    <string name="img_comments">Commentaires</string>
+    <string name="btn_expand">Étendre</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Haut-voté</string>
+    <string name="btn_downvoted">Bas-voté</string>
+    <string name="btn_unsave">Désenregistrer</string>
+    <string name="btn_collapse">Réduire</string>
     <!-- Backup -->
     <string name="backup_success">Sauvegarde réussie!</string>
     <string name="backup_restoring">Restauration de vous paramètres</string>
@@ -675,7 +690,7 @@
     <string name="settings_theme_night_end_at">Finit à\u0020</string>
     <string name="settings_general_inbox_snd">Son et vibration</string>
     <string name="settings_enable_notifs">Activer les notifications de messages</string>
-    <string name="settings_mod_toolbox_header">Boîte à outils</string>
+    <string name="settings_mod_toolbox_header">Toolbox</string>
     <string name="settings_mod_toolbox_enabled">Activer la fonctionnalité de la Toolbox</string>
     <string name="settings_mod_toolbox_desc">Peut causer une légère baisse de performance</string>
     <string name="settings_mod_removal_reasons">Type de raison de suppression</string>
@@ -1128,7 +1143,6 @@
     <string name="mod_log">Journal des mod</string>
     <string name="navigation_bar_vote_gestures">Gestes pour vote dans la barre de navigation</string>
     <string name="nav_gestures_description">Upvote et downvote en glissant sur les flèches de navigation de commentaire</string>
-    <string name="subreddit_sidebar_progress">Chargement de la barre latérale...</string>
     <string name="manage_your_subreddits">Gérez vos subreddits</string>
     <string name="enlarge_links">Agrandir les liens</string>
     <string name="enlarge_links_warning">Peut causer quelques lignes à être plus grandes que d\'autres, mais rend les liens plus facile à toucher</string>
@@ -1151,7 +1165,7 @@
     <string name="setting_notification_piggybacking_desc">Rafraîchir les messages uniquement quand l\'app officielle Reddit reçoit une notification</string>
     <string name="install_notif_piggyback">Installez l\'app Reddit officielle pour activer les Notification push</string>
     <string name="success_block_user">Utilisateur bloqué avec succès</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Nécessite que \'Afficher le nombre le commentaires postés depuis la dernière visite\' soit activé dans Paramètres > Aménagement des postes]]></string>
+    <string name="settings_highlight_time_desc">Nécessite que \'Afficher le nombre le commentaires postés depuis la dernière visite\' soit activé dans Paramètres &gt; Aménagement des postes</string>
     <string name="settings_colored_time">Bulle de couleur de temps pour les nouveaux commentaires</string>
     <string name="theme_deep">Profond</string>
     <string name="type_vreddit">Vidéo de Reddit</string>
