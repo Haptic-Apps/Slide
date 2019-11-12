@@ -355,7 +355,7 @@ public class GifUtils {
 
         OkHttpClient client = Reddit.client;
 
-        public void loadGfycat(String name, Gson gson) throws Exception {
+        public void loadGfycat(String name, String fullUrl, Gson gson) throws Exception {
             showProgressBar(c, progressBar, false);
             if (!name.startsWith("/")) name = "/" + name;
             if (name.contains("-")) {
@@ -383,6 +383,14 @@ public class GifUtils {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
                                                             int which) {
+                                                        c.finish();
+                                                    }
+                                                })
+                                        .setNeutralButton(R.string.open_externally,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        LinkUtil.openExternally(fullUrl);
                                                         c.finish();
                                                     }
                                                 })
@@ -449,7 +457,7 @@ public class GifUtils {
                     String gfycatUrl = "https://gfycat.com/cajax/get" + name;
 
                     try {
-                        loadGfycat(name, gson);
+                        loadGfycat(name, url, gson);
                     } catch (Exception e) {
                         LogUtil.e(e, "Error loading gfycat video url = ["
                                 + url
