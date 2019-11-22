@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
  */
 public class UserSubscriptionsTest {
     private final CaseInsensitiveArrayList subreddits = new CaseInsensitiveArrayList(Arrays.asList(
-            "xyy", "xyz", "frontpage", "mod", "friends", "random", "aaa", "pinned", "pinned2"
+            "xyy", "xyz", "frontpage", "mod", "friends", "random", "aaa", "bbb", "pinned", "pinned2"
     ));
 
     @BeforeClass
@@ -30,14 +30,28 @@ public class UserSubscriptionsTest {
     @Test
     public void sortsSubreddits() {
         assertThat(UserSubscriptions.sort(subreddits), is(new ArrayList<>(Arrays.asList(
-                "pinned", "pinned2", "frontpage", "all", "random", "friends", "mod", "aaa", "xyy", "xyz"
+                "pinned", "pinned2", "frontpage", "all", "random", "friends", "mod", "aaa", "bbb", "xyy", "xyz"
+        ))));
+    }
+
+    @Test
+    public void sortsSubreddit() {
+        assertThat(UserSubscriptions.sort(subreddits), is(new ArrayList<>(Arrays.asList(
+                "frontpage", "all", "pinned", "pinned2", "random", "friends", "bbb", "mod", "aaa", "xyy", "xyz"
         ))));
     }
 
     @Test
     public void sortsSubredditsNoExtras() {
         assertThat(UserSubscriptions.sortNoExtras(subreddits), is(new ArrayList<>(Arrays.asList(
-                "pinned", "pinned2", "frontpage", "random", "friends", "mod", "aaa", "xyy", "xyz"
+                "pinned", "pinned2", "frontpage", "random", "friends", "mod", "aaa", "bbb", "xyy", "xyz"
+        ))));
+    }
+
+    @Test
+    public void sortsSubredditsNoExtr() {
+        assertThat(UserSubscriptions.sortNoExtras(subreddits), is(new ArrayList<>(Arrays.asList(
+                "random", "pinned2", "frontpage", "bbb", "friends", "pinned", "mod", "aaa", "xyy", "xyz"
         ))));
     }
 }
