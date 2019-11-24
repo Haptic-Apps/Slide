@@ -189,7 +189,7 @@ public class ContentType {
                     "what-if.xkcd.com")) {
                 return Type.XKCD;
             }
-            if (hostContains(host, "tumblr.com") && uri.getPath().contains("post")) {
+            if (hostContains(host, "tumblr.com")) {
                 return Type.TUMBLR;
             }
             if (hostContains(host, "reddit.com", "redd.it")) {

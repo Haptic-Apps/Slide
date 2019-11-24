@@ -88,11 +88,6 @@ public class ContentTypeTest {
     }
 
     @Test
-    public void detectsImgur() {
-        assertThat(ContentType.getContentType("https://i.imgur.com/33YIg0B"), is(Type.IMGUR));
-    }
-
-    @Test
     public void detectsSpoiler() {
         assertThat(ContentType.getContentType("/s"), is(Type.SPOILER));
         assertThat(ContentType.getContentType("/sp"), is(Type.SPOILER));
@@ -152,12 +147,30 @@ public class ContentTypeTest {
     }
 
     @Test
-    public void detectsLink() {
-        assertThat(ContentType.getContentType("https://stackoverflow.com/"), is(Type.LINK));
+    public void detectTumblr() {
+        assertThat(ContentType.getContentType("https://www.tumblr.com"), is(Type.TUMBLR));
     }
 
     @Test
-    public void detectsNone() {
+    public void detectImgur() {
+        assertThat(ContentType.getContentType("https://imgur.com/r/funny/mGBj8o2"), is(Type.IMGUR));
+        assertThat(ContentType.getContentType("https://imgur.com/r/cats/scnUPIx"), is(Type.IMGUR));
+        assertThat(ContentType.getContentType("https://imgur.com/r/animals/jxJ7uJH"), is(Type.IMGUR));
+    }
+
+    @Test
+    public void detectStream() {
+        assertThat(ContentType.getContentType("https://streamable.com/detah"), is(Type.STREAMABLE));
+    }
+
+    @Test
+    public void detectLink() {
+        assertThat(ContentType.getContentType("https://aliexpress.com"), is(Type.LINK));
+        assertThat(ContentType.getContentType("https://wish.com"), is(Type.LINK));
+    }
+
+    @Test
+    public void detectNone() {
         assertThat(ContentType.getContentType(""), is(Type.NONE));
     }
 }
