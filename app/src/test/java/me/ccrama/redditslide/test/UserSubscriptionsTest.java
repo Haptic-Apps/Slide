@@ -40,4 +40,5 @@ public class UserSubscriptionsTest {
                 "pinned", "pinned2", "frontpage", "random", "friends", "mod", "aaa", "xyy", "xyz"
         ))));
     }
+    
 }
