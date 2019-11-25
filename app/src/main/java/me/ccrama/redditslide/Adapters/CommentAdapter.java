@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public CommentViewHolder isHolder;
     public boolean           isClicking;
     public HashMap<String, Integer> keys = new HashMap<>();
+
     public ArrayList<CommentObject> currentComments;
     public ArrayList<String> deleted = new ArrayList<>();
     RecyclerView      listView;

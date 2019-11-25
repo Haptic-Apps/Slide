@@ -1,7 +1,10 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.LongSparseArray;
 
 import com.lusfold.androidkeyvaluestore.KVStore;
 
@@ -12,13 +15,11 @@ import net.dean.jraw.paginators.FullnamesPaginator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -106,13 +107,16 @@ public class HistoryPosts extends GeneralPosts {
             refreshLayout.setRefreshing(false);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         protected ArrayList<Contribution> doInBackground(String... subredditPaginators) {
             ArrayList<Contribution> newData = new ArrayList<>();
             try {
                 if (reset || paginator == null) {
                     ArrayList<String> ids = new ArrayList<>();
-                    HashMap<Long, String> idsSorted = new HashMap<>();
+
+                    LongSparseArray <String> idsSorted = new LongSparseArray<>();
+
                     Map<String, String> values;
                     if (prefix.isEmpty()) {
                         values = KVStore.getInstance().getByContains("");
@@ -149,9 +153,9 @@ public class HistoryPosts extends GeneralPosts {
                         }
                     }
 
-                    if (!idsSorted.isEmpty()) {
+                    if (idsSorted.size()==0) {
                         TreeMap<Long, String> result2 = new TreeMap<>(Collections.reverseOrder());
-                        result2.putAll(idsSorted);
+                        result2.putAll((Map<? extends Long, ? extends String>) idsSorted);
                         ids.addAll(0, result2.values());
                     }
 
