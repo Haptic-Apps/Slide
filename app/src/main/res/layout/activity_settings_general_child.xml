@@ -571,7 +571,7 @@
         </LinearLayout>
 
         <android.support.v7.widget.SwitchCompat
-            android:id="@+id/settings_general_subfolder"
+            android:id="@+id/settings_general_show_download_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="?attr/tintColor"

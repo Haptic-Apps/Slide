@@ -233,6 +233,24 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             }
         }
 
+        // Show image download button
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_show_download_button);
+
+            if (single != null) {
+                single.setChecked(SettingValues.imageDownloadButton);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingValues.imageDownloadButton = isChecked;
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_IMAGE_DOWNLOAD_BUTTON, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
+
         {
             SwitchCompat single = context.findViewById(R.id.settings_general_subfolder);
 
