@@ -1283,6 +1283,8 @@
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Save images to subreddit-specific subfolders</string>
     <string name="description_save_subfolders">Works in submission and comment views</string>
+    <string name="show_image_download_button">Download Button</string>
+    <string name="description_image_download_button">Show a download button in the image viewer</string>
     <string name="content_settings">Content settings</string>
     <string name="setting_titleTop">Show title above info line</string>
     <string name="setting_notification_piggybacking">Notification Piggybacking</string>
