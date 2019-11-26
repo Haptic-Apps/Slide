@@ -287,7 +287,7 @@ public class SettingValues {
         largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
         readerMode = prefs.getBoolean(PREF_READER_MODE, false);
         imageSubfolders = prefs.getBoolean(PREF_IMAGE_SUBFOLDERS, false);
-        imageDownloadButton = prefs.getBoolean(PREF_IMAGE_DOWNLOAD_BUTTON, false);
+        imageDownloadButton = prefs.getBoolean(PREF_IMAGE_DOWNLOAD_BUTTON, true);
         isMuted = prefs.getBoolean(PREF_MUTE, false);
 
         commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
