@@ -337,6 +337,9 @@ public class MainActivity extends BaseActivity
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
             drawerLayout.openDrawer(Gravity.START);
         } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+            pager.setCurrentItem(0);
+        } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
             final AlertDialogWrapper.Builder builder =
                     new AlertDialogWrapper.Builder(MainActivity.this);
