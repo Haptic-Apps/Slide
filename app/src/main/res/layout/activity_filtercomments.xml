@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/search"
             android:tint="?attr/tintColor" />
 
-        <EditText
+        <android.support.text.emoji.widget.EmojiEditText
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

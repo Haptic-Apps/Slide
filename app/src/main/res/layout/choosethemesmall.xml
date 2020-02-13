@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="match_parent"
                         android:textStyle="bold"
                         android:layout_marginBottom="-24dp"
@@ -70,7 +70,7 @@
                             android:tint="#de393939"
                             app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                             android:tint="#8A3e3d36"
                             app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/theme_sepia"
@@ -127,7 +127,7 @@
                             android:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                             android:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
                                 android:tint="#ffffff"
                                 app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                                 android:layout_width="wrap_content"
 
                                 android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
                                 android:tint="#ffffff"
                                 app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                                 android:layout_width="wrap_content"
 
                                 android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                             android:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/theme_amoled_contrast"
@@ -280,7 +280,7 @@
                             android:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
@@ -310,7 +310,7 @@
                                 android:tint="#ffffff"
                                 app:srcCompat="@drawable/theme" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                                 android:layout_width="wrap_content"
 
                                 android:layout_height="wrap_content"

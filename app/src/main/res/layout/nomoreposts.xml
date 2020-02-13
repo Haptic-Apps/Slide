@@ -7,7 +7,7 @@
     android:paddingTop="24dp"
     app:cardBackgroundColor="?attr/card_background">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:text="@string/misc_no_more_posts"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/reload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

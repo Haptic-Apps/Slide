@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/sub_infotitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/subscribers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/active_users"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

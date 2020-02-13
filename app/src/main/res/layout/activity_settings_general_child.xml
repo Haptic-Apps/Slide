@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_general_displayHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_view_type"
@@ -65,14 +65,14 @@
             android:orientation="vertical"
             android:layout_marginRight="64dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_general_expanded_toolbar"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -117,14 +117,14 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_title_fab"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_general_fab_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,14 +156,14 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/subreddit_search_method_title"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_general_subreddit_search_method_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_general_notificationsHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -185,7 +185,7 @@
         android:tag="label"
         android:textColor="?attr/colorAccent" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -204,7 +204,7 @@
         android:alpha=".25"
         android:background="?attr/tintColor" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_general_installreddit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -237,14 +237,14 @@
             android:orientation="vertical"
             android:layout_marginRight="64dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/setting_notification_piggybacking"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -293,14 +293,14 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Notifications"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_general_notifications_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -332,14 +332,14 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_sub_post_notifs"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_general_sub_notifs_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -349,7 +349,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_general_sortingHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -377,14 +377,14 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_title_sorting"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_general_sorting_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -416,14 +416,14 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sorting_default_comment"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_general_sorting_current_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -433,7 +433,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_general_downloadsHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -461,14 +461,14 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_image_location"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_general_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -501,14 +501,14 @@
             android:orientation="vertical"
             android:layout_marginRight="64dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save_images_to_subreddit_specific_subfolders"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -531,7 +531,7 @@
             android:paddingRight="16dp"/>
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_general_miscHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -552,14 +552,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_general_title_drawer_items"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"/>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -584,14 +584,14 @@
             android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_general_force_en"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -640,14 +640,14 @@
             android:orientation="vertical"
             android:layout_marginRight="64dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_general_immersive_mode"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -692,14 +692,14 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/back_button_behavior_title"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/settings_general_back_button_behavior_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

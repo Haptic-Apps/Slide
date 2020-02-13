@@ -6,7 +6,7 @@
               android:layout_height="match_parent">
 
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             style="@style/TextAppearance.AppCompat.Body2"
             android:id="@+id/settings_datasaving_dataSavingModeHeader"
             android:text="@string/settings_section_data_saving_mode"
@@ -40,14 +40,14 @@
                     android:layout_centerVertical="true"
                     android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_data_enable"
                         android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/settings_datasaving_lowquality"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:id="@+id/settings_datasaving_imageQualityHeader"
                 android:text="@string/settings_section_image_quality"
@@ -86,14 +86,14 @@
                     android:layout_centerVertical="true"
                     android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Image quality when Data Saving enabled"
                         android:textColor="?attr/fontColor"
                         android:textSize="14sp" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/settings_datasaving_currentmode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

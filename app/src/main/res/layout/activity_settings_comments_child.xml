@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_comments_displayHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_comment_crop"
@@ -74,7 +74,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_comment_color"
@@ -116,7 +116,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Highlight top-level comment OPs"
@@ -157,7 +157,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_wide_depth_indicators"
@@ -199,7 +199,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_fab_create"
@@ -241,7 +241,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_right_handed_comment_menu"
@@ -283,7 +283,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/upvote_percentage"
@@ -329,14 +329,14 @@
             android:orientation="vertical"
             android:id="@+id/settings_comments_linearLayout">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_colored_time"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -361,7 +361,7 @@
             android:textColorHint="?attr/fontColor"/>
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_comments_navigationHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -388,14 +388,14 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_commentnav"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -438,7 +438,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/settings_comments_auto_hide_the_comment_nav_bar_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -481,7 +481,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/show_collapse_expand_nav_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -524,7 +524,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_volume_nav_comments"
@@ -565,13 +565,13 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/navigation_bar_vote_gestures"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -593,7 +593,7 @@
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/settings_comments_collapseCommentsHeader"
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
@@ -620,7 +620,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_comments_swap_long"
@@ -662,13 +662,13 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_comment_collapse"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -711,7 +711,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_comment_collapse_default"

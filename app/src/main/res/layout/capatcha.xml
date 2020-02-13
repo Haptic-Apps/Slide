@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:textColor="#fff"
@@ -50,7 +50,7 @@
                 android:paddingEnd="16dp">
 
 
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/entry"
 
                     android:layout_width="match_parent"
@@ -64,7 +64,7 @@
 
             </LinearLayout>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

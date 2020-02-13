@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="match_parent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -33,7 +33,7 @@
                 android:descendantFocusability="beforeDescendants"
                 android:paddingTop="16dp">
 
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     android:textColorHint="?attr/fontColor"
                     android:textSize="14sp" />
 
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

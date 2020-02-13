@@ -87,7 +87,7 @@
                     app:srcCompat="@drawable/upvoted"
                     android:tag="tint" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/score"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
@@ -109,7 +109,7 @@
                     android:layout_toRightOf="@+id/score"
                     app:srcCompat="@drawable/commentchange" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/comments"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
@@ -120,7 +120,7 @@
                     android:textColor="#bcffffff"
                     android:textSize="?attr/font_cardinfo" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/desc"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"

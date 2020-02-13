@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <include layout="@layout/settings_toolbar" />
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="match_parent"
             android:padding="16dp"
             android:textSize="14sp"
@@ -37,14 +37,14 @@
                     android:layout_centerVertical="true"
                     android:orientation="vertical">
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_view_type"
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/currentViewType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

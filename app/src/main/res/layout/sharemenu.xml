@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:textColor="#fff"
@@ -62,7 +62,7 @@
                             app:srcCompat="@drawable/ic_insert_photo_white_48dp"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="match_parent"
 
                             android:layout_height="match_parent"
@@ -96,7 +96,7 @@
                             app:srcCompat="@drawable/ic_format_size_white_48dp"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/subpopup"
 
                             android:layout_width="match_parent"

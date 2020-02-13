@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/settings_moderation_general_header"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -33,14 +33,14 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_mod_removal_reasons"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/settings_moderation_removal_reasons_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/settings_moderation_toolbox_header"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -79,14 +79,14 @@
                 android:orientation="vertical"
                 android:layout_marginRight="64dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_mod_toolbox_enabled"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha=".86"
@@ -131,14 +131,14 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_mod_toolbox_message"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/settings_moderation_toolbox_message_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_mod_toolbox_modmail"
@@ -216,7 +216,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_mod_toolbox_sticky"
@@ -261,7 +261,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_mod_toolbox_lock"
@@ -299,7 +299,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_mod_toolbox_refresh"

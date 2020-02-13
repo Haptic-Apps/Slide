@@ -43,7 +43,7 @@
         android:layout_below="@+id/imagearea"
         android:layout_marginTop="-56dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:paddingLeft="16dp"
                 android:gravity="center"

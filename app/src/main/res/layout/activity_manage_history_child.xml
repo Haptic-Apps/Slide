@@ -14,14 +14,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/autocache_subreddits"
                 android:textColor="?attr/fontColor"
                 android:textSize="16sp" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -52,7 +52,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cache_wifi_only"
@@ -90,7 +90,7 @@
             android:background="?android:selectableItemBackground"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/comments_depth"
@@ -114,7 +114,7 @@
             android:background="?android:selectableItemBackground"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/comments_count"
@@ -139,14 +139,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/autocache_time"
                 android:textColor="?attr/fontColor"
                 android:textSize="16sp" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -170,7 +170,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cache_subreddits_now"
@@ -193,7 +193,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/clear_saved_subreddits"

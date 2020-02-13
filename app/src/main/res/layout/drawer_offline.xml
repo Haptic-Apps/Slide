@@ -35,7 +35,7 @@
 
 
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -63,7 +63,7 @@
             app:srcCompat="@drawable/internet"
             android:tint="?attr/tintColor" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -90,7 +90,7 @@
             app:srcCompat="@drawable/save"
             android:tint="?attr/tintColor" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -121,7 +121,7 @@
                 app:srcCompat="@drawable/settings"
                 android:tint="?attr/tintColor" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -221,7 +221,7 @@
         android:descendantFocusability="afterDescendants"
         android:focusableInTouchMode="true">
 
-        <EditText
+        <android.support.text.emoji.widget.EmojiEditText
             android:id="@+id/sort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

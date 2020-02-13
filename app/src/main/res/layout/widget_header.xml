@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/displayHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:text="@string/widget_theme_light" />
         </RadioGroup>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
             android:alpha=".25"
             android:background="?attr/tintColor" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/content"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
             android:text="@string/widget_content" />
     </LinearLayout>
 
-    <EditText
+    <android.support.text.emoji.widget.EmojiEditText
         android:id="@+id/sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

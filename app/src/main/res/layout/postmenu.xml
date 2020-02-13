@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:textColor="#fff"
@@ -68,7 +68,7 @@
                             app:srcCompat="@drawable/profile"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/userpopup"
 
                             android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                             app:srcCompat="@drawable/sub"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/subpopup"
 
                             android:layout_width="match_parent"
@@ -138,7 +138,7 @@
 
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:id="@+id/savedtext"
 
                             android:layout_width="match_parent"
@@ -173,7 +173,7 @@
                             app:srcCompat="@drawable/openexternal"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                             app:srcCompat="@drawable/report"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                             app:srcCompat="@drawable/ic_content_copy"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/misc_copy_text"
@@ -264,7 +264,7 @@
                             app:srcCompat="@drawable/link"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
@@ -295,7 +295,7 @@
                             app:srcCompat="@drawable/hide"
                             android:tint="?attr/tintColor" />
 
-                        <TextView
+                        <android.support.text.emoji.widget.EmojiTextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"

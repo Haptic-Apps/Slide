@@ -29,6 +29,9 @@
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/filepaths"/>
+            <meta-data
+                android:name="fontProviderRequests"
+                android:value="Noto Color Emoji Compat" />
         </provider>
 
         <activity

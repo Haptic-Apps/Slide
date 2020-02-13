@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
@@ -68,7 +68,7 @@
                             app:selectedColorIndex="5" />
                     </RelativeLayout>
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"

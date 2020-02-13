@@ -6,7 +6,7 @@
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 
-    <EditText
+    <android.support.text.emoji.widget.EmojiEditText
         android:id="@+id/url_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:textColor="?attr/fontColor"
         android:theme="@style/ReplyEditTextTheme"/>
 
-    <EditText
+    <android.support.text.emoji.widget.EmojiEditText
         android:id="@+id/text_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 android:contentDescription="@string/img_score"
                 app:srcCompat="@drawable/upvoted" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
@@ -136,7 +136,7 @@
                 android:contentDescription="@string/img_comments"
                 app:srcCompat="@drawable/commentchange" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/comments"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"

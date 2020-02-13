@@ -38,7 +38,7 @@
                     app:srcCompat="@drawable/report"
                     android:tint="?attr/tintColor"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -67,7 +67,7 @@
                     app:srcCompat="@drawable/infonew"
                     android:tint="?attr/tintColor"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -96,7 +96,7 @@
                     app:srcCompat="@drawable/iconstarfilled"
                     android:tint="?attr/tintColor"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -123,7 +123,7 @@
                     app:srcCompat="@drawable/sub"
                     android:tint="?attr/tintColor"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -151,7 +151,7 @@
                     app:srcCompat="@drawable/infonew"
                     android:tint="?attr/tintColor"/>
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -171,7 +171,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/version"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

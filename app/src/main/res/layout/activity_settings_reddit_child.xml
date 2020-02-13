@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha=".5"
@@ -20,7 +20,7 @@
         android:background="?attr/activity_background"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/settings_reddit_nsfwContentHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_redditprefs_over18"
@@ -89,7 +89,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/settings_reddit_nsfwrpev_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/settings_reddit_nsfwcollection_text"
@@ -174,7 +174,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_reddit_media_pref"
@@ -194,7 +194,7 @@
                 android:textColor="?attr/fontColor"
                 android:textColorHint="?attr/fontColor" />
         </RelativeLayout>
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             style="@style/TextAppearance.AppCompat.Body2"
             android:id="@+id/settings_reddit_redditPrefsHeader"
             android:text="@string/view_reddit_settings"
@@ -222,7 +222,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_prefs_reddit"

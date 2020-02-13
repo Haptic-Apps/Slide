@@ -11,7 +11,7 @@
     >
 
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
 
         android:id="@+id/content"
         android:layout_width="match_parent"

@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:textSize="14sp"
                 android:textStyle="bold"

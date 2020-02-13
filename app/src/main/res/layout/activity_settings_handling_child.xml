@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/settings_handling_browserHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -58,14 +58,14 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/handling_browser"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/settings_handling_browser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -100,14 +100,14 @@
                 android:orientation="vertical"
                 android:layout_marginRight="64dp">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_link_reader_mode_title"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha=".86"
@@ -153,14 +153,14 @@
             android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_link_reader_night"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -209,14 +209,14 @@
             android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_shortlink"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"/>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"
@@ -238,7 +238,7 @@
             android:textColorHint="?attr/fontColor"/>
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/settings_handling_internalViewersHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
@@ -265,7 +265,7 @@
             android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_link_gif"
@@ -307,7 +307,7 @@
             android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_link_image"
@@ -349,7 +349,7 @@
             android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_link_album"
@@ -391,7 +391,7 @@
             android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_link_peek"
@@ -439,7 +439,7 @@
                 android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download_the_slide_video_player_plugin"

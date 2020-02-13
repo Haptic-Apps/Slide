@@ -23,7 +23,7 @@
             android:adjustViewBounds="true"
             android:background="@drawable/circle" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="48dp"

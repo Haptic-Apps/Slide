@@ -10,7 +10,7 @@
         android:layout_width="60dp"
         android:id="@+id/image"
         android:layout_height="60dp" />
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:layout_width="match_parent"
         android:id="@+id/trophyTitle"
         android:layout_gravity="center_horizontal"
