@@ -455,6 +455,9 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
             currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_drawer));
+        } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+            currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_goto_first));
         } else {
             currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_default));
         }
@@ -493,6 +496,14 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                                 Constants.BackButtonBehaviorOptions.OpenDrawer.getValue())
                                         .apply();
                                 break;
+                            case R.id.back_button_behavior_goto_first:
+                                SettingValues.backButtonBehavior =
+                                        Constants.BackButtonBehaviorOptions.GotoFirst.getValue();
+                                SettingValues.prefs.edit()
+                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                Constants.BackButtonBehaviorOptions.GotoFirst.getValue())
+                                        .apply();
+                                break;
                         }
 
                         if (SettingValues.backButtonBehavior
@@ -503,6 +514,10 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
                             currentBackButtonTitle.setText(
                                     context.getString(R.string.back_button_behavior_drawer));
+                        } else if (SettingValues.backButtonBehavior
+                                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+                            currentBackButtonTitle.setText(
+                                    context.getString(R.string.back_button_behavior_goto_first));
                         } else {
                             currentBackButtonTitle.setText(
                                     context.getString(R.string.back_button_behavior_default));
