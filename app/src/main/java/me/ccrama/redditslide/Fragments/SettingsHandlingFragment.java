@@ -7,18 +7,23 @@ import android.support.annotation.IdRes;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 
 import java.util.HashMap;
 import java.util.Locale;
+
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
@@ -119,17 +124,13 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
     private void setUpBrowserLinkHandling() {
         RadioGroup radioGroup = context.findViewById(R.id.settings_handling_select_browser_type);
         radioGroup.check(LinkHandlingMode.idResFromValue(SettingValues.linkHandlingMode));
-        radioGroup.setOnCheckedChangeListener(
-                new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        SettingValues.linkHandlingMode = LinkHandlingMode.valueFromIdRes(checkedId);
-                        SettingValues.prefs.edit()
-                                .putInt(SettingValues.PREF_LINK_HANDLING_MODE,
-                                        SettingValues.linkHandlingMode)
-                                .apply();
-                    }
-                });
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            SettingValues.linkHandlingMode = LinkHandlingMode.valueFromIdRes(checkedId);
+            SettingValues.prefs.edit()
+                    .putInt(SettingValues.PREF_LINK_HANDLING_MODE,
+                            SettingValues.linkHandlingMode)
+                    .apply();
+        });
 
         final BiMap<String, String> installedBrowsers = Reddit.getInstalledBrowsers();
         if (!installedBrowsers.containsKey(SettingValues.selectedBrowser)) {
@@ -144,34 +145,26 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             context.findViewById(R.id.settings_handling_select_browser).setVisibility(View.GONE);
         } else {
             context.findViewById(R.id.settings_handling_select_browser).setVisibility(View.VISIBLE);
-            context.findViewById(R.id.settings_handling_select_browser)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final PopupMenu popupMenu = new PopupMenu(context, v);
-                            for (String name : installedBrowsers.values()) {
-                                popupMenu.getMenu().add(name);
-                            }
-                            popupMenu.setOnMenuItemClickListener(
-                                    new PopupMenu.OnMenuItemClickListener() {
-                                        @Override
-                                        public boolean onMenuItemClick(MenuItem item) {
-                                            SettingValues.selectedBrowser =
-                                                    installedBrowsers.inverse()
-                                                            .get(item.getTitle());
-                                            SettingValues.prefs.edit()
-                                                    .putString(SettingValues.PREF_SELECTED_BROWSER,
-                                                            SettingValues.selectedBrowser)
-                                                    .apply();
-                                            ((TextView) context.findViewById(
-                                                    R.id.settings_handling_browser)).setText(
-                                                    item.getTitle());
-                                            return true;
-                                        }
-                                    });
-                            popupMenu.show();
-                        }
-                    });
+            context.findViewById(R.id.settings_handling_select_browser).setOnClickListener(v -> {
+                final PopupMenu popupMenu = new PopupMenu(context, v);
+                for (String name : installedBrowsers.values()) {
+                    popupMenu.getMenu().add(name);
+                }
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    SettingValues.selectedBrowser =
+                            installedBrowsers.inverse()
+                                    .get(item.getTitle());
+                    SettingValues.prefs.edit()
+                            .putString(SettingValues.PREF_SELECTED_BROWSER,
+                                    SettingValues.selectedBrowser)
+                            .apply();
+                    ((TextView) context.findViewById(
+                            R.id.settings_handling_browser)).setText(
+                            item.getTitle());
+                    return true;
+                });
+                popupMenu.show();
+            });
         }
     }
 
