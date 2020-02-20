@@ -3,10 +3,12 @@ package me.ccrama.redditslide.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
@@ -20,6 +22,7 @@ import com.google.common.collect.HashBiMap;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -132,7 +135,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                     .apply();
         });
 
-        final BiMap<String, String> installedBrowsers = Reddit.getInstalledBrowsers();
+        final HashMap<String, String> installedBrowsers = Reddit.getInstalledBrowsers();
         if (!installedBrowsers.containsKey(SettingValues.selectedBrowser)) {
             SettingValues.selectedBrowser = "";
             SettingValues.prefs.edit()
@@ -147,13 +150,19 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             context.findViewById(R.id.settings_handling_select_browser).setVisibility(View.VISIBLE);
             context.findViewById(R.id.settings_handling_select_browser).setOnClickListener(v -> {
                 final PopupMenu popupMenu = new PopupMenu(context, v);
-                for (String name : installedBrowsers.values()) {
-                    popupMenu.getMenu().add(name);
+                final HashMap<MenuItem, String> packageNames = new HashMap<>();
+
+                for (Map.Entry<String, String> entry : installedBrowsers.entrySet()) {
+                    final MenuItem menuItem = popupMenu.getMenu().add(entry.getValue());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        menuItem.setTooltipText(entry.getKey());
+                    }
+
+                    packageNames.put(menuItem, entry.getKey());
                 }
+
                 popupMenu.setOnMenuItemClickListener(item -> {
-                    SettingValues.selectedBrowser =
-                            installedBrowsers.inverse()
-                                    .get(item.getTitle());
+                    SettingValues.selectedBrowser = packageNames.get(item);
                     SettingValues.prefs.edit()
                             .putString(SettingValues.PREF_SELECTED_BROWSER,
                                     SettingValues.selectedBrowser)

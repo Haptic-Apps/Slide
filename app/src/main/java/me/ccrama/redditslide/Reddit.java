@@ -151,11 +151,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return isPackageInstalled(getAppContext().getString(R.string.youtube_plugin_package));
     }
 
-    public static BiMap<String, String> getInstalledBrowsers() {
+    public static HashMap<String, String> getInstalledBrowsers() {
         int packageMatcher =
                 SDK_INT >= M ? PackageManager.MATCH_ALL : PackageManager.GET_DISABLED_COMPONENTS;
 
-        final BiMap<String, String> browserMap = HashBiMap.create();
+        HashMap<String, String> browserMap = new HashMap<>();
 
         final List<ResolveInfo> resolveInfoList = getAppContext().getPackageManager()
                 .queryIntentActivities(
