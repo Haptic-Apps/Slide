@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.util.Consumer;
+import androidx.core.util.Consumer;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;

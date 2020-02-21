@@ -9,15 +9,15 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MarginLayoutParamsCompat;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.MarginLayoutParamsCompat;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -259,7 +259,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                         });*/
                         View view = s.getView();
                         TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                                com.google.android.material.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }

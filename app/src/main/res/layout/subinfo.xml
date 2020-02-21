@@ -144,7 +144,7 @@
                         android:background="?android:selectableItemBackground"
                         android:orientation="horizontal">
 
-                    <android.support.v7.widget.AppCompatCheckBox
+                    <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/notify_posts_state"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

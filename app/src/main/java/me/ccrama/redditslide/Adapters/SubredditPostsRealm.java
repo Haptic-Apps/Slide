@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.NewsActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;

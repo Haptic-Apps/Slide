@@ -13,16 +13,16 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -953,7 +953,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                     Snackbar.LENGTH_SHORT);
                                     View view = s.getView();
                                     TextView tv = view.findViewById(
-                                            android.support.design.R.id.snackbar_text);
+                                            com.google.android.material.R.id.snackbar_text);
                                     tv.setTextColor(Color.WHITE);
                                     s.show();
 
@@ -1462,7 +1462,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                                                             tv =
                                                                                                             view
                                                                                                                     .findViewById(
-                                                                                                                            android.support.design.R.id.snackbar_text);
+                                                                                                                            com.google.android.material.R.id.snackbar_text);
                                                                                                     tv.setTextColor(
                                                                                                             Color.WHITE);
                                                                                                     s.show();
@@ -1519,7 +1519,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                         Snackbar.LENGTH_SHORT);
                                                                 View view = s.getView();
                                                                 TextView tv = view.findViewById(
-                                                                        android.support.design.R.id.snackbar_text);
+                                                                        com.google.android.material.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
                                                                 s.show();
                                                             }
@@ -1588,7 +1588,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                                                             tv =
                                                                                                             view
                                                                                                                     .findViewById(
-                                                                                                                            android.support.design.R.id.snackbar_text);
+                                                                                                                            com.google.android.material.R.id.snackbar_text);
                                                                                                     tv.setTextColor(
                                                                                                             Color.WHITE);
                                                                                                     s.show();
@@ -1644,7 +1644,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                         Snackbar.LENGTH_SHORT);
                                                                 View view = s.getView();
                                                                 TextView tv = view.findViewById(
-                                                                        android.support.design.R.id.snackbar_text);
+                                                                        com.google.android.material.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
                                                                 s.show();
                                                             }
@@ -2274,7 +2274,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         Snackbar s = Snackbar.make(toolbar, isChecked ? getString(R.string.misc_subscribed)
                 : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
         View view = s.getView();
-        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);
         s.show();
     }

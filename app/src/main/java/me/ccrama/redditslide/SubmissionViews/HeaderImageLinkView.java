@@ -10,7 +10,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.content.ContextCompat;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -522,9 +523,9 @@ public class HeaderImageLinkView extends RelativeLayout {
         final Context context = getContext();
         if (context instanceof Activity) {
             activity = (Activity) context;
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+        } else if (context instanceof ContextThemeWrapper) {
             activity =
-                    (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+                    (Activity) ((ContextThemeWrapper) context).getBaseContext();
         } else if (context instanceof ContextWrapper) {
             Context context1 = ((ContextWrapper) context).getBaseContext();
             if (context1 instanceof Activity) {
@@ -535,7 +536,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     activity = (Activity) context2;
                 } else if (context2 instanceof ContextWrapper) {
                     activity =
-                            (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                            (Activity) ((ContextThemeWrapper) context2).getBaseContext();
                 }
             }
         } else {

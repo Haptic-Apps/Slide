@@ -9,7 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
+
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.content.ContextCompat;
 import android.text.*;
 import android.text.style.*;
 import android.util.AttributeSet;
@@ -358,9 +360,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         Activity activity = null;
         if (context instanceof Activity) {
             activity = (Activity) context;
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+        } else if (context instanceof ContextThemeWrapper) {
             activity =
-                    (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+                    (Activity) ((ContextThemeWrapper) context).getBaseContext();
         } else if (context instanceof ContextWrapper) {
             Context context1 = ((ContextWrapper) context).getBaseContext();
             if (context1 instanceof Activity) {
@@ -371,7 +373,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     activity = (Activity) context2;
                 } else if (context2 instanceof ContextWrapper) {
                     activity =
-                            (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                            (Activity) ((ContextThemeWrapper) context2).getBaseContext();
                 }
             }
         } else {
@@ -478,9 +480,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         final Context context = getContext();
         if (context instanceof Activity) {
             activity = (Activity) context;
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+        } else if (context instanceof ContextThemeWrapper) {
             activity =
-                    (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+                    (Activity) ((ContextThemeWrapper) context).getBaseContext();
         } else if (context instanceof ContextWrapper) {
             Context context1 = ((ContextWrapper) context).getBaseContext();
             if (context1 instanceof Activity) {
@@ -491,7 +493,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     activity = (Activity) context2;
                 } else if (context2 instanceof ContextWrapper) {
                     activity =
-                            (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                            (Activity) ((ContextThemeWrapper) context2).getBaseContext();
                 }
             }
         } else {

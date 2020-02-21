@@ -17,10 +17,10 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -491,7 +491,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Snackbar s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
                 View view = s.getView();
                 TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
             } else {
@@ -499,7 +499,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Snackbar.LENGTH_LONG);
                 View view = s.getView();
                 TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
                 Drafts.addDraft(text);

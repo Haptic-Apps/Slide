@@ -2,9 +2,9 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SwitchCompat;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;

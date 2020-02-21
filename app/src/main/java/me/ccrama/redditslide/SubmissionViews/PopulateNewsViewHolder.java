@@ -13,11 +13,11 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
@@ -257,7 +257,7 @@ public class PopulateNewsViewHolder {
                                 Snackbar.LENGTH_SHORT);
                         View view = s.getView();
                         TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                                com.google.android.material.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -724,7 +724,7 @@ public class PopulateNewsViewHolder {
                                     Snackbar.LENGTH_SHORT);
                             View view = s.getView();
                             TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
+                                    com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
@@ -734,7 +734,7 @@ public class PopulateNewsViewHolder {
                                             "Removed from read later", Snackbar.LENGTH_SHORT);
                                     View view2 = s2.getView();
                                     TextView tv2 = view2.findViewById(
-                                            android.support.design.R.id.snackbar_text);
+                                            com.google.android.material.R.id.snackbar_text);
                                     tv2.setTextColor(Color.WHITE);
                                     s2.show();
                                 }
@@ -760,7 +760,7 @@ public class PopulateNewsViewHolder {
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
                                 TextView tv2 = view2.findViewById(
-                                        android.support.design.R.id.snackbar_text);
+                                        com.google.android.material.R.id.snackbar_text);
                                 tv2.setTextColor(Color.WHITE);
                                 s2.setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
@@ -775,7 +775,7 @@ public class PopulateNewsViewHolder {
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
                                 TextView tv2 = view2.findViewById(
-                                        android.support.design.R.id.snackbar_text);
+                                        com.google.android.material.R.id.snackbar_text);
                                 s2.show();
                             }
                             OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS)
@@ -970,7 +970,7 @@ public class PopulateNewsViewHolder {
                 Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_unhidden,
                         Snackbar.LENGTH_LONG);
                 View view = snack.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 snack.show();
             } else {
@@ -1009,7 +1009,7 @@ public class PopulateNewsViewHolder {
                             }
                         });
                 View view = snack.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 snack.show();
             }
@@ -1130,7 +1130,7 @@ public class PopulateNewsViewHolder {
                             Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg),
                                     Snackbar.LENGTH_SHORT);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1178,7 +1178,7 @@ public class PopulateNewsViewHolder {
             Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
             View view = s.getView();
             TextView tv = view.findViewById(
-                    android.support.design.R.id.snackbar_text);
+                    com.google.android.material.R.id.snackbar_text);
             tv.setTextColor(Color.WHITE);
             s.show();
         }

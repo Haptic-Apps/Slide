@@ -22,7 +22,7 @@
             android:usesCleartextTraffic="true"
             android:theme="@style/yellow_dark">
         <provider
-                android:name="android.support.v4.content.FileProvider"
+                android:name="androidx.core.content.FileProvider"
                 android:authorities="${applicationId}.provider"
                 android:exported="false"
                 android:grantUriPermissions="true">

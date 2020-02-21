@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,12 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_toolbar_height"
@@ -68,7 +68,7 @@
                         android:visibility="gone"
                         app:srcCompat="@drawable/close" />
                 </RelativeLayout>
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
 
             <ViewStub
                 android:id="@+id/stub_tabs"
@@ -76,9 +76,9 @@
                 android:layout_height="wrap_content"
                 android:inflatedId="@+id/sliding_tabs"
                 android:layout="@layout/activity_overview_tabs" />
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/toolbar_search_suggestions"
             android:layout_width="256dp"
             android:layout_height="316dp"
@@ -93,8 +93,8 @@
                 android:layout_height="match_parent"
                 android:background="?attr/card_background">
             </ListView>
-        </android.support.v7.widget.CardView>
-    </android.support.design.widget.CoordinatorLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <ListView
         android:id="@+id/drawerlistview"
