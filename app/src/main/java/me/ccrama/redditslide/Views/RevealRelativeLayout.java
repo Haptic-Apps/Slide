@@ -2,25 +2,17 @@ package me.ccrama.redditslide.Views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import io.codetail.animation.RevealAnimator;
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
+import io.codetail.animation.RevealViewGroup;
+import io.codetail.animation.ViewRevealManager;
 
 //Adapted from https://github.com/MajeurAndroid/CircularReveal/commit/a87e3ad4daac96f942be0e240ebfc098a79f5419
 
-public class RevealRelativeLayout extends RelativeLayout implements RevealAnimator {
-
-    private Path mRevealPath;
-    private final Rect mTargetBounds = new Rect();
-    private RevealInfo mRevealInfo;
-    private boolean mRunning;
-    private float mRadius;
+public class RevealRelativeLayout extends RelativeLayout implements RevealViewGroup {
+    private ViewRevealManager manager;
     @Override
     public boolean hasOverlappingRendering() {
         return false;
@@ -35,87 +27,22 @@ public class RevealRelativeLayout extends RelativeLayout implements RevealAnimat
     }
 
     public RevealRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs);
-        mRevealPath = new Path();
+        super(context, attrs, defStyle);
+        manager = new ViewRevealManager();
     }
 
-    @Override
-    public void onRevealAnimationStart() {
-        mRunning = true;
-    }
+    @Override protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        try {
+            canvas.save();
 
-    @Override
-    public void onRevealAnimationEnd() {
-        mRunning = false;
-        invalidate(mTargetBounds);
-    }
-
-    @Override
-    public void onRevealAnimationCancel() {
-        onRevealAnimationEnd();
-    }
-
-    /**
-     * Circle radius size
-     *
-     * @hide
-     */
-    @Override
-    public void setRevealRadius(float radius) {
-        mRadius = radius;
-        mRevealInfo.getTarget().getHitRect(mTargetBounds);
-        invalidate(mTargetBounds);
-    }
-
-    /**
-     * Circle radius size
-     *
-     * @hide
-     */
-    @Override
-    public float getRevealRadius() {
-        return mRadius;
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public void attachRevealInfo(RevealInfo info) {
-        mRevealInfo = info;
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public SupportAnimator startReverseAnimation() {
-        if (mRevealInfo != null && mRevealInfo.hasTarget() && !mRunning) {
-            return ViewAnimationUtils.createCircularReveal(mRevealInfo.getTarget(),
-                    mRevealInfo.centerX, mRevealInfo.centerY,
-                    mRevealInfo.endRadius, mRevealInfo.startRadius);
+            manager.transform(canvas, child);
+            return super.drawChild(canvas, child, drawingTime);
+        } finally {
+            canvas.restore();
         }
-        return null;
     }
 
-    @Override
-    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        if (mRunning && child == mRevealInfo.getTarget()) {
-            final int state = canvas.save();
-
-            mRevealPath.reset();
-            mRevealPath.addCircle(mRevealInfo.centerX, mRevealInfo.centerY, mRadius, Path.Direction.CW);
-
-            canvas.clipPath(mRevealPath);
-
-            boolean isInvalided = super.drawChild(canvas, child, drawingTime);
-
-            canvas.restoreToCount(state);
-
-            return isInvalided;
-        }
-
-        return super.drawChild(canvas, child, drawingTime);
+    @Override public ViewRevealManager getViewRevealManager() {
+        return manager;
     }
-
 }

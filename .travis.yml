@@ -4,22 +4,22 @@ sudo: true
 
 env:
   global:
-  - MALLOC_ARENA_MAX=2
+    - MALLOC_ARENA_MAX=2
 
 android:
   components:
-  - tools
-  - platform-tools
+    - tools
+    - platform-tools
 
-  - build-tools-28.0.3
-  - android-28
+    - build-tools-29.0.3
+    - android-28
 
-  - extra-android-m2repository
-  - extra-google-m2repository
-  - extra-google-google_play_services
+    - extra-android-m2repository
+    - extra-google-m2repository
+    - extra-google-google_play_services
 
 notifications:
   email: false
 
 script:
-- ./gradlew assemble lint{With,No}GPlay{Debug,Release} test{With,No}GPlay{Debug,Release}UnitTest
+  - ./gradlew assemble lint{With,No}GPlay{Debug,Release} test{With,No}GPlay{Debug,Release}UnitTest
