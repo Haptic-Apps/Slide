@@ -45,7 +45,6 @@ public abstract class SynccitTask extends HttpPostTask<SynccitResponse> {
 		String data;
 		try {
 			data = buildJson(linkIds);
-			System.out.println(data);
 		} catch (Exception e) {
 			Log.e(TAG, "buildJson", e);
 			return null;
