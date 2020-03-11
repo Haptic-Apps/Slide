@@ -27,6 +27,7 @@ public class SettingsSynccit extends BaseActivityAnim {
 
     EditText name;
     EditText auth;
+    EditText url;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +38,11 @@ public class SettingsSynccit extends BaseActivityAnim {
 
         name = (EditText) findViewById(R.id.name);
         auth = (EditText) findViewById(R.id.auth);
+        url = (EditText) findViewById(R.id.url);
 
         name.setText(SettingValues.synccitName);
         auth.setText(SettingValues.synccitAuth);
+        url.setText(SettingValues.synccitUrl);
 
         if (SettingValues.synccitAuth.isEmpty()) {
             (findViewById(R.id.remove)).setEnabled(false);
@@ -56,13 +59,16 @@ public class SettingsSynccit extends BaseActivityAnim {
                                 public void onClick(DialogInterface dialog, int which) {
                                     SettingValues.synccitName = "";
                                     SettingValues.synccitAuth = "";
+                                    SettingValues.synccitUrl = "https://api.synccit.com/api.php";
                                     SharedPreferences.Editor e = SettingValues.prefs.edit();
 
                                     e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
                                     e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
+                                    e.putString(SettingValues.SYNCCIT_URL, SettingValues.synccitUrl);
                                     e.apply();
                                     name.setText(SettingValues.synccitName);
                                     auth.setText(SettingValues.synccitAuth);
+                                    url.setText(SettingValues.synccitUrl);
                                     SynccitRead.visitedIds.removeAll(Collections.singleton("16noez"));
                                 }
                             }).setNegativeButton(R.string.btn_no, null)
@@ -83,15 +89,17 @@ public class SettingsSynccit extends BaseActivityAnim {
                 new MySynccitUpdateTask().execute("16noez");
                 SettingValues.synccitName = name.getText().toString();
                 SettingValues.synccitAuth = auth.getText().toString();
+                SettingValues.synccitUrl = url.getText().toString();
                 try {
                     new MySynccitReadTask().execute("16noez").get();
                     if (SynccitRead.visitedIds.contains("16noez")) {
-                                //success
+                        //success
                                 d.dismiss();
                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
 
                                 e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
                                 e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
+                                e.putString(SettingValues.SYNCCIT_URL, SettingValues.synccitUrl);
                                 e.apply();
                                 (findViewById(R.id.remove)).setEnabled(true);
 

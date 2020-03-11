@@ -15,8 +15,8 @@ abstract class SynccitReadTask extends SynccitTask {
 	
 	private static final String READ_MODE = "read";
 	
-	SynccitReadTask(String devName) {
-		super(devName);
+	SynccitReadTask(String devName,String url) {
+		super(devName,url);
 	}
 
 	@Override

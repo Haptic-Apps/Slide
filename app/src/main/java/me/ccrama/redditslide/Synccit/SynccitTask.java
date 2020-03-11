@@ -12,9 +12,9 @@ import me.ccrama.redditslide.Synccit.http.HttpPostTask;
 public abstract class SynccitTask extends HttpPostTask<SynccitResponse> {
 
 	private static final String TAG = SynccitTask.class.getSimpleName();
-	
+
 	private static final String API_URL = "https://api.synccit.com/api.php";
-	
+
 	private static final String PARAM_TYPE = "type";
 	private static final String PARAM_DATA = "data";
 	private static final String TYPE_JSON = "json";
@@ -30,8 +30,8 @@ public abstract class SynccitTask extends HttpPostTask<SynccitResponse> {
 	/** developer name */
 	private String devName;
 	
-	SynccitTask(String devName) {
-		super(API_URL);
+	SynccitTask(String devName,String url) {
+		super(url);
 		this.devName = devName;
 	}
 
@@ -45,11 +45,11 @@ public abstract class SynccitTask extends HttpPostTask<SynccitResponse> {
 		String data;
 		try {
 			data = buildJson(linkIds);
+			System.out.println(data);
 		} catch (Exception e) {
 			Log.e(TAG, "buildJson", e);
 			return null;
 		}
-			
 		return super.doInBackground(
 				PARAM_TYPE, TYPE_JSON,
 				PARAM_DATA, data

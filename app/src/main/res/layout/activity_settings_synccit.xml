@@ -34,6 +34,17 @@
                 android:paddingTop="16dp">
 
                 <EditText
+                        android:id="@+id/url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:hint="@string/settings_synccit_url"
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor"
+                        android:textSize="14sp" />
+
+                <EditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

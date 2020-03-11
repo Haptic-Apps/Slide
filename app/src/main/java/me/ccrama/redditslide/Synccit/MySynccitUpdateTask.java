@@ -10,14 +10,13 @@ public class MySynccitUpdateTask extends SynccitUpdateTask {
     private static final String MY_DEV_NAME = "slide_for_reddit";
 
     public MySynccitUpdateTask() {
-        super(MY_DEV_NAME);
+        super(MY_DEV_NAME,SettingValues.synccitUrl);
     }
 
     @Override
     protected String getUsername() {
         return SettingValues.synccitName;
     }
-
     @Override
     protected String getAuth() {
         return SettingValues.synccitAuth;
