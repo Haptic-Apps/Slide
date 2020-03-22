@@ -45,7 +45,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 
@@ -660,8 +659,8 @@ public class Settings extends BaseActivity
     }
 
     @Override
-    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder) {
-        mSettingsGeneralFragment.onFolderSelection(dialog, folder);
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder, boolean isSaveToLocation) {
+        mSettingsGeneralFragment.onFolderSelection(dialog, folder, false);
     }
 
     @Override
