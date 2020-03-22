@@ -142,7 +142,11 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                                         File toCreate = new File(parentFolder.getPath() + File.separator + createdFile);
                                         toCreate.mkdir();
                                         dialog.dismiss();
-                                        mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, false);
+                                        if (getBuilder().mIsSaveToLocation) {
+                                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, true);
+                                        } else {
+                                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, false);
+                                        }
                                     }
                                 }).show();
                     }

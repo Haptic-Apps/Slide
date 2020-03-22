@@ -222,7 +222,7 @@ public class MediaView extends FullScreenActivity
         Drawable share = getResources().getDrawable(R.drawable.share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
-        Drawable saveToLocation = getResources().getDrawable(R.drawable.save);
+        Drawable collection = getResources().getDrawable(R.drawable.collection);
         Drawable file = getResources().getDrawable(R.drawable.savecontent);
         Drawable thread = getResources().getDrawable(R.drawable.commentchange);
 
@@ -230,7 +230,7 @@ public class MediaView extends FullScreenActivity
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        saveToLocation.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        collection.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         file.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         thread.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
@@ -243,7 +243,7 @@ public class MediaView extends FullScreenActivity
 
         if (!isGif) b.sheet(3, image, getString(R.string.share_image));
         b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
-        b.sheet(16, save, "Save " + (isGif ? "MP4" : "image"));
+        b.sheet(16, collection, "Save " + (isGif ? "MP4" : "image") + " to");
         if (isGif
                 && !contentUrl.contains(".mp4")
                 && !contentUrl.contains("streamable.com")
@@ -302,7 +302,7 @@ public class MediaView extends FullScreenActivity
                     }
                     break;
                     case (16): {
-                        doImageSaveLocation();
+                        doImageSaveForLocation();
                         break;
                     }
                 }
@@ -329,7 +329,7 @@ public class MediaView extends FullScreenActivity
         }
     }
 
-    public void doImageSaveLocation() {
+    public void doImageSaveForLocation() {
         if (!isGif) {
             new FolderChooserDialogCreate.Builder(
                     MediaView.this).chooseButton(
