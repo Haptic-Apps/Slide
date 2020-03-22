@@ -1357,6 +1357,7 @@ public class MediaView extends FullScreenActivity
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 //always download the original file, or use the cached original if that is currently displayed
                 i.putExtra("actuallyLoaded", contentUrl);
+                i.putExtra("saveToLocation", folder.getAbsolutePath());
                 if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
                 startService(i);
             } else {

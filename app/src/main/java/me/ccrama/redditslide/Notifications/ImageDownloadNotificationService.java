@@ -59,7 +59,10 @@ public class ImageDownloadNotificationService extends Service {
         if (intent.hasExtra("subreddit")) {
             subreddit = intent.getStringExtra("subreddit");
         }
-        new PollTask(actuallyLoaded, intent.getIntExtra("index", -1), subreddit).executeOnExecutor(
+        new PollTask(actuallyLoaded,
+                intent.getIntExtra("index", -1),
+                subreddit,
+                intent.getStringExtra("saveToLocation")).executeOnExecutor(
                 AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -71,12 +74,14 @@ public class ImageDownloadNotificationService extends Service {
         public  String                     actuallyLoaded;
         private int                        index;
         private String                     subreddit;
+        public  String                     saveToLocation;
 
 
-        public PollTask(String actuallyLoaded, int index, String subreddit) {
+        public PollTask(String actuallyLoaded, int index, String subreddit, String saveToLocation) {
             this.actuallyLoaded = actuallyLoaded;
             this.index = index;
             this.subreddit = subreddit;
+            this.saveToLocation = saveToLocation;
         }
 
         public void startNotification() {
@@ -126,29 +131,57 @@ public class ImageDownloadNotificationService extends Service {
                                             File f_out = null;
                                             try {
                                                 if(SettingValues.imageSubfolders && !subreddit.isEmpty()){
-                                                    File directory = new File( Reddit.appRestart.getString("imagelocation",
-                                                            "")
-                                                            + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : ""));
+                                                    File directory;
+                                                    if (saveToLocation != null) {
+                                                        directory = new File(new File(saveToLocation,
+                                                                "")
+                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : ""));
+                                                    } else {
+                                                        directory = new File( Reddit.appRestart.getString("imagelocation",
+                                                                "")
+                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : ""));
+                                                    }
                                                     directory.mkdirs();
                                                 }
-                                                f_out = new File(
-                                                        Reddit.appRestart.getString("imagelocation",
-                                                                "")
-                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
-                                                                + File.separator
-                                                                + (index > -1 ? String.format(
-                                                                "%03d_", index) : "")
-                                                                + getFileName(new URL(finalUrl1)));
+                                                if (saveToLocation != null) {
+                                                    f_out = new File(
+                                                            saveToLocation
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + File.separator
+                                                                    + (index > -1 ? String.format(
+                                                                    "%03d_", index) : "")
+                                                                    + getFileName(new URL(finalUrl1)));
+                                                } else {
+                                                    f_out = new File(
+                                                            Reddit.appRestart.getString("imagelocation",
+                                                                    "")
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + File.separator
+                                                                    + (index > -1 ? String.format(
+                                                                    "%03d_", index) : "")
+                                                                    + getFileName(new URL(finalUrl1)));
+                                                }
                                             } catch (MalformedURLException e) {
-                                                f_out = new File(
-                                                        Reddit.appRestart.getString("imagelocation",
-                                                                "")
-                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
-                                                                + File.separator
-                                                                + (index > -1 ? String.format(
-                                                                "%03d_", index) : "")
-                                                                + UUID.randomUUID().toString()
-                                                                + ".png");
+                                                if (saveToLocation != null) {
+                                                    f_out = new File(
+                                                            saveToLocation
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + File.separator
+                                                                    + (index > -1 ? String.format(
+                                                                    "%03d_", index) : "")
+                                                                    + UUID.randomUUID().toString()
+                                                                    + ".png");
+                                                } else {
+                                                    f_out = new File(
+                                                            Reddit.appRestart.getString("imagelocation",
+                                                                    "")
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + File.separator
+                                                                    + (index > -1 ? String.format(
+                                                                    "%03d_", index) : "")
+                                                                    + UUID.randomUUID().toString()
+                                                                    + ".png");
+                                                }
                                             }
                                             LogUtil.v("F out is " + f_out.toString());
                                             try {
