@@ -27,14 +27,19 @@ import static me.ccrama.redditslide.OpenRedditLink.getRedditLinkType;
  */
 public class HasSeen {
 
-    public static HashSet<String>       hasSeen;
-    public static HashMap<String, Long> seenTimes;
+    private static HashSet<String>       hasSeen;
+    private static HashMap<String, Long> seenTimes;
 
-    public static void setHasSeenContrib(List<Contribution> submissions) {
+    private static void ensureInitialized() {
         if (hasSeen == null) {
             hasSeen = new HashSet<>();
             seenTimes = new HashMap<>();
         }
+    }
+
+    public static void setHasSeenContrib(List<Contribution> submissions) {
+        ensureInitialized();
+
         KVManger m = KVStore.getInstance();
         for (Contribution s : submissions) {
             if (s instanceof Submission) {
@@ -64,39 +69,11 @@ public class HasSeen {
     }
 
     public static void setHasSeenSubmission(List<Submission> submissions) {
-        if (hasSeen == null) {
-            hasSeen = new HashSet<>();
-            seenTimes = new HashMap<>();
-        }
-        KVManger m = KVStore.getInstance();
-        for (Contribution s : submissions) {
-            String fullname = s.getFullName();
-            if (fullname.contains("t3_")) {
-                fullname = fullname.substring(3);
-            }
-            // Check if KVStore has a key containing the fullname
-            // This is necessary because the KVStore library is limited and Carlos didn't realize the performance impact
-            Cursor cur = m.execQuery("SELECT * FROM ? WHERE ? LIKE '%?%' LIMIT 1",
-                    new String[] { TABLE_NAME, COLUMN_KEY, fullname });
-            boolean contains = cur != null && cur.getCount() > 0;
-            CursorUtils.closeCursorQuietly(cur);
-
-            if (contains) {
-                hasSeen.add(fullname);
-                String value = m.get(fullname);
-                try {
-                    if (value != null) seenTimes.put(fullname, Long.valueOf(value));
-                } catch (Exception ignored) {
-                }
-            }
-        }
+        setHasSeenContrib((List<Contribution>)((Object)submissions));
     }
 
     public static boolean getSeen(Submission s) {
-        if (hasSeen == null) {
-            hasSeen = new HashSet<>();
-            seenTimes = new HashMap<>();
-        }
+        ensureInitialized();
 
         String fullname = s.getFullName();
         if (fullname.contains("t3_")) {
@@ -109,10 +86,7 @@ public class HasSeen {
     }
 
     public static boolean getSeen(String s) {
-        if (hasSeen == null) {
-            hasSeen = new HashSet<>();
-            seenTimes = new HashMap<>();
-        }
+        ensureInitialized();
 
         Uri uri = formatRedditUrl(s);
         String fullname = s;
@@ -151,10 +125,7 @@ public class HasSeen {
     }
 
     public static long getSeenTime(Submission s) {
-        if (hasSeen == null) {
-            hasSeen = new HashSet<>();
-            seenTimes = new HashMap<>();
-        }
+        ensureInitialized();
         String fullname = s.getFullName();
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3);
@@ -171,12 +142,7 @@ public class HasSeen {
     }
 
     public static void addSeen(String fullname) {
-        if (hasSeen == null) {
-            hasSeen = new HashSet<>();
-        }
-        if (seenTimes == null) {
-            seenTimes = new HashMap<>();
-        }
+        ensureInitialized();
 
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3);
@@ -198,12 +164,7 @@ public class HasSeen {
     }
 
     public static void addSeenScrolling(String fullname) {
-        if (hasSeen == null) {
-            hasSeen = new HashSet<>();
-        }
-        if (seenTimes == null) {
-            seenTimes = new HashMap<>();
-        }
+        ensureInitialized();
 
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3);
