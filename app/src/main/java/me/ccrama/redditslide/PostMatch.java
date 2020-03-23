@@ -85,7 +85,7 @@ public class PostMatch {
     public static SharedPreferences filters;
 
     public static boolean doesMatch(Submission s, String baseSubreddit, boolean ignore18) {
-        if (Hidden.id.contains(s.getFullName())) return true; // if it's hidden we're not going to show it regardless
+        if (Hidden.getHidden(s.getFullName())) return true; // if it's hidden we're not going to show it regardless
 
         String title = s.getTitle();
         String body = s.getSelftext();
