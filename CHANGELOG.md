@@ -1,3 +1,32 @@
+6.3 / 2020-02-17
+==================
+  * Reduce data usage on metered connections
+  * Option to hide the download button in media views
+  * New back button behavior option to go to first subreddit
+
+6.2.2 / 2019-08-06
+==================
+  * Fixes an issue with Twitter links loading in-app
+  * Improves filter behavior with a large number of saved filters
+
+6.2.1 / 2019-07-25
+==================
+  * Improvements to behavior with Android Pie keyboard focus
+  * Accessibility improvements to app buttons
+  * Fixed crash with "Remove with Reason"
+  * Fixed various issues with new Reddit flairs
+
+6.2 / 2019-04-05
+==================
+  * Added support for Reddit 2-Factor Authentication for login
+  * Smoother animation interpolator
+  * Translation updates
+  * Better support for other string encodings in Reader mode
+  * Removed "Best" as default sorting option, and only display it on the frontpage subreddit
+  * Fixed an issues where Gfycats wouldn't load if they had a hyphen in the URL
+  * Fixed i.redd.it and other direct GIF links not loading internally
+  * Initial round of Toolbox bug fixes
+
 6.0.1 / 2018-11-30
 ==================
   * Adaptive icon by Michael Cook (@cookicons)
