@@ -791,9 +791,9 @@
     <!-- Time: shorthand durations for example 1 hour → 1h -->
     <string name="time_years_short">%dy</string>
     <string name="time_days_short">%dg</string>
-    <string name="time_hours_short">%ds</string>
-    <string name="time_minutes_short">%dd</string>
-    <string name="time_seconds_short">%ds</string>
+    <string name="time_hours_short">%dsn</string>
+    <string name="time_minutes_short">%ddk</string>
+    <string name="time_seconds_short">%dst</string>
     <!-- Strings present during the login process -->
     <string name="login_subscribe_rslideforreddit">/r/slideforreddit\'e abone ol?</string>
     <string name="login_subscribe_rslideforreddit_desc">/r/slideforreddit\'e sorunları bildirmek ve son durumdan haberdar olmak için abone olmak ister misiniz?</string>
