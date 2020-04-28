@@ -233,6 +233,24 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             }
         }
 
+        // Show image download button
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_show_download_button);
+
+            if (single != null) {
+                single.setChecked(SettingValues.imageDownloadButton);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingValues.imageDownloadButton = isChecked;
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_IMAGE_DOWNLOAD_BUTTON, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
+
         {
             SwitchCompat single = context.findViewById(R.id.settings_general_subfolder);
 
@@ -455,6 +473,9 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
             currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_drawer));
+        } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+            currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_goto_first));
         } else {
             currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_default));
         }
@@ -493,6 +514,14 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                                 Constants.BackButtonBehaviorOptions.OpenDrawer.getValue())
                                         .apply();
                                 break;
+                            case R.id.back_button_behavior_goto_first:
+                                SettingValues.backButtonBehavior =
+                                        Constants.BackButtonBehaviorOptions.GotoFirst.getValue();
+                                SettingValues.prefs.edit()
+                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                Constants.BackButtonBehaviorOptions.GotoFirst.getValue())
+                                        .apply();
+                                break;
                         }
 
                         if (SettingValues.backButtonBehavior
@@ -503,6 +532,10 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
                             currentBackButtonTitle.setText(
                                     context.getString(R.string.back_button_behavior_drawer));
+                        } else if (SettingValues.backButtonBehavior
+                                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+                            currentBackButtonTitle.setText(
+                                    context.getString(R.string.back_button_behavior_goto_first));
                         } else {
                             currentBackButtonTitle.setText(
                                     context.getString(R.string.back_button_behavior_default));

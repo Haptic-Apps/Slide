@@ -34,6 +34,7 @@ public class SettingValues {
     public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
     public static final String PREF_COLOR_BACK                = "colorBack";
     public static final String PREF_IMAGE_SUBFOLDERS          = "imageSubfolders";
+    public static final String PREF_IMAGE_DOWNLOAD_BUTTON     = "imageDownloadButton";
     public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
     public static final String PREF_READER_MODE               = "readerDefault";
     public static final String PREF_READER_NIGHT              = "readernight";
@@ -220,6 +221,7 @@ public class SettingValues {
     public static boolean singleColumnMultiWindow;
     public static int nightModeState;
     public static boolean imageSubfolders;
+    public static boolean imageDownloadButton;
     public static boolean autoTime;
     public static boolean albumSwipe;
     public static boolean switchThumb;
@@ -285,6 +287,7 @@ public class SettingValues {
         largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
         readerMode = prefs.getBoolean(PREF_READER_MODE, false);
         imageSubfolders = prefs.getBoolean(PREF_IMAGE_SUBFOLDERS, false);
+        imageDownloadButton = prefs.getBoolean(PREF_IMAGE_DOWNLOAD_BUTTON, true);
         isMuted = prefs.getBoolean(PREF_MUTE, false);
 
         commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);

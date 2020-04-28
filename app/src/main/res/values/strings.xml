@@ -1283,6 +1283,8 @@
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Save images to subreddit-specific subfolders</string>
     <string name="description_save_subfolders">Works in submission and comment views</string>
+    <string name="show_image_download_button">Download Shortcut</string>
+    <string name="description_image_download_button">Show download button in the image viewer</string>
     <string name="content_settings">Content settings</string>
     <string name="setting_titleTop">Show title above info line</string>
     <string name="setting_notification_piggybacking">Notification Piggybacking</string>
@@ -1308,4 +1310,5 @@
     <string name="show_collapse_expand_nav_bar">Show collapse/expand button in the comment navigation bar</string>
     <string name="page_not_found">Page not found</string>
     <string name="page_does_not_exist">The page you requested does not exist</string>
+    <string name="back_button_behavior_goto_first">Go to first subreddit</string>
 </resources>

@@ -11,4 +11,7 @@
     <item
             android:id="@+id/back_button_behavior_open_drawer"
             android:title="@string/back_button_behavior_drawer"/>
+    <item
+            android:id="@+id/back_button_behavior_goto_first"
+            android:title="@string/back_button_behavior_goto_first"/>
 </menu>

@@ -416,6 +416,9 @@ public class AlbumPager extends FullScreenActivity
                     MediaView.doOnClick.run();
                 }
             });
+            if (!SettingValues.imageDownloadButton) {
+                rootView.findViewById(R.id.save).setVisibility(View.INVISIBLE);
+            }
             return rootView;
         }
 
@@ -547,6 +550,9 @@ public class AlbumPager extends FullScreenActivity
                             }
 
                         });
+                        if (!SettingValues.imageDownloadButton) {
+                            rootView.findViewById(R.id.save).setVisibility(View.INVISIBLE);
+                        }
                     }
 
 
