@@ -2,6 +2,8 @@ package me.ccrama.redditslide;
 
 import android.annotation.TargetApi;
 import android.app.*;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -132,6 +134,15 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
+
+        //Fixes #3026, copy URL when showing chooser for older devices.
+        ClipboardManager clipboard = (ClipboardManager) c.getSystemService(
+                Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Link", url);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText( c, R.string.submission_link_copied,
+                Toast.LENGTH_SHORT).show();
+
     }
 
     public static boolean isPackageInstalled(String s) {
