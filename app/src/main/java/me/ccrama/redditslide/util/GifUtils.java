@@ -319,7 +319,7 @@ public class GifUtils {
         public String formatUrl(String s) {
             if (s.endsWith("v") && !s.contains("streamable.com")) {
                 s = s.substring(0, s.length() - 1);
-            } else if (s.contains("gfycat") && (!s.contains("mp4") && !s.contains("webm"))) {
+            } else if ((s.contains("gfycat") || s.contains("redgifs")) && (!s.contains("mp4") && !s.contains("webm"))) {
                 if (s.contains("-size_restricted")) s = s.replace("-size_restricted", "");
             }
             if ((s.contains(".webm") || s.contains(".gif")) && !s.contains(".gifv") && s.contains(
@@ -346,7 +346,7 @@ public class GifUtils {
             if (url.contains(".mp4") || url.contains("webm") || url.contains("redditmedia.com") || url.contains("preview.redd.it")) {
                 return VideoType.DIRECT;
             }
-            if (url.contains("gfycat") && !url.contains("mp4")) return VideoType.GFYCAT;
+            if ((url.contains("gfycat") || url.contains("redgifs")) && !url.contains("mp4")) return VideoType.GFYCAT;
             if (url.contains("imgur.com")) return VideoType.IMGUR;
             if (url.contains("vid.me")) return VideoType.VID_ME;
             if (url.contains("streamable.com")) return VideoType.STREAMABLE;

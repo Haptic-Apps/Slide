@@ -47,6 +47,7 @@ public class ContentType {
             final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
             return hostContains(host, "gfycat.com")
+                    || hostContains(host, "redgifs.com")
                     || hostContains(host, "v.redd.it")
                     || path.endsWith(".gif")
                     || path.endsWith(".gifv")
@@ -63,7 +64,7 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
             final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
 
-            return hostContains(host, "gfycat.com") || hostContains(host, "v.redd.it") || (
+            return hostContains(host, "gfycat.com") || hostContains(host, "redgifs.com") || hostContains(host, "v.redd.it") || (
                     hostContains(host, "imgur.com")
                             && (path.endsWith(".gif") || path.endsWith(".gifv") || path.endsWith(
                             ".webm"))) || path.endsWith(".mp4");
