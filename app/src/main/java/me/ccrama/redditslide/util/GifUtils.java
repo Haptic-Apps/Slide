@@ -362,6 +362,9 @@ public class GifUtils {
                 name = name.split("-")[0];
             }
             String gfycatUrl = "https://api.gfycat.com/v1/gfycats" + name;
+            if (fullUrl.contains("redgifs.com")) {
+                gfycatUrl = "https://api.redgifs.com/v1/gfycats" + name;
+            }
             LogUtil.v(gfycatUrl);
             final JsonObject result = HttpUtil.getJsonObject(client, gson, gfycatUrl);
             String obj = "";
