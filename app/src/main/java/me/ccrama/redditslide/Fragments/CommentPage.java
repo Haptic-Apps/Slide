@@ -1680,6 +1680,15 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         } else {
                             sidebar.findViewById(R.id.subimage).setVisibility(View.GONE);
                         }
+                        String bannerImage = baseSub.getBannerImage();
+                        if (bannerImage != null && !bannerImage.isEmpty()) {
+                            sidebar.findViewById(R.id.sub_banner).setVisibility(View.VISIBLE);
+                            ((Reddit) getContext().getApplicationContext()).getImageLoader()
+                                    .displayImage(bannerImage,
+                                            (ImageView) sidebar.findViewById(R.id.sub_banner));
+                        } else {
+                            sidebar.findViewById(R.id.sub_banner).setVisibility(View.GONE);
+                        }
                         ((TextView) sidebar.findViewById(R.id.subscribers)).setText(
                                 getString(R.string.subreddit_subscribers_string,
                                         baseSub.getLocalizedSubscriberCount()));

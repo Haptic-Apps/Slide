@@ -2862,6 +2862,15 @@ public class MainActivity extends BaseActivity
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
         }
+        String bannerImage = subreddit.getBannerImage();
+        if (bannerImage != null && !bannerImage.isEmpty()) {
+            findViewById(R.id.sub_banner).setVisibility(View.VISIBLE);
+            ((Reddit) getApplication()).getImageLoader()
+                    .displayImage(bannerImage,
+                            (ImageView) findViewById(R.id.sub_banner));
+        } else {
+            findViewById(R.id.sub_banner).setVisibility(View.GONE);
+        }
         ((TextView) findViewById(R.id.subscribers)).setText(
                 getString(R.string.subreddit_subscribers_string,
                         subreddit.getLocalizedSubscriberCount()));
