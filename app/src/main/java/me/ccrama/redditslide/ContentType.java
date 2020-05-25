@@ -48,6 +48,7 @@ public class ContentType {
 
             return hostContains(host, "gfycat.com")
                     || hostContains(host, "v.redd.it")
+                    || hostContains(host, "redgifs.com")
                     || path.endsWith(".gif")
                     || path.endsWith(".gifv")
                     || path.endsWith(".webm")

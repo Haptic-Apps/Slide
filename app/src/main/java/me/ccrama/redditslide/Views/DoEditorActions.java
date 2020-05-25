@@ -779,9 +779,8 @@ public class DoEditorActions {
 
 
                 Request request = new Request.Builder().header("Authorization",
-                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                        .url("https://imgur-apiv3.p.mashape.com/3/image")
+                        "Client-ID bef87913eb202e9")
+                        .url("https://api.imgur.com/3/image")
                         .post(body)
                         .build();
 
@@ -982,9 +981,8 @@ public class DoEditorActions {
             String albumurl;
             {
                 Request request = new Request.Builder().header("Authorization",
-                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                        .url("https://imgur-apiv3.p.mashape.com/3/album")
+                        "Client-ID bef87913eb202e9")
+                        .url("https://api.imgur.com/3/album")
                         .post(new RequestBody() {
                             @Override
                             public MediaType contentType() {
@@ -1035,9 +1033,8 @@ public class DoEditorActions {
 
 
                     Request request = new Request.Builder().header("Authorization",
-                            "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                            .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                            .url("https://imgur-apiv3.p.mashape.com/3/image")
+                            "Client-ID bef87913eb202e9")
+                            .url("https://api.imgur.com/3/image")
                             .post(body)
                             .build();
 

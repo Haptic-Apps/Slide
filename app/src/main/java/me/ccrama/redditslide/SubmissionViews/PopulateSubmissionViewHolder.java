@@ -363,6 +363,15 @@ public class PopulateSubmissionViewHolder {
                                 .get("source")
                                 .get("url")
                                 .asText()).replace("&amp;", "&"));
+            } else if (t.shouldLoadPreview()
+                    && submission.getDataNode().has("preview")
+                    && submission.getDataNode().get("preview").get("reddit_video_preview").has("fallback_url")) {
+                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(
+                        submission.getDataNode()
+                                .get("preview")
+                                .get("reddit_video_preview")
+                                .get("fallback_url")
+                                .asText()).replace("&amp;", "&"));
             } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT
                     && submission.getDataNode()
                     .has("media")
