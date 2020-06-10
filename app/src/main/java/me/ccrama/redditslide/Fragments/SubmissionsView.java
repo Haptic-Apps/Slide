@@ -590,7 +590,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
         }
         mSwipeRefreshLayout.setRefreshing(false);
-        adapter.setError(true);
     }
 
     @Override
