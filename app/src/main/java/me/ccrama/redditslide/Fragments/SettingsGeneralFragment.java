@@ -233,6 +233,25 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             }
         }
 
+        //hide fab while scrolling
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_show_fab);
+
+            if (single != null) {
+                single.setChecked(SettingValues.alwaysShowFAB);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingsThemeFragment.changed = true;
+                        SettingValues.alwaysShowFAB = isChecked;
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_ALWAYS_SHOW_FAB, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
+
         // Show image download button
         {
             SwitchCompat single = context.findViewById(R.id.settings_general_show_download_button);
