@@ -79,7 +79,7 @@
                     android:textCursorDrawable="@drawable/cursor"
                     android:hint="@string/editor_hint_subreddit"
                     android:inputType="textFilter"
-                    android:maxLength="21"
+                    android:maxLength="22"
                     android:maxLines="1"
                     android:imeOptions="flagNavigateNext"
                     android:textColor="?attr/fontColor"
