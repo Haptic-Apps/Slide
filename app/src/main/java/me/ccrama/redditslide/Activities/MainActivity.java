@@ -4457,7 +4457,9 @@ public class MainActivity extends BaseActivity
      */
     private void setupSubredditSearchToolbar() {
         if (!NetworkUtil.isConnected(this)) {
-            findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+            if (findViewById(R.id.drawer_divider) != null) {
+                findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+            }
         } else {
             if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                     || SettingValues.subredditSearchMethod
