@@ -1,0 +1,5 @@
+- Support for a... ahem... new video site
+- Banner images in subreddit sidebars (thank you YusefOuda)
+- Fixes to Imgur upload process
+- Translation updates (thank you Alexendoo)
+- Updated accessibility labels (thank you nebeker)
