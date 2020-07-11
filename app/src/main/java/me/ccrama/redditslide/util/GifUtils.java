@@ -619,7 +619,7 @@ public class GifUtils {
                                     .get("url")
                                     .getAsString()
                                     .isEmpty()) {
-                                obj = "https:" + result.getAsJsonObject()
+                                obj = result.getAsJsonObject()
                                         .get("files")
                                         .getAsJsonObject()
                                         .get("mp4-mobile")
@@ -627,7 +627,7 @@ public class GifUtils {
                                         .get("url")
                                         .getAsString();
                             } else {
-                                obj = "https:" + result.getAsJsonObject()
+                                obj = result.getAsJsonObject()
                                         .get("files")
                                         .getAsJsonObject()
                                         .get("mp4")
