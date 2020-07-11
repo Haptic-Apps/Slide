@@ -321,13 +321,24 @@ public class PopulateSubmissionViewHolder {
             if (t == GifUtils.AsyncLoadGif.VideoType.VREDDIT) {
                 if (submission.getDataNode().has("media") && submission.getDataNode()
                         .get("media")
-                        .has("reddit_video")) {
+                        .has("reddit_video") && submission.getDataNode()
+                        .get("media")
+                        .get("reddit_video").has("hls_url")) {
                     myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
                             .getDataNode()
                             .get("media")
                             .get("reddit_video")
-                            .get("fallback_url")
+                            .get("hls_url")
                             .asText()).replace("&amp;", "&"));
+                } else if (submission.getDataNode().has("media") && submission.getDataNode()
+                            .get("media")
+                            .has("reddit_video")) {
+                        myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
+                                .getDataNode()
+                                .get("media")
+                                .get("reddit_video")
+                                .get("fallback_url")
+                                .asText()).replace("&amp;", "&"));
                 } else if (submission.getDataNode().has("crosspost_parent_list")) {
                     myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
                             .getDataNode()

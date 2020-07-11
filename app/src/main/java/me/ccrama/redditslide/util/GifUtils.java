@@ -50,7 +50,10 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.function.Function;
 
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Website;
@@ -416,6 +419,62 @@ public class GifUtils {
             writeGif(finalUrl, progressBar, c, subreddit);
         }
 
+        //Loads a direct MP4, used for DASH mp4 or direct/imgur videos
+        private void loadDirect(String url) {
+            try {
+                writeGif(new URL(url), progressBar, c, subreddit);
+            } catch (Exception e) {
+                LogUtil.e(e,
+                        "Error loading URL " + url); //Most likely is an image, not a gif!
+                if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
+                        ".mp4")) {
+                    c.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            (c).startActivity(new Intent(c, MediaView.class).putExtra(
+                                    MediaView.EXTRA_URL, url.replace(".mp4",
+                                            ".png"))); //Link is likely an image and not a gif
+                            (c).finish();
+                        }
+                    });
+                } else {
+                    if (closeIfNull) {
+                        Intent web = new Intent(c, Website.class);
+                        web.putExtra(LinkUtil.EXTRA_URL, url);
+                        web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
+                        c.startActivity(web);
+                        c.finish();
+                    }
+                }
+            }
+        }
+
+        //Handles failures of loading a DASH mp4 or muxing a Reddit video
+        private void catchVRedditFailure(Exception e, String url) {
+            LogUtil.e(e,
+                    "Error loading URL " + url); //Most likely is an image, not a gif!
+            if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
+                    ".mp4")) {
+                c.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        (c).startActivity(new Intent(c, MediaView.class).putExtra(
+                                MediaView.EXTRA_URL, url.replace(".mp4",
+                                        ".png"))); //Link is likely an image and not a gif
+                        (c).finish();
+                    }
+                });
+            } else {
+                if (closeIfNull) {
+                    Intent web = new Intent(c, Website.class);
+                    web.putExtra(LinkUtil.EXTRA_URL, url);
+                    web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
+                    c.startActivity(web);
+                    c.finish();
+                }
+            }
+        }
+
         @Override
         protected Void doInBackground(String... sub) {
             MediaView.didLoadGif = false;
@@ -426,30 +485,28 @@ public class GifUtils {
             switch (videoType) {
                 case VREDDIT:
                     try {
-                        WriteGifMuxed(new URL(url), progressBar, c, subreddit);
-                    } catch (Exception e) {
-                        LogUtil.e(e,
-                                "Error loading URL " + url); //Most likely is an image, not a gif!
-                        if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
-                                ".mp4")) {
-                            c.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    (c).startActivity(new Intent(c, MediaView.class).putExtra(
-                                            MediaView.EXTRA_URL, url.replace(".mp4",
-                                                    ".png"))); //Link is likely an image and not a gif
-                                    (c).finish();
-                                }
-                            });
+                        //If it's an HLSPlaylist, there is a good chance we can find a DASH mp4 url
+                        if (url.contains("HLSPlaylist")) {
+                            //Test these qualities
+                            getQualityURL(url, new String[]{"1080", "720", "480", "360", "240", "96"},
+                                    (didFindVideo, videoUrl) -> {
+                                        if (didFindVideo) {
+                                            //Load the MP4 directly
+                                            loadDirect(videoUrl);
+                                        } else {
+                                            try {
+                                                //Fall back to muxing code
+                                                WriteGifMuxed(new URL(url), progressBar, c, subreddit);
+                                            } catch (Exception e) {
+                                                catchVRedditFailure(e, url);
+                                            }
+                                        }
+                                    });
                         } else {
-                            if (closeIfNull) {
-                                Intent web = new Intent(c, Website.class);
-                                web.putExtra(LinkUtil.EXTRA_URL, url);
-                                web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
-                                c.startActivity(web);
-                                c.finish();
-                            }
+                            WriteGifMuxed(new URL(url), progressBar, c, subreddit);
                         }
+                    } catch (Exception e) {
+                        catchVRedditFailure(e, url);
                     }
                     break;
                 case GFYCAT:
@@ -469,32 +526,7 @@ public class GifUtils {
                 case DIRECT:
                     setMuteVisibility(true);
                 case IMGUR:
-                    try {
-                        writeGif(new URL(url), progressBar, c, subreddit);
-                    } catch (Exception e) {
-                        LogUtil.e(e,
-                                "Error loading URL " + url); //Most likely is an image, not a gif!
-                        if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
-                                ".mp4")) {
-                            c.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    (c).startActivity(new Intent(c, MediaView.class).putExtra(
-                                            MediaView.EXTRA_URL, url.replace(".mp4",
-                                                    ".png"))); //Link is likely an image and not a gif
-                                    (c).finish();
-                                }
-                            });
-                        } else {
-                            if (closeIfNull) {
-                                Intent web = new Intent(c, Website.class);
-                                web.putExtra(LinkUtil.EXTRA_URL, url);
-                                web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
-                                c.startActivity(web);
-                                c.finish();
-                            }
-                        }
-                    }
+                    loadDirect(url);
                     break;
                 case STREAMABLE:
                     String hash = url.substring(url.lastIndexOf("/") + 1, url.length());
@@ -680,12 +712,7 @@ public class GifUtils {
                 response = client.newCall(request).execute();
                 final long size = response.body().contentLength();
                 response.close();
-                c.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        sizeText.setText(readableFileSize(size));
-                    }
-                });
+                c.runOnUiThread(() -> sizeText.setText(readableFileSize(size)));
                 return;
             } catch (IOException e) {
                 if (response != null) {
@@ -694,17 +721,13 @@ public class GifUtils {
                 }
                 e.printStackTrace();
             }
-            c.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    sizeText.setVisibility(View.GONE);
-                }
-            });
+            c.runOnUiThread(() -> sizeText.setVisibility(View.GONE));
 
         }
 
         public void writeGif(final URL url, final ProgressBar progressBar, final Activity c,
                 final String subreddit) {
+
             if (size != null && c != null && !getProxy().isCached(url.toString())) {
                 getRemoteFileSize(url.toString(), client, size, c);
             }
@@ -790,8 +813,62 @@ public class GifUtils {
 
         }
 
-        public void WriteGifMuxed(final URL url, final ProgressBar progressBar, final Activity c,
+        public interface VideoSuccessCallback {
+            void onVideoFound(Boolean didFindVideo, String videoUrl);
+        }
+
+        public interface VideoTestCallback {
+            void onTestComplete(Boolean testSuccess, String videoUrl);
+        }
+
+        //Find a Reddit video MP4 URL by replacing HLSPlaylist.m3u8 with tests of different qualities
+        public static void getQualityURL(String urlToLoad, String[] qualityList, VideoSuccessCallback callback) {
+            if (qualityList.length == 0) {
+                //Will fall back to muxing code if no URL was found
+                callback.onVideoFound(false, "");
+            } else {
+                //Test current first link in qualityList
+                VideoTestCallback testCallback = (testSuccess, videoUrl) -> {
+                    if (testSuccess) {
+                        //Success, load this video
+                        callback.onVideoFound(true, videoUrl);
+                    } else {
+                        //Failed, check next video URL
+                        String[] newList = Arrays.copyOfRange(qualityList, 1, qualityList.length);
+                        getQualityURL(urlToLoad, newList, callback);
+                    }
+                };
+                testQuality(urlToLoad, qualityList[0], testCallback);
+
+            }
+        }
+
+        //Test URL headers to see if this quality URL exists
+        private static void testQuality(String urlToLoad, String quality, AsyncLoadGif.VideoTestCallback callback) {
+            String newURL = urlToLoad.replace("HLSPlaylist.m3u8", "DASH_" + quality + ".mp4");
+            try {
+                URL url = new URL(newURL);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("HEAD");
+                con.connect();
+                if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    //Success, load this MP4
+                    callback.onTestComplete(true, newURL);
+                } else {
+                    //Failed, this callback will test a new URL
+                    callback.onTestComplete(false, newURL);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                //Failed, this callback will test a new URL
+                callback.onTestComplete(false, newURL);
+            }
+        }
+
+
+        private void WriteGifMuxed(final URL url, final ProgressBar progressBar, final Activity c,
                 final String subreddit) {
+
             if (size != null && c != null && !getProxy().isCached(url.toString())) {
                 getRemoteFileSize(url.toString(), client, size, c);
             }
