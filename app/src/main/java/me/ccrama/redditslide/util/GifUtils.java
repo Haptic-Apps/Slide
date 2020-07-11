@@ -103,8 +103,8 @@ public class GifUtils {
                     public void onClick(DialogInterface dialog, int which) {
                         new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
                                 R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
+                                .initialPath(Environment.getExternalStorageDirectory().getPath())
+                                // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })
