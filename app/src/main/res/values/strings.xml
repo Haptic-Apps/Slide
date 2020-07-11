@@ -513,6 +513,12 @@
     <string name="mod_btn_unmark_nsfw">Unmark NSFW</string>
     <string name="mod_btn_mark_spoiler">Mark as spoiler</string>
     <string name="mod_btn_unmark_spoiler">Unmark as spoiler</string>
+    <string name="mod_btn_lock_thread">Lock thread</string>
+    <string name="mod_btn_unlock_thread">Unlock thread</string>
+    <string name="mod_btn_lock_comment">Lock comment</string>
+    <string name="mod_btn_unlock_comment">Unlock comment</string>
+    <string name="mod_locked">Locked</string>
+    <string name="mod_unlocked">Unlocked</string>
     <string name="mod_btn_pin">Pin</string>
     <string name="mod_btn_unpin">Unpin</string>
     <string name="mod_btn_remove">Remove</string>

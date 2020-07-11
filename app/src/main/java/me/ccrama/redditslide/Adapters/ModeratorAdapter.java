@@ -35,10 +35,10 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 
-import me.ccrama.redditslide.Toolbox.Toolbox;
 import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
+
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
@@ -612,6 +612,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
         final Drawable note = mContext.getResources().getDrawable(R.drawable.note);
         final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.reportreason);
+        final Drawable lock = mContext.getResources().getDrawable(R.drawable.lock);
 
         //Tint drawables
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -625,6 +626,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         note.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         removeReason.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        lock.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -649,6 +651,14 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         b.sheet(6, remove, mContext.getString(R.string.btn_remove));
         b.sheet(7, removeReason, mContext.getString(R.string.mod_btn_remove_reason));
         b.sheet(10, spam, mContext.getString(R.string.mod_btn_spam));
+
+        final boolean locked = comment.getDataNode().has("locked")
+                && comment.getDataNode().get("locked").asBoolean();
+        if (locked) {
+            b.sheet(25, lock, mContext.getString(R.string.mod_btn_unlock_comment));
+        } else {
+            b.sheet(25, lock, mContext.getString(R.string.mod_btn_lock_comment));
+        }
 
         final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
         if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
@@ -721,6 +731,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     case 24:
                         ToolboxUI.showUsernotes(mContext, comment.getAuthor(), comment.getSubredditName(),
                                 "l," + comment.getParentId() + "," + comment.getId());
+                        break;
+                    case 25:
+                        lockUnlockComment(mContext, holder, comment, !locked);
                         break;
                 }
             }
@@ -943,6 +956,44 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 return true;
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public static void lockUnlockComment(final Context mContext, final ProfileCommentViewHolder holder,
+            final Comment comment, final boolean lock) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s = Snackbar.make(holder.itemView, lock ? R.string.mod_locked : R.string.mod_unlocked,
+                            Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    if (lock) {
+                        new ModerationManager(Authentication.reddit).setLocked(comment);
+                    } else {
+                        new ModerationManager(Authentication.reddit).setUnlocked(comment);
+                    }
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    return false;
+
+                }
+                return true;
+            }
+        }.execute();
     }
 
 }

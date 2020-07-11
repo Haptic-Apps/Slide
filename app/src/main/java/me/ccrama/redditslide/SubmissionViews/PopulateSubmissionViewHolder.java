@@ -27,11 +27,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
+
 import me.ccrama.redditslide.*;
 import me.ccrama.redditslide.Activities.*;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
@@ -45,6 +47,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.*;
+
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
 import net.dean.jraw.fluent.FluentRedditClient;
@@ -53,6 +56,7 @@ import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.*;
+
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.*;
@@ -1386,9 +1390,9 @@ public class PopulateSubmissionViewHolder {
 
         final boolean locked = submission.isLocked();
         if (locked) {
-            b.sheet(9, lock, "Unlock thread");
+            b.sheet(9, lock, res.getString(R.string.mod_btn_unlock_thread));
         } else {
-            b.sheet(9, lock, "Lock thread");
+            b.sheet(9, lock, res.getString(R.string.mod_btn_lock_thread));
         }
 
         final boolean stickied = submission.isStickied();
@@ -1973,7 +1977,7 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s =
-                            Snackbar.make(holder.itemView, "Thread locked", Snackbar.LENGTH_LONG);
+                            Snackbar.make(holder.itemView, R.string.mod_locked, Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
@@ -2008,7 +2012,7 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s =
-                            Snackbar.make(holder.itemView, "Thread unlocked", Snackbar.LENGTH_LONG);
+                            Snackbar.make(holder.itemView, R.string.mod_unlocked, Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
