@@ -10,8 +10,7 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
-import java.util.Calendar;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -35,6 +34,7 @@ public class SettingValues {
     public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
     public static final String PREF_COLOR_BACK                = "colorBack";
     public static final String PREF_IMAGE_SUBFOLDERS          = "imageSubfolders";
+    public static final String PREF_IMAGE_DOWNLOAD_BUTTON     = "imageDownloadButton";
     public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
     public static final String PREF_READER_MODE               = "readerDefault";
     public static final String PREF_READER_NIGHT              = "readernight";
@@ -122,6 +122,12 @@ public class SettingValues {
     public static final String PREF_LONG_LINK              = "shareLongLink";
     public static final String PREF_SELECTED_BROWSER       = "selectedBrowser";
     public static final String PREF_SELECTED_DRAWER_ITEMS  = "selectedDrawerItems";
+    public static final String PREF_MOD_REMOVAL_TYPE       = "removalReasonType";
+    public static final String PREF_MOD_TOOLBOX_ENABLED    = "toolboxEnabled";
+    public static final String PREF_MOD_TOOLBOX_MESSAGE    = "toolboxMessageType";
+    public static final String PREF_MOD_TOOLBOX_STICKY     = "toolboxSticky";
+    public static final String PREF_MOD_TOOLBOX_LOCK       = "toolboxLock";
+    public static final String PREF_MOD_TOOLBOX_MODMAIL    = "toolboxModmail";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -193,12 +199,14 @@ public class SettingValues {
     public static String synccitName;
     public static String synccitAuth;
 
-    public static String  titleFilters;
-    public static String  textFilters;
-    public static String  domainFilters;
-    public static String  subredditFilters;
-    public static String  flairFilters;
-    public static String  alwaysExternal;
+    public static Set<String>   titleFilters;
+    public static Set<String>   textFilters;
+    public static Set<String>   domainFilters;
+    public static Set<String>   subredditFilters;
+    public static Set<String>   flairFilters;
+    public static Set<String>   alwaysExternal;
+    public static Set<String>   userFilters;
+
     public static boolean loadImageLq;
     public static boolean ignoreSubSetting;
     public static boolean hideNSFWCollection;
@@ -214,6 +222,7 @@ public class SettingValues {
     public static boolean singleColumnMultiWindow;
     public static int nightModeState;
     public static boolean imageSubfolders;
+    public static boolean imageDownloadButton;
     public static boolean autoTime;
     public static boolean albumSwipe;
     public static boolean switchThumb;
@@ -234,7 +243,6 @@ public class SettingValues {
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
     public static boolean typeInText;
-    public static String  userFilters;
     public static boolean notifSound;
     public static boolean cookies;
     public static boolean colorIcon;
@@ -245,6 +253,12 @@ public class SettingValues {
     public static String  selectedBrowser;
     public static long    selectedDrawerItems;
     public static ForcedState forcedNightModeState = ForcedState.NOT_FORCED;
+    public static boolean toolboxEnabled;
+    public static int     removalReasonType;
+    public static int     toolboxMessageType;
+    public static boolean toolboxSticky;
+    public static boolean toolboxLock;
+    public static boolean toolboxModmail;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -275,6 +289,7 @@ public class SettingValues {
         largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
         readerMode = prefs.getBoolean(PREF_READER_MODE, false);
         imageSubfolders = prefs.getBoolean(PREF_IMAGE_SUBFOLDERS, false);
+        imageDownloadButton = prefs.getBoolean(PREF_IMAGE_DOWNLOAD_BUTTON, true);
         isMuted = prefs.getBoolean(PREF_MUTE, false);
 
         commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
@@ -364,14 +379,16 @@ public class SettingValues {
         nightEnd = prefs.getInt(PREF_NIGHT_END, 5);
 
         fabComments = prefs.getBoolean(PREF_COMMENT_FAB, false);
-        titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");
-        textFilters = prefs.getString(PREF_TEXT_FILTERS, "");
-        domainFilters = prefs.getString(PREF_DOMAIN_FILTERS, "");
-        subredditFilters = prefs.getString(PREF_SUBREDDIT_FILTERS, "");
-        alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
-        flairFilters = prefs.getString(PREF_FLAIR_FILTERS, "");
-        userFilters = prefs.getString(PREF_USER_FILTERS, "");
         largeLinks = prefs.getBoolean(PREF_LARGE_LINKS, false);
+
+        // SharedPreferences' StringSets should never be modified, so we duplicate them into a new HashSet
+        titleFilters = new HashSet<>(prefs.getStringSet(PREF_TITLE_FILTERS, new HashSet<>()));
+        textFilters = new HashSet<>(prefs.getStringSet(PREF_TEXT_FILTERS, new HashSet<>()));
+        domainFilters = new HashSet<>(prefs.getStringSet(PREF_DOMAIN_FILTERS, new HashSet<>()));
+        subredditFilters = new HashSet<>(prefs.getStringSet(PREF_SUBREDDIT_FILTERS, new HashSet<>()));
+        alwaysExternal = new HashSet<>(prefs.getStringSet(PREF_ALWAYS_EXTERNAL, new HashSet<>()));
+        flairFilters = new HashSet<>(prefs.getStringSet(PREF_FLAIR_FILTERS, new HashSet<>()));
+        userFilters = new HashSet<>(prefs.getStringSet(PREF_USER_FILTERS, new HashSet<>()));
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
         singleColumnMultiWindow = prefs.getBoolean(PREF_SINGLE_COLUMN_MULTI, false);
@@ -399,6 +416,13 @@ public class SettingValues {
         peek = prefs.getBoolean(PREF_PEEK, false);
         selectedBrowser = prefs.getString(PREF_SELECTED_BROWSER, "");
         selectedDrawerItems = prefs.getLong(PREF_SELECTED_DRAWER_ITEMS, -1);
+
+        toolboxEnabled = prefs.getBoolean(PREF_MOD_TOOLBOX_ENABLED, false);
+        removalReasonType = prefs.getInt(PREF_MOD_REMOVAL_TYPE, RemovalReasonType.SLIDE.ordinal());
+        toolboxMessageType = prefs.getInt(PREF_MOD_TOOLBOX_MESSAGE, ToolboxRemovalMessageType.COMMENT.ordinal());
+        toolboxSticky = prefs.getBoolean(PREF_MOD_TOOLBOX_STICKY, false);
+        toolboxLock = prefs.getBoolean(PREF_MOD_TOOLBOX_LOCK, false);
+        toolboxModmail = prefs.getBoolean(PREF_MOD_TOOLBOX_MODMAIL, false);
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
@@ -535,6 +559,14 @@ public class SettingValues {
 
     public static boolean hasSort(String subreddit) {
         return prefs.contains("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH));
+    }
+
+    public enum RemovalReasonType {
+        SLIDE, TOOLBOX, REDDIT
+    }
+
+    public enum ToolboxRemovalMessageType {
+        COMMENT, PM, BOTH, NONE
     }
 
     public enum ColorIndicator {

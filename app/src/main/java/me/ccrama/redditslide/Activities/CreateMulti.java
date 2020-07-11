@@ -373,9 +373,21 @@ public class CreateMulti extends BaseActivityAnim {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        String errorMsg = getString(R.string.misc_err);
+                        //Creating correct error message if the multireddit has more than 100 subs or its name already exists
+                        if (e instanceof ApiException) {
+                            errorMsg = getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() +
+                                    "\n" + getString(R.string.misc_retry);
+
+                        } else if (((NetworkException) e).getResponse().getStatusCode() == 409){
+                            //The HTTP status code returned when the name of the multireddit already exists or
+                            //has more than 100 subs is 409
+                            errorMsg = getString(R.string.multireddit_save_err);
+                        }
+
                         new AlertDialogWrapper.Builder(CreateMulti.this)
                                 .setTitle(R.string.err_title)
-                                .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
+                                .setMessage(errorMsg)
                                 .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {

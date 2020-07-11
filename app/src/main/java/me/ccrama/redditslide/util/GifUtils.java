@@ -439,7 +439,8 @@ public class GifUtils {
             if (realURL.contains("v.redd.it")) {
                 return VideoType.VREDDIT;
             }
-            if (realURL.contains(".mp4") || realURL.contains("webm") || realURL.contains("redditmedia.com")) {
+            if (realURL.contains(".mp4") || realURL.contains("webm") || realURL.contains("redditmedia.com")
+                    || realURL.contains("preview.redd.it")) {
                 return VideoType.DIRECT;
             }
             if (realURL.contains("gfycat") && !realURL.contains("mp4")) return VideoType.GFYCAT;
@@ -453,13 +454,17 @@ public class GifUtils {
         /**
          * Load the correct URL for a gfycat gif
          *
-         * @param name Name of the gfycat gif
+         * @param name    Name of the gfycat gif
+         * @param fullUrl full URL to the gfycat
          * @param gson
          * @return Correct URL
          */
-        Uri loadGfycat(String name, Gson gson) {
+        Uri loadGfycat(String name, String fullUrl, Gson gson) {
             showProgressBar(c, progressBar, true);
             if (!name.startsWith("/")) name = "/" + name;
+            if (name.contains("-")) {
+                name = name.split("-")[0];
+            }
             String gfycatUrl = "https://api.gfycat.com/v1/gfycats" + name;
             LogUtil.v(gfycatUrl);
             final JsonObject result = HttpUtil.getJsonObject(client, gson, gfycatUrl);
@@ -482,6 +487,14 @@ public class GifUtils {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
                                                             int which) {
+                                                        c.finish();
+                                                    }
+                                                })
+                                        .setNeutralButton(R.string.open_externally,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        LinkUtil.openExternally(fullUrl);
                                                         c.finish();
                                                     }
                                                 })
@@ -520,7 +533,7 @@ public class GifUtils {
                     String gfycatUrl = "https://api.gfycat.com/v1/gfycats" + name;
 
                     try {
-                        return loadGfycat(name, gson);
+                        return loadGfycat(name, url, gson);
                     } catch (Exception e) {
                         LogUtil.e(e, "Error loading gfycat video url = ["
                                 + url

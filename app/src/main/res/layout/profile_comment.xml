@@ -35,6 +35,16 @@
             android:scrollbars="none">
 
             <TextView
+                    android:id="@+id/user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="2dp"
+                    android:visibility="gone"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="?attr/font_cardinfo"/>
+
+            <TextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

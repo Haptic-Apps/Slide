@@ -18,6 +18,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
+                android:contentDescription="@string/btn_edit"
                 app:srcCompat="@drawable/edit"/>
 
         <ImageView
@@ -27,6 +28,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
+                android:contentDescription="@string/btn_delete"
                 app:srcCompat="@drawable/delete"/>
 
         <ImageView
@@ -36,6 +38,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
+                android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted"/>
 
         <ImageView
@@ -45,6 +48,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
+                android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote"/>
 
         <ImageView
@@ -54,6 +58,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
+                android:contentDescription="@string/btn_reply"
                 app:srcCompat="@drawable/reply"/>
 
         <ImageView
@@ -63,6 +68,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
+                android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more"/>
 
         <ImageView
@@ -72,6 +78,7 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
+                android:contentDescription="@string/btn_mod"
                 app:srcCompat="@drawable/mod"/>
     </LinearLayout>
 

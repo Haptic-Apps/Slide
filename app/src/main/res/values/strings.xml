@@ -232,6 +232,22 @@
     <string name="delete_submission">Delete submission</string>
     <string name="set_submission_flair">Set submission flair</string>
 
+    <!-- Editor buttons -->
+    <string name="editor_save_draft">Save draft</string>
+    <string name="editor_chose_draft">Chose draft</string>
+    <string name="editor_insert_image">Insert image</string>
+    <string name="editor_draw">Insert and draw on image</string>
+    <string name="editor_link">Insert link</string>
+    <string name="editor_bold">Bold</string>
+    <string name="editor_italics">Italics</string>
+    <string name="editor_quote">Quote</string>
+    <string name="editor_author">Mention author</string>
+    <string name="editor_list">Bullet list</string>
+    <string name="editor_num_list">Numbered list</string>
+    <string name="editor_size">Large font</string>
+    <string name="editor_strike">Strikethrough</string>
+    <string name="editor_spoiler">Spoiler</string>
+
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Photo saved</string>
     <string name="video_saved">Video saved</string>
@@ -286,6 +302,7 @@
     <string name="multireddit_title_empty">Title can\'t be empty</string>
     <string name="multireddit_title_empty_msg">Please enter a title for your multireddit</string>
     <string name="multireddit_no_subs">No subreddits are added</string>
+    <string name="multireddit_save_err">The title of this multireddit already exists or there is no space for more subreddits here</string>
     <string name="multireddit_no_subs_msg">Please add some subreddits by clicking on the + button!</string>
     <string name="multireddit_selector">Select subreddits to add</string>
     <string name="multireddit_create_hint">Multireddit name</string>
@@ -429,6 +446,31 @@
     <string name="btn_new">New</string>
     <string name="btn_upload">Upload</string>
 
+    <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Edit</string>
+    <string name="btn_hide">Hide</string>
+    <string name="btn_mod">Moderate</string>
+    <string name="btn_upvote">Upvote</string>
+    <string name="btn_downvote">Downvote</string>
+    <string name="btn_menu">Menu</string>
+    <string name="img_score">Score</string>
+    <string name="img_comments">Comments</string>
+    <string name="btn_expand">Expand</string>
+    <string name="btn_nav_up">Navigate up</string>
+    <string name="btn_nav_mode">Set navigation mode</string>
+    <string name="btn_nav_collapse_expand">Collapse/expand</string>
+    <string name="btn_nav_down">Navigate down</string>
+    <string name="btn_fab_reply">Reply</string>
+    <string name="btn_fab_post">Create new post</string>
+    <string name="btn_fab_hide">Hide viewed posts</string>
+    <string name="btn_fab_search">Search posts</string>
+
+    <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Upvoted</string>
+    <string name="btn_downvoted">Downvoted</string>
+    <string name="btn_unsave">Unsave</string>
+    <string name="btn_collapse">Collapse</string>
+
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
     <string name="backup_restoring">Restoring your settings</string>
@@ -475,6 +517,7 @@
     <string name="mod_btn_unpin">Unpin</string>
     <string name="mod_btn_remove">Remove</string>
     <string name="mod_btn_remove_reason">Remove with reason</string>
+    <string name="mod_btn_spam">Mark as spam</string>
     <string name="mod_btn_author">Author profile</string>
     <string name="mod_btn_ban">Ban</string>
     <string name="mod_ban_user">Ban user</string>
@@ -485,7 +528,7 @@
     <string name="mod_ban_reason">Ban reason</string>
     <string name="mod_ban_note_mod">Moderator note (optional)</string>
     <string name="mod_ban_note_user">User message (optional)</string>
-    <string name="mod_ban_time">Ban time (days)</string>
+    <string name="mod_ban_time">Ban time - leave blank for permanent</string>
     <string name="mod_ban_title">Ban /u/%1$s</string>
     <string name="mod_ban_requirements">Reason and time are required</string>
     <string name="mod_remove_template">Removed for\u0020</string>
@@ -504,6 +547,27 @@
         <item quantity="one">View %d report</item>
         <item quantity="other">View %d reports</item>
     </plurals>
+
+    <!-- Toolbox-related stuff -->
+    <string name="mod_usernotes_view">View usernotes</string>
+    <string name="mod_usernotes_title">Usernotes for %s</string>
+    <string name="mod_usernotes_add">Add a usernote</string>
+    <string name="toolbox_removal_title">Removal reasons for %s</string>
+    <string name="toolbox_removal_header">Include header:</string>
+    <string name="toolbox_removal_footer">Include footer:</string>
+    <string name="toolbox_removal_comment">Reply with a comment to the item that is removed</string>
+    <string name="toolbox_removal_sticky">Sticky the removal comment</string>
+    <string name="toolbox_removal_pm">Send as PM</string>
+    <string name="toolbox_removal_modmail">Send PM as modmail</string>
+    <string name="toolbox_removal_both">Send as both PM and reply</string>
+    <string name="toolbox_removal_none">None, only log the removal</string>
+    <string name="toolbox_removal_lock">Lock the removed thread</string>
+    <string name="toolbox_logreason_placeholder">Log reason</string>
+    <string name="toolbox_note_text_required">Note text is required</string>
+    <string name="toolbox_note_text_placeholder">Something about the user…</string>
+    <string name="toolbox_note_default">No type</string>
+    <string name="toolbox_wiki_edit_reauth">To add or remove usernotes, Slide must re-authenticate you</string>
+    <string name="toolbox_wiki_edit_reauth_question">Would you like to re-log-in to Slide now?</string>
 
     <!-- Pleasantly asking the user if he made his mind up -->
     <string name="really_remove_submission">Really remove this submission?</string>
@@ -602,6 +666,7 @@
     <string name="settings_general_immersive_mode_desc">Hide the status and navigation bars (experimental)</string>
     <string name="settings_general_title_drawer_items">Drawer Items</string>
     <string name="settings_general_subtitle_drawer_items">Select which drawer items to display</string>
+    <string name="settings_moderation">Moderation</string>
 
 
     <!-- Settings titles displayed in settings activity-->
@@ -710,6 +775,19 @@
     <string name="settings_theme_night_end_at">End at\u0020</string>
     <string name="settings_general_inbox_snd">Sound and vibrate</string>
     <string name="settings_enable_notifs">Enable inbox notifications</string>
+    <string name="settings_mod_toolbox_header">Toolbox</string>
+    <string name="settings_mod_toolbox_enabled">Enable Toolbox functionality</string>
+    <string name="settings_mod_toolbox_desc">May cause a slight performance decrease</string>
+    <string name="settings_mod_removal_reasons">Removal reason type</string>
+    <string name="settings_mod_removal_slide">Slide \"remove with reason\"</string>
+    <string name="settings_mod_removal_toolbox">Toolbox removal reasons</string>
+    <string name="settings_mod_removal_reddit">Reddit removal reasons</string>
+    <string name="settings_mod_toolbox_refresh">Force refresh Toolbox data</string>
+    <string name="settings_mod_toolbox_message">Method of sending removal reasons</string>
+    <string name="settings_mod_toolbox_sticky">Sticky removal comments</string>
+    <string name="settings_mod_toolbox_lock">Lock threads after leaving a removal reason</string>
+    <string name="settings_mod_toolbox_modmail">Send removal reasons as a subreddit</string>
+    <string name="settings_mod_toolbox_refreshing">Refreshing Toolbox data for all subreddits</string>
 
     <!-- Quick setting toggles in the drawer -->
     <string name="toggle_night_mode">Night mode</string>
@@ -1189,7 +1267,7 @@
     <string name="mod_log">Mod log</string>
     <string name="navigation_bar_vote_gestures">Navigation bar vote gestures</string>
     <string name="nav_gestures_description">Upvote and downvote by swiping on the comment navigation arrows</string>
-    <string name="subreddit_sidebar_progress">Getting sidebar...</string>
+    <string name="subreddit_sidebar_progress">Getting sidebar…</string>
     <string name="manage_your_subreddits">Manage your subreddits</string>
     <string name="enlarge_links">Enlarge links</string>
     <string name="enlarge_links_warning">May cause some lines to be bigger than others, but makes links easier to touch</string>
@@ -1206,13 +1284,15 @@
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Save images to subreddit-specific subfolders</string>
     <string name="description_save_subfolders">Works in submission and comment views</string>
+    <string name="show_image_download_button">Download Shortcut</string>
+    <string name="description_image_download_button">Show download button in the image viewer</string>
     <string name="content_settings">Content settings</string>
     <string name="setting_titleTop">Show title above info line</string>
     <string name="setting_notification_piggybacking">Notification Piggybacking</string>
     <string name="setting_notification_piggybacking_desc">Check for mail only when the official Reddit app gets a push notification</string>
     <string name="install_notif_piggyback">Install the official Reddit app to enable Notification Piggybacking</string>
     <string name="success_block_user">User blocked successfully</string>
-    <string name="settings_highlight_time_desc"><![CDATA[Requires \'Show comment count since last visit\' to be enabled in Settings > Post Layout]]></string>
+    <string name="settings_highlight_time_desc">Requires \'Show comment count since last visit\' to be enabled in Settings &gt; Post Layout</string>
     <string name="settings_colored_time">Colored time bubble for new comments</string>
     <string name="theme_deep">Deep</string>
     <string name="type_vreddit">Reddit Video</string>
@@ -1231,4 +1311,5 @@
     <string name="show_collapse_expand_nav_bar">Show collapse/expand button in the comment navigation bar</string>
     <string name="page_not_found">Page not found</string>
     <string name="page_does_not_exist">The page you requested does not exist</string>
+    <string name="back_button_behavior_goto_first">Go to first subreddit</string>
 </resources>

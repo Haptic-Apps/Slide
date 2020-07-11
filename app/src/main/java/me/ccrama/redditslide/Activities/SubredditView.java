@@ -1132,6 +1132,10 @@ public class SubredditView extends BaseActivity {
                 new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
         final Spannable[] base = SortingUtil.getSortingSpannables(subreddit);
         for (Spannable s : base) {
+            // Do not add option for "Best" in any subreddit except for the frontpage.
+            if (!subreddit.toLowerCase().equals("frontpage") && s.toString().equals(getString(R.string.sorting_best))) {
+                continue;
+            }
             MenuItem m = popup.getMenu().add(s);
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -1164,6 +1168,10 @@ public class SubredditView extends BaseActivity {
                     case 4:
                         SortingUtil.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         openPopupTime();
+                        break;
+                    case 5:
+                        SortingUtil.setSorting(subreddit, Sorting.BEST);
+                        reloadSubs();
                         break;
                 }
                 return true;
@@ -1768,6 +1776,15 @@ public class SubredditView extends BaseActivity {
                                 (ImageView) findViewById(R.id.subimage));
             } else {
                 findViewById(R.id.subimage).setVisibility(View.GONE);
+            }
+            String bannerImage = subreddit.getBannerImage();
+            if (bannerImage != null && !bannerImage.isEmpty()) {
+                findViewById(R.id.sub_banner).setVisibility(View.VISIBLE);
+                ((Reddit) getApplication()).getImageLoader()
+                        .displayImage(bannerImage,
+                                (ImageView) findViewById(R.id.sub_banner));
+            } else {
+                findViewById(R.id.sub_banner).setVisibility(View.GONE);
             }
             ((TextView) findViewById(R.id.subscribers)).setText(
                     getString(R.string.subreddit_subscribers_string,

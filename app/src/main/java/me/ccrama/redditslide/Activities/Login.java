@@ -70,7 +70,7 @@ public class Login extends BaseActivityAnim {
                 "identity", "modcontributors", "modconfig", "modothers", "modwiki", "creddits",
                 "livemanage", "account", "privatemessages", "modflair", "modlog", "report",
                 "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save",
-                "wikiread", "flair", "history", "mysubreddits"
+                "wikiread", "flair", "history", "mysubreddits", "wikiedit"
         };
         if (Authentication.reddit == null) {
             new Authentication(getApplicationContext());
@@ -86,8 +86,11 @@ public class Login extends BaseActivityAnim {
         webView.clearCache(true);
         webView.clearHistory();
         WebSettings webSettings = webView.getSettings();
-        webSettings.setSaveFormData(false);
-        webSettings.setSavePassword(false); // Not needed for API level 18 or greater (deprecated)
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setMinimumFontSize(1);
+        webSettings.setMinimumLogicalFontSize(1);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             CookieManager.getInstance().removeAllCookies(null);
@@ -105,6 +108,7 @@ public class Login extends BaseActivityAnim {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                LogUtil.v(url);
                 if (url.contains("code=")) {
                     Log.v(LogUtil.getTag(), "WebView URL: " + url);
                     // Authentication code received, prevent HTTP call from being made.

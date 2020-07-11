@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -17,6 +18,7 @@ import android.util.TypedValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import me.ccrama.redditslide.Toolbox.Toolbox;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 
@@ -26,6 +28,7 @@ import java.util.Locale;
 import java.util.WeakHashMap;
 
 import me.ccrama.redditslide.Adapters.CommentAdapterHelper;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -241,8 +244,8 @@ public class SubmissionCache {
             pinned.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
             titleString.append(" ");
+            titleString.append(pinned);
         }
 
         if (UserSubscriptions.friends.contains(submission.getAuthor())) {
@@ -251,10 +254,11 @@ public class SubmissionCache {
             pinned.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
             titleString.append(" ");
+            titleString.append(pinned);
         }
 
+        ToolboxUI.appendToolboxNote(mContext, titleString, submission.getSubredditName(), submission.getAuthor());
 
         /* too big, might add later todo
         if (submission.getAuthorFlair() != null && submission.getAuthorFlair().getText() != null && !submission.getAuthorFlair().getText().isEmpty()) {

@@ -77,7 +77,8 @@
                         android:tag="tintsecond"
                         android:layout_alignParentRight="true"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/more" />
+                    android:contentDescription="@string/btn_menu"
+                    app:srcCompat="@drawable/more" />
                 <me.ccrama.redditslide.Views.TitleTextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"

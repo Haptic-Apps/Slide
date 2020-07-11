@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MarginLayoutParamsCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
@@ -117,7 +118,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
         }
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemAnimator(new SlideUpAlphaAnimator());
+        rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
         rv.getLayoutManager().scrollToPosition(0);
 
         mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -158,6 +159,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             if (SettingValues.fabType == Constants.FAB_POST) {
                 fab.setImageResource(R.drawable.add);
+                fab.setContentDescription(getString(R.string.btn_fab_post));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -168,6 +170,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 });
             } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
                 fab.setImageResource(R.drawable.search);
+                fab.setContentDescription(getString(R.string.btn_fab_search));
                 fab.setOnClickListener(new View.OnClickListener() {
                     String term;
                     @Override
@@ -232,6 +235,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 });
             } else {
                 fab.setImageResource(R.drawable.hide);
+                fab.setContentDescription(getString(R.string.btn_fab_hide));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -462,7 +466,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
             adapter.notifyItemRangeChanged(0, adapter.dataSet.posts.size());
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideUpAlphaAnimator());
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
             return originalDataSetPosts;
         }
 
@@ -586,7 +590,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
         }
         mSwipeRefreshLayout.setRefreshing(false);
-        adapter.setError(true);
     }
 
     @Override

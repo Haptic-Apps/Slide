@@ -53,6 +53,7 @@
                     android:layout_height="36dp"
                     android:padding="8dp"
                     android:visibility="gone"
+                    android:contentDescription="@string/btn_menu"
                     app:srcCompat="@drawable/more"/>
 
             <LinearLayout
@@ -192,6 +193,7 @@
                     android:orientation="horizontal"/>
 
             <LinearLayout
+                    android:id="@+id/scoreimg"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -199,12 +201,14 @@
                     android:paddingStart="16dp">
 
                 <ImageView
+                        android:labelFor="@+id/score"
                         android:layout_width="15dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="4dp"
                         android:tag="tintactionbar"
                         android:tint="?attr/tintColor"
+                        android:contentDescription="@string/img_score"
                         app:srcCompat="@drawable/upvoted"/>
 
                 <TextView
@@ -229,6 +233,7 @@
                         android:visibility="gone"/>
 
                 <ImageView
+                        android:labelFor="@+id/comments"
                         android:layout_width="15dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
@@ -236,6 +241,7 @@
                         android:layout_marginStart="8dp"
                         android:tag="tintactionbar"
                         android:tint="?attr/tintColor"
+                        android:contentDescription="@string/img_comments"
                         app:srcCompat="@drawable/commentchange"/>
 
                 <TextView
@@ -258,6 +264,7 @@
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
+                    android:contentDescription="@string/btn_menu"
                     app:srcCompat="@drawable/more"/>
 
             <ImageView
@@ -269,6 +276,7 @@
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
+                    android:contentDescription="@string/btn_upvote"
                     app:srcCompat="@drawable/upvoted"/>
 
             <ImageView
@@ -281,6 +289,7 @@
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
+                    android:contentDescription="@string/btn_save"
                     app:srcCompat="@drawable/iconstarfilled"/>
 
             <ImageView
@@ -292,6 +301,7 @@
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
+                    android:contentDescription="@string/btn_reply"
                     app:srcCompat="@drawable/reply"/>
 
             <ImageView
@@ -303,6 +313,7 @@
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
+                    android:contentDescription="@string/btn_downvote"
                     app:srcCompat="@drawable/downvote"/>
 
             <ImageView
@@ -314,6 +325,7 @@
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
+                    android:contentDescription="@string/btn_edit"
                     app:srcCompat="@drawable/edit"/>
 
             <ImageView
@@ -325,6 +337,7 @@
                     android:padding="8dp"
                     android:tag="tintactionbar"
                     android:tint="?attr/tintColor"
+                    android:contentDescription="@string/btn_mod"
                     app:srcCompat="@drawable/mod"/>
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
 

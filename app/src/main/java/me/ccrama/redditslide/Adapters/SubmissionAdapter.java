@@ -54,6 +54,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE         = 3;
     private final int SPACER          = 6;
+    private final int ERROR = 7;
     SubmissionDisplay displayer;
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView,
@@ -109,13 +110,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (!dataSet.posts.isEmpty()) {
             position -= (1);
         }
-        if (position == dataSet.posts.size()
-                && !dataSet.posts.isEmpty()
-                && !dataSet.offline
-                && !dataSet.nomore) {
-            return LOADING_SPINNER;
-        } else if (position == dataSet.posts.size() && (dataSet.offline || dataSet.nomore)) {
-            return NO_MORE;
+        if (position == dataSet.posts.size()) {
+            if (dataSet.error) {
+                return ERROR;
+            } else if (!dataSet.posts.isEmpty() && !dataSet.offline && !dataSet.nomore) {
+                return LOADING_SPINNER;
+            } else if (dataSet.offline || dataSet.nomore) {
+                return NO_MORE;
+            }
         }
         int SUBMISSION = 1;
         return SUBMISSION;
@@ -139,6 +141,17 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (i == NO_MORE) {
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.nomoreposts, viewGroup, false);
+            return new SubmissionFooterViewHolder(v);
+        } else if (i == ERROR) {
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.errorloadingcontent, viewGroup, false);
+            v.findViewById(R.id.retry).setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    dataSet.loadMore(v.getContext(),
+                            (SubmissionsView) displayer, false, dataSet.subreddit);
+                }
+            });
             return new SubmissionFooterViewHolder(v);
         } else {
             View v = CreateCardView.CreateView(viewGroup);

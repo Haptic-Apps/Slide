@@ -50,7 +50,7 @@ public class Constants {
     public static final int FAB_SEARCH = 3;
 
     public enum BackButtonBehaviorOptions {
-        Default(0), ConfirmExit(1), OpenDrawer(2);
+        Default(0), ConfirmExit(1), OpenDrawer(2), GotoFirst(3);
 
         private final int mValue;
 

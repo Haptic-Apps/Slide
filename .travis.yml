@@ -21,12 +21,5 @@ android:
 notifications:
   email: false
 
-jdk:
-- oraclejdk8
-
-# workaround for https://github.com/travis-ci/travis-ci/issues/8874
-before_install:
-- yes | sdkmanager "platforms;android-28"
-
 script:
 - ./gradlew assemble lint{With,No}GPlay{Debug,Release} test{With,No}GPlay{Debug,Release}UnitTest

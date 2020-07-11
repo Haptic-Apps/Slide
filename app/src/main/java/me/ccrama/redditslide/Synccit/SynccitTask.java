@@ -13,7 +13,7 @@ public abstract class SynccitTask extends HttpPostTask<SynccitResponse> {
 
 	private static final String TAG = SynccitTask.class.getSimpleName();
 	
-	private static final String API_URL = "http://api.synccit.com/api.php";
+	private static final String API_URL = "https://api.synccit.com/api.php";
 	
 	private static final String PARAM_TYPE = "type";
 	private static final String PARAM_DATA = "data";

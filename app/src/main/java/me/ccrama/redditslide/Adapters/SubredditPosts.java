@@ -60,6 +60,7 @@ public class SubredditPosts implements PostLoader {
     public  boolean          offline;
     public  boolean          forced;
     public  boolean          loading;
+    public  boolean          error;
     private Paginator        paginator;
     public  OfflineSubreddit cached;
     Context c;
@@ -301,7 +302,9 @@ public class SubredditPosts implements PostLoader {
 
         @Override
         public void onPostExecute(final List<Submission> submissions) {
+            boolean success = true;
             loading = false;
+
             if (error != null) {
                 if (error instanceof NetworkException) {
                     NetworkException e = (NetworkException) error;
@@ -323,11 +326,7 @@ public class SubredditPosts implements PostLoader {
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
-                if (error.getCause() instanceof UnknownHostException) {
-                    Toast.makeText(context, "Loading failed, please check your internet connection",
-                            Toast.LENGTH_LONG).show();
-                }
-                displayer.updateError();
+                success = false;
             } else if (submissions != null && !submissions.isEmpty()) {
                 if (displayer instanceof SubmissionsView
                         && ((SubmissionsView) displayer).adapter.isError) {
@@ -391,9 +390,11 @@ public class SubredditPosts implements PostLoader {
                 } else if (!nomore) {
                     // error
                     LogUtil.v("Setting error");
-                    displayer.updateError();
+                    success = false;
                 }
             }
+
+            SubredditPosts.this.error = !success;
         }
 
         @Override

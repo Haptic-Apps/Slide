@@ -676,6 +676,9 @@ public class MediaView extends FullScreenActivity
                 doImageSave();
             }
         });
+        if (!SettingValues.imageDownloadButton) {
+            findViewById(R.id.save).setVisibility(View.INVISIBLE);
+        }
 
         hideOnLongClick();
     }
