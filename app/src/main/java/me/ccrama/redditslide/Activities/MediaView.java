@@ -222,6 +222,7 @@ public class MediaView extends FullScreenActivity
         Drawable share = getResources().getDrawable(R.drawable.share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
+        Drawable collection = getResources().getDrawable(R.drawable.collection);
         Drawable file = getResources().getDrawable(R.drawable.savecontent);
         Drawable thread = getResources().getDrawable(R.drawable.commentchange);
 
@@ -229,6 +230,7 @@ public class MediaView extends FullScreenActivity
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        collection.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         file.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         thread.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
@@ -241,6 +243,7 @@ public class MediaView extends FullScreenActivity
 
         if (!isGif) b.sheet(3, image, getString(R.string.share_image));
         b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
+        b.sheet(16, collection, "Save " + (isGif ? "MP4" : "image") + " to");
         if (isGif
                 && !contentUrl.contains(".mp4")
                 && !contentUrl.contains("streamable.com")
@@ -296,6 +299,10 @@ public class MediaView extends FullScreenActivity
                     break;
                     case (4): {
                         doImageSave();
+                    }
+                    break;
+                    case (16): {
+                        doImageSaveForLocation();
                         break;
                     }
                 }
@@ -319,6 +326,19 @@ public class MediaView extends FullScreenActivity
             }
         } else {
             doOnClick.run();
+        }
+    }
+
+    public void doImageSaveForLocation() {
+        if (!isGif) {
+            new FolderChooserDialogCreate.Builder(
+                    MediaView.this).chooseButton(
+                    R.string.btn_select)  // changes label of the choose button
+                    .isSaveToLocation(true)
+                    .initialPath(
+                            Environment.getExternalStorageDirectory()
+                                    .getPath())  // changes initial path, defaults to external storage directory
+                    .show();
         }
     }
 
@@ -1331,12 +1351,21 @@ public class MediaView extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
         if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this,
-                    getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                    Toast.LENGTH_LONG).show();
+            if (isSaveToLocation) {
+                Intent i = new Intent(this, ImageDownloadNotificationService.class);
+                //always download the original file, or use the cached original if that is currently displayed
+                i.putExtra("actuallyLoaded", contentUrl);
+                i.putExtra("saveToLocation", folder.getAbsolutePath());
+                if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
+                startService(i);
+            } else {
+                Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+                Toast.makeText(this,
+                        getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

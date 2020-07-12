@@ -45,7 +45,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     String createdFile;
 
     public interface FolderCallback {
-        void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder);
+        void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder, boolean isSaveToLocation);
     }
 
     public FolderChooserDialogCreate() {
@@ -101,7 +101,11 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         dialog.dismiss();
-                        mCallback.onFolderSelection(FolderChooserDialogCreate.this, parentFolder);
+                        if (getBuilder().mIsSaveToLocation) {
+                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, parentFolder, true);
+                        } else {
+                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, parentFolder, false);
+                        }
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -138,7 +142,11 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                                         File toCreate = new File(parentFolder.getPath() + File.separator + createdFile);
                                         toCreate.mkdir();
                                         dialog.dismiss();
-                                        mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate);
+                                        if (getBuilder().mIsSaveToLocation) {
+                                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, true);
+                                        } else {
+                                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, false);
+                                        }
                                     }
                                 }).show();
                     }
@@ -197,6 +205,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         protected int mCancelButton;
         protected String mInitialPath;
         protected String mTag;
+        protected boolean mIsSaveToLocation;
 
         public <ActivityType extends AppCompatActivity & FolderCallback> Builder(@NonNull ActivityType context) {
             mContext = context;
@@ -230,6 +239,12 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
             if (tag == null)
                 tag = DEFAULT_TAG;
             mTag = tag;
+            return this;
+        }
+
+        @NonNull
+        public Builder isSaveToLocation(boolean isSaveToLocation) {
+            mIsSaveToLocation = isSaveToLocation;
             return this;
         }
 
