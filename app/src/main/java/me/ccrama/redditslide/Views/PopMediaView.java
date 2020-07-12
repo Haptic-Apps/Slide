@@ -85,7 +85,6 @@ public class PopMediaView {
             case IMGUR:
                 doLoadImgur(contentUrl, v);
                 break;
-            case VID_ME:
             case STREAMABLE:
             case GIF:
                 doLoadGif(contentUrl, v);

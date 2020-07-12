@@ -221,8 +221,7 @@ public class MediaView extends FullScreenActivity
                 && !contentUrl.contains(".mp4")
                 && !contentUrl.contains("streamable.com")
                 && !contentUrl.contains("gfycat.com")
-                && !contentUrl.contains("v.redd.it")
-                && !contentUrl.contains("vid.me")) {
+                && !contentUrl.contains("v.redd.it")) {
             String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1).toUpperCase();
             try {
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
@@ -700,7 +699,6 @@ public class MediaView extends FullScreenActivity
             case XKCD:
                 doLoadXKCD(contentUrl);
                 break;
-            case VID_ME:
             case STREAMABLE:
             case VREDDIT_DIRECT:
             case VREDDIT_REDIRECT:

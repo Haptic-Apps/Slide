@@ -137,11 +137,6 @@ public class ContentTypeTest {
     }
 
     @Test
-    public void detectsVidme() {
-        assertThat(ContentType.getContentType("https://vid.me/6tPY"), is(Type.VID_ME));
-    }
-
-    @Test
     public void detectsStreamable() {
         assertThat(ContentType.getContentType("https://streamable.com/l41f"), is(Type.STREAMABLE));
     }

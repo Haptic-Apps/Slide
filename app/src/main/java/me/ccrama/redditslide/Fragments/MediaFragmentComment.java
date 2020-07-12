@@ -216,7 +216,6 @@ public class MediaFragmentComment extends Fragment {
             case XKCD:
                 doLoadXKCD(contentUrl);
                 break;
-            case VID_ME:
             case STREAMABLE:
             case GIF:
                 doLoadGif(contentUrl);

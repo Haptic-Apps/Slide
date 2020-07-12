@@ -362,7 +362,6 @@ public class Website extends BaseActivityAnim {
                         }
                         return true;
                     case STREAMABLE:
-                    case VID_ME:
                         if (SettingValues.video) {
                             Intent myIntent = new Intent(view.getContext(), MediaView.class);
                             myIntent.putExtra(MediaView.EXTRA_URL, url);

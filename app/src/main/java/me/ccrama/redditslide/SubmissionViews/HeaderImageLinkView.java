@@ -126,7 +126,6 @@ public class HeaderImageLinkView extends RelativeLayout {
             case GIF:
             case STREAMABLE:
             case VIDEO:
-            case VID_ME:
                 ((RoundImageTriangleView)(thumbImage2)).setFlagColor(R.color.md_green_300);
                 break;
             default:

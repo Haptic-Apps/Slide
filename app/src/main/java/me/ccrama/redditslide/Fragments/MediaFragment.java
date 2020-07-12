@@ -297,7 +297,6 @@ public class MediaFragment extends Fragment {
             case XKCD:
                 doLoadXKCD(contentUrl);
                 break;
-            case VID_ME:
             case STREAMABLE:
             case VREDDIT_REDIRECT:
             case VREDDIT_DIRECT:
@@ -321,7 +320,6 @@ public class MediaFragment extends Fragment {
                     slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 } else {
                     switch (type) {
-                        case VID_ME:
                         case STREAMABLE:
 
                             if (SettingValues.video) {

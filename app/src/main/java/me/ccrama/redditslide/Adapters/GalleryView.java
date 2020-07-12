@@ -103,7 +103,6 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 case GIF:
                 case STREAMABLE:
                 case VIDEO:
-                case VID_ME:
                     holder.type.setImageResource(R.drawable.play);
                     break;
                 default:
@@ -190,7 +189,6 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ContentType.Type type = ContentType.getContentType(submission);
                     if (!PostMatch.openExternal(submission.getUrl()) || type == ContentType.Type.VIDEO) {
                         switch (type) {
-                            case VID_ME:
                             case STREAMABLE:
                                 if (SettingValues.video) {
                                     Intent myIntent = new Intent(main, MediaView.class);
