@@ -524,7 +524,9 @@ public class GifUtils {
             final String url = formatUrl(sub[0]);
             VideoType videoType = getVideoType(url);
             LogUtil.v(url + ", VideoType: " + videoType);
-            getRemoteFileSize(url, client, size, c);
+            if (size != null) {
+                getRemoteFileSize(url, client, size, c);
+            }
             switch (videoType) {
                 case VREDDIT:
                     return Uri.parse(url);
@@ -673,7 +675,9 @@ public class GifUtils {
                     }
                     break;
                 case OTHER:
-                    LogUtil.e("We shouldn't be here!"); // unless it's a .gif then we should be because exoplayer
+                    LogUtil.e("We shouldn't be here!");
+                    // unless it's a .gif that reddit didn't generate a preview vid for, then we should be here
+                    // e.g. https://www.reddit.com/r/testslideforreddit/comments/hpht5o/stinky/
                     if (closeIfNull) {
                         Intent web = new Intent(c, Website.class);
                         web.putExtra(LinkUtil.EXTRA_URL, url);

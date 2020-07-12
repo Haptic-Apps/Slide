@@ -17,6 +17,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
@@ -28,6 +29,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import me.ccrama.redditslide.Activities.*;
 import me.ccrama.redditslide.*;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
@@ -37,8 +39,11 @@ import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.*;
+
 import net.dean.jraw.models.Submission;
+
 import okhttp3.OkHttpClient;
+
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.File;
@@ -52,23 +57,23 @@ import java.net.URLConnection;
  */
 public class MediaFragment extends Fragment {
 
-    public  String                firstUrl;
-    public  String                contentUrl;
-    public  String                sub;
-    public  String                actuallyLoaded;
-    public  int                   i;
-    private ViewGroup             rootView;
-    private ExoVideoView          videoView;
-    private boolean               imageShown;
-    private float                 previous;
-    private boolean               hidden;
-    private long                  stopPosition;
-    public  boolean               isGif;
+    public String firstUrl;
+    public String contentUrl;
+    public String sub;
+    public String actuallyLoaded;
+    public int i;
+    private ViewGroup rootView;
+    private ExoVideoView videoView;
+    private boolean imageShown;
+    private float previous;
+    private boolean hidden;
+    private long stopPosition;
+    public boolean isGif;
     private GifUtils.AsyncLoadGif gif;
-    private Submission            s;
-    private OkHttpClient          client;
-    private Gson                  gson;
-    private String                mashapeKey;
+    private Submission s;
+    private OkHttpClient client;
+    private Gson gson;
+    private String mashapeKey;
 
     @Override
     public void onDestroy() {
@@ -457,16 +462,14 @@ public class MediaFragment extends Fragment {
 
             }
 
-        } else if ((t.shouldLoadPreview() || s.getUrl().contains("i.redd.it")) && s.getDataNode().has("preview") && s.getDataNode()
-                .get("preview")
-                .get("images")
-                .get(0)
-                .has("variants") && s.getDataNode()
+        } else if ((t.shouldLoadPreview() && s.getDataNode().has("preview")
+                && s.getDataNode().get("preview").get("images").get(0).has("variants")
+                && s.getDataNode()
                 .get("preview")
                 .get("images")
                 .get(0)
                 .get("variants")
-                .has("mp4")) {
+                .has("mp4"))) {
             toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
                     .get("preview")
                     .get("images")
@@ -476,6 +479,13 @@ public class MediaFragment extends Fragment {
                     .get("source")
                     .get("url")
                     .asText()).replace("&amp;", "&");
+        } else if ((t.shouldLoadPreview() && s.getDataNode().has("preview")
+                && s.getDataNode().get("preview").has("reddit_video_preview"))) {
+            toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
+                    .get("preview")
+                    .get("reddit_video_preview")
+                    .get("dash_url")
+                    .asText());
         } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT
                 && s.getDataNode().has("media")
                 && s.getDataNode().get("media").has("reddit_video")
