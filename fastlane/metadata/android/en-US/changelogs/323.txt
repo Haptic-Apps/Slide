@@ -1,0 +1,3 @@
+- Reduce data usage on metered connections
+- Option to hide the download button in media views
+- New back button behavior option to go to first subreddit

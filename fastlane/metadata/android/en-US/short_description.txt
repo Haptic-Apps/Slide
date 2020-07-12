@@ -1,0 +1,1 @@
+Slide is an open source, ad free Reddit browser.
