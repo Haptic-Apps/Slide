@@ -1,3 +1,11 @@
+6.4 / 2020-05-24
+==================
+  * Support for redgifs.com
+  * Banner images in subreddit sidebars
+  * Fixes to Imgur upload process
+  * Translation updates
+  * Updated accessibility labels
+
 6.3 / 2020-02-17
 ==================
   * Reduce data usage on metered connections
