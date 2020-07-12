@@ -269,14 +269,15 @@ public class RedditItemView extends RelativeLayout {
         } else {
             content.findViewById(R.id.subimage).setVisibility(View.GONE);
         }
-        String bannerImage = subreddit.getBannerImage();
-        if (bannerImage != null && !bannerImage.isEmpty()) {
-            findViewById(R.id.sub_banner).setVisibility(View.VISIBLE);
-            ((Reddit) ((PeekViewActivity) getContext()).getApplication()).getImageLoader()
-                    .displayImage(bannerImage,
-                            (ImageView) findViewById(R.id.sub_banner));
-        } else {
-            findViewById(R.id.sub_banner).setVisibility(View.GONE);
+        if (findViewById(R.id.sub_banner) != null) {
+            String bannerImage = subreddit.getBannerImage();
+            if (bannerImage != null && !bannerImage.isEmpty()) {
+                findViewById(R.id.sub_banner).setVisibility(View.VISIBLE);
+                ((Reddit) ((PeekViewActivity) getContext()).getApplication()).getImageLoader()
+                        .displayImage(bannerImage, (ImageView) findViewById(R.id.sub_banner));
+            } else {
+                findViewById(R.id.sub_banner).setVisibility(View.GONE);
+            }
         }
         ((TextView) content.findViewById(R.id.subscribers)).setText(
                 getContext().getString(R.string.subreddit_subscribers_string,
