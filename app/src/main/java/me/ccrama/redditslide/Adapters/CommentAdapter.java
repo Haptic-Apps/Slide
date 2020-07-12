@@ -1218,6 +1218,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (Authentication.isLoggedIn
                     && !submission.isArchived()
                     && !submission.isLocked()
+                    && !(comment.getDataNode().has("locked") && comment.getDataNode().get("locked").asBoolean())
                     && !deleted.contains(n.getFullName())
                     && !comment.getAuthor().equals("[deleted]")
                     && Authentication.didOnline) {
