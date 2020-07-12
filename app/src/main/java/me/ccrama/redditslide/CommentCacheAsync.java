@@ -4,16 +4,18 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
+import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
@@ -23,22 +25,7 @@ import net.dean.jraw.models.meta.SubmissionSerializer;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.util.JrawUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
-import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
+import java.util.*;
 
 /**
  * Created by carlo_000 on 4/18/2016.
@@ -363,16 +350,20 @@ public class CommentCacheAsync extends AsyncTask {
                         newFullnames.add(s2.getFullName());
                         if (!SettingValues.noImages) loadPhotos(s, context);
                         switch (ContentType.getContentType(s)) {
+                            case VREDDIT_DIRECT:
+                            case VREDDIT_REDIRECT:
                             case GIF:
                                 if (otherChoices[0]) {
                                     if (context instanceof Activity) {
                                         ((Activity) context).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                ExecutorService service =
-                                                        Executors.newSingleThreadExecutor();
-                                                new GifUtils.AsyncLoadGif().executeOnExecutor(
-                                                        service, s.getUrl());
+                                                GifUtils.cacheSaveGif(
+                                                        Uri.parse(GifUtils.AsyncLoadGif.formatUrl(s.getUrl())),
+                                                        (Activity) context,
+                                                        s.getSubredditName(),
+                                                        false
+                                                );
                                             }
                                         });
                                     }

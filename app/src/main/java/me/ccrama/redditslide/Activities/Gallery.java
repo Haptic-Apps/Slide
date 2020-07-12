@@ -244,7 +244,6 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                 case DEVIANTART:
                 case EMBEDDED:
                 case LINK:
-                case VID_ME:
                 case STREAMABLE:
                 case VIDEO: {
                     f = new MediaFragment();

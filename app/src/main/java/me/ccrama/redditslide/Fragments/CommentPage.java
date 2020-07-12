@@ -879,7 +879,6 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         ContentType.Type type =
                                 ContentType.getContentType(adapter.submission);
                         switch (type) {
-                            case VID_ME:
                             case STREAMABLE:
                                 if (SettingValues.video) {
                                     Intent myIntent =

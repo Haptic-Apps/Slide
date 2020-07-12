@@ -30,7 +30,19 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import me.ccrama.redditslide.Activities.*;
+import me.ccrama.redditslide.*;
+import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.ExoVideoView;
+import me.ccrama.redditslide.Views.ImageSource;
+import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.*;
+
 import net.dean.jraw.models.Submission;
+
+import okhttp3.OkHttpClient;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -39,56 +51,29 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import me.ccrama.redditslide.Activities.Album;
-import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.Activities.FullscreenVideo;
-import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.Shadowbox;
-import me.ccrama.redditslide.Activities.Tumblr;
-import me.ccrama.redditslide.Activities.TumblrPager;
-import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SecretConstants;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
-import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Views.ImageSource;
-import me.ccrama.redditslide.Views.MediaVideoView;
-import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.HttpUtil;
-import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
-import okhttp3.OkHttpClient;
-
 
 /**
  * Created by ccrama on 6/2/2015.
  */
 public class MediaFragment extends Fragment {
 
-    public  String                firstUrl;
-    public  String                contentUrl;
-    public  String                sub;
-    public  String                actuallyLoaded;
-    public  int                   i;
-    private ViewGroup             rootView;
-    private MediaVideoView        videoView;
-    private boolean               imageShown;
-    private float                 previous;
-    private boolean               hidden;
-    private long                  stopPosition;
-    public  boolean               isGif;
+    public String firstUrl;
+    public String contentUrl;
+    public String sub;
+    public String actuallyLoaded;
+    public int i;
+    private ViewGroup rootView;
+    private ExoVideoView videoView;
+    private boolean imageShown;
+    private float previous;
+    private boolean hidden;
+    private long stopPosition;
+    public boolean isGif;
     private GifUtils.AsyncLoadGif gif;
-    private Submission            s;
-    private OkHttpClient          client;
-    private Gson                  gson;
-    private String                mashapeKey;
+    private Submission s;
+    private OkHttpClient client;
+    private Gson gson;
+    private String mashapeKey;
 
     @Override
     public void onDestroy() {
@@ -106,7 +91,7 @@ public class MediaFragment extends Fragment {
         if (videoView != null) {
             if (isVisibleToUser) {
                 videoView.seekTo(0);
-                videoView.start();
+                videoView.play();
             } else {
                 videoView.pause();
             }
@@ -118,7 +103,7 @@ public class MediaFragment extends Fragment {
         super.onResume();
         if (videoView != null) {
             videoView.seekTo((int) stopPosition);
-            videoView.start();
+            videoView.play();
         }
     }
 
@@ -312,7 +297,6 @@ public class MediaFragment extends Fragment {
             case XKCD:
                 doLoadXKCD(contentUrl);
                 break;
-            case VID_ME:
             case STREAMABLE:
             case VREDDIT_REDIRECT:
             case VREDDIT_DIRECT:
@@ -336,7 +320,6 @@ public class MediaFragment extends Fragment {
                     slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 } else {
                     switch (type) {
-                        case VID_ME:
                         case STREAMABLE:
 
                             if (SettingValues.video) {
@@ -449,8 +432,8 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = rootView.findViewById(R.id.gifprogress);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
-                (MediaVideoView) rootView.findViewById(R.id.gif), loader,
-                rootView.findViewById(R.id.placeholder), false, false,
+                videoView, loader,
+                rootView.findViewById(R.id.placeholder), false,
                 !(getActivity() instanceof Shadowbox)
                         || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
         GifUtils.AsyncLoadGif.VideoType t = GifUtils.AsyncLoadGif.getVideoType(s.getUrl());
@@ -461,7 +444,7 @@ public class MediaFragment extends Fragment {
                 toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
                         .get("media")
                         .get("reddit_video")
-                        .get("fallback_url")
+                        .get("dash_url")
                         .asText()).replace("&amp;", "&");
             } else if (s.getDataNode().has("crosspost_parent_list")) {
                 toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
@@ -469,7 +452,7 @@ public class MediaFragment extends Fragment {
                         .get(0)
                         .get("media")
                         .get("reddit_video")
-                        .get("fallback_url")
+                        .get("dash_url")
                         .asText()).replace("&amp;", "&");
             } else {
                 //We shouldn't get here, will be caught in initializer
@@ -477,16 +460,14 @@ public class MediaFragment extends Fragment {
 
             }
 
-        } else if ((t.shouldLoadPreview() || s.getUrl().contains("i.redd.it")) && s.getDataNode().has("preview") && s.getDataNode()
-                .get("preview")
-                .get("images")
-                .get(0)
-                .has("variants") && s.getDataNode()
+        } else if ((t.shouldLoadPreview() && s.getDataNode().has("preview")
+                && s.getDataNode().get("preview").get("images").get(0).has("variants")
+                && s.getDataNode()
                 .get("preview")
                 .get("images")
                 .get(0)
                 .get("variants")
-                .has("mp4")) {
+                .has("mp4"))) {
             toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
                     .get("preview")
                     .get("images")
@@ -496,6 +477,13 @@ public class MediaFragment extends Fragment {
                     .get("source")
                     .get("url")
                     .asText()).replace("&amp;", "&");
+        } else if ((t.shouldLoadPreview() && s.getDataNode().has("preview")
+                && s.getDataNode().get("preview").has("reddit_video_preview"))) {
+            toLoadURL = StringEscapeUtils.unescapeJson(s.getDataNode()
+                    .get("preview")
+                    .get("reddit_video_preview")
+                    .get("dash_url")
+                    .asText());
         } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT
                 && s.getDataNode().has("media")
                 && s.getDataNode().get("media").has("reddit_video")
@@ -521,9 +509,8 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = rootView.findViewById(R.id.gifprogress);
-        gif = new GifUtils.AsyncLoadGif(getActivity(),
-                (MediaVideoView) rootView.findViewById(R.id.gif), loader,
-                rootView.findViewById(R.id.placeholder), false, false,
+        gif = new GifUtils.AsyncLoadGif(getActivity(), videoView, loader,
+                rootView.findViewById(R.id.placeholder), false,
                 !(getActivity() instanceof Shadowbox)
                         || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i, sub);
 

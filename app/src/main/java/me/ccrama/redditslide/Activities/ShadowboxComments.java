@@ -85,7 +85,6 @@ public class ShadowboxComments extends FullScreenActivity {
                 case DEVIANTART:
                 case EMBEDDED:
                 case LINK:
-                case VID_ME:
                 case STREAMABLE:
                 case VIDEO:
                 {

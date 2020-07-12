@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
-
 import net.dean.jraw.models.Submission;
 
 import java.net.URI;
@@ -196,9 +195,6 @@ public class ContentType {
             if (hostContains(host, "reddit.com", "redd.it")) {
                 return Type.REDDIT;
             }
-            if (hostContains(host, "vid.me")) {
-                return Type.VID_ME;
-            }
             if (hostContains(host, "deviantart.com")) {
                 return Type.DEVIANTART;
             }
@@ -284,7 +280,6 @@ public class ContentType {
             case SELF:
             case VREDDIT_DIRECT:
             case VREDDIT_REDIRECT:
-            case VID_ME:
                 return true;
 
             case EMBEDDED:
@@ -311,7 +306,6 @@ public class ContentType {
             case VREDDIT_DIRECT:
             case VREDDIT_REDIRECT:
             case STREAMABLE:
-            case VID_ME:
                 return true;
             default:
                 return false;
@@ -351,7 +345,6 @@ public class ContentType {
                 case VIDEO:
                 case VREDDIT_DIRECT:
                 case VREDDIT_REDIRECT:
-                case VID_ME:
                     return R.string.type_nsfw_video;
             }
         } else {
@@ -386,8 +379,6 @@ public class ContentType {
                     return R.string.type_streamable;
                 case VIDEO:
                     return R.string.type_youtube;
-                case VID_ME:
-                    return R.string.type_vidme;
                 case VREDDIT_REDIRECT:
                 case VREDDIT_DIRECT:
                     return R.string.type_vreddit;
@@ -472,6 +463,6 @@ public class ContentType {
     }
 
     public enum Type {
-        ALBUM, DEVIANTART, EMBEDDED, EXTERNAL, GIF, VREDDIT_DIRECT, VREDDIT_REDIRECT, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR, VID_ME
+        ALBUM, DEVIANTART, EMBEDDED, EXTERNAL, GIF, VREDDIT_DIRECT, VREDDIT_REDIRECT, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR
     }
 }

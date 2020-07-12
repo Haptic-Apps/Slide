@@ -2,10 +2,10 @@ package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 
@@ -175,6 +175,7 @@ public class SettingsDataFragment {
                             context.findViewById(R.id.settings_datasaving_datasavequality).setAlpha(0.25f);
                             ((TextView) context.findViewById(R.id.settings_datasaving_currentmode)).setText(
                                     "Enable datasaving mode");
+                            context.findViewById(R.id.settings_datasaving_videoquality).setEnabled(false);
                         } else {
                             context.findViewById(R.id.settings_datasaving_datasavequality).setAlpha(1f);
                             ((TextView) context.findViewById(R.id.settings_datasaving_currentmode)).setText(
@@ -182,6 +183,7 @@ public class SettingsDataFragment {
                                             : (SettingValues.lqLow ? context.getString(R.string.load_low_quality)
                                                     : (SettingValues.lqMid ? context.getString(R.string.load_medium_quality)
                                                             : context.getString(R.string.load_high_quality))));
+                            context.findViewById(R.id.settings_datasaving_videoquality).setEnabled(true);
                         }
                         return true;
                     }
@@ -194,6 +196,15 @@ public class SettingsDataFragment {
             context.findViewById(R.id.settings_datasaving_datasavequality).setAlpha(0.25f);
             ((TextView) context.findViewById(R.id.settings_datasaving_currentmode)).setText("Enable datasaving mode");
         }
+
+        SwitchCompat video = context.findViewById(R.id.settings_datasaving_videoquality);
+        video.setChecked(SettingValues.lqVideos);
+        video.setEnabled(SettingValues.lowResMobile || SettingValues.lowResAlways);
+
+        video.setOnCheckedChangeListener((v, checked) -> {
+            SettingValues.lqVideos = checked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LQ_VIDEOS, checked).apply();
+        });
     }
 
 }
