@@ -731,6 +731,8 @@
     <string name="settings_layout_picture_mode">Picture mode</string>
     <string name="settings_general_expanded_toolbar">Expanded toolbar menu</string>
     <string name="settings_general_expanded_toolbar_desc">Show more options on the subreddit toolbar</string>
+    <string name="settings_always_show_floating_action_button">Always show floating action button</string>
+    <string name="settings_always_show_floating_action_button_desc">Never hide floating action button when scrolling</string>
     <string name="settings_theme_tinting">Submission color tinting mode</string>
     <string name="settings_reddit_thumbnail_mode">Thumbnail mode</string>
     <string name="settings_layout_actionbar_mode">Actionbar mode</string>

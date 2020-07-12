@@ -127,6 +127,7 @@ public class SettingValues {
     public static final String PREF_MOD_TOOLBOX_STICKY     = "toolboxSticky";
     public static final String PREF_MOD_TOOLBOX_LOCK       = "toolboxLock";
     public static final String PREF_MOD_TOOLBOX_MODMAIL    = "toolboxModmail";
+    public static final String PREF_ALWAYS_SHOW_FAB        = "alwaysShowFAB";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -257,6 +258,7 @@ public class SettingValues {
     public static boolean toolboxSticky;
     public static boolean toolboxLock;
     public static boolean toolboxModmail;
+    public static boolean alwaysShowFAB;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -266,6 +268,8 @@ public class SettingValues {
 
         bigPicCropped = settings.getBoolean("bigPicCropped", true);
         bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
+
+        alwaysShowFAB=settings.getBoolean("alwaysShowFAB",false);
 
         colorMatchingMode = ColorMatchingMode.valueOf(
                 settings.getString("ccolorMatchingModeNew", "MATCH_EXTERNALLY"));
