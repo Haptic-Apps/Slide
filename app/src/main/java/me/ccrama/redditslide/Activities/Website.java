@@ -333,6 +333,20 @@ public class Website extends BaseActivityAnim {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.startsWith("intent://")) {
+                try {
+                    // https://stackoverflow.com/a/58163386/6952238
+                    Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                    if ((intent != null) && ((intent.getScheme().equals("https"))
+                            || (intent.getScheme().equals("http")))) {
+                        String fallbackUrl = intent.getStringExtra("browser_fallback_url");
+                        v.loadUrl(fallbackUrl);
+                    }
+                    return true;
+                } catch (URISyntaxException ignored) {
+                }
+            }
+
             ContentType.Type type = ContentType.getContentType(url);
 
             if (triedURLS == null) {
@@ -352,7 +366,7 @@ public class Website extends BaseActivityAnim {
                         }
                         return super.shouldOverrideUrlLoading(view, url);
                     case REDDIT:
-                        if(!url.contains("inapp=false")) {
+                        if (!url.contains("inapp=false")) {
                             boolean opened = OpenRedditLink.openUrl(view.getContext(), url, false);
                             if (!opened) {
                                 return super.shouldOverrideUrlLoading(view, url);
