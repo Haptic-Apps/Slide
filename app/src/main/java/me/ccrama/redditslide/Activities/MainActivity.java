@@ -373,7 +373,7 @@ public class MainActivity extends BaseActivity
         }
         if (Authentication.isLoggedIn
                 && Authentication.me != null
-                && Authentication.me.hasGold()
+                //This is causing a crash, might not be important since the storeVisits will just not do anything without gold && Authentication.me.hasGold()
                 && !SynccitRead.newVisited.isEmpty()) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
