@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -53,6 +54,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Services.LiveThreadTask;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CommentOverflow;
@@ -68,7 +70,12 @@ import okhttp3.OkHttpClient;
 public class LiveThread extends BaseActivityAnim {
 
     public static final String EXTRA_LIVEURL = "liveurl";
-    public net.dean.jraw.models.LiveThread thread;
+    public net.dean.jraw.models.LiveThread      thread;
+    private LiveThreadTask.LoadTwitter          loadTwitter;
+    private LiveThreadTask.LiveUpdateThread     liveUpdateThread;
+    private LiveThreadTask.DialogThread         dialogThread;
+    private LiveThreadTask.PaginatorThread      paginatorThread;
+    private PaginatorAdapter                    adapter;
 
 
     @Override
@@ -100,8 +107,23 @@ public class LiveThread extends BaseActivityAnim {
     public void onDestroy() {
         super.onDestroy();
         //todo finish
+        if (loadTwitter != null) {
+            loadTwitter.cancel(true);
+            loadTwitter = null;
+        }
+        if (liveUpdateThread != null) {
+            liveUpdateThread.cancel(true);
+            liveUpdateThread = null;
+        }
+        if (dialogThread != null) {
+            dialogThread.cancel(true);
+            paginatorThread = null;
+        }
+        if (paginatorThread != null) {
+            paginatorThread.cancel(true);
+            dialogThread = null;
+        }
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,313 +137,103 @@ public class LiveThread extends BaseActivityAnim {
         setContentView(R.layout.activity_livethread);
         baseRecycler = (RecyclerView) findViewById(R.id.content_view);
         baseRecycler.setLayoutManager(new LinearLayoutManager(LiveThread.this));
-        new AsyncTask<Void, Void, Void>() {
-            MaterialDialog d;
 
-            @Override
-            public void onPreExecute() {
-                d = new MaterialDialog.Builder(LiveThread.this)
-                        .title(R.string.livethread_loading_title)
-                        .content(R.string.misc_please_wait)
-                        .progress(true, 100)
-                        .cancelable(false)
-                        .show();
-            }
+        dialogThread = new LiveThreadTask.DialogThread(this);
+        dialogThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    thread = new LiveThreadManager(Authentication.reddit).get(getIntent().getStringExtra(EXTRA_LIVEURL));
-                } catch(Exception e){
-
-                }
-                return null;
-            }
-
-            @Override
-            public void onPostExecute(Void aVoid) {
-                if(thread == null){
-                    new AlertDialogWrapper.Builder(LiveThread.this)
-                            .setTitle(R.string.livethread_not_found)
-                            .setMessage(R.string.misc_please_try_again_soon)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            finish();
-                        }
-                    }).setCancelable(false).show();
-                } else {
-                    d.dismiss();
-                    setupAppBar(R.id.toolbar, thread.getTitle(), true, false);
-                    (findViewById(R.id.toolbar)).setBackgroundResource(R.color.md_red_300);
-                    (findViewById(R.id.header_sub)).setBackgroundResource(R.color.md_red_300);
-                    themeSystemBars(Palette.getDarkerColor(getResources().getColor(R.color.md_red_300)));
-                    setRecentBar(getString(R.string.livethread_recents_title, thread.getTitle()), getResources().getColor(R.color.md_red_300));
-
-                    doPaginator();
-                }
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    ArrayList<LiveUpdate> updates;
-    LiveThreadPaginator paginator;
+
+    public void updateToolBar() {
+        if(thread == null){
+            new AlertDialogWrapper.Builder(this)
+                    .setTitle(R.string.livethread_not_found)
+                    .setMessage(R.string.misc_please_try_again_soon)
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    finish();
+                }
+            }).setCancelable(false).show();
+        } else {
+            setupAppBar(R.id.toolbar, thread.getTitle(), true, false);
+            (findViewById(R.id.toolbar)).setBackgroundResource(R.color.md_red_300);
+            (findViewById(R.id.header_sub)).setBackgroundResource(R.color.md_red_300);
+            themeSystemBars(Palette.getDarkerColor(getResources().getColor(R.color.md_red_300)));
+            setRecentBar(getString(R.string.livethread_recents_title, thread.getTitle()), getResources().getColor(R.color.md_red_300));
+            doPaginator();
+        }
+    }
+
+    public ArrayList<LiveUpdate> updates;
+    public LiveThreadPaginator paginator;
 
     public void doPaginator() {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                paginator = new LiveThreadManager(Authentication.reddit).stream(thread);
-                updates = new ArrayList<>(paginator.accumulateMerged(5));
-                return null;
-            }
 
-            @Override
-            public void onPostExecute(Void aVoid) {
+        paginatorThread = new LiveThreadTask.PaginatorThread(this);
+        paginatorThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-                doLiveThreadUpdates();
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void doLiveThreadUpdates() {
-        final PaginatorAdapter adapter = new PaginatorAdapter(this);
+        adapter = new PaginatorAdapter(this);
         baseRecycler.setAdapter(adapter);
         doLiveSidebar();
         if (thread.getWebsocketUrl() != null && !thread.getWebsocketUrl().isEmpty()) {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    final ObjectReader o = new ObjectMapper().reader();
+            liveUpdateThread = new LiveThreadTask.LiveUpdateThread(this);
+            liveUpdateThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
 
-                    try {
-                        com.neovisionaries.ws.client.WebSocket ws = new WebSocketFactory().createSocket(thread.getWebsocketUrl());
-                        ws.addListener(new WebSocketListener() {
-                            @Override
-                            public void onStateChanged(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketState newState) {
-
-                            }
-
-                            @Override
-                            public void onConnected(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    Map<String, List<String>> headers) {
-
-                            }
-
-                            @Override
-                            public void onConnectError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause) {
-
-                            }
-
-                            @Override
-                            public void onDisconnected(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame serverCloseFrame,
-                                    WebSocketFrame clientCloseFrame, boolean closedByServer) {
-
-                            }
-
-                            @Override
-                            public void onFrame(com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onContinuationFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onTextFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onBinaryFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onCloseFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onPingFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onPongFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onTextMessage(
-                                    com.neovisionaries.ws.client.WebSocket websocket, String s) {
-                                LogUtil.v("Recieved" + s);
-                                if (s.contains("\"type\": \"update\"")) {
-                                    try {
-                                        LiveUpdate u = new LiveUpdate(o.readTree(s).get("payload").get("data"));
-                                        updates.add(0, u);
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                adapter.notifyItemInserted(0);
-                                                baseRecycler.smoothScrollToPosition(0);
-                                            }
-                                        });
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else if (s.contains("embeds_ready")) {
-                                    String node = updates.get(0).getDataNode().toString();
-                                    LogUtil.v("Getting");
-                                    try {
-                                        node = node.replace("\"embeds\":[]", "\"embeds\":" + o.readTree(s).get("payload").get("media_embeds").toString());
-                                        LiveUpdate u = new LiveUpdate(o.readTree(node));
-                                        updates.set(0, u);
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                adapter.notifyItemChanged(0);
-                                            }
-                                        });
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-                                } /* todoelse if(s.contains("delete")){
-                                    updates.remove(0);
-                                    adapter.notifyItemRemoved(0);
-                                }*/
-
-                            }
-
-                            @Override
-                            public void onBinaryMessage(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    byte[] binary) {
-
-                            }
-
-                            @Override
-                            public void onSendingFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onFrameSent(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onFrameUnsent(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onError(com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause) {
-
-                            }
-
-                            @Override
-                            public void onFrameError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause, WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onMessageError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause, List<WebSocketFrame> frames) {
-
-                            }
-
-                            @Override
-                            public void onMessageDecompressionError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause, byte[] compressed) {
-
-                            }
-
-                            @Override
-                            public void onTextMessageError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause, byte[] data) {
-
-                            }
-
-                            @Override
-                            public void onSendError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause, WebSocketFrame frame) {
-
-                            }
-
-                            @Override
-                            public void onUnexpectedError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    WebSocketException cause) {
-
-                            }
-
-                            @Override
-                            public void handleCallbackError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    Throwable cause) {
-
-                            }
-
-                            @Override
-                            public void onSendingHandshake(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
-                                    String requestLine, List<String[]> headers) {
-
-                            }
-                        });
-                        ws.connect();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (WebSocketException e) {
-                        e.printStackTrace();
+    /**
+     * Method to update the recyclerView adapter
+     *
+     * @param s received string
+     */
+    public void updateLive(String s) {
+        final ObjectReader o = new ObjectMapper().reader();
+        LogUtil.v("Recieved" + s);
+        if (s.contains("\"type\": \"update\"")) {
+            try {
+                LiveUpdate u = new LiveUpdate(o.readTree(s).get("payload").get("data"));
+                updates.add(0, u);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyItemInserted(0);
+                        baseRecycler.smoothScrollToPosition(0);
                     }
-                    return null;
-                }
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (s.contains("embeds_ready")) {
+            String node = updates.get(0).getDataNode().toString();
+            LogUtil.v("Getting");
+            try {
+                node = node.replace("\"embeds\":[]", "\"embeds\":" + o.readTree(s).get("payload").get("media_embeds").toString());
+                LiveUpdate u = new LiveUpdate(o.readTree(node));
+                updates.set(0, u);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyItemChanged(0);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            } /* todoelse if(s.contains("delete")){
+                 updates.remove(0);
+                 adapter.notifyItemRemoved(0);
+               }*/
 
         }
+
     }
 
     public class PaginatorAdapter extends RecyclerView.Adapter<PaginatorAdapter.ItemHolder> {
@@ -489,50 +301,10 @@ public class LiveThread extends BaseActivityAnim {
                     LogUtil.v("Twitter");
 
                     holder.twitterArea.setVisibility(View.VISIBLE);
-                    new LoadTwitter(holder.twitterArea, url).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    loadTwitter = new LiveThreadTask.LoadTwitter(holder.twitterArea, url);
+                    loadTwitter.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
-
-        }
-
-        public class LoadTwitter extends AsyncTask<String, Void, Void> {
-
-            private OkHttpClient client;
-            private Gson gson;
-            String url;
-            private WebView view;
-            TwitterObject twitter;
-
-            public LoadTwitter(@NotNull WebView view, @NotNull String url) {
-                this.view = view;
-                this.url = url;
-                client = Reddit.client;
-                gson = new Gson();
-            }
-
-            public void parseJson() {
-                try {
-                    JsonObject result = HttpUtil.getJsonObject(client, gson, "https://publish.twitter.com/oembed?url=" + url, null);
-                    LogUtil.v("Got " + Html.fromHtml(result.toString()));
-                    twitter = new ObjectMapper().readValue(result.toString(), TwitterObject.class);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            protected Void doInBackground(final String... sub) {
-                parseJson();
-                return null;
-            }
-
-            @Override
-            public void onPostExecute(Void aVoid) {
-                if (twitter != null && twitter.getHtml() != null) {
-                    view.loadData(twitter.getHtml().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
-                }
-            }
-
 
         }
 

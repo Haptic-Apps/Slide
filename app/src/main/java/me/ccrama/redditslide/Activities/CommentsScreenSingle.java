@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Services.CommentScreenTask;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
@@ -49,6 +51,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     private String    name;
     private String    context;
     private int       contextNumber;
+    private CommentScreenTask.AsyncGetSubredditName asyncGetSubredditName;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -92,15 +95,14 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_slide);
         name = getIntent().getExtras().getString(EXTRA_SUBMISSION, "");
-
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         np = getIntent().getExtras().getBoolean(EXTRA_NP, false);
         context = getIntent().getExtras().getString(EXTRA_CONTEXT, "");
-
         contextNumber = getIntent().getExtras().getInt(EXTRA_CONTEXT_NUMBER, 5);
 
         if (subreddit.equals(Reddit.EMPTY_STRING)) {
-            new AsyncGetSubredditName().execute(name);
+            asyncGetSubredditName = new CommentScreenTask.AsyncGetSubredditName(this);
+            asyncGetSubredditName.execute(name);
             TypedValue typedValue = new TypedValue();
             getTheme().resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
@@ -209,69 +211,20 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     boolean archived;
     boolean contest;
 
-    private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
+    public void update(Submission s, String subreddit) {
+        this.subreddit = subreddit;
+        locked = s.isLocked();
+        archived = s.isArchived();
+        contest = s.getDataNode().get("contest_mode").asBoolean();
+        setupAdapter();
+    }
 
-        @Override
-        protected void onPostExecute(String s) {
-            subreddit = s;
-            setupAdapter();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                final Submission s = Authentication.reddit.getSubmission(params[0]);
-                if (SettingValues.storeHistory) {
-                    if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw()) {
-                        HasSeen.addSeen(s.getFullName());
-                    }
-                    LastComments.setComments(s);
-                }
-                HasSeen.setHasSeenSubmission(new ArrayList<Submission>() {{
-                    this.add(s);
-                }});
-                locked = s.isLocked();
-                archived = s.isArchived();
-                contest = s.getDataNode().get("contest_mode").asBoolean();
-                if(s.getSubredditName() == null){
-                    subreddit = "Promoted";
-                } else {
-                    subreddit = s.getSubredditName();
-                }
-                return subreddit;
-
-            } catch (Exception e) {
-                try {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(
-                                    R.string.submission_not_found)
-                                    .setMessage(R.string.submission_not_found_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    finish();
-                                                }
-                                            })
-                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            finish();
-                                        }
-                                    })
-                                    .show();
-                        }
-                    });
-                } catch (Exception ignored) {
-
-                }
-                return null;
-            }
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (asyncGetSubredditName != null) {
+            asyncGetSubredditName.cancel(true);
+            asyncGetSubredditName = null;
         }
     }
 

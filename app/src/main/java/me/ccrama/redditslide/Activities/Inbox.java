@@ -18,22 +18,14 @@ import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
-import net.dean.jraw.managers.InboxManager;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Services.InboxTask;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -46,6 +38,8 @@ public class Inbox extends BaseActivityAnim {
     public  Inbox.OverviewPagerAdapter adapter;
     private TabLayout                  tabs;
     private ViewPager                  pager;
+    private InboxTask.AuthenticationVerify authenticationVerify;
+    private InboxTask.ReadStatus           readStatus;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,7 +52,7 @@ public class Inbox extends BaseActivityAnim {
         return true;
     }
 
-    private boolean changed;
+    //private boolean changed;
     public  long    last;
 
     @Override
@@ -77,41 +71,31 @@ public class Inbox extends BaseActivityAnim {
                 startActivity(i);
                 break;
             case (R.id.read):
-                changed = false;
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        try {
-                            new InboxManager(Authentication.reddit).setAllRead();
-                            changed = true;
-                        } catch (Exception ignored) {
-                            ignored.printStackTrace();
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        if (changed) { //restart the fragment
-                            adapter.notifyDataSetChanged();
-
-                            try {
-                                final int CURRENT_TAB = tabs.getSelectedTabPosition();
-                                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-                                pager.setAdapter(adapter);
-                                tabs.setupWithViewPager(pager);
-
-                                scrollToTabAfterLayout(CURRENT_TAB);
-                                pager.setCurrentItem(CURRENT_TAB);
-                            } catch (Exception e) {
-
-                            }
-                        }
-                    }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                readStatus = new InboxTask.ReadStatus(this);
+                readStatus.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Method to update the Inbox UI when user tap on read option
+     *
+     */
+    public void updateInboxUI(){
+        adapter.notifyDataSetChanged();
+
+        try {
+            final int CURRENT_TAB = tabs.getSelectedTabPosition();
+            adapter = new Inbox.OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(adapter);
+            tabs.setupWithViewPager(pager);
+
+            scrollToTabAfterLayout(CURRENT_TAB);
+            pager.setCurrentItem(CURRENT_TAB);
+        } catch (Exception e) {
+
+        }
     }
 
     /**
@@ -142,56 +126,9 @@ public class Inbox extends BaseActivityAnim {
         if (Authentication.reddit == null || !Authentication.reddit.isAuthenticated() || Authentication.me == null) {
             LogUtil.v("Reauthenticating");
 
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if (Authentication.reddit == null) {
-                        new Authentication(getApplicationContext());
-                    }
+            authenticationVerify = new InboxTask.AuthenticationVerify(Inbox.this);
+            authenticationVerify.execute();
 
-                    try {
-                        Authentication.me = Authentication.reddit.me();
-                        Authentication.mod = Authentication.me.isMod();
-
-                        Authentication.authentication.edit()
-                                .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
-                                .apply();
-
-                        if (Reddit.notificationTime != -1) {
-                            Reddit.notifications = new NotificationJobScheduler(Inbox.this);
-                            Reddit.notifications.start(getApplicationContext());
-                        }
-
-                        if (Reddit.cachedData.contains("toCache")) {
-                            Reddit.autoCache = new AutoCacheScheduler(Inbox.this);
-                            Reddit.autoCache.start(getApplicationContext());
-                        }
-
-                        final String name = Authentication.me.getFullName();
-                        Authentication.name = name;
-                        LogUtil.v("AUTHENTICATED");
-                        UserSubscriptions.doCachedModSubs();
-
-                        if (Authentication.reddit.isAuthenticated()) {
-                            final Set<String> accounts =
-                                    Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                            if (accounts.contains(name)) { //convert to new system
-                                accounts.remove(name);
-                                accounts.add(name + ":" + Authentication.refresh);
-                                Authentication.authentication.edit()
-                                        .putStringSet("accounts", accounts)
-                                        .apply(); //force commit
-                            }
-                            Authentication.isLoggedIn = true;
-                            Reddit.notFirst = true;
-                        }
-
-                    } catch (Exception ignored){
-
-                    }
-                    return null;
-                }
-            }.execute();
         }
 
         super.onCreate(savedInstance);
@@ -278,5 +215,18 @@ public class Inbox extends BaseActivityAnim {
         super.onResume();
         InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (authenticationVerify != null) {
+            authenticationVerify.cancel(true);
+            authenticationVerify = null;
+        }
+        if (readStatus != null) {
+            readStatus.cancel(true);
+            readStatus = null;
+        }
     }
 }
