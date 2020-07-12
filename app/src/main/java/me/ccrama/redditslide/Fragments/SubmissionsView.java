@@ -670,11 +670,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                         fab.show();
                                     }
                                 } else {
-                                    if(SettingValues.alwaysShowFAB)
-                                    {
-                                        fab.show();
-                                    }
-                                    else
+                                    if(!SettingValues.alwaysShowFAB)
                                     {
                                         fab.hide();
                                     }
