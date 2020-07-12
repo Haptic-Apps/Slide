@@ -721,8 +721,14 @@ public class GifUtils {
                 public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                     if (playbackState == Player.STATE_READY) {
                         progressBar.setVisibility(View.GONE);
+                        if (size != null) {
+                            size.setVisibility(View.GONE);
+                        }
                     } else if (playbackState == Player.STATE_BUFFERING) {
                         progressBar.setVisibility(View.VISIBLE);
+                        if (size != null) {
+                            size.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             });
@@ -828,18 +834,9 @@ public class GifUtils {
                                 sizeText.setText("≤ " + readableFileSize(totalSize));
                         }
                     });
-                } catch (IOException e) {
-                    return;
+                } catch (IOException ignored) {
                 }
             }
-
-            c.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //sizeText.setVisibility(View.GONE);
-                }
-            });
-
         }
 
     }
