@@ -12,6 +12,8 @@ import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
@@ -81,26 +83,28 @@ public class GifUtils {
     }
 
     public static void doNotifGif(File f, Activity c) {
-        Intent mediaScanIntent =
-                FileUtil.getFileIntent(f, new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE), c);
-        c.sendBroadcast(mediaScanIntent);
+        MediaScannerConnection.scanFile(c,
+                new String[]{f.getAbsolutePath()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        final Intent shareIntent = FileUtil.getFileIntent(f, new Intent(Intent.ACTION_VIEW), c);
+                        PendingIntent contentIntent =
+                                PendingIntent.getActivity(c, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
-        final Intent shareIntent = FileUtil.getFileIntent(f, new Intent(Intent.ACTION_VIEW), c);
-        PendingIntent contentIntent =
-                PendingIntent.getActivity(c, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        Notification notif =
+                                new NotificationCompat.Builder(c).setContentTitle(c.getString(R.string.gif_saved))
+                                        .setSmallIcon(R.drawable.save_png)
+                                        .setContentIntent(contentIntent)
+                                        .setChannelId(Reddit.CHANNEL_IMG)
+                                        .build();
 
-
-        Notification notif =
-                new NotificationCompat.Builder(c).setContentTitle(c.getString(R.string.gif_saved))
-                        .setSmallIcon(R.drawable.save_png)
-                        .setContentIntent(contentIntent)
-                        .setChannelId(Reddit.CHANNEL_IMG)
-                        .build();
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) c.getSystemService(Activity.NOTIFICATION_SERVICE);
-        mNotificationManager.notify((int) System.currentTimeMillis(), notif);
+                        NotificationManager mNotificationManager =
+                                (NotificationManager) c.getSystemService(Activity.NOTIFICATION_SERVICE);
+                        mNotificationManager.notify((int) System.currentTimeMillis(), notif);
+                    }
+                }
+        );
     }
 
     public static void showErrorDialog(final Activity a) {
