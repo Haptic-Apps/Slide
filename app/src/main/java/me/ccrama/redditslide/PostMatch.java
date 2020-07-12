@@ -166,7 +166,6 @@ public class PostMatch {
                     contentMatch = true;
                 }
                 break;
-            case VID_ME:
             case STREAMABLE:
             case VIDEO:
                 if (videos) {

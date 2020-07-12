@@ -104,7 +104,6 @@ public class PopulateSubmissionViewHolder {
                         if (!PostMatch.openExternal(submission.getUrl())
                                 || type == ContentType.Type.VIDEO) {
                             switch (type) {
-                                case VID_ME:
                                 case STREAMABLE:
                                     if (SettingValues.video) {
                                         Intent myIntent =
@@ -332,7 +331,7 @@ public class PopulateSubmissionViewHolder {
                             .getDataNode()
                             .get("media")
                             .get("reddit_video")
-                            .get("hls_url")
+                            .get("dash_url") //In the future, we could load the HLS url as well
                             .asText()).replace("&amp;", "&"));
                 } else if (submission.getDataNode().has("media") && submission.getDataNode()
                             .get("media")
@@ -350,7 +349,7 @@ public class PopulateSubmissionViewHolder {
                             .get(0)
                             .get("media")
                             .get("reddit_video")
-                            .get("fallback_url")
+                            .get("dash_url")
                             .asText()).replace("&amp;", "&"));
                 } else {
                     new OpenVRedditTask(contextActivity, submission.getSubredditName()).executeOnExecutor(

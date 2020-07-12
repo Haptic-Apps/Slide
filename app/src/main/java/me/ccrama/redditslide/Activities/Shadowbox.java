@@ -179,7 +179,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 case VREDDIT_DIRECT:
                 case VREDDIT_REDIRECT:
                 case LINK:
-                case VID_ME:
                 case STREAMABLE:
                 case VIDEO: {
                     f = new MediaFragment();
