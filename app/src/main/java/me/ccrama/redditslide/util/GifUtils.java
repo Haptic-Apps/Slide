@@ -265,7 +265,7 @@ public class GifUtils {
                                     FileUtils.copyInputStreamToFile(audioInputStream,
                                             new File(a.getCacheDir().getAbsolutePath(), "audio.mp4"));
                                 } else {
-                                    IOUtils.copy(audioInputStream, new NullOutputStream());
+                                    IOUtils.copy(audioInputStream, NullOutputStream.NULL_OUTPUT_STREAM);
                                 }
                                 audioInputStream.close();
                             }
@@ -277,7 +277,7 @@ public class GifUtils {
                                     FileUtils.copyInputStreamToFile(videoInputStream,
                                             new File(a.getCacheDir().getAbsolutePath(), "video.mp4"));
                                 } else {
-                                    IOUtils.copy(videoInputStream, new NullOutputStream());
+                                    IOUtils.copy(videoInputStream, NullOutputStream.NULL_OUTPUT_STREAM);
                                 }
                                 videoInputStream.close();
                             }
@@ -299,7 +299,7 @@ public class GifUtils {
                             in = new DataSourceInputStream(cacheDataSourceFactory.createDataSource(), new DataSpec(uri));
                         }
 
-                        out = save ? new FileOutputStream(outFile) : new NullOutputStream();
+                        out = save ? new FileOutputStream(outFile) : NullOutputStream.NULL_OUTPUT_STREAM;
                         IOUtils.copy(in, out);
                         out.close();
                     } catch (Exception e) {
