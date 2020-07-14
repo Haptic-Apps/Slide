@@ -10,7 +10,7 @@ import android.view.View;
  */
 public abstract class OnFlingGestureListener implements View.OnTouchListener {
 
-    private final GestureDetector gdt = new GestureDetector(new GestureListener());
+    private final GestureDetector gdt = new GestureDetector(null, new GestureListener());
 
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {

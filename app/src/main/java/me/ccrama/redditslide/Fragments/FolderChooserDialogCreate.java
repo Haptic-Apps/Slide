@@ -1,8 +1,8 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -179,9 +179,9 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mCallback = (FolderCallback) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback = (FolderCallback) context;
     }
 
     public void show(FragmentActivity context) {

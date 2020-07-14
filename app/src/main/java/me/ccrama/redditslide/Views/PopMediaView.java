@@ -288,7 +288,7 @@ public class PopMediaView {
         fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        File f = ((Reddit) v.getContext().getApplicationContext()).getImageLoader().getDiscCache().get(url);
+        File f = ((Reddit) v.getContext().getApplicationContext()).getImageLoader().getDiskCache().get(url);
         if (f != null && f.exists()) {
             try {
                 i.setImage(ImageSource.uri(f.getAbsolutePath()));
@@ -320,7 +320,7 @@ public class PopMediaView {
 
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            File f = ((Reddit) v.getContext().getApplicationContext()).getImageLoader().getDiscCache().get(url);
+                            File f = ((Reddit) v.getContext().getApplicationContext()).getImageLoader().getDiskCache().get(url);
                             if (f != null && f.exists()) {
                                 i.setImage(ImageSource.uri(f.getAbsolutePath()));
                             } else {

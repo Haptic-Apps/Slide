@@ -87,7 +87,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     public void onCreate(Bundle savedInstance) {
         disableSwipeBackLayout();
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
+        getWindow().getDecorView().setBackground(null);
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);

@@ -415,9 +415,8 @@ public class MediaView extends FullScreenActivity
                                     .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
                     mNotifyManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mBuilder = new NotificationCompat.Builder(MediaView.this);
+                    mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setChannelId(Reddit.CHANNEL_IMG)
                             .setSmallIcon(R.drawable.save);
                     try {
 
@@ -1047,7 +1046,7 @@ public class MediaView extends FullScreenActivity
             fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
             fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
+            File f = ((Reddit) getApplicationContext()).getImageLoader().getDiskCache().get(url);
             if (f != null && f.exists()) {
                 imageShown = true;
 
@@ -1172,7 +1171,7 @@ public class MediaView extends FullScreenActivity
                                         size.setVisibility(View.GONE);
 
                                         File f = ((Reddit) getApplicationContext()).getImageLoader()
-                                                .getDiscCache()
+                                                .getDiskCache()
                                                 .get(url);
                                         if (f != null && f.exists()) {
                                             i.setImage(ImageSource.uri(f.getAbsolutePath()));

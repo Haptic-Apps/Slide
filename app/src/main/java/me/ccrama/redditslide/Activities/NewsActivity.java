@@ -499,7 +499,7 @@ public class NewsActivity extends BaseActivity
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        mTabLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         mTabLayout.getTabAt(tabIndex).select();
                     }
                 });

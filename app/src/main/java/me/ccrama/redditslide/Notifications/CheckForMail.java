@@ -394,14 +394,13 @@ public class CheckForMail extends BroadcastReceiver {
 
 
                         Notification notification =
-                                new NotificationCompat.Builder(c).setContentIntent(readPI)
+                                new NotificationCompat.Builder(c, Reddit.CHANNEL_SUBCHECKING).setContentIntent(readPI)
                                         .setSmallIcon(R.drawable.notif)
                                         .setTicker(c.getString(
                                                 R.string.sub_post_notifs_notification_title,
                                                 s.getSubredditName()))
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
-                                        .setChannelId(Reddit.CHANNEL_SUBCHECKING)
                                         .setContentTitle("/r/"
                                                 + s.getSubredditName()
                                                 + " " + c.getString(

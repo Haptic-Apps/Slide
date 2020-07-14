@@ -129,7 +129,7 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // This adapter connects
         // to a RemoteViewsService  through the specified intent.
         // This is how you populate the data.
-        rv.setRemoteAdapter(appWidgetId, R.id.list_view, intent);
+        rv.setRemoteAdapter(R.id.list_view, intent);
         // Trigger listview item click
         String sub = getSubFromId(appWidgetId, context);
         Intent startActivityIntent = new Intent(context, SubredditView.class);
@@ -193,7 +193,7 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // This adapter connects
         // to a RemoteViewsService  through the specified intent.
         // This is how you populate the data.
-        rv.setRemoteAdapter(appWidgetId, R.id.list_view, intent);
+        rv.setRemoteAdapter(R.id.list_view, intent);
         rv.setViewVisibility(R.id.loading, View.VISIBLE);
         rv.setViewVisibility(R.id.refresh, View.GONE);
 

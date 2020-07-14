@@ -96,7 +96,7 @@ public class Profile extends BaseActivityAnim {
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        tabs.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        tabs.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         tabs.getTabAt(tabIndex).select();
                     }
                 });
