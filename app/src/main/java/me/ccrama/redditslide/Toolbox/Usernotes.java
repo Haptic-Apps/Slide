@@ -262,7 +262,7 @@ public class Usernotes {
             if (decodedBlob == null) {
                 return null;
             }
-            JsonElement jsonBlob = new JsonParser().parse(decodedBlob);
+            JsonElement jsonBlob = JsonParser.parseString(decodedBlob);
             Map<String, List<Usernote>> result = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
             for (Map.Entry<String, JsonElement> userAndNotes : jsonBlob.getAsJsonObject().entrySet()) {
