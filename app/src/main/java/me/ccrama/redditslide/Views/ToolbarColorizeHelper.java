@@ -17,7 +17,6 @@ limitations under the License.
 import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.os.Build;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
@@ -123,10 +122,6 @@ public class ToolbarColorizeHelper {
     }
 
     private static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-        } else {
-            v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
-        }
+        v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
     }
 }

@@ -162,7 +162,7 @@ public class SubredditView extends BaseActivity {
             disableSwipeBackLayout();
         }
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
+        getWindow().getDecorView().setBackground(null);
         super.onCreate(savedInstanceState);
         if (!restarting) {
             overridePendingTransition(R.anim.slideright, 0);

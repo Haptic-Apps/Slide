@@ -1122,11 +1122,7 @@ public class MainActivity extends BaseActivity
                         @Override
                         public void onGlobalLayout() {
                             headerHeight = header.getHeight();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            } else {
-                                header.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                            }
+                            header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         }
                     });
         }
@@ -4404,7 +4400,7 @@ public class MainActivity extends BaseActivity
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        mTabLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         mTabLayout.getTabAt(tabIndex).select();
                     }
                 });

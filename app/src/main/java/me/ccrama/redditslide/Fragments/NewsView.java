@@ -113,11 +113,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                 getNumColumns(getResources().getConfiguration().orientation, getActivity()));
 
         if (!(getActivity() instanceof SubredditView)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                v.findViewById(R.id.back).setBackground(null);
-            } else {
-                v.findViewById(R.id.back).setBackgroundDrawable(null);
-            }
+            v.findViewById(R.id.back).setBackground(null);
         }
         rv.setLayoutManager(mLayoutManager);
         rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));

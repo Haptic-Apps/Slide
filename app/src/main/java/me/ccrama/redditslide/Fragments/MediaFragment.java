@@ -800,7 +800,7 @@ public class MediaFragment extends Fragment {
             fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             File f = ((Reddit) getActivity().getApplicationContext()).getImageLoader()
-                    .getDiscCache()
+                    .getDiskCache()
                     .get(url);
             if (f != null && f.exists()) {
                 imageShown = true;
@@ -884,7 +884,7 @@ public class MediaFragment extends Fragment {
                                             f =
                                                     ((Reddit) getActivity().getApplicationContext())
                                                             .getImageLoader()
-                                                            .getDiscCache()
+                                                            .getDiskCache()
                                                             .get(url);
                                         }
                                         if (f != null && f.exists()) {

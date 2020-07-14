@@ -20,8 +20,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.VelocityTrackerCompat;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -231,16 +229,16 @@ public class GestureDetectorCompat {
             mVelocityTracker.addMovement(ev);
 
             final boolean pointerUp =
-                    (action & MotionEventCompat.ACTION_MASK) == MotionEventCompat.ACTION_POINTER_UP;
-            final int skipIndex = pointerUp ? MotionEventCompat.getActionIndex(ev) : -1;
+                    (action & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_UP;
+            final int skipIndex = pointerUp ? ev.getActionIndex() : -1;
 
             // Determine focal point
             float sumX = 0, sumY = 0;
-            final int count = MotionEventCompat.getPointerCount(ev);
+            final int count = ev.getPointerCount();
             for (int i = 0; i < count; i++) {
                 if (skipIndex == i) continue;
-                sumX += MotionEventCompat.getX(ev, i);
-                sumY += MotionEventCompat.getY(ev, i);
+                sumX += ev.getX(i);
+                sumY += ev.getY(i);
             }
             final int div = pointerUp ? count - 1 : count;
             final float focusX = sumX / div;
@@ -248,31 +246,31 @@ public class GestureDetectorCompat {
 
             boolean handled = false;
 
-            switch (action & MotionEventCompat.ACTION_MASK) {
-                case MotionEventCompat.ACTION_POINTER_DOWN:
+            switch (action & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_POINTER_DOWN:
                     mDownFocusX = mLastFocusX = focusX;
                     mDownFocusY = mLastFocusY = focusY;
                     // Cancel long press and taps
                     cancelTaps();
                     break;
 
-                case MotionEventCompat.ACTION_POINTER_UP:
+                case MotionEvent.ACTION_POINTER_UP:
                     mDownFocusX = mLastFocusX = focusX;
                     mDownFocusY = mLastFocusY = focusY;
 
                     // Check the dot product of current velocities.
                     // If the pointer that left was opposing another velocity vector, clear.
                     mVelocityTracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
-                    final int upIndex = MotionEventCompat.getActionIndex(ev);
-                    final int id1 = MotionEventCompat.getPointerId(ev, upIndex);
-                    final float x1 = VelocityTrackerCompat.getXVelocity(mVelocityTracker, id1);
-                    final float y1 = VelocityTrackerCompat.getYVelocity(mVelocityTracker, id1);
+                    final int upIndex = ev.getActionIndex();
+                    final int id1 = ev.getPointerId(upIndex);
+                    final float x1 = mVelocityTracker.getXVelocity(id1);
+                    final float y1 = mVelocityTracker.getYVelocity(id1);
                     for (int i = 0; i < count; i++) {
                         if (i == upIndex) continue;
 
-                        final int id2 = MotionEventCompat.getPointerId(ev, i);
-                        final float x = x1 * VelocityTrackerCompat.getXVelocity(mVelocityTracker, id2);
-                        final float y = y1 * VelocityTrackerCompat.getYVelocity(mVelocityTracker, id2);
+                        final int id2 = ev.getPointerId(i);
+                        final float x = x1 * mVelocityTracker.getXVelocity(id2);
+                        final float y = y1 * mVelocityTracker.getYVelocity(id2);
 
                         final float dot = x + y;
                         if (dot < 0) {
@@ -370,12 +368,10 @@ public class GestureDetectorCompat {
                     } else {
                         // A fling must travel the minimum tap distance
                         final VelocityTracker velocityTracker = mVelocityTracker;
-                        final int pointerId = MotionEventCompat.getPointerId(ev, 0);
+                        final int pointerId = ev.getPointerId(0);
                         velocityTracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
-                        final float velocityY = VelocityTrackerCompat.getYVelocity(
-                                velocityTracker, pointerId);
-                        final float velocityX = VelocityTrackerCompat.getXVelocity(
-                                velocityTracker, pointerId);
+                        final float velocityY = velocityTracker.getYVelocity(pointerId);
+                        final float velocityX = velocityTracker.getXVelocity(pointerId);
 
                         if ((Math.abs(velocityY) > mMinimumFlingVelocity)
                                 || (Math.abs(velocityX) > mMinimumFlingVelocity)){
