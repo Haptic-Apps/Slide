@@ -22,9 +22,11 @@ android {
     productFlavors {
         withGPlay {
             dimension "variant"
+            buildConfigField "boolean", "isFDroid", "false"
         }
         noGPlay {
             dimension "variant"
+            buildConfigField "boolean", "isFDroid", "true"
         }
     }
 
