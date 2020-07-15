@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"
@@ -64,7 +64,7 @@
                 android:padding="16dp"
                 android:text="@string/btn_cancel" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/preview"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"
@@ -74,7 +74,7 @@
                 android:padding="16dp"
                 android:text="@string/btn_preview" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submit"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"

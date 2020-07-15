@@ -17,10 +17,10 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spannable;
@@ -364,7 +364,7 @@ public class CommentAdapterHelper {
                         }
                         View view = s.getView();
                         TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                                com.google.android.material.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -443,7 +443,7 @@ public class CommentAdapterHelper {
                         }
                         View view = s.getView();
                         TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
+                                com.google.android.material.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);
                         s.show();
                     }
@@ -546,7 +546,7 @@ public class CommentAdapterHelper {
                                                                                         s.getView();
                                                                                 TextView tv =
                                                                                         view.findViewById(
-                                                                                                android.support.design.R.id.snackbar_text);
+                                                                                                com.google.android.material.R.id.snackbar_text);
                                                                                 tv.setTextColor(
                                                                                         Color.WHITE);
                                                                                 s.show();
@@ -561,7 +561,7 @@ public class CommentAdapterHelper {
                                                                                         s.getView();
                                                                                 TextView tv =
                                                                                         view.findViewById(
-                                                                                                android.support.design.R.id.snackbar_text);
+                                                                                                com.google.android.material.R.id.snackbar_text);
                                                                                 tv.setTextColor(
                                                                                         Color.WHITE);
                                                                                 s.show();
@@ -598,7 +598,7 @@ public class CommentAdapterHelper {
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
                                                         TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
+                                                                com.google.android.material.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
                                                     }
@@ -609,7 +609,7 @@ public class CommentAdapterHelper {
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
                                                         TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
+                                                                com.google.android.material.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
                                                         s.show();
                                                     }
@@ -758,7 +758,7 @@ public class CommentAdapterHelper {
                                         Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                                                 Snackbar.LENGTH_LONG);
                                         View view = s.getView();
-                                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                                        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                                         tv.setTextColor(Color.WHITE);
                                         s.show();
 
@@ -948,7 +948,7 @@ public class CommentAdapterHelper {
                                             {
                                                 View view = s.getView();
                                                 TextView tv = view.findViewById(
-                                                        android.support.design.R.id.snackbar_text);
+                                                        com.google.android.material.R.id.snackbar_text);
                                                 tv.setTextColor(Color.WHITE);
                                                 s.show();
                                             }
@@ -974,7 +974,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_distinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1009,7 +1009,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_undistinguished,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1044,7 +1044,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_stickied,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1148,7 +1148,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_unstickied,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1182,7 +1182,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -1268,7 +1268,7 @@ public class CommentAdapterHelper {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed, Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
 
@@ -1310,7 +1310,7 @@ public class CommentAdapterHelper {
                     Snackbar s = Snackbar.make(holder.itemView, lock ? R.string.mod_locked : R.string.mod_unlocked,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -1834,7 +1834,7 @@ public class CommentAdapterHelper {
             Snackbar s =
                     Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
             View view = s.getView();
-            TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
             tv.setTextColor(Color.WHITE);
             s.show();
         }

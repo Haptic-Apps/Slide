@@ -6,7 +6,7 @@
     android:background="?attr/activity_background"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standard_toolbar_height"
@@ -16,9 +16,9 @@
         android:paddingEnd="16dp"
         android:theme="@style/Theme.AppCompat"
         android:title="@string/editor_submit">
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
@@ -67,7 +67,7 @@
                     android:textColor="?attr/fontColor" />
             </RadioGroup>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -84,9 +84,9 @@
                     android:imeOptions="flagNavigateNext"
                     android:textColor="?attr/fontColor"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -100,7 +100,7 @@
                     android:inputType="text|textAutoCorrect|textCapSentences"
                     android:maxLines="1"
                     android:maxLength="300" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:id="@+id/selftext"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -122,7 +122,7 @@
                         android:imeOptions="actionDone|flagNoEnterAction"
                         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                         android:textColor="?attr/fontColor" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <include layout="@layout/editor_items" />
 
@@ -174,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -185,7 +185,7 @@
                         android:textCursorDrawable="@drawable/cursor"
                         android:backgroundTint="?attr/tintColor"
                         android:hint="@string/editor_url" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/suggest"
@@ -221,9 +221,9 @@
                 android:paddingEnd="16dp"
                 android:visibility="gone"/>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/replies"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -240,7 +240,7 @@
         android:textColor="?attr/fontColor"
         android:textColorHint="?attr/fontColor" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

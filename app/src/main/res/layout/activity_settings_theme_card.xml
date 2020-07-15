@@ -128,7 +128,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/bigThumbnails"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -171,7 +171,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/selftextcomment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -249,7 +249,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/selftext"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -290,7 +290,7 @@
                                 android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/titleTop"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -331,7 +331,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/tagsetting"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -375,7 +375,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/domain"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -417,7 +417,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/contenttype"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -459,7 +459,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/votes"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -501,7 +501,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/action"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -543,7 +543,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/commentlast"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -585,7 +585,7 @@
                                 android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/abbreviateScores"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -633,7 +633,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.AppCompatCheckBox
+                    <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/hidebutton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -677,7 +677,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.AppCompatCheckBox
+                    <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/savebutton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

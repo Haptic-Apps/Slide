@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/card_background"
@@ -49,7 +49,7 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
 
-                    <android.support.v7.widget.AppCompatSeekBar
+                    <androidx.appcompat.widget.AppCompatSeekBar
                         android:id="@+id/landscape"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                         android:padding="8dp"
                         android:max="5" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/singlecolumnmultiwindow"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -71,7 +71,7 @@
                             android:textColor="?attr/fontColor"
                             android:textColorHint="?attr/fontColor" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/dualcolumns"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -85,7 +85,7 @@
                         android:textColor="?attr/fontColor"
                         android:textColorHint="?attr/fontColor" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/fullcomment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -101,5 +101,5 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

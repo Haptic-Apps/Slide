@@ -81,7 +81,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_general_expandedmenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -173,7 +173,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_general_show_fab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -306,7 +306,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_general_piggyback"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -570,7 +570,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_general_subfolder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -623,7 +623,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_general_show_download_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -706,7 +706,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_general_forcelanguage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -762,7 +762,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_general_immersivemode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

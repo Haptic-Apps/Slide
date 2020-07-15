@@ -2,7 +2,7 @@ package me.ccrama.redditslide.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 import android.webkit.WebResourceResponse;
 
 import java.io.ByteArrayInputStream;

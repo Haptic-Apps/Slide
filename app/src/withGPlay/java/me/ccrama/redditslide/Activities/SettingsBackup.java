@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -679,7 +679,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                             Snackbar.LENGTH_INDEFINITE);
                                             View view = s.getView();
                                             TextView tv = (TextView) view.findViewById(
-                                                    android.support.design.R.id.snackbar_text);
+                                                    com.google.android.material.R.id.snackbar_text);
                                             tv.setTextColor(Color.WHITE);
                                             s.show();
                                         }

@@ -7,7 +7,7 @@
     android:background="?attr/card_background"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standard_toolbar_height"
@@ -50,11 +50,11 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/delete"
             android:tint="@color/white" />
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <include layout="@layout/settings_toolbar" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,7 +62,7 @@
         android:fadeScrollbars="true"
         android:layout_below="@id/toolbar2"
         android:orientation="vertical">
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/add"
