@@ -2344,13 +2344,13 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
      * More details can be found in this thread: https://stackoverflow.com/questions/41779934/how-is-staticlayout-used-in-android/41779935#41779935
      * */
     private int getTextViewMeasuredHeight(TextView tv){
-        TextPaint myPaint = new TextPaint();
-        myPaint.setTypeface(tv.getTypeface());
-        myPaint.setTextSize(tv.getTextSize());
-        myPaint.setColor(tv.getCurrentTextColor());
+        TextPaint textPaint = new TextPaint();
+        textPaint.setTypeface(tv.getTypeface());
+        textPaint.setTextSize(tv.getTextSize());
+        textPaint.setColor(tv.getCurrentTextColor());
 
         //Since these text views takes the whole width of the screen, we get the width of the screen and subtract right and left padding to get the actual width of the text view
-        int width = getResources().getDisplayMetrics().widthPixels - tv.getPaddingLeft() - tv.getPaddingRight();
+        int deviceWidth = getResources().getDisplayMetrics().widthPixels - tv.getPaddingLeft() - tv.getPaddingRight();
         float spacingMultiplier, spacingAddition;
         Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
 
@@ -2362,7 +2362,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             spacingMultiplier = 1f;
             spacingAddition = 0f;
         }
-        StaticLayout staticLayout = new StaticLayout(tv.getText(),myPaint,width,alignment, spacingMultiplier, spacingAddition, false);
+        StaticLayout staticLayout = new StaticLayout(tv.getText(),textPaint,deviceWidth,alignment,spacingMultiplier,spacingAddition,false);
 
         //Add top and bottom padding to the height and return the value
         return staticLayout.getHeight() + tv.getPaddingTop() + tv.getPaddingBottom();
