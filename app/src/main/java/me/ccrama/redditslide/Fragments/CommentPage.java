@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,9 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -110,7 +114,6 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -226,15 +229,14 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         if (!loadMore) {
             loadallV.setVisibility(View.GONE);
         } else {
-            loadallV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            shownHeaders += loadallV.getMeasuredHeight();
+            shownHeaders += getTextViewMeasuredHeight((TextView) loadallV);
 
             loadallV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     doRefresh(true);
 
-                    shownHeaders -= loadallV.getMeasuredHeight();
+                    shownHeaders -= getTextViewMeasuredHeight((TextView) loadallV);
                     headerHeight = headerV.getMeasuredHeight() + shownHeaders;
                     loadallV.setVisibility(View.GONE);
 
@@ -264,20 +266,19 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             npV.setVisibility(View.GONE);
             archivedV.setVisibility(View.GONE);
         } else if (archived) {
-            archivedV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            shownHeaders += archivedV.getMeasuredHeight();
+            shownHeaders += getTextViewMeasuredHeight((TextView) archivedV);
             npV.setVisibility(View.GONE);
             archivedV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
             npV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            shownHeaders += npV.getMeasuredHeight();
+            shownHeaders += getTextViewMeasuredHeight((TextView) npV);
             archivedV.setVisibility(View.GONE);
             npV.setBackgroundColor(Palette.getColor(subreddit));
         }
 
         if (locked) {
             lockedV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            shownHeaders += lockedV.getMeasuredHeight();
+            shownHeaders += getTextViewMeasuredHeight((TextView) lockedV);
             lockedV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
             lockedV.setVisibility(View.GONE);
@@ -285,7 +286,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
         if (contest) {
             contestV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            shownHeaders += contestV.getMeasuredHeight();
+            shownHeaders += getTextViewMeasuredHeight((TextView) contestV);
             contestV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
             contestV.setVisibility(View.GONE);
@@ -2335,4 +2336,35 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
     CommentNavType currentSort = CommentNavType.PARENTS;
     long           sortTime    = 0;
+
+
+    /**
+     * This method will get the measured height of the text view taking into account if the text is multiline. This is done by
+     * drawing the text using TextPaint and measuring the height of the text in a text view with padding and alignment using StaticLayout.
+     * More details can be found in this thread: https://stackoverflow.com/questions/41779934/how-is-staticlayout-used-in-android/41779935#41779935
+     * */
+    private int getTextViewMeasuredHeight(TextView tv){
+        TextPaint myPaint = new TextPaint();
+        myPaint.setTypeface(tv.getTypeface());
+        myPaint.setTextSize(tv.getTextSize());
+        myPaint.setColor(tv.getCurrentTextColor());
+
+        //Since these text views takes the whole width of the screen, we get the width of the screen and subtract right and left padding to get the actual width of the text view
+        int width = getResources().getDisplayMetrics().widthPixels - tv.getPaddingLeft() - tv.getPaddingRight();
+        float spacingMultiplier, spacingAddition;
+        Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
+
+        if(Build.VERSION.SDK_INT >= 16) {
+            spacingMultiplier = tv.getLineSpacingMultiplier();
+            spacingAddition = tv.getLineSpacingExtra();
+        } else {
+            //Default values
+            spacingMultiplier = 1f;
+            spacingAddition = 0f;
+        }
+        StaticLayout staticLayout = new StaticLayout(tv.getText(),myPaint,width,alignment, spacingMultiplier, spacingAddition, false);
+
+        //Add top and bottom padding to the height and return the value
+        return staticLayout.getHeight() + tv.getPaddingTop() + tv.getPaddingBottom();
+    }
 }
