@@ -17,12 +17,11 @@ import android.view.animation.AnimationSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
@@ -91,7 +90,7 @@ public class ExoVideoView extends RelativeLayout {
         addView(frame);
 
         // Create a track selector so we can set specific video quality for DASH
-        trackSelector = new DefaultTrackSelector();
+        trackSelector = new DefaultTrackSelector(context);
         if ((SettingValues.lowResAlways
                 || (NetworkUtil.isConnected(context) && !NetworkUtil.isConnectedWifi(context) && SettingValues.lowResMobile))
                 && SettingValues.lqVideos) {
@@ -101,7 +100,7 @@ public class ExoVideoView extends RelativeLayout {
         }
 
         // Create the player, attach it to the view, make it repeat infinitely
-        player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+        player = new SimpleExoPlayer.Builder(context).setTrackSelector(trackSelector).build();
         player.setVideoSurfaceView(renderView);
         player.setRepeatMode(Player.REPEAT_MODE_ALL);
 
@@ -184,7 +183,7 @@ public class ExoVideoView extends RelativeLayout {
             // Standard video, e.g. MP4 file
             case STANDARD:
             default:
-                videoSource = new ExtractorMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri);
+                videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri);
                 break;
         }
 

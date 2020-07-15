@@ -80,7 +80,7 @@ ext {
     supportLibVersion = '28.0.0'
     robolectricVersion = '3.8'
     powerMockitoVersion = '1.7.4'
-    exoPlayerVersion = '2.9.6' // need minSDK 16 for anything higher
+    exoPlayerVersion = '2.11.7'
 }
 
 dependencies {
