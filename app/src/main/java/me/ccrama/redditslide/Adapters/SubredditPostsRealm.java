@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;

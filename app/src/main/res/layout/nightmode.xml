@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="?attr/card_background"
@@ -32,7 +32,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/night_mode_state"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,13 +128,13 @@
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
-                    <android.support.v7.widget.AppCompatSpinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/start_spinner"
                             style="@style/Material.Widget.Spinner"
                             android:layout_width="128dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp">
-                    </android.support.v7.widget.AppCompatSpinner>
+                    </androidx.appcompat.widget.AppCompatSpinner>
                 </LinearLayout>
 
                 <LinearLayout
@@ -151,17 +151,17 @@
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
-                    <android.support.v7.widget.AppCompatSpinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/end_spinner"
                             style="@style/Material.Widget.Spinner"
                             android:layout_width="128dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp">
-                    </android.support.v7.widget.AppCompatSpinner>
+                    </androidx.appcompat.widget.AppCompatSpinner>
                 </LinearLayout>
             </LinearLayout>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/ok"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
@@ -173,5 +173,5 @@
                     android:layout_marginBottom="8dp"
                     android:text="@string/btn_ok"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -1,6 +1,6 @@
 package me.ccrama.redditslide.Toolbox;
 
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.Base64;
 
 import com.google.android.exoplayer2.util.ColorParser;

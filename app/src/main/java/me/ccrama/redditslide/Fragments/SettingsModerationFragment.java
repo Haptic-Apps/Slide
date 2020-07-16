@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v7.widget.SwitchCompat;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;

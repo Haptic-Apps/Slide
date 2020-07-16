@@ -95,7 +95,7 @@
                     android:textSize="13sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_moderation_toolbox_enabled"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -179,7 +179,7 @@
                     android:textSize="14sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_moderation_toolbox_modmail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -224,7 +224,7 @@
                     android:textSize="14sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_moderation_toolbox_sticky"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -269,7 +269,7 @@
                     android:textSize="14sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_moderation_toolbox_lock"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -55,7 +55,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_reddit_nsfwcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -98,7 +98,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_reddit_nsfwrpev"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -141,7 +141,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_reddit_nsfwcollection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -182,7 +182,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_reddit_ignorepref"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

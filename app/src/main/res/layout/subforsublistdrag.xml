@@ -60,7 +60,7 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp"
                         android:text="Android"/>
-                <android.support.v7.widget.AppCompatCheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_alignParentRight="true"

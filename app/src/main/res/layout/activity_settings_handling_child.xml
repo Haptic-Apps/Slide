@@ -116,7 +116,7 @@
                     android:textSize="13sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_handling_reader_mode"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -169,7 +169,7 @@
                 android:textSize="13sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_readernight"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -225,7 +225,7 @@
                 android:textSize="13sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_shortlink"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -273,7 +273,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_gif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -315,7 +315,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -357,7 +357,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_album"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -399,7 +399,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_peek"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -572,7 +572,7 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/toggle_night_mode"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -582,7 +582,7 @@
                 android:textSize="14sp"
                 android:visibility="gone"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/toggle_immersive_mode"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -591,7 +591,7 @@
                 android:text="@string/toggle_immersive_mode"
                 android:textSize="14sp"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/toggle_nsfw"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -600,7 +600,7 @@
                 android:text="@string/toggle_nsfw"
                 android:textSize="14sp"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/toggle_right_thumbnails"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -609,7 +609,7 @@
                 android:text="@string/toggle_right_thumbnails"
                 android:textSize="14sp"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/toggle_reader_mode"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

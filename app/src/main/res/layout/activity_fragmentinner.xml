@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical" />
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,11 +28,11 @@
         android:orientation="vertical"
         android:theme="@style/Theme.AppCompat">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/standard_toolbar_height"
             android:minHeight="@dimen/standard_toolbar_height"
             android:theme="@style/ActionBarCompat" />
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 </FrameLayout>

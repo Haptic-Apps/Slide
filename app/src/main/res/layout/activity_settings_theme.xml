@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/card"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
@@ -33,9 +33,9 @@
                     android:layout_marginTop="16dp"
                     android:orientation="vertical"
                     cardview:cardBackgroundColor="?attr/card_background"
-                    cardview:cardCornerRadius="2dp"></android.support.v7.widget.CardView>
+                    cardview:cardCornerRadius="2dp" />
 
-                <android.support.design.widget.FloatingActionButton
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
