@@ -1,7 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 
 import java.io.File;

@@ -9,8 +9,8 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.SwitchCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -38,8 +38,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
-import me.ccrama.redditslide.FDroid;
 import me.ccrama.redditslide.Fragments.*;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -609,13 +609,13 @@ public class Settings extends BaseActivity
             }
         });
 
-        if(FDroid.isFDroid){
+        if(BuildConfig.isFDroid){
             ((TextView) findViewById(R.id.settings_child_donatetext)).setText("Donate via PayPal");
         }
         findViewById(R.id.settings_child_support).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if(FDroid.isFDroid){
+                if(BuildConfig.isFDroid){
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=56FKCCYLX7L72"));
                     startActivity(browserIntent);
                 } else {

@@ -13,7 +13,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -87,9 +87,8 @@ public class ImageDownloadNotificationService extends Service {
         public void startNotification() {
             id = (int) (System.currentTimeMillis() / 1000);
             mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(getApplicationContext());
+            mBuilder = new NotificationCompat.Builder(getApplicationContext(), Reddit.CHANNEL_IMG);
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
-                    .setChannelId(Reddit.CHANNEL_IMG)
                     .setContentText(getString(R.string.mediaview_notif_text))
                     .setSmallIcon(R.drawable.save_png);
         }
@@ -125,7 +124,7 @@ public class ImageDownloadNotificationService extends Service {
                                     public void onLoadingComplete(String imageUri, View view,
                                             final Bitmap loadedImage) {
                                         File f = ((Reddit) getApplicationContext()).getImageLoader()
-                                                .getDiscCache()
+                                                .getDiskCache()
                                                 .get(finalUrl);
                                         if (f != null && f.exists()) {
                                             File f_out = null;
@@ -326,12 +325,11 @@ public class ImageDownloadNotificationService extends Service {
 
 
                             Notification notif = new NotificationCompat.Builder(
-                                    getApplicationContext()).setContentTitle(
+                                    getApplicationContext(), Reddit.CHANNEL_IMG).setContentTitle(
                                     getString(R.string.info_photo_saved))
                                     .setSmallIcon(R.drawable.save_png)
                                     .setLargeIcon(loadedImage)
                                     .setContentIntent(pContentIntent)
-                                    .setChannelId(Reddit.CHANNEL_IMG)
                                     .addAction(R.drawable.ic_share, getString(R.string.share_image),
                                             pShareIntent)
                                     //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
@@ -380,12 +378,6 @@ public class ImageDownloadNotificationService extends Service {
             }
         }
 
-    }
-
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        handleIntent(intent);
     }
 
     @Override

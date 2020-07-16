@@ -5,11 +5,11 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -139,7 +139,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             overrideSwipeFromAnywhere();
             applyColorTheme();
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            getWindow().getDecorView().setBackgroundDrawable(null);
+            getWindow().getDecorView().setBackground(null);
             super.onCreate(savedInstance);
             setContentView(R.layout.activity_slide);
         }

@@ -20,8 +20,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import androidx.core.app.NotificationCompat;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -415,9 +415,8 @@ public class MediaView extends FullScreenActivity
                                     .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
                     mNotifyManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mBuilder = new NotificationCompat.Builder(MediaView.this);
+                    mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setChannelId(Reddit.CHANNEL_IMG)
                             .setSmallIcon(R.drawable.save);
                     try {
 
@@ -1047,7 +1046,7 @@ public class MediaView extends FullScreenActivity
             fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
             fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
+            File f = ((Reddit) getApplicationContext()).getImageLoader().getDiskCache().get(url);
             if (f != null && f.exists()) {
                 imageShown = true;
 
@@ -1172,7 +1171,7 @@ public class MediaView extends FullScreenActivity
                                         size.setVisibility(View.GONE);
 
                                         File f = ((Reddit) getApplicationContext()).getImageLoader()
-                                                .getDiscCache()
+                                                .getDiskCache()
                                                 .get(url);
                                         if (f != null && f.exists()) {
                                             i.setImage(ImageSource.uri(f.getAbsolutePath()));

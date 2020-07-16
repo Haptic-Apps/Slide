@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -678,7 +679,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                             Snackbar.LENGTH_INDEFINITE);
                                             View view = s.getView();
                                             TextView tv = (TextView) view.findViewById(
-                                                    android.support.design.R.id.snackbar_text);
+                                                    com.google.android.material.R.id.snackbar_text);
                                             tv.setTextColor(Color.WHITE);
                                             s.show();
                                         }
@@ -721,7 +722,8 @@ public class SettingsBackup extends BaseActivityAnim
                 // Unable to resolve, message user appropriately
             }
         } else {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
+            GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+            apiAvailability.getErrorDialog(this, connectionResult.getErrorCode(), 0).show();
         }
     }
 

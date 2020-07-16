@@ -196,7 +196,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_theme_tint_everywhere"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -238,7 +238,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_theme_color_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -288,7 +288,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_theme_color_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

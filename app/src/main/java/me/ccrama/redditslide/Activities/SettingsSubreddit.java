@@ -6,10 +6,10 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -178,7 +178,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                 } else {
                     Snackbar s = Snackbar.make(mToolbar, R.string.err_color_sync_login, Snackbar.LENGTH_SHORT);
                     View view = s.getView();
-                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 }

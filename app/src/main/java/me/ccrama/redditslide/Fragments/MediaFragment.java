@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -800,7 +800,7 @@ public class MediaFragment extends Fragment {
             fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             File f = ((Reddit) getActivity().getApplicationContext()).getImageLoader()
-                    .getDiscCache()
+                    .getDiskCache()
                     .get(url);
             if (f != null && f.exists()) {
                 imageShown = true;
@@ -884,7 +884,7 @@ public class MediaFragment extends Fragment {
                                             f =
                                                     ((Reddit) getActivity().getApplicationContext())
                                                             .getImageLoader()
-                                                            .getDiscCache()
+                                                            .getDiskCache()
                                                             .get(url);
                                         }
                                         if (f != null && f.exists()) {

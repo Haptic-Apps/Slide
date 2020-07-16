@@ -6,10 +6,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
@@ -87,7 +87,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     public void onCreate(Bundle savedInstance) {
         disableSwipeBackLayout();
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
+        getWindow().getDecorView().setBackground(null);
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);

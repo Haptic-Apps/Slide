@@ -526,7 +526,7 @@ public class PeekMediaView extends RelativeLayout {
             fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             File f = ((Reddit) getContext().getApplicationContext()).getImageLoader()
-                    .getDiscCache()
+                    .getDiskCache()
                     .get(url);
             if (f != null && f.exists()) {
                 imageShown = true;
@@ -598,7 +598,7 @@ public class PeekMediaView extends RelativeLayout {
 
                                         File f =
                                                 ((Reddit) getContext().getApplicationContext()).getImageLoader()
-                                                        .getDiscCache()
+                                                        .getDiskCache()
                                                         .get(url);
                                         if (f != null && f.exists()) {
                                             i.setImage(ImageSource.uri(f.getAbsolutePath()));

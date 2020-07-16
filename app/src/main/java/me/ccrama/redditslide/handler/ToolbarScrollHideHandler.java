@@ -1,7 +1,7 @@
 package me.ccrama.redditslide.handler;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 

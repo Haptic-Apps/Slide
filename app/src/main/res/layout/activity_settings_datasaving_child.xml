@@ -103,7 +103,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_datasaving_videoquality"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

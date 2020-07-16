@@ -16,8 +16,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -107,10 +107,9 @@ public class GifUtils {
 
 
                         Notification notif =
-                                new NotificationCompat.Builder(c).setContentTitle(c.getString(R.string.gif_saved))
+                                new NotificationCompat.Builder(c, Reddit.CHANNEL_IMG).setContentTitle(c.getString(R.string.gif_saved))
                                         .setSmallIcon(R.drawable.save_png)
                                         .setContentIntent(contentIntent)
-                                        .setChannelId(Reddit.CHANNEL_IMG)
                                         .build();
 
                         NotificationManager mNotificationManager =
@@ -265,7 +264,7 @@ public class GifUtils {
                                     FileUtils.copyInputStreamToFile(audioInputStream,
                                             new File(a.getCacheDir().getAbsolutePath(), "audio.mp4"));
                                 } else {
-                                    IOUtils.copy(audioInputStream, new NullOutputStream());
+                                    IOUtils.copy(audioInputStream, NullOutputStream.NULL_OUTPUT_STREAM);
                                 }
                                 audioInputStream.close();
                             }
@@ -277,7 +276,7 @@ public class GifUtils {
                                     FileUtils.copyInputStreamToFile(videoInputStream,
                                             new File(a.getCacheDir().getAbsolutePath(), "video.mp4"));
                                 } else {
-                                    IOUtils.copy(videoInputStream, new NullOutputStream());
+                                    IOUtils.copy(videoInputStream, NullOutputStream.NULL_OUTPUT_STREAM);
                                 }
                                 videoInputStream.close();
                             }
@@ -299,7 +298,7 @@ public class GifUtils {
                             in = new DataSourceInputStream(cacheDataSourceFactory.createDataSource(), new DataSpec(uri));
                         }
 
-                        out = save ? new FileOutputStream(outFile) : new NullOutputStream();
+                        out = save ? new FileOutputStream(outFile) : NullOutputStream.NULL_OUTPUT_STREAM;
                         IOUtils.copy(in, out);
                         out.close();
                     } catch (Exception e) {

@@ -354,7 +354,6 @@ public class MediaVideoViewOld extends SurfaceView
         mVideoWidth = 0;
         mVideoHeight = 0;
         getHolder().addCallback(mSHCallback);
-        getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         setFocusable(true);
         setFocusableInTouchMode(true);
         requestFocus();

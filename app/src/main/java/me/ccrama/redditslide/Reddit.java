@@ -13,7 +13,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.*;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -543,7 +543,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             notificationTime = 360;
         }
 
-        SettingValues.isPro = isProPackageInstalled() || FDroid.isFDroid;
+        SettingValues.isPro = isProPackageInstalled() || BuildConfig.isFDroid;
         videoPlugin = isVideoPluginInstalled();
 
         GifCache.init(this);

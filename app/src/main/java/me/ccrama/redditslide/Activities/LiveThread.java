@@ -7,9 +7,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.neovisionaries.ws.client.ThreadType;
+import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.neovisionaries.ws.client.WebSocketFrame;
@@ -107,7 +109,7 @@ public class LiveThread extends BaseActivityAnim {
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
+        getWindow().getDecorView().setBackground(null);
         super.onCreate(savedInstanceState);
 
         applyColorTheme();
@@ -200,88 +202,89 @@ public class LiveThread extends BaseActivityAnim {
                     final ObjectReader o = new ObjectMapper().reader();
 
                     try {
-                        com.neovisionaries.ws.client.WebSocket ws = new WebSocketFactory().createSocket(thread.getWebsocketUrl());
+                        WebSocket ws = new WebSocketFactory().createSocket(thread.getWebsocketUrl());
                         ws.addListener(new WebSocketListener() {
                             @Override
                             public void onStateChanged(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketState newState) {
 
                             }
 
                             @Override
                             public void onConnected(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     Map<String, List<String>> headers) {
 
                             }
 
                             @Override
                             public void onConnectError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketException cause) {
 
                             }
 
                             @Override
                             public void onDisconnected(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame serverCloseFrame,
                                     WebSocketFrame clientCloseFrame, boolean closedByServer) {
 
                             }
 
                             @Override
-                            public void onFrame(com.neovisionaries.ws.client.WebSocket websocket,
+                            public void onFrame(
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onContinuationFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onTextFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onBinaryFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onCloseFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onPingFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onPongFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onTextMessage(
-                                    com.neovisionaries.ws.client.WebSocket websocket, String s) {
+                                    WebSocket websocket, String s) {
                                 LogUtil.v("Recieved" + s);
                                 if (s.contains("\"type\": \"update\"")) {
                                     try {
@@ -322,91 +325,119 @@ public class LiveThread extends BaseActivityAnim {
                             }
 
                             @Override
+                            public void onTextMessage(
+                                    WebSocket websocket, byte[] data) {
+
+                            }
+
+                            @Override
                             public void onBinaryMessage(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     byte[] binary) {
 
                             }
 
                             @Override
                             public void onSendingFrame(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onFrameSent(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onFrameUnsent(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketFrame frame) {
 
                             }
 
                             @Override
-                            public void onError(com.neovisionaries.ws.client.WebSocket websocket,
+                            public void onThreadCreated(
+                                    WebSocket websocket,
+                                    ThreadType threadType, Thread thread) {
+
+                            }
+
+                            @Override
+                            public void onThreadStarted(
+                                    WebSocket websocket,
+                                    ThreadType threadType, Thread thread) {
+
+                            }
+
+                            @Override
+                            public void onThreadStopping(
+                                    WebSocket websocket,
+                                    ThreadType threadType, Thread thread) {
+
+                            }
+
+                            @Override
+                            public void onError(
+                                    WebSocket websocket,
                                     WebSocketException cause) {
 
                             }
 
                             @Override
                             public void onFrameError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketException cause, WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onMessageError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketException cause, List<WebSocketFrame> frames) {
 
                             }
 
                             @Override
                             public void onMessageDecompressionError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketException cause, byte[] compressed) {
 
                             }
 
                             @Override
                             public void onTextMessageError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketException cause, byte[] data) {
 
                             }
 
                             @Override
                             public void onSendError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketException cause, WebSocketFrame frame) {
 
                             }
 
                             @Override
                             public void onUnexpectedError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     WebSocketException cause) {
 
                             }
 
                             @Override
                             public void handleCallbackError(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     Throwable cause) {
 
                             }
 
                             @Override
                             public void onSendingHandshake(
-                                    com.neovisionaries.ws.client.WebSocket websocket,
+                                    WebSocket websocket,
                                     String requestLine, List<String[]> headers) {
 
                             }

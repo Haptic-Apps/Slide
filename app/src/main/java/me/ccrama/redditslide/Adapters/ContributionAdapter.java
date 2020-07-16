@@ -14,8 +14,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -158,7 +158,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         public void run() {
                             View view = s.getView();
                             TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
+                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -175,7 +175,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         public void run() {
                             View view = s.getView();
                             TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
+                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
                         }
@@ -324,7 +324,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             });
                             View view = s.getView();
                             TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
+                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
 

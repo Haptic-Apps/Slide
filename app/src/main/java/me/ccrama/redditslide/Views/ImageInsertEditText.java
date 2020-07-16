@@ -2,11 +2,11 @@ package me.ccrama.redditslide.Views;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v13.view.inputmethod.EditorInfoCompat;
-import android.support.v13.view.inputmethod.InputConnectionCompat;
-import android.support.v13.view.inputmethod.InputContentInfoCompat;
-import android.support.v4.os.BuildCompat;
+import androidx.core.view.inputmethod.EditorInfoCompat;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
@@ -57,7 +57,7 @@ public class ImageInsertEditText extends EditText {
             @Override
             public boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags, Bundle opts) {
                 if (callback != null) {
-                    if (BuildCompat.isAtLeastNMR1() &&
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1 &&
                             (flags & InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
                         try {
                             inputContentInfo.requestPermission();

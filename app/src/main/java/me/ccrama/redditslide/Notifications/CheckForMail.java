@@ -14,8 +14,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.text.Html;
 
 import net.dean.jraw.models.Message;
@@ -394,14 +394,13 @@ public class CheckForMail extends BroadcastReceiver {
 
 
                         Notification notification =
-                                new NotificationCompat.Builder(c).setContentIntent(readPI)
+                                new NotificationCompat.Builder(c, Reddit.CHANNEL_SUBCHECKING).setContentIntent(readPI)
                                         .setSmallIcon(R.drawable.notif)
                                         .setTicker(c.getString(
                                                 R.string.sub_post_notifs_notification_title,
                                                 s.getSubredditName()))
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
-                                        .setChannelId(Reddit.CHANNEL_SUBCHECKING)
                                         .setContentTitle("/r/"
                                                 + s.getSubredditName()
                                                 + " " + c.getString(

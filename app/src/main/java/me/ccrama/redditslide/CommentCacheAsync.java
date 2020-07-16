@@ -6,7 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -301,9 +301,8 @@ public class CommentCacheAsync extends AsyncTask {
                 if (!sub.equals(SAVED_SUBMISSIONS)) {
                     mNotifyManager = (NotificationManager) context.getSystemService(
                             Context.NOTIFICATION_SERVICE);
-                    mBuilder = new NotificationCompat.Builder(context);
+                    mBuilder = new NotificationCompat.Builder(context, Reddit.CHANNEL_COMMENT_CACHE);
                     mBuilder.setOngoing(true);
-                    mBuilder.setChannelId(Reddit.CHANNEL_COMMENT_CACHE);
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
                             sub.equalsIgnoreCase("frontpage") ? name
                                     : (name.contains("/m/") ? name : "/r/" + name)))
