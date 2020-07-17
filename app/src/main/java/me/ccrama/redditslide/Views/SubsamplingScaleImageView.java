@@ -65,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
@@ -213,6 +214,7 @@ public class SubsamplingScaleImageView extends View {
     // Double tap zoom behaviour
     private float doubleTapZoomScale = 1F;
     private int doubleTapZoomStyle = ZOOM_FOCUS_FIXED;
+    private int doubleTapZoomDuration = 500;
 
     // Current scale and scale at start of zoom
     public float scale;
@@ -910,9 +912,9 @@ public class SubsamplingScaleImageView extends View {
         if (doubleTapZoomStyle == ZOOM_FOCUS_CENTER_IMMEDIATE) {
             setScaleAndCenter(targetScale, sCenter);
         } else if (doubleTapZoomStyle == ZOOM_FOCUS_CENTER || !zoomIn || !panEnabled) {
-            new AnimationBuilder(targetScale, sCenter).withInterruptible(false).start();
+            new AnimationBuilder(targetScale, sCenter).withInterruptible(false).withDuration(doubleTapZoomDuration).start();
         } else if (doubleTapZoomStyle == ZOOM_FOCUS_FIXED) {
-            new AnimationBuilder(targetScale, sCenter, vFocus).withInterruptible(false).start();
+            new AnimationBuilder(targetScale, sCenter, vFocus).withInterruptible(false).withDuration(doubleTapZoomDuration).start();
         }
         invalidate();
     }
@@ -1032,10 +1034,10 @@ public class SubsamplingScaleImageView extends View {
             }
 
             if (debug) {
-                canvas.drawText("Scale: " + String.format("%.2f", scale), 5, 15, debugPaint);
-                canvas.drawText("Translate: " + String.format("%.2f", vTranslate.x) + ":" + String.format("%.2f", vTranslate.y), 5, 35, debugPaint);
+                canvas.drawText("Scale: " + String.format(Locale.ENGLISH, "%.2f", scale), 5, 15, debugPaint);
+                canvas.drawText("Translate: " + String.format(Locale.ENGLISH, "%.2f", vTranslate.x) + ":" + String.format(Locale.ENGLISH, "%.2f", vTranslate.y), 5, 35, debugPaint);
                 PointF center = getCenter();
-                canvas.drawText("Source center: " + String.format("%.2f", center.x) + ":" + String.format("%.2f", center.y), 5, 55, debugPaint);
+                canvas.drawText("Source center: " + String.format(Locale.ENGLISH, "%.2f", center.x) + ":" + String.format(Locale.ENGLISH, "%.2f", center.y), 5, 55, debugPaint);
 
                 if (anim != null) {
                     PointF vCenterStart = sourceToViewCoord(anim.sCenterStart);
@@ -1595,6 +1597,9 @@ public class SubsamplingScaleImageView extends View {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to decode tile", e);
                 this.exception = e;
+            } catch (OutOfMemoryError e) {
+                Log.e(TAG, "Failed to decode tile - OutOfMemoryError", e);
+                this.exception = new RuntimeException(e);
             }
             return null;
         }
@@ -1672,6 +1677,9 @@ public class SubsamplingScaleImageView extends View {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to load bitmap", e);
                 this.exception = e;
+            } catch (OutOfMemoryError e) {
+                Log.e(TAG, "Failed to load bitmap - OutOfMemoryError", e);
+                this.exception = new RuntimeException(e);
             }
             return null;
         }
@@ -1794,7 +1802,7 @@ public class SubsamplingScaleImageView extends View {
             try {
                 Field executorField = AsyncTask.class.getField("THREAD_POOL_EXECUTOR");
                 Executor executor = (Executor) executorField.get(null);
-                Method executeMethod = AsyncTask.class.getMethod("executeOnExecutor", new Class[]{Executor.class, Object[].class});
+                Method executeMethod = AsyncTask.class.getMethod("executeOnExecutor", Executor.class, Object[].class);
                 executeMethod.invoke(asyncTask, executor, null);
                 return;
             } catch (Exception e) {
@@ -2571,6 +2579,14 @@ public class SubsamplingScaleImageView extends View {
             throw new IllegalArgumentException("Invalid zoom style: " + doubleTapZoomStyle);
         }
         this.doubleTapZoomStyle = doubleTapZoomStyle;
+    }
+
+    /**
+     * Set the duration of the double tap zoom animation.
+     * @param durationMs Duration in milliseconds.
+     */
+    public final void setDoubleTapZoomDuration(int durationMs) {
+        this.doubleTapZoomDuration = Math.max(0, durationMs);
     }
 
     /**
