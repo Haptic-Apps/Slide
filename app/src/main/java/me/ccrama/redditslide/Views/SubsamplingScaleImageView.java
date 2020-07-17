@@ -1,28 +1,13 @@
 package me.ccrama.redditslide.Views;
 
-/*
-Copyright 2013-2015 David Morrissey
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 //Adopted by /u/ccrama from https://github.com/akokulyuk/subsampling-scale-image-view/commit/0cbeefc8c6883d0b4339fb4001482b90700b9295
-//Manually ported to 3.6.0
+//Manually ported to 3.9.0
 //TODO: Migrate to new zoom listener implemented in 3.6.0: https://github.com/davemorrissey/subsampling-scale-image-view/pull/171
 // Related commits:
 // https://github.com/davemorrissey/subsampling-scale-image-view/commit/cb89069e6ed7d6ac968b34c4a8d79649cec6fa13
 // https://github.com/davemorrissey/subsampling-scale-image-view/commit/41c5d1060b78128d7fd8645621dc585a910604cc
 // https://github.com/davemorrissey/subsampling-scale-image-view/commit/8012bf77be73df41daabda651cdf1082dc4265af
+// https://github.com/davemorrissey/subsampling-scale-image-view/commit/d94cb88041d8736fdf3787cf46480c61098c6b4c#diff-328216671415813f9a8fba822ca8b85cR2802
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -72,16 +57,26 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Displays an image subsampled as necessary to avoid loading too much image data into memory. After a pinch to zoom in,
- * a set of image tiles subsampled at higher resolution are loaded and displayed over the base layer. During pinch and
+ * <p>
+ * Displays an image subsampled as necessary to avoid loading too much image data into memory. After zooming in,
+ * a set of image tiles subsampled at higher resolution are loaded and displayed over the base layer. During pan and
  * zoom, tiles off screen or higher/lower resolution than required are discarded from memory.
- * <p/>
+ * </p><p>
  * Tiles are no larger than the max supported bitmap size, so with large images tiling may be used even when zoomed out.
- * <p/>
+ * </p><p>
  * v prefixes - coordinates, translations and distances measured in screen (view) pixels
- * s prefixes - coordinates, translations and distances measured in source image pixels (scaled)
+ * <br>
+ * s prefixes - coordinates, translations and distances measured in rotated and cropped source image pixels (scaled)
+ * <br>
+ * f prefixes - coordinates, translations and distances measured in original unrotated, uncropped source file pixels
+ * </p><p>
+ * <a href="https://github.com/davemorrissey/subsampling-scale-image-view">View project on GitHub</a>
+ * </p>
  */
 @SuppressWarnings("unused")
 public class SubsamplingScaleImageView extends View {
@@ -215,8 +210,11 @@ public class SubsamplingScaleImageView extends View {
     private int maxTileWidth = TILE_SIZE_AUTO;
     private int maxTileHeight = TILE_SIZE_AUTO;
 
-    // Whether to use the thread pool executor to load tiles
-    private boolean parallelLoadingEnabled;
+    // An executor service for loading of images
+    private Executor executor = AsyncTask.THREAD_POOL_EXECUTOR;
+
+    // Whether tiles should be loaded while gestures and animations are still in progress
+    private boolean eagerLoadingEnabled = true;
 
     // Gesture detection settings
     private boolean panEnabled = true;
@@ -263,7 +261,7 @@ public class SubsamplingScaleImageView extends View {
 
     // Tile and image decoding
     private ImageRegionDecoder decoder;
-    private final Object decoderLock = new Object();
+    private final ReadWriteLock decoderLock = new ReentrantReadWriteLock(true);
     private DecoderFactory<? extends ImageDecoder> bitmapDecoderFactory = new CompatDecoderFactory<ImageDecoder>(SkiaImageDecoder.class);
     private DecoderFactory<? extends ImageRegionDecoder> regionDecoderFactory = new CompatDecoderFactory<ImageRegionDecoder>(SkiaImageRegionDecoder.class);
 
@@ -317,6 +315,8 @@ public class SubsamplingScaleImageView extends View {
     //The logical density of the display
     private float density;
 
+    // A global preference for bitmap format, available to decoder classes that respect it
+    private static Bitmap.Config preferredBitmapConfig;
 
     public SubsamplingScaleImageView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -374,8 +374,29 @@ public class SubsamplingScaleImageView extends View {
     }
 
     /**
+     * Get the current preferred configuration for decoding bitmaps. {@link ImageDecoder} and {@link ImageRegionDecoder}
+     * instances can read this and use it when decoding images.
+     * @return the preferred bitmap configuration, or null if none has been set.
+     */
+    public static Bitmap.Config getPreferredBitmapConfig() {
+        return preferredBitmapConfig;
+    }
+
+    /**
+     * Set a global preferred bitmap config shared by all view instances and applied to new instances
+     * initialised after the call is made. This is a hint only; the bundled {@link ImageDecoder} and
+     * {@link ImageRegionDecoder} classes all respect this (except when they were constructed with
+     * an instance-specific config) but custom decoder classes will not.
+     * @param preferredBitmapConfig the bitmap configuration to be used by future instances of the view. Pass null to restore the default.
+     */
+    public static void setPreferredBitmapConfig(Bitmap.Config preferredBitmapConfig) {
+        SubsamplingScaleImageView.preferredBitmapConfig = preferredBitmapConfig;
+    }
+
+    /**
      * Sets the image orientation. It's best to call this before setting the image file or asset, because it may waste
      * loading of tiles. However, this can be freely called at any time.
+     * @param orientation orientation to be set. See ORIENTATION_ static fields for valid values.
      */
     public final void setOrientation(int orientation) {
         if (!VALID_ORIENTATIONS.contains(orientation)) {
@@ -540,11 +561,14 @@ public class SubsamplingScaleImageView extends View {
         sRect = null;
         if (newImage) {
             uri = null;
-            if (decoder != null) {
-                synchronized (decoderLock) {
+            decoderLock.writeLock().lock();
+            try {
+                if (decoder != null) {
                     decoder.recycle();
                     decoder = null;
                 }
+            } finally {
+                decoderLock.writeLock().unlock();
             }
             if (bitmap != null && !bitmapIsCached) {
                 bitmap.recycle();
@@ -806,7 +830,7 @@ public class SubsamplingScaleImageView extends View {
                             }
 
                             fitToBounds(true);
-                            refreshRequiredTiles(false);
+                            refreshRequiredTiles(eagerLoadingEnabled);
                         }
                     } else if (isQuickScaling) {
                         // One finger zoom
@@ -860,7 +884,7 @@ public class SubsamplingScaleImageView extends View {
                         quickScaleLastDistance = dist;
 
                         fitToBounds(true);
-                        refreshRequiredTiles(false);
+                        refreshRequiredTiles(eagerLoadingEnabled);
 
                         consumed = true;
                     } else if (!isZooming) {
@@ -899,7 +923,7 @@ public class SubsamplingScaleImageView extends View {
                                 requestDisallowInterceptTouchEvent(false);
                             }
 
-                            refreshRequiredTiles(false);
+                            refreshRequiredTiles(eagerLoadingEnabled);
                         }
                     }
                 }
@@ -1686,13 +1710,20 @@ public class SubsamplingScaleImageView extends View {
                 Tile tile = tileRef.get();
                 if (decoder != null && tile != null && view != null && decoder.isReady() && tile.visible) {
                     view.debug("TileLoadTask.doInBackground, tile.sRect=%s, tile.sampleSize=%d", tile.sRect, tile.sampleSize);
-                    synchronized (view.decoderLock) {
-                        // Update tile's file sRect according to rotation
-                        view.fileSRect(tile.sRect, tile.fileSRect);
-                        if (view.sRegion != null) {
-                            tile.fileSRect.offset(view.sRegion.left, view.sRegion.top);
+                    view.decoderLock.readLock().lock();
+                    try {
+                        if (decoder.isReady()) {
+                            // Update tile's file sRect according to rotation
+                            view.fileSRect(tile.sRect, tile.fileSRect);
+                            if (view.sRegion != null) {
+                                tile.fileSRect.offset(view.sRegion.left, view.sRegion.top);
+                            }
+                            return decoder.decodeRegion(tile.fileSRect, tile.sampleSize);
+                        } else {
+                            tile.loading = false;
                         }
-                        return decoder.decodeRegion(tile.fileSRect, tile.sampleSize);
+                    } finally {
+                        view.decoderLock.readLock().unlock();
                     }
                 } else if (tile != null) {
                     tile.loading = false;
@@ -1918,11 +1949,7 @@ public class SubsamplingScaleImageView extends View {
     }
 
     private void execute(AsyncTask<Void, Void, ?> asyncTask) {
-        if (parallelLoadingEnabled) {
-            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            asyncTask.execute();
-        }
+        asyncTask.executeOnExecutor(executor);
     }
 
     private static class Tile {
@@ -2113,6 +2140,8 @@ public class SubsamplingScaleImageView extends View {
      * true. It is not guaranteed to work with preloaded bitmaps.
      *
      * The result is written to the fRect argument. Re-use a single instance for efficiency.
+     * @param vRect rectangle representing the view area to interpret.
+     * @param fRect rectangle instance to which the result will be written. Re-use for efficiency.
      */
     public void viewToFileRect(Rect vRect, Rect fRect) {
         if (vTranslate == null || !readySent) {
@@ -2139,6 +2168,7 @@ public class SubsamplingScaleImageView extends View {
      * Find the area of the source file that is currently visible on screen, taking into account the
      * current scale, translation, orientation and clipped region. This is a convenience method; see
      * {@link #viewToFileRect(Rect, Rect)}.
+     * @param fRect rectangle instance to which the result will be written. Re-use for efficiency.
      */
     public void visibleFileRect(Rect fRect) {
         if (vTranslate == null || !readySent) {
@@ -2150,6 +2180,8 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Convert screen coordinate to source coordinate.
+     * @param vxy view X/Y coordinate.
+     * @return a coordinate representing the corresponding source coordinate.
      */
     public final PointF viewToSourceCoord(PointF vxy) {
         return viewToSourceCoord(vxy.x, vxy.y, new PointF());
@@ -2157,6 +2189,9 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Convert screen coordinate to source coordinate.
+     * @param vx view X coordinate.
+     * @param vy view Y coordinate.
+     * @return a coordinate representing the corresponding source coordinate.
      */
     public final PointF viewToSourceCoord(float vx, float vy) {
         return viewToSourceCoord(vx, vy, new PointF());
@@ -2164,6 +2199,9 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Convert screen coordinate to source coordinate.
+     * @param vxy view coordinates to convert.
+     * @param sTarget target object for result. The same instance is also returned.
+     * @return source coordinates. This is the same instance passed to the sTarget param.
      */
     public final PointF viewToSourceCoord(PointF vxy, PointF sTarget) {
         return viewToSourceCoord(vxy.x, vxy.y, sTarget);
@@ -2171,6 +2209,10 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Convert screen coordinate to source coordinate.
+     * @param vx view X coordinate.
+     * @param vy view Y coordinate.
+     * @param sTarget target object for result. The same instance is also returned.
+     * @return source coordinates. This is the same instance passed to the sTarget param.
      */
     public final PointF viewToSourceCoord(float vx, float vy, PointF sTarget) {
         if (vTranslate == null) {
@@ -2181,7 +2223,7 @@ public class SubsamplingScaleImageView extends View {
     }
 
     /**
-     * Convert source to screen x coordinate.
+     * Convert source to view x coordinate.
      */
     private float sourceToViewX(float sx) {
         if (vTranslate == null) {
@@ -2191,7 +2233,7 @@ public class SubsamplingScaleImageView extends View {
     }
 
     /**
-     * Convert source to screen y coordinate.
+     * Convert source to view y coordinate.
      */
     private float sourceToViewY(float sy) {
         if (vTranslate == null) {
@@ -2201,28 +2243,40 @@ public class SubsamplingScaleImageView extends View {
     }
 
     /**
-     * Convert source coordinate to screen coordinate.
+     * Convert source coordinate to view coordinate.
+     * @param sxy source coordinates to convert.
+     * @return view coordinates.
      */
     public final PointF sourceToViewCoord(PointF sxy) {
         return sourceToViewCoord(sxy.x, sxy.y, new PointF());
     }
 
     /**
-     * Convert source coordinate to screen coordinate.
+     * Convert source coordinate to view coordinate.
+     * @param sx source X coordinate.
+     * @param sy source Y coordinate.
+     * @return view coordinates.
      */
     public final PointF sourceToViewCoord(float sx, float sy) {
         return sourceToViewCoord(sx, sy, new PointF());
     }
 
     /**
-     * Convert source coordinate to screen coordinate.
+     * Convert source coordinate to view coordinate.
+     * @param sxy source coordinates to convert.
+     * @param vTarget target object for result. The same instance is also returned.
+     * @return view coordinates. This is the same instance passed to the vTarget param.
      */
     public final PointF sourceToViewCoord(PointF sxy, PointF vTarget) {
         return sourceToViewCoord(sxy.x, sxy.y, vTarget);
     }
 
     /**
-     * Convert source coordinate to screen coordinate.
+     * Convert source coordinate to view coordinate.
+     * @param sx source X coordinate.
+     * @param sy source Y coordinate.
+     * @param vTarget target object for result. The same instance is also returned.
+     * @return view coordinates. This is the same instance passed to the vTarget param.
      */
     public final PointF sourceToViewCoord(float sx, float sy, PointF vTarget) {
         if (vTranslate == null) {
@@ -2430,6 +2484,7 @@ public class SubsamplingScaleImageView extends View {
      * Calculate how much further the image can be panned in each direction. The results are set on
      * the supplied {@link RectF} and expressed as screen pixels. For example, if the image cannot be
      * panned any further towards the left, the value of {@link RectF#left} will be set to 0.
+     * @param vTarget target object for results. Re-use for efficiency.
      */
     public final void getPanRemaining(RectF vTarget) {
         if (!isReady()) {
@@ -2459,6 +2514,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Set the pan limiting style. See static fields. Normally {@link #PAN_LIMIT_INSIDE} is best, for image galleries.
+     * @param panLimit a pan limit constant. See static fields.
      */
     public final void setPanLimit(int panLimit) {
         if (!VALID_PAN_LIMITS.contains(panLimit)) {
@@ -2473,6 +2529,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Set the minimum scale type. See static fields. Normally {@link #SCALE_TYPE_CENTER_INSIDE} is best, for image galleries.
+     * @param scaleType a scale type constant. See static fields.
      */
     public final void setMinimumScaleType(int scaleType) {
         if (!VALID_SCALE_TYPES.contains(scaleType)) {
@@ -2489,6 +2546,7 @@ public class SubsamplingScaleImageView extends View {
      * Set the maximum scale allowed. A value of 1 means 1:1 pixels at maximum scale. You may wish to set this according
      * to screen density - on a retina screen, 1:1 may still be too small. Consider using {@link #setMinimumDpi(int)},
      * which is density aware.
+     * @param maxScale maximum scale expressed as a source/view pixels ratio.
      */
     public final void setMaxScale(float maxScale) {
         this.maxScale = maxScale;
@@ -2497,6 +2555,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * Set the minimum scale allowed. A value of 1 means 1:1 pixels at minimum scale. You may wish to set this according
      * to screen density. Consider using {@link #setMaximumDpi(int)}, which is density aware.
+     * @param minScale minimum scale expressed as a source/view pixels ratio.
      */
     public final void setMinScale(float minScale) {
         this.minScale = minScale;
@@ -2529,6 +2588,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Returns the maximum allowed scale.
+     * @return the maximum scale as a source/view pixels ratio.
      */
     public float getMaxScale() {
         return maxScale;
@@ -2536,6 +2596,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Returns the minimum allowed scale.
+     * @return the minimum scale as a source/view pixels ratio.
      */
     public final float getMinScale() {
         return minScale();
@@ -2562,6 +2623,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Returns the source point at the center of the view.
+     * @return the source coordinates current at the center of the view.
      */
     public final PointF getCenter() {
         int mX = getWidth() / 2;
@@ -2571,6 +2633,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Returns the current scale value.
+     * @return the current scale as a source/view pixels ratio.
      */
     public final float getScale() {
         return scale;
@@ -2623,6 +2686,7 @@ public class SubsamplingScaleImageView extends View {
      * the next draw. If a preview has been provided, it may be the preview that will be displayed
      * and the full size image may still be loading. If no preview was provided, this is called once
      * the base layer tiles of the full size image are loaded.
+     * @return true if the view is ready to display an image and accept touch gestures.
      */
     public final boolean isReady() {
         return readySent;
@@ -2640,6 +2704,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * Call to find whether the main image (base layer tiles where relevant) have been loaded. Before
      * this event the view is blank unless a preview was provided.
+     * @return true if the main image (not the preview) has been loaded and is ready to display.
      */
     public final boolean isImageLoaded() {
         return imageLoadedSent;
@@ -2655,6 +2720,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * Get source width, ignoring orientation. If {@link #getOrientation()} returns 90 or 270, you can use {@link #getSHeight()}
      * for the apparent width.
+     * @return the source image width in pixels.
      */
     public final int getSWidth() {
         return sWidth;
@@ -2663,6 +2729,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * Get source height, ignoring orientation. If {@link #getOrientation()} returns 90 or 270, you can use {@link #getSWidth()}
      * for the apparent height.
+     * @return the source image height in pixels.
      */
     public final int getSHeight() {
         return sHeight;
@@ -2671,6 +2738,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * Returns the orientation setting. This can return {@link #ORIENTATION_USE_EXIF}, in which case it doesn't tell you
      * the applied orientation of the image. For that, use {@link #getAppliedOrientation()}.
+     * @return the orientation setting. See static fields.
      */
     public final int getOrientation() {
         return orientation;
@@ -2679,6 +2747,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * Returns the actual orientation of the image relative to the source file. This will be based on the source file's
      * EXIF orientation if you're using ORIENTATION_USE_EXIF. Values are 0, 90, 180, 270.
+     * @return the orientation applied after EXIF information has been extracted. See static fields.
      */
     public final int getAppliedOrientation() {
         return getRequiredRotation();
@@ -2687,6 +2756,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * Get the current state of the view (scale, center, orientation) for restoration after rotate. Will return null if
      * the view is not ready.
+     * @return an {@link ImageViewState} instance representing the current position of the image. null if the view isn't ready.
      */
     public final ImageViewState getState() {
         if (vTranslate != null && sWidth > 0 && sHeight > 0) {
@@ -2697,6 +2767,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Returns true if zoom gesture detection is enabled.
+     * @return true if zoom gesture detection is enabled.
      */
     public final boolean isZoomEnabled() {
         return zoomEnabled;
@@ -2704,6 +2775,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Enable or disable zoom gesture detection. Disabling zoom locks the the current scale.
+     * @param zoomEnabled true to enable zoom gestures, false to disable.
      */
     public final void setZoomEnabled(boolean zoomEnabled) {
         this.zoomEnabled = zoomEnabled;
@@ -2711,6 +2783,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Returns true if double tap &amp; swipe to zoom is enabled.
+     * @return true if double tap &amp; swipe to zoom is enabled.
      */
     public final boolean isQuickScaleEnabled() {
         return quickScaleEnabled;
@@ -2718,6 +2791,7 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Enable or disable double tap &amp; swipe to zoom.
+     * @param quickScaleEnabled true to enable quick scale, false to disable.
      */
     public final void setQuickScaleEnabled(boolean quickScaleEnabled) {
         this.quickScaleEnabled = quickScaleEnabled;
@@ -2725,13 +2799,16 @@ public class SubsamplingScaleImageView extends View {
 
     /**
      * Returns true if pan gesture detection is enabled.
+     * @return true if pan gesture detection is enabled.
      */
     public final boolean isPanEnabled() {
         return panEnabled;
     }
 
     /**
-     * Enable or disable pan gesture detection. Disabling pan causes the image to be centered.
+     * Enable or disable pan gesture detection. Disabling pan causes the image to be centered. Pan
+     * can still be changed from code.
+     * @param panEnabled true to enable panning, false to disable.
      */
     public final void setPanEnabled(boolean panEnabled) {
         this.panEnabled = panEnabled;
@@ -2806,18 +2883,45 @@ public class SubsamplingScaleImageView extends View {
     }
 
     /**
-     * Toggle parallel loading. When enabled, tiles are loaded using the thread pool executor.
-     * Parallel loading may use more memory and there is a possibility that it will make the tile
-     * loading unreliable, but it reduces the chances of an app's background processes blocking loading.
-     *
-     * @param parallelLoadingEnabled Whether to run AsyncTasks using a thread pool executor.
+     * <p>
+     * Provide an {@link Executor} to be used for loading images. By default, {@link AsyncTask#THREAD_POOL_EXECUTOR}
+     * is used to minimise contention with other background work the app is doing. You can also choose
+     * to use {@link AsyncTask#SERIAL_EXECUTOR} if you want to limit concurrent background tasks.
+     * Alternatively you can supply an {@link Executor} of your own to avoid any contention. It is
+     * strongly recommended to use a single executor instance for the life of your application, not
+     * one per view instance.
+     * </p><p>
+     * <b>Warning:</b> If you are using a custom implementation of {@link ImageRegionDecoder}, and you
+     * supply an executor with more than one thread, you must make sure your implementation supports
+     * multi-threaded bitmap decoding or has appropriate internal synchronization. From SDK 21, Android's
+     * {@link android.graphics.BitmapRegionDecoder} uses an internal lock so it is thread safe but
+     * there is no advantage to using multiple threads.
+     * </p>
+     * @param executor an {@link Executor} for image loading.
      */
-    public void setParallelLoadingEnabled(boolean parallelLoadingEnabled) {
-        this.parallelLoadingEnabled = parallelLoadingEnabled;
+    public void setExecutor(Executor executor) {
+        if (executor == null) {
+            throw new NullPointerException("Executor must not be null");
+        }
+        this.executor = executor;
+    }
+
+    /**
+     * Enable or disable eager loading of tiles that appear on screen during gestures or animations,
+     * while the gesture or animation is still in progress. By default this is enabled to improve
+     * responsiveness, but it can result in tiles being loaded and discarded more rapidly than
+     * necessary and reduce the animation frame rate on old/cheap devices. Disable this on older
+     * devices if you see poor performance. Tiles will then be loaded only when gestures and animations
+     * are completed.
+     * @param eagerLoadingEnabled true to enable loading during gestures, false to delay loading until gestures end
+     */
+    public void setEagerLoadingEnabled(boolean eagerLoadingEnabled) {
+        this.eagerLoadingEnabled = eagerLoadingEnabled;
     }
 
     /**
      * Enables visual debugging, showing tile boundaries and sizes.
+     * @param debug true to enable debugging, false to disable.
      */
     public final void setDebug(boolean debug) {
         this.debug = debug;
@@ -2840,7 +2944,9 @@ public class SubsamplingScaleImageView extends View {
     }
 
     /**
-     * Add a listener allowing notification of load and error events.
+     * Add a listener allowing notification of load and error events. Extend {@link DefaultOnImageEventListener}
+     * to simplify implementation.
+     * @param onImageEventListener an {@link OnImageEventListener} instance.
      */
     public void setOnImageEventListener(OnImageEventListener onImageEventListener) {
         this.onImageEventListener = onImageEventListener;
@@ -2888,6 +2994,7 @@ public class SubsamplingScaleImageView extends View {
      * beyond the panning limits, the image is automatically panned during the animation.
      *
      * @param scale Target scale.
+     * @param sCenter Target source center.
      * @return {@link AnimationBuilder} instance. Call {@link SubsamplingScaleImageView.AnimationBuilder#start()} to start the anim.
      */
     public AnimationBuilder animateScaleAndCenter(float scale, PointF sCenter) {
