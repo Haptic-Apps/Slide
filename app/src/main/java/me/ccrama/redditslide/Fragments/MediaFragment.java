@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -815,10 +816,10 @@ public class MediaFragment extends Fragment {
 
                 previous = i.scale;
                 final float base = i.scale;
-                i.setOnZoomChangedListener(new SubsamplingScaleImageView.OnZoomChangedListener() {
+                i.setOnStateChangedListener(new SubsamplingScaleImageView.OnStateChangedListener() {
                     @Override
-                    public void onZoomLevelChanged(float zoom) {
-                        if (zoom > previous && !hidden && zoom > base) {
+                    public void onScaleChanged(float newScale, int origin) {
+                        if (newScale > previous && !hidden && newScale > base) {
                             hidden = true;
                             final View base = rootView.findViewById(R.id.base);
 
@@ -833,7 +834,7 @@ public class MediaFragment extends Fragment {
                             });
                             va.start();
                             //hide
-                        } else if (zoom <= previous && hidden) {
+                        } else if (newScale <= previous && hidden) {
                             hidden = false;
                             final View base = rootView.findViewById(R.id.base);
 
@@ -849,7 +850,12 @@ public class MediaFragment extends Fragment {
                             va.start();
                             //unhide
                         }
-                        previous = zoom;
+                        previous = newScale;
+                    }
+
+                    @Override
+                    public void onCenterChanged(PointF newCenter, int origin) {
+
                     }
                 });
             } else {
@@ -898,13 +904,13 @@ public class MediaFragment extends Fragment {
 
                                         previous = i.scale;
                                         final float base = i.scale;
-                                        i.setOnZoomChangedListener(
-                                                new SubsamplingScaleImageView.OnZoomChangedListener() {
+                                        i.setOnStateChangedListener(
+                                                new SubsamplingScaleImageView.OnStateChangedListener() {
                                                     @Override
-                                                    public void onZoomLevelChanged(float zoom) {
-                                                        if (zoom > previous
+                                                    public void onScaleChanged(float newScale, int origin) {
+                                                        if (newScale > previous
                                                                 && !hidden
-                                                                && zoom > base) {
+                                                                && newScale > base) {
                                                             hidden = true;
                                                             final View base = rootView.findViewById(
                                                                     R.id.base);
@@ -926,7 +932,7 @@ public class MediaFragment extends Fragment {
                                                                     });
                                                             va.start();
                                                             //hide
-                                                        } else if (zoom <= previous && hidden) {
+                                                        } else if (newScale <= previous && hidden) {
                                                             hidden = false;
                                                             final View base = rootView.findViewById(
                                                                     R.id.base);
@@ -949,7 +955,12 @@ public class MediaFragment extends Fragment {
                                                             va.start();
                                                             //unhide
                                                         }
-                                                        previous = zoom;
+                                                        previous = newScale;
+                                                    }
+
+                                                    @Override
+                                                    public void onCenterChanged(PointF newCenter, int origin) {
+
                                                     }
                                                 });
                                     }

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
@@ -1096,11 +1097,11 @@ public class MediaView extends FullScreenActivity
                 i.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        i.setOnZoomChangedListener(
-                                new SubsamplingScaleImageView.OnZoomChangedListener() {
+                        i.setOnStateChangedListener(
+                                new SubsamplingScaleImageView.OnStateChangedListener() {
                                     @Override
-                                    public void onZoomLevelChanged(float zoom) {
-                                        if (zoom > previous && !hidden && zoom > base) {
+                                    public void onScaleChanged(float newScale, int origin) {
+                                        if (newScale > previous && !hidden && newScale > base) {
                                             hidden = true;
                                             final View base = findViewById(R.id.gifheader);
 
@@ -1118,7 +1119,7 @@ public class MediaView extends FullScreenActivity
                                                     });
                                             va.start();
                                             //hide
-                                        } else if (zoom <= previous && hidden) {
+                                        } else if (newScale <= previous && hidden) {
                                             hidden = false;
                                             final View base = findViewById(R.id.gifheader);
 
@@ -1137,7 +1138,12 @@ public class MediaView extends FullScreenActivity
                                             va.start();
                                             //unhide
                                         }
-                                        previous = zoom;
+                                        previous = newScale;
+                                    }
+
+                                    @Override
+                                    public void onCenterChanged(PointF newCenter, int origin) {
+
                                     }
                                 });
                     }
@@ -1188,13 +1194,13 @@ public class MediaView extends FullScreenActivity
 
                                         previous = i.scale;
                                         final float base = i.scale;
-                                        i.setOnZoomChangedListener(
-                                                new SubsamplingScaleImageView.OnZoomChangedListener() {
+                                        i.setOnStateChangedListener(
+                                                new SubsamplingScaleImageView.OnStateChangedListener() {
                                                     @Override
-                                                    public void onZoomLevelChanged(float zoom) {
-                                                        if (zoom > previous
+                                                    public void onScaleChanged(float newScale, int origin) {
+                                                        if (newScale > previous
                                                                 && !hidden
-                                                                && zoom > base) {
+                                                                && newScale > base) {
                                                             hidden = true;
                                                             final View base =
                                                                     findViewById(R.id.gifheader);
@@ -1216,7 +1222,7 @@ public class MediaView extends FullScreenActivity
                                                                     });
                                                             va.start();
                                                             //hide
-                                                        } else if (zoom <= previous && hidden) {
+                                                        } else if (newScale <= previous && hidden) {
                                                             hidden = false;
                                                             final View base =
                                                                     findViewById(R.id.gifheader);
@@ -1239,7 +1245,12 @@ public class MediaView extends FullScreenActivity
                                                             va.start();
                                                             //unhide
                                                         }
-                                                        previous = zoom;
+                                                        previous = newScale;
+                                                    }
+
+                                                    @Override
+                                                    public void onCenterChanged(PointF newCenter, int origin) {
+
                                                     }
                                                 });
                                     }
