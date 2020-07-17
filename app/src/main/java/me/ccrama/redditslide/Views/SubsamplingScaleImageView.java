@@ -16,12 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-//Adopted by /u/ccrama from https://github.com/a-kokulyuk/subsampling-scale-image-view/commit/0cbeefc8c6883d0b4339fb4001482b90700b9295
+//Adopted by /u/ccrama from https://github.com/akokulyuk/subsampling-scale-image-view/commit/0cbeefc8c6883d0b4339fb4001482b90700b9295
 //Manually ported to 3.6.0
 //TODO: Migrate to new zoom listener implemented in 3.6.0: https://github.com/davemorrissey/subsampling-scale-image-view/pull/171
 // Related commits:
 // https://github.com/davemorrissey/subsampling-scale-image-view/commit/cb89069e6ed7d6ac968b34c4a8d79649cec6fa13
 // https://github.com/davemorrissey/subsampling-scale-image-view/commit/41c5d1060b78128d7fd8645621dc585a910604cc
+// https://github.com/davemorrissey/subsampling-scale-image-view/commit/8012bf77be73df41daabda651cdf1082dc4265af
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -865,11 +866,13 @@ public class SubsamplingScaleImageView extends View {
                             float lastY = vTranslate.y;
                             fitToBounds(true);
                             boolean atXEdge = lastX != vTranslate.x;
+                            boolean atYEdge = lastY != vTranslate.y;
                             boolean edgeXSwipe = atXEdge && dx > dy && !isPanning;
+                            boolean edgeYSwipe = atYEdge && dy > dx && !isPanning;
                             boolean yPan = lastY == vTranslate.y && dy > offset * 3;
-                            if (!edgeXSwipe && (!atXEdge || yPan || isPanning)) {
+                            if (!edgeXSwipe && !edgeYSwipe && (!atXEdge || !atYEdge || yPan || isPanning)) {
                                 isPanning = true;
-                            } else if (dx > offset) {
+                            } else if (dx > offset || dy > offset) {
                                 // Haven't panned the image, and we're at the left or right edge. Switch to page swipe.
                                 maxTouchCount = 0;
                                 handler.removeMessages(MESSAGE_LONG_CLICK);
@@ -2626,14 +2629,14 @@ public class SubsamplingScaleImageView extends View {
     }
 
     /**
-     * Returns true if double tap & swipe to zoom is enabled.
+     * Returns true if double tap &amp; swipe to zoom is enabled.
      */
     public final boolean isQuickScaleEnabled() {
         return quickScaleEnabled;
     }
 
     /**
-     * Enable or disable double tap & swipe to zoom.
+     * Enable or disable double tap &amp; swipe to zoom.
      */
     public final void setQuickScaleEnabled(boolean quickScaleEnabled) {
         this.quickScaleEnabled = quickScaleEnabled;
