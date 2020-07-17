@@ -10,7 +10,7 @@ import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.UserSubscriptions;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 
