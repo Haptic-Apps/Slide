@@ -557,6 +557,11 @@ public class PeekMediaView extends RelativeLayout {
                     public void onTileLoadError(Exception e) {
 
                     }
+
+                    @Override
+                    public void onPreviewReleased() {
+
+                    }
                 });
                 try {
                     i.setImage(ImageSource.uri(f.getAbsolutePath()));

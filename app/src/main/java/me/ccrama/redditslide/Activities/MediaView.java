@@ -1076,6 +1076,11 @@ public class MediaView extends FullScreenActivity
                     public void onTileLoadError(Exception e) {
 
                     }
+
+                    @Override
+                    public void onPreviewReleased() {
+
+                    }
                 });
                 try {
                     i.setImage(ImageSource.uri(f.getAbsolutePath()));
