@@ -10,8 +10,17 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.*;
-import android.widget.*;
+import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -20,14 +29,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import me.ccrama.redditslide.Adapters.ImageGridAdapter;
-import me.ccrama.redditslide.*;
-import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
-import me.ccrama.redditslide.ImgurAlbum.Image;
-import me.ccrama.redditslide.Tumblr.Photo;
-import me.ccrama.redditslide.Tumblr.TumblrUtils;
-import me.ccrama.redditslide.util.*;
+
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.File;
@@ -38,6 +40,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import me.ccrama.redditslide.Adapters.ImageGridAdapter;
+import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Tumblr.Photo;
+import me.ccrama.redditslide.Tumblr.TumblrUtils;
+import me.ccrama.redditslide.util.AdBlocker;
+import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 
 /**

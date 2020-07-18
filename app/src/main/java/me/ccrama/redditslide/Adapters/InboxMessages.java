@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fasterxml.jackson.databind.JsonNode;

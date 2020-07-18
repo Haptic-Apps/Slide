@@ -1,8 +1,9 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import androidx.appcompat.widget.SwitchCompat;
 import android.widget.CompoundButton;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;

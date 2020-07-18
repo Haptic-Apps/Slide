@@ -11,13 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 
 import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-
-import me.ccrama.redditslide.Adapters.MarkAsReadService;
-import me.ccrama.redditslide.Notifications.CheckForMail;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/28/2015.

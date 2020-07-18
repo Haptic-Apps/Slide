@@ -1,19 +1,13 @@
 package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
-
-import net.dean.jraw.models.Submission;
 
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.OpenRedditLink;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;

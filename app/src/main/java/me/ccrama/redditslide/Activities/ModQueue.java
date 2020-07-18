@@ -1,14 +1,16 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
+
+import com.google.android.material.tabs.TabLayout;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.InboxPage;

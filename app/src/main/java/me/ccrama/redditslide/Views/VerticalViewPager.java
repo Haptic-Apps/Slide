@@ -1,10 +1,11 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by carlo_000 on 12/7/2015.

@@ -1,10 +1,11 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.dean.jraw.models.CommentNode;
 

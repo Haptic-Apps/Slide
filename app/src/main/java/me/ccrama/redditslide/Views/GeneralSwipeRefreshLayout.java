@@ -1,8 +1,9 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Created by carlo_000 on 10/8/2015.

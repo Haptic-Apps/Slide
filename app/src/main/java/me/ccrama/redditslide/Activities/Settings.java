@@ -9,8 +9,6 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -29,6 +27,9 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.base.Strings;
 
@@ -40,7 +41,17 @@ import java.util.List;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
-import me.ccrama.redditslide.Fragments.*;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
+import me.ccrama.redditslide.Fragments.ManageOfflineContentFragment;
+import me.ccrama.redditslide.Fragments.SettingsCommentsFragment;
+import me.ccrama.redditslide.Fragments.SettingsDataFragment;
+import me.ccrama.redditslide.Fragments.SettingsFontFragment;
+import me.ccrama.redditslide.Fragments.SettingsFragment;
+import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
+import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
+import me.ccrama.redditslide.Fragments.SettingsHistoryFragment;
+import me.ccrama.redditslide.Fragments.SettingsRedditFragment;
+import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;

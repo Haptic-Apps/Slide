@@ -1,6 +1,5 @@
 package me.ccrama.redditslide;
 
-import android.text.Spannable;
 import android.text.style.URLSpan;
 import android.view.MotionEvent;
 

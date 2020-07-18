@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -24,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatCheckBox;
+
 import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.models.Account;
@@ -32,7 +33,6 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.models.VoteDirection;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 

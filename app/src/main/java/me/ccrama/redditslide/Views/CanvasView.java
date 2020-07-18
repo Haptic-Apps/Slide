@@ -19,7 +19,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -29,8 +28,6 @@ import android.view.View;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-// import android.util.Log;
-// import android.widget.Toast;
 
 /**
  * This class defines fields and methods for drawing.

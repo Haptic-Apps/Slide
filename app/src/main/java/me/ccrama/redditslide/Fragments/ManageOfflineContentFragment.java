@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
-import androidx.appcompat.widget.SwitchCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.collect.ImmutableList;

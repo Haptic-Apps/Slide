@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,8 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
+import androidx.fragment.app.Fragment;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.base.Strings;
@@ -31,19 +32,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import me.ccrama.redditslide.Activities.*;
-import me.ccrama.redditslide.*;
-import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
-import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Views.ExoVideoView;
-import me.ccrama.redditslide.Views.ImageSource;
-import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.*;
-
 import net.dean.jraw.models.Submission;
-
-import okhttp3.OkHttpClient;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -51,6 +40,33 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import me.ccrama.redditslide.Activities.Album;
+import me.ccrama.redditslide.Activities.AlbumPager;
+import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.FullscreenVideo;
+import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.Shadowbox;
+import me.ccrama.redditslide.Activities.Tumblr;
+import me.ccrama.redditslide.Activities.TumblrPager;
+import me.ccrama.redditslide.Activities.Website;
+import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.ExoVideoView;
+import me.ccrama.redditslide.Views.ImageSource;
+import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
+import okhttp3.OkHttpClient;
 
 
 /**

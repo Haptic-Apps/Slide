@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -18,7 +17,6 @@ import android.util.TypedValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import me.ccrama.redditslide.Toolbox.Toolbox;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 

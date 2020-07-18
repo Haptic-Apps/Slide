@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
+
 import net.dean.jraw.models.Submission;
 
 import java.net.URI;

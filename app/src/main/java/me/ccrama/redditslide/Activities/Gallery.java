@@ -3,12 +3,13 @@ package me.ccrama.redditslide.Activities;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import net.dean.jraw.models.Submission;
 

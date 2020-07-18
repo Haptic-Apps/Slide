@@ -12,12 +12,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Looper;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.coremedia.iso.boxes.Container;
@@ -38,6 +39,9 @@ import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 import com.googlecode.mp4parser.authoring.tracks.CroppedTrack;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.NullOutputStream;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -53,6 +57,7 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.text.DecimalFormat;
+import java.util.Locale;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.MediaView;
@@ -65,12 +70,6 @@ import me.ccrama.redditslide.Views.ExoVideoView;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.NullOutputStream;
-
-import java.util.Locale;
 
 /**
  * GIF handling utilities

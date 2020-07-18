@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Visuals;
 
 import android.content.Context;
 import android.graphics.Color;
+
 import androidx.core.content.ContextCompat;
 
 import java.util.Map;

@@ -1,11 +1,13 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 

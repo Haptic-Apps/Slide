@@ -1,11 +1,12 @@
 package me.ccrama.redditslide.ForceTouch;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;

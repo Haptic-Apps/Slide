@@ -2,8 +2,9 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.widget.Toast;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Contribution;

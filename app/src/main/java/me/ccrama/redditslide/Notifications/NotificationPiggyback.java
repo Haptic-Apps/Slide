@@ -7,10 +7,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import androidx.annotation.RequiresApi;
 import android.text.TextUtils;
 
-import me.ccrama.redditslide.util.LogUtil;
+import androidx.annotation.RequiresApi;
 
 /**
  * Created by Carlos on 9/27/2017.

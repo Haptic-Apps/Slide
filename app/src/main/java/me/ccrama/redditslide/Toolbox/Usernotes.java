@@ -1,7 +1,8 @@
 package me.ccrama.redditslide.Toolbox;
 
-import androidx.annotation.ColorInt;
 import android.util.Base64;
+
+import androidx.annotation.ColorInt;
 
 import com.google.android.exoplayer2.util.ColorParser;
 import com.google.gson.JsonDeserializationContext;

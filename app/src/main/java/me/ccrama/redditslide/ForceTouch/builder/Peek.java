@@ -14,17 +14,15 @@
 
 package me.ccrama.redditslide.ForceTouch.builder;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.Handler;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;

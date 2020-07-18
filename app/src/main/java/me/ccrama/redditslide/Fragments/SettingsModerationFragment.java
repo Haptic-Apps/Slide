@@ -3,14 +3,17 @@ package me.ccrama.redditslide.Fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.afollestad.materialdialogs.MaterialDialog;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Toolbox.Toolbox;
