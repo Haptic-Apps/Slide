@@ -35,7 +35,7 @@ public class PostReadLater extends BaseActivityAnim {
     public class ReadLaterAdaptor extends FragmentStatePagerAdapter {
 
         public ReadLaterAdaptor(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         }
 

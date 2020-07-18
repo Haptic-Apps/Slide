@@ -443,7 +443,7 @@ public class NewsActivity extends BaseActivity
 
     public void setToolbarClick() {
         if (mTabLayout != null) {
-            mTabLayout.setOnTabSelectedListener(
+            mTabLayout.addOnTabSelectedListener(
                     new TabLayout.ViewPagerOnTabSelectedListener(pager) {
                         @Override
                         public void onTabReselected(TabLayout.Tab tab) {
@@ -512,7 +512,7 @@ public class NewsActivity extends BaseActivity
         protected NewsView mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

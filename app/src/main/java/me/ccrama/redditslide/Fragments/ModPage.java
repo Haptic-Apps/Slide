@@ -57,7 +57,7 @@ public class ModPage extends Fragment {
         adapter = new ModeratorAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
-        rv.setOnScrollListener(new ToolbarScrollHideHandler(((ModQueue) getActivity()).mToolbar, (getActivity()).findViewById(R.id.header)));
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(((ModQueue) getActivity()).mToolbar, (getActivity()).findViewById(R.id.header)));
 
         posts.bindAdapter(adapter, mSwipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(

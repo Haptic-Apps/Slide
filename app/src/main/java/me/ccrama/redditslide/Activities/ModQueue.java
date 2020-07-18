@@ -40,7 +40,7 @@ public class ModQueue extends BaseActivityAnim {
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(ModQueue.this).getColor("no sub"));
         final View header = findViewById(R.id.header);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -69,7 +69,7 @@ public class ModQueue extends BaseActivityAnim {
         private Fragment mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         }
 

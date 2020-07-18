@@ -651,7 +651,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                             Palette.getDarkerColor(usedArray.get(0).getDisplayName()));
                 }
                 final View header = findViewById(R.id.header);
-                tabs.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager) {
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
                         super.onTabReselected(tab);
@@ -726,7 +726,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,

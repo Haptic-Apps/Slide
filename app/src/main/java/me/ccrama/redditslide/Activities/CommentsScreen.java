@@ -320,7 +320,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         public  BlankFragment blankPage;
 
         public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         public Fragment getCurrentFragment() {

@@ -159,7 +159,7 @@ public class Profile extends BaseActivityAnim {
 
         new getProfile().execute(name);
 
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -297,7 +297,7 @@ public class Profile extends BaseActivityAnim {
     public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
 
         public ProfilePagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         }
 

@@ -245,7 +245,7 @@ public class AlbumPager extends FullScreenActivity
                     d.show();
                 }
             });
-            p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -290,7 +290,7 @@ public class AlbumPager extends FullScreenActivity
 
     public class AlbumViewPager extends FragmentStatePagerAdapter {
         public AlbumViewPager(FragmentManager m) {
-            super(m);
+            super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @Override
