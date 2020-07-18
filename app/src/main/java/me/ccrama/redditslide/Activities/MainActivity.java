@@ -336,7 +336,7 @@ public class MainActivity extends BaseActivity
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
-            drawerLayout.openDrawer(Gravity.START);
+            drawerLayout.openDrawer(GravityCompat.START);
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
             pager.setCurrentItem(0);
