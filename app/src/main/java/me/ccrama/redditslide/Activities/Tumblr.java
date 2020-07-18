@@ -273,6 +273,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 3) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
 

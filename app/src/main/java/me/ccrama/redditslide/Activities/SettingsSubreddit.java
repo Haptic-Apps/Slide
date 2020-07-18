@@ -46,6 +46,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
             Intent i = new Intent(SettingsSubreddit.this, SettingsSubreddit.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

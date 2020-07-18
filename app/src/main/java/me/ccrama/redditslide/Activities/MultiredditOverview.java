@@ -805,6 +805,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 940 && adapter != null && adapter.getCurrentFragment() != null) {
             if (resultCode == RESULT_OK) {
                 LogUtil.v("Doing hide posts");

@@ -54,6 +54,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 42) {
             progress =
                     new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring)
