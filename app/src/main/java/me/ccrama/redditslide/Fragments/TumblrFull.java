@@ -59,7 +59,7 @@ public class TumblrFull extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ((RecyclerView) list).setLayoutManager(layoutManager);
 
-        ((RecyclerView) list).setOnScrollListener(new RecyclerView.OnScrollListener() {
+        ((RecyclerView) list).addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

@@ -2234,7 +2234,7 @@ public class MainActivity extends BaseActivity
                     }
                 };
 
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
@@ -4074,7 +4074,7 @@ public class MainActivity extends BaseActivity
 
     public void setToolbarClick() {
         if (mTabLayout != null) {
-            mTabLayout.setOnTabSelectedListener(
+            mTabLayout.addOnTabSelectedListener(
                     new TabLayout.ViewPagerOnTabSelectedListener(pager) {
                         @Override
                         public void onTabReselected(TabLayout.Tab tab) {
@@ -4981,7 +4981,7 @@ public class MainActivity extends BaseActivity
         protected SubmissionsView mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

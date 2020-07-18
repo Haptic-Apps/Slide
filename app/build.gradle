@@ -83,13 +83,13 @@ dependencies {
     implementation 'com.github.Alexendoo:Android-RobotoTextView:f6d0eb5ac7'
 
 /** AndroidX **/
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.interpolator:interpolator:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
 /** Third-party (Other) **/
     def exoPlayerVersion = '2.11.7'
@@ -103,8 +103,8 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.afollestad.material-dialogs:commons:0.8.6.2' //0.9.6.0
     implementation 'com.jakewharton:process-phoenix:2.0.0'
-    implementation 'com.github.ligi.snackengage:snackengage-core:0.24'
-    implementation 'com.github.ligi.snackengage:snackengage-playrate:0.24'
+    implementation 'com.github.ligi.snackengage:snackengage-core:0.25'
+    implementation 'com.github.ligi.snackengage:snackengage-playrate:0.25'
     implementation 'com.github.rey5137:material:1.3.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'

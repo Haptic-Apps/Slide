@@ -126,7 +126,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
 
         debugLog("View top = " + view.getTop());
         if (selectedDragItemPos != -1) {
-            int itemPos = rv.getChildPosition(view);
+            int itemPos = rv.getChildAdapterPosition(view);
             debugLog("itemPos =" + itemPos);
 
             if (!canDragOver(itemPos)) {
@@ -199,7 +199,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
             if (view.getVisibility() != View.VISIBLE)
                 continue;
 
-            int itemPos = rv.getChildPosition(view);
+            int itemPos = rv.getChildAdapterPosition(view);
 
             if (itemPos == selectedDragItemPos) //Don't check against itself!
                 continue;
@@ -294,7 +294,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
                 fingerOffsetInViewY = fingerAnchorY - itemView.getTop();
                 fingerY = fingerAnchorY;
 
-                selectedDragItemPos = rv.getChildPosition(itemView);
+                selectedDragItemPos = rv.getChildAdapterPosition(itemView);
                 debugLog("selectedDragItemPos = " + selectedDragItemPos);
 
                 return true;
