@@ -222,7 +222,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return users == null ? 0 : users.size() + 1;
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }

@@ -671,7 +671,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
 
     //IPV6 workaround by /u/talklittle
-    public class GfycatIpv4Dns implements Dns {
+    public static class GfycatIpv4Dns implements Dns {
         @Override
         public List<InetAddress> lookup(String hostname) throws UnknownHostException {
             if (ContentType.hostContains(hostname, "gfycat.com")) {

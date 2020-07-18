@@ -123,7 +123,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return POST;
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }

@@ -775,7 +775,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         return sequence;
     }
 
-    private class URLSpanNoUnderline extends URLSpan {
+    private static class URLSpanNoUnderline extends URLSpan {
         public URLSpanNoUnderline(String url) {
             super(url);
         }

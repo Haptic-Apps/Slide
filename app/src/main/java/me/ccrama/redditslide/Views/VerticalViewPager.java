@@ -29,7 +29,7 @@ public class VerticalViewPager extends ViewPager {
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
-    private class VerticalPageTransformer implements ViewPager.PageTransformer {
+    private static class VerticalPageTransformer implements ViewPager.PageTransformer {
         private static final float MIN_SCALE = 0.75f;
         @Override
         public void transformPage(View view, float position) {

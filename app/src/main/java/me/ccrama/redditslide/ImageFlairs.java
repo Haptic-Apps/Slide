@@ -204,7 +204,7 @@ public class ImageFlairs {
 
         Dimensions prevDimension = null;
 
-        class Dimensions {
+        static class Dimensions {
             int width, height;
             Boolean scale   = false;
             Boolean missing = true;
@@ -222,7 +222,7 @@ public class ImageFlairs {
             }
         }
 
-        class Location {
+        static class Location {
             int x, y;
             Boolean isPercentage = false;
             Boolean missing      = true;

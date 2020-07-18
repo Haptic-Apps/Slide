@@ -110,7 +110,7 @@ public class Authentication {
 
     public static boolean authedOnce;
 
-    public class UpdateToken extends AsyncTask<Void, Void, Void> {
+    public static class UpdateToken extends AsyncTask<Void, Void, Void> {
 
         Context context;
 

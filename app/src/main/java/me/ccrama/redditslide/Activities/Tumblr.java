@@ -281,7 +281,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
         public AlbumFrag     album;
 

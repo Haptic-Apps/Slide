@@ -413,7 +413,7 @@ public class ExoVideoView extends RelativeLayout {
         }
     }
 
-    class PlayerUIFadeInAnimation extends AnimationSet {
+    static class PlayerUIFadeInAnimation extends AnimationSet {
         private PlayerControlView animationView;
         private boolean toVisible;
 

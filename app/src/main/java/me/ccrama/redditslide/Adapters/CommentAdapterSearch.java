@@ -403,7 +403,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         return dataSet.size();
     }
 
-    private class UserFilter extends Filter {
+    private static class UserFilter extends Filter {
 
         private final CommentAdapterSearch adapter;
 

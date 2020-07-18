@@ -33,7 +33,7 @@ public class PostReadLater extends BaseActivityAnim {
         pager.setAdapter(new ReadLaterAdaptor(getSupportFragmentManager()));
     }
 
-    public class ReadLaterAdaptor extends FragmentStatePagerAdapter {
+    public static class ReadLaterAdaptor extends FragmentStatePagerAdapter {
 
         public ReadLaterAdaptor(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

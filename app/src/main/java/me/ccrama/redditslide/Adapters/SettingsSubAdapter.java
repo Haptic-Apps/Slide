@@ -104,7 +104,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         return objects.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
         }

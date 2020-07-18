@@ -510,7 +510,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
@@ -557,7 +557,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
+    private static class AsyncSetRead extends AsyncTask<Message, Void, Void> {
 
         Boolean b;
 

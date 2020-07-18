@@ -99,7 +99,7 @@ public class ToolboxConfig {
     }
 
     // from https://stackoverflow.com/a/48806970, because toolbox uses empty strings to mean null in some instances
-    public final class EmptyStringAsNullTypeAdapter<T> implements JsonDeserializer<T> {
+    public static final class EmptyStringAsNullTypeAdapter<T> implements JsonDeserializer<T> {
         @Override
         public T deserialize(final JsonElement jsonElement, final Type type, final JsonDeserializationContext context)
                 throws JsonParseException {

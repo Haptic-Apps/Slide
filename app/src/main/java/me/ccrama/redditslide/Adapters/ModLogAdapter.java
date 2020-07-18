@@ -71,7 +71,7 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return MESSAGE;
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }

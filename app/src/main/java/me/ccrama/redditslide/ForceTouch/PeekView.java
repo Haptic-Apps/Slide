@@ -461,7 +461,7 @@ public class PeekView extends FrameLayout {
     /**
      * Wrapper class so we only have to implement the onAnimationEnd method.
      */
-    private abstract class AnimatorEndListener implements Animator.AnimatorListener {
+    private abstract static class AnimatorEndListener implements Animator.AnimatorListener {
         @Override
         public void onAnimationStart(Animator animator) {
         }

@@ -280,7 +280,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
         public AlbumFrag     album;
 

@@ -135,7 +135,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
             super(itemView);
         }
@@ -517,7 +517,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
