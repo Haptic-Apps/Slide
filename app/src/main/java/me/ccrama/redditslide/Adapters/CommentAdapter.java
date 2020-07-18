@@ -382,8 +382,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             };
             holder.itemView.setOnClickListener(singleClick);
             holder.commentOverflow.setOnClickListener(singleClick);
-            if (!toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments
-                    || !SettingValues.collapseComments) {
+            if (!toCollapse.contains(comment.getFullName()) || !SettingValues.collapseComments) {
                 setViews(comment.getDataNode().get("body_html").asText(),
                         submission.getSubredditName(), holder, singleClick, onLongClickListener);
             }

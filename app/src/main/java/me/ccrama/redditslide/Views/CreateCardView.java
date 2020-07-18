@@ -189,7 +189,7 @@ public class CreateCardView {
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
         resetColorCard(v);
         if ((SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()) || (subToMatch.equals("nomatching") && (SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()))) {
-            if (!secondary && !SettingValues.colorEverywhere || secondary) {
+            if (secondary || !SettingValues.colorEverywhere) {
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
                 v.setTag(v.getId(), "color");
                 resetColor(getViewsByTag((ViewGroup) v, "tint"));

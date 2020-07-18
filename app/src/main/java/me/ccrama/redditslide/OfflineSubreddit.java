@@ -352,10 +352,7 @@ public class OfflineSubreddit {
         public int compare(T o1, T o2) {
             double first = Double.valueOf(((String) o1).split(",")[1]);
             double second = Double.valueOf(((String) o2).split(",")[1]);
-            int comparison = first >= second ? first == second ? 0 : -1 : 1;
-            if (comparison != 0) return comparison;
-
-            return 0;
+            return first >= second ? first == second ? 0 : -1 : 1;
         }
     }
 

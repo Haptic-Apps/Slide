@@ -615,14 +615,14 @@ public class SettingsBackup extends BaseActivityAnim
 
                             if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains(
                                     "albums") && !s.contains("STACKTRACE") && !s.contains(
-                                    "com.google") && (((personal
-                                    && !s.contains("SUBSNEW")
+                                    "com.google") && (!personal ||
+                                    (!s.contains("SUBSNEW")
                                     && !s.contains("appRestart")
                                     && !s.contains("AUTH")
                                     && !s.contains("TAGS")
                                     && !s.contains("SEEN")
                                     && !s.contains("HIDDEN")
-                                    && !s.contains("HIDDEN_POSTS"))) || !personal)) {
+                                    && !s.contains("HIDDEN_POSTS")))) {
                                 FileReader fr = null;
                                 try {
                                     fr = new FileReader(new File(prefsdir + File.separator + s));

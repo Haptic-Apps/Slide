@@ -36,10 +36,9 @@ public class Related extends BaseActivityAnim {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == R.id.home) {
+            onBackPressed();
+            return true;
         }
         return false;
     }

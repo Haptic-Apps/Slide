@@ -180,7 +180,7 @@ public class SubmissionCache {
                     || (baseSub.equalsIgnoreCase("mod"))
                     || baseSub.contains(".")
                     || baseSub.contains("+"));
-            if (!secondary && !SettingValues.colorEverywhere || secondary) {
+            if (secondary || !SettingValues.colorEverywhere) {
                 subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0,
                         subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(),

@@ -136,48 +136,45 @@ public class NewsActivity extends BaseActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
             int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
 
-                } else {
+            } else {
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(NewsActivity.this).setTitle(
-                                    R.string.err_permission)
-                                    .setMessage(R.string.err_permission_msg)
-                                    .setPositiveButton(R.string.btn_yes,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(NewsActivity.this).setTitle(
+                                R.string.err_permission)
+                                .setMessage(R.string.err_permission_msg)
+                                .setPositiveButton(R.string.btn_yes,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
                                                         int which) {
-                                                    ActivityCompat.requestPermissions(
-                                                            NewsActivity.this, new String[]{
-                                                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                            }, 1);
+                                                ActivityCompat.requestPermissions(
+                                                        NewsActivity.this, new String[]{
+                                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                                        }, 1);
 
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_no,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_no,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
                                                         int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                    .show();
-                        }
-                    });
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                .show();
+                    }
+                });
 
-                }
             }
 
             // other 'case' lines to check for other

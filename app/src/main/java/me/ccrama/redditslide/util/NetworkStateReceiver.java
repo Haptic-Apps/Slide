@@ -37,7 +37,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         if(connected == null || listener == null)
             return;
 
-        if(connected == true)
+        if(connected)
             listener.networkAvailable();
         else
             listener.networkUnavailable();
