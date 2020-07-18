@@ -1459,7 +1459,7 @@ public class CommentAdapterHelper {
 
         titleString.append(spacer);
 
-        Long time = comment.getCreated().getTime();
+        long time = comment.getCreated().getTime();
         String timeAgo = TimeUtils.getTimeAgo(time, mContext);
 
         SpannableStringBuilder timeSpan = new SpannableStringBuilder().append(
