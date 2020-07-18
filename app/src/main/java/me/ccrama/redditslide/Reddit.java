@@ -20,6 +20,8 @@ import android.util.Log;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.exoplayer2.database.DatabaseProvider;
+import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.upstream.cache.Cache;
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
@@ -450,7 +452,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         } else {
             dir = new File(getCacheDir() + File.separator + "video-cache");
         }
-        videoCache = new SimpleCache(dir, new LeastRecentlyUsedCacheEvictor(256 * 1024 * 1024)); // 256MB
+        LeastRecentlyUsedCacheEvictor evictor = new LeastRecentlyUsedCacheEvictor(256 * 1024 * 1024);
+        DatabaseProvider databaseProvider = new ExoDatabaseProvider(getAppContext());
+        videoCache = new SimpleCache(dir, evictor, databaseProvider); // 256MB
 
         UpgradeUtil.upgrade(getApplicationContext());
         doMainStuff();
