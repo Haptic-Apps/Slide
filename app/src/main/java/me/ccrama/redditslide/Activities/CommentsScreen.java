@@ -70,9 +70,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         if (SettingValues.commentVolumeNav) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:
-                    return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 case KeyEvent.KEYCODE_VOLUME_DOWN:
-                    return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 case KeyEvent.KEYCODE_SEARCH:
                     return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 default:
@@ -339,7 +337,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
-            if (getCurrentFragment() != object && object != null && object instanceof CommentPage) {
+            if (getCurrentFragment() != object && object instanceof CommentPage) {
                 mCurrentFragment = (CommentPage) object;
                 if (!mCurrentFragment.loaded && mCurrentFragment.isAdded()) {
                     mCurrentFragment.doAdapter(true);

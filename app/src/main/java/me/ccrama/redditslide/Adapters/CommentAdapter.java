@@ -256,9 +256,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentComments == null) return;
         for (CommentObject o : currentComments) {
             if (o.comment.isTopLevel()) {
-                if (hiddenPersons.contains(o.comment.getComment().getFullName())) {
-                    hiddenPersons.remove(o.comment.getComment().getFullName());
-                }
+                hiddenPersons.remove(o.comment.getComment().getFullName());
                 unhideAll(o.comment);
             }
         }

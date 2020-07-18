@@ -1296,7 +1296,7 @@ public class SubredditView extends BaseActivity {
 
                 //whether or not this subreddit was in the keySet
                 boolean isNotified =
-                        subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
+                        subThresholds.containsKey(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
                 ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
             } else {
                 findViewById(R.id.sidebar_text).setVisibility(View.GONE);

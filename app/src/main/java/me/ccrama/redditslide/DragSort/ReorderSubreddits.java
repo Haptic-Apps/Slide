@@ -802,8 +802,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     for (String s : chosen) {
-                        int index = subs.indexOf(s);
-                        subs.remove(index);
+                        subs.remove(s);
                         subs.add(0, s);
                     }
                     isMultiple = false;
@@ -823,8 +822,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             UserSubscriptions.removePinned(s, ReorderSubreddits.this);
                         } else {
                             UserSubscriptions.addPinned(s, ReorderSubreddits.this);
-                            int index = subs.indexOf(s);
-                            subs.remove(index);
+                            subs.remove(s);
                             subs.add(0, s);
                         }
                     }
@@ -1009,8 +1007,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 b.show();
                                             } else if (which == 0) {
                                                 String s = items.get(holder.getAdapterPosition());
-                                                int index = subs.indexOf(s);
-                                                subs.remove(index);
+                                                subs.remove(s);
                                                 subs.add(0, s);
 
                                                 notifyItemMoved(holder.getAdapterPosition(), 0);

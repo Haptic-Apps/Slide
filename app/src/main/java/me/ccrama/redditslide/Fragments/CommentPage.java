@@ -1924,11 +1924,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             case CHILDREN:
                 return 1;
             case TIME:
+            case OP:
                 return 3;
             case GILDED:
                 return 6;
-            case OP:
-                return 3;
             case YOU:
                 return 5;
             case LINK:

@@ -489,8 +489,6 @@ public class MainActivity extends BaseActivity
             if (SettingValues.commentVolumeNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
-                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
-                                keyCode, event);
                     case KeyEvent.KEYCODE_VOLUME_DOWN:
                         return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
                                 keyCode, event);
@@ -2391,7 +2389,7 @@ public class MainActivity extends BaseActivity
 
             //whether or not this subreddit was in the keySet
             boolean isNotified =
-                    subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
+                    subThresholds.containsKey(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
             ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -3954,9 +3952,7 @@ public class MainActivity extends BaseActivity
                         drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
-        if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
-                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH
-                || SettingValues.subredditSearchMethod
+        if ((SettingValues.subredditSearchMethod
                 != Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)) {
             drawerSearch = headerMain.findViewById(R.id.sort);
             drawerSearch.setVisibility(View.VISIBLE);
@@ -4190,9 +4186,10 @@ public class MainActivity extends BaseActivity
                         Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
+                                frontpage)
+                                .setLongLabel(frontpage)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build());
@@ -4216,9 +4213,10 @@ public class MainActivity extends BaseActivity
                         Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
+                                frontpage)
+                                .setLongLabel(frontpage)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build();

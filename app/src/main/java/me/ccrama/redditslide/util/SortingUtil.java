@@ -29,8 +29,6 @@ public class SortingUtil {
 
     public static Integer getSortingId(Sorting sort) {
         switch (sort) {
-            case HOT:
-                return 0;
             case NEW:
                 return 1;
             case RISING:
@@ -41,6 +39,7 @@ public class SortingUtil {
                 return 4;
             case BEST:
                 return 5;
+            case HOT:
             default:
                 return 0;
         }
@@ -57,8 +56,6 @@ public class SortingUtil {
 
     private static Integer getSortingTimeId(TimePeriod time) {
         switch (time) {
-            case HOUR:
-                return 0;
             case DAY:
                 return 1;
             case WEEK:
@@ -69,6 +66,7 @@ public class SortingUtil {
                 return 4;
             case ALL:
                 return 5;
+            case HOUR:
             default:
                 return 0;
         }

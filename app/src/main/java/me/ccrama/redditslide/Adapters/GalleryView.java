@@ -201,6 +201,9 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                                 break;
                             case IMGUR:
+                            case DEVIANTART:
+                            case XKCD:
+                            case IMAGE:
                                 PopulateSubmissionViewHolder.openImage(type, main, submission, null, holder.getAdapterPosition());
                                 break;
                             case EMBEDDED:
@@ -256,11 +259,6 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     LinkUtil.openExternally(submission.getUrl());
 
                                 }
-                                break;
-                            case DEVIANTART:
-                            case XKCD:
-                            case IMAGE:
-                                PopulateSubmissionViewHolder.openImage(type, main, submission, null, holder.getAdapterPosition());
                                 break;
                             case GIF:
                                 PopulateSubmissionViewHolder.openGif(main, submission,  holder.getAdapterPosition());

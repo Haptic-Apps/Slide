@@ -312,9 +312,6 @@ public class Profile extends BaseActivityAnim {
                 args.putString("id", name);
                 String place;
                 switch (i) {
-                    case 0:
-                        place = "overview";
-                        break;
                     case 1:
                         place = "comments";
                         break;
@@ -336,6 +333,7 @@ public class Profile extends BaseActivityAnim {
                     case 7:
                         place = "hidden";
                         break;
+                    case 0:
                     default:
                         place = "overview";
                 }

@@ -557,7 +557,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         int widthDp = this.getResources().getConfiguration().screenWidthDp;
         int heightDp = this.getResources().getConfiguration().screenHeightDp;
 
-        int fina = (widthDp > heightDp) ? widthDp : heightDp;
+        int fina = Math.max(widthDp, heightDp);
         fina += 99;
 
         if (colors.contains("tabletOVERRIDE")) {

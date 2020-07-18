@@ -306,6 +306,8 @@ public class MediaFragment extends Fragment {
                 doLoadDeviantArt(contentUrl);
                 break;
             case IMAGE:
+            case LINK:
+            case REDDIT:
                 doLoadImage(contentUrl);
                 break;
             case IMGUR:
@@ -319,10 +321,6 @@ public class MediaFragment extends Fragment {
             case VREDDIT_DIRECT:
             case GIF:
                 doLoadGif(s);
-                break;
-            case LINK:
-            case REDDIT:
-                doLoadImage(contentUrl);
                 break;
         }
     }
@@ -381,6 +379,7 @@ public class MediaFragment extends Fragment {
 
                             break;
                         case SELF:
+                        case NONE:
 
                             break;
                         case ALBUM:
@@ -426,9 +425,6 @@ public class MediaFragment extends Fragment {
                             break;
                         case GIF:
                             PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
-                            break;
-                        case NONE:
-
                             break;
                         case VIDEO:
                             if (!LinkUtil.tryOpenWithVideoPlugin(submission.getUrl())) {

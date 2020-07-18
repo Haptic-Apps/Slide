@@ -316,7 +316,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View v) {
                             final int pos = dataSet.posts.indexOf(submission);
-                            final Contribution old = dataSet.posts.get(pos);
+                            final PublicContribution old = dataSet.posts.get(pos);
                             dataSet.posts.remove(submission);
                             notifyItemRemoved(pos + 1);
                             d.dismiss();
@@ -326,7 +326,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar s = Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    dataSet.posts.add(pos, (PublicContribution) old);
+                                    dataSet.posts.add(pos, old);
                                     notifyItemInserted(pos + 1);
                                     Hidden.undoHidden(old);
 

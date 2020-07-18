@@ -145,6 +145,9 @@ public class PopulateNewsViewHolder {
                                     }
                                     break;
                                 case IMGUR:
+                                case DEVIANTART:
+                                case XKCD:
+                                case IMAGE:
                                     openImage(type, contextActivity, submission, holder.leadImage,
                                             holder.getAdapterPosition());
                                     break;
@@ -226,12 +229,6 @@ public class PopulateNewsViewHolder {
                                         LinkUtil.openExternally(submission.getUrl());
 
                                     }
-                                    break;
-                                case DEVIANTART:
-                                case XKCD:
-                                case IMAGE:
-                                    openImage(type, contextActivity, submission, holder.leadImage,
-                                            holder.getAdapterPosition());
                                     break;
                                 case GIF:
                                     openGif(contextActivity, submission,
@@ -661,17 +658,17 @@ public class PopulateNewsViewHolder {
                                                     e.apply();
                                                 }
                                                 if (chosen.length > 4) {
+                                                    String s = (baseSub + ":" + flair)
+                                                            .toLowerCase(Locale.ENGLISH).trim();
                                                     if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters.add((baseSub + ":" + flair)
-                                                                .toLowerCase(Locale.ENGLISH).trim());
+                                                        SettingValues.flairFilters.add(s);
                                                         e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
                                                         filtered = true;
                                                     } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters.remove((baseSub + ":" + flair)
-                                                                .toLowerCase(Locale.ENGLISH).trim());
+                                                        SettingValues.flairFilters.remove(s);
                                                         e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);

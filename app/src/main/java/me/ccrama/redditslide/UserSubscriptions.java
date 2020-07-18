@@ -561,17 +561,11 @@ public class UserSubscriptions {
         CaseInsensitiveArrayList defaults = getDefaults(c);
         finalReturn.addAll(getSubscriptions(c));
         for (String s : finalReturn) {
-            if (history.contains(s)) {
-                history.remove(s);
-            }
-            if (defaults.contains(s)) {
-                defaults.remove(s);
-            }
+            history.remove(s);
+            defaults.remove(s);
         }
         for (String s : history) {
-            if (defaults.contains(s)) {
-                defaults.remove(s);
-            }
+            defaults.remove(s);
         }
         for (String s : history) {
             if (!finalReturn.contains(s)) {

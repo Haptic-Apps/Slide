@@ -131,10 +131,7 @@ public class HasSeen {
                     fullname = parts.get(0);
                     break;
                 }
-                case COMMENT_PERMALINK: {
-                    fullname = parts.get(3);
-                    break;
-                }
+                case COMMENT_PERMALINK:
                 case SUBMISSION: {
                     fullname = parts.get(3);
                     break;

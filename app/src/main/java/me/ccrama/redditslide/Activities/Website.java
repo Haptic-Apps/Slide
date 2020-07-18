@@ -378,6 +378,7 @@ public class Website extends BaseActivityAnim {
                 switch (type) {
                     case DEVIANTART:
                     case IMGUR:
+                    case IMAGE:
                         if (SettingValues.image) {
                             Intent intent2 = new Intent(view.getContext(), MediaView.class);
                             intent2.putExtra(MediaView.EXTRA_URL, url);
@@ -414,14 +415,6 @@ public class Website extends BaseActivityAnim {
                                 i.putExtra(Album.EXTRA_URL, url);
                                 view.getContext().startActivity(i);
                             }
-                            return true;
-                        }
-                        return super.shouldOverrideUrlLoading(view, url);
-                    case IMAGE:
-                        if (SettingValues.image) {
-                            Intent myIntent = new Intent(view.getContext(), MediaView.class);
-                            myIntent.putExtra(MediaView.EXTRA_URL, url);
-                            view.getContext().startActivity(myIntent);
                             return true;
                         }
                         return super.shouldOverrideUrlLoading(view, url);

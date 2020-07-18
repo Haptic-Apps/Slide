@@ -933,7 +933,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         for (String s : all) {
             if (s != null && !s.isEmpty()) {
                 list.add(s);
-                if (subThresholds.keySet().contains(s)) {
+                if (subThresholds.containsKey(s)) {
                     checked[i] = true;
                 }
                 i++;

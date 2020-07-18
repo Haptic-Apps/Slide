@@ -238,8 +238,8 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
 
         @Override
         public Fragment getItem(int i) {
-            Fragment f = new WikiPage();
-            ((WikiPage) f).setListener(Wiki.this);
+            WikiPage f = new WikiPage();
+            f.setListener(Wiki.this);
             Bundle args = new Bundle();
 
             args.putString("title", pages.get(i));

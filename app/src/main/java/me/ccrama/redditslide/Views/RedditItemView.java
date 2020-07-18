@@ -102,11 +102,9 @@ public class RedditItemView extends RelativeLayout {
                 v.doLoadLink(url);
             }
             break;
-            case WIKI: {
-                v.doLoadLink(url);
-                break;
-            }
-            case SEARCH: {
+            case WIKI:
+            case SEARCH:
+            case OTHER: {
                 v.doLoadLink(url);
                 break;
             }
@@ -142,10 +140,6 @@ public class RedditItemView extends RelativeLayout {
             case USER: {
                 String name = parts.get(1);
                 new AsyncLoadProfile(name).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            }
-            case OTHER: {
-                v.doLoadLink(url);
                 break;
             }
 

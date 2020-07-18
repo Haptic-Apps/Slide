@@ -176,6 +176,9 @@ public class PopulateSubmissionViewHolder {
                                     }
                                     break;
                                 case IMGUR:
+                                case DEVIANTART:
+                                case XKCD:
+                                case IMAGE:
                                     openImage(type, contextActivity, submission, holder.leadImage,
                                             holder.getAdapterPosition());
                                     break;
@@ -257,12 +260,6 @@ public class PopulateSubmissionViewHolder {
                                         LinkUtil.openExternally(submission.getUrl());
 
                                     }
-                                    break;
-                                case DEVIANTART:
-                                case XKCD:
-                                case IMAGE:
-                                    openImage(type, contextActivity, submission, holder.leadImage,
-                                            holder.getAdapterPosition());
                                     break;
                                 case VREDDIT_REDIRECT:
                                 case GIF:
@@ -747,17 +744,17 @@ public class PopulateSubmissionViewHolder {
                                                     e.apply();
                                                 }
                                                 if (chosen.length > 4) {
+                                                    String s = (baseSub + ":" + flair)
+                                                            .toLowerCase(Locale.ENGLISH).trim();
                                                     if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters.add((baseSub + ":" + flair)
-                                                                .toLowerCase(Locale.ENGLISH).trim());
+                                                        SettingValues.flairFilters.add(s);
                                                         e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
                                                         filtered = true;
                                                     } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters.remove((baseSub + ":" + flair)
-                                                                        .toLowerCase(Locale.ENGLISH).trim());
+                                                        SettingValues.flairFilters.remove(s);
                                                         e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
@@ -2695,7 +2692,7 @@ public class PopulateSubmissionViewHolder {
 
 
         //if the submission is already at 0pts, keep it at 0pts
-        submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
+        submissionScore = Math.max(submissionScore, 0);
         if (submissionScore >= 10000 && SettingValues.abbreviateScores) {
             holder.score.setText(String.format(Locale.getDefault(), "%.1fk",
                     (((double) submissionScore) / 1000)));
@@ -3531,7 +3528,7 @@ public class PopulateSubmissionViewHolder {
 
 
         //if the submission is already at 0pts, keep it at 0pts
-        submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
+        submissionScore = Math.max(submissionScore, 0);
         if (submissionScore >= 10000 && SettingValues.abbreviateScores) {
             holder.score.setText(String.format(Locale.getDefault(), "%.1fk",
                     (((double) submissionScore) / 1000)));

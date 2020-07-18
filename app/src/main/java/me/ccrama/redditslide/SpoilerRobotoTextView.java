@@ -426,6 +426,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
                     break;
                 case SELF:
+                case NONE:
                     break;
                 case STREAMABLE:
                     openStreamable(url, subreddit);
@@ -471,8 +472,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case GIF:
                 case VREDDIT_DIRECT:
                     openGif(url, subreddit, activity);
-                    break;
-                case NONE:
                     break;
                 case VIDEO:
                     if (!LinkUtil.tryOpenWithVideoPlugin(url)) {

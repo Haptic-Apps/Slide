@@ -256,7 +256,7 @@ public class EditCardsLayout extends BaseActivityAnim {
                 SettingValues.prefs.edit().putBoolean("bigThumbnails", isChecked).apply();
                 SettingValues.bigThumbnails = isChecked;
 
-                if (!SettingValues.bigPicCropped && !SettingValues.bigPicCropped) {
+                if (!SettingValues.bigPicCropped) {
                     layout.removeAllViews();
 
                     layout.addView(CreateCardView.setBigPicEnabled(false, layout));

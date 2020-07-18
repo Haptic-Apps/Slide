@@ -108,11 +108,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                     opposite.setTranslationY(opposite.getHeight());
                 }
             } else {
-                if (toolbarYOffset < 0) {
-                    opposite.setTranslationY(0);
-                } else {
-                    opposite.setTranslationY(toolbarYOffset);
-                }
+                opposite.setTranslationY(Math.max(toolbarYOffset, 0));
             }
         }
     }

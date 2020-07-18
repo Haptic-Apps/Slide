@@ -929,7 +929,6 @@ public class GifUtils {
                             sizeText.setText(readableFileSize(size));
                         }
                     });
-                    return;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
