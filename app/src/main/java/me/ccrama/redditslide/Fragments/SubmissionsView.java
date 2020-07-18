@@ -538,12 +538,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
                     if (startIndex != -1 && !forced ) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
-                        adapter.notifyDataSetChanged();
                     } else {
                         forced = false;
                         rv.scrollToPosition(0);
-                        adapter.notifyDataSetChanged();
                     }
+                    adapter.notifyDataSetChanged();
 
                 }
             });

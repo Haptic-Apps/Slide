@@ -436,11 +436,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         if (adapter != null) {
                             if (collapsed) {
                                 adapter.expandAll();
-                                collapsed = !collapsed;
                             } else {
                                 adapter.collapseAll();
-                                collapsed = !collapsed;
                             }
+                            collapsed = !collapsed;
                         }
                     }
                 });
@@ -980,24 +979,21 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 break;
                             case ALBUM:
                                 if (SettingValues.album) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i =
-                                                new Intent(getActivity(), AlbumPager.class);
+                                        i = new Intent(getActivity(), AlbumPager.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(AlbumPager.SUBREDDIT, subreddit);
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     } else {
-                                        Intent i = new Intent(getActivity(), Album.class);
+                                        i = new Intent(getActivity(), Album.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(Album.SUBREDDIT, subreddit);
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     }
+                                    getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(
+                                            R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     LinkUtil.openExternally(adapter.submission.getUrl());
 
@@ -1005,24 +1001,22 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 break;
                             case TUMBLR:
                                 if (SettingValues.image) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i = new Intent(getActivity(),
+                                        i = new Intent(getActivity(),
                                                 TumblrPager.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(TumblrPager.SUBREDDIT, subreddit);
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     } else {
-                                        Intent i = new Intent(getActivity(), Tumblr.class);
+                                        i = new Intent(getActivity(), Tumblr.class);
                                         i.putExtra(Tumblr.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     }
+                                    getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(
+                                            R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     LinkUtil.openExternally(adapter.submission.getUrl());
 
@@ -1535,11 +1529,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 public void onClick(View v) {
                                     if (!currentlySubbed) {
                                         doSubscribe();
-                                        doSubscribeButtonText(currentlySubbed, subscribe);
                                     } else {
                                         doUnsubscribe();
-                                        doSubscribeButtonText(currentlySubbed, subscribe);
                                     }
+                                    doSubscribeButtonText(currentlySubbed, subscribe);
                                 }
 
                                 private void doUnsubscribe() {
@@ -1845,12 +1838,11 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             } else {
                 if (context.equals(Reddit.EMPTY_STRING)) {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                    if (load) comments.setSorting(commentSorting);
                 } else {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context,
                             contextNumber);
-                    if (load) comments.setSorting(commentSorting);
                 }
+                if (load) comments.setSorting(commentSorting);
             }
         }
     }

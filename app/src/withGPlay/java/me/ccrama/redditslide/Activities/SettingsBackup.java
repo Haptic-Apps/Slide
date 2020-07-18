@@ -242,6 +242,7 @@ public class SettingsBackup extends BaseActivityAnim
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 24) {
             if (resultCode == RESULT_OK) {
                 mGoogleApiClient.connect();
@@ -334,9 +335,9 @@ public class SettingsBackup extends BaseActivityAnim
                     } else {
                         progress.hide();
                         new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                                getString(me.ccrama.redditslide.R.string.err_not_valid_backup))
+                                getString(R.string.err_not_valid_backup))
                                 .setMessage(getString(
-                                        me.ccrama.redditslide.R.string.err_not_valid_backup_msg))
+                                        R.string.err_not_valid_backup_msg))
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .setCancelable(false)
                                 .show();
@@ -345,9 +346,9 @@ public class SettingsBackup extends BaseActivityAnim
                     progress.hide();
                     e.printStackTrace();
                     new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                            getString(me.ccrama.redditslide.R.string.err_file_not_found))
+                            getString(R.string.err_file_not_found))
                             .setMessage(getString(
-                                    me.ccrama.redditslide.R.string.err_file_not_found_msg))
+                                    R.string.err_file_not_found_msg))
                             .setPositiveButton(R.string.btn_ok, null)
                             .setCancelable(false)
                             .show();
@@ -355,9 +356,9 @@ public class SettingsBackup extends BaseActivityAnim
             } else {
                 progress.dismiss();
                 new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                        getString(me.ccrama.redditslide.R.string.err_file_not_found))
+                        getString(R.string.err_file_not_found))
                         .setMessage(
-                                getString(me.ccrama.redditslide.R.string.err_file_not_found_msg))
+                                getString(R.string.err_file_not_found_msg))
                         .setPositiveButton(R.string.btn_ok, null)
                         .setCancelable(false)
                         .show();

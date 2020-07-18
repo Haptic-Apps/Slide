@@ -132,15 +132,11 @@ public class MediaFragmentComment extends Fragment {
 
         ContentType.Type type = ContentType.getContentType(contentUrl);
 
-        if (!ContentType.fullImage(type)) {
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
-                    type, getActivity(), s);
-
-        } else {
+        if (ContentType.fullImage(type)) {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
-                    type, getActivity(), s);
         }
+        addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
+                type, getActivity(), s);
         doLoad(contentUrl);
 
         final View.OnClickListener openClick = new View.OnClickListener() {

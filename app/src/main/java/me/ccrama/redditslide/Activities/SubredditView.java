@@ -1534,11 +1534,10 @@ public class SubredditView extends BaseActivity {
                     public void onClick(View v) {
                         if (!currentlySubbed) {
                             doSubscribe();
-                            doSubscribeButtonText(currentlySubbed, subscribe);
                         } else {
                             doUnsubscribe();
-                            doSubscribeButtonText(currentlySubbed, subscribe);
                         }
+                        doSubscribeButtonText(currentlySubbed, subscribe);
                     }
 
                     private void doUnsubscribe() {

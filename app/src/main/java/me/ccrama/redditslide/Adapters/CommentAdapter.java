@@ -1955,14 +1955,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int counter = unhideNumber(n, 0);
             if (SettingValues.collapseComments) {
                 listView.setItemAnimator(null);
-                notifyItemRangeInserted(i, counter);
             } else {
                 try {
                     listView.setItemAnimator(new AlphaInAnimator());
                 } catch (Exception ignored) {
                 }
-                notifyItemRangeInserted(i, counter);
             }
+            notifyItemRangeInserted(i, counter);
         } catch (Exception ignored) {
 
         }
@@ -1972,11 +1971,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         unhideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyDataSetChanged();
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
     }
 
     public void hideAll(CommentNode n) {
@@ -1984,11 +1982,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         hideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyDataSetChanged();
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
 
     }
 
@@ -1997,11 +1994,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int counter = hideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyItemRangeRemoved(i, counter);
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
-            notifyItemRangeRemoved(i, counter);
         }
+        notifyItemRangeRemoved(i, counter);
 
     }
 

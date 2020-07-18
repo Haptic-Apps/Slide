@@ -682,7 +682,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
             if (foregroundColors.length > 1) {
                 text.removeSpan(foregroundColors[1]);
-                setText(text);
             } else {
                 for (int i = 1; i < storedSpoilerStarts.size(); i++) {
                     if (storedSpoilerStarts.get(i) < endOfLink + offset
@@ -699,8 +698,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         }
                     }
                 }
-                setText(text);
             }
+            setText(text);
         }
     }
 

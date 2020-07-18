@@ -964,15 +964,13 @@ public class GifUtils {
                             Request request = new Request.Builder().url(hqUri).head().build();
                             Response response = null;
                             try {
+                                response = client.newCall(request).execute();
                                 if (isAudio) {
-                                    response = client.newCall(request).execute();
                                     audioSize = response.body().contentLength();
-                                    response.close();
                                 } else {
-                                    response = client.newCall(request).execute();
                                     videoSize = response.body().contentLength();
-                                    response.close();
                                 }
+                                response.close();
                             } catch (IOException e) {
                                 if (response != null)
                                     response.close();

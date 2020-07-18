@@ -186,13 +186,13 @@ public class PopulateNewsViewHolder {
                                             i = new Intent(contextActivity, AlbumPager.class);
                                             i.putExtra(AlbumPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
                                             i.putExtra(Album.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+
                                         addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
@@ -210,13 +210,13 @@ public class PopulateNewsViewHolder {
                                             i = new Intent(contextActivity, TumblrPager.class);
                                             i.putExtra(TumblrPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Tumblr.class);
                                             i.putExtra(Tumblr.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+
                                         addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
@@ -905,34 +905,26 @@ public class PopulateNewsViewHolder {
                                                         .toString()
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
+                                                ClipboardManager clipboard =
+                                                        (ClipboardManager) mContext.getSystemService(
+                                                                Context.CLIPBOARD_SERVICE);
+                                                ClipData clip;
                                                 if (!selected.isEmpty()) {
-                                                    ClipboardManager clipboard =
-                                                            (ClipboardManager) mContext.getSystemService(
-                                                                    Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip =
-                                                            ClipData.newPlainText("Selftext",
-                                                                    selected);
-                                                    clipboard.setPrimaryClip(clip);
+                                                    clip = ClipData.newPlainText("Selftext",
+                                                            selected);
 
-                                                    Toast.makeText(mContext,
-                                                            R.string.submission_comment_copied,
-                                                            Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    ClipboardManager clipboard =
-                                                            (ClipboardManager) mContext.getSystemService(
-                                                                    Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip =
-                                                            ClipData.newPlainText("Selftext",
-                                                                    Html.fromHtml(
-                                                                            submission.getTitle()
-                                                                                    + "\n\n"
-                                                                                    + submission.getSelftext()));
-                                                    clipboard.setPrimaryClip(clip);
+                                                    clip = ClipData.newPlainText("Selftext",
+                                                            Html.fromHtml(
+                                                                    submission.getTitle()
+                                                                            + "\n\n"
+                                                                            + submission.getSelftext()));
 
-                                                    Toast.makeText(mContext,
-                                                            R.string.submission_comment_copied,
-                                                            Toast.LENGTH_SHORT).show();
                                                 }
+                                                clipboard.setPrimaryClip(clip);
+                                                Toast.makeText(mContext,
+                                                        R.string.submission_comment_copied,
+                                                        Toast.LENGTH_SHORT).show();
 
                                             }
                                         })

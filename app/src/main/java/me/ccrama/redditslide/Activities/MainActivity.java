@@ -2831,11 +2831,10 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (!currentlySubbed) {
                         doSubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
                     } else {
                         doUnsubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
                     }
+                    doSubscribeButtonText(currentlySubbed, subscribe);
                 }
 
 
@@ -3761,11 +3760,11 @@ public class MainActivity extends BaseActivity
         if (adapter instanceof OverviewPagerAdapterComment) {
             pager.setAdapter(null);
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
-            pager.setAdapter(adapter);
         } else {
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            pager.setAdapter(adapter);
         }
+        pager.setAdapter(adapter);
+
         reloadItemNumber = -2;
         shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);

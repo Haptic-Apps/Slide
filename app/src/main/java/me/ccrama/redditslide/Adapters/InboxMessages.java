@@ -75,30 +75,21 @@ public class InboxMessages extends GeneralPosts {
                 if (reset) {
                     posts = subs;
 
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-                            loading = false;
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    });
                 } else {
                     if(posts == null){
                         posts =new ArrayList<>();
                     }
                     posts.addAll(subs);
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-                            loading = false;
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    });
                 }
+                ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                        loading = false;
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
             }
         }
 
