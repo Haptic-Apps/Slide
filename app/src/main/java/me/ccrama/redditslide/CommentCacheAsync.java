@@ -337,9 +337,9 @@ public class CommentCacheAsync extends AsyncTask {
                     }
                 }
 
-                int commentDepth = Integer.valueOf(
+                int commentDepth = Integer.parseInt(
                         SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "5"));
-                int commentCount = Integer.valueOf(
+                int commentCount = Integer.parseInt(
                         SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "50"));
 
                 Log.v("CommentCacheAsync", "comment count " + commentCount);

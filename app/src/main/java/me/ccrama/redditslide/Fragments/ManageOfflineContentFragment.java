@@ -263,7 +263,7 @@ public class ManageOfflineContentFragment {
                     if (multiNameToSubsMap.containsKey(sub)) {
                         sub = multiNameToSubsMap.get(sub);
                     }
-                    final String name = (sub.contains("/m/") ? sub : "/r/" + sub) + " → " + (Long.valueOf(split[1]) == 0 ? context.getString(R.string.settings_backup_submission_only) : TimeUtils.getTimeAgo(Long.valueOf(split[1]), context) + context.getString(R.string.settings_backup_comments));
+                    final String name = (sub.contains("/m/") ? sub : "/r/" + sub) + " → " + (Long.parseLong(split[1]) == 0 ? context.getString(R.string.settings_backup_submission_only) : TimeUtils.getTimeAgo(Long.parseLong(split[1]), context) + context.getString(R.string.settings_backup_comments));
                     domains.add(name);
 
                     final View t = context.getLayoutInflater().inflate(

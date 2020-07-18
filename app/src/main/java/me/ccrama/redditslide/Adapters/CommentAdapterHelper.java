@@ -884,7 +884,7 @@ public class CommentAdapterHelper {
                                                     new ModerationManager(Authentication.reddit).banUser(
                                                             submission.getSubredditName(),
                                                             submission.getAuthor(), reason.getText().toString(),
-                                                            n, m, Integer.valueOf(time.getText().toString()));
+                                                            n, m, Integer.parseInt(time.getText().toString()));
                                                 }
                                                 return true;
                                             } catch (Exception e) {
@@ -1849,7 +1849,7 @@ public class CommentAdapterHelper {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                float value = (Float) animation.getAnimatedValue();
                 v.setAlpha(value);
                 v.setScaleX(value);
                 v.setScaleY(value);
@@ -1868,7 +1868,7 @@ public class CommentAdapterHelper {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                float value = (Float) animation.getAnimatedValue();
                 v.setAlpha(value);
                 v.setScaleX(value);
                 v.setScaleY(value);

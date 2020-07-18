@@ -166,7 +166,7 @@ public class HasSeen {
             return seenTimes.get(fullname);
         } else {
             try {
-                return Long.valueOf(KVStore.getInstance().get(fullname));
+                return Long.parseLong(KVStore.getInstance().get(fullname));
             } catch (NumberFormatException e) {
                 return 0;
             }

@@ -497,9 +497,9 @@ public class SubredditPostsRealm implements PostLoader {
         int i = 0;
         for (String s : all) {
             String[] split = s.split(",");
-            titles[i] = (Long.valueOf(split[1]) == 0 ? c.getString(
+            titles[i] = (Long.parseLong(split[1]) == 0 ? c.getString(
                     R.string.settings_backup_submission_only)
-                    : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + c.getString(
+                    : TimeUtils.getTimeAgo(Long.parseLong(split[1]), c) + c.getString(
                             R.string.settings_backup_comments));
             base[i] = s;
             i++;
@@ -542,7 +542,7 @@ public class SubredditPostsRealm implements PostLoader {
                                             displayer.updateOfflineError();
                                         }
                                         // update offline
-                                        displayer.updateOffline(posts, Long.valueOf(s2[1]));
+                                        displayer.updateOffline(posts, Long.parseLong(s2[1]));
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 return true;

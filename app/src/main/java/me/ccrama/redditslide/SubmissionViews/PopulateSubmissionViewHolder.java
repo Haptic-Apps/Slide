@@ -2457,7 +2457,7 @@ public class PopulateSubmissionViewHolder {
                                                             submission.getSubredditName(),
                                                             submission.getAuthor(),
                                                             reason.getText().toString(), n, m,
-                                                            Integer.valueOf(time.getText().toString()));
+                                                            Integer.parseInt(time.getText().toString()));
                                                 }
                                                 return true;
                                             } catch (Exception e) {
