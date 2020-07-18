@@ -629,7 +629,7 @@ public class Submit extends BaseActivity {
 
             try {
                 buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
+                byte[] byt = new byte[1024];
                 int i;
 
                 for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
@@ -811,7 +811,7 @@ public class Submit extends BaseActivity {
 
             try {
                 buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
+                byte[] byt = new byte[1024];
                 int i;
 
                 for (long l = 0L; (i = in.read(byt)) != -1; l += i) {

@@ -38,7 +38,7 @@ public class CanvasView extends View {
     public enum Mode {
         DRAW,
         TEXT,
-        ERASER;
+        ERASER
     }
 
     // Enumeration for Drawer
@@ -49,7 +49,7 @@ public class CanvasView extends View {
         CIRCLE,
         ELLIPSE,
         QUADRATIC_BEZIER,
-        QUBIC_BEZIER;
+        QUBIC_BEZIER
     }
 
     private Context context = null;
@@ -659,8 +659,6 @@ public class CanvasView extends View {
     public int getPaintFillColor() {
         return this.paintFillColor;
     }
-
-    ;
 
     /**
      * This method is setter for fill color.

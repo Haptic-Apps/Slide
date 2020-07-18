@@ -428,7 +428,7 @@ public class SubmissionCache {
             // Add silver, gold, platinum icons and counts in that order
             if (submission.getTimesSilvered() > 0) {
                 final String timesSilvered = (submission.getTimesSilvered() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(submission.getTimesSilvered());
+                        : "\u200Ax" + submission.getTimesSilvered();
                 SpannableStringBuilder silvered =
                         new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
                 Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
@@ -444,7 +444,7 @@ public class SubmissionCache {
             }
             if (submission.getTimesGilded() > 0) {
                 final String timesGilded = (submission.getTimesGilded() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(submission.getTimesGilded());
+                        : "\u200Ax" + submission.getTimesGilded();
                 SpannableStringBuilder gilded =
                         new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
                 Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
@@ -460,7 +460,7 @@ public class SubmissionCache {
             }
             if (submission.getTimesPlatinized() > 0) {
                 final String timesPlatinized = (submission.getTimesPlatinized() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(submission.getTimesPlatinized());
+                        : "\u200Ax" + submission.getTimesPlatinized();
                 SpannableStringBuilder platinized =
                         new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
                 Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);

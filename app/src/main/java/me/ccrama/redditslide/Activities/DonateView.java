@@ -105,7 +105,7 @@ public class DonateView extends BaseActivityAnim {
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos,
                     int oldValue, int newValue) {
                 ads.setText(" " + newValue * 330 + " ");
-                hours.setText(" " + String.valueOf((double) newValue / 10) + " ");
+                hours.setText(" " + (double) newValue / 10 + " ");
                 money.setText("$" + newValue);
             }
         });
@@ -113,7 +113,7 @@ public class DonateView extends BaseActivityAnim {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ads.setText(" " + 4 * 330 + " ");
-        hours.setText(" " + String.valueOf((double) 4 / 10) + " ");
+        hours.setText(" " + (double) 4 / 10 + " ");
         money.setText("$" + 4);
 
         findViewById(R.id.donate).setOnClickListener(new View.OnClickListener() {

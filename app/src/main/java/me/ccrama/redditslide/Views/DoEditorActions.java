@@ -82,7 +82,7 @@ public class DoEditorActions {
 
     public static void doActions(final EditText editText, final View baseView,
             final FragmentManager fm, final Activity a, final String oldComment,
-            @Nullable final String authors[]) {
+            @Nullable final String[] authors) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -756,7 +756,7 @@ public class DoEditorActions {
 
             try {
                 buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
+                byte[] byt = new byte[1024];
                 int i;
 
                 for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
@@ -970,7 +970,7 @@ public class DoEditorActions {
 
             try {
                 buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
+                byte[] byt = new byte[1024];
                 int i;
 
                 for (long l = 0L; (i = in.read(byt)) != -1; l += i) {

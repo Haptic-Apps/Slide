@@ -1502,7 +1502,7 @@ public class CommentAdapterHelper {
             // Add silver, gold, platinum icons and counts in that order
             if (comment.getTimesSilvered() > 0) {
                 final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesSilvered());
+                        : "\u200Ax" + comment.getTimesSilvered();
                 SpannableStringBuilder silvered =
                         new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
                 Bitmap image = adapter.awardIcons[0];
@@ -1518,7 +1518,7 @@ public class CommentAdapterHelper {
             }
             if (comment.getTimesGilded() > 0) {
                 final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesGilded());
+                        : "\u200Ax" + comment.getTimesGilded();
                 SpannableStringBuilder gilded =
                         new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
                 Bitmap image = adapter.awardIcons[1];
@@ -1534,7 +1534,7 @@ public class CommentAdapterHelper {
             }
             if (comment.getTimesPlatinized() > 0) {
                 final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesPlatinized());
+                        : "\u200Ax" + comment.getTimesPlatinized();
                 SpannableStringBuilder platinized =
                         new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
                 Bitmap image = adapter.awardIcons[2];
