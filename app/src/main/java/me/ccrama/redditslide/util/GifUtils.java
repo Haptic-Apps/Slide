@@ -7,10 +7,6 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaCodec;
-import android.media.MediaCodecInfo;
-import android.media.MediaFormat;
-import android.media.MediaMuxer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -57,10 +53,7 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
-import java.util.function.Function;
 
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Website;
@@ -76,15 +69,8 @@ import okhttp3.Response;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.NullOutputStream;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
-import java.nio.BufferOverflowException;
-import java.nio.ByteBuffer;
-import java.nio.channels.WritableByteChannel;
-import java.text.DecimalFormat;
 import java.util.Locale;
-import java.util.UUID;
 
 /**
  * GIF handling utilities
@@ -502,6 +488,22 @@ public class GifUtils {
             if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem")
                     .get("mp4Url")
                     .isJsonNull()) {
+                //If the result null, the gfycat link may be redirecting to gifdeliverynetwork which is powered by redgifs.
+                //Try getting the redirected url from gfycat and check if redirected url is gifdeliverynetwork and return the url
+                if (result == null) {
+                    try {
+                        URL newUrl = new URL(fullUrl);
+                        HttpURLConnection ucon = (HttpURLConnection) newUrl.openConnection();
+                        ucon.setInstanceFollowRedirects(false);
+                        String secondURL = new URL(ucon.getHeaderField("location")).toString();
+                        if (secondURL.contains("gifdeliverynetwork")){
+                            return Uri.parse(secondURL);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 onError();
                 if (closeIfNull) {
@@ -593,13 +595,7 @@ public class GifUtils {
                     }
                 });
             } else {
-                if (closeIfNull) {
-                    Intent web = new Intent(c, Website.class);
-                    web.putExtra(LinkUtil.EXTRA_URL, url);
-                    web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
-                    c.startActivity(web);
-                    c.finish();
-                }
+                openWebsite(url);
             }
         }
 
@@ -646,8 +642,13 @@ public class GifUtils {
                     String name = url.substring(url.lastIndexOf("/"));
                     String gfycatUrl = "https://api.gfycat.com/v1/gfycats" + name;
 
+                    //Check if resolved gfycat link is gifdeliverynetwork. If it is gifdeliverynetwork, open the link externally
                     try {
-                        return loadGfycat(name, url, gson);
+                        Uri uri = loadGfycat(name, url, gson);
+                        if(uri.toString().contains("gifdeliverynetwork")){
+                            openWebsite(url);
+                            return null;
+                        } else return uri;
                     } catch (Exception e) {
                         LogUtil.e(e, "Error loading gfycat video url = ["
                                 + url
@@ -675,13 +676,7 @@ public class GifUtils {
                                 }
                             });
                         } else {
-                            if (closeIfNull) {
-                                Intent web = new Intent(c, Website.class);
-                                web.putExtra(LinkUtil.EXTRA_URL, url);
-                                web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
-                                c.startActivity(web);
-                                c.finish();
-                            }
+                            openWebsite(url);
                         }
                     }
                     break;
@@ -790,13 +785,7 @@ public class GifUtils {
                     LogUtil.e("We shouldn't be here!");
                     // unless it's a .gif that reddit didn't generate a preview vid for, then we should be here
                     // e.g. https://www.reddit.com/r/testslideforreddit/comments/hpht5o/stinky/
-                    if (closeIfNull) {
-                        Intent web = new Intent(c, Website.class);
-                        web.putExtra(LinkUtil.EXTRA_URL, url);
-                        web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
-                        c.startActivity(web);
-                        c.finish();
-                    }
+                    openWebsite(url);
                     break;
             }
             return null;
@@ -1002,6 +991,16 @@ public class GifUtils {
                     });
                 } catch (IOException ignored) {
                 }
+            }
+        }
+
+        private void openWebsite(String url){
+            if (closeIfNull) {
+                Intent web = new Intent(c, Website.class);
+                web.putExtra(LinkUtil.EXTRA_URL, url);
+                web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
+                c.startActivity(web);
+                c.finish();
             }
         }
 
