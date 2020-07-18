@@ -140,7 +140,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignTop="@+id/subscribe"
                             android:padding="4dp"
-                            android:src="@drawable/collection"
+                            app:srcCompat="@drawable/collection"
                             android:theme="@style/Ripple.List"
                             android:tint="?attr/tintColor"/>
                 </RelativeLayout>

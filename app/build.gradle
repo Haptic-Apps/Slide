@@ -16,6 +16,7 @@ android {
         versionName androidGitVersion.name()
 
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary true
     }
 
     flavorDimensions "variant"
