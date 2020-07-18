@@ -1107,9 +1107,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         sidebar.findViewById(R.id.loader).setVisibility(View.VISIBLE);
                         loaded = true;
 
-                        final View dialoglayout = sidebar;
                         {
-                            View submit = (dialoglayout.findViewById(R.id.submit));
+                            View submit = (sidebar.findViewById(R.id.submit));
 
                             if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                                 submit.setVisibility(View.GONE);
@@ -1129,7 +1128,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             });
                         }
 
-                        dialoglayout.findViewById(R.id.wiki)
+                        sidebar.findViewById(R.id.wiki)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1138,7 +1137,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         startActivity(i);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.submit)
+                        sidebar.findViewById(R.id.submit)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1147,14 +1146,14 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         startActivity(i);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.syncflair)
+                        sidebar.findViewById(R.id.syncflair)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                        ImageFlairs.syncFlairs(getContext(), subreddit);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.theme)
+                        sidebar.findViewById(R.id.theme)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1176,7 +1175,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                 getActivity(), dialoglayout);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.mods)
+                        sidebar.findViewById(R.id.mods)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1254,7 +1253,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
+                        sidebar.findViewById(R.id.flair).setVisibility(View.GONE);
 
                     }
                     {

@@ -292,8 +292,7 @@ public class TumblrPager extends FullScreenActivity
         public Fragment getItem(int i) {
 
             if (i == 0) {
-                Fragment blankFragment = new BlankFragment();
-                return blankFragment;
+                return new BlankFragment();
             }
 
             i--;

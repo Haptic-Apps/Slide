@@ -71,8 +71,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else if (position == dataSet.posts.size() && dataSet.nomore) {
             return NO_MORE;
         }
-        int SUBREDDIT = 1;
-        return SUBREDDIT;
+        return 1;
     }
 
     int tag = 1;

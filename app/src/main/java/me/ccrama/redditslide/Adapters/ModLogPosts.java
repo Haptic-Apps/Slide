@@ -81,9 +81,8 @@ public class ModLogPosts {
                 }
 
                 if (paginator.hasNext()) {
-                    ArrayList<ModAction> done = new ArrayList<>(paginator.next());
 
-                    return done;
+                    return new ArrayList<>(paginator.next());
 
                 }
                 return null;

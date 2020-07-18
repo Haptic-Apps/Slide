@@ -17,11 +17,10 @@ public class CacheAll extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Context c = context;
-        if (NetworkUtil.isConnectedNoOverride(c)) {
+        if (NetworkUtil.isConnectedNoOverride(context)) {
             if (Reddit.cachedData.getBoolean("wifiOnly", false) && !NetworkUtil.isConnectedWifi(context))
                 return;
-            new CommentCacheAsync(c, Reddit.cachedData.getString("toCache", "").split(",")).executeOnExecutor(
+            new CommentCacheAsync(context, Reddit.cachedData.getString("toCache", "").split(",")).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR);
 
         }

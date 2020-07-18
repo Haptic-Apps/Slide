@@ -230,9 +230,8 @@ public class CommentAdapterHelper {
                         new AsyncTask<Void, Void, Ruleset>() {
                             @Override
                             protected Ruleset doInBackground(Void... voids) {
-                                Ruleset rules = Authentication.reddit.getRules(adapter.currentBaseNode.getComment()
+                                return Authentication.reddit.getRules(adapter.currentBaseNode.getComment()
                                         .getSubredditName());
-                                return rules;
                             }
 
                             @Override

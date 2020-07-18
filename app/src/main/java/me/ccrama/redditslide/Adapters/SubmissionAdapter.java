@@ -120,8 +120,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return NO_MORE;
             }
         }
-        int SUBMISSION = 1;
-        return SUBMISSION;
+        return 1;
     }
 
     int tag = 1;

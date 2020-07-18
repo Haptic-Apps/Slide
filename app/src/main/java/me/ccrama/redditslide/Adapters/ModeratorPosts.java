@@ -89,9 +89,8 @@ public class ModeratorPosts {
                 paginator.setIncludeSubmissions(true);
 
                 if (paginator.hasNext()) {
-                    ArrayList<PublicContribution> done = new ArrayList<>(paginator.next());
 
-                    return done;
+                    return new ArrayList<>(paginator.next());
 
                 }
                 return null;

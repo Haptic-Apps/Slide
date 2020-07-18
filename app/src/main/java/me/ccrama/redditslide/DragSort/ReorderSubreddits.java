@@ -883,14 +883,13 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView,
                                     boolean isChecked) {
-                                String sub = origPos;
                                 if (!isChecked) {
-                                    new UserSubscriptions.UnsubscribeTask().execute(sub);
+                                    new UserSubscriptions.UnsubscribeTask().execute(origPos);
                                     Snackbar.make(mToolbar,
                                             getString(R.string.reorder_unsubscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();
                                 } else {
-                                    new UserSubscriptions.SubscribeTask(ReorderSubreddits.this).execute(sub);
+                                    new UserSubscriptions.SubscribeTask(ReorderSubreddits.this).execute(origPos);
                                     Snackbar.make(mToolbar,
                                             getString(R.string.reorder_subscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();

@@ -104,9 +104,8 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
             }
 
             case MotionEvent.ACTION_DOWN: {
-                final int y = (int) ev.getY();
 
-                mLastMotionY = y;
+                mLastMotionY = (int) ev.getY();
                 mActivePointerId = ev.getPointerId(0);
 
                 initOrResetVelocityTracker();

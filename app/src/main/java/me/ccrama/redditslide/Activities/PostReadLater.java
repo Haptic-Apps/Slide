@@ -42,8 +42,7 @@ public class PostReadLater extends BaseActivityAnim {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment f = new ReadLaterView();
-            return f;
+            return new ReadLaterView();
         }
 
         @Override

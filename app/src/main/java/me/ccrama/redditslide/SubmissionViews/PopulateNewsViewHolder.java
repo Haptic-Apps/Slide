@@ -834,8 +834,7 @@ public class PopulateNewsViewHolder {
                         new AsyncTask<Void, Void, Ruleset>() {
                             @Override
                             protected Ruleset doInBackground(Void... voids) {
-                                Ruleset rules = Authentication.reddit.getRules(submission.getSubredditName());
-                                return rules;
+                                return Authentication.reddit.getRules(submission.getSubredditName());
                             }
 
                             @Override

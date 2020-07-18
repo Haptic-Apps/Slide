@@ -119,7 +119,7 @@ public class SortingUtil {
     }
 
     public static String[] getSortingStrings() {
-        String[] current = new String[]{
+        return new String[]{
                 Reddit.getAppContext().getString(R.string.sorting_hot),
                 Reddit.getAppContext().getString(R.string.sorting_new),
                 Reddit.getAppContext().getString(R.string.sorting_rising),
@@ -127,7 +127,6 @@ public class SortingUtil {
                 Reddit.getAppContext().getString(R.string.sorting_controversial),
                 Reddit.getAppContext().getString(R.string.sorting_best),
         };
-        return current;
     }
 
     public static String[] getSortingCommentsStrings() {
@@ -142,7 +141,7 @@ public class SortingUtil {
     }
 
     public static String[] getSortingTimesStrings() {
-        String[] current = new String[]{
+        return new String[]{
                 Reddit.getAppContext().getString(R.string.sorting_hour),
                 Reddit.getAppContext().getString(R.string.sorting_day),
                 Reddit.getAppContext().getString(R.string.sorting_week),
@@ -150,7 +149,6 @@ public class SortingUtil {
                 Reddit.getAppContext().getString(R.string.sorting_year),
                 Reddit.getAppContext().getString(R.string.sorting_all),
         };
-        return current;
     }
 
     public static TimePeriod getTime(String subreddit, TimePeriod defaultTime) {

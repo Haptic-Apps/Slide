@@ -112,8 +112,6 @@ public class ImageDownloadNotificationService extends Service {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = actuallyLoaded;
-            final String finalUrl1 = url;
             final String finalUrl = actuallyLoaded;
             try {
                 ((Reddit) getApplication()).getImageLoader()
@@ -150,7 +148,7 @@ public class ImageDownloadNotificationService extends Service {
                                                                     + File.separator
                                                                     + (index > -1 ? String.format(
                                                                     "%03d_", index) : "")
-                                                                    + getFileName(new URL(finalUrl1)));
+                                                                    + getFileName(new URL(finalUrl)));
                                                 } else {
                                                     f_out = new File(
                                                             Reddit.appRestart.getString("imagelocation",
@@ -159,7 +157,7 @@ public class ImageDownloadNotificationService extends Service {
                                                                     + File.separator
                                                                     + (index > -1 ? String.format(
                                                                     "%03d_", index) : "")
-                                                                    + getFileName(new URL(finalUrl1)));
+                                                                    + getFileName(new URL(finalUrl)));
                                                 }
                                             } catch (MalformedURLException e) {
                                                 if (saveToLocation != null) {
@@ -189,14 +187,14 @@ public class ImageDownloadNotificationService extends Service {
                                                 showNotifPhoto(f_out, loadedImage);
                                             } catch (IOException e) {
                                                 try {
-                                                    saveImageGallery(loadedImage, finalUrl1);
+                                                    saveImageGallery(loadedImage, finalUrl);
                                                 } catch (IOException ignored) {
                                                     onError(e);
                                                 }
                                             }
                                         } else {
                                             try {
-                                                saveImageGallery(loadedImage, finalUrl1);
+                                                saveImageGallery(loadedImage, finalUrl);
                                             } catch (IOException e) {
                                                 onError(e);
                                             }

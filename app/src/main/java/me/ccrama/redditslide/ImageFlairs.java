@@ -189,8 +189,7 @@ public class ImageFlairs {
                     + ":"
                     + nY + " and bit is " + bitmap.getWidth() + ":" + bitmap.getHeight());
 
-            Bitmap b = Bitmap.createBitmap(bitmap, nX, nY, nWidth, nHeight);
-            return b;
+            return Bitmap.createBitmap(bitmap, nX, nY, nWidth, nHeight);
         }
 
     }

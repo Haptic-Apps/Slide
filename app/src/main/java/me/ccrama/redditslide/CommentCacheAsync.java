@@ -298,8 +298,7 @@ public class CommentCacheAsync extends AsyncTask {
 
         for (final String fSub : subs) {
             final String sub;
-            final String name = fSub;
-            CommentSort sortType = SettingValues.getCommentSorting(name);
+            CommentSort sortType = SettingValues.getCommentSorting(fSub);
 
             if (multiNameToSubsMap.containsKey(fSub)) {
                 sub = multiNameToSubsMap.get(fSub);
@@ -314,8 +313,8 @@ public class CommentCacheAsync extends AsyncTask {
                     mBuilder = new NotificationCompat.Builder(context, Reddit.CHANNEL_COMMENT_CACHE);
                     mBuilder.setOngoing(true);
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
-                            sub.equalsIgnoreCase("frontpage") ? name
-                                    : (name.contains("/m/") ? name : "/r/" + name)))
+                            sub.equalsIgnoreCase("frontpage") ? fSub
+                                    : (fSub.contains("/m/") ? fSub : "/r/" + fSub)))
                             .setSmallIcon(R.drawable.save_png);
                 }
                 List<Submission> submissions = new ArrayList<>();
@@ -325,7 +324,7 @@ public class CommentCacheAsync extends AsyncTask {
                     submissions.addAll(alreadyReceived);
                 } else {
                     SubredditPaginator p;
-                    if (name.equalsIgnoreCase("frontpage")) {
+                    if (fSub.equalsIgnoreCase("frontpage")) {
                         p = new SubredditPaginator(Authentication.reddit);
                     } else {
                         p = new SubredditPaginator(Authentication.reddit, sub);

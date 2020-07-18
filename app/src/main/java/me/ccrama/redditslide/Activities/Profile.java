@@ -344,8 +344,7 @@ public class Profile extends BaseActivityAnim {
                 f.setArguments(args);
                 return f;
             } else {
-                Fragment f = new HistoryView();
-                return f;
+                return new HistoryView();
             }
 
 

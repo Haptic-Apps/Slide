@@ -81,8 +81,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else if (position == dataSet.posts.size() && dataSet.nomore) {
             return NO_MORE;
         }
-        int SUBMISSION = 1;
-        return SUBMISSION;
+        return 1;
     }
 
     int tag = 1;
