@@ -101,7 +101,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
             @Override
             public void onClick(View view) {
                 final ArrayList<String> subs = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(SettingsSubreddit.this));
-                final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
+                final CharSequence[] subsAsChar = subs.toArray(new CharSequence[0]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
                 builder.title(R.string.dialog_choose_subreddits_to_edit)

@@ -146,8 +146,7 @@ public class ManageOfflineContentFragment {
                     i++;
                 }
 
-                final ArrayList<String> toCheck = new ArrayList<>();
-                toCheck.addAll(s2);
+                final ArrayList<String> toCheck = new ArrayList<>(s2);
                 new AlertDialogWrapper.Builder(context)
                         .alwaysCallMultiChoiceCallback()
                         .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
@@ -235,11 +234,12 @@ public class ManageOfflineContentFragment {
         if (!Reddit.cachedData.getString("toCache", "").contains(",") || subsToBack.isEmpty()) {
             text.setText(R.string.settings_backup_none);
         } else {
-            String toSay = "";
+            StringBuilder toSayBuilder = new StringBuilder();
             for (String s : subsToBack) {
                 if (!s.isEmpty())
-                    toSay = toSay + s + ", ";
+                    toSayBuilder.append(s).append(", ");
             }
+            String toSay = toSayBuilder.toString();
             toSay = toSay.substring(0, toSay.length() - 2);
             toSay += context.getString(R.string.settings_backup_will_backup);
             text.setText(toSay);

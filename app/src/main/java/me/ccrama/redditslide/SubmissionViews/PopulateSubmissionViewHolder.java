@@ -65,7 +65,7 @@ import net.dean.jraw.models.VoteDirection;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -833,7 +833,7 @@ public class PopulateSubmissionViewHolder {
                                 }
                             });
                             if (NetworkUtil.isConnected(mContext)) {
-                                new CommentCacheAsync(Arrays.asList(submission), mContext,
+                                new CommentCacheAsync(Collections.singletonList(submission), mContext,
                                         CommentCacheAsync.SAVED_SUBMISSIONS,
                                         new boolean[]{true, true}).executeOnExecutor(
                                         AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1500,7 +1500,7 @@ public class PopulateSubmissionViewHolder {
                             public void onPostExecute(ArrayList<String> data) {
                                 new AlertDialogWrapper.Builder(mContext).setTitle(
                                         R.string.mod_reports)
-                                        .setItems(data.toArray(new CharSequence[data.size()]),
+                                        .setItems(data.toArray(new CharSequence[0]),
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,

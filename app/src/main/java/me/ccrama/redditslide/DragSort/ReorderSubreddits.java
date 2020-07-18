@@ -564,7 +564,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
         subs2.removeAll(toRemove);
 
-        final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
+        final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[0]);
 
         MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
         builder.title(R.string.reorder_subreddits_title)
@@ -690,7 +690,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 }
                                 new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
                                         R.string.reorder_not_found_err)
-                                        .setItems(subs.toArray(new String[subs.size()]),
+                                        .setItems(subs.toArray(new String[0]),
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
@@ -781,7 +781,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             adapter.notifyItemRemoved(index);
                                         }
                                         new UserSubscriptions.UnsubscribeTask().execute(
-                                                chosen.toArray(new String[chosen.size()]));
+                                                chosen.toArray(new String[0]));
                                         for (String s : chosen) {
                                             isSubscribed.put(s.toLowerCase(Locale.ENGLISH), false);
                                         }

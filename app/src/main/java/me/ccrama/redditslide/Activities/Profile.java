@@ -740,7 +740,7 @@ public class Profile extends BaseActivityAnim {
                                         map.put("account_id", "t2_" + account.getId());
                                         try {
                                             Authentication.reddit.execute(Authentication.reddit.request().post(map)
-                                                    .path(String.format("/api/block_user"))
+                                                    .path("/api/block_user")
                                                     .build());
                                         } catch (Exception ex) {
                                             return false;

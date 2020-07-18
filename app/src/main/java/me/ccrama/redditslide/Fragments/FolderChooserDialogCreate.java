@@ -69,7 +69,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                 if (fi.isDirectory()) results.add(fi);
             }
             Collections.sort(results, new FolderSorter());
-            return results.toArray(new File[results.size()]);
+            return results.toArray(new File[0]);
         }
         return null;
     }

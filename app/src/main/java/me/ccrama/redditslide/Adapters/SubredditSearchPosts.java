@@ -183,9 +183,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                     nomore = true;
                     return newSubmissions;
                 }
-                for (Submission s : paginator.next()) {
-                    newSubmissions.add(s);
-                }
+                newSubmissions.addAll(paginator.next());
 
                 return newSubmissions;
             } catch (Exception e) {

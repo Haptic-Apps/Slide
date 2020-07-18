@@ -941,7 +941,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
 
         //Convert List back to Array
-        all = list.toArray(new String[list.size()]);
+        all = list.toArray(new String[0]);
 
         final ArrayList<String> toCheck = new ArrayList<>(subThresholds.keySet());
         final String[] finalAll = all;

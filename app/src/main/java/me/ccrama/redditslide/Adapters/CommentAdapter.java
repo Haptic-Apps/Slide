@@ -698,7 +698,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     builder.setTitle(mContext.getString(R.string.replies_switch_accounts));
-                    builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
+                    builder.setSingleChoiceItems(keys.toArray(new String[0]), i,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -1320,7 +1320,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             AlertDialogWrapper.Builder builder =
                                     new AlertDialogWrapper.Builder(mContext);
                             builder.setTitle(R.string.sorting_choose);
-                            builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
+                            builder.setSingleChoiceItems(keys.toArray(new String[0]), i,
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -1440,7 +1440,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 AlertDialogWrapper.Builder builder =
                                         new AlertDialogWrapper.Builder(mContext);
                                 builder.setTitle(R.string.sorting_choose);
-                                builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]),
+                                builder.setSingleChoiceItems(keys.toArray(new String[0]),
                                         i, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {

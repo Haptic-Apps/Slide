@@ -1337,7 +1337,7 @@ public class SubredditView extends BaseActivity {
                                                         try {
                                                             final String multiName = multis.keySet()
                                                                     .toArray(
-                                                                            new String[multis.size()])[which];
+                                                                            new String[0])[which];
                                                             List<String> subs =
                                                                     new ArrayList<String>();
                                                             for (MultiSubreddit sub : multis.get(

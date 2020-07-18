@@ -79,10 +79,10 @@ public class OfflineSubreddit {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
-            String fullNames = "";
+            StringBuilder fullNames = new StringBuilder();
             cache.put(title, this);
             for (Submission sub : new ArrayList<>(submissions)) {
-                fullNames += sub.getFullName() + ",";
+                fullNames.append(sub.getFullName()).append(",");
                 if (!isStored(sub.getFullName(), c)) {
                     writeSubmissionToStorage(sub, sub.getDataNode(), c);
                 }
@@ -102,9 +102,9 @@ public class OfflineSubreddit {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
-            String fullNames = "";
+            StringBuilder fullNames = new StringBuilder();
             for (Submission sub : submissions) {
-                fullNames += sub.getFullName() + ",";
+                fullNames.append(sub.getFullName()).append(",");
             }
             if (fullNames.length() > 0) {
                 Reddit.cachedData.edit()
@@ -118,10 +118,11 @@ public class OfflineSubreddit {
     public void writeToMemory(ArrayList<String> names) {
         if (subreddit != null && !names.isEmpty()) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (time);
-            String fullNames = "";
+            StringBuilder fullNamesBuilder = new StringBuilder();
             for (String sub : names) {
-                fullNames += sub + ",";
+                fullNamesBuilder.append(sub).append(",");
             }
+            String fullNames = fullNamesBuilder.toString();
             if (subreddit.equals(CommentCacheAsync.SAVED_SUBMISSIONS)) {
                 Map<String, ?> offlineSubs = Reddit.cachedData.getAll();
                 for (String offlineSub : offlineSubs.keySet()) {

@@ -374,7 +374,7 @@ public class MainActivity extends BaseActivity
         changed = false;
         if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(
-                    SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+                    SynccitRead.newVisited.toArray(new String[0]));
         }
         if (Authentication.isLoggedIn
                 && Authentication.me != null
@@ -2432,7 +2432,7 @@ public class MainActivity extends BaseActivity
                                                         try {
                                                             final String multiName = multis.keySet()
                                                                     .toArray(
-                                                                            new String[multis.size()])[which];
+                                                                            new String[0])[which];
                                                             List<String> subs =
                                                                     new ArrayList<String>();
                                                             for (MultiSubreddit sub : multis.get(

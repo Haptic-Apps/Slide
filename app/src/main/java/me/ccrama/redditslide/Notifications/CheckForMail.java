@@ -458,7 +458,7 @@ public class CheckForMail extends BroadcastReceiver {
                     }
                 }
                 SubredditPaginator unread = new SubredditPaginator(Authentication.reddit, first,
-                        finalSubs.toArray(new String[finalSubs.size()]));
+                        finalSubs.toArray(new String[0]));
                 unread.setSorting(Sorting.NEW);
                 unread.setLimit(30);
                 if (unread.hasNext()) {

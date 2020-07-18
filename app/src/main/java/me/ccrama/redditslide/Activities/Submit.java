@@ -408,7 +408,7 @@ public class Submit extends BaseActivity {
         } else {
             //Multiple images
             try {
-                new UploadImgurAlbum(this, uris.toArray(new Uri[uris.size()]));
+                new UploadImgurAlbum(this, uris.toArray(new Uri[0]));
             } catch (Exception e) {
                 e.printStackTrace();
 

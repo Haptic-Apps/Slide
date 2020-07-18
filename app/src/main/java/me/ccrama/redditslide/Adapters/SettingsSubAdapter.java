@@ -188,20 +188,21 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         title.setBackgroundColor(currentColor);
 
         if (multipleSubs) {
-            String titleString = "";
 
+            StringBuilder titleStringBuilder = new StringBuilder();
             for (String sub : subreddits) {
                 //if the subreddit is the frontpage, don't put "/r/" in front of it
                 if (sub.equals("frontpage")) {
-                    titleString += sub + ", ";
+                    titleStringBuilder.append(sub).append(", ");
                 } else {
                     if (sub.contains("/m/")) {
-                        titleString += sub + ", ";
+                        titleStringBuilder.append(sub).append(", ");
                     } else {
-                        titleString += "/r/" + sub + ", ";
+                        titleStringBuilder.append("/r/").append(sub).append(", ");
                     }
                 }
             }
+            String titleString = titleStringBuilder.toString();
             titleString = titleString.substring(0, titleString.length() - 2);
             title.setMaxLines(3);
             title.setText(titleString);
@@ -329,17 +330,19 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             }).setNeutralButton(R.string.btn_reset, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    String subTitles = "";
+                    String subTitles;
 
                     if (multipleSubs) {
+                        StringBuilder subTitlesBuilder = new StringBuilder();
                         for (String sub : subreddits) {
                             //if the subreddit is the frontpage, don't put "/r/" in front of it
                             if (sub.equals("frontpage")) {
-                                subTitles += sub + ", ";
+                                subTitlesBuilder.append(sub).append(", ");
                             } else {
-                                subTitles += "/r/" + sub + ", ";
+                                subTitlesBuilder.append("/r/").append(sub).append(", ");
                             }
                         }
+                        subTitles = subTitlesBuilder.toString();
                         subTitles = subTitles.substring(0, subTitles.length() - 2);
                     } else {
                         //if the subreddit is the frontpage, don't put "/r/" in front of it

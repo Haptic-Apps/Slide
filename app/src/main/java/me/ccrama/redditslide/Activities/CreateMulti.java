@@ -122,10 +122,8 @@ public class CreateMulti extends BaseActivityAnim {
 
     public void showSelectDialog() {
         //List of all subreddits of the multi
-        List<String> sorted = new ArrayList<>();
-        List<String> multiSubs = new ArrayList<>();
-        multiSubs.addAll(subs);
-        sorted.addAll(subs);
+        List<String> multiSubs = new ArrayList<>(subs);
+        List<String> sorted = new ArrayList<>(subs);
 
         //Add all user subs that aren't already on the list
         for (String s : UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this))) {
@@ -161,10 +159,9 @@ public class CreateMulti extends BaseActivityAnim {
         }
 
         //Convert List back to Array
-        all = list.toArray(new String[list.size()]);
+        all = list.toArray(new String[0]);
 
-        final ArrayList<String> toCheck = new ArrayList<>();
-        toCheck.addAll(subs);
+        final ArrayList<String> toCheck = new ArrayList<>(subs);
         new AlertDialogWrapper.Builder(this)
                 .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override

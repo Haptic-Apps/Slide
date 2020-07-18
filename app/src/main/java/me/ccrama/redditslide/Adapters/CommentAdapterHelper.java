@@ -1090,7 +1090,7 @@ public class CommentAdapterHelper {
             @Override
             public void onPostExecute(ArrayList<String> data) {
                 new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_reports)
-                        .setItems(data.toArray(new CharSequence[data.size()]),
+                        .setItems(data.toArray(new CharSequence[0]),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

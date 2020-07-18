@@ -1180,7 +1180,7 @@ public class DoEditorActions {
         } else {
             //Multiple images
             try {
-                new UploadImgurAlbum(c).execute(uris.toArray(new Uri[uris.size()]));
+                new UploadImgurAlbum(c).execute(uris.toArray(new Uri[0]));
             } catch (Exception e) {
                 e.printStackTrace();
 

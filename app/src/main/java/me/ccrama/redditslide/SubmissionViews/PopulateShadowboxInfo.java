@@ -293,7 +293,7 @@ public class PopulateShadowboxInfo {
             SpannableStringBuilder commentTitle = new SpannableStringBuilder();
             SpannableStringBuilder level = new SpannableStringBuilder();
             if(!node.isTopLevel()){
-                level.append("["+node.getDepth() + "] ");
+                level.append("[").append(String.valueOf(node.getDepth())).append("] ");
                 level.setSpan(new RelativeSizeSpan(0.7f),0, level.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 commentTitle.append(level);

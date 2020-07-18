@@ -274,16 +274,15 @@ public class ImageFlairs {
                     "(?<! )\\." + className + "(?!-|\\[|[A-Za-z0-9_.])([^\\{]*)*\\{(.+?)\\}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
-            String properties = null;
+            StringBuilder properties = null;
 
             while (matches.find()) {
-                if (properties == null) properties = "";
-                properties = matches.group(2)
-                        + ";"
-                        + properties;   // append properties to simulate property overriding
+                if (properties == null) properties = new StringBuilder();
+                properties.insert(0, matches.group(2)
+                        + ";");   // append properties to simulate property overriding
             }
 
-            return properties;
+            return properties == null ? null : properties.toString();
         }
 
         /**

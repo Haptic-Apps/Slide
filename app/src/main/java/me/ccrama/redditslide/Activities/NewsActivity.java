@@ -98,7 +98,7 @@ public class NewsActivity extends BaseActivity
         changed = false;
         if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(
-                    SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+                    SynccitRead.newVisited.toArray(new String[0]));
         }
         if (Authentication.isLoggedIn
                 && Authentication.me != null

@@ -388,7 +388,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
                             MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
                             builder.title(getString(R.string.replies_switch_accounts));
-                            builder.items(keys.toArray(new String[keys.size()]));
+                            builder.items(keys.toArray(new String[0]));
                             builder.itemsCallbackSingleChoice(i, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
                                 public boolean onSelection(MaterialDialog dialog, View itemView,
@@ -1313,8 +1313,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                                         multiName =
                                                                                         multis.keySet()
                                                                                                 .toArray(
-                                                                                                        new String[multis
-                                                                                                                .size()])[which];
+                                                                                                        new String[0])[which];
                                                                                 List<String> subs =
                                                                                         new ArrayList<String>();
                                                                                 for (MultiSubreddit sub : multis

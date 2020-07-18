@@ -175,7 +175,7 @@ public class SortingUtil {
             }
             spannables.add(spanString);
         }
-        return spannables.toArray(new Spannable[spannables.size()]);
+        return spannables.toArray(new Spannable[0]);
     }
 
     private static Spannable[] getSortingTimesSpannables(int sortingId, String sub) {
@@ -191,7 +191,7 @@ public class SortingUtil {
             }
             spannables.add(spanString);
         }
-        return spannables.toArray(new Spannable[spannables.size()]);
+        return spannables.toArray(new Spannable[0]);
     }
 
     public static void setSorting(String s, Sorting sort) {

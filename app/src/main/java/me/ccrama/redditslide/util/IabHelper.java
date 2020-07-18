@@ -833,8 +833,7 @@ public class IabHelper {
     private int querySkuDetails(String itemType, Inventory inv, List<String> moreSkus)
             throws RemoteException, JSONException {
         logDebug("Querying SKU details.");
-        ArrayList<String> skuList = new ArrayList<>();
-        skuList.addAll(inv.getAllOwnedSkus(itemType));
+        ArrayList<String> skuList = new ArrayList<>(inv.getAllOwnedSkus(itemType));
         if (moreSkus != null) {
             for (String sku : moreSkus) {
                 if (!skuList.contains(sku)) {
