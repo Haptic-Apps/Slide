@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.test;
 
 import android.content.SharedPreferences;
+
 import androidx.annotation.Nullable;
 
 import org.apache.commons.io.IOUtils;

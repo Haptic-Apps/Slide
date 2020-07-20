@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import me.ccrama.redditslide.Toolbox.Toolbox;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
@@ -32,6 +31,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.NewsActivity;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
+import me.ccrama.redditslide.Toolbox.Toolbox;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -561,17 +561,11 @@ public class UserSubscriptions {
         CaseInsensitiveArrayList defaults = getDefaults(c);
         finalReturn.addAll(getSubscriptions(c));
         for (String s : finalReturn) {
-            if (history.contains(s)) {
-                history.remove(s);
-            }
-            if (defaults.contains(s)) {
-                defaults.remove(s);
-            }
+            history.remove(s);
+            defaults.remove(s);
         }
         for (String s : history) {
-            if (defaults.contains(s)) {
-                defaults.remove(s);
-            }
+            defaults.remove(s);
         }
         for (String s : history) {
             if (!finalReturn.contains(s)) {
@@ -647,23 +641,23 @@ public class UserSubscriptions {
 
     //Sets a list of subreddits as "searched for", will apply to all accounts
     public static void addSubsToHistory(ArrayList<Subreddit> s2) {
-        String history = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH);
+        StringBuilder history = new StringBuilder(subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH));
         for (Subreddit s : s2) {
-            if (!history.contains(s.getDisplayName().toLowerCase(Locale.ENGLISH))) {
-                history += "," + s.getDisplayName().toLowerCase(Locale.ENGLISH);
+            if (!history.toString().contains(s.getDisplayName().toLowerCase(Locale.ENGLISH))) {
+                history.append(",").append(s.getDisplayName().toLowerCase(Locale.ENGLISH));
             }
         }
-        subscriptions.edit().putString("subhistory", history).apply();
+        subscriptions.edit().putString("subhistory", history.toString()).apply();
     }
 
     public static void addSubsToHistory(CaseInsensitiveArrayList s2, boolean b) {
-        String history = subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH);
+        StringBuilder history = new StringBuilder(subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH));
         for (String s : s2) {
-            if (!history.contains(s.toLowerCase(Locale.ENGLISH))) {
-                history += "," + s.toLowerCase(Locale.ENGLISH);
+            if (!history.toString().contains(s.toLowerCase(Locale.ENGLISH))) {
+                history.append(",").append(s.toLowerCase(Locale.ENGLISH));
             }
         }
-        subscriptions.edit().putString("subhistory", history).apply();
+        subscriptions.edit().putString("subhistory", history.toString()).apply();
     }
 
     public static ArrayList<Subreddit> syncSubredditsGetObject() {
@@ -676,9 +670,7 @@ public class UserSubscriptions {
 
             try {
                 while (pag.hasNext()) {
-                    for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                        toReturn.add(s);
-                    }
+                    toReturn.addAll(pag.next());
                 }
 
 
@@ -706,9 +698,7 @@ public class UserSubscriptions {
 
                     try {
                         while (pag.hasNext()) {
-                            for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                                toReturn.add(s);
-                            }
+                            toReturn.addAll(pag.next());
                         }
 
 

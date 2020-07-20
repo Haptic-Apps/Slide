@@ -10,18 +10,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.*;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,14 +33,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-
-import me.ccrama.redditslide.Toolbox.ToolboxUI;
-import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
-import me.ccrama.redditslide.Visuals.FontPreferences;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
@@ -66,8 +70,11 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -116,7 +123,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return POST;
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
@@ -309,7 +316,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View v) {
                             final int pos = dataSet.posts.indexOf(submission);
-                            final Contribution old = dataSet.posts.get(pos);
+                            final PublicContribution old = dataSet.posts.get(pos);
                             dataSet.posts.remove(submission);
                             notifyItemRemoved(pos + 1);
                             d.dismiss();
@@ -319,7 +326,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar s = Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    dataSet.posts.add(pos, (PublicContribution) old);
+                                    dataSet.posts.add(pos, old);
                                     notifyItemInserted(pos + 1);
                                     Hidden.undoHidden(old);
 
@@ -483,7 +490,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 // Add silver, gold, platinum icons and counts in that order
                 if (comment.getTimesSilvered() > 0) {
                     final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
-                            : "\u200Ax" + Integer.toString(comment.getTimesSilvered());
+                            : "\u200Ax" + comment.getTimesSilvered();
                     SpannableStringBuilder silvered =
                             new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
                     Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
@@ -498,7 +505,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
                 if (comment.getTimesGilded() > 0) {
                     final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                            : "\u200Ax" + Integer.toString(comment.getTimesGilded());
+                            : "\u200Ax" + comment.getTimesGilded();
                     SpannableStringBuilder gilded =
                             new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
                     Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
@@ -513,7 +520,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
                 if (comment.getTimesPlatinized() > 0) {
                     final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
-                            : "\u200Ax" + Integer.toString(comment.getTimesPlatinized());
+                            : "\u200Ax" + comment.getTimesPlatinized();
                     SpannableStringBuilder platinized =
                             new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
                     Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);

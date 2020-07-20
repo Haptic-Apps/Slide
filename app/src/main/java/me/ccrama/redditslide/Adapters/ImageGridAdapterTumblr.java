@@ -13,7 +13,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.List;
 
-import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Tumblr.Photo;
 

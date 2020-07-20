@@ -254,15 +254,6 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             switch (SubredditWidgetProvider.getViewType(id, mContext)) {
                 case 1:
                 case 0:
-                    if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2) {
-                    } else {
-                        rv.setTextColor(R.id.title, Color.WHITE);
-                        rv.setTextColor(R.id.score, Color.WHITE);
-                        rv.setTextColor(R.id.comments, Color.WHITE);
-                        rv.setTextColor(R.id.information, Color.WHITE);
-                    }
-
-                    break;
                 case 2:
                     if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2) {
                     } else {
@@ -271,6 +262,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         rv.setTextColor(R.id.comments, Color.WHITE);
                         rv.setTextColor(R.id.information, Color.WHITE);
                     }
+
                     break;
             }
 

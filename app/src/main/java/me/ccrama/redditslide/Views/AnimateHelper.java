@@ -2,9 +2,10 @@ package me.ccrama.redditslide.Views;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import io.codetail.animation.ViewAnimationUtils;
 import me.ccrama.redditslide.R;

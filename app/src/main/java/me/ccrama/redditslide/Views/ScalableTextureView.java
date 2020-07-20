@@ -1,20 +1,24 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.*;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.TextureView;
+
+import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class ScalableTextureView extends TextureView {
 

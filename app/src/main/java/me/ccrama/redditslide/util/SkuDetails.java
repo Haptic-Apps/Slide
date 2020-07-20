@@ -34,7 +34,6 @@ public class SkuDetails {
     }
 
     public SkuDetails(String itemType, String jsonSkuDetails) throws JSONException {
-        String mItemType = itemType;
         mJson = jsonSkuDetails;
         JSONObject o = new JSONObject(mJson);
         mSku = o.optString("productId");

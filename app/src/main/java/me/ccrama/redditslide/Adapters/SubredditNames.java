@@ -2,8 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import me.ccrama.redditslide.*;
-import me.ccrama.redditslide.Fragments.SubredditListView;
+
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.SubredditSearchPaginator;
@@ -13,6 +12,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+
+import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
+import me.ccrama.redditslide.Fragments.SubredditListView;
+import me.ccrama.redditslide.PostMatch;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * This class is reponsible for loading a list of subreddits from an endpoint

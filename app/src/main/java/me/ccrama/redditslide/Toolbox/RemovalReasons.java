@@ -68,7 +68,7 @@ public class RemovalReasons {
     /**
      * Class defining an individual removal reason
      */
-    public class RemovalReason {
+    public static class RemovalReason {
         private String title;
         private String text;
         private String flairText;

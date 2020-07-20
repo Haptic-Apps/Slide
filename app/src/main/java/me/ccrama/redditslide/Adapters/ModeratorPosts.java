@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.models.PublicContribution;
@@ -88,9 +89,8 @@ public class ModeratorPosts {
                 paginator.setIncludeSubmissions(true);
 
                 if (paginator.hasNext()) {
-                    ArrayList<PublicContribution> done = new ArrayList<>(paginator.next());
 
-                    return done;
+                    return new ArrayList<>(paginator.next());
 
                 }
                 return null;

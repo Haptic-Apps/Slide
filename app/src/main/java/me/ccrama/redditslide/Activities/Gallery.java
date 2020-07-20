@@ -3,12 +3,13 @@ package me.ccrama.redditslide.Activities;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import net.dean.jraw.models.Submission;
 
@@ -273,7 +274,8 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                     f.setArguments(args);
                 }
                 break;
-                case SELF: {
+                case SELF:
+                case NONE: {
                     if (baseSubs.get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
                         Bundle args = new Bundle();
@@ -298,24 +300,6 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                     args.putString("sub", subreddit);
 
                     f.setArguments(args);
-                }
-                break;
-                case NONE: {
-                    if (baseSubs.get(i).getSelftext().isEmpty()) {
-                        f = new TitleFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
-                    } else {
-                        f = new SelftextFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
-                    }
                 }
                 break;
             }

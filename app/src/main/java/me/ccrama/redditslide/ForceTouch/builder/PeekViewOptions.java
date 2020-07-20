@@ -1,8 +1,8 @@
 package me.ccrama.redditslide.ForceTouch.builder;
 
 import android.graphics.Color;
+
 import androidx.annotation.FloatRange;
-import android.view.View;
 
 public class PeekViewOptions {
 

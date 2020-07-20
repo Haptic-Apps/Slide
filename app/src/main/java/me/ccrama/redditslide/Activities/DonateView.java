@@ -4,13 +4,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
@@ -104,7 +105,7 @@ public class DonateView extends BaseActivityAnim {
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos,
                     int oldValue, int newValue) {
                 ads.setText(" " + newValue * 330 + " ");
-                hours.setText(" " + String.valueOf((double) newValue / 10) + " ");
+                hours.setText(" " + (double) newValue / 10 + " ");
                 money.setText("$" + newValue);
             }
         });
@@ -112,7 +113,7 @@ public class DonateView extends BaseActivityAnim {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ads.setText(" " + 4 * 330 + " ");
-        hours.setText(" " + String.valueOf((double) 4 / 10) + " ");
+        hours.setText(" " + (double) 4 / 10 + " ");
         money.setText("$" + 4);
 
         findViewById(R.id.donate).setOnClickListener(new View.OnClickListener() {

@@ -6,16 +6,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.core.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+
+import androidx.core.app.NotificationCompat;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
+
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
@@ -25,7 +25,17 @@ import net.dean.jraw.models.meta.SubmissionSerializer;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.util.JrawUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by carlo_000 on 4/18/2016.
@@ -288,8 +298,7 @@ public class CommentCacheAsync extends AsyncTask {
 
         for (final String fSub : subs) {
             final String sub;
-            final String name = fSub;
-            CommentSort sortType = SettingValues.getCommentSorting(name);
+            CommentSort sortType = SettingValues.getCommentSorting(fSub);
 
             if (multiNameToSubsMap.containsKey(fSub)) {
                 sub = multiNameToSubsMap.get(fSub);
@@ -304,8 +313,8 @@ public class CommentCacheAsync extends AsyncTask {
                     mBuilder = new NotificationCompat.Builder(context, Reddit.CHANNEL_COMMENT_CACHE);
                     mBuilder.setOngoing(true);
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
-                            sub.equalsIgnoreCase("frontpage") ? name
-                                    : (name.contains("/m/") ? name : "/r/" + name)))
+                            sub.equalsIgnoreCase("frontpage") ? fSub
+                                    : (fSub.contains("/m/") ? fSub : "/r/" + fSub)))
                             .setSmallIcon(R.drawable.save_png);
                 }
                 List<Submission> submissions = new ArrayList<>();
@@ -315,7 +324,7 @@ public class CommentCacheAsync extends AsyncTask {
                     submissions.addAll(alreadyReceived);
                 } else {
                     SubredditPaginator p;
-                    if (name.equalsIgnoreCase("frontpage")) {
+                    if (fSub.equalsIgnoreCase("frontpage")) {
                         p = new SubredditPaginator(Authentication.reddit);
                     } else {
                         p = new SubredditPaginator(Authentication.reddit, sub);
@@ -328,9 +337,9 @@ public class CommentCacheAsync extends AsyncTask {
                     }
                 }
 
-                int commentDepth = Integer.valueOf(
+                int commentDepth = Integer.parseInt(
                         SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "5"));
-                int commentCount = Integer.valueOf(
+                int commentCount = Integer.parseInt(
                         SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "50"));
 
                 Log.v("CommentCacheAsync", "comment count " + commentCount);

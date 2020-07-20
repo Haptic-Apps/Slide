@@ -17,10 +17,6 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spannable;
@@ -42,10 +38,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.NetworkException;
@@ -229,9 +230,8 @@ public class CommentAdapterHelper {
                         new AsyncTask<Void, Void, Ruleset>() {
                             @Override
                             protected Ruleset doInBackground(Void... voids) {
-                                Ruleset rules = Authentication.reddit.getRules(adapter.currentBaseNode.getComment()
+                                return Authentication.reddit.getRules(adapter.currentBaseNode.getComment()
                                         .getSubredditName());
-                                return rules;
                             }
 
                             @Override
@@ -884,7 +884,7 @@ public class CommentAdapterHelper {
                                                     new ModerationManager(Authentication.reddit).banUser(
                                                             submission.getSubredditName(),
                                                             submission.getAuthor(), reason.getText().toString(),
-                                                            n, m, Integer.valueOf(time.getText().toString()));
+                                                            n, m, Integer.parseInt(time.getText().toString()));
                                                 }
                                                 return true;
                                             } catch (Exception e) {
@@ -1090,7 +1090,7 @@ public class CommentAdapterHelper {
             @Override
             public void onPostExecute(ArrayList<String> data) {
                 new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_reports)
-                        .setItems(data.toArray(new CharSequence[data.size()]),
+                        .setItems(data.toArray(new CharSequence[0]),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -1459,7 +1459,7 @@ public class CommentAdapterHelper {
 
         titleString.append(spacer);
 
-        Long time = comment.getCreated().getTime();
+        long time = comment.getCreated().getTime();
         String timeAgo = TimeUtils.getTimeAgo(time, mContext);
 
         SpannableStringBuilder timeSpan = new SpannableStringBuilder().append(
@@ -1501,7 +1501,7 @@ public class CommentAdapterHelper {
             // Add silver, gold, platinum icons and counts in that order
             if (comment.getTimesSilvered() > 0) {
                 final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesSilvered());
+                        : "\u200Ax" + comment.getTimesSilvered();
                 SpannableStringBuilder silvered =
                         new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
                 Bitmap image = adapter.awardIcons[0];
@@ -1517,7 +1517,7 @@ public class CommentAdapterHelper {
             }
             if (comment.getTimesGilded() > 0) {
                 final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesGilded());
+                        : "\u200Ax" + comment.getTimesGilded();
                 SpannableStringBuilder gilded =
                         new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
                 Bitmap image = adapter.awardIcons[1];
@@ -1533,7 +1533,7 @@ public class CommentAdapterHelper {
             }
             if (comment.getTimesPlatinized() > 0) {
                 final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesPlatinized());
+                        : "\u200Ax" + comment.getTimesPlatinized();
                 SpannableStringBuilder platinized =
                         new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
                 Bitmap image = adapter.awardIcons[2];
@@ -1849,7 +1849,7 @@ public class CommentAdapterHelper {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                float value = (Float) animation.getAnimatedValue();
                 v.setAlpha(value);
                 v.setScaleX(value);
                 v.setScaleY(value);
@@ -1868,7 +1868,7 @@ public class CommentAdapterHelper {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                float value = (Float) animation.getAnimatedValue();
                 v.setAlpha(value);
                 v.setScaleX(value);
                 v.setScaleY(value);

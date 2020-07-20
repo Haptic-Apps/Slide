@@ -3,14 +3,22 @@ package me.ccrama.redditslide.Fragments;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import net.dean.jraw.managers.WikiManager;
+
+import org.apache.commons.text.StringEscapeUtils;
+
+import java.lang.ref.WeakReference;
+
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.Constants;
@@ -18,10 +26,6 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
 import me.ccrama.redditslide.Visuals.Palette;
-import net.dean.jraw.managers.WikiManager;
-import org.apache.commons.text.StringEscapeUtils;
-
-import java.lang.ref.WeakReference;
 
 
 public class WikiPage extends Fragment {

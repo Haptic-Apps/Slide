@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -32,7 +33,7 @@ public class PostReadLater extends BaseActivityAnim {
         pager.setAdapter(new ReadLaterAdaptor(getSupportFragmentManager()));
     }
 
-    public class ReadLaterAdaptor extends FragmentStatePagerAdapter {
+    public static class ReadLaterAdaptor extends FragmentStatePagerAdapter {
 
         public ReadLaterAdaptor(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -41,8 +42,7 @@ public class PostReadLater extends BaseActivityAnim {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment f = new ReadLaterView();
-            return f;
+            return new ReadLaterView();
         }
 
         @Override

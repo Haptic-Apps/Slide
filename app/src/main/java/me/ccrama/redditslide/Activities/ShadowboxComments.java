@@ -1,38 +1,21 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
-import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import me.ccrama.redditslide.Adapters.CommentUrlObject;
-import me.ccrama.redditslide.Adapters.MultiredditPosts;
-import me.ccrama.redditslide.Adapters.SubmissionDisplay;
-import me.ccrama.redditslide.Adapters.SubredditPosts;
-import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.AlbumFullComments;
-import me.ccrama.redditslide.Fragments.MediaFragment;
 import me.ccrama.redditslide.Fragments.MediaFragmentComment;
-import me.ccrama.redditslide.Fragments.SelftextFull;
-import me.ccrama.redditslide.Fragments.TitleFull;
-import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.LastComments;
-import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -58,7 +41,7 @@ public class ShadowboxComments extends FullScreenActivity {
 
     OverviewPagerAdapter commentPager;
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

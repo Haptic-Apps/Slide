@@ -116,7 +116,7 @@ public class AlbumUtils {
                 final Image toDo = new Image();
                 toDo.setAnimated(data.getAnimated() || data.getLink().contains(".gif"));
                 toDo.setDescription(data.getDescription());
-                if(data.getAdditionalProperties().keySet().contains("mp4")){
+                if(data.getAdditionalProperties().containsKey("mp4")){
                     toDo.setHash(getHash(data.getAdditionalProperties().get("mp4").toString()));
                 } else {
                     toDo.setHash(getHash(data.getLink()));

@@ -49,7 +49,7 @@
         <ImageView
             android:layout_width="48dp"
             android:id="@+id/go"
-            android:src="@drawable/world"
+            app:srcCompat="@drawable/world"
             android:padding="10dp"
             android:theme="@style/Ripple.List"
             android:layout_alignParentRight="true"

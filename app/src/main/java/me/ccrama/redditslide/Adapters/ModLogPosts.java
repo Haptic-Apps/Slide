@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.models.ModAction;
@@ -80,9 +81,8 @@ public class ModLogPosts {
                 }
 
                 if (paginator.hasNext()) {
-                    ArrayList<ModAction> done = new ArrayList<>(paginator.next());
 
-                    return done;
+                    return new ArrayList<>(paginator.next());
 
                 }
                 return null;

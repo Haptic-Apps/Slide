@@ -3,10 +3,11 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import me.ccrama.redditslide.SettingValues;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/28/2015.

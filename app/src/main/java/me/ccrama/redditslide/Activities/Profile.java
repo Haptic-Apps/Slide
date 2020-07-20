@@ -8,13 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.widget.PopupMenu;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -35,9 +28,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import net.dean.jraw.fluent.FluentRedditClient;
 import net.dean.jraw.managers.AccountManager;
@@ -311,9 +312,6 @@ public class Profile extends BaseActivityAnim {
                 args.putString("id", name);
                 String place;
                 switch (i) {
-                    case 0:
-                        place = "overview";
-                        break;
                     case 1:
                         place = "comments";
                         break;
@@ -335,6 +333,7 @@ public class Profile extends BaseActivityAnim {
                     case 7:
                         place = "hidden";
                         break;
+                    case 0:
                     default:
                         place = "overview";
                 }
@@ -343,8 +342,7 @@ public class Profile extends BaseActivityAnim {
                 f.setArguments(args);
                 return f;
             } else {
-                Fragment f = new HistoryView();
-                return f;
+                return new HistoryView();
             }
 
 
@@ -742,7 +740,7 @@ public class Profile extends BaseActivityAnim {
                                         map.put("account_id", "t2_" + account.getId());
                                         try {
                                             Authentication.reddit.execute(Authentication.reddit.request().post(map)
-                                                    .path(String.format("/api/block_user"))
+                                                    .path("/api/block_user")
                                                     .build());
                                         } catch (Exception ex) {
                                             return false;

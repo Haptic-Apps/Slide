@@ -14,16 +14,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -39,10 +29,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.ApiException;
@@ -387,7 +388,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
                             MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
                             builder.title(getString(R.string.replies_switch_accounts));
-                            builder.items(keys.toArray(new String[keys.size()]));
+                            builder.items(keys.toArray(new String[0]));
                             builder.itemsCallbackSingleChoice(i, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
                                 public boolean onSelection(MaterialDialog dialog, View itemView,
@@ -435,11 +436,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         if (adapter != null) {
                             if (collapsed) {
                                 adapter.expandAll();
-                                collapsed = !collapsed;
                             } else {
                                 adapter.collapseAll();
-                                collapsed = !collapsed;
                             }
+                            collapsed = !collapsed;
                         }
                     }
                 });
@@ -979,24 +979,21 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 break;
                             case ALBUM:
                                 if (SettingValues.album) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i =
-                                                new Intent(getActivity(), AlbumPager.class);
+                                        i = new Intent(getActivity(), AlbumPager.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(AlbumPager.SUBREDDIT, subreddit);
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     } else {
-                                        Intent i = new Intent(getActivity(), Album.class);
+                                        i = new Intent(getActivity(), Album.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(Album.SUBREDDIT, subreddit);
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     }
+                                    getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(
+                                            R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     LinkUtil.openExternally(adapter.submission.getUrl());
 
@@ -1004,24 +1001,22 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 break;
                             case TUMBLR:
                                 if (SettingValues.image) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i = new Intent(getActivity(),
+                                        i = new Intent(getActivity(),
                                                 TumblrPager.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(TumblrPager.SUBREDDIT, subreddit);
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     } else {
-                                        Intent i = new Intent(getActivity(), Tumblr.class);
+                                        i = new Intent(getActivity(), Tumblr.class);
                                         i.putExtra(Tumblr.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
-                                        getActivity().startActivity(i);
-                                        getActivity().overridePendingTransition(
-                                                R.anim.slideright, R.anim.fade_out);
                                     }
+                                    getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(
+                                            R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     LinkUtil.openExternally(adapter.submission.getUrl());
 
@@ -1112,9 +1107,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         sidebar.findViewById(R.id.loader).setVisibility(View.VISIBLE);
                         loaded = true;
 
-                        final View dialoglayout = sidebar;
                         {
-                            View submit = (dialoglayout.findViewById(R.id.submit));
+                            View submit = (sidebar.findViewById(R.id.submit));
 
                             if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                                 submit.setVisibility(View.GONE);
@@ -1134,7 +1128,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             });
                         }
 
-                        dialoglayout.findViewById(R.id.wiki)
+                        sidebar.findViewById(R.id.wiki)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1143,7 +1137,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         startActivity(i);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.submit)
+                        sidebar.findViewById(R.id.submit)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1152,14 +1146,14 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         startActivity(i);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.syncflair)
+                        sidebar.findViewById(R.id.syncflair)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                        ImageFlairs.syncFlairs(getContext(), subreddit);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.theme)
+                        sidebar.findViewById(R.id.theme)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1181,7 +1175,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                 getActivity(), dialoglayout);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.mods)
+                        sidebar.findViewById(R.id.mods)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1259,7 +1253,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                     }
                                 });
-                        dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
+                        sidebar.findViewById(R.id.flair).setVisibility(View.GONE);
 
                     }
                     {
@@ -1319,8 +1313,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                                         multiName =
                                                                                         multis.keySet()
                                                                                                 .toArray(
-                                                                                                        new String[multis
-                                                                                                                .size()])[which];
+                                                                                                        new String[0])[which];
                                                                                 List<String> subs =
                                                                                         new ArrayList<String>();
                                                                                 for (MultiSubreddit sub : multis
@@ -1534,11 +1527,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 public void onClick(View v) {
                                     if (!currentlySubbed) {
                                         doSubscribe();
-                                        doSubscribeButtonText(currentlySubbed, subscribe);
                                     } else {
                                         doUnsubscribe();
-                                        doSubscribeButtonText(currentlySubbed, subscribe);
                                     }
+                                    doSubscribeButtonText(currentlySubbed, subscribe);
                                 }
 
                                 private void doUnsubscribe() {
@@ -1844,12 +1836,11 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             } else {
                 if (context.equals(Reddit.EMPTY_STRING)) {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                    if (load) comments.setSorting(commentSorting);
                 } else {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context,
                             contextNumber);
-                    if (load) comments.setSorting(commentSorting);
                 }
+                if (load) comments.setSorting(commentSorting);
             }
         }
     }
@@ -1932,11 +1923,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             case CHILDREN:
                 return 1;
             case TIME:
+            case OP:
                 return 3;
             case GILDED:
                 return 6;
-            case OP:
-                return 3;
             case YOU:
                 return 5;
             case LINK:

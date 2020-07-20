@@ -1,11 +1,6 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
-import androidx.core.view.MotionEventCompat;
-import androidx.core.view.NestedScrollingChild;
-import androidx.core.view.NestedScrollingChildHelper;
-import androidx.core.view.NestedScrollingParent;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,6 +9,11 @@ import android.view.ViewConfiguration;
 import android.view.ViewParent;
 import android.webkit.WebView;
 import android.widget.OverScroller;
+
+import androidx.core.view.NestedScrollingChild;
+import androidx.core.view.NestedScrollingChildHelper;
+import androidx.core.view.NestedScrollingParent;
+import androidx.core.view.ViewCompat;
 
 /**
  * Copyright (c) Tuenti Technologies. All rights reserved.
@@ -104,9 +104,8 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
             }
 
             case MotionEvent.ACTION_DOWN: {
-                final int y = (int) ev.getY();
 
-                mLastMotionY = y;
+                mLastMotionY = (int) ev.getY();
                 mActivePointerId = ev.getPointerId(0);
 
                 initOrResetVelocityTracker();

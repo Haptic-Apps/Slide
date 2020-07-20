@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
@@ -28,6 +26,7 @@ import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import java.io.BufferedReader;
@@ -48,8 +47,8 @@ import java.util.Calendar;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.FileUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -243,6 +242,7 @@ public class SettingsBackup extends BaseActivityAnim
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 24) {
             if (resultCode == RESULT_OK) {
                 mGoogleApiClient.connect();
@@ -335,9 +335,9 @@ public class SettingsBackup extends BaseActivityAnim
                     } else {
                         progress.hide();
                         new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                                getString(me.ccrama.redditslide.R.string.err_not_valid_backup))
+                                getString(R.string.err_not_valid_backup))
                                 .setMessage(getString(
-                                        me.ccrama.redditslide.R.string.err_not_valid_backup_msg))
+                                        R.string.err_not_valid_backup_msg))
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .setCancelable(false)
                                 .show();
@@ -346,9 +346,9 @@ public class SettingsBackup extends BaseActivityAnim
                     progress.hide();
                     e.printStackTrace();
                     new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                            getString(me.ccrama.redditslide.R.string.err_file_not_found))
+                            getString(R.string.err_file_not_found))
                             .setMessage(getString(
-                                    me.ccrama.redditslide.R.string.err_file_not_found_msg))
+                                    R.string.err_file_not_found_msg))
                             .setPositiveButton(R.string.btn_ok, null)
                             .setCancelable(false)
                             .show();
@@ -356,9 +356,9 @@ public class SettingsBackup extends BaseActivityAnim
             } else {
                 progress.dismiss();
                 new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                        getString(me.ccrama.redditslide.R.string.err_file_not_found))
+                        getString(R.string.err_file_not_found))
                         .setMessage(
-                                getString(me.ccrama.redditslide.R.string.err_file_not_found_msg))
+                                getString(R.string.err_file_not_found_msg))
                         .setPositiveButton(R.string.btn_ok, null)
                         .setCancelable(false)
                         .show();
@@ -615,14 +615,14 @@ public class SettingsBackup extends BaseActivityAnim
 
                             if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains(
                                     "albums") && !s.contains("STACKTRACE") && !s.contains(
-                                    "com.google") && (((personal
-                                    && !s.contains("SUBSNEW")
+                                    "com.google") && (!personal ||
+                                    (!s.contains("SUBSNEW")
                                     && !s.contains("appRestart")
                                     && !s.contains("AUTH")
                                     && !s.contains("TAGS")
                                     && !s.contains("SEEN")
                                     && !s.contains("HIDDEN")
-                                    && !s.contains("HIDDEN_POSTS"))) || !personal)) {
+                                    && !s.contains("HIDDEN_POSTS")))) {
                                 FileReader fr = null;
                                 try {
                                     fr = new FileReader(new File(prefsdir + File.separator + s));

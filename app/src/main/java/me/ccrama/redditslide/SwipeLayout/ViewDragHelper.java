@@ -1136,7 +1136,7 @@ public class ViewDragHelper {
                     }
 
                     final View toCapture = findTopChildUnder((int) x, (int) y);
-                    if (toCapture != null && checkTouchSlop(toCapture, dx, dy)
+                    if (checkTouchSlop(toCapture, dx, dy)
                             && tryCaptureViewForDrag(toCapture, pointerId)) {
                         break;
                     }
@@ -1238,8 +1238,9 @@ public class ViewDragHelper {
             }
 
             case MotionEvent.ACTION_MOVE: {
+                final int index;
                 if (mDragState == STATE_DRAGGING) {
-                    final int index = ev.findPointerIndex(mActivePointerId);
+                    index = ev.findPointerIndex(mActivePointerId);
                     final float x = ev.getX(index);
                     final float y = ev.getY(index);
                     final int idx = (int) (x - mLastMotionX[mActivePointerId]);
@@ -1247,11 +1248,10 @@ public class ViewDragHelper {
 
                     dragTo(mCapturedView.getLeft() + idx, mCapturedView.getTop() + idy, idx, idy);
 
-                    saveLastMotion(ev);
                 } else {
                     // Check to see if any pointer is now over a draggable view.
-                    final int pointerCount = ev.getPointerCount();
-                    for (int i = 0; i < pointerCount; i++) {
+                    index = ev.getPointerCount();
+                    for (int i = 0; i < index; i++) {
                         final int pointerId = ev.getPointerId(i);
                         final float x = ev.getX(i);
                         final float y = ev.getY(i);
@@ -1270,8 +1270,8 @@ public class ViewDragHelper {
                             break;
                         }
                     }
-                    saveLastMotion(ev);
                 }
+                saveLastMotion(ev);
                 break;
             }
 

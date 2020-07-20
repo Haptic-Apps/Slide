@@ -36,26 +36,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.GravityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager.widget.ViewPager;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.customview.widget.ViewDragHelper;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.appcompat.widget.*;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
@@ -89,10 +69,34 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
+import androidx.customview.widget.ViewDragHelper;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
 
@@ -336,7 +340,7 @@ public class MainActivity extends BaseActivity
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
-            drawerLayout.openDrawer(Gravity.START);
+            drawerLayout.openDrawer(GravityCompat.START);
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
             pager.setCurrentItem(0);
@@ -370,7 +374,7 @@ public class MainActivity extends BaseActivity
         changed = false;
         if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(
-                    SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+                    SynccitRead.newVisited.toArray(new String[0]));
         }
         if (Authentication.isLoggedIn
                 && Authentication.me != null
@@ -406,50 +410,47 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[],
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
             int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
 
-                } else {
+            } else {
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                    R.string.err_permission)
-                                    .setMessage(R.string.err_permission_msg)
-                                    .setPositiveButton(R.string.btn_yes,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                                R.string.err_permission)
+                                .setMessage(R.string.err_permission_msg)
+                                .setPositiveButton(R.string.btn_yes,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
                                                         int which) {
-                                                    ActivityCompat.requestPermissions(
-                                                            MainActivity.this, new String[]{
-                                                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                            }, 1);
+                                                ActivityCompat.requestPermissions(
+                                                        MainActivity.this, new String[]{
+                                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                                        }, 1);
 
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_no,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_no,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
                                                         int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                    .show();
-                        }
-                    });
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                .show();
+                    }
+                });
 
-                }
             }
 
             // other 'case' lines to check for other
@@ -488,8 +489,6 @@ public class MainActivity extends BaseActivity
             if (SettingValues.commentVolumeNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
-                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
-                                keyCode, event);
                     case KeyEvent.KEYCODE_VOLUME_DOWN:
                         return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
                                 keyCode, event);
@@ -501,12 +500,10 @@ public class MainActivity extends BaseActivity
             }
         }
         if (event.getAction() != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event);
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_SEARCH:
-                return onKeyDown(keyCode, event);
-            default:
-                return super.dispatchKeyEvent(event);
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            return onKeyDown(keyCode, event);
         }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
@@ -2392,7 +2389,7 @@ public class MainActivity extends BaseActivity
 
             //whether or not this subreddit was in the keySet
             boolean isNotified =
-                    subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
+                    subThresholds.containsKey(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
             ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -2435,7 +2432,7 @@ public class MainActivity extends BaseActivity
                                                         try {
                                                             final String multiName = multis.keySet()
                                                                     .toArray(
-                                                                            new String[multis.size()])[which];
+                                                                            new String[0])[which];
                                                             List<String> subs =
                                                                     new ArrayList<String>();
                                                             for (MultiSubreddit sub : multis.get(
@@ -2827,11 +2824,10 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (!currentlySubbed) {
                         doSubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
                     } else {
                         doUnsubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
                     }
+                    doSubscribeButtonText(currentlySubbed, subscribe);
                 }
 
 
@@ -3757,11 +3753,11 @@ public class MainActivity extends BaseActivity
         if (adapter instanceof OverviewPagerAdapterComment) {
             pager.setAdapter(null);
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
-            pager.setAdapter(adapter);
         } else {
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            pager.setAdapter(adapter);
         }
+        pager.setAdapter(adapter);
+
         reloadItemNumber = -2;
         shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
@@ -3956,9 +3952,7 @@ public class MainActivity extends BaseActivity
                         drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
-        if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
-                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH
-                || SettingValues.subredditSearchMethod
+        if ((SettingValues.subredditSearchMethod
                 != Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)) {
             drawerSearch = headerMain.findViewById(R.id.sort);
             drawerSearch.setVisibility(View.VISIBLE);
@@ -4192,9 +4186,10 @@ public class MainActivity extends BaseActivity
                         Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
+                                frontpage)
+                                .setLongLabel(frontpage)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build());
@@ -4218,9 +4213,10 @@ public class MainActivity extends BaseActivity
                         Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
+                                frontpage)
+                                .setLongLabel(frontpage)
                                 .setIcon(getIcon(s, R.drawable.sub))
                                 .setIntent(sub)
                                 .build();

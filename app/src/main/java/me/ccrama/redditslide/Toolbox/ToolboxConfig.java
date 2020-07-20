@@ -1,6 +1,10 @@
 package me.ccrama.redditslide.Toolbox;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
@@ -95,7 +99,7 @@ public class ToolboxConfig {
     }
 
     // from https://stackoverflow.com/a/48806970, because toolbox uses empty strings to mean null in some instances
-    public final class EmptyStringAsNullTypeAdapter<T> implements JsonDeserializer<T> {
+    public static final class EmptyStringAsNullTypeAdapter<T> implements JsonDeserializer<T> {
         @Override
         public T deserialize(final JsonElement jsonElement, final Type type, final JsonDeserializationContext context)
                 throws JsonParseException {

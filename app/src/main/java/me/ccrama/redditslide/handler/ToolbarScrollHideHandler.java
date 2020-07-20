@@ -1,9 +1,10 @@
 package me.ccrama.redditslide.handler;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by ccrama on 2/18/2016.
@@ -107,11 +108,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                     opposite.setTranslationY(opposite.getHeight());
                 }
             } else {
-                if (toolbarYOffset < 0) {
-                    opposite.setTranslationY(0);
-                } else {
-                    opposite.setTranslationY(toolbarYOffset);
-                }
+                opposite.setTranslationY(Math.max(toolbarYOffset, 0));
             }
         }
     }

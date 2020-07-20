@@ -3,8 +3,9 @@ package me.ccrama.redditslide;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import androidx.core.content.ContextCompat;
 import android.util.Pair;
+
+import androidx.core.content.ContextCompat;
 
 import org.apache.commons.text.StringEscapeUtils;
 

@@ -7,13 +7,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import java.io.BufferedReader;
@@ -54,6 +54,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 42) {
             progress =
                     new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring)
@@ -285,15 +286,14 @@ public class SettingsBackup extends BaseActivityAnim {
                         for (String s : list) {
 
                             if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains(
-                                    "albums") && !s.contains("com.google") && (((personal
-                                    && !s.contains("SUBSNEW")
+                                    "albums") && !s.contains("com.google") && (!personal || (!s.contains("SUBSNEW")
                                     && !s.contains("appRestart")
                                     && !s.contains("STACKTRACE")
                                     && !s.contains("AUTH")
                                     && !s.contains("TAGS")
                                     && !s.contains("SEEN")
                                     && !s.contains("HIDDEN")
-                                    && !s.contains("HIDDEN_POSTS"))) || !personal)) {
+                                    && !s.contains("HIDDEN_POSTS")))) {
                                 FileReader fr = null;
                                 try {
                                     fr = new FileReader(new File(prefsdir + File.separator + s));

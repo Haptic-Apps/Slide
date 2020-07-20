@@ -1,13 +1,9 @@
 package me.ccrama.redditslide.Activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 
-import jp.wasabeef.blurry.Blurry;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;

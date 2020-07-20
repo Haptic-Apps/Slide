@@ -1,18 +1,37 @@
 package me.ccrama.redditslide;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.content.ContextCompat;
-import android.text.*;
-import android.text.style.*;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.CharacterStyle;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
+import android.text.style.QuoteSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
+import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.HapticFeedbackConstants;
@@ -21,8 +40,22 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.content.ContextCompat;
+
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.MediaView;
@@ -43,14 +76,6 @@ import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
-import org.apache.commons.text.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by carlo_000 on 1/11/2016.
@@ -401,6 +426,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
                     break;
                 case SELF:
+                case NONE:
                     break;
                 case STREAMABLE:
                     openStreamable(url, subreddit);
@@ -446,8 +472,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case GIF:
                 case VREDDIT_DIRECT:
                     openGif(url, subreddit, activity);
-                    break;
-                case NONE:
                     break;
                 case VIDEO:
                     if (!LinkUtil.tryOpenWithVideoPlugin(url)) {
@@ -657,7 +681,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
             if (foregroundColors.length > 1) {
                 text.removeSpan(foregroundColors[1]);
-                setText(text);
             } else {
                 for (int i = 1; i < storedSpoilerStarts.size(); i++) {
                     if (storedSpoilerStarts.get(i) < endOfLink + offset
@@ -674,8 +697,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         }
                     }
                 }
-                setText(text);
             }
+            setText(text);
         }
     }
 
@@ -751,7 +774,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         return sequence;
     }
 
-    private class URLSpanNoUnderline extends URLSpan {
+    private static class URLSpanNoUnderline extends URLSpan {
         public URLSpanNoUnderline(String url) {
             super(url);
         }

@@ -1,7 +1,6 @@
 package me.ccrama.redditslide;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Environment;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -80,10 +79,10 @@ public class OfflineSubreddit {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
-            String fullNames = "";
+            StringBuilder fullNames = new StringBuilder();
             cache.put(title, this);
             for (Submission sub : new ArrayList<>(submissions)) {
-                fullNames += sub.getFullName() + ",";
+                fullNames.append(sub.getFullName()).append(",");
                 if (!isStored(sub.getFullName(), c)) {
                     writeSubmissionToStorage(sub, sub.getDataNode(), c);
                 }
@@ -103,9 +102,9 @@ public class OfflineSubreddit {
         if (cache == null) cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (base ? 0 : time);
-            String fullNames = "";
+            StringBuilder fullNames = new StringBuilder();
             for (Submission sub : submissions) {
-                fullNames += sub.getFullName() + ",";
+                fullNames.append(sub.getFullName()).append(",");
             }
             if (fullNames.length() > 0) {
                 Reddit.cachedData.edit()
@@ -119,10 +118,11 @@ public class OfflineSubreddit {
     public void writeToMemory(ArrayList<String> names) {
         if (subreddit != null && !names.isEmpty()) {
             String title = subreddit.toLowerCase(Locale.ENGLISH) + "," + (time);
-            String fullNames = "";
+            StringBuilder fullNamesBuilder = new StringBuilder();
             for (String sub : names) {
-                fullNames += sub + ",";
+                fullNamesBuilder.append(sub).append(",");
             }
+            String fullNames = fullNamesBuilder.toString();
             if (subreddit.equals(CommentCacheAsync.SAVED_SUBMISSIONS)) {
                 Map<String, ?> offlineSubs = Reddit.cachedData.getAll();
                 for (String offlineSub : offlineSubs.keySet()) {
@@ -351,12 +351,9 @@ public class OfflineSubreddit {
 
     public static class MultiComparator<T> implements Comparator<T> {
         public int compare(T o1, T o2) {
-            double first = Double.valueOf(((String) o1).split(",")[1]);
-            double second = Double.valueOf(((String) o2).split(",")[1]);
-            int comparison = first >= second ? first == second ? 0 : -1 : 1;
-            if (comparison != 0) return comparison;
-
-            return 0;
+            double first = Double.parseDouble(((String) o1).split(",")[1]);
+            double second = Double.parseDouble(((String) o2).split(",")[1]);
+            return first >= second ? first == second ? 0 : -1 : 1;
         }
     }
 

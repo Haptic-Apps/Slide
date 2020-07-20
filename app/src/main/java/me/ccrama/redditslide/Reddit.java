@@ -1,7 +1,12 @@
 package me.ccrama.redditslide;
 
 import android.annotation.TargetApi;
-import android.app.*;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,12 +17,19 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.*;
-import androidx.multidex.MultiDexApplication;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.multidex.MultiDexApplication;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.exoplayer2.database.DatabaseProvider;
@@ -25,22 +37,12 @@ import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.upstream.cache.Cache;
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
-import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.Notifications.NotificationPiggyback;
-import me.ccrama.redditslide.Tumblr.TumblrUtils;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.*;
+
 import net.dean.jraw.http.NetworkException;
-import okhttp3.Dns;
-import okhttp3.OkHttpClient;
+
 import org.apache.commons.lang3.tuple.Triple;
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -52,7 +54,30 @@ import java.lang.ref.WeakReference;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.Notifications.NotificationPiggyback;
+import me.ccrama.redditslide.Tumblr.TumblrUtils;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.AdBlocker;
+import me.ccrama.redditslide.util.GifCache;
+import me.ccrama.redditslide.util.IabHelper;
+import me.ccrama.redditslide.util.IabResult;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.UpgradeUtil;
+import okhttp3.Dns;
+import okhttp3.OkHttpClient;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.M;
@@ -532,7 +557,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         int widthDp = this.getResources().getConfiguration().screenWidthDp;
         int heightDp = this.getResources().getConfiguration().screenHeightDp;
 
-        int fina = (widthDp > heightDp) ? widthDp : heightDp;
+        int fina = Math.max(widthDp, heightDp);
         fina += 99;
 
         if (colors.contains("tabletOVERRIDE")) {
@@ -646,7 +671,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
 
     //IPV6 workaround by /u/talklittle
-    public class GfycatIpv4Dns implements Dns {
+    public static class GfycatIpv4Dns implements Dns {
         @Override
         public List<InetAddress> lookup(String hostname) throws UnknownHostException {
             if (ContentType.hostContains(hostname, "gfycat.com")) {

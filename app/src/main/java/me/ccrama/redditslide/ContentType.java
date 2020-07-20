@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
+
 import net.dean.jraw.models.Submission;
 
 import java.net.URI;
@@ -331,6 +332,7 @@ public class ContentType {
                 case EMBEDDED:
                     return R.string.type_nsfw_emb;
                 case EXTERNAL:
+                case LINK:
                     return R.string.type_nsfw_link;
                 case GIF:
                     return R.string.type_nsfw_gif;
@@ -340,8 +342,6 @@ public class ContentType {
                     return R.string.type_nsfw_tumblr;
                 case IMGUR:
                     return R.string.type_nsfw_imgur;
-                case LINK:
-                    return R.string.type_nsfw_link;
                 case VIDEO:
                 case VREDDIT_DIRECT:
                 case VREDDIT_REDIRECT:

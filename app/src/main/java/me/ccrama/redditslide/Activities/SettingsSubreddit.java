@@ -6,15 +6,16 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.models.Subreddit;
 
@@ -46,6 +47,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
             Intent i = new Intent(SettingsSubreddit.this, SettingsSubreddit.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -99,7 +101,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
             @Override
             public void onClick(View view) {
                 final ArrayList<String> subs = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(SettingsSubreddit.this));
-                final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
+                final CharSequence[] subsAsChar = subs.toArray(new CharSequence[0]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
                 builder.title(R.string.dialog_choose_subreddits_to_edit)

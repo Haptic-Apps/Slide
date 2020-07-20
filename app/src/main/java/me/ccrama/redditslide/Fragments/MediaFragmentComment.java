@@ -8,7 +8,6 @@ import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,9 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
+import androidx.fragment.app.Fragment;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -27,23 +29,34 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.ShadowboxComments;
-import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.Adapters.CommentUrlObject;
-import me.ccrama.redditslide.*;
-import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
-import me.ccrama.redditslide.Views.ExoVideoView;
-import me.ccrama.redditslide.Views.ImageSource;
-import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
-import me.ccrama.redditslide.util.*;
+
 import net.dean.jraw.models.Comment;
-import okhttp3.OkHttpClient;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.ShadowboxComments;
+import me.ccrama.redditslide.Activities.Website;
+import me.ccrama.redditslide.Adapters.CommentUrlObject;
+import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
+import me.ccrama.redditslide.Views.ExoVideoView;
+import me.ccrama.redditslide.Views.ImageSource;
+import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
+import okhttp3.OkHttpClient;
 
 
 /**
@@ -119,15 +132,11 @@ public class MediaFragmentComment extends Fragment {
 
         ContentType.Type type = ContentType.getContentType(contentUrl);
 
-        if (!ContentType.fullImage(type)) {
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
-                    type, getActivity(), s);
-
-        } else {
+        if (ContentType.fullImage(type)) {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
-                    type, getActivity(), s);
         }
+        addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
+                type, getActivity(), s);
         doLoad(contentUrl);
 
         final View.OnClickListener openClick = new View.OnClickListener() {
@@ -293,23 +302,20 @@ public class MediaFragmentComment extends Fragment {
                 if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 } else {
-                    switch (type) {
-                        case IMAGE:
-                            if (SettingValues.image) {
-                                Intent myIntent = new Intent(contextActivity, MediaView.class);
-                                String url;
-                                url = submission.getUrl();
-                                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
-                                myIntent.putExtra(MediaView.EXTRA_URL, url);
-                                myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
-                                myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
+                    if (type == ContentType.Type.IMAGE) {
+                        if (SettingValues.image) {
+                            Intent myIntent = new Intent(contextActivity, MediaView.class);
+                            String url;
+                            url = submission.getUrl();
+                            myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
+                            myIntent.putExtra(MediaView.EXTRA_URL, url);
+                            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+                            myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
-                                contextActivity.startActivity(myIntent);
-                            } else {
-                                LinkUtil.openExternally(submission.getUrl());
-                            }
-
-                            break;
+                            contextActivity.startActivity(myIntent);
+                        } else {
+                            LinkUtil.openExternally(submission.getUrl());
+                        }
                     }
                 }
             }

@@ -3,23 +3,43 @@ package me.ccrama.redditslide.Activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
-import android.view.*;
-import android.webkit.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.DownloadListener;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import me.ccrama.redditslide.*;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.AdBlocker;
-import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
+
+import androidx.appcompat.widget.Toolbar;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.PostMatch;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.AdBlocker;
+import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class Website extends BaseActivityAnim {
 
@@ -358,6 +378,7 @@ public class Website extends BaseActivityAnim {
                 switch (type) {
                     case DEVIANTART:
                     case IMGUR:
+                    case IMAGE:
                         if (SettingValues.image) {
                             Intent intent2 = new Intent(view.getContext(), MediaView.class);
                             intent2.putExtra(MediaView.EXTRA_URL, url);
@@ -394,14 +415,6 @@ public class Website extends BaseActivityAnim {
                                 i.putExtra(Album.EXTRA_URL, url);
                                 view.getContext().startActivity(i);
                             }
-                            return true;
-                        }
-                        return super.shouldOverrideUrlLoading(view, url);
-                    case IMAGE:
-                        if (SettingValues.image) {
-                            Intent myIntent = new Intent(view.getContext(), MediaView.class);
-                            myIntent.putExtra(MediaView.EXTRA_URL, url);
-                            view.getContext().startActivity(myIntent);
                             return true;
                         }
                         return super.shouldOverrideUrlLoading(view, url);

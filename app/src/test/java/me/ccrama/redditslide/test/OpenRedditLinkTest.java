@@ -10,8 +10,8 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.OpenRedditLink.RedditLinkType;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 
 
 @RunWith(RobolectricTestRunner.class)

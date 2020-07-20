@@ -1,12 +1,13 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.devspark.robototextview.widget.RobotoRadioButton;
 
@@ -24,14 +25,13 @@ public class SettingsFontFragment {
                 return "Larger";
             case R.string.font_size_large:
                 return "Large";
-            case R.string.font_size_medium:
-                return "Medium";
             case R.string.font_size_small:
                 return "Small";
             case R.string.font_size_smaller:
                 return "Smaller";
             case R.string.font_size_tiny:
                 return "Tiny";
+            case R.string.font_size_medium:
             default:
                 return "Medium";
         }

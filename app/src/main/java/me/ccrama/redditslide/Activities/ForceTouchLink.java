@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -49,8 +50,9 @@ public class ForceTouchLink extends BaseActivityAnim {
         mainVideo.setVisibility(View.GONE);
         switch(t){
             case REDDIT:
-                break;
             case IMGUR:
+            case ALBUM:
+            case VIDEO:
                 break;
             case IMAGE:
                 ((Reddit)getApplication()).getImageLoader().displayImage(url, mainImage);
@@ -59,10 +61,6 @@ public class ForceTouchLink extends BaseActivityAnim {
             case GIF:
                 mainVideo.setVisibility(View.VISIBLE);
                 new GifUtils.AsyncLoadGif(this, mainVideo,null,null,false, true, "").execute(url);
-                break;
-            case ALBUM:
-                break;
-            case VIDEO:
                 break;
             case LINK:
                 new AsyncTask<Void, Void, Void>() {

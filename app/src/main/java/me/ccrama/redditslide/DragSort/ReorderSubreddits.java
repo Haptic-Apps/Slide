@@ -25,12 +25,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,11 +36,18 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
@@ -60,7 +61,6 @@ import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
-import me.ccrama.redditslide.Activities.SettingsTheme;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.ColorPreferences;
@@ -564,7 +564,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
         subs2.removeAll(toRemove);
 
-        final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
+        final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[0]);
 
         MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
         builder.title(R.string.reorder_subreddits_title)
@@ -690,7 +690,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 }
                                 new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
                                         R.string.reorder_not_found_err)
-                                        .setItems(subs.toArray(new String[subs.size()]),
+                                        .setItems(subs.toArray(new String[0]),
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
@@ -781,7 +781,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             adapter.notifyItemRemoved(index);
                                         }
                                         new UserSubscriptions.UnsubscribeTask().execute(
-                                                chosen.toArray(new String[chosen.size()]));
+                                                chosen.toArray(new String[0]));
                                         for (String s : chosen) {
                                             isSubscribed.put(s.toLowerCase(Locale.ENGLISH), false);
                                         }
@@ -802,8 +802,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     for (String s : chosen) {
-                        int index = subs.indexOf(s);
-                        subs.remove(index);
+                        subs.remove(s);
                         subs.add(0, s);
                     }
                     isMultiple = false;
@@ -823,8 +822,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             UserSubscriptions.removePinned(s, ReorderSubreddits.this);
                         } else {
                             UserSubscriptions.addPinned(s, ReorderSubreddits.this);
-                            int index = subs.indexOf(s);
-                            subs.remove(index);
+                            subs.remove(s);
                             subs.add(0, s);
                         }
                     }
@@ -883,14 +881,13 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView,
                                     boolean isChecked) {
-                                String sub = origPos;
                                 if (!isChecked) {
-                                    new UserSubscriptions.UnsubscribeTask().execute(sub);
+                                    new UserSubscriptions.UnsubscribeTask().execute(origPos);
                                     Snackbar.make(mToolbar,
                                             getString(R.string.reorder_unsubscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();
                                 } else {
-                                    new UserSubscriptions.SubscribeTask(ReorderSubreddits.this).execute(sub);
+                                    new UserSubscriptions.SubscribeTask(ReorderSubreddits.this).execute(origPos);
                                     Snackbar.make(mToolbar,
                                             getString(R.string.reorder_subscribed_toast, origPos),
                                             Snackbar.LENGTH_SHORT).show();
@@ -1010,8 +1007,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 b.show();
                                             } else if (which == 0) {
                                                 String s = items.get(holder.getAdapterPosition());
-                                                int index = subs.indexOf(s);
-                                                subs.remove(index);
+                                                subs.remove(s);
                                                 subs.add(0, s);
 
                                                 notifyItemMoved(holder.getAdapterPosition(), 0);

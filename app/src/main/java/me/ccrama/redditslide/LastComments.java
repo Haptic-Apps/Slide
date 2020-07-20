@@ -1,13 +1,13 @@
 package me.ccrama.redditslide;
 
 import android.database.Cursor;
+
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
-
 import com.lusfold.androidkeyvaluestore.utils.CursorUtils;
+
 import net.dean.jraw.models.Submission;
 
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 

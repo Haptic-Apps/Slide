@@ -3,8 +3,8 @@ package me.ccrama.redditslide.test;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ContentType.Type;
@@ -13,8 +13,8 @@ import me.ccrama.redditslide.SettingValues;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 

@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -206,7 +207,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f.setArguments(args);
                 }
                 break;
-                case SELF: {
+                case SELF:
+                case NONE: {
                     if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
                         Bundle args = new Bundle();
@@ -240,24 +242,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     args.putString("sub", subreddit);
 
                     f.setArguments(args);
-                }
-                break;
-                case NONE: {
-                    if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
-                        f = new TitleFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
-                    } else {
-                        f = new SelftextFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
-                    }
                 }
                 break;
             }

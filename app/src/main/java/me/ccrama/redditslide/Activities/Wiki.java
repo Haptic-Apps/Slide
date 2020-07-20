@@ -5,12 +5,20 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.annotation.ColorInt;
-import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.google.android.material.tabs.TabLayout;
+
+import net.dean.jraw.managers.WikiManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
@@ -18,10 +26,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
-import net.dean.jraw.managers.WikiManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -234,8 +238,8 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
 
         @Override
         public Fragment getItem(int i) {
-            Fragment f = new WikiPage();
-            ((WikiPage) f).setListener(Wiki.this);
+            WikiPage f = new WikiPage();
+            f.setListener(Wiki.this);
             Bundle args = new Bundle();
 
             args.putString("title", pages.get(i));

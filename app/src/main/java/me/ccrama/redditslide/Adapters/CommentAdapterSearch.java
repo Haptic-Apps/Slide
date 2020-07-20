@@ -13,8 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -31,14 +29,17 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -196,7 +197,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             // Add silver, gold, platinum icons and counts in that order
             if (comment.getTimesSilvered() > 0) {
                 final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesSilvered());
+                        : "\u200Ax" + comment.getTimesSilvered();
                 SpannableStringBuilder silvered =
                         new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
                 Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
@@ -212,7 +213,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             }
             if (comment.getTimesGilded() > 0) {
                 final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesGilded());
+                        : "\u200Ax" + comment.getTimesGilded();
                 SpannableStringBuilder gilded =
                         new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
                 Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
@@ -228,7 +229,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             }
             if (comment.getTimesPlatinized() > 0) {
                 final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
-                        : "\u200Ax" + Integer.toString(comment.getTimesPlatinized());
+                        : "\u200Ax" + comment.getTimesPlatinized();
                 SpannableStringBuilder platinized =
                         new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
                 Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
@@ -402,7 +403,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         return dataSet.size();
     }
 
-    private class UserFilter extends Filter {
+    private static class UserFilter extends Filter {
 
         private final CommentAdapterSearch adapter;
 

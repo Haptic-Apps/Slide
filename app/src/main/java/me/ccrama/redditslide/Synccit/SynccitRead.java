@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Synccit;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by carlo_000 on 2/16/2016.

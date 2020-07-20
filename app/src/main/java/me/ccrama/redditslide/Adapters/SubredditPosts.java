@@ -3,11 +3,12 @@ package me.ccrama.redditslide.Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import androidx.appcompat.app.ActionBar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -18,7 +19,6 @@ import net.dean.jraw.paginators.DomainPaginator;
 import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.SubredditPaginator;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -523,9 +523,9 @@ public class SubredditPosts implements PostLoader {
         int i = 0;
         for (String s : all) {
             String[] split = s.split(",");
-            titles[i] = (Long.valueOf(split[1]) == 0 ? c.getString(
+            titles[i] = (Long.parseLong(split[1]) == 0 ? c.getString(
                     R.string.settings_backup_submission_only)
-                    : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + c.getString(
+                    : TimeUtils.getTimeAgo(Long.parseLong(split[1]), c) + c.getString(
                             R.string.settings_backup_comments));
             base[i] = s;
             i++;
@@ -568,7 +568,7 @@ public class SubredditPosts implements PostLoader {
                                             displayer.updateOfflineError();
                                         }
                                         // update offline
-                                        displayer.updateOffline(posts, Long.valueOf(s2[1]));
+                                        displayer.updateOffline(posts, Long.parseLong(s2[1]));
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 return true;

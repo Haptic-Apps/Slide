@@ -1,6 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
+
 import net.dean.jraw.models.Submission;
 
 import java.net.MalformedURLException;

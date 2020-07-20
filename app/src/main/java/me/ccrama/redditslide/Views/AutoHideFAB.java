@@ -1,13 +1,14 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.core.view.ViewCompat;
-import android.util.AttributeSet;
-import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * Created by ccrama on 7/20/2015.
