@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Synccit.SynccitRead;
 
 import static com.lusfold.androidkeyvaluestore.core.KVManagerImpl.COLUMN_KEY;
@@ -181,7 +182,7 @@ public class HasSeen {
             SynccitRead.newVisited.add(fullname);
             SynccitRead.visitedIds.add(fullname);
         }
-        if (hide) {
+        if (hide && SettingValues.scrollSeenHide) {
             Hidden.addSubmissionToHideQueue(submission);
         }
     }
