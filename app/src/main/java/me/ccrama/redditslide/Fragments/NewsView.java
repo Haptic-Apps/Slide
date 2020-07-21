@@ -560,8 +560,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                                                 && pastVisiblesItems > 0
                                                 && SettingValues.storeHistory) {
                                             HasSeen.addSeenScrolling(
-                                                    posts.posts.get(pastVisiblesItems - 1)
-                                                            .getFullName());
+                                                    posts.posts.get(pastVisiblesItems - 1));
                                         }
                                     }
                                 }
