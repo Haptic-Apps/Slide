@@ -34,6 +34,7 @@ import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
@@ -400,6 +401,14 @@ public class SubredditPosts implements PostLoader {
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
             if (BuildConfig.DEBUG) LogUtil.v("Loading data");
+            final AsyncTask<Void, Void, Void> hideTask = Hidden.asyncHideQueue();
+            if (hideTask != null) {
+                try {
+                    hideTask.get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if ((!NetworkUtil.isConnected(context) && !Authentication.didOnline)
                     || MainActivity.isRestart) {
                 Log.v(LogUtil.getTag(), "Using offline data");

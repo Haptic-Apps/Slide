@@ -163,11 +163,13 @@ public class HasSeen {
         }
     }
 
-    public static void addSeenScrolling(String fullname) {
+    public static void addSeenScrolling(final Submission submission) {
         ensureInitialized();
-
+        boolean hide = false;
+        String fullname = submission.getFullName();
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3);
+            hide = true;
         }
 
         hasSeen.add(fullname);
@@ -178,6 +180,9 @@ public class HasSeen {
         if (!fullname.contains("t1_")) {
             SynccitRead.newVisited.add(fullname);
             SynccitRead.visitedIds.add(fullname);
+        }
+        if (hide) {
+            Hidden.addSubmissionToHideQueue(submission);
         }
     }
 }

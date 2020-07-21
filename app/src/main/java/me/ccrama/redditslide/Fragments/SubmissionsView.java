@@ -634,8 +634,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                         if (SettingValues.scrollSeen
                                                 && pastVisiblesItems > 0
                                                 && SettingValues.storeHistory) {
-                                            HasSeen.addSeenScrolling(posts.posts.get(pastVisiblesItems - 1)
-                                                    .getFullName());
+                                            HasSeen.addSeenScrolling(posts.posts.get(pastVisiblesItems - 1));
                                         }
                                     }
                                 }
