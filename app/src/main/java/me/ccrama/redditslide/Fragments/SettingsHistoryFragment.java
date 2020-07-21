@@ -33,6 +33,7 @@ public class SettingsHistoryFragment {
 
                     if (isChecked) {
                         context.findViewById(R.id.settings_history_scrollseen).setEnabled(true);
+                        context.findViewById(R.id.settings_history_scrollseenhide).setEnabled(true);
                         context.findViewById(R.id.settings_history_storensfw).setEnabled(true);
                     } else {
                         ((SwitchCompat) context.findViewById(R.id.settings_history_storensfw)).setChecked(false);
@@ -44,6 +45,11 @@ public class SettingsHistoryFragment {
                         ((SwitchCompat) context.findViewById(R.id.settings_history_scrollseen)).setEnabled(false);
                         SettingValues.scrollSeen = false;
                         SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, false).apply();
+
+                        ((SwitchCompat) context.findViewById(R.id.settings_history_scrollseenhide)).setChecked(false);
+                        ((SwitchCompat) context.findViewById(R.id.settings_history_scrollseenhide)).setEnabled(false);
+                        SettingValues.scrollSeenHide = false;
+                        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN_HIDE, false).apply();
                     }
                 }
             });
@@ -84,6 +90,19 @@ public class SettingsHistoryFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.scrollSeen = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, isChecked).apply();
+
+                }
+            });
+        }
+
+        {
+            SwitchCompat single = (SwitchCompat) context.findViewById(R.id.settings_history_scrollseenhide);
+            single.setChecked(SettingValues.scrollSeenHide);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.scrollSeenHide = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN_HIDE, isChecked).apply();
 
                 }
             });
