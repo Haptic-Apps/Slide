@@ -474,7 +474,9 @@ public class SettingValues {
     public static boolean shouldPrivateModeBeEnabled(boolean nsfw) {
         if (nsfw) {
               if (privateMode || privateModeNSFW) {
-               return true;   
+               return true;
+              } else {
+               return false;   
               }
         }
         else {
