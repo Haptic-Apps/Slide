@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
@@ -176,6 +177,10 @@ public class SubredditView extends BaseActivity {
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_singlesubreddit);
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
+
+        if (SettingValues.shouldPrivateModeBeEnabled(sub.isNsfw())) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
 
         header = findViewById(R.id.header);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -466,6 +471,8 @@ public class SubredditView extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //Have no idea if I need this
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         if (sub != null) {
             if (sub.isNsfw() && (!SettingValues.storeHistory || !SettingValues.storeNSFWHistory)) {
                 SharedPreferences.Editor e = Reddit.cachedData.edit();
