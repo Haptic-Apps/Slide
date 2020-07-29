@@ -177,10 +177,11 @@ public class SubredditView extends BaseActivity {
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_singlesubreddit);
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
-
-        if (SettingValues.shouldPrivateModeBeEnabled(sub.isNsfw())) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        }
+        //if (sub != null) {
+           // if (SettingValues.shouldPrivateModeBeEnabled(sub.isNsfw())) {
+           //     getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+           // }
+        //}
 
         header = findViewById(R.id.header);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -2112,6 +2113,9 @@ public class SubredditView extends BaseActivity {
                     doSubSidebarNoLoad(sub.getDisplayName());
                     doSubSidebar(sub.getDisplayName());
                     doSubOnlyStuff(sub);
+                    if (SettingValues.shouldPrivateModeBeEnabled(sub.isNsfw())) {
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+                    }
                 } catch (NullPointerException e) { //activity has been killed
                     if (!isFinishing()) finish();
                 }

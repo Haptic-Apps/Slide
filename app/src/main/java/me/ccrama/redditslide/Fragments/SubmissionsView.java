@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -503,6 +505,16 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     private void refresh() {
+        Iterator<Submission> i = posts.getPosts().iterator();
+        boolean nsfw = false;
+        while (i.hasNext() && !nsfw) {
+            nsfw = i.next().isNsfw();
+        }
+
+        if (SettingValues.shouldPrivateModeBeEnabled(nsfw)) {
+            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
+
         posts.forced = true;
         forced = true;
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, id);
