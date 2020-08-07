@@ -66,6 +66,7 @@ public class SettingValues {
     public static final String PREF_COMMENT_PAGER             = "commentPager";
     public static final String PREF_COLLAPSE_COMMENTS         = "collapseCOmments";
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
+    public static final String PREF_COLLAPSE_DELETED_COMMENTS = "collapseDeletedComments";
     public static final String PREF_RIGHT_HANDED_COMMENT_MENU = "rightHandedCommentMenu";
     public static final String PREF_DUAL_PORTRAIT             = "dualPortrait";
     public static final String PREF_SINGLE_COLUMN_MULTI       = "singleColumnMultiWindow";
@@ -190,6 +191,7 @@ public class SettingValues {
     public static boolean readerMode;
     public static boolean collapseComments;
     public static boolean collapseCommentsDefault;
+    public static boolean collapseDeletedComments;
     public static boolean rightHandedCommentMenu;
     public static boolean abbreviateScores;
     public static boolean shareLongLink;
@@ -337,6 +339,7 @@ public class SettingValues {
         alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
+        collapseDeletedComments = prefs.getBoolean(PREF_COLLAPSE_DELETED_COMMENTS, false);
         rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
         commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
         showCollapseExpand = prefs.getBoolean(PREF_SHOW_COLLAPSE_EXPAND, false);
