@@ -542,7 +542,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (SettingValues.collapseDeletedComments) {
-                if (comment.getBody().startsWith("[removed]")) {
+                if (comment.getBody().startsWith("[removed]") || comment.getBody().startsWith("[deleted]")) {
                     holder.firstTextView.setVisibility(View.GONE);
                     holder.commentOverflow.setVisibility(View.GONE);
                 }
