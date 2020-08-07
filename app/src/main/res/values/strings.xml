@@ -720,6 +720,7 @@
     <string name="settings_comment_collapse_default">Collapse child comments by default</string>
     <string name="settings_data_enable">Enable Data Saving settings</string>
     <string name="settings_data_video_quality">Prefer low-quality videos when Data Saving enabled</string>
+    <string name="settings_comments_collapse_deleted">Collapse deleted comments by default</string>
     <string name="settings_backup_occurs">Backup will occur at %1$s</string>
     <string name="settings_backup_none">No subreddits will back up</string>
     <string name="settings_backup_will_backup">\u0020will back up</string>
