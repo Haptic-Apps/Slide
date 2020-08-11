@@ -18,6 +18,7 @@ import android.text.Html;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.Submission;
@@ -195,8 +196,9 @@ public class CheckForMail extends BroadcastReceiver {
                         PendingIntent openPi =
                                 PendingIntent.getActivity(c, 3 + (int) m.getCreated().getTime(),
                                         openPIBase, 0);
-                        notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                                m.getDataNode().get("body_html").asText())));
+
+                        String unescape = StringEscapeUtils.unescapeHtml4(m.getDataNode().get("body_html").asText());
+                        notiStyle.bigText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                         PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
                                 2 + (int) m.getCreated().getTime(), c,
@@ -210,9 +212,7 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .setContentTitle(contentTitle)
-                                        .setContentText(Html.fromHtml(
-                                                StringEscapeUtils.unescapeHtml4(
-                                                        m.getDataNode().get("body_html").asText())))
+                                        .setContentText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY))
                                         .setStyle(notiStyle)
                                         .setGroup("MESSAGES")
                                         .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
@@ -305,8 +305,9 @@ public class CheckForMail extends BroadcastReceiver {
                                 new NotificationCompat.BigTextStyle();
                         notiStyle.setBigContentTitle(
                                 c.getString(R.string.mod_mail_notification_msg, m.getAuthor()));
-                        notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                                m.getDataNode().get("body_html").asText())));
+
+                        String unescape = StringEscapeUtils.unescapeHtml4(m.getDataNode().get("body_html").asText());
+                        notiStyle.bigText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                                 Reddit.CHANNEL_MODMAIL).setContentIntent(intent)
@@ -320,7 +321,7 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setContentTitle(
                                                 c.getString(R.string.mail_notification_author,
                                                         m.getSubject(), m.getAuthor()))
-                                        .setContentText(Html.fromHtml(m.getBody()))
+                                        .setContentText(HtmlCompat.fromHtml(m.getBody(), HtmlCompat.FROM_HTML_MODE_LEGACY))
                                 .setStyle(notiStyle);
                         if (!SettingValues.notifSound) {
                             builder.setSound(null);
