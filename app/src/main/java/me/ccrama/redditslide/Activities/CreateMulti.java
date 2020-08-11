@@ -120,6 +120,26 @@ public class CreateMulti extends BaseActivityAnim {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(R.string.general_confirm_exit)
+                .setMessage(R.string.multi_save_option)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        MultiredditOverview.multiActivity.finish();
+                        new SaveMulti().execute();
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
     public void showSelectDialog() {
         //List of all subreddits of the multi
         List<String> multiSubs = new ArrayList<>(subs);
@@ -353,6 +373,7 @@ public class CreateMulti extends BaseActivityAnim {
                         @Override
                         public void run() {
                             Log.v(LogUtil.getTag(), "Update Subreddits");
+                            MultiredditOverview.multiActivity.finish();
                             new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
                         }
                     });
@@ -433,6 +454,7 @@ public class CreateMulti extends BaseActivityAnim {
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                MultiredditOverview.multiActivity.finish();
                                 new MaterialDialog.Builder(CreateMulti.this)
                                         .title(R.string.deleting)
                                         .progress(true, 100)
