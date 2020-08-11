@@ -78,7 +78,7 @@ public class CreateMulti extends BaseActivityAnim {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overrideRedditSwipeAnywhere();
+        overrideSwipeFromAnywhere();
 
         super.onCreate(savedInstanceState);
         applyColorTheme();
