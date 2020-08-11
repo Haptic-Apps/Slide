@@ -39,7 +39,7 @@
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
                 android:scaleType="fitCenter"
-                android:tint="@color/white"
+                app:tint="@color/white"
                 app:srcCompat="@drawable/color" />
         </androidx.appcompat.widget.Toolbar>
 

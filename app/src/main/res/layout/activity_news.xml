@@ -60,7 +60,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:padding="8dp"
-                        android:tint="@color/white"
+                        app:tint="@color/white"
                         android:visibility="gone"
                         app:srcCompat="@drawable/close"/>
             </RelativeLayout>

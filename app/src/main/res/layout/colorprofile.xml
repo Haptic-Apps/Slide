@@ -148,7 +148,7 @@
                         android:layout_height="match_parent"
                         android:alpha=".86"
                         android:padding="12dp"
-                        android:tint="?attr/tintColor"
+                        app:tint="?attr/tintColor"
                         app:srcCompat="@drawable/send" />
 
                     <TextView
@@ -173,7 +173,7 @@
                         android:layout_height="match_parent"
                         android:alpha=".86"
                         android:padding="12dp"
-                        android:tint="?attr/tintColor"
+                        app:tint="?attr/tintColor"
                         app:srcCompat="@drawable/profile" />
 
                     <TextView
@@ -199,7 +199,7 @@
                         android:layout_height="match_parent"
                         android:alpha=".86"
                         android:padding="12dp"
-                        android:tint="?attr/tintColor"
+                        app:tint="?attr/tintColor"
                         app:srcCompat="@drawable/collection" />
 
                     <TextView
@@ -225,7 +225,7 @@
                         android:layout_height="match_parent"
                         android:alpha=".86"
                         android:padding="12dp"
-                        android:tint="?attr/tintColor"
+                        app:tint="?attr/tintColor"
                         app:srcCompat="@drawable/color" />
 
                     <TextView
@@ -250,7 +250,7 @@
                         android:layout_height="match_parent"
                         android:alpha=".86"
                         android:padding="12dp"
-                        android:tint="?attr/tintColor"
+                        app:tint="?attr/tintColor"
                         app:srcCompat="@drawable/fontsizedarker" />
 
                     <TextView
@@ -275,7 +275,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tintColor"
+                            app:tint="?attr/tintColor"
                             app:srcCompat="@drawable/close" />
 
                     <TextView

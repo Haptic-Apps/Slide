@@ -40,7 +40,7 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/edit"
         android:padding="12dp"
-        android:tint="?attr/tintColor"/>
+        app:tint="?attr/tintColor" />
 
     <ImageView
         android:id="@+id/edit"
@@ -51,5 +51,5 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="12dp"
-        android:tint="?attr/tintColor"/>
+        app:tint="?attr/tintColor" />
 </RelativeLayout>

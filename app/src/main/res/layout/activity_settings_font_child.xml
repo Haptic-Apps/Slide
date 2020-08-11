@@ -132,7 +132,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/commentchange" />
 
             <TextView
@@ -258,7 +258,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_format_size_white_48dp" />
 
             <TextView

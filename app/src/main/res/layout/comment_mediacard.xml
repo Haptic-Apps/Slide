@@ -125,7 +125,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                sothree:tint="?attr/tintColor"
                 android:contentDescription="@string/img_score"
                 app:srcCompat="@drawable/upvoted" />
 
@@ -152,7 +152,7 @@
                 android:layout_toLeftOf="@+id/upvote"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                sothree:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_save"
                 app:srcCompat="@drawable/iconstarfilled" />
 
@@ -166,7 +166,7 @@
                 android:padding="8dp"
 
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                sothree:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted" />
 
@@ -179,7 +179,7 @@
                 android:layout_alignParentRight="true"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                sothree:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote" />
 

@@ -66,7 +66,7 @@
                             android:padding="12dp"
 
                             app:srcCompat="@drawable/profile"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:id="@+id/userpopup"
@@ -101,7 +101,7 @@
                             android:padding="12dp"
 
                             app:srcCompat="@drawable/sub"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:id="@+id/subpopup"
@@ -136,7 +136,7 @@
                             android:padding="12dp"
                             app:srcCompat="@drawable/iconstarfilled"
 
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:id="@+id/savedtext"
@@ -171,7 +171,7 @@
                             android:padding="12dp"
 
                             app:srcCompat="@drawable/openexternal"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -203,7 +203,7 @@
                             android:padding="12dp"
 
                             app:srcCompat="@drawable/report"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -235,7 +235,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             app:srcCompat="@drawable/ic_content_copy"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -262,7 +262,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             app:srcCompat="@drawable/link"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -293,7 +293,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             app:srcCompat="@drawable/hide"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -323,7 +323,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             app:srcCompat="@drawable/commentchange"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
 
                         <ImageView
@@ -333,7 +333,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             app:srcCompat="@drawable/downvote"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -341,7 +341,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             app:srcCompat="@drawable/upvoted"
-                            android:tint="?attr/tintColor" />
+                            app:tint="?attr/tintColor" />
 
                     </LinearLayout>
 
