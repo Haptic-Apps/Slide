@@ -2,12 +2,13 @@ package me.ccrama.redditslide.Views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * Created by Carlos on 6/2/2016.
  */
-public class MaxHeightImageView extends ImageView {
+public class MaxHeightImageView extends AppCompatImageView {
     public MaxHeightImageView(Context context) {
         super(context);
     }
@@ -18,10 +19,6 @@ public class MaxHeightImageView extends ImageView {
 
     public MaxHeightImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public MaxHeightImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     public static final int maxHeight = 3200;

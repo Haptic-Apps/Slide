@@ -9,14 +9,15 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import me.ccrama.redditslide.R;
 
 /**
  * Created by carlos on 3/14/16.
  */
-public class TransparentTagTextView extends TextView {
+public class TransparentTagTextView extends AppCompatTextView {
     Bitmap mMaskBitmap;
     Canvas mMaskCanvas;
     Paint mPaint;
