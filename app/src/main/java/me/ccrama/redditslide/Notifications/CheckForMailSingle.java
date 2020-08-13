@@ -13,10 +13,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.text.Html;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Message;
 import net.dean.jraw.paginators.InboxPaginator;
@@ -163,8 +163,9 @@ public class CheckForMailSingle extends BroadcastReceiver {
                     PendingIntent openPi =
                             PendingIntent.getActivity(c, 3 + (int) message.getCreated().getTime(),
                                     openPIBase, 0);
-                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                            message.getDataNode().get("body_html").asText())));
+
+                    String unescape = StringEscapeUtils.unescapeHtml4(message.getDataNode().get("body_html").asText());
+                    notiStyle.bigText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                     PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
                             2 + (int) message.getCreated().getTime(), c,
@@ -180,8 +181,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
                                     .setContentTitle(contentTitle)
-                                    .setContentText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                                            message.getDataNode().get("body_html").asText())))
+                                    .setContentText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY))
                                     .setStyle(notiStyle)
                                     .setGroup("MESSAGES")
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
