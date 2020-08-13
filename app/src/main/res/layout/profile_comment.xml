@@ -109,7 +109,7 @@
                 android:layout_marginLeft="-8dp"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/mod" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -39,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/settings" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/multicolumn" />
 
             <TextView
@@ -87,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/sub" />
 
             <TextView
@@ -111,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/offline" />
 
             <TextView
@@ -136,7 +136,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
-                    android:tint="?attr/tintColor"
+                    app:tint="?attr/tintColor"
                     app:srcCompat="@drawable/mod"/>
 
             <TextView
@@ -184,7 +184,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/theme" />
 
             <TextView
@@ -209,7 +209,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/card" />
 
             <TextView
@@ -233,7 +233,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/sub" />
 
             <TextView
@@ -257,7 +257,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/fontsizedarker" />
 
             <TextView
@@ -281,7 +281,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/commentchange" />
 
             <TextView
@@ -327,7 +327,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/link" />
 
             <TextView
@@ -351,7 +351,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/history" />
 
             <TextView
@@ -375,7 +375,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/world" />
 
             <TextView
@@ -399,7 +399,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/filter" />
 
             <TextView
@@ -423,7 +423,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/reddit" />
 
             <TextView
@@ -469,7 +469,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_backup" />
 
             <TextView
@@ -494,7 +494,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:src="@drawable/synccit"
-                android:tint="?attr/tintColor" />
+                app:tint="?attr/tintColor" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -518,7 +518,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/crown" />
 
             <TextView
@@ -542,7 +542,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/donate" />
 
             <TextView
@@ -567,7 +567,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 app:srcCompat="@drawable/infonew" />
 
             <TextView

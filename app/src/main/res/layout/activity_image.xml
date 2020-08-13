@@ -30,7 +30,7 @@
             android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/openexternal"
-            android:tint="@color/white" />
+            app:tint="@color/white" />
 
         <ImageView
             android:id="@+id/share"
@@ -40,7 +40,7 @@
             android:padding="15dp"
             app:srcCompat="@drawable/share"
 
-            android:tint="@color/white" />
+            app:tint="@color/white" />
 
         <ImageView
             android:id="@+id/save"
@@ -49,7 +49,7 @@
             android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/save"
-            android:tint="@color/white" />
+            app:tint="@color/white" />
 
 
     </LinearLayout>

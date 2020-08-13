@@ -61,7 +61,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
             app:srcCompat="@drawable/internet"
-            android:tint="?attr/tintColor" />
+            app:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
             app:srcCompat="@drawable/save"
-            android:tint="?attr/tintColor" />
+            app:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="26dp"
                 app:srcCompat="@drawable/settings"
-                android:tint="?attr/tintColor" />
+                app:tint="?attr/tintColor" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:theme="@style/Ripple.List"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_expand"
                 app:srcCompat="@drawable/down"/>
     </RelativeLayout>
@@ -240,7 +240,7 @@
             android:id="@+id/close_search_drawer"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:tint="?attr/tintColor"
+            app:tint="?attr/tintColor"
             android:layout_alignBottom="@+id/sort"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="8dp"

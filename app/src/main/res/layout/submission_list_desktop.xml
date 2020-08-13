@@ -33,7 +33,7 @@
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:tag="tintsecond"
-            android:tint="?attr/tintColor"
+            app:tint="?attr/tintColor"
             android:contentDescription="@string/btn_upvote"
             app:srcCompat="@drawable/up" />
         <TextView
@@ -58,7 +58,7 @@
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:tag="tintsecond"
-            android:tint="?attr/tintColor"
+            app:tint="?attr/tintColor"
             android:contentDescription="@string/btn_downvote"
             app:srcCompat="@drawable/down" />
         <RelativeLayout
@@ -89,7 +89,7 @@
                 android:layout_alignParentRight="true"
                 android:padding="8dp"
                 android:tag="tint"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:layout_marginLeft="-4dp"
                 app:srcCompat="@drawable/down" />
 
@@ -155,7 +155,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:contentDescription="@string/img_comments"
                 app:srcCompat="@drawable/commentchange" />
 
@@ -179,7 +179,7 @@
                 android:layout_toLeftOf="@+id/save"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_edit"
                 app:srcCompat="@drawable/edit" />
             <ImageView
@@ -191,7 +191,7 @@
                 android:layout_toLeftOf="@+id/hide"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_save"
                 app:srcCompat="@drawable/iconstarfilled" />
 
@@ -204,7 +204,7 @@
                 android:layout_toLeftOf="@+id/menu"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_mod"
                 app:srcCompat="@drawable/mod" />
 
@@ -217,7 +217,7 @@
                 android:layout_toLeftOf="@+id/mod"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_hide"
                 app:srcCompat="@drawable/hide" />
 
@@ -230,7 +230,7 @@
                 android:layout_below="@+id/innerrelative"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                android:tint="?attr/tintColor"
+                app:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>

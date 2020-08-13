@@ -67,7 +67,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#de393939"
+                            app:tint="#de393939"
                             app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -97,7 +97,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#8A3e3d36"
+                            app:tint="#8A3e3d36"
                             app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -124,7 +124,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
+                            app:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -158,7 +158,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
+                            app:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -189,7 +189,7 @@
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:padding="12dp"
-                                android:tint="#ffffff"
+                                app:tint="#ffffff"
                                 app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -220,7 +220,7 @@
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:padding="12dp"
-                                android:tint="#ffffff"
+                                app:tint="#ffffff"
                                 app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -250,7 +250,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
+                            app:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -277,7 +277,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
+                            app:tint="#ffffff"
                             app:srcCompat="@drawable/theme" />
 
                         <TextView
@@ -307,7 +307,7 @@
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:padding="12dp"
-                                android:tint="#ffffff"
+                                app:tint="#ffffff"
                                 app:srcCompat="@drawable/theme" />
 
                         <TextView

@@ -23,7 +23,7 @@
         android:padding="6dp"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/close"
-        android:tint="#fff"
+        app:tint="#fff"
         android:layout_height="36dp"
         android:contentDescription="@string/btn_remove" />
 </RelativeLayout>
