@@ -6,6 +6,7 @@
     <item android:id="@+id/action_edit"
         android:icon="@drawable/edit"
         android:title="@string/editor_title"
+        android:visible="false"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_shadowbox"
