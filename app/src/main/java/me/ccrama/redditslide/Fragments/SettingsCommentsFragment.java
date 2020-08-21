@@ -219,6 +219,17 @@ public class SettingsCommentsFragment {
                 }
             });
         }
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_comments_collapse_deleted);
+            single.setChecked(SettingValues.collapseDeletedComments);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.collapseDeletedComments = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_DELETED_COMMENTS, isChecked).apply();
+                }
+            });
+        }
     }
 
 }

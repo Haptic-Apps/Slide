@@ -541,6 +541,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 setCommentStateHighlighted(holder, comment, baseNode, true, false);
             }
 
+            if (SettingValues.collapseDeletedComments) {
+                if (comment.getBody().startsWith("[removed]") || comment.getBody().startsWith("[deleted]")) {
+                    holder.firstTextView.setVisibility(View.GONE);
+                    holder.commentOverflow.setVisibility(View.GONE);
+                }
+            }
+
         } else if (firstHolder instanceof SubmissionViewHolder && submission != null) {
             submissionViewHolder = (SubmissionViewHolder) firstHolder;
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(
