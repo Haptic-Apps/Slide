@@ -315,6 +315,8 @@
     <string name="multi_submit_which_sub">Which sub would you like to submit to?</string>
     <string name="multi_saved_successfully">Saved successfully</string>
     <string name="delete_multireddit_title">Do you really want to delete /m/%1$s?</string>
+    <string name="multi_save_option">Would you like to save this multireddit?</string>
+
 
 
     <!-- Content types -->
