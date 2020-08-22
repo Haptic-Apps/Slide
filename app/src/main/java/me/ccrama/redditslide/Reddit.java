@@ -674,7 +674,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static class GfycatIpv4Dns implements Dns {
         @Override
         public List<InetAddress> lookup(String hostname) throws UnknownHostException {
-            if (ContentType.hostContains(hostname, "gfycat.com")) {
+            if (ContentType.hostContains(hostname, "gfycat.com", "redgifs.com")) {
                 InetAddress[] addresses = InetAddress.getAllByName(hostname);
                 if (addresses == null || addresses.length == 0) {
                     throw new UnknownHostException("Bad host: " + hostname);

@@ -252,6 +252,7 @@ public class MediaView extends FullScreenActivity
                 && !contentUrl.contains(".mp4")
                 && !contentUrl.contains("streamable.com")
                 && !contentUrl.contains("gfycat.com")
+                && !contentUrl.contains("redgifs.com")
                 && !contentUrl.contains("v.redd.it")) {
             String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1).toUpperCase();
             try {
