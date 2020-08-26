@@ -23,7 +23,7 @@ public class SettingsHistoryFragment {
 
     public void Bind() {
         {
-            SwitchCompat storeHistory = ((SwitchCompat) context.findViewById(R.id.settings_history_storehistory));
+            SwitchCompat storeHistory = context.findViewById(R.id.settings_history_storehistory);
             storeHistory.setChecked(SettingValues.storeHistory);
             storeHistory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -36,12 +36,12 @@ public class SettingsHistoryFragment {
                         context.findViewById(R.id.settings_history_storensfw).setEnabled(true);
                     } else {
                         ((SwitchCompat) context.findViewById(R.id.settings_history_storensfw)).setChecked(false);
-                        ((SwitchCompat) context.findViewById(R.id.settings_history_storensfw)).setEnabled(false);
+                        context.findViewById(R.id.settings_history_storensfw).setEnabled(false);
                         SettingValues.storeNSFWHistory = false;
                         SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, false).apply();
 
                         ((SwitchCompat) context.findViewById(R.id.settings_history_scrollseen)).setChecked(false);
-                        ((SwitchCompat) context.findViewById(R.id.settings_history_scrollseen)).setEnabled(false);
+                        context.findViewById(R.id.settings_history_scrollseen).setEnabled(false);
                         SettingValues.scrollSeen = false;
                         SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, false).apply();
                     }
@@ -65,7 +65,7 @@ public class SettingsHistoryFragment {
             }
         });
         {
-            SwitchCompat nsfw = ((SwitchCompat) context.findViewById(R.id.settings_history_storensfw));
+            SwitchCompat nsfw = context.findViewById(R.id.settings_history_storensfw);
             nsfw.setChecked(SettingValues.storeNSFWHistory);
             nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -77,7 +77,7 @@ public class SettingsHistoryFragment {
         }
 
         {
-            SwitchCompat single = (SwitchCompat) context.findViewById(R.id.settings_history_scrollseen);
+            SwitchCompat single = context.findViewById(R.id.settings_history_scrollseen);
             single.setChecked(SettingValues.scrollSeen);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

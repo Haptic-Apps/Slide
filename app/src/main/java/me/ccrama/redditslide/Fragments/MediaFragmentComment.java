@@ -181,10 +181,7 @@ public class MediaFragmentComment extends Fragment {
                                                     + c.getDataNode()
                                                     .get("link_id")
                                                     .asText()
-                                                    .substring(3, c.getDataNode()
-                                                            .get("link_id")
-                                                            .asText()
-                                                            .length())
+                                                    .substring(3)
                                                     + "/nothing/"
                                                     + c.getId()
                                                     + "?context=3";
@@ -372,11 +369,11 @@ public class MediaFragmentComment extends Fragment {
             url = url.substring(0, url.length() - 1);
         }
         final String finalUrl = url;
-        String hash = url.substring(url.lastIndexOf("/"), url.length());
+        String hash = url.substring(url.lastIndexOf("/"));
 
         if (NetworkUtil.isConnected(getActivity())) {
 
-            if (hash.startsWith("/")) hash = hash.substring(1, hash.length());
+            if (hash.startsWith("/")) hash = hash.substring(1);
             final String apiUrl = "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json";
             LogUtil.v(apiUrl);
 

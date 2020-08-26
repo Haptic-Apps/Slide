@@ -32,14 +32,14 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         super(v);
         background = v.findViewById(R.id.background);
         dot = v.findViewById(R.id.dot);
-        menuArea = (LinearLayout) v.findViewById(R.id.menuarea);
-        childrenNumber = (TextView) v.findViewById(R.id.commentnumber);
-        firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);
+        menuArea = v.findViewById(R.id.menuarea);
+        childrenNumber = v.findViewById(R.id.commentnumber);
+        firstTextView = v.findViewById(R.id.firstTextView);
         textColorDown = ContextCompat.getColor(v.getContext(), R.color.md_blue_500);
         textColorRegular = firstTextView.getCurrentTextColor();
         textColorUp = ContextCompat.getColor(v.getContext(), R.color.md_orange_500);
-        content = (TextView) v.findViewById(R.id.content);
-        imageFlair= (ImageView) v.findViewById(R.id.flair);
-        commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
+        content = v.findViewById(R.id.content);
+        imageFlair= v.findViewById(R.id.flair);
+        commentOverflow = v.findViewById(R.id.commentOverflow);
     }
 }

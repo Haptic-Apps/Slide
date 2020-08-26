@@ -457,8 +457,8 @@ public class DoEditorActions {
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
                 setViews(html, "NO sub",
-                        (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView),
-                        (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                        dialoglayout.findViewById(R.id.firstTextView),
+                        dialoglayout.findViewById(R.id.commentOverflow));
                 builder.setView(dialoglayout);
                 builder.show();
             }

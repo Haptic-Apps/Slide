@@ -426,7 +426,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
-        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+        final EditText e = dialoglayout.findViewById(R.id.entry);
 
         DoEditorActions.doActions(e, dialoglayout,
                 ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
@@ -492,7 +492,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Snackbar s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
                 View view = s.getView();
                 TextView tv =
-                        (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+                        view.findViewById(com.google.android.material.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
             } else {
@@ -500,7 +500,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Snackbar.LENGTH_LONG);
                 View view = s.getView();
                 TextView tv =
-                        (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+                        view.findViewById(com.google.android.material.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.show();
                 Drafts.addDraft(text);

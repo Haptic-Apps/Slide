@@ -36,12 +36,12 @@ public class AlbumUtils {
         if(s.contains("/comment/")){
             s = s.substring(0, s.indexOf("/comment"));
         }
-        String next = s.substring(s.lastIndexOf("/"), s.length());
+        String next = s.substring(s.lastIndexOf("/"));
         if (next.contains(".")) {
             next = next.substring(0, next.indexOf("."));
         }
         if (next.startsWith("/")) {
-            next = next.substring(1, next.length());
+            next = next.substring(1);
         }
         if (next.length() < 5) {
             return getHash(s.replace(next, ""));
@@ -84,8 +84,8 @@ public class AlbumUtils {
                 rawDat = rawDat.substring(0, rawDat.length() - 1);
             }
 
-            if (rawDat.substring(rawDat.lastIndexOf("/")+1, rawDat.length()).length() < 4) {
-                rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawDat.length()), "");
+            if (rawDat.substring(rawDat.lastIndexOf("/")+1).length() < 4) {
+                rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/")), "");
             }
             if (rawDat.contains("?")) {
                 rawDat = rawDat.substring(0, rawDat.indexOf("?"));
@@ -122,7 +122,7 @@ public class AlbumUtils {
                     toDo.setHash(getHash(data.getLink()));
                 }
                 toDo.setTitle(data.getTitle());
-                toDo.setExt(data.getLink().substring(data.getLink().lastIndexOf("."), data.getLink().length()));
+                toDo.setExt(data.getLink().substring(data.getLink().lastIndexOf(".")));
                 toDo.setHeight(data.getHeight());
                 toDo.setWidth(data.getWidth());
                 return toDo;
@@ -182,7 +182,7 @@ public class AlbumUtils {
         @Override
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
             if (hash.startsWith("/")) {
-                hash = hash.substring(1, hash.length());
+                hash = hash.substring(1);
             }
             if (hash.contains(",")) {
                 target = new JsonElement[hash.split(",").length];

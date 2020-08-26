@@ -159,7 +159,7 @@ public class SubmissionComments {
         if (context == null || context.isEmpty()) {
             Snackbar s = Snackbar.make(page.rv, "Comment submitted", Snackbar.LENGTH_SHORT);
             View view = s.getView();
-            TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
             tv.setTextColor(Color.WHITE);
             s.show();
         }
@@ -206,7 +206,7 @@ public class SubmissionComments {
     }
 
     public void reloadSubmission(CommentAdapter commentAdapter) {
-        commentAdapter.submission = Authentication.reddit.getSubmission(submission.getFullName().substring(3, submission.getFullName().length()));
+        commentAdapter.submission = Authentication.reddit.getSubmission(submission.getFullName().substring(3));
     }
 
     public boolean forceSorting = false;

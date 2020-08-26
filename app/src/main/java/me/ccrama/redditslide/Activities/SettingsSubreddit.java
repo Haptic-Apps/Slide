@@ -180,7 +180,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                 } else {
                     Snackbar s = Snackbar.make(mToolbar, R.string.err_color_sync_login, Snackbar.LENGTH_SHORT);
                     View view = s.getView();
-                    TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 }

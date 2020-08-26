@@ -969,9 +969,9 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                     .get("selftext_html")
                                                     .asText(),
                                             adapter.submission.getSubredditName(),
-                                            (SpoilerRobotoTextView) dialoglayout.findViewById(
+                                            dialoglayout.findViewById(
                                                     R.id.firstTextView),
-                                            (CommentOverflow) dialoglayout.findViewById(
+                                            dialoglayout.findViewById(
                                                     R.id.commentOverflow));
                                     builder.setView(dialoglayout);
                                     builder.show();
@@ -1656,8 +1656,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             sidebar.findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
                             setViews(baseSub.getDataNode().get("public_description_html").asText(),
                                     baseSub.getDisplayName().toLowerCase(Locale.ENGLISH),
-                                    ((SpoilerRobotoTextView) sidebar.findViewById(R.id.sub_title)),
-                                    (CommentOverflow) sidebar.findViewById(
+                                    sidebar.findViewById(R.id.sub_title),
+                                    sidebar.findViewById(
                                             R.id.sub_title_overflow));
                         } else {
                             sidebar.findViewById(R.id.sub_title).setVisibility(View.GONE);

@@ -382,7 +382,7 @@ public class TumblrPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, (TextView) rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
+            }, false, true, rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -542,12 +542,12 @@ public class TumblrPager extends FullScreenActivity
                     (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                 } else if (title.isEmpty()) {
                     setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                            rootView.findViewById(R.id.title));
                 } else {
                     setTextWithLinks(title,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                            rootView.findViewById(R.id.title));
                     setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                            rootView.findViewById(R.id.body));
                 }
                 {
                     int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();

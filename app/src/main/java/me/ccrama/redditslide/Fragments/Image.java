@@ -30,9 +30,9 @@ public class Image extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_imagecard, container, false);
 
-        final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
+        final SubsamplingScaleImageView image = rootView.findViewById(R.id.image);
+        TextView title = rootView.findViewById(R.id.title);
+        TextView desc = rootView.findViewById(R.id.desc);
 
         title.setVisibility(View.GONE);
         desc.setVisibility(View.GONE);

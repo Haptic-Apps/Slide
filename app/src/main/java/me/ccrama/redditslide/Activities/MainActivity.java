@@ -5269,7 +5269,7 @@ public class MainActivity extends BaseActivity
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
                 String name = openingComments.getFullName();
-                args.putString("id", name.substring(3, name.length()));
+                args.putString("id", name.substring(3));
                 args.putBoolean("archived", openingComments.isArchived());
                 args.putBoolean("contest",
                         openingComments.getDataNode().get("contest_mode").asBoolean());

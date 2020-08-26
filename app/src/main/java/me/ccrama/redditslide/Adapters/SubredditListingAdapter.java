@@ -36,7 +36,7 @@ public class SubredditListingAdapter extends ArrayAdapter<String> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
         }
         final TextView t =
-                ((TextView) convertView.findViewById(R.id.name));
+                convertView.findViewById(R.id.name);
         t.setText(fitems.get(position));
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);

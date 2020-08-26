@@ -527,7 +527,7 @@ public class AlbumPager extends FullScreenActivity
                         && SettingValues.lowResMobile))) {
                     String lqurl = url.substring(0, url.lastIndexOf("."))
                             + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))
-                            + url.substring(url.lastIndexOf("."), url.length());
+                            + url.substring(url.lastIndexOf("."));
                     loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
                     lq = true;
                 } else {
@@ -573,10 +573,10 @@ public class AlbumPager extends FullScreenActivity
                         rootView.findViewById(R.id.panel).setVisibility(View.GONE);
                         (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                     } else if (title.isEmpty()) {
-                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                        setTextWithLinks(description, rootView.findViewById(R.id.title));
                     } else {
-                        setTextWithLinks(title, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
-                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                        setTextWithLinks(title, rootView.findViewById(R.id.title));
+                        setTextWithLinks(description, rootView.findViewById(R.id.body));
                     }
                     {
                         int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();

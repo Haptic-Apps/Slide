@@ -200,7 +200,7 @@ public class SendMessage extends BaseActivity {
                     else {
                         String to = author;
                         if(to.startsWith("/r/")){
-                            to = to.substring(3, to.length());
+                            to = to.substring(3);
                             new InboxManager(Authentication.reddit).compose(to, totext, subjecttext,
                                     bodytext);
                         } else {

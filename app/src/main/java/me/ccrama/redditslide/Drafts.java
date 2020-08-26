@@ -3,7 +3,6 @@ package me.ccrama.redditslide;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 /**

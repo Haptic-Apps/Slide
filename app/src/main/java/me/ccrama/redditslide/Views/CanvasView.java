@@ -262,7 +262,7 @@ public class CanvasView extends View {
         float textLength = paintForMeasureText.measureText(this.text);
         float lengthOfChar = textLength / (float) this.text.length();
         float restWidth = this.canvas.getWidth() - textX;  // text-align : right
-        int numChars = (lengthOfChar <= 0) ? 1 : (int) Math.floor((double) (restWidth / lengthOfChar));  // The number of characters at 1 line
+        int numChars = (lengthOfChar <= 0) ? 1 : (int) Math.floor(restWidth / lengthOfChar);  // The number of characters at 1 line
         int modNumChars = Math.max(numChars, 1);
         float y = textY;
 

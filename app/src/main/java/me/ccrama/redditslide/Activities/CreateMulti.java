@@ -337,7 +337,7 @@ public class CreateMulti extends BaseActivityAnim {
             public ViewHolder(View itemView) {
                 super(itemView);
 
-                text = (TextView) itemView.findViewById(R.id.name);
+                text = itemView.findViewById(R.id.name);
 
 
             }

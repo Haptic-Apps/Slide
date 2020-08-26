@@ -305,7 +305,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
-                if (name.contains("t3_")) name = name.substring(3, name.length());
+                if (name.contains("t3_")) name = name.substring(3);
 
                 args.putString("id", name);
                 args.putString("context", context);

@@ -208,7 +208,7 @@ public class Crosspost extends BaseActivity {
                                     + ((AutoCompleteTextView) findViewById(
                                     R.id.subreddittext)).getText().toString()
                                     + "/comments/"
-                                    + s.getFullName().substring(3, s.getFullName().length()));
+                                    + s.getFullName().substring(3));
                     Crosspost.this.finish();
                 } catch (final ApiException e) {
                     e.printStackTrace();

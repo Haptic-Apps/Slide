@@ -325,7 +325,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 }
                             });
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(
+                            TextView tv = view.findViewById(
                                     com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
@@ -435,7 +435,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(
+                            TextView tv = view.findViewById(
                                     com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();
@@ -453,7 +453,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         @Override
                         public void run() {
                             View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(
+                            TextView tv = view.findViewById(
                                     com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.show();

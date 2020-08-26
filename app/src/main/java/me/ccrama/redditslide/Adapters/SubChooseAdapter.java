@@ -82,7 +82,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         ViewHolderItem viewHolderItem;
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
-			viewHolderItem = new ViewHolderItem((TextView) convertView.findViewById(R.id.name));
+			viewHolderItem = new ViewHolderItem(convertView.findViewById(R.id.name));
 			convertView.setTag(viewHolderItem);
 		} else {
 			viewHolderItem = (ViewHolderItem) convertView.getTag();
@@ -137,7 +137,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         ImageUtil.drawWithTargetColor(bm2, bm1, overlayColor, 0);
                     }
 
-                    final float scale = ((Shortcut)getContext()).getResources().getDisplayMetrics().density;
+                    final float scale = getContext().getResources().getDisplayMetrics().density;
                     int p = (int) (50 * scale + 0.5f);
                     shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + subreddit);
                     Intent intent = new Intent();

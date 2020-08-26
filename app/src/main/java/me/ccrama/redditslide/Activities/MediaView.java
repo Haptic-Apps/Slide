@@ -679,8 +679,8 @@ public class MediaView extends FullScreenActivity
                         || (!NetworkUtil.isConnectedWifi(this) && SettingValues.lowResMobile))) {
             String url = contentUrl;
             url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
-                    : (SettingValues.lqMid ? "l" : "h")) + url.substring(url.lastIndexOf("."),
-                    url.length());
+                    : (SettingValues.lqMid ? "l" : "h")) + url.substring(url.lastIndexOf(".")
+            );
 
             displayImage(url);
             findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
@@ -792,10 +792,10 @@ public class MediaView extends FullScreenActivity
             url = url.substring(0, url.length() - 1);
         }
         final String finalUrl = url;
-        String hash = url.substring(url.lastIndexOf("/"), url.length());
+        String hash = url.substring(url.lastIndexOf("/"));
 
         if (NetworkUtil.isConnected(this)) {
-            if (hash.startsWith("/")) hash = hash.substring(1, hash.length());
+            if (hash.startsWith("/")) hash = hash.substring(1);
             final String apiUrl = "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json";
             LogUtil.v(apiUrl);
 

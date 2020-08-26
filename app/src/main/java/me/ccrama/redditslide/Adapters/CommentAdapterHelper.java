@@ -77,12 +77,10 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
-import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -166,7 +164,7 @@ public class CommentAdapterHelper {
                         //Go to comment permalink
                         String s = "https://reddit.com"
                                 + adapter.submission.getPermalink()
-                                + n.getFullName().substring(3, n.getFullName().length())
+                                + n.getFullName().substring(3)
                                 + "?context=3";
                         new OpenRedditLink(mContext, s);
                     }
@@ -180,7 +178,7 @@ public class CommentAdapterHelper {
                         Intent i = new Intent(mContext, Website.class);
                         i.putExtra(LinkUtil.EXTRA_URL, "https://reddit.com"
                                 + adapter.submission.getPermalink()
-                                + n.getFullName().substring(3, n.getFullName().length())
+                                + n.getFullName().substring(3)
                                 + "?context=3&inapp=false");
                         i.putExtra(LinkUtil.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
                         mContext.startActivity(i);
@@ -327,7 +325,7 @@ public class CommentAdapterHelper {
                         //Share comment
                         Reddit.defaultShareText(adapter.submission.getTitle(), "https://reddit.com"
                                 + adapter.submission.getPermalink()
-                                + n.getFullName().substring(3, n.getFullName().length())
+                                + n.getFullName().substring(3)
                                 + "?context=3", mContext);
                         break;
                 }
@@ -390,8 +388,8 @@ public class CommentAdapterHelper {
                 Comment parent = o.comment.getComment();
                 adapter.setViews(parent.getDataNode().get("body_html").asText(),
                         adapter.submission.getSubredditName(),
-                        (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView),
-                        (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                        dialoglayout.findViewById(R.id.firstTextView),
+                        dialoglayout.findViewById(R.id.commentOverflow));
                 builder.setView(dialoglayout);
                 builder.show();
                 break;
