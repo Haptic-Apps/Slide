@@ -412,7 +412,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             comment.getSubredditName().toLowerCase(Locale.ENGLISH)
                                     + ":"
                                     + s.toLowerCase(Locale.ENGLISH),
-                            ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
+                            ImageFlairs.FlairImageLoader.getInstance().getDiskCache());
                     if (file != null && file.exists()) {
                         set = true;
                         holder.imageFlair.setVisibility(View.VISIBLE);

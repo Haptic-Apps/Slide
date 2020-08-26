@@ -195,7 +195,7 @@ public class AlbumFullComments extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = ((ShadowboxComments) getActivity()).comments.get(i);
+        s = ShadowboxComments.comments.get(i);
     }
 
 

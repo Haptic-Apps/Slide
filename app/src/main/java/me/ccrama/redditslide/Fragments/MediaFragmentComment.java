@@ -201,7 +201,7 @@ public class MediaFragmentComment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page");
-        s = ((ShadowboxComments) getActivity()).comments.get(i);
+        s = ShadowboxComments.comments.get(i);
         sub = s.comment.getComment().getSubredditName();
         contentUrl = bundle.getString("contentUrl");
         client = Reddit.client;
