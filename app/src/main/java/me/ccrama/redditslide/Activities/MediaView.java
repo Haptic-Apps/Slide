@@ -730,10 +730,8 @@ public class MediaView extends FullScreenActivity
         hideOnLongClick();
     }
 
-    private ContentType.Type contentType = ContentType.Type.IMAGE;
-
     public void doLoad(final String contentUrl) {
-        contentType = ContentType.getContentType(contentUrl);
+        ContentType.Type contentType = ContentType.getContentType(contentUrl);
         switch (contentType) {
             case DEVIANTART:
                 doLoadDeviantArt(contentUrl);
@@ -1188,13 +1186,11 @@ public class MediaView extends FullScreenActivity
                                         .imageScaleType(ImageScaleType.NONE)
                                         .cacheInMemory(false)
                                         .build(), new ImageLoadingListener() {
-                                    private View mView;
 
                                     @Override
                                     public void onLoadingStarted(String imageUri, View view) {
                                         imageShown = true;
                                         size.setVisibility(View.VISIBLE);
-                                        mView = view;
                                     }
 
                                     @Override

@@ -52,7 +52,6 @@ public class CanvasView extends View {
         QUBIC_BEZIER
     }
 
-    private Context context = null;
     private Canvas canvas = null;
     private Bitmap bitmap = null;
 
@@ -103,7 +102,7 @@ public class CanvasView extends View {
      */
     public CanvasView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.setup(context);
+        this.setup();
     }
 
     /**
@@ -114,7 +113,7 @@ public class CanvasView extends View {
      */
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setup(context);
+        this.setup();
     }
 
     /**
@@ -124,16 +123,14 @@ public class CanvasView extends View {
      */
     public CanvasView(Context context) {
         super(context);
-        this.setup(context);
+        this.setup();
     }
 
     /**
      * Common initialization.
      *
-     * @param context
      */
-    private void setup(Context context) {
-        this.context = context;
+    private void setup() {
 
         this.pathLists.add(new Path());
         this.paintLists.add(this.createPaint());

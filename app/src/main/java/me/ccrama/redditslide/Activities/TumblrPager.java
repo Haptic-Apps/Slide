@@ -657,11 +657,9 @@ public class TumblrPager extends FullScreenActivity
                                 .imageScaleType(ImageScaleType.NONE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
-                            private View mView;
 
                             @Override
                             public void onLoadingStarted(String imageUri, View view) {
-                                mView = view;
                                 size.setVisibility(View.VISIBLE);
                             }
 

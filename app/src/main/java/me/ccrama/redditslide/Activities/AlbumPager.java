@@ -691,11 +691,9 @@ public class AlbumPager extends FullScreenActivity
                                 .imageScaleType(single?ImageScaleType.NONE:ImageScaleType.NONE_SAFE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
-                            private View mView;
 
                             @Override
                             public void onLoadingStarted(String imageUri, View view) {
-                                mView = view;
                                 size.setVisibility(View.VISIBLE);
                             }
 
