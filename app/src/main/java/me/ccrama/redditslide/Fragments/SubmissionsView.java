@@ -275,7 +275,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                             origY = event.getY();
                             handler.postDelayed(mLongPressRunnable, android.view.ViewConfiguration.getLongPressTimeout());
                         }
-                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight()/2)|| (event.getAction() == MotionEvent.ACTION_UP)) {
+                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight()/2.0f)|| (event.getAction() == MotionEvent.ACTION_UP)) {
                             handler.removeCallbacks(mLongPressRunnable);
                         }
                         return false;

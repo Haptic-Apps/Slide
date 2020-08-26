@@ -210,7 +210,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                                     android.view.ViewConfiguration.getLongPressTimeout());
                         }
                         if (((event.getAction() == MotionEvent.ACTION_MOVE)
-                                && Math.abs(event.getY() - origY) > fab.getHeight() / 2)
+                                && Math.abs(event.getY() - origY) > fab.getHeight() / 2.0f)
                                 || (event.getAction() == MotionEvent.ACTION_UP)) {
                             handler.removeCallbacks(mLongPressRunnable);
                         }

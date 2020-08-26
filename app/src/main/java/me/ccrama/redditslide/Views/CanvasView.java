@@ -425,8 +425,8 @@ public class CanvasView extends View {
             Matrix m = new Matrix();
             m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()), new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), Matrix.ScaleToFit.CENTER);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
-            height = (((canvas.getHeight()/2)-bitmap.getHeight()/2));
-            width=((canvas.getWidth()/2)-bitmap.getWidth()/2);
+            height = (((canvas.getHeight()/2.0f)-bitmap.getHeight()/2.0f));
+            width=((canvas.getWidth()/2.0f)-bitmap.getWidth()/2.0f);
             canvas.drawBitmap(bitmap,width,height, new Paint());
             right = canvas.getWidth();
             bottom = height + ((bitmap.getHeight()));

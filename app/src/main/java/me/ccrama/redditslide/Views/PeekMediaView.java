@@ -103,7 +103,7 @@ public class PeekMediaView extends RelativeLayout {
         }
         if (web
                 && website.canScrollVertically((origY - event.getY()) > 0 ? 0 : 1)
-                && Math.abs(origY - event.getY()) > website.getHeight() / 4) {
+                && Math.abs(origY - event.getY()) > website.getHeight() / 4.0f) {
             website.scrollBy(0, (int) -(origY - event.getY()) / 5);
         }
     }

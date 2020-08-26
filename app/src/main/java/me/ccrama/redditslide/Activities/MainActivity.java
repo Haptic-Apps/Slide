@@ -4239,8 +4239,8 @@ public class MainActivity extends BaseActivity
         Bitmap over = drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
 
         Canvas canvas = new Canvas(color);
-        canvas.drawBitmap(over, color.getWidth() / 2 - (over.getWidth() / 2),
-                color.getHeight() / 2 - (over.getHeight() / 2), null);
+        canvas.drawBitmap(over, color.getWidth() / 2.0f - (over.getWidth() / 2.0f),
+                color.getHeight() / 2.0f - (over.getHeight() / 2.0f), null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Icon.createWithBitmap(color);
