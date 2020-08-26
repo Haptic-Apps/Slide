@@ -44,7 +44,7 @@
                 android:layout_alignParentRight="true"
                 android:padding="8dp"
                 android:tag="tint"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:layout_marginLeft="-4dp"
                 app:srcCompat="@drawable/down" />
 
@@ -116,7 +116,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/img_score"
                 app:srcCompat="@drawable/upvoted" />
 
@@ -144,7 +144,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/img_comments"
 
                 app:srcCompat="@drawable/commentchange" />
@@ -171,7 +171,7 @@
                 android:layout_toLeftOf="@+id/save"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_edit"
                 app:srcCompat="@drawable/edit" />
 
@@ -184,7 +184,7 @@
                 android:layout_toLeftOf="@+id/hide"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_save"
                 app:srcCompat="@drawable/iconstarfilled" />
 
@@ -197,7 +197,7 @@
                 android:layout_toLeftOf="@+id/upvote"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_mod"
                 app:srcCompat="@drawable/mod" />
 
@@ -210,7 +210,7 @@
                 android:layout_toLeftOf="@+id/mod"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_hide"
                 app:srcCompat="@drawable/hide" />
 
@@ -223,7 +223,7 @@
                 android:layout_toLeftOf="@+id/downvote"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_upvote"
                 app:srcCompat="@drawable/upvoted" />
 
@@ -236,7 +236,7 @@
                 android:layout_toLeftOf="@+id/menu"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_downvote"
                 app:srcCompat="@drawable/downvote" />
 
@@ -248,7 +248,7 @@
                 android:layout_alignParentRight="true"
                 android:padding="8dp"
                 android:tag="tintactionbar"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_menu"
                 app:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>

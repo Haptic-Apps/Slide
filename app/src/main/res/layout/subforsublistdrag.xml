@@ -15,7 +15,7 @@
             android:padding="8dp"
             android:id="@+id/dragit"
             app:srcCompat="@drawable/dragit"
-            app:tint="?attr/tintColor"
+            android:tint="?attr/tintColor"
             android:layout_height="match_parent" />
 
         <View

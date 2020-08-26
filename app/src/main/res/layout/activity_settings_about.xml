@@ -36,7 +36,7 @@
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/report"
-                    app:tint="?attr/tintColor" />
+                    android:tint="?attr/tintColor"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/infonew"
-                    app:tint="?attr/tintColor" />
+                    android:tint="?attr/tintColor"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/iconstarfilled"
-                    app:tint="?attr/tintColor" />
+                    android:tint="?attr/tintColor"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/sub"
-                    app:tint="?attr/tintColor" />
+                    android:tint="?attr/tintColor"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/infonew"
-                    app:tint="?attr/tintColor" />
+                    android:tint="?attr/tintColor"/>
 
                 <TextView
                     android:layout_width="wrap_content"

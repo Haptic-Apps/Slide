@@ -60,7 +60,7 @@
                         android:tag="tintsecond"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        app:tint="?attr/tintColor"
+                        android:tint="?attr/tintColor"
                         app:srcCompat="@drawable/comment" />
 
                 <ImageView
@@ -76,7 +76,7 @@
                         android:paddingRight="6dp"
                         android:tag="tintsecond"
                         android:layout_alignParentRight="true"
-                        app:tint="?attr/tintColor"
+                        android:tint="?attr/tintColor"
                     android:contentDescription="@string/btn_menu"
                     app:srcCompat="@drawable/more" />
                 <me.ccrama.redditslide.Views.TitleTextView

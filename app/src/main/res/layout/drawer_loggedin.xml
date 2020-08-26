@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    app:tint="#fff"
+                    android:tint="#fff"
                     app:srcCompat="@drawable/offline"/>
 
             <TextView
@@ -116,7 +116,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    app:tint="#ffffff"
+                    android:tint="#ffffff"
                     app:srcCompat="@drawable/save"/>
 
             <TextView
@@ -142,7 +142,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="26dp"
-                    app:tint="#fff"
+                    android:tint="#fff"
                     app:srcCompat="@drawable/person"/>
 
             <TextView
@@ -168,7 +168,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    app:tint="#fff"
+                    android:tint="#fff"
                     app:srcCompat="@drawable/add"/>
 
             <TextView
@@ -202,7 +202,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    app:tint="?attr/tintColor"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/profile"/>
 
             <TextView
@@ -229,7 +229,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:theme="@style/Ripple.List"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_expand"
                 app:srcCompat="@drawable/down"/>
     </RelativeLayout>
@@ -342,7 +342,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    app:tint="?attr/tintColor"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/sidebar_inbox"/>
 
             <TextView
@@ -392,7 +392,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    app:tint="?attr/tintColor"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/mod"/>
 
             <TextView
@@ -420,7 +420,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/collection"/>
 
         <TextView
@@ -446,7 +446,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/crown"/>
 
         <TextView
@@ -472,7 +472,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/profile"/>
 
         <TextView
@@ -499,7 +499,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/world"/>
 
         <TextView
@@ -531,7 +531,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    app:tint="?attr/tintColor"
+                    android:tint="?attr/tintColor"
                     app:srcCompat="@drawable/settings"/>
 
             <TextView
@@ -558,7 +558,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:theme="@style/Ripple.List"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_expand"
                 app:srcCompat="@drawable/down"/>
     </RelativeLayout>
@@ -662,7 +662,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="8dp"
                 android:theme="@style/Ripple.List"
-                app:tint="?attr/tintColor"
+                android:tint="?attr/tintColor"
                 android:visibility="gone"
                 android:contentDescription="@string/btn_close"
                 app:srcCompat="@drawable/close"/>

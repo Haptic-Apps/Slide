@@ -56,7 +56,7 @@
             android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/openexternal"
-            app:tint="@color/white" />
+            android:tint="@color/white" />
 
         <ImageView
             android:id="@+id/share"
@@ -65,7 +65,7 @@
             android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/share"
-            app:tint="@color/white" />
+            android:tint="@color/white" />
 
         <ImageView
             android:id="@+id/gifsave"

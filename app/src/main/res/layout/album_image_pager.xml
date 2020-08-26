@@ -47,7 +47,7 @@
                 android:layout_toLeftOf="@+id/save"
                 android:padding="15dp"
                 app:srcCompat="@drawable/hd"
-                app:tint="#e1e1e1" />
+                android:tint="#e1e1e1" />
             <ImageView
                 android:id="@+id/comments"
                 android:layout_width="56dp"
@@ -56,7 +56,7 @@
                 android:layout_alignParentLeft="true"
                 android:padding="15dp"
                 app:srcCompat="@drawable/commentchange"
-                app:tint="#e1e1e1" />
+                android:tint="#e1e1e1" />
             <ImageView
                 android:id="@+id/save"
                 android:layout_width="56dp"
@@ -65,7 +65,7 @@
                 android:theme="@style/Ripple.List"
                 android:padding="15dp"
                 app:srcCompat="@drawable/save"
-                app:tint="#e1e1e1" />
+                android:tint="#e1e1e1" />
             <ImageView
                 android:id="@+id/more"
                 style="@style/Ripple.List"
@@ -79,7 +79,7 @@
                 android:layout_alignParentRight="true"
                 android:paddingBottom="15dp"
                 app:srcCompat="@drawable/more"
-                app:tint="#e1e1e1" />
+                android:tint="#e1e1e1" />
 
         </RelativeLayout>
 

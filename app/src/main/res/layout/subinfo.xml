@@ -142,7 +142,7 @@
                             android:padding="4dp"
                             app:srcCompat="@drawable/collection"
                             android:theme="@style/Ripple.List"
-                            app:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"/>
                 </RelativeLayout>
 
                 <LinearLayout
@@ -207,7 +207,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            app:tint="?attr/tintColor"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/theme"/>
 
                     <TextView
@@ -234,7 +234,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            app:tint="?attr/tintColor"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/wiki"/>
 
                     <TextView
@@ -261,7 +261,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            app:tint="?attr/tintColor"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/send"/>
 
                     <TextView
@@ -288,7 +288,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            app:tint="?attr/tintColor"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/mod"/>
 
                     <TextView
@@ -316,7 +316,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            app:tint="?attr/tintColor"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/fontsizedarker"/>
 
                     <TextView
@@ -344,7 +344,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            app:tint="?attr/tintColor"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/image"/>
 
                     <TextView
@@ -371,7 +371,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="12dp"
-                            app:tint="?attr/tintColor"
+                            android:tint="?attr/tintColor"
                             app:srcCompat="@drawable/sort"/>
 
                     <TextView
