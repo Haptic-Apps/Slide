@@ -129,9 +129,7 @@ dependencies {
     implementation 'com.neovisionaries:nv-websocket-client:2.9'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'me.everything:overscroll-decor-android:1.1.0'
-    implementation('com.mikepenz:aboutlibraries:8.3.0', {
-        exclude group: 'org.jetbrains', module: 'annotations'
-    })
+    implementation 'com.mikepenz:aboutlibraries:6.2.3'
     implementation 'com.googlecode.mp4parser:isoparser:1.1.22'
 
 /** Testing **/
