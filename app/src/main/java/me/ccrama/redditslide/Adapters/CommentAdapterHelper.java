@@ -103,7 +103,7 @@ public class CommentAdapterHelper {
         Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         Drawable gild = mContext.getResources().getDrawable(R.drawable.gild);
         Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-        Drawable share = mContext.getResources().getDrawable(R.drawable.share);
+        Drawable share = mContext.getResources().getDrawable(R.drawable.ic_share);
         Drawable parent = mContext.getResources().getDrawable(R.drawable.commentchange);
         Drawable replies = mContext.getResources().getDrawable(R.drawable.notifs);
         Drawable permalink = mContext.getResources().getDrawable(R.drawable.link);

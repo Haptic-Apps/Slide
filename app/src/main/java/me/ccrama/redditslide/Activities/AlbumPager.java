@@ -441,7 +441,7 @@ public class AlbumPager extends FullScreenActivity
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.share);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
 

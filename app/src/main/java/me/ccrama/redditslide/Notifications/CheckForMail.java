@@ -280,7 +280,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                             Reddit.CHANNEL_MODMAIL).setContentIntent(intent)
-                                    .setSmallIcon(R.drawable.mod_png)
+                                    .setSmallIcon(R.drawable.mod)
                                     .setTicker(res.getQuantityString(
                                             R.plurals.mod_mail_notification_title, amount, amount))
                                     .setWhen(System.currentTimeMillis())
@@ -311,7 +311,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                                 Reddit.CHANNEL_MODMAIL).setContentIntent(intent)
-                                        .setSmallIcon(R.drawable.mod_png)
+                                        .setSmallIcon(R.drawable.mod)
                                         .setTicker(res.getQuantityString(
                                                 R.plurals.mod_mail_notification_title, 1, 1))
                                         .setWhen(System.currentTimeMillis())

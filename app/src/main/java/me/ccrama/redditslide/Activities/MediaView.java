@@ -221,7 +221,7 @@ public class MediaView extends FullScreenActivity
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.share);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
         Drawable collection = getResources().getDrawable(R.drawable.collection);
@@ -259,7 +259,7 @@ public class MediaView extends FullScreenActivity
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
                     type = "GIF";
                     contentUrl = contentUrl.replace(".gifv", ".gif");
-                    //todo possibly share gifs  b.sheet(9, share, "Share GIF");
+                    //todo possibly share gifs  b.sheet(9, ic_share, "Share GIF");
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -361,7 +361,7 @@ public class MediaView extends FullScreenActivity
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.download_png);
+                            .setSmallIcon(R.drawable.save);
                     try {
 
                         final URL url =
@@ -409,7 +409,7 @@ public class MediaView extends FullScreenActivity
                                         Notification notif = new NotificationCompat.Builder(
                                                 MediaView.this, Reddit.CHANNEL_IMG)
                                                 .setContentTitle(getString(R.string.gif_saved))
-                                                .setSmallIcon(R.drawable.save_png)
+                                                .setSmallIcon(R.drawable.savecontent)
                                                 .setContentIntent(contentIntent)
                                                 .build();
 
