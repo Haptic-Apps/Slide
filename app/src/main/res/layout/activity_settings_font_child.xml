@@ -259,7 +259,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_size_white_48dp" />
+                app:srcCompat="@drawable/fontsizedarker" />
 
             <TextView
                 android:layout_width="wrap_content"

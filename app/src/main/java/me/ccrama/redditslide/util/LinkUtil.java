@@ -168,11 +168,7 @@ public class LinkUtil {
         }
 
         Uri uri = Uri.parse(url);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            return uri.normalizeScheme();
-        } else {
-            return uri;
-        }
+        return uri.normalizeScheme();
     }
 
     public static boolean tryOpenWithVideoPlugin(@NonNull String url) {

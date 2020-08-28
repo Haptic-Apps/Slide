@@ -90,7 +90,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             checkBox.setText(context.getString(R.string.settings_mail_check));
         } else {
             checkBox.setChecked(true);
-            landscape.setValue(Reddit.notificationTime / 15, false);
+            landscape.setValue(Reddit.notificationTime / 15.0f, false);
             checkBox.setText(context.getString(R.string.settings_notification_newline,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime,
                             context.getBaseContext())));

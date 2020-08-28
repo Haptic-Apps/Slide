@@ -4159,7 +4159,7 @@ public class MainActivity extends BaseActivity
 
         if (NetworkUtil.isConnected(MainActivity.this)) {
             if (Authentication.isLoggedIn
-                    && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
@@ -4200,7 +4200,7 @@ public class MainActivity extends BaseActivity
                 Collections.reverse(shortcuts);
 
                 shortcutManager.setDynamicShortcuts(shortcuts);
-            } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 int count = 0;
@@ -4239,8 +4239,8 @@ public class MainActivity extends BaseActivity
         Bitmap over = drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
 
         Canvas canvas = new Canvas(color);
-        canvas.drawBitmap(over, color.getWidth() / 2 - (over.getWidth() / 2),
-                color.getHeight() / 2 - (over.getHeight() / 2), null);
+        canvas.drawBitmap(over, color.getWidth() / 2.0f - (over.getWidth() / 2.0f),
+                color.getHeight() / 2.0f - (over.getHeight() / 2.0f), null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Icon.createWithBitmap(color);
@@ -5269,7 +5269,7 @@ public class MainActivity extends BaseActivity
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
                 String name = openingComments.getFullName();
-                args.putString("id", name.substring(3, name.length()));
+                args.putString("id", name.substring(3));
                 args.putBoolean("archived", openingComments.isArchived());
                 args.putBoolean("contest",
                         openingComments.getDataNode().get("contest_mode").asBoolean());

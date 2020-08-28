@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package me.ccrama.redditslide.util;
+package me.ccrama.redditslide.util.billing;
 
 import org.json.JSONException;
 import org.json.JSONObject;

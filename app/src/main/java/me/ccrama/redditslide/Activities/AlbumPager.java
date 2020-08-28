@@ -441,7 +441,7 @@ public class AlbumPager extends FullScreenActivity
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.share);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
 
@@ -527,7 +527,7 @@ public class AlbumPager extends FullScreenActivity
                         && SettingValues.lowResMobile))) {
                     String lqurl = url.substring(0, url.lastIndexOf("."))
                             + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))
-                            + url.substring(url.lastIndexOf("."), url.length());
+                            + url.substring(url.lastIndexOf("."));
                     loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
                     lq = true;
                 } else {
@@ -573,10 +573,10 @@ public class AlbumPager extends FullScreenActivity
                         rootView.findViewById(R.id.panel).setVisibility(View.GONE);
                         (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                     } else if (title.isEmpty()) {
-                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                        setTextWithLinks(description, rootView.findViewById(R.id.title));
                     } else {
-                        setTextWithLinks(title, ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
-                        setTextWithLinks(description, ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                        setTextWithLinks(title, rootView.findViewById(R.id.title));
+                        setTextWithLinks(description, rootView.findViewById(R.id.body));
                     }
                     {
                         int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
@@ -691,11 +691,9 @@ public class AlbumPager extends FullScreenActivity
                                 .imageScaleType(single?ImageScaleType.NONE:ImageScaleType.NONE_SAFE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
-                            private View mView;
 
                             @Override
                             public void onLoadingStarted(String imageUri, View view) {
-                                mView = view;
                                 size.setVisibility(View.VISIBLE);
                             }
 

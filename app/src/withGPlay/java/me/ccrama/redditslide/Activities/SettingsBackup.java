@@ -284,8 +284,8 @@ public class SettingsBackup extends BaseActivityAnim
                         for (int i = 1; i < files.length; i++) {
                             String innerFile = files[i];
                             String t = innerFile.substring(6, innerFile.indexOf(">"));
-                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1,
-                                    innerFile.length());
+                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1
+                            );
 
                             File newF = new File(getApplicationInfo().dataDir
                                     + File.separator
@@ -678,7 +678,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                                     + file.getAbsolutePath(),
                                                             Snackbar.LENGTH_INDEFINITE);
                                             View view = s.getView();
-                                            TextView tv = (TextView) view.findViewById(
+                                            TextView tv = view.findViewById(
                                                     com.google.android.material.R.id.snackbar_text);
                                             tv.setTextColor(Color.WHITE);
                                             s.show();

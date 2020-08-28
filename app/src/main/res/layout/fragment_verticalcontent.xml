@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"
         android:layout_marginStart="4dp"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:fadeScrollbars="true"
             android:scrollbarStyle="outsideInset"
             android:orientation="vertical"/>
-    </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         layout="@layout/fab"

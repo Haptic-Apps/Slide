@@ -184,7 +184,7 @@ public class RedditItemView extends RelativeLayout {
 
     private void doUser(Account account, View content) {
         String name = account.getFullName();
-        final TextView title = (TextView) content.findViewById(R.id.title);
+        final TextView title = content.findViewById(R.id.title);
         title.setText(name);
 
         final int currentColor = Palette.getColorUser(name);
@@ -248,8 +248,8 @@ public class RedditItemView extends RelativeLayout {
             content.findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
             setViews(subreddit.getDataNode().get("public_description_html").asText(),
                     subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
-                    ((SpoilerRobotoTextView) content.findViewById(R.id.sub_title)),
-                    (CommentOverflow) content.findViewById(R.id.sub_title_overflow));
+                    content.findViewById(R.id.sub_title),
+                    content.findViewById(R.id.sub_title_overflow));
         } else {
             content.findViewById(R.id.sub_title).setVisibility(View.GONE);
         }
@@ -527,7 +527,7 @@ public class RedditItemView extends RelativeLayout {
             } else {
                 commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
             }
-            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
+            SidebarLayout sidebar = findViewById(R.id.drawer_layout);
             for (int i = 0; i < commentOverflow.getChildCount(); i++) {
                 View maybeScrollable = commentOverflow.getChildAt(i);
                 if (maybeScrollable instanceof HorizontalScrollView) {

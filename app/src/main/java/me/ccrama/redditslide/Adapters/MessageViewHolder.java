@@ -22,13 +22,13 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
 
     public MessageViewHolder(View v) {
         super(v);
-        title = (TextView) v.findViewById(R.id.title);
+        title = v.findViewById(R.id.title);
         title.setMaxLines(1);
         title.setEllipsize(TextUtils.TruncateAt.END);
-        content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
-        time = (TextView) v.findViewById(R.id.time);
-        commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
-        user = (TextView) v.findViewById(R.id.user);
+        content = v.findViewById(R.id.content);
+        time = v.findViewById(R.id.time);
+        commentOverflow = v.findViewById(R.id.commentOverflow);
+        user = v.findViewById(R.id.user);
     }
 
 

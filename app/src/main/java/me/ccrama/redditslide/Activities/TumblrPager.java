@@ -382,7 +382,7 @@ public class TumblrPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, (TextView) rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
+            }, false, true, rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -417,7 +417,7 @@ public class TumblrPager extends FullScreenActivity
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.share);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
 
@@ -542,12 +542,12 @@ public class TumblrPager extends FullScreenActivity
                     (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                 } else if (title.isEmpty()) {
                     setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                            rootView.findViewById(R.id.title));
                 } else {
                     setTextWithLinks(title,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                            rootView.findViewById(R.id.title));
                     setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                            rootView.findViewById(R.id.body));
                 }
                 {
                     int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
@@ -657,11 +657,9 @@ public class TumblrPager extends FullScreenActivity
                                 .imageScaleType(ImageScaleType.NONE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
-                            private View mView;
 
                             @Override
                             public void onLoadingStarted(String imageUri, View view) {
-                                mView = view;
                                 size.setVisibility(View.VISIBLE);
                             }
 

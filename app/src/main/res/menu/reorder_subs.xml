@@ -12,7 +12,7 @@
         android:id="@+id/refresh"
         android:title="@string/sync_subscriptions"
         app:showAsAction="always"
-        android:icon="@drawable/refresh" />
+        android:icon="@drawable/sync" />
     <item
         android:id="@+id/info"
         android:title="@string/help"

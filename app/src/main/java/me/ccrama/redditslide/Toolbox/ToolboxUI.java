@@ -603,7 +603,7 @@ public class ToolboxUI {
             try {
                 new ModerationManager(Authentication.reddit).remove((PublicContribution) objects[0], false);
                 if (lock && thing instanceof Submission) {
-                    new ModerationManager(Authentication.reddit).setLocked((Submission) thing);
+                    new ModerationManager(Authentication.reddit).setLocked(thing);
                 }
                 if ((flair[0].length() > 0 || flair[1].length() > 0) && thing instanceof Submission) {
                     new ModerationManager(Authentication.reddit).setFlair(((Submission) thing).getSubredditName(),

@@ -65,7 +65,6 @@ import me.ccrama.redditslide.util.LogUtil;
 public class CreateMulti extends BaseActivityAnim {
 
     private ArrayList<String> subs;
-    private boolean delete = false;
     private CustomAdapter adapter;
     private EditText title;
     private RecyclerView recyclerView;
@@ -337,7 +336,7 @@ public class CreateMulti extends BaseActivityAnim {
             public ViewHolder(View itemView) {
                 super(itemView);
 
-                text = (TextView) itemView.findViewById(R.id.name);
+                text = itemView.findViewById(R.id.name);
 
 
             }
@@ -359,25 +358,20 @@ public class CreateMulti extends BaseActivityAnim {
                     Log.v(LogUtil.getTag(), "Invalid multi name");
                     throw new IllegalArgumentException(multiName);
                 }
-                if (delete) {
-                    Log.v(LogUtil.getTag(), "Deleting");
-                    new MultiRedditManager(Authentication.reddit).delete(old);
-                } else {
-                    if (old != null && !old.isEmpty() && !old.replace(" ", "").equals(multiName)) {
-                        Log.v(LogUtil.getTag(), "Renaming");
-                        new MultiRedditManager(Authentication.reddit).rename(old, multiName);
-                    }
-                    Log.v(LogUtil.getTag(), "Create or Update, Name: " + multiName);
-                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, multiName).subreddits(subs).build());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.v(LogUtil.getTag(), "Update Subreddits");
-                            MultiredditOverview.multiActivity.finish();
-                            new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
-                        }
-                    });
+                if (old != null && !old.isEmpty() && !old.replace(" ", "").equals(multiName)) {
+                    Log.v(LogUtil.getTag(), "Renaming");
+                    new MultiRedditManager(Authentication.reddit).rename(old, multiName);
                 }
+                Log.v(LogUtil.getTag(), "Create or Update, Name: " + multiName);
+                new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, multiName).subreddits(subs).build());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.v(LogUtil.getTag(), "Update Subreddits");
+                        MultiredditOverview.multiActivity.finish();
+                        new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
+                    }
+                });
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

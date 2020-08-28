@@ -268,7 +268,7 @@ public class ManageOfflineContentFragment {
 
                     final View t = context.getLayoutInflater().inflate(
                             R.layout.account_textview,
-                            ((LinearLayout) context.findViewById(R.id.manage_history_domainlist)),
+                            context.findViewById(R.id.manage_history_domainlist),
                             false);
 
                     ((TextView) t.findViewById(R.id.name)).setText(name);

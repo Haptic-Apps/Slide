@@ -149,7 +149,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onSingleClick(View v) {
                     dataSet.loadMore(v.getContext(),
-                            (SubmissionsView) displayer, false, dataSet.subreddit);
+                            displayer, false, dataSet.subreddit);
                 }
             });
             return new SubmissionFooterViewHolder(v);

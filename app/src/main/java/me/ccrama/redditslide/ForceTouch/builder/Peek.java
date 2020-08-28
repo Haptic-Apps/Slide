@@ -23,11 +23,11 @@ import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
+import androidx.core.view.GestureDetectorCompat;
 
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.ForceTouch.callback.OnPeek;
-import me.ccrama.redditslide.ForceTouch.util.GestureDetectorCompat;
 import me.ccrama.redditslide.ForceTouch.util.GestureListener;
 
 /**

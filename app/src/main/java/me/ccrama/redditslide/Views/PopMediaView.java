@@ -101,7 +101,7 @@ public class PopMediaView {
 
         videoView.clearFocus();
         v.findViewById(R.id.submission_image).setVisibility(View.GONE);
-        final ProgressBar loader = (ProgressBar) v.findViewById(R.id.gifprogress);
+        final ProgressBar loader = v.findViewById(R.id.gifprogress);
         v.findViewById(R.id.progress).setVisibility(View.GONE);
         GifUtils.AsyncLoadGif gif = new GifUtils.AsyncLoadGif(((Activity) v.getContext()), videoView, loader, null,
                 null, false, true, "");
@@ -113,10 +113,10 @@ public class PopMediaView {
             url = url.substring(0, url.length() - 1);
         }
         final String finalUrl = url;
-        String hash = url.substring(url.lastIndexOf("/"), url.length());
+        String hash = url.substring(url.lastIndexOf("/"));
 
         if (NetworkUtil.isConnected(v.getContext())) {
-            if (hash.startsWith("/")) hash = hash.substring(1, hash.length());
+            if (hash.startsWith("/")) hash = hash.substring(1);
             final String apiUrl = "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json";
             LogUtil.v(apiUrl);
 
@@ -270,11 +270,11 @@ public class PopMediaView {
     }
 
     public void displayImage(final String url, final View v) {
-        final SubsamplingScaleImageView i = (SubsamplingScaleImageView) v.findViewById(R.id.submission_image);
+        final SubsamplingScaleImageView i = v.findViewById(R.id.submission_image);
 
         i.setMinimumDpi(70);
         i.setMinimumTileDpi(240);
-        final ProgressBar bar = (ProgressBar) v.findViewById(R.id.progress);
+        final ProgressBar bar = v.findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
 
@@ -307,11 +307,9 @@ public class PopMediaView {
                             .imageScaleType(ImageScaleType.NONE)
                             .cacheInMemory(false)
                             .build(), new ImageLoadingListener() {
-                        private View mView;
 
                         @Override
                         public void onLoadingStarted(String imageUri, View view) {
-                            mView = view;
                         }
 
                         @Override

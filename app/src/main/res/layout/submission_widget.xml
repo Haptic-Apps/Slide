@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
@@ -87,7 +88,7 @@
                     android:layout_marginStart="16dp"
                     android:tag="tintactionbar"
                     android:contentDescription="@string/img_score"
-                    android:src="@drawable/upvoted" />
+                    app:srcCompat="@drawable/upvoted" />
 
                 <TextView
                     android:id="@+id/score"
@@ -114,7 +115,7 @@
                     android:layout_toRightOf="@+id/score"
                     android:tag="tintactionbar"
                     android:contentDescription="@string/img_comments"
-                    android:src="@drawable/commentwidget" />
+                    app:srcCompat="@drawable/commentchange" />
 
                 <TextView
                     android:id="@+id/comments"

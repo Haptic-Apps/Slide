@@ -23,11 +23,11 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
 
     public NewsViewHolder(View v) {
         super(v);
-        title = (SpoilerRobotoTextView) v.findViewById(R.id.title);
+        title = v.findViewById(R.id.title);
         comment = v.findViewById(R.id.comments);
         menu = v.findViewById(R.id.more);
-        leadImage = (HeaderImageLinkView) v.findViewById(R.id.headerimage);
-        innerRelative = (RelativeLayout) v.findViewById(R.id.innerrelative);
+        leadImage = v.findViewById(R.id.headerimage);
+        innerRelative = v.findViewById(R.id.innerrelative);
         thumbnail = v.findViewById(R.id.thumbimage2);
     }
 }
