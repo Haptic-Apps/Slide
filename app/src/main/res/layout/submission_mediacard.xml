@@ -136,7 +136,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/img_score"
-                app:srcCompat="@drawable/upvoted" />
+                sothree:srcCompat="@drawable/upvoted" />
 
             <TextView
                 android:id="@+id/score"
@@ -163,7 +163,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/img_comments"
-                app:srcCompat="@drawable/commentchange" />
+                sothree:srcCompat="@drawable/commentchange" />
 
             <TextView
                 android:id="@+id/comments"
@@ -191,7 +191,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_save"
-                app:srcCompat="@drawable/iconstarfilled" />
+                sothree:srcCompat="@drawable/iconstarfilled" />
 
             <ImageView
                 android:id="@+id/upvote"
@@ -205,7 +205,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_upvote"
-                app:srcCompat="@drawable/upvoted" />
+                sothree:srcCompat="@drawable/upvoted" />
 
             <ImageView
                 android:id="@+id/downvote"
@@ -219,7 +219,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_downvote"
-                app:srcCompat="@drawable/downvote" />
+                sothree:srcCompat="@drawable/downvote" />
 
 
             <ImageView
@@ -233,7 +233,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_menu"
-                app:srcCompat="@drawable/more" />
+                sothree:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
