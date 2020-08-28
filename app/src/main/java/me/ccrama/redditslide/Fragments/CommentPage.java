@@ -2341,17 +2341,11 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
         //Since these text views takes the whole width of the screen, we get the width of the screen and subtract right and left padding to get the actual width of the text view
         int deviceWidth = getResources().getDisplayMetrics().widthPixels - tv.getPaddingLeft() - tv.getPaddingRight();
-        float spacingMultiplier, spacingAddition;
         Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
 
-        if(Build.VERSION.SDK_INT >= 16) {
-            spacingMultiplier = tv.getLineSpacingMultiplier();
-            spacingAddition = tv.getLineSpacingExtra();
-        } else {
-            //Default values
-            spacingMultiplier = 1f;
-            spacingAddition = 0f;
-        }
+        float spacingMultiplier = tv.getLineSpacingMultiplier();
+        float spacingAddition = tv.getLineSpacingExtra();
+
         StaticLayout staticLayout = new StaticLayout(tv.getText(),textPaint,deviceWidth,alignment,spacingMultiplier,spacingAddition,false);
 
         //Add top and bottom padding to the height and return the value

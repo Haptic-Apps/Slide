@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.managers.WikiManager;
 
@@ -24,7 +25,6 @@ import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
@@ -36,7 +36,7 @@ public class WikiPage extends Fragment {
     private WikiPageListener listener;
 
     private WebView webView;
-    private GeneralSwipeRefreshLayout ref;
+    private SwipeRefreshLayout ref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
