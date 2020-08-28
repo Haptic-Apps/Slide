@@ -248,9 +248,7 @@ public class MediaFragment extends Fragment {
                     @Override
                     public void onGlobalLayout() {
                         slideLayout.setPanelHeight(title.getMeasuredHeight());
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
+                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
         slideLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
