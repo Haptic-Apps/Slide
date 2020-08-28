@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package me.ccrama.redditslide.util;
+package me.ccrama.redditslide.util.billing;
 
 /**
  * Exception thrown when something went wrong with in-app billing.

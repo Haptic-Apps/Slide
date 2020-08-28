@@ -70,12 +70,12 @@ import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.GifCache;
-import me.ccrama.redditslide.util.IabHelper;
-import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
+import me.ccrama.redditslide.util.billing.IabHelper;
+import me.ccrama.redditslide.util.billing.IabResult;
 import okhttp3.Dns;
 import okhttp3.OkHttpClient;
 

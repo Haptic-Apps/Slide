@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package me.ccrama.redditslide.util;
+package me.ccrama.redditslide.util.billing;
 
 import android.app.Activity;
 import android.app.PendingIntent;
