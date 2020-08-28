@@ -4159,7 +4159,7 @@ public class MainActivity extends BaseActivity
 
         if (NetworkUtil.isConnected(MainActivity.this)) {
             if (Authentication.isLoggedIn
-                    && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
@@ -4200,7 +4200,7 @@ public class MainActivity extends BaseActivity
                 Collections.reverse(shortcuts);
 
                 shortcutManager.setDynamicShortcuts(shortcuts);
-            } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 int count = 0;

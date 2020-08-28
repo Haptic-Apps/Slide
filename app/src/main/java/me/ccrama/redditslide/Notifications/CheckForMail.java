@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.text.Html;
 
 import androidx.core.app.NotificationCompat;
@@ -158,7 +159,7 @@ public class CheckForMail extends BroadcastReceiver {
                     notificationManager.notify(0, notification);
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     for (Message m : messages) {
                         NotificationCompat.BigTextStyle notiStyle =
                                 new NotificationCompat.BigTextStyle();
@@ -299,7 +300,7 @@ public class CheckForMail extends BroadcastReceiver {
                     notificationManager.notify(1, notification);
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     for (Message m : messages) {
                         NotificationCompat.BigTextStyle notiStyle =
                                 new NotificationCompat.BigTextStyle();
