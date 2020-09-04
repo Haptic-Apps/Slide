@@ -70,17 +70,14 @@ import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.GifCache;
-import me.ccrama.redditslide.util.IabHelper;
-import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
+import me.ccrama.redditslide.util.billing.IabHelper;
+import me.ccrama.redditslide.util.billing.IabResult;
 import okhttp3.Dns;
 import okhttp3.OkHttpClient;
-
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -182,7 +179,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static HashMap<String, String> getInstalledBrowsers() {
         int packageMatcher =
-                SDK_INT >= M ? PackageManager.MATCH_ALL : PackageManager.GET_DISABLED_COMPONENTS;
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PackageManager.MATCH_ALL : PackageManager.GET_DISABLED_COMPONENTS;
 
         HashMap<String, String> browserMap = new HashMap<>();
 
@@ -611,7 +608,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static final String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
 
     public void setupNotificationChannels() {
-        if (SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Each triple contains the channel ID, name, and importance level
             List<Triple<String, String, Integer>> notificationTripleList =
                     new ArrayList<Triple<String, String, Integer>>() {{
@@ -674,7 +671,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static class GfycatIpv4Dns implements Dns {
         @Override
         public List<InetAddress> lookup(String hostname) throws UnknownHostException {
-            if (ContentType.hostContains(hostname, "gfycat.com")) {
+            if (ContentType.hostContains(hostname, "gfycat.com", "redgifs.com")) {
                 InetAddress[] addresses = InetAddress.getAllByName(hostname);
                 if (addresses == null || addresses.length == 0) {
                     throw new UnknownHostException("Bad host: " + hostname);

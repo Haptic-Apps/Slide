@@ -33,7 +33,7 @@
             android:visibility="gone"
             android:layout_height="36dp"
             android:padding="8dp"
-            app:srcCompat="@drawable/refresh"
+            app:srcCompat="@drawable/sync"
             android:id="@+id/refresh"
             android:layout_toLeftOf="@+id/open"
             android:layout_margin="2dp"

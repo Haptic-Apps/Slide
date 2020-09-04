@@ -283,7 +283,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         url = submission.getUrl();
                         url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
                                 : (SettingValues.lqMid ? "l" : "h")) + url.substring(
-                                url.lastIndexOf("."), url.length());
+                                url.lastIndexOf("."));
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
@@ -369,7 +369,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         url = submission.getUrl();
                         url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
                                 : (SettingValues.lqMid ? "l" : "h")) + url.substring(
-                                url.lastIndexOf("."), url.length());
+                                url.lastIndexOf("."));
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
@@ -746,8 +746,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setWrapArea(View v) {
         wrapArea = v;
-        setSecondTitle((TextView) v.findViewById(R.id.contenttitle));
-        setSecondSubtitle((TextView) v.findViewById(R.id.contenturl));
+        setSecondTitle(v.findViewById(R.id.contenttitle));
+        setSecondSubtitle(v.findViewById(R.id.contenturl));
 
     }
 

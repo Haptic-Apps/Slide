@@ -290,7 +290,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             lastSeen = HasSeen.getSeenTime(submission);
             String fullname = submission.getFullName();
             if (fullname.contains("t3_")) {
-                fullname = fullname.substring(3, fullname.length());
+                fullname = fullname.substring(3);
             }
             HasSeen.seenTimes.put(fullname, System.currentTimeMillis());
             KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
@@ -412,7 +412,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             comment.getSubredditName().toLowerCase(Locale.ENGLISH)
                                     + ":"
                                     + s.toLowerCase(Locale.ENGLISH),
-                            ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
+                            ImageFlairs.FlairImageLoader.getInstance().getDiskCache());
                     if (file != null && file.exists()) {
                         set = true;
                         holder.imageFlair.setVisibility(View.VISIBLE);

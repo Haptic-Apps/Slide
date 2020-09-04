@@ -13,10 +13,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.text.Html;
+import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Message;
 import net.dean.jraw.paginators.InboxPaginator;
@@ -128,7 +129,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                     notificationManager.notify(0, notification);
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     NotificationCompat.BigTextStyle notiStyle =
                             new NotificationCompat.BigTextStyle();
                     String contentTitle;
@@ -163,8 +164,9 @@ public class CheckForMailSingle extends BroadcastReceiver {
                     PendingIntent openPi =
                             PendingIntent.getActivity(c, 3 + (int) message.getCreated().getTime(),
                                     openPIBase, 0);
-                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                            message.getDataNode().get("body_html").asText())));
+
+                    String unescape = StringEscapeUtils.unescapeHtml4(message.getDataNode().get("body_html").asText());
+                    notiStyle.bigText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                     PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
                             2 + (int) message.getCreated().getTime(), c,
@@ -180,8 +182,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
                                     .setContentTitle(contentTitle)
-                                    .setContentText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                                            message.getDataNode().get("body_html").asText())))
+                                    .setContentText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY))
                                     .setStyle(notiStyle)
                                     .setGroup("MESSAGES")
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)

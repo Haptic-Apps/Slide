@@ -42,7 +42,7 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
             holder = new ViewHolder();
-            holder.txt01 = (TextView) convertView.findViewById(android.R.id.text1);
+            holder.txt01 = convertView.findViewById(android.R.id.text1);
             holder.txt01.setTextColor(Color.WHITE);
             convertView.setTag(holder);
         } else {

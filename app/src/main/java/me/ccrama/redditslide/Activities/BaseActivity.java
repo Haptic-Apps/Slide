@@ -3,8 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -484,13 +482,11 @@ public class BaseActivity extends PeekViewActivity
 
             if (title == null || title.equals("")) title = getString(R.string.app_name);
 
-            Bitmap bitmap= BitmapFactory.decodeResource(getResources(),(  title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
-                    : R.drawable.ic_launcher));
+            int drawable = title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
+                    : R.drawable.ic_launcher;
 
             setTaskDescription(
-                    new ActivityManager.TaskDescription(title, bitmap, color));
-
-            bitmap.recycle();
+                    new ActivityManager.TaskDescription(title, drawable, color));
         }
     }
 }

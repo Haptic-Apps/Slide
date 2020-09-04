@@ -21,12 +21,12 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.IabHelper;
-import me.ccrama.redditslide.util.IabResult;
-import me.ccrama.redditslide.util.Inventory;
 import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.Purchase;
-import me.ccrama.redditslide.util.SkuDetails;
+import me.ccrama.redditslide.util.billing.IabHelper;
+import me.ccrama.redditslide.util.billing.IabResult;
+import me.ccrama.redditslide.util.billing.Inventory;
+import me.ccrama.redditslide.util.billing.Purchase;
+import me.ccrama.redditslide.util.billing.SkuDetails;
 
 
 /**

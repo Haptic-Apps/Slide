@@ -1073,8 +1073,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                text = (TextView) itemView.findViewById(R.id.name);
-                check = (AppCompatCheckBox) itemView.findViewById(R.id.isSubscribed);
+                text = itemView.findViewById(R.id.name);
+                check = itemView.findViewById(R.id.isSubscribed);
             }
         }
 

@@ -7,5 +7,5 @@
     <item
         android:id="@+id/link_url"
         android:title="@string/submission_share_content"
-        android:icon="@drawable/ic_share_link" />
+        android:icon="@drawable/link" />
 </menu>

@@ -93,7 +93,7 @@ public class GifUtils {
 
                         Notification notif =
                                 new NotificationCompat.Builder(c, Reddit.CHANNEL_IMG).setContentTitle(c.getString(R.string.gif_saved))
-                                        .setSmallIcon(R.drawable.save_png)
+                                        .setSmallIcon(R.drawable.savecontent)
                                         .setContentIntent(contentIntent)
                                         .build();
 
@@ -181,7 +181,7 @@ public class GifUtils {
                         Notification notif = new NotificationCompat.Builder(a, Reddit.CHANNEL_IMG)
                                 .setContentTitle(a.getString(R.string.mediaview_saving,
                                         uri.toString().replace("/DASHPlaylist.mpd", "")))
-                                .setSmallIcon(R.drawable.download_png)
+                                .setSmallIcon(R.drawable.save)
                                 .setProgress(0, 0, true)
                                 .setOngoing(true)
                                 .build();
@@ -459,6 +459,7 @@ public class GifUtils {
                 return VideoType.DIRECT;
             }
             if (realURL.contains("gfycat") && !realURL.contains("mp4")) return VideoType.GFYCAT;
+            if (realURL.contains("redgifs") && !realURL.contains("mp4")) return VideoType.GFYCAT;
             if (realURL.contains("imgur.com")) return VideoType.IMGUR;
             if (realURL.contains("streamable.com")) return VideoType.STREAMABLE;
             return VideoType.OTHER;
@@ -476,12 +477,15 @@ public class GifUtils {
          */
         Uri loadGfycat(String name, String fullUrl, Gson gson) {
             showProgressBar(c, progressBar, true);
+            String host = "gfycat";
+            if (fullUrl.contains("redgifs")) {
+                host = "redgifs";
+            }
             if (!name.startsWith("/")) name = "/" + name;
             if (name.contains("-")) {
                 name = name.split("-")[0];
             }
-            String gfycatUrl = "https://api.gfycat.com/v1/gfycats" + name;
-            LogUtil.v(gfycatUrl);
+            String gfycatUrl = "https://api." + host + ".com/v1/gfycats" + name;
             final JsonObject result = HttpUtil.getJsonObject(client, gson, gfycatUrl);
             String obj;
             if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem")

@@ -131,6 +131,18 @@ public class ContentType {
         }
     }
 
+    public static boolean isRedditGallery(String url) {
+        try {
+            final URI uri = new URI(url);
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+
+            return hostContains(host, "reddit.com", "redd.it") && url.contains("/gallery/");
+
+        } catch (URISyntaxException | NullPointerException e) {
+            return false;
+        }
+    }
+
     /**
      * Attempt to determine the content type of a link from the URL
      *
@@ -163,6 +175,10 @@ public class ContentType {
                 } else {
                     return Type.VREDDIT_REDIRECT;
                 }
+            }
+
+            if (isRedditGallery(url)) {
+                return Type.REDDIT_GALLERY;
             }
 
             if (!scheme.equals("http") && !scheme.equals("https")) {
@@ -253,6 +269,7 @@ public class ContentType {
         switch (t) {
 
             case ALBUM:
+            case REDDIT_GALLERY:
             case DEVIANTART:
             case IMAGE:
             case XKCD:
@@ -270,6 +287,7 @@ public class ContentType {
         switch (t) {
 
             case ALBUM:
+            case REDDIT_GALLERY:
             case DEVIANTART:
             case GIF:
             case IMAGE:
@@ -298,6 +316,7 @@ public class ContentType {
     public static boolean mediaType(Type t) {
         switch (t) {
             case ALBUM:
+            case REDDIT_GALLERY:
             case DEVIANTART:
             case GIF:
             case IMAGE:
@@ -329,6 +348,8 @@ public class ContentType {
             switch (contentType) {
                 case ALBUM:
                     return R.string.type_nsfw_album;
+                case REDDIT_GALLERY:
+                    return R.string.type_nsfw_gallery;
                 case EMBEDDED:
                     return R.string.type_nsfw_emb;
                 case EXTERNAL:
@@ -351,6 +372,8 @@ public class ContentType {
             switch (contentType) {
                 case ALBUM:
                     return R.string.type_album;
+                case REDDIT_GALLERY:
+                    return R.string.type_gallery;
                 case XKCD:
                     return R.string.type_xkcd;
                 case DEVIANTART:
@@ -463,6 +486,6 @@ public class ContentType {
     }
 
     public enum Type {
-        ALBUM, DEVIANTART, EMBEDDED, EXTERNAL, GIF, VREDDIT_DIRECT, VREDDIT_REDIRECT, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR
+        ALBUM, REDDIT_GALLERY, DEVIANTART, EMBEDDED, EXTERNAL, GIF, VREDDIT_DIRECT, VREDDIT_REDIRECT, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR
     }
 }

@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.EditText;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.view.inputmethod.EditorInfoCompat;
 import androidx.core.view.inputmethod.InputConnectionCompat;
 import androidx.core.view.inputmethod.InputContentInfoCompat;
@@ -18,7 +18,7 @@ import androidx.core.view.inputmethod.InputContentInfoCompat;
  * Created by Carlos on 11/5/2016.
  */
 
-public class ImageInsertEditText extends EditText {
+public class ImageInsertEditText extends AppCompatEditText {
 
     public interface ImageSelectedCallback {
         void onImageSelected(Uri content, String mimeType);
@@ -35,10 +35,6 @@ public class ImageInsertEditText extends EditText {
 
     public ImageInsertEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public ImageInsertEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     // endregion

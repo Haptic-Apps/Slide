@@ -92,8 +92,8 @@ public class SettingsBackup extends BaseActivityAnim {
                         for (int i = 1; i < files.length; i++) {
                             String innerFile = files[i];
                             String t = innerFile.substring(6, innerFile.indexOf(">"));
-                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1,
-                                    innerFile.length());
+                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1
+                            );
 
                             File newF = new File(getApplicationInfo().dataDir
                                     + File.separator

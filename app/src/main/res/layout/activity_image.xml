@@ -38,7 +38,7 @@
             android:layout_height="56dp"
             android:theme="@style/Ripple.List"
             android:padding="15dp"
-            app:srcCompat="@drawable/share"
+            app:srcCompat="@drawable/ic_share"
 
             android:tint="@color/white" />
 

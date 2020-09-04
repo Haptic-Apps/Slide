@@ -33,7 +33,7 @@
             android:layout_marginTop="-59dp"
             android:padding="12dp"
             android:tint="@color/white"
-            app:srcCompat="@drawable/share" />
+            app:srcCompat="@drawable/ic_share" />
 
         <RelativeLayout
             android:layout_width="match_parent"

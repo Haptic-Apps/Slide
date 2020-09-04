@@ -48,8 +48,6 @@ public class PeekView extends FrameLayout {
     public  View                   content;
     private ViewGroup.LayoutParams contentParams;
 
-    private View dim;
-
     private PeekViewOptions options;
     private int             distanceFromTop;
     private int             distanceFromLeft;
@@ -193,7 +191,7 @@ public class PeekView extends FrameLayout {
         }
 
         // add the background dim to the frame
-        dim = new View(context);
+        View dim = new View(context);
         dim.setBackgroundColor(Color.BLACK);
         dim.setAlpha(options.getBackgroundDim());
 

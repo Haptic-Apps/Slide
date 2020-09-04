@@ -369,7 +369,7 @@ public class ExoVideoView extends RelativeLayout {
          * Lose audio focus
          */
         void loseFocus() {
-            if (Build.VERSION.SDK_INT >= 26) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (request != null) {
                     manager.abandonAudioFocusRequest(request);
                 }
@@ -382,7 +382,7 @@ public class ExoVideoView extends RelativeLayout {
          * Gain audio focus
          */
         void gainFocus() {
-            if (Build.VERSION.SDK_INT >= 26) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (request == null) {
                     request = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
                             .setAcceptsDelayedFocusGain(false)

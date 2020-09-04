@@ -16,8 +16,6 @@ import me.ccrama.redditslide.R;
  */
 public class PostReadLater extends BaseActivityAnim {
 
-    private ViewPager pager;
-
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -29,7 +27,7 @@ public class PostReadLater extends BaseActivityAnim {
         setupAppBar(R.id.toolbar, "Read later", true, true);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
-        pager = (ViewPager) findViewById(R.id.content_view);
+        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         pager.setAdapter(new ReadLaterAdaptor(getSupportFragmentManager()));
     }
 

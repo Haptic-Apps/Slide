@@ -27,7 +27,7 @@ public class OpenVRedditTask extends AsyncTask<String, Void, Void> {
         if(url.endsWith("/")){
             url = url.substring(0, url.length() - 1);
         }
-        String hash = url.substring(url.lastIndexOf("/"), url.length());
+        String hash = url.substring(url.lastIndexOf("/"));
         try {
             URL newUrl = new URL("https://www.reddit.com/video" + hash);
             HttpURLConnection ucon = (HttpURLConnection) newUrl.openConnection();

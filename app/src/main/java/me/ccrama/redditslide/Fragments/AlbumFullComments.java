@@ -38,7 +38,6 @@ public class AlbumFullComments extends Fragment {
 
     boolean gallery = false;
     private View list;
-    private int i = 0;
     private CommentUrlObject s;
     boolean hidden;
     View rootView;
@@ -153,10 +152,7 @@ public class AlbumFullComments extends Fragment {
                                             + c.getDataNode()
                                             .get("link_id")
                                             .asText()
-                                            .substring(3, c.getDataNode()
-                                                    .get("link_id")
-                                                    .asText()
-                                                    .length())
+                                            .substring(3)
                                             + "/nothing/"
                                             + c.getId()
                                             + "?context=3";
@@ -197,8 +193,7 @@ public class AlbumFullComments extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        i = bundle.getInt("page", 0);
-        s = ((ShadowboxComments) getActivity()).comments.get(i);
+        s = ShadowboxComments.comments.get(bundle.getInt("page", 0));
     }
 
 

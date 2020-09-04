@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -66,6 +67,8 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     public static final String EXTRA_PROFILE = "profile";
     public static final String EXTRA_MULTI = "multi";
+
+    public static Activity multiActivity;
 
     public static MultiReddit          searchMulti;
     public        OverviewPagerAdapter adapter;
@@ -422,6 +425,8 @@ public class MultiredditOverview extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
+
+        multiActivity = this;
 
         super.onCreate(savedInstance);
 

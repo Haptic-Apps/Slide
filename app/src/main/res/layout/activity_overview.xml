@@ -64,9 +64,9 @@
                         android:layout_marginBottom="8dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
-                        android:tint="@color/white"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/close" />
+                        app:srcCompat="@drawable/close"
+                        android:tint="@color/white" />
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 

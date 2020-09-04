@@ -93,7 +93,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/ic_format_size_white_48dp"
+                            app:srcCompat="@drawable/fontsizedarker"
                             android:tint="?attr/tintColor" />
 
                         <TextView

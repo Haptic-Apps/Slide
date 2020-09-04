@@ -44,7 +44,7 @@ public class SettingsFontFragment {
     }
 
     public void Bind() {
-        final TextView colorComment = (TextView) context.findViewById(R.id.settings_font_commentFont);
+        final TextView colorComment = context.findViewById(R.id.settings_font_commentFont);
         colorComment.setText(new FontPreferences(context).getCommentFontStyle().getTitle());
         context.findViewById(R.id.settings_font_commentfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +72,7 @@ public class SettingsFontFragment {
                 popup.show();
             }
         });
-        final TextView colorPost = (TextView) context.findViewById(R.id.settings_font_postFont);
+        final TextView colorPost = context.findViewById(R.id.settings_font_postFont);
         colorPost.setText(new FontPreferences(context).getPostFontStyle().getTitle());
         context.findViewById(R.id.settings_font_postfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,7 +304,7 @@ public class SettingsFontFragment {
         });
 
         {
-            SwitchCompat single = (SwitchCompat) context.findViewById(R.id.settings_font_linktype);
+            SwitchCompat single = context.findViewById(R.id.settings_font_linktype);
             single.setChecked(SettingValues.typeInText);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -315,7 +315,7 @@ public class SettingsFontFragment {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) context.findViewById(R.id.settings_font_enlarge_links);
+            SwitchCompat single = context.findViewById(R.id.settings_font_enlarge_links);
             single.setChecked(SettingValues.largeLinks);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

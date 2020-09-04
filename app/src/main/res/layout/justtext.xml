@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                        android:layout_width="match_parent"
                                                        android:layout_height="match_parent"
                                                        android:background="?attr/activity_background"
@@ -11,4 +11,4 @@
             android:id="@+id/wiki_web_view"
             android:layout_height="match_parent"
             android:visibility="invisible"/>
-</me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

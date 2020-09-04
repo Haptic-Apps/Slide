@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/time"
-        android:icon="@drawable/time"
+        android:icon="@drawable/history"
         android:title="@string/btn_time"
         app:showAsAction="ifRoom"/>
 

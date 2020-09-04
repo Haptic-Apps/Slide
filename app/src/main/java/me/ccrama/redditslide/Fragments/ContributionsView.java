@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -37,7 +36,7 @@ public class ContributionsView extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        final RecyclerView rv = v.findViewById(R.id.vertical_content);
         final PreCachingLayoutManager mLayoutManager;
 
         mLayoutManager = new PreCachingLayoutManager(getContext());
@@ -46,7 +45,7 @@ public class ContributionsView extends Fragment {
         rv.setLayoutManager(mLayoutManager);
         rv.setItemViewCacheSize(2);
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
-        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        final SwipeRefreshLayout mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
@@ -84,7 +83,7 @@ public class ContributionsView extends Fragment {
                     }
                 }
         );
-        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) getActivity().findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(getActivity().findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);

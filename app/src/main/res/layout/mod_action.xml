@@ -24,11 +24,11 @@
                 android:id="@+id/action"
                 android:layout_width="28dp"
                 android:layout_marginLeft="4dp"
-                android:tint="?attr/tintColor"
-                android:layout_height="48dp"
+            android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:padding="4dp"
-                cardview:srcCompat="@drawable/support"/>
+                cardview:srcCompat="@drawable/support"
+            android:tint="?attr/tintColor" />
 
         <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/body"

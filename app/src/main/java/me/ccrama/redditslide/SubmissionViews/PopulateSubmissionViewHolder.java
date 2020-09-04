@@ -16,6 +16,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
@@ -44,6 +45,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.ApiException;
@@ -74,6 +76,7 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
+import me.ccrama.redditslide.Activities.GalleryImage;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ModQueue;
@@ -81,6 +84,7 @@ import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.PostReadLater;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Reauthenticate;
+import me.ccrama.redditslide.Activities.RedditGallery;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Tumblr;
@@ -201,6 +205,41 @@ public class PopulateSubmissionViewHolder {
                                 case REDDIT:
                                     openRedditContent(submission.getUrl(), contextActivity);
                                     break;
+                                case REDDIT_GALLERY:
+                                    if (SettingValues.album) {
+                                        Intent i;
+                                        i = new Intent(contextActivity, RedditGallery.class);
+                                        i.putExtra(RedditGallery.SUBREDDIT,
+                                                submission.getSubredditName());
+
+                                        ArrayList<GalleryImage> urls = new ArrayList<>();
+
+                                        JsonNode dataNode = submission.getDataNode();
+                                        if (dataNode.has("gallery_data")) {
+                                            for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
+                                                if (dataNode.has("media_metadata") && dataNode.get(
+                                                        "media_metadata")
+                                                        .has(identifier.get("media_id").asText())) {
+                                                    urls.add(new GalleryImage(dataNode.get("media_metadata")
+                                                            .get(identifier.get("media_id").asText())
+                                                            .get("s")));
+                                                }
+                                            }
+                                        }
+
+                                        Bundle urlsBundle = new Bundle();
+                                        urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, urls);
+                                        i.putExtras(urlsBundle);
+
+                                        addAdaptorPosition(i, submission,
+                                                holder.getAdapterPosition());
+                                        contextActivity.startActivity(i);
+                                        contextActivity.overridePendingTransition(R.anim.slideright,
+                                                R.anim.fade_out);
+                                    } else {
+                                        LinkUtil.openExternally(submission.getUrl());
+                                    }
+                                    break;
                                 case LINK:
                                     LinkUtil.openUrl(submission.getUrl(),
                                             Palette.getColor(submission.getSubredditName()),
@@ -234,7 +273,6 @@ public class PopulateSubmissionViewHolder {
                                                 R.anim.fade_out);
                                     } else {
                                         LinkUtil.openExternally(submission.getUrl());
-
                                     }
                                     break;
                                 case TUMBLR:
@@ -1076,7 +1114,7 @@ public class PopulateSubmissionViewHolder {
                         ((ImageView) holder.save).setColorFilter(
                                 ContextCompat.getColor(mContext, R.color.md_amber_500),
                                 PorterDuff.Mode.SRC_ATOP);
-                        ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_unsave));
+                        holder.save.setContentDescription(mContext.getString(R.string.btn_unsave));
                         s = Snackbar.make(holder.itemView, R.string.submission_info_saved,
                                 Snackbar.LENGTH_LONG);
                         if (Authentication.me.hasGold()) {
@@ -1098,7 +1136,7 @@ public class PopulateSubmissionViewHolder {
                                         && holder.itemView.getTag(holder.itemView.getId())
                                         .equals("none"))) || full) ? getCurrentTintColor(mContext)
                                         : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                        ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_save));
+                        holder.save.setContentDescription(mContext.getString(R.string.btn_save));
 
                     }
                     View view = s.getView();
@@ -2721,14 +2759,14 @@ public class PopulateSubmissionViewHolder {
                 ((ImageView) holder.save).setColorFilter(
                         ContextCompat.getColor(mContext, R.color.md_amber_500),
                         PorterDuff.Mode.SRC_ATOP);
-                ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_unsave));
+                holder.save.setContentDescription(mContext.getString(R.string.btn_unsave));
             } else {
                 ((ImageView) holder.save).setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
                                 || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
-                ((ImageView) holder.save).setContentDescription(mContext.getString(R.string.btn_save));
+                holder.save.setContentDescription(mContext.getString(R.string.btn_save));
             }
             holder.save.setOnClickListener(new View.OnClickListener() {
                 @Override

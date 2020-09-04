@@ -18,7 +18,7 @@
             android:installLocation="auto"
             android:label="@string/app_name"
             android:resizeableActivity="true"
-            android:roundIcon="@mipmap/icon_round"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:usesCleartextTraffic="true"
             android:theme="@style/yellow_dark">
         <provider
@@ -37,7 +37,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:icon="@mipmap/ic_launcher"
                 android:label="@string/app_name"
-                android:roundIcon="@mipmap/icon_round">
+                android:roundIcon="@mipmap/ic_launcher_round">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -320,6 +320,10 @@
                 android:windowSoftInputMode="adjustResize"/>
         <activity
                 android:name=".Activities.Album"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
+        <activity
+                android:name=".Activities.RedditGallery"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity

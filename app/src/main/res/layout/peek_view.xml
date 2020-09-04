@@ -36,7 +36,7 @@
                 android:id="@+id/share"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                app:srcCompat="@drawable/share"
+                app:srcCompat="@drawable/ic_share"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
         <ImageView

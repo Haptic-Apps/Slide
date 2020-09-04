@@ -317,7 +317,7 @@ public class Submit extends BaseActivity {
                 ((EditText) findViewById(R.id.titletext)).setText(
                         data.substring(0, data.indexOf("\n")));
                 ((EditText) findViewById(R.id.urltext)).setText(
-                        data.substring(data.indexOf("\n"), data.length()));
+                        data.substring(data.indexOf("\n")));
             } else {
                 ((EditText) findViewById(R.id.urltext)).setText(data);
             }
@@ -438,7 +438,7 @@ public class Submit extends BaseActivity {
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3, s.getFullName().length()));
+                                        .substring(3));
                         Submit.this.finish();
                     } catch (final ApiException e) {
                         Drafts.addDraft(text);
@@ -470,7 +470,7 @@ public class Submit extends BaseActivity {
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3, s.getFullName().length()));
+                                        .substring(3));
 
                         Submit.this.finish();
                     } catch (final ApiException e) {
@@ -509,7 +509,7 @@ public class Submit extends BaseActivity {
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3, s.getFullName().length()));
+                                        .substring(3));
 
                         Submit.this.finish();
                     } catch (final Exception e) {

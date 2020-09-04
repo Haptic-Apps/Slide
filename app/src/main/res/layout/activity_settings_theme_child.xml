@@ -30,8 +30,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/color" />
+            app:srcCompat="@drawable/color"
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,8 +54,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/accent" />
+            app:srcCompat="@drawable/accent"
+            android:tint="?attr/tintColor"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,8 +78,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/theme" />
+            app:srcCompat="@drawable/theme"
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,8 +102,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/nighttheme" />
+            app:srcCompat="@drawable/nighttheme"
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"

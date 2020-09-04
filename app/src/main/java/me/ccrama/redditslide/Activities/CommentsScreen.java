@@ -356,7 +356,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
                 String name = currentPosts.get(i).getFullName();
-                args.putString("id", name.substring(3, name.length()));
+                args.putString("id", name.substring(3));
                 args.putBoolean("archived", currentPosts.get(i).isArchived());
                 args.putBoolean("contest",
                         currentPosts.get(i).getDataNode().get("contest_mode").asBoolean());

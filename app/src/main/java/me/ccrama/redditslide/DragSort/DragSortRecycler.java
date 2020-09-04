@@ -141,7 +141,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
                 view.setVisibility(View.VISIBLE);
 
                 //Find middle of the floatingItem
-                float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2;
+                float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2.0f;
 
                 //Moving down the list
                 //These will auto-animate if the device continually sends touch motion events
@@ -188,7 +188,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
     private int getNewPostion(RecyclerView rv) {
         int itemsOnScreen = rv.getLayoutManager().getChildCount();
 
-        float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2;
+        float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2.0f;
 
         int above = 0;
         int below = Integer.MAX_VALUE;
@@ -205,7 +205,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
             if (itemPos == selectedDragItemPos) //Don't check against itself!
                 continue;
 
-            float viewMiddleY = view.getTop() + view.getHeight() / 2;
+            float viewMiddleY = view.getTop() + view.getHeight() / 2.0f;
             if (floatMiddleY > viewMiddleY) //Is above this item
             {
                 if (itemPos > above)
