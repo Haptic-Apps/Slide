@@ -220,12 +220,12 @@ public class MediaView extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable external = getResources().getDrawable(R.drawable.open_external);
+        Drawable share = getResources().getDrawable(R.drawable.share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
         Drawable collection = getResources().getDrawable(R.drawable.collection);
-        Drawable file = getResources().getDrawable(R.drawable.savecontent);
+        Drawable file = getResources().getDrawable(R.drawable.save_content);
         Drawable thread = getResources().getDrawable(R.drawable.commentchange);
 
         external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -409,7 +409,7 @@ public class MediaView extends FullScreenActivity
                                         Notification notif = new NotificationCompat.Builder(
                                                 MediaView.this, Reddit.CHANNEL_IMG)
                                                 .setContentTitle(getString(R.string.gif_saved))
-                                                .setSmallIcon(R.drawable.savecontent)
+                                                .setSmallIcon(R.drawable.save_content)
                                                 .setContentIntent(contentIntent)
                                                 .build();
 

@@ -98,7 +98,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holder.type.setImageResource(R.drawable.world);
                     break;
                 case SELF:
-                    holder.type.setImageResource(R.drawable.fontsizedarker);
+                    holder.type.setImageResource(R.drawable.fontsize);
                     break;
                 case EMBEDDED:
                 case GIF:
@@ -149,11 +149,11 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         TypedArray ta = main.obtainStyledAttributes(attrs);
 
                         int color = ta.getColor(0, Color.WHITE);
-                        Drawable open = main.getResources().getDrawable(R.drawable.ic_open_in_browser);
+                        Drawable open = main.getResources().getDrawable(R.drawable.open_in_browser);
                         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                        Drawable share = main.getResources().getDrawable(R.drawable.ic_share);
+                        Drawable share = main.getResources().getDrawable(R.drawable.share);
                         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                        Drawable copy = main.getResources().getDrawable(R.drawable.ic_content_copy);
+                        Drawable copy = main.getResources().getDrawable(R.drawable.copy);
                         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
                         ta.recycle();

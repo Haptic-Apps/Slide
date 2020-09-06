@@ -17,7 +17,7 @@
 
     <item
             android:id="@+id/reload"
-            android:icon="@drawable/ic_refresh"
+            android:icon="@drawable/refresh"
             android:title="@string/btn_refresh"
             app:showAsAction="ifRoom"/>
 
@@ -35,7 +35,7 @@
 
     <item
             android:id="@+id/sidebar"
-            android:icon="@drawable/infonew"
+            android:icon="@drawable/info"
             android:title="@string/view_sub_sidebar"
             app:showAsAction="ifRoom"/>
     <item

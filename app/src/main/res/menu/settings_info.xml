@@ -7,5 +7,5 @@
         android:id="@+id/info"
         android:title="Info"
         app:showAsAction="always"
-        android:icon="@drawable/infonew" />
+        android:icon="@drawable/info" />
 </menu>

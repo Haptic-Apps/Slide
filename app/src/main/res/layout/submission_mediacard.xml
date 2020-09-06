@@ -191,7 +191,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_save"
-                sothree:srcCompat="@drawable/iconstarfilled" />
+                sothree:srcCompat="@drawable/star" />
 
             <ImageView
                 android:id="@+id/upvote"

@@ -431,18 +431,18 @@ public class PopulateNewsViewHolder {
         final Drawable sub =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
         Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.star,
                         null);
         Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
         final Drawable report =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
         Drawable copy =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.copy,
                         null);
         final Drawable readLater =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
         Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.open_external, null);
         Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
         Drawable reddit =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,

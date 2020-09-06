@@ -17,7 +17,7 @@
 
     <item
         android:id="@+id/info"
-        android:icon="@drawable/infonew"
+        android:icon="@drawable/info"
         android:title="@string/profile_info"
         app:showAsAction="always" />
 </menu>

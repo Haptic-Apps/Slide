@@ -589,11 +589,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
                 int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
+                Drawable open = getResources().getDrawable(R.drawable.open_in_browser);
                 open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                Drawable share = getResources().getDrawable(R.drawable.ic_share);
+                Drawable share = getResources().getDrawable(R.drawable.share);
                 share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
+                Drawable copy = getResources().getDrawable(R.drawable.copy);
                 copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
                 ta.recycle();

@@ -42,7 +42,7 @@
                 android:layout_width="48dp"
                 android:layout_height="36dp"
                 android:padding="8dp"
-                app:srcCompat="@drawable/nav"
+                app:srcCompat="@drawable/navigation"
                 android:contentDescription="@string/btn_nav_mode"/>
         <ImageView
             android:id="@+id/collapse_expand"

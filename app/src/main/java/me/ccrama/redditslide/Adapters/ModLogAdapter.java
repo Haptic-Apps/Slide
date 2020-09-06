@@ -210,7 +210,7 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
                 case "distinguish":
                     holder.icon.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(),
-                            R.drawable.iconstarfilled, null));
+                            R.drawable.star, null));
                     break;
                 case "sticky":
                 case "unsticky":

@@ -23,7 +23,7 @@
                 android:text="page 1"
 
                 android:padding="8dp"
-                app:srcCompat="@drawable/nav"/>
+                app:srcCompat="@drawable/navigation"/>
 
         <ImageView
                 android:id="@+id/down"

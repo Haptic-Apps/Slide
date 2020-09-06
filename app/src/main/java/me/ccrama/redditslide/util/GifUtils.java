@@ -93,7 +93,7 @@ public class GifUtils {
 
                         Notification notif =
                                 new NotificationCompat.Builder(c, Reddit.CHANNEL_IMG).setContentTitle(c.getString(R.string.gif_saved))
-                                        .setSmallIcon(R.drawable.savecontent)
+                                        .setSmallIcon(R.drawable.save_content)
                                         .setContentIntent(contentIntent)
                                         .build();
 

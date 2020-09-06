@@ -21,7 +21,7 @@
             android:padding="8dp"
             android:scaleType="fitCenter"
             android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/savecontent" />
+            app:srcCompat="@drawable/save_content" />
 
         <ImageButton
             android:id="@+id/draft"
@@ -33,7 +33,7 @@
             android:padding="8dp"
             android:scaleType="fitCenter"
             android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/restorefile" />
+            app:srcCompat="@drawable/restore_file" />
 
         <ImageButton
             android:id="@+id/imagerep"
@@ -81,7 +81,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_bold_white_48dp"/>
+                app:srcCompat="@drawable/bold"/>
 
         <ImageButton
                 android:id="@+id/italics"
@@ -93,7 +93,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_italic_white_48dp"/>
+                app:srcCompat="@drawable/italic"/>
 
         <ImageButton
                 android:id="@+id/quote"
@@ -105,7 +105,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_quote_white_48dp"/>
+                app:srcCompat="@drawable/quote"/>
 
         <ImageButton
                 android:id="@+id/author"
@@ -129,7 +129,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"/>
+                app:srcCompat="@drawable/list_bulleted"/>
 
         <ImageButton
                 android:id="@+id/numlist"
@@ -141,7 +141,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"/>
+                app:srcCompat="@drawable/list_numbered"/>
 
         <ImageButton
                 android:id="@+id/size"
@@ -153,7 +153,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/fontsizedarker"/>
+                app:srcCompat="@drawable/fontsize"/>
 
         <ImageButton
                 android:id="@+id/strike"
