@@ -86,6 +86,12 @@ public class CreateCardView {
             }
         }
 
+        if (SettingValues.noThumbnails) {
+            final int SQUARE_THUMBNAIL_SIZE = 0;
+            thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
+            thumbImage.getLayoutParams().width = Reddit.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
+        }
+
         doHideObjects(v);
         return v;
     }
@@ -226,6 +232,9 @@ public class CreateCardView {
     }
 
     public static View setBigPicEnabled(Boolean b, ViewGroup parent) {
+        SettingValues.prefs.edit().putBoolean("noThumbnails", b).apply();
+        SettingValues.noThumbnails = false;
+
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
         SettingValues.bigPicEnabled = b;
 
@@ -236,11 +245,27 @@ public class CreateCardView {
     }
 
     public static View setBigPicCropped(Boolean b, ViewGroup parent) {
+        SettingValues.prefs.edit().putBoolean("noThumbnails", b).apply();
+        SettingValues.noThumbnails = false;
+
         SettingValues.prefs.edit().putBoolean("bigPicCropped", b).apply();
         SettingValues.bigPicCropped = b;
 
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
         SettingValues.bigPicEnabled = b;
+
+        return CreateView(parent);
+    }
+
+    public static View setNoThumbnails(Boolean b, ViewGroup parent) {
+        SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
+        SettingValues.bigPicEnabled = false;
+
+        SettingValues.prefs.edit().putBoolean("bigPicCropped", false).apply();
+        SettingValues.bigPicCropped = false;
+
+        SettingValues.prefs.edit().putBoolean("noThumbnails", b).apply();
+        SettingValues.noThumbnails = b;
 
         return CreateView(parent);
     }

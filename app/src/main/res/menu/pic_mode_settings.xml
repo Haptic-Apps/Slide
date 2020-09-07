@@ -9,6 +9,10 @@
         android:title="@string/mode_cropped"/>
 
     <item
-    android:id="@+id/thumbnail"
-    android:title="@string/mode_thumbnail"/>
+        android:id="@+id/thumbnail"
+        android:title="@string/mode_thumbnail"/>
+
+    <item
+        android:id="@+id/noThumbnails"
+        android:title="@string/mode_no_thumbnails"/>
 </menu>
