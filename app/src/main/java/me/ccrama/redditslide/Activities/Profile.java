@@ -915,6 +915,7 @@ public class Profile extends BaseActivityAnim {
 
                     ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma()));
                     ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
+                    ((TextView) dialoglayout.findViewById(R.id.totalKarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma() + account.getLinkKarma()));
 
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
