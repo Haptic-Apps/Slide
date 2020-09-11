@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/color"
+            app:srcCompat="@drawable/palette"
             android:tint="?attr/tintColor" />
 
         <TextView

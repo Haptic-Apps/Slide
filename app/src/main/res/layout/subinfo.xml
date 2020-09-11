@@ -317,7 +317,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/fontsizedarker"/>
+                            app:srcCompat="@drawable/fontsize"/>
 
                     <TextView
                             android:id="@+id/flair_text"

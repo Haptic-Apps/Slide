@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/save"
-        android:icon="@drawable/savecontent"
+        android:icon="@drawable/save_content"
         android:title="@string/btn_save"
         app:showAsAction="ifRoom" />
 </menu>

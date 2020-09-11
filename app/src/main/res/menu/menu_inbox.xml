@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/read"
-        android:icon="@drawable/ic_visibility"
+        android:icon="@drawable/visibility"
         android:title="@string/mark_all_as_read"
         app:showAsAction="always" />
 

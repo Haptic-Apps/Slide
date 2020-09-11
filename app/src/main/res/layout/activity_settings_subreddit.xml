@@ -40,7 +40,7 @@
                 android:paddingTop="8dp"
                 android:scaleType="fitCenter"
                 android:tint="@color/white"
-                app:srcCompat="@drawable/color" />
+                app:srcCompat="@drawable/palette" />
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView

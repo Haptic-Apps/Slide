@@ -23,7 +23,7 @@
 
     <item
             android:id="@+id/action_refresh"
-            android:icon="@drawable/ic_refresh"
+            android:icon="@drawable/refresh"
             android:title="@string/btn_refresh"
             app:showAsAction="always"/>
 
@@ -35,7 +35,7 @@
 
     <item
             android:id="@+id/sidebar"
-            android:icon="@drawable/infonew"
+            android:icon="@drawable/info"
             android:title="@string/general_open_settings"
             app:showAsAction="always"/>
 

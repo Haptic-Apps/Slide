@@ -258,7 +258,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/fontsizedarker" />
+                app:srcCompat="@drawable/fontsize" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -470,7 +470,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_backup" />
+                app:srcCompat="@drawable/backup" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -568,7 +568,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/infonew" />
+                app:srcCompat="@drawable/info" />
 
             <TextView
                 android:layout_width="wrap_content"

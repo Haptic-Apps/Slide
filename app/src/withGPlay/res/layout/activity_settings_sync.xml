@@ -62,7 +62,7 @@
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/restorecloud" />
+                    app:srcCompat="@drawable/restore_cloud" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/restorefile" />
+                    app:srcCompat="@drawable/restore_file" />
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -31,7 +31,7 @@
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/subs"
-        android:icon="@drawable/infonew"
+        android:icon="@drawable/info"
         android:title="@string/view_subreddits"
         app:showAsAction="ifRoom"/>
 
