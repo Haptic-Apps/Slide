@@ -210,7 +210,7 @@ public class MediaFragment extends Fragment {
                 rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
                 break;
             case SELF:
-                typeImage.setImageResource(R.drawable.fontsizedarker);
+                typeImage.setImageResource(R.drawable.fontsize);
                 break;
             case EMBEDDED:
             case VIDEO:

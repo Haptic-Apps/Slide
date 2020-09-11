@@ -17,7 +17,7 @@
         android:id="@+id/info"
         android:title="@string/help"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/infonew" />
+        android:icon="@drawable/info" />
     <item
             android:id="@+id/alphabetize_subscribe"
             android:checkable="true"

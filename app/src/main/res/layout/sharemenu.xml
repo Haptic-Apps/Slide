@@ -59,7 +59,7 @@
 
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/ic_insert_photo_white_48dp"
+                            app:srcCompat="@drawable/insert_photo"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -93,7 +93,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/fontsizedarker"
+                            app:srcCompat="@drawable/fontsize"
                             android:tint="?attr/tintColor" />
 
                         <TextView

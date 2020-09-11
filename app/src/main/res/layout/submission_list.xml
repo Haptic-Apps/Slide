@@ -181,7 +181,7 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/iconstarfilled" />
+                app:srcCompat="@drawable/star" />
 
             <ImageView
                 android:id="@+id/mod"

@@ -33,7 +33,7 @@
             android:layout_marginTop="-59dp"
             android:padding="12dp"
             android:tint="@color/white"
-            app:srcCompat="@drawable/ic_share" />
+            app:srcCompat="@drawable/share" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -226,7 +226,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/color" />
+                        app:srcCompat="@drawable/palette" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/fontsizedarker" />
+                        app:srcCompat="@drawable/fontsize" />
 
                     <TextView
                         android:id="@+id/tagged"

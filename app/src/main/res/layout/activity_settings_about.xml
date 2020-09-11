@@ -64,7 +64,7 @@
                     android:paddingBottom="16dp"
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/infonew"
+                    app:srcCompat="@drawable/info"
                     android:tint="?attr/tintColor"/>
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:paddingBottom="16dp"
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/iconstarfilled"
+                    app:srcCompat="@drawable/star"
                     android:tint="?attr/tintColor"/>
 
                 <TextView
@@ -148,7 +148,7 @@
                     android:paddingBottom="16dp"
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/infonew"
+                    app:srcCompat="@drawable/info"
                     android:tint="?attr/tintColor"/>
 
                 <TextView

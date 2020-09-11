@@ -134,7 +134,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/iconstarfilled"
+                            app:srcCompat="@drawable/star"
 
                             android:tint="?attr/tintColor" />
 
@@ -170,7 +170,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/openexternal"
+                            app:srcCompat="@drawable/open_external"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -234,7 +234,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/ic_content_copy"
+                            app:srcCompat="@drawable/copy"
                             android:tint="?attr/tintColor" />
 
                         <TextView

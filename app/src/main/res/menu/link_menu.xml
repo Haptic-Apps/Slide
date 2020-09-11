@@ -5,13 +5,13 @@
     <item
         android:id="@+id/open_link"
         android:title="@string/submission_link_extern"
-        android:icon="@drawable/ic_open_in_browser" />
+        android:icon="@drawable/open_in_browser" />
     <item
         android:id="@+id/share_link"
         android:title="@string/share_link"
-        android:icon="@drawable/ic_share" />
+        android:icon="@drawable/share" />
     <item
         android:id="@+id/copy_link"
         android:title="@string/submission_link_copy"
-        android:icon="@drawable/ic_content_copy" />
+        android:icon="@drawable/copy" />
 </menu>

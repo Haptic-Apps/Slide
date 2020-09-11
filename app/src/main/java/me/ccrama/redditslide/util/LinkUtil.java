@@ -101,7 +101,7 @@ public class LinkUtil {
                                 pendingIntent)
                         .setCloseButtonIcon(drawableToBitmap(
                                 ContextCompat.getDrawable(contextActivity,
-                                        R.drawable.ic_arrow_back_white_24dp)));
+                                        R.drawable.left)));
         try {
             CustomTabsIntent customTabsIntent = builder.build();
 

@@ -94,7 +94,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/fontsizedarker"
+                        app:srcCompat="@drawable/fontsize"
                         android:tint="?attr/tintColor" />
 
                     <TextView
@@ -145,7 +145,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/infonew"
+                        app:srcCompat="@drawable/info"
                         android:tint="?attr/tintColor" />
 
                     <TextView

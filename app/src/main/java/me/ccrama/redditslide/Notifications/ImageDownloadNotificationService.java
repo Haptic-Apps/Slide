@@ -91,7 +91,7 @@ public class ImageDownloadNotificationService extends Service {
             mBuilder = new NotificationCompat.Builder(getApplicationContext(), Reddit.CHANNEL_IMG);
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
                     .setContentText(getString(R.string.mediaview_notif_text))
-                    .setSmallIcon(R.drawable.savecontent);
+                    .setSmallIcon(R.drawable.save_content);
         }
 
         @Override
@@ -326,10 +326,10 @@ public class ImageDownloadNotificationService extends Service {
                             Notification notif = new NotificationCompat.Builder(
                                     getApplicationContext(), Reddit.CHANNEL_IMG).setContentTitle(
                                     getString(R.string.info_photo_saved))
-                                    .setSmallIcon(R.drawable.savecontent)
+                                    .setSmallIcon(R.drawable.save_content)
                                     .setLargeIcon(loadedImage)
                                     .setContentIntent(pContentIntent)
-                                    .addAction(R.drawable.ic_share, getString(R.string.share_image),
+                                    .addAction(R.drawable.share, getString(R.string.share_image),
                                             pShareIntent)
                                     //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
                                     .addAction(R.drawable.delete, getString(R.string.btn_delete),

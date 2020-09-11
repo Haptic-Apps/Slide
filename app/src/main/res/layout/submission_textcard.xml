@@ -162,7 +162,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_save"
-                app:srcCompat="@drawable/iconstarfilled" />
+                app:srcCompat="@drawable/star" />
 
             <ImageView
                 android:id="@+id/upvote"

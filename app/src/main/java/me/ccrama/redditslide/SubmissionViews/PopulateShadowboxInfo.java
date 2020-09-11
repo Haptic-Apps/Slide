@@ -495,8 +495,8 @@ public class PopulateShadowboxInfo {
         Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
         final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
         final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-        Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
+        Drawable copy = mContext.getResources().getDrawable(R.drawable.copy);
+        Drawable open = mContext.getResources().getDrawable(R.drawable.open_external);
         Drawable link = mContext.getResources().getDrawable(R.drawable.link);
         Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
 
