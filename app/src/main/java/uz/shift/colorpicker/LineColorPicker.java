@@ -11,13 +11,11 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import me.ccrama.redditslide.R;
 
 public class LineColorPicker extends View {
-
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
 
     int[] colors;
     // indicate if nothing selected
@@ -27,7 +25,7 @@ public class LineColorPicker extends View {
     private int selectedColor = colors[0];
     private OnColorChangedListener onColorChanged;
     private int cellSize;
-    private int mOrientation = HORIZONTAL;
+    private int mOrientation;
     private boolean isClick = false;
     private int screenW;
     private int screenH;
@@ -49,7 +47,7 @@ public class LineColorPicker extends View {
         final TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LineColorPicker, 0, 0);
 
         try {
-            mOrientation = a.getInteger(R.styleable.LineColorPicker_orientation, HORIZONTAL);
+            mOrientation = a.getInteger(R.styleable.LineColorPicker_android_orientation, LinearLayout.HORIZONTAL);
 
             if (!isInEditMode()) {
                 final int colorsArrayResId = a.getResourceId(R.styleable.LineColorPicker_colors, -1);
@@ -80,7 +78,7 @@ public class LineColorPicker extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mOrientation == HORIZONTAL) {
+        if (mOrientation == LinearLayout.HORIZONTAL) {
             drawHorizontalPicker(canvas);
         } else {
             drawVerticalPicker(canvas);
@@ -201,7 +199,7 @@ public class LineColorPicker extends View {
 
         // FIXME: colors.length == 0 -> devision by ZERO.s
 
-        if (mOrientation == HORIZONTAL) {
+        if (mOrientation == LinearLayout.HORIZONTAL) {
             int left = 0;
             int right = 0;
 
@@ -323,7 +321,7 @@ public class LineColorPicker extends View {
 
     private int recalcCellSize() {
 
-        if (mOrientation == HORIZONTAL) {
+        if (mOrientation == LinearLayout.HORIZONTAL) {
             cellSize = Math.round(screenW / (colors.length * 1f));
         } else {
             cellSize = Math.round(screenH / (colors.length * 1f));

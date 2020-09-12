@@ -55,7 +55,7 @@
                             android:id="@+id/picker"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            app:orientation="horizontal"
+                            android:orientation="horizontal"
                             app:selectedColorIndex="0" />
 
                         <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -64,7 +64,7 @@
                             android:layout_height="40dp"
                             android:layout_below="@+id/picker"
                             android:layout_marginTop="8dp"
-                            app:orientation="horizontal"
+                            android:orientation="horizontal"
                             app:selectedColorIndex="5" />
                     </RelativeLayout>
 
@@ -86,7 +86,7 @@
                             android:id="@+id/picker3"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            app:orientation="horizontal"
+                            android:orientation="horizontal"
                             app:selectedColorIndex="0" />
                     </RelativeLayout>
                 </LinearLayout>
