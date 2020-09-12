@@ -23,6 +23,17 @@ There is an active community for Slide on the
 [/r/slideforreddit](https://www.reddit.com/r/slideforreddit/) subreddit,
 which anybody is welcome to join.
 
+## Sponsors
+
+Thank you to our awesome Github Sponsors, who help keep the Slide project going
+
+|  | GitHub profile |
+| --------- | ------------- |
+| **KevinNThomas** | https://github.com/KevinNThomas |
+| **andrewkdinh** | https://github.com/andrewkdinh |
+
+If you're interested in sponsoring our work, check out the sponsor slots for Slide contributors on the right-hand **Sponsorship** menu
+
 ## Contributing
 
 ### Issues
