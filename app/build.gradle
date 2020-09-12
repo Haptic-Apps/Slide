@@ -1,6 +1,6 @@
 plugins {
     id 'com.gladed.androidgitversion' version '0.4.13'
-    id 'com.github.ben-manes.versions' version '0.28.0'
+    id 'com.github.ben-manes.versions' version '0.31.0'
     id 'com.android.application'
 }
 
@@ -130,7 +130,8 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'me.everything:overscroll-decor-android:1.1.0'
     implementation 'com.mikepenz:aboutlibraries:6.2.3'
-    implementation 'com.googlecode.mp4parser:isoparser:1.1.22'
+    implementation 'org.mp4parser:isoparser:1.9.41'
+    implementation 'org.mp4parser:muxer:1.9.41'
 
 /** Testing **/
     testImplementation 'junit:junit:4.13'
