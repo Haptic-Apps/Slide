@@ -46,7 +46,7 @@
                         android:id="@+id/picker3"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        app:orientation="horizontal"
+                        android:orientation="horizontal"
 
                         app:selectedColorIndex="0" />
 
