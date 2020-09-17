@@ -22,7 +22,7 @@ public class LineColorPicker extends View {
     boolean isColorSelected = false;
     private Paint paint;
     private Rect rect = new Rect();
-    private int selectedColor = colors[0];
+    private int selectedColor;
     private OnColorChangedListener onColorChanged;
     private int cellSize;
     private int mOrientation;
@@ -72,6 +72,8 @@ public class LineColorPicker extends View {
         } finally {
             a.recycle();
         }
+
+        selectedColor = colors[0];
     }
 
     @Override
