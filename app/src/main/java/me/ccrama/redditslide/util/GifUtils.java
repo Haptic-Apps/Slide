@@ -30,7 +30,7 @@ import com.google.android.exoplayer2.source.dash.manifest.Representation;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSourceInputStream;
 import com.google.android.exoplayer2.upstream.DataSpec;
-import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
+import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -211,7 +211,10 @@ public class GifUtils {
 
                     try {
                         DataSource.Factory downloader = new OkHttpDataSourceFactory(Reddit.client, a.getString(R.string.app_name));
-                        DataSource.Factory cacheDataSourceFactory = new CacheDataSourceFactory(Reddit.videoCache, downloader);
+                        DataSource.Factory cacheDataSourceFactory =
+                                new CacheDataSource.Factory()
+                                        .setCache(Reddit.videoCache)
+                                        .setUpstreamDataSourceFactory(downloader);
                         if (uri.getLastPathSegment().endsWith("DASHPlaylist.mpd")) {
                             InputStream dashManifestStream = new DataSourceInputStream(cacheDataSourceFactory.createDataSource(),
                                     new DataSpec(uri));
@@ -824,7 +827,7 @@ public class GifUtils {
                     ? ExoVideoView.VideoType.DASH : ExoVideoView.VideoType.STANDARD;
             video.setVideoURI(uri, type, new Player.EventListener() {
                 @Override
-                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                public void onPlaybackStateChanged(int playbackState) {
                     if (playbackState == Player.STATE_READY) {
                         progressBar.setVisibility(View.GONE);
                         if (size != null) {
@@ -941,7 +944,10 @@ public class GifUtils {
             } else {
                 DataSource.Factory downloader = new OkHttpDataSourceFactory(Reddit.client,
                         c.getString(R.string.app_name));
-                DataSource.Factory cacheDataSourceFactory = new CacheDataSourceFactory(Reddit.videoCache, downloader);
+                DataSource.Factory cacheDataSourceFactory =
+                        new CacheDataSource.Factory()
+                                .setCache(Reddit.videoCache)
+                                .setUpstreamDataSourceFactory(downloader);
                 InputStream dashManifestStream = new DataSourceInputStream(cacheDataSourceFactory.createDataSource(),
                         new DataSpec(Uri.parse(url)));
                 try {
