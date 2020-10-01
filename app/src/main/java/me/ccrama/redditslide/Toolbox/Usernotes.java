@@ -113,7 +113,7 @@ public class Usernotes {
     public void removeNote(String user, Usernote note) {
         if (notes.get(user) != null) {
             notes.get(user).remove(note);
-            if (notes.get(user).size() == 0) { // if we just removed the last note, remove the user too
+            if (notes.get(user).isEmpty()) { // if we just removed the last note, remove the user too
                 notes.remove(user);
             }
         }
