@@ -74,6 +74,7 @@ public class SettingValues {
     public static final String PREF_COMMENT_FAB               = "commentFab";
     public static final String PREF_SWITCH_THUMB              = "switchThumb";
     public static final String PREF_BIG_THUMBS                = "bigThumbnails";
+    public static final String PREF_NO_THUMB                  = "noThumbnails";
     public static final String PREF_LOW_RES_ALWAYS            = "lowResAlways";
     public static final String PREF_LOW_RES_MOBILE            = "lowRes";
     public static final String PREF_IMAGE_LQ                  = "imageLq";
@@ -235,6 +236,7 @@ public class SettingValues {
     public static boolean albumSwipe;
     public static boolean switchThumb;
     public static boolean bigThumbnails;
+    public static boolean noThumbnails;
     public static boolean commentPager;
     public static boolean alphabetizeOnSubscribe;
     public static boolean colorSubName;
@@ -409,6 +411,7 @@ public class SettingValues {
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);
         switchThumb = prefs.getBoolean(PREF_SWITCH_THUMB, true);
         bigThumbnails = prefs.getBoolean(PREF_BIG_THUMBS, false);
+        noThumbnails = prefs.getBoolean(PREF_NO_THUMB, false);
 
         swipeAnywhere = true; //override this always now
         album = prefs.getBoolean(PREF_ALBUM, true);
