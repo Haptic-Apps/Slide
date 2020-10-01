@@ -397,7 +397,7 @@ public class DoEditorActions {
                                     String selected = showText.getText()
                                             .toString()
                                             .substring(showText.getSelectionStart(), showText.getSelectionEnd());
-                                    if (selected.equals("")) {
+                                    if (selected.isEmpty()) {
                                         selected = StringEscapeUtils.unescapeHtml4(oldComment);
                                     }
                                     insertBefore("> " + selected.replaceAll("\n", "\n> ") + "\n\n", editText);
@@ -420,7 +420,7 @@ public class DoEditorActions {
                 int start = editText.getSelectionStart();
                 int end = editText.getSelectionEnd();
                 String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
-                if (!selected.equals("")) {
+                if (!selected.isEmpty()) {
                     selected = selected.replaceFirst("^[^\n]", "* $0").replaceAll("\n", "\n* ");
                     editText.getText().replace(Math.min(start, end), Math.max(start, end), selected);
                 } else {
@@ -435,7 +435,7 @@ public class DoEditorActions {
                 int start = editText.getSelectionStart();
                 int end = editText.getSelectionEnd();
                 String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
-                if (!selected.equals("")) {
+                if (!selected.isEmpty()) {
                     selected = selected.replaceFirst("^[^\n]", "1. $0").replaceAll("\n", "\n1. ");
                     editText.getText().replace(Math.min(start, end), Math.max(start, end), selected);
                 } else {

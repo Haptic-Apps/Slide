@@ -480,7 +480,7 @@ public class BaseActivity extends PeekViewActivity
     public void setRecentBar(@Nullable String title, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            if (title == null || title.equals("")) title = getString(R.string.app_name);
+            if (title == null || title.isEmpty()) title = getString(R.string.app_name);
 
             int drawable = title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
                     : R.drawable.ic_launcher;
