@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.fail;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(SpoilerRobotoTextView.class)
