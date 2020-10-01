@@ -348,12 +348,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
         posts.loadMore(getActivity(), this, true);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
     }
 
     public void doAdapter(boolean force18) {
@@ -369,12 +364,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
         posts.loadMore(getActivity(), this, true);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
     }
 
     public List<Submission> clearSeenPosts(boolean forever) {

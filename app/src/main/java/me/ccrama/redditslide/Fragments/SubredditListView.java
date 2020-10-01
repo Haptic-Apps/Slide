@@ -82,14 +82,7 @@ public class SubredditListView extends Fragment {
         adapter = new SubredditAdapter(getActivity(), posts, rv, where, this);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), true, where);
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refresh();
-                    }
-                }
-        );
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
         rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
 
             @Override

@@ -288,13 +288,8 @@ public class Submit extends BaseActivity {
             @Override
             public void onClick(View view) {
                 TedBottomPicker tedBottomPicker =
-                        new TedBottomPicker.Builder(Submit.this).setOnImageSelectedListener(
-                                new TedBottomPicker.OnImageSelectedListener() {
-                                    @Override
-                                    public void onImageSelected(List<Uri> uri) {
-                                        handleImageIntent(uri);
-                                    }
-                                })
+                        new TedBottomPicker.Builder(Submit.this)
+                                .setOnImageSelectedListener(Submit.this::handleImageIntent)
                                 .setLayoutResource(R.layout.image_sheet_dialog)
                                 .setTitle("Choose a photo")
                                 .create();
@@ -672,13 +667,7 @@ public class Submit extends BaseActivity {
                         .build();
 
                 DoEditorActions.ProgressRequestBody body =
-                        new DoEditorActions.ProgressRequestBody(formBody,
-                                new DoEditorActions.ProgressRequestBody.Listener() {
-                                    @Override
-                                    public void onProgress(int progress) {
-                                        publishProgress(progress);
-                                    }
-                                });
+                        new DoEditorActions.ProgressRequestBody(formBody, this::publishProgress);
 
 
                 Request request = new Request.Builder().header("Authorization",
@@ -894,13 +883,7 @@ public class Submit extends BaseActivity {
                     MultipartBody formBody = formBodyBuilder.build();
 
                     DoEditorActions.ProgressRequestBody body =
-                            new DoEditorActions.ProgressRequestBody(formBody,
-                                    new DoEditorActions.ProgressRequestBody.Listener() {
-                                        @Override
-                                        public void onProgress(int progress) {
-                                            publishProgress(progress);
-                                        }
-                                    });
+                            new DoEditorActions.ProgressRequestBody(formBody, this::publishProgress);
 
 
                     Request request = new Request.Builder().header("Authorization",

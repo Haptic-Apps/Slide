@@ -799,12 +799,7 @@ public class DoEditorActions {
                         .build();
 
                 ProgressRequestBody body =
-                        new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
-                            @Override
-                            public void onProgress(int progress) {
-                                publishProgress(progress);
-                            }
-                        });
+                        new ProgressRequestBody(formBody, this::publishProgress);
 
 
                 Request request = new Request.Builder().header("Authorization",
@@ -1053,12 +1048,7 @@ public class DoEditorActions {
                     MultipartBody formBody = formBodyBuilder.build();
 
                     ProgressRequestBody body =
-                            new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
-                                @Override
-                                public void onProgress(int progress) {
-                                    publishProgress(progress);
-                                }
-                            });
+                            new ProgressRequestBody(formBody, this::publishProgress);
 
 
                     Request request = new Request.Builder().header("Authorization",
