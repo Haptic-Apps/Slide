@@ -45,9 +45,9 @@
     <string name="submission_comment_unsaved">Comment un-saved</string>
     <string name="submission_share_permalink">Share link</string>
     <string name="submission_comment_copied">Comment text copied</string>
+    <string name="submission_text_copied">Submission text copied</string>
     <string name="submission_nocontent">Submission has no content</string>
     <string name="submission_link_copied">Link copied</string>
-    <string name="submission_text_copied">Selftext copied</string>
     <string name="submission_removed">Submission removed</string>
 
 

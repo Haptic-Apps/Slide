@@ -311,7 +311,7 @@ public class CommentAdapterHelper {
                                                                 Context.CLIPBOARD_SERVICE);
                                                 ClipData clip =
                                                         ClipData.newPlainText("Comment text",
-                                                                Html.fromHtml(n.getBody()));
+                                                                StringEscapeUtils.unescapeHtml4(n.getBody()));
                                                 clipboard.setPrimaryClip(clip);
 
                                                 Toast.makeText(mContext,
