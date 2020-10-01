@@ -298,7 +298,7 @@ public class Settings extends BaseActivity
             }
 
             /* This child is a View and the previous child was a View, remove duplicates */
-            else if (child != null && prev_child_is_View && child.getClass().equals(android.view.View.class)) {
+            else if (child != null && prev_child_is_View && child.getClass() == View.class) {
                 parent.removeView(child);
                 childRemoved = true;
                 i--;
@@ -317,7 +317,7 @@ public class Settings extends BaseActivity
             }
 
             if (child != null && !childRemoved) {
-                prev_child_is_View = child.getClass().equals(android.view.View.class);
+                prev_child_is_View = child.getClass() == View.class;
             }
         }
         return foundText;
