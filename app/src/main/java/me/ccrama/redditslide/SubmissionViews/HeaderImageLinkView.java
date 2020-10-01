@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.Html;
@@ -601,11 +602,11 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 int color = ta.getColor(0, Color.WHITE);
                 Drawable open = getResources().getDrawable(R.drawable.open_in_browser);
-                open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable share = getResources().getDrawable(R.drawable.share);
-                share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable copy = getResources().getDrawable(R.drawable.copy);
-                copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                 ta.recycle();
 

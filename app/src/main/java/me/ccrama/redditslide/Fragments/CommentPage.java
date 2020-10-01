@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -348,7 +349,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         final int TINT = ContextCompat.getColor(getContext(), R.color.md_grey_600);
 
                         e.setHintTextColor(TINT);
-                        e.getBackground().setColorFilter(TINT, PorterDuff.Mode.SRC_IN);
+                        e.getBackground().setColorFilter(new PorterDuffColorFilter(TINT, PorterDuff.Mode.SRC_IN));
                     }
 
                     DoEditorActions.doActions(e, replyView,

@@ -94,7 +94,8 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         final String subreddit = fitems.get(position);
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(
+                Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
 
         if(getContext() instanceof SetupWidget){
             convertView.setOnClickListener(new View.OnClickListener() {

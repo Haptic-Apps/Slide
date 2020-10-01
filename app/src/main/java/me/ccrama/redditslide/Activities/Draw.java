@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -139,7 +140,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri)
                         .copy(Bitmap.Config.RGB_565, true);
-                color.getBackground().setColorFilter(getLastColor(), PorterDuff.Mode.MULTIPLY);
+                color.getBackground().setColorFilter(new PorterDuffColorFilter(getLastColor(), PorterDuff.Mode.MULTIPLY));
                 color.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -163,7 +164,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         drawView.setPaintStrokeColor(selectedColor);
-        color.getBackground().setColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY);
+        color.getBackground().setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
         Reddit.colors.edit().putInt("drawColor", selectedColor).commit();
     }

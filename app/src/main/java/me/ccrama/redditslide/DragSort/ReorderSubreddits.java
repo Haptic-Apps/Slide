@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -898,7 +899,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
                 holder.itemView.findViewById(R.id.color)
                         .getBackground()
-                        .setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
+                        .setColorFilter(new PorterDuffColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY));
                 if (UserSubscriptions.getPinned().contains(origPos)) {
                     holder.itemView.findViewById(R.id.pinned).setVisibility(View.VISIBLE);
                 } else {

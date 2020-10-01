@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -589,11 +590,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
                 int color = ta.getColor(0, Color.WHITE);
                 Drawable open = getResources().getDrawable(R.drawable.open_in_browser);
-                open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable share = getResources().getDrawable(R.drawable.share);
-                share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable copy = getResources().getDrawable(R.drawable.copy);
-                copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                 ta.recycle();
 

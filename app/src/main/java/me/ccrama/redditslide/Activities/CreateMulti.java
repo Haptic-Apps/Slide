@@ -19,6 +19,7 @@ package me.ccrama.redditslide.Activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -304,7 +305,8 @@ public class CreateMulti extends BaseActivityAnim {
             holder.text.setText(origPos);
 
             holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
+            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(
+                    new PorterDuffColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
