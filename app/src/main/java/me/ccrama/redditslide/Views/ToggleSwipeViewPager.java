@@ -35,7 +35,7 @@ public class ToggleSwipeViewPager extends ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_UP) {
             if (mSwipeDisabledUntilRelease) {
-                setSwipingEnabled(true);
+                mEnableSwiping = true;
                 mSwipeDisabledUntilRelease = false;
             }
         }
@@ -56,7 +56,7 @@ public class ToggleSwipeViewPager extends ViewPager {
     }
 
     public void disableSwipingUntilRelease() {
-        setSwipingEnabled(false);
+        mEnableSwiping = false;
         mSwipeDisabledUntilRelease = true;
     }
 

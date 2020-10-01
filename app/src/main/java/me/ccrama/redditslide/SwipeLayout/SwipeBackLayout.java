@@ -176,15 +176,6 @@ public class SwipeBackLayout extends FrameLayout {
         mDragHelper.setSensitivity(context, sensitivity);
     }
 
-    /**
-     * Set up contentView which will be moved by user gesture
-     *
-     * @param view
-     */
-    private void setContentView(View view) {
-        mContentView = view;
-    }
-
     public void setEnableGesture(boolean enable) {
         mEnable = enable;
     }
@@ -504,7 +495,8 @@ public class SwipeBackLayout extends FrameLayout {
         decorChild.setBackgroundResource(background);
         decor.removeView(decorChild);
         addView(decorChild);
-        setContentView(decorChild);
+        // Set up contentView which will be moved by user gesture
+        mContentView = decorChild;
         decor.addView(this);
     }
 

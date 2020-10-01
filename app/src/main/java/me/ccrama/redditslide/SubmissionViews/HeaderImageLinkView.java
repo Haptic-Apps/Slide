@@ -702,14 +702,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         };
     }
 
-    public void setSecondSubtitle(TextView v) {
-        secondSubTitle = v;
-    }
-
-    public void setSecondTitle(TextView v) {
-        secondTitle = v;
-    }
-
     public void setSubmission(final Submission submission, final boolean full, String baseSub,
             ContentType.Type type) {
         this.type = type;
@@ -746,8 +738,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setWrapArea(View v) {
         wrapArea = v;
-        setSecondTitle(v.findViewById(R.id.contenttitle));
-        setSecondSubtitle(v.findViewById(R.id.contenturl));
+        secondTitle = v.findViewById(R.id.contenttitle);
+        secondSubTitle = v.findViewById(R.id.contenturl);
 
     }
 

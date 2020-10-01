@@ -290,7 +290,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            if (getCurrentFragment() != object) {
+            if (mCurrentFragment != object) {
                 mCurrentFragment = (Fragment) object;
             }
             super.setPrimaryItem(container, position, object);

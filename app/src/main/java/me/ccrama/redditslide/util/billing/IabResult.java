@@ -53,7 +53,7 @@ public class IabResult {
     }
 
     public String toString() {
-        return "IabResult: " + getMessage();
+        return "IabResult: " + mMessage;
     }
 }
 
