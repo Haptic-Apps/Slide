@@ -251,8 +251,7 @@ public class NewsActivity extends BaseActivity
     public void onResume() {
         super.onResume();
 
-        if ((!inNightMode && SettingValues.isNight()) || (inNightMode
-                && !SettingValues.isNight())) {
+        if (inNightMode != SettingValues.isNight()) {
             restartTheme();
         }
 

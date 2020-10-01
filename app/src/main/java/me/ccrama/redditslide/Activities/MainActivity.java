@@ -1341,7 +1341,7 @@ public class MainActivity extends BaseActivity
             restartTheme(); //force a restart because we should not be here
         }
 
-        if ((!inNightMode && SettingValues.isNight()) || (inNightMode && !SettingValues.isNight())) {
+        if (inNightMode != SettingValues.isNight()) {
             ((SwitchCompat) drawerLayout.findViewById(R.id.toggle_night_mode)).setChecked(SettingValues.isNight());
             restartTheme();
         }

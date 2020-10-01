@@ -1400,11 +1400,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         {
                             final TextView subscribe = sidebar.findViewById(R.id.subscribe);
 
-                            currentlySubbed = (!Authentication.isLoggedIn
-                                    && UserSubscriptions.getSubscriptions(getActivity())
-                                    .contains(baseSub.getDisplayName().toLowerCase(Locale.ENGLISH))) || (
-                                    Authentication.isLoggedIn
-                                            && baseSub.isUserSubscriber());
+                            currentlySubbed = Authentication.isLoggedIn ? baseSub.isUserSubscriber() : UserSubscriptions.getSubscriptions(getActivity())
+                                    .contains(baseSub.getDisplayName().toLowerCase(Locale.ENGLISH));
                             doSubscribeButtonText(currentlySubbed, subscribe);
 
                             subscribe.setOnClickListener(new View.OnClickListener() {

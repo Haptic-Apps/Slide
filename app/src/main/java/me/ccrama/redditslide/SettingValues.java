@@ -542,8 +542,7 @@ public class SettingValues {
             }
 
             // unset forced state if forcing is now unnecessary - allows for normal night mode on/off transitions
-            if ((night && forcedNightModeState == ForcedState.FORCED_ON)
-                    || (!night && forcedNightModeState == ForcedState.FORCED_OFF)) {
+            if (forcedNightModeState == (night ? ForcedState.FORCED_ON : ForcedState.FORCED_OFF)) {
                 forcedNightModeState = ForcedState.NOT_FORCED;
             }
 

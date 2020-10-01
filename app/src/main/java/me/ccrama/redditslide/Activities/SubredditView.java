@@ -1417,10 +1417,8 @@ public class SubredditView extends BaseActivity {
                 final TextView subscribe = (TextView) findViewById(R.id.subscribe);
 
                 currentlySubbed =
-                        (!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(this)
-                                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) || (
-                                Authentication.isLoggedIn
-                                        && subreddit.isUserSubscriber());
+                        Authentication.isLoggedIn ? subreddit.isUserSubscriber() : UserSubscriptions.getSubscriptions(this)
+                                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
                 doSubscribeButtonText(currentlySubbed, subscribe);
 
                 assert subscribe != null;
