@@ -933,13 +933,14 @@ public class PopulateNewsViewHolder {
                                                         (ClipboardManager) mContext.getSystemService(
                                                                 Context.CLIPBOARD_SERVICE);
                                                 ClipData clip = ClipData.newPlainText("Selftext",
-                                                        Html.fromHtml(submission.getTitle()
-                                                                + "\n\n"
-                                                                + submission.getSelftext()));
+                                                        StringEscapeUtils.unescapeHtml4(
+                                                                submission.getTitle()
+                                                                        + "\n\n"
+                                                                        + submission.getSelftext()));
                                                 clipboard.setPrimaryClip(clip);
 
                                                 Toast.makeText(mContext,
-                                                        R.string.submission_comment_copied,
+                                                        R.string.submission_text_copied,
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         })
