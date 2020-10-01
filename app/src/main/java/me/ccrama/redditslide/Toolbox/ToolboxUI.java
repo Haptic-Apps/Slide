@@ -312,10 +312,10 @@ public class ToolboxUI {
                             typeMap = Toolbox.DEFAULT_USERNOTE_TYPES;
                         }
 
-                        for (String type : typeMap.keySet()) {
+                        for (Map<String, String> stringStringMap : typeMap.values()) {
                             SpannableStringBuilder typeString =
-                                    new SpannableStringBuilder(" [" + typeMap.get(type).get("text") + "] ");
-                            typeString.setSpan(new BackgroundColorSpan(Color.parseColor(typeMap.get(type).get("color"))),
+                                    new SpannableStringBuilder(" [" + stringStringMap.get("text") + "] ");
+                            typeString.setSpan(new BackgroundColorSpan(Color.parseColor(stringStringMap.get("color"))),
                                     0, typeString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             typeString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, typeString.length(),
                                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

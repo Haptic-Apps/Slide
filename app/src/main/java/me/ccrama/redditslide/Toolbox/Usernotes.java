@@ -310,10 +310,10 @@ public class Usernotes {
         @Override
         public JsonElement serialize(Map<String, List<Usernote>> src, Type srcType, JsonSerializationContext context) {
             Map<String, Map<String, List<Usernote>>> notes = new HashMap<>();
-            for (String user : src.keySet()) {
+            for (Map.Entry<String, List<Usernote>> entry : src.entrySet()) {
                 Map<String, List<Usernote>> newNotes = new HashMap<>();
-                newNotes.put("ns", src.get(user));
-                notes.put(user, newNotes);
+                newNotes.put("ns", entry.getValue());
+                notes.put(entry.getKey(), newNotes);
             }
             String encodedBlob = jsonToBlob(context.serialize(notes).toString());
             return context.serialize(encodedBlob);
