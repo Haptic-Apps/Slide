@@ -197,9 +197,8 @@ public class SubredditView extends BaseActivity {
         mToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int[] firstVisibleItems;
                 int pastVisiblesItems = 0;
-                firstVisibleItems =
+                int[] firstVisibleItems =
                         ((CatchStaggeredGridLayoutManager) ((SubmissionsView) (adapter.getCurrentFragment())).rv
                                 .getLayoutManager()).findFirstVisibleItemPositions(null);
                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {

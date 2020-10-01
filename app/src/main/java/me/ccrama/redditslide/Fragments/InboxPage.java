@@ -32,8 +32,7 @@ public class InboxPage extends Fragment {
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = v.findViewById(R.id.vertical_content);
-        final PreCachingLayoutManager mLayoutManager;
-        mLayoutManager = new PreCachingLayoutManager(getActivity());
+        final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
         rv.setLayoutManager(mLayoutManager);
 
         final SwipeRefreshLayout mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);

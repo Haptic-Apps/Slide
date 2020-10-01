@@ -207,8 +207,7 @@ public class PopulateSubmissionViewHolder {
                                     break;
                                 case REDDIT_GALLERY:
                                     if (SettingValues.album) {
-                                        Intent i;
-                                        i = new Intent(contextActivity, RedditGallery.class);
+                                        Intent i = new Intent(contextActivity, RedditGallery.class);
                                         i.putExtra(RedditGallery.SUBREDDIT,
                                                 submission.getSubredditName());
 
@@ -347,9 +346,8 @@ public class PopulateSubmissionViewHolder {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
-            String url;
             String previewUrl;
-            url = submission.getUrl();
+            String url = submission.getUrl();
 
             if (baseView != null
                     && baseView.lq

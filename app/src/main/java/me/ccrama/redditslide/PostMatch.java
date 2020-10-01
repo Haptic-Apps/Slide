@@ -197,21 +197,18 @@ public class PostMatch {
         String domain = s.getUrl();
         String subreddit = s.getSubredditName();
 
-        boolean titlec;
-        boolean bodyc;
         boolean domainc = false;
-        boolean subredditc;
 
-        titlec = contains(title, SettingValues.titleFilters, false);
+        boolean titlec = contains(title, SettingValues.titleFilters, false);
 
-        bodyc = contains(body, SettingValues.textFilters, false);
+        boolean bodyc = contains(body, SettingValues.textFilters, false);
 
         try {
             domainc = isDomain(domain.toLowerCase(Locale.ENGLISH), SettingValues.domainFilters);
         } catch (MalformedURLException ignored) {
         }
 
-        subredditc = subreddit != null && !subreddit.isEmpty() && contains(subreddit, SettingValues.subredditFilters, true);
+        boolean subredditc = subreddit != null && !subreddit.isEmpty() && contains(subreddit, SettingValues.subredditFilters, true);
 
         return (titlec || bodyc || domainc || subredditc);
     }

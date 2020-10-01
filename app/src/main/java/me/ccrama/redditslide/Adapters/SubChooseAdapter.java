@@ -120,9 +120,8 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         src = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
                         final int overlayColor = Palette.getColor(subreddit);
                         final Paint paint = new Paint();
-                        Canvas c;
                         final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
-                        c = new Canvas(bm1);
+                        Canvas c = new Canvas(bm1);
                         paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
                         c.drawBitmap(src, 0, 0, paint);
 

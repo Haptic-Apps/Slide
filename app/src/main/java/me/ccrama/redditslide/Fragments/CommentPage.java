@@ -462,11 +462,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                 @Override
                 public void onClick(View v) {
                     if (adapter != null && adapter.currentComments != null) {
-                        int parentCount, opCount, linkCount, awardCount;
-                        parentCount = 0;
-                        opCount = 0;
-                        linkCount = 0;
-                        awardCount = 0;
+                        int parentCount = 0;
+                        int opCount = 0;
+                        int linkCount = 0;
+                        int awardCount = 0;
                         String op = adapter.submission.getAuthor();
                         for (CommentObject o : adapter.currentComments) {
                             if (o.comment != null && !(o instanceof MoreChildItem)) {

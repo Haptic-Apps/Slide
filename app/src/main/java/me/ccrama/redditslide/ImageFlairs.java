@@ -692,9 +692,8 @@ public class ImageFlairs {
         long discCacheSize = 1024 * 1024 * 100; //100 MB limit
         DiskCache discCache;
         File dir = getCacheDirectory(context);
-        int threadPoolSize;
         discCacheSize *= 100;
-        threadPoolSize = 7;
+        int threadPoolSize = 7;
         if (discCacheSize > 0) {
             try {
                 dir.mkdir();

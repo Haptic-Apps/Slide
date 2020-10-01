@@ -3854,11 +3854,10 @@ public class MainActivity extends BaseActivity
     }
 
     public void scrollToTop() {
-        int[] firstVisibleItems;
         int pastVisiblesItems = 0;
 
         if (((adapter.getCurrentFragment()) == null)) return;
-        firstVisibleItems =
+        int[] firstVisibleItems =
                 ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv
                         .getLayoutManager())).findFirstVisibleItemPositions(null);
         if (firstVisibleItems != null && firstVisibleItems.length > 0) {

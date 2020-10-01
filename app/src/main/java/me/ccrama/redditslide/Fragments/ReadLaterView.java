@@ -32,9 +32,8 @@ public class ReadLaterView extends Fragment {
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = v.findViewById(R.id.vertical_content);
-        final PreCachingLayoutManager mLayoutManager;
 
-        mLayoutManager = new PreCachingLayoutManager(getContext());
+        final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getContext());
 
         rv.setLayoutManager(mLayoutManager);
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);

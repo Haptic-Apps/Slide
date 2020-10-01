@@ -661,9 +661,8 @@ public class MultiredditOverview extends BaseActivityAnim {
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
                         super.onTabReselected(tab);
-                        int[] firstVisibleItems;
                         int pastVisiblesItems = 0;
-                        firstVisibleItems =
+                        int[] firstVisibleItems =
                                 ((CatchStaggeredGridLayoutManager) (((MultiredditView) adapter.getCurrentFragment()).rv
                                         .getLayoutManager())).findFirstVisibleItemPositions(null);
                         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
