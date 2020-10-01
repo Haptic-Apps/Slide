@@ -327,7 +327,7 @@ public class SettingValues {
 
         // TODO: Remove the old pref check in a later version
         // This handles forward migration from the old night_mode boolean state
-        nightModeState = prefs.getInt(PREF_NIGHT_MODE_STATE, prefs.getBoolean(PREF_NIGHT_MODE, false) ? NightModeState.MANUAL.ordinal() : NightModeState.DISABLED.ordinal());
+        nightModeState = prefs.getInt(PREF_NIGHT_MODE_STATE, (prefs.getBoolean(PREF_NIGHT_MODE, false) ? NightModeState.MANUAL : NightModeState.DISABLED).ordinal());
         nightTheme = prefs.getInt(PREF_NIGHT_THEME, 0);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);

@@ -199,10 +199,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             spannable.removeSpan(quoteSpan);
 
             //If the theme is Light or Sepia, use a darker blue; otherwise, use a lighter blue
-            final int barColor =
-                    (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5)
-                            ? ContextCompat.getColor(getContext(), R.color.md_blue_600)
-                            : ContextCompat.getColor(getContext(), R.color.md_blue_400);
+            final int barColor = ContextCompat.getColor(getContext(),
+                    SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5
+                            ? R.color.md_blue_600 : R.color.md_blue_400);
 
             final int BAR_WIDTH = 4;
             final int GAP = 5;

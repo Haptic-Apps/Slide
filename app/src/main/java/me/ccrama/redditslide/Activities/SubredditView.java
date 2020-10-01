@@ -1028,8 +1028,7 @@ public class SubredditView extends BaseActivity {
         };
 
         final String FILTER_TITLE =
-                (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
-                        : (getString(R.string.content_to_hide, "/r/" + subreddit));
+                (getString(R.string.content_to_hide, subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit));
 
         new AlertDialogWrapper.Builder(this).setTitle(FILTER_TITLE)
                 .alwaysCallMultiChoiceCallback()
