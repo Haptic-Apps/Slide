@@ -15,7 +15,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import static junit.framework.Assert.fail;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SpoilerRobotoTextView.class})
+@PrepareForTest(SpoilerRobotoTextView.class)
 public class SpoilerTextTest {
     private final Pattern htmlSpoilerPattern = Whitebox.getInternalState(SpoilerRobotoTextView.class, "htmlSpoilerPattern");
     private final Pattern nativeSpoilerPattern = Whitebox.getInternalState(SpoilerRobotoTextView.class, "nativeSpoilerPattern");

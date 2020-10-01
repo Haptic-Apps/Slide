@@ -13,9 +13,7 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-@JsonPropertyOrder({
-    "id"
-})
+@JsonPropertyOrder("id")
 public class Post_ {
 
     @JsonProperty("id")
@@ -24,7 +22,7 @@ public class Post_ {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
+     *
      * @return
      *     The id
      */
@@ -34,7 +32,7 @@ public class Post_ {
     }
 
     /**
-     * 
+     *
      * @param id
      *     The id
      */
