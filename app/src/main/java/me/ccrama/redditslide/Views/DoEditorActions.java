@@ -507,10 +507,10 @@ public class DoEditorActions {
                                                 (EditText) dialog.findViewById(R.id.text_box);
                                         dialog.dismiss();
 
-                                        final String s = "[".concat(textBox.getText().toString())
-                                                .concat("](")
-                                                .concat(urlBox.getText().toString())
-                                                .concat(")");
+                                        final String s = "[" + textBox.getText().toString()
+                                                + "]("
+                                                + urlBox.getText().toString()
+                                                + ")";
 
                                         int start = Math.max(editText.getSelectionStart(), 0);
                                         int end = Math.max(editText.getSelectionEnd(), 0);

@@ -113,10 +113,11 @@ public class WikiPage extends Fragment {
     private void onDomRetrieved(String dom) {
         webView.loadDataWithBaseURL(
                 wikiUrl,
-                "<head>".concat(Wiki.getGlobalCustomCss())
-                        .concat(Wiki.getGlobalCustomJavaScript())
-                        .concat("</head>")
-                        .concat(dom),
+                "<head>"
+                        + Wiki.getGlobalCustomCss()
+                        + Wiki.getGlobalCustomJavaScript()
+                        + "</head>"
+                        + dom,
                 "text/html",
                 "utf-8",
                 null);
@@ -128,7 +129,7 @@ public class WikiPage extends Fragment {
         Bundle bundle = this.getArguments();
         title = bundle.getString("title", "");
         subreddit = bundle.getString("subreddit", "");
-        wikiUrl = "https://www.reddit.com/r/".concat(subreddit).concat("/wiki/");
+        wikiUrl = "https://www.reddit.com/r/" + subreddit + "/wiki/";
     }
 
     public void setListener(WikiPageListener listener) {

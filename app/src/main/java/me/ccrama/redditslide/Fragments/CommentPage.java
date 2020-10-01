@@ -369,7 +369,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             });
                     final TextView profile = replyView.findViewById(R.id.profile);
                     final String[] changedProfile = {Authentication.name};
-                    profile.setText("/u/".concat(changedProfile[0]));
+                    profile.setText("/u/" + changedProfile[0]);
                     profile.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -394,7 +394,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 public boolean onSelection(MaterialDialog dialog, View itemView,
                                                            int which, CharSequence text) {
                                     changedProfile[0] = keys.get(which);
-                                    profile.setText("/u/".concat(changedProfile[0]));
+                                    profile.setText("/u/" + changedProfile[0]);
                                     return true;
                                 }
                             });

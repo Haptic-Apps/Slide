@@ -136,7 +136,7 @@ public class OfflineSubreddit {
                                 fullNames);
                 Reddit.cachedData.edit().remove(savedSubmissionsSubreddit).apply();
                 if (!savedSubmissions.equals(fullNames)) {
-                    savedSubmissions = fullNames.concat(savedSubmissions);
+                    savedSubmissions = fullNames + savedSubmissions;
                 }
                 saveToCache(title, savedSubmissions);
             } else {
