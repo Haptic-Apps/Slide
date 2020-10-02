@@ -301,8 +301,7 @@ public class MediaFragmentComment extends Fragment {
                     if (type == ContentType.Type.IMAGE) {
                         if (SettingValues.image) {
                             Intent myIntent = new Intent(contextActivity, MediaView.class);
-                            String url;
-                            url = submission.getUrl();
+                            String url = submission.getUrl();
                             myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
                             myIntent.putExtra(MediaView.EXTRA_URL, url);
                             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());

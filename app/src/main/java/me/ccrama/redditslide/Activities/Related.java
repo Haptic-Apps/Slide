@@ -79,8 +79,7 @@ public class Related extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        final PreCachingLayoutManager mLayoutManager;
-        mLayoutManager = new PreCachingLayoutManager(this);
+        final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {

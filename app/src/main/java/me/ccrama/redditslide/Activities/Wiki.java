@@ -82,11 +82,11 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
         TypedArray ta = obtainStyledAttributes(
                 new int[]{R.attr.activity_background, R.attr.fontColor, R.attr.colorAccent});
         customCssBuilder.append("html { ")
-                .append("background: ".concat(getHexFromColorInt(ta.getColor(0, Color.WHITE))).concat(";"))
-                .append("color: ".concat(getHexFromColorInt(ta.getColor(1, Color.BLACK))).concat(";"))
+                .append("background: ").append(getHexFromColorInt(ta.getColor(0, Color.WHITE))).append(";")
+                .append("color: ").append(getHexFromColorInt(ta.getColor(1, Color.BLACK))).append(";")
                 .append("; }");
         customCssBuilder.append("a { ")
-                .append("color: ".concat(getHexFromColorInt(ta.getColor(2, Color.BLUE))).concat(";"))
+                .append("color: ").append(getHexFromColorInt(ta.getColor(2, Color.BLUE))).append(";")
                 .append("; }");
         ta.recycle();
         customCssBuilder.append("table, code { display: block; overflow-x: scroll; }");

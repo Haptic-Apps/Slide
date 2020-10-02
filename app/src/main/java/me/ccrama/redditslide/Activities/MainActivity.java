@@ -1341,7 +1341,7 @@ public class MainActivity extends BaseActivity
             restartTheme(); //force a restart because we should not be here
         }
 
-        if ((!inNightMode && SettingValues.isNight()) || (inNightMode && !SettingValues.isNight())) {
+        if (inNightMode != SettingValues.isNight()) {
             ((SwitchCompat) drawerLayout.findViewById(R.id.toggle_night_mode)).setChecked(SettingValues.isNight());
             restartTheme();
         }
@@ -3854,11 +3854,10 @@ public class MainActivity extends BaseActivity
     }
 
     public void scrollToTop() {
-        int[] firstVisibleItems;
         int pastVisiblesItems = 0;
 
         if (((adapter.getCurrentFragment()) == null)) return;
-        firstVisibleItems =
+        int[] firstVisibleItems =
                 ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv
                         .getLayoutManager())).findFirstVisibleItemPositions(null);
         if (firstVisibleItems != null && firstVisibleItems.length > 0) {

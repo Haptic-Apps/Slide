@@ -652,7 +652,7 @@ public class IabHelper {
         try {
             String token = itemInfo.getToken();
             String sku = itemInfo.getSku();
-            if (token == null || token.equals("")) {
+            if (token == null || token.isEmpty()) {
                 logError("Can't consume " + sku + ". No token.");
                 throw new IabException(IABHELPER_MISSING_TOKEN,
                         "PurchaseInfo is missing token for sku: " + sku + " " + itemInfo);

@@ -99,8 +99,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int[] firstVisibleItems;
-                firstVisibleItems =
+                int[] firstVisibleItems =
                         ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(
                                 null);
                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {

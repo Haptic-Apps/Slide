@@ -94,7 +94,8 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         final String subreddit = fitems.get(position);
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(
+                Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
 
         if(getContext() instanceof SetupWidget){
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -120,9 +121,8 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         src = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
                         final int overlayColor = Palette.getColor(subreddit);
                         final Paint paint = new Paint();
-                        Canvas c;
                         final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
-                        c = new Canvas(bm1);
+                        Canvas c = new Canvas(bm1);
                         paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
                         c.drawBitmap(src, 0, 0, paint);
 
@@ -164,7 +164,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
             FilterResults results = new FilterResults();
             String prefix = constraint.toString().toLowerCase(Locale.ENGLISH);
 
-            if (prefix == null || prefix.length() == 0) {
+            if (prefix == null || prefix.isEmpty()) {
                 ArrayList<String> list = new ArrayList<>(baseItems);
                 results.values = list;
                 results.count = list.size();

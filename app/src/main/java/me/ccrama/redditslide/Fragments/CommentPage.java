@@ -10,9 +10,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -349,7 +349,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         final int TINT = ContextCompat.getColor(getContext(), R.color.md_grey_600);
 
                         e.setHintTextColor(TINT);
-                        e.getBackground().setColorFilter(TINT, PorterDuff.Mode.SRC_IN);
+                        e.getBackground().setColorFilter(new PorterDuffColorFilter(TINT, PorterDuff.Mode.SRC_IN));
                     }
 
                     DoEditorActions.doActions(e, replyView,
@@ -369,7 +369,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             });
                     final TextView profile = replyView.findViewById(R.id.profile);
                     final String[] changedProfile = {Authentication.name};
-                    profile.setText("/u/".concat(changedProfile[0]));
+                    profile.setText("/u/" + changedProfile[0]);
                     profile.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -394,7 +394,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 public boolean onSelection(MaterialDialog dialog, View itemView,
                                                            int which, CharSequence text) {
                                     changedProfile[0] = keys.get(which);
-                                    profile.setText("/u/".concat(changedProfile[0]));
+                                    profile.setText("/u/" + changedProfile[0]);
                                     return true;
                                 }
                             });
@@ -462,11 +462,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                 @Override
                 public void onClick(View v) {
                     if (adapter != null && adapter.currentComments != null) {
-                        int parentCount, opCount, linkCount, awardCount;
-                        parentCount = 0;
-                        opCount = 0;
-                        linkCount = 0;
-                        awardCount = 0;
+                        int parentCount = 0;
+                        int opCount = 0;
+                        int linkCount = 0;
+                        int awardCount = 0;
                         String op = adapter.submission.getAuthor();
                         for (CommentObject o : adapter.currentComments) {
                             if (o.comment != null && !(o instanceof MoreChildItem)) {
@@ -1401,11 +1400,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         {
                             final TextView subscribe = sidebar.findViewById(R.id.subscribe);
 
-                            currentlySubbed = (!Authentication.isLoggedIn
-                                    && UserSubscriptions.getSubscriptions(getActivity())
-                                    .contains(baseSub.getDisplayName().toLowerCase(Locale.ENGLISH))) || (
-                                    Authentication.isLoggedIn
-                                            && baseSub.isUserSubscriber());
+                            currentlySubbed = Authentication.isLoggedIn ? baseSub.isUserSubscriber() : UserSubscriptions.getSubscriptions(getActivity())
+                                    .contains(baseSub.getDisplayName().toLowerCase(Locale.ENGLISH));
                             doSubscribeButtonText(currentlySubbed, subscribe);
 
                             subscribe.setOnClickListener(new View.OnClickListener() {

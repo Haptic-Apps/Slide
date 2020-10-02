@@ -474,7 +474,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
 
                         //set the currently selected pref
                         startSpinner.setSelection(startAdapter.getPosition(
-                                Integer.toString(SettingValues.nightStart).concat("pm")));
+                                SettingValues.nightStart + "pm"));
 
                         startSpinner.setOnItemSelectedListener(
                                 new AdapterView.OnItemSelectedListener() {
@@ -522,7 +522,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
 
                         //set the currently selected pref
                         endSpinner.setSelection(endAdapter.getPosition(
-                                Integer.toString(SettingValues.nightEnd).concat("am")));
+                                SettingValues.nightEnd + "am"));
 
                         endSpinner.setOnItemSelectedListener(
                                 new AdapterView.OnItemSelectedListener() {

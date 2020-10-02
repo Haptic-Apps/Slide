@@ -155,7 +155,7 @@ class GifDecoder {
                 }
             }
         }
-        image = Bitmap.createBitmap(dest, width, height, Bitmap.Config.ARGB_4444);
+        image = Bitmap.createBitmap(dest, width, height, Bitmap.Config.ARGB_8888);
     }
 
     private Bitmap getFrame(int n) {
@@ -190,7 +190,7 @@ class GifDecoder {
     private void decodeBitmapData() {
         int nullCode = -1;
         int npix = iw * ih;
-        int available, clear, code_mask, code_size, end_of_information, in_code, old_code, bits, code, count, i, datum, data_size, first, top, bi, pi;
+        int in_code, bits, code, count, i, datum, first, top, bi, pi;
         if ((pixels == null) || (pixels.length < npix)) {
             pixels = new byte[npix]; // allocate new pixel array
         }
@@ -203,13 +203,13 @@ class GifDecoder {
         if (pixelStack == null) {
             pixelStack = new byte[MAX_STACK_SIZE + 1];
         }
-        data_size = read();
-        clear = 1 << data_size;
-        end_of_information = clear + 1;
-        available = clear + 2;
-        old_code = nullCode;
-        code_size = data_size + 1;
-        code_mask = (1 << code_size) - 1;
+        int data_size = read();
+        int clear = 1 << data_size;
+        int end_of_information = clear + 1;
+        int available = clear + 2;
+        int old_code = nullCode;
+        int code_size = data_size + 1;
+        int code_mask = (1 << code_size) - 1;
         for (code = 0; code < clear; code++) {
             prefix[code] = 0; // XXX ArrayIndexOutOfBoundsException
             suffix[code] = (byte) code;
@@ -465,7 +465,7 @@ class GifDecoder {
         }
         frameCount++;
         // create new image to receive frame data
-        image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
+        image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         setPixels(); // transfer pixel data to image
         frames.addElement(new GifFrame(image, delay)); // add image to frame
         // list

@@ -7,6 +7,7 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,7 +114,8 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
 
             holder.color.setBackgroundResource(R.drawable.circle);
-            holder.color.getBackground().setColorFilter(Palette.getColor(sub.getDisplayName().toLowerCase(Locale.ENGLISH)), PorterDuff.Mode.MULTIPLY);
+            holder.color.getBackground().setColorFilter(new PorterDuffColorFilter(
+                    Palette.getColor(sub.getDisplayName().toLowerCase(Locale.ENGLISH)), PorterDuff.Mode.MULTIPLY));
             holder.itemView.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {

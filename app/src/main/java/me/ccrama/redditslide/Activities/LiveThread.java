@@ -492,7 +492,7 @@ public class LiveThread extends BaseActivityAnim {
             holder.imageArea.setVisibility(View.GONE);
             holder.twitterArea.setVisibility(View.GONE);
             holder.twitterArea.stopLoading();
-            if (u.getEmbeds().size() == 0) {
+            if (u.getEmbeds().isEmpty()) {
                 holder.go.setVisibility(View.GONE);
             } else {
                 final String url = u.getEmbeds().get(0).getUrl();

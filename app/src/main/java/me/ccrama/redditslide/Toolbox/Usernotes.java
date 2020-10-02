@@ -113,7 +113,7 @@ public class Usernotes {
     public void removeNote(String user, Usernote note) {
         if (notes.get(user) != null) {
             notes.get(user).remove(note);
-            if (notes.get(user).size() == 0) { // if we just removed the last note, remove the user too
+            if (notes.get(user).isEmpty()) { // if we just removed the last note, remove the user too
                 notes.remove(user);
             }
         }
@@ -310,10 +310,10 @@ public class Usernotes {
         @Override
         public JsonElement serialize(Map<String, List<Usernote>> src, Type srcType, JsonSerializationContext context) {
             Map<String, Map<String, List<Usernote>>> notes = new HashMap<>();
-            for (String user : src.keySet()) {
+            for (Map.Entry<String, List<Usernote>> entry : src.entrySet()) {
                 Map<String, List<Usernote>> newNotes = new HashMap<>();
-                newNotes.put("ns", src.get(user));
-                notes.put(user, newNotes);
+                newNotes.put("ns", entry.getValue());
+                notes.put(entry.getKey(), newNotes);
             }
             String encodedBlob = jsonToBlob(context.serialize(notes).toString());
             return context.serialize(encodedBlob);

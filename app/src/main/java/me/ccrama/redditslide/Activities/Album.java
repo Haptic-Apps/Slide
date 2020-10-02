@@ -325,8 +325,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(getActivity());
+            final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
             recyclerView = rootView.findViewById(R.id.images);
             recyclerView.setLayoutManager(mLayoutManager);
             ((Album) getActivity()).url =

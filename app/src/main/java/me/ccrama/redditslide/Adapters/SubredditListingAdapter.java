@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,8 @@ public class SubredditListingAdapter extends ArrayAdapter<String> {
         t.setText(fitems.get(position));
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(
+                Palette.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY));
 
         return convertView;
     }

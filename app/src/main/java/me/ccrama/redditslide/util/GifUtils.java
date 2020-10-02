@@ -955,7 +955,6 @@ public class GifUtils {
                     dashManifestStream.close();
                     long videoSize = 0;
                     long audioSize = 0;
-                    final long totalSize;
 
                     for (int i = 0; i < dashManifest.getPeriodCount(); i++) {
                         for (AdaptationSet as : dashManifest.getPeriod(i).adaptationSets) {
@@ -988,7 +987,7 @@ public class GifUtils {
                             }
                         }
                     }
-                    totalSize = videoSize + audioSize;
+                    final long totalSize = videoSize + audioSize;
                     c.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

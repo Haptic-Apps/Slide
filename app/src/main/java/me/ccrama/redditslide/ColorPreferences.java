@@ -501,7 +501,7 @@ public class ColorPreferences {
 
     private String getUserThemeName(String themeName, String defaultValue) {
         String userTheme =
-                open().getString(themeName.concat(USER_THEME_DELIMITER + Authentication.name),
+                open().getString(themeName + USER_THEME_DELIMITER + Authentication.name,
                         null);
         if (userTheme != null) {
             return userTheme.split(StringEscapeUtils.escapeJava(USER_THEME_DELIMITER))[0];
@@ -511,7 +511,7 @@ public class ColorPreferences {
     }
 
     private void setUserThemeName(String themeName, String defaultValue) {
-        edit().putString(themeName.concat(USER_THEME_DELIMITER + Authentication.name), defaultValue)
+        edit().putString(themeName + USER_THEME_DELIMITER + Authentication.name, defaultValue)
                 .commit();
     }
 
@@ -622,7 +622,7 @@ public class ColorPreferences {
     }
 
     public void removeFontStyle(String subreddit) {
-        edit().remove(subreddit.concat(USER_THEME_DELIMITER + Authentication.name)).commit();
+        edit().remove(subreddit + USER_THEME_DELIMITER + Authentication.name).commit();
     }
 
     public int getColor(String s) {

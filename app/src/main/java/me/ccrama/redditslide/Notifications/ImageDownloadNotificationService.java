@@ -358,9 +358,8 @@ public class ImageDownloadNotificationService extends Service {
                             ? String.format("%03d_", index) : "") + UUID.randomUUID().toString() + (
                             URL.endsWith("png") ? ".png" : ".jpg"));
 
-            FileOutputStream out = null;
             f.createNewFile();
-            out = new FileOutputStream(f);
+            FileOutputStream out = new FileOutputStream(f);
             bitmap.compress(
                     URL.endsWith("png") ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG,
                     100, out);

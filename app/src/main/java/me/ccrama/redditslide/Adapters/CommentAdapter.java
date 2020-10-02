@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -1125,9 +1126,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentNode = baseNode;
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             resetMenu(holder.menuArea, false);
-            final View baseView = (SettingValues.rightHandedCommentMenu) ? inflater.inflate(
-                    R.layout.comment_menu_right_handed, holder.menuArea)
-                    : inflater.inflate(R.layout.comment_menu, holder.menuArea);
+            final View baseView = inflater.inflate(
+                    SettingValues.rightHandedCommentMenu ?
+                            R.layout.comment_menu_right_handed : R.layout.comment_menu, holder.menuArea);
 
             if (!isReplying) {
                 baseView.setVisibility(View.GONE);
@@ -1403,7 +1404,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.spoiler)).setColorFilter(Color.WHITE);
                             replyLine.getBackground()
-                                    .setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+                                    .setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN));
                         }
 
                         replyArea.setVisibility(View.VISIBLE);

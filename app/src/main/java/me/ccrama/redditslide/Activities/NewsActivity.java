@@ -251,8 +251,7 @@ public class NewsActivity extends BaseActivity
     public void onResume() {
         super.onResume();
 
-        if ((!inNightMode && SettingValues.isNight()) || (inNightMode
-                && !SettingValues.isNight())) {
+        if (inNightMode != SettingValues.isNight()) {
             restartTheme();
         }
 
@@ -376,11 +375,10 @@ public class NewsActivity extends BaseActivity
     }
 
     public void scrollToTop() {
-        int[] firstVisibleItems;
         int pastVisiblesItems = 0;
 
         if (((adapter.getCurrentFragment()) == null)) return;
-        firstVisibleItems =
+        int[] firstVisibleItems =
                 ((CatchStaggeredGridLayoutManager) (((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager()))
                         .findFirstVisibleItemPositions(null);
         if (firstVisibleItems != null && firstVisibleItems.length > 0) {

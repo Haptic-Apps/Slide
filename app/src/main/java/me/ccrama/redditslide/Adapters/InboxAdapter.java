@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -263,12 +264,12 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Drawable copy = mContext.getResources().getDrawable(R.drawable.copy);
                     Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
 
-                    profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    reply.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    unhide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                    profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    reply.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    unhide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                     ta.recycle();
 

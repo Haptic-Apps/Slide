@@ -236,9 +236,8 @@ public class RedditItemView extends RelativeLayout {
     }
 
     private void doSidebar(Subreddit subreddit, View content) {
-        if ((!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(getContext())
-                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) || (Authentication.isLoggedIn
-                && subreddit.isUserSubscriber())) {
+        if (Authentication.isLoggedIn ? subreddit.isUserSubscriber() : UserSubscriptions.getSubscriptions(getContext())
+                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) {
             ((AppCompatCheckBox) content.findViewById(R.id.subscribed)).setChecked(true);
         }
         content.findViewById(R.id.header_sub)

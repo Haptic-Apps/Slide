@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import jp.wasabeef.blurry.Blurry;
 import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
@@ -136,12 +137,12 @@ public class PeekView extends FrameLayout {
     HashMap<Integer, OnButtonUp> buttons = new HashMap<>();
 
     public void checkButtons(MotionEvent event) {
-        for (Integer i : buttons.keySet()) {
-            View v = content.findViewById(i);
+        for (Map.Entry<Integer, OnButtonUp> entry : buttons.entrySet()) {
+            View v = content.findViewById(entry.getKey());
             Rect outRect = new Rect();
             v.getGlobalVisibleRect(outRect);
             if(outRect.contains((int) event.getX(), (int) event.getY())){
-                buttons.get(i).onButtonUp();
+                entry.getValue().onButtonUp();
             }
         }
     }

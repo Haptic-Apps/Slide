@@ -37,8 +37,7 @@ public class CommentSearch extends BaseActivityAnim {
 
         final EditText search = (EditText) findViewById(R.id.search);
         RecyclerView rv = (RecyclerView) findViewById(R.id.vertical_content);
-        final PreCachingLayoutManager mLayoutManager;
-        mLayoutManager = new PreCachingLayoutManager(this);
+        final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
         ArrayList<CommentNode> comments = new ArrayList<>();
         List<CommentObject> commentsOld = DataShare.sharedComments;

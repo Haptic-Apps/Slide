@@ -268,8 +268,7 @@ public class Search extends BaseActivityAnim {
                         + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        final RecyclerView.LayoutManager mLayoutManager;
-        mLayoutManager =
+        final RecyclerView.LayoutManager mLayoutManager =
                 createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, Search.this));
         rv.setLayoutManager(mLayoutManager);
 
