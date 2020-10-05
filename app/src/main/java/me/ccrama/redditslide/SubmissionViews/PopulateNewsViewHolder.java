@@ -14,7 +14,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.TypedValue;
@@ -30,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -154,10 +154,10 @@ public class PopulateNewsViewHolder {
                                     break;
                                 case EMBEDDED:
                                     if (SettingValues.video) {
-                                        String data = Html.fromHtml(submission.getDataNode()
+                                        String data = HtmlCompat.fromHtml(submission.getDataNode()
                                                 .get("media_embed")
                                                 .get("content")
-                                                .asText()).toString();
+                                                .asText(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
                                         {
                                             Intent i = new Intent(contextActivity,
                                                     FullscreenVideo.class);
@@ -465,7 +465,7 @@ public class PopulateNewsViewHolder {
         ta.recycle();
 
         final BottomSheet.Builder b =
-                new BottomSheet.Builder(mContext).title(Html.fromHtml(submission.getTitle()));
+                new BottomSheet.Builder(mContext).title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
         final boolean isReadLater = mContext instanceof PostReadLater;
@@ -785,7 +785,7 @@ public class PopulateNewsViewHolder {
                         }
                         break;
                     case 4:
-                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
+                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
                                 StringEscapeUtils.escapeHtml4(submission.getUrl()), mContext);
                         break;
                     case 12:
@@ -869,7 +869,7 @@ public class PopulateNewsViewHolder {
                         reportDialog.show();
                         break;
                     case 8:
-                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
+                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
                                 "https://reddit.com" + submission.getPermalink(), mContext);
                         break;
                     case 6: {
@@ -913,10 +913,10 @@ public class PopulateNewsViewHolder {
 
                                                 } else {
                                                     clip = ClipData.newPlainText("Selftext",
-                                                            Html.fromHtml(
+                                                            HtmlCompat.fromHtml(
                                                                     submission.getTitle()
                                                                             + "\n\n"
-                                                                            + submission.getSelftext()));
+                                                                            + submission.getSelftext(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                                                 }
                                                 if (clipboard != null) {

@@ -14,10 +14,10 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.text.Html;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Message;
 import net.dean.jraw.paginators.InboxPaginator;
@@ -166,7 +166,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     openPIBase, 0);
 
                     String unescape = StringEscapeUtils.unescapeHtml4(message.getDataNode().get("body_html").asText());
-                    notiStyle.bigText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    notiStyle.bigText(Html.fromHtml(unescape, Html.FROM_HTML_MODE_LEGACY));
 
                     PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
                             2 + (int) message.getCreated().getTime(), c,
@@ -182,7 +182,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
                                     .setContentTitle(contentTitle)
-                                    .setContentText(HtmlCompat.fromHtml(unescape, HtmlCompat.FROM_HTML_MODE_LEGACY))
+                                    .setContentText(Html.fromHtml(unescape, Html.FROM_HTML_MODE_LEGACY))
                                     .setStyle(notiStyle)
                                     .setGroup("MESSAGES")
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)

@@ -20,7 +20,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -642,7 +642,7 @@ public class MediaView extends FullScreenActivity
         setShareUrl(contentUrl);
 
         if (contentUrl.contains("reddituploads.com")) {
-            contentUrl = Html.fromHtml(contentUrl).toString();
+            contentUrl = HtmlCompat.fromHtml(contentUrl, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
         }
         if (contentUrl != null && shouldTruncate(contentUrl)) {
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));

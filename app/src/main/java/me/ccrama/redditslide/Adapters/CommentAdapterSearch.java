@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -30,6 +29,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devspark.robototextview.RobotoTypefaces;
@@ -260,7 +260,8 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    "\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
+                    "\u00A0" + HtmlCompat.fromHtml(comment.getAuthorFlair().getText(),
+                            HtmlCompat.FROM_HTML_MODE_LEGACY) + "\u00A0");
             pinned.setSpan(
                     new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color,
                             false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

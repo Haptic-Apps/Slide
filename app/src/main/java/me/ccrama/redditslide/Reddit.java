@@ -23,12 +23,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.multidex.MultiDexApplication;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -151,7 +151,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void defaultShareText(String title, String url, Context c) {
-        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         /* Decode html entities */

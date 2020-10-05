@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -249,7 +249,7 @@ public class Search extends BaseActivityAnim {
 
         time = TimePeriod.ALL;
 
-        getSupportActionBar().setTitle(Html.fromHtml(where));
+        getSupportActionBar().setTitle(HtmlCompat.fromHtml(where, HtmlCompat.FROM_HTML_MODE_LEGACY));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         assert mToolbar != null; //it won't be, trust me
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

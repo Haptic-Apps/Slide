@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -14,6 +13,8 @@ import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
+
+import androidx.core.text.HtmlCompat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -405,7 +406,7 @@ public class SubmissionCache {
     private static SpannableStringBuilder getTitleSpannable(Submission submission,
             String flairOverride, Context mContext) {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
-        titleString.append(Html.fromHtml(submission.getTitle()));
+        titleString.append(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         if (submission.isStickied()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0"
@@ -520,7 +521,7 @@ public class SubmissionCache {
                 flairString = submission.getSubmissionFlair().getText();
             }
             SpannableStringBuilder pinned =
-                    new SpannableStringBuilder("\u00A0" + Html.fromHtml(flairString) + "\u00A0");
+                    new SpannableStringBuilder("\u00A0" + HtmlCompat.fromHtml(flairString, HtmlCompat.FROM_HTML_MODE_LEGACY) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(font, color, true, mContext), 0,
                     pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");

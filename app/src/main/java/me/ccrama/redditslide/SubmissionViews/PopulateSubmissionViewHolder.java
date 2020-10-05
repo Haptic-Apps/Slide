@@ -18,7 +18,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
@@ -39,6 +38,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -189,10 +189,10 @@ public class PopulateSubmissionViewHolder {
                                     break;
                                 case EMBEDDED:
                                     if (SettingValues.video) {
-                                        String data = Html.fromHtml(submission.getDataNode()
+                                        String data = HtmlCompat.fromHtml(submission.getDataNode()
                                                 .get("media_embed")
                                                 .get("content")
-                                                .asText()).toString();
+                                                .asText(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
                                         {
                                             Intent i = new Intent(contextActivity,
                                                     FullscreenVideo.class);
@@ -587,7 +587,7 @@ public class PopulateSubmissionViewHolder {
         ta.recycle();
 
         final BottomSheet.Builder b =
-                new BottomSheet.Builder(mContext).title(Html.fromHtml(submission.getTitle()));
+                new BottomSheet.Builder(mContext).title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
         final boolean isReadLater = mContext instanceof PostReadLater;
@@ -914,7 +914,7 @@ public class PopulateSubmissionViewHolder {
                         }
                         break;
                     case 4:
-                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
+                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
                                 StringEscapeUtils.escapeHtml4(submission.getUrl()), mContext);
                         break;
                     case 12:
@@ -1045,10 +1045,10 @@ public class PopulateSubmissionViewHolder {
 
                                                 } else {
                                                     clip = ClipData.newPlainText("Selftext",
-                                                            Html.fromHtml(
+                                                            HtmlCompat.fromHtml(
                                                                     submission.getTitle()
                                                                             + "\n\n"
-                                                                            + submission.getSelftext()));
+                                                                            + submission.getSelftext(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                                                 }
                                                 if (clipboard != null) {
@@ -1452,7 +1452,7 @@ public class PopulateSubmissionViewHolder {
         ta.recycle();
 
         BottomSheet.Builder b =
-                new BottomSheet.Builder(mContext).title(Html.fromHtml(submission.getTitle()));
+                new BottomSheet.Builder(mContext).title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         int reportCount = reports.size() + reports2.size();
 
@@ -2875,8 +2875,8 @@ public class PopulateSubmissionViewHolder {
             }
             holder.body.setTypeface(typeface);
 
-            holder.body.setTextHtml(Html.fromHtml(
-                    text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length()))
+            holder.body.setTextHtml(HtmlCompat.fromHtml(
+                    text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length()), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     .toString()
                     .replace("<sup>", "<sup><small>")
                     .replace("</sup>", "</small></sup>"), "none ");
@@ -3111,7 +3111,7 @@ public class PopulateSubmissionViewHolder {
                             ta.recycle();
 
                             BottomSheet.Builder b = new BottomSheet.Builder(mContext).title(
-                                            Html.fromHtml(submission.getTitle()));
+                                            HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                             if (submission.isSelfPost()) {
                                 b.sheet(1, edit_drawable,

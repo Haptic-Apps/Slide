@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
+import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
@@ -207,7 +208,7 @@ public class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteView
             // feed row
             Submission data = records.get(position);
 
-            rv.setTextViewText(R.id.title, Html.fromHtml(data.getTitle()));
+            rv.setTextViewText(R.id.title, HtmlCompat.fromHtml(data.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
             rv.setTextViewText(R.id.score, data.getScore() + "");
             rv.setTextViewText(R.id.comments, data.getCommentCount() + "");
             rv.setTextViewText(R.id.information,
@@ -222,8 +223,8 @@ public class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteView
                     rv.setImageViewBitmap(R.id.bigpic,
                             ((Reddit) mContext.getApplicationContext()).getImageLoader()
                                     .loadImageSync(
-                                            Html.fromHtml(data.getThumbnails().getSource().getUrl())
-                                                    .toString()));
+                                            HtmlCompat.fromHtml(data.getThumbnails().getSource().getUrl(),
+                                                    HtmlCompat.FROM_HTML_MODE_LEGACY).toString()));
                     rv.setViewVisibility(R.id.bigpic, View.VISIBLE);
                 } else {
                     rv.setViewVisibility(R.id.bigpic, View.GONE);
