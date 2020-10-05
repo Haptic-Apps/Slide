@@ -583,9 +583,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     View view = ((Activity) mContext).findViewById(android.R.id.content);
                                     if (view != null) {
                                         InputMethodManager imm =
-                                                (InputMethodManager) mContext.getSystemService(
-                                                        Context.INPUT_METHOD_SERVICE);
-                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                                ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                                        if (imm != null) {
+                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        }
                                     }
                                 }
                             });
@@ -745,10 +746,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
             }
             replyLine.requestFocus();
-            InputMethodManager imm =
-                    (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                    InputMethodManager.HIDE_IMPLICIT_ONLY);
+            InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+            if (imm != null) {
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                        InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
 
             editingPosition = submissionViewHolder.getAdapterPosition();
 
@@ -774,9 +776,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 View view = ((Activity) mContext).findViewById(android.R.id.content);
                                 if (view != null) {
                                     InputMethodManager imm =
-                                            (InputMethodManager) mContext.getSystemService(
-                                                    Context.INPUT_METHOD_SERVICE);
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                            ContextCompat.getSystemService(
+                                                    mContext, InputMethodManager.class);
+                                    if (imm != null) {
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    }
                                 }
                             }
                         }
@@ -784,8 +788,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             View view = ((Activity) mContext).findViewById(android.R.id.content);
             if (view != null) {
-                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
             collapseAndHide(replyArea);
         }
@@ -1342,10 +1348,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     replyLine.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                            InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                    if (imm != null) {
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    }
 
                     currentlyEditingId = n.getFullName();
                     replyLine.setText(backedText);
@@ -1472,10 +1479,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             });
                         }
                         replyLine.requestFocus(); // TODO: Not working when called a second time
-                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                        if (imm != null) {
+                            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                    InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        }
 
                         currentlyEditingId = n.getFullName();
                         replyLine.addTextChangedListener(new TextWatcher() {
@@ -1521,9 +1529,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         //Hide soft keyboard
                         View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            InputMethodManager imm = ContextCompat.getSystemService(
+                                    mContext, InputMethodManager.class);
+                            if (imm != null) {
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
                     }
                 });
@@ -1537,9 +1547,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mPage.overrideFab = false;
                         View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            InputMethodManager imm = ContextCompat.getSystemService(
+                                    mContext, InputMethodManager.class);
+                            if (imm != null) {
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
                         doShowMenu(baseView);
                     }
@@ -1717,9 +1729,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        ContextCompat.getSystemService(
+                                                mContext, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
                             if (mContext instanceof BaseActivity) {
                                 ((BaseActivity) mContext).setShareUrl(
@@ -1785,9 +1799,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        ContextCompat.getSystemService(
+                                                mContext, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
 
                             doLongClick(holder, comment, baseNode);
@@ -1842,9 +1858,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        ContextCompat.getSystemService(
+                                                mContext, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
 
                             doOnClick(holder, baseNode, comment);

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -84,8 +85,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public void onPause() {
         super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(BaseActivityAnim.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
+        InputMethodManager imm = ContextCompat.getSystemService(this, InputMethodManager.class);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
+        }
     }
 
     @Override

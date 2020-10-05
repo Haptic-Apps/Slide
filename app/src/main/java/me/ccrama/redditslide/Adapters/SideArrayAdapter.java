@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -200,9 +201,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                             ((MainActivity) getContext()).drawerSearch.setText("");
                         }
                     }
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    InputMethodManager imm = ContextCompat.getSystemService(getContext(), InputMethodManager.class);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                 }
             });
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -247,9 +249,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 2001);
 
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    InputMethodManager imm = ContextCompat.getSystemService(getContext(), InputMethodManager.class);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                     return true;
                 }
             });

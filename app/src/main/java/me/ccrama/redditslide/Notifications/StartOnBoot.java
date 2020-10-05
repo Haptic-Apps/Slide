@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.core.content.ContextCompat;
+
 /**
  * Created by carlo_000 on 10/13/2015.
  */
@@ -18,9 +20,11 @@ public class StartOnBoot extends BroadcastReceiver {
             Intent alarmIntent = new Intent(context, NotificationJobScheduler.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
 
-            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            AlarmManager manager = ContextCompat.getSystemService(context, AlarmManager.class);
             int interval = 8000;
-            manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+            if (manager != null) {
+                manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+            }
 
         }
     }

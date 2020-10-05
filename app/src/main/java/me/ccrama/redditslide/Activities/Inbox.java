@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -278,7 +278,9 @@ public class Inbox extends BaseActivityAnim {
     @Override
     public void onResume(){
         super.onResume();
-        InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
+        InputMethodManager keyboard = ContextCompat.getSystemService(this, InputMethodManager.class);
+        if (keyboard != null) {
+            keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
+        }
     }
 }

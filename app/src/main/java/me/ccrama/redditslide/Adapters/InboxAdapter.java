@@ -332,11 +332,13 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 break;
                                 case 25: {
                                     ClipboardManager clipboard =
-                                            (ClipboardManager) mContext.getSystemService(
-                                                    Context.CLIPBOARD_SERVICE);
+                                            ContextCompat.getSystemService(
+                                                    mContext, ClipboardManager.class);
                                     ClipData clip =
                                             ClipData.newPlainText("Message", comment.getBody());
-                                    clipboard.setPrimaryClip(clip);
+                                    if (clipboard != null) {
+                                        clipboard.setPrimaryClip(clip);
+                                    }
                                     Toast.makeText(mContext,
                                             mContext.getString(R.string.mail_message_copied),
                                             Toast.LENGTH_SHORT).show();

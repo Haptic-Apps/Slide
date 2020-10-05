@@ -280,8 +280,10 @@ public class MainActivity extends BaseActivity
             View view = MainActivity.this.getCurrentFocus();
             if (view != null) {
                 InputMethodManager imm =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        ContextCompat.getSystemService(this, InputMethodManager.class);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         } else if (requestCode == 2002 && resultCode != RESULT_OK) {
             mToolbar.performLongClick(); //search was init from the toolbar, so return focus to the toolbar
@@ -1307,9 +1309,9 @@ public class MainActivity extends BaseActivity
 
     public void checkClipboard(){
         try {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = ContextCompat.getSystemService(this, ClipboardManager.class);
 
-            if (clipboard.hasPrimaryClip()) {
+            if (clipboard != null && clipboard.hasPrimaryClip()) {
                 ClipData data = clipboard.getPrimaryClip();
                 final String s = (String) data.getItemAt(0).getText();
                 if (!s.isEmpty()) {
@@ -2226,8 +2228,10 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onDrawerClosed(View view) {
                         super.onDrawerClosed(view);
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(drawerLayout.getWindowToken(), 0);
+                        InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(drawerLayout.getWindowToken(), 0);
+                        }
                     }
                 };
 
@@ -4021,9 +4025,10 @@ public class MainActivity extends BaseActivity
                             drawerSearch.setText("");
                             View view = MainActivity.this.getCurrentFocus();
                             if (view != null) {
-                                InputMethodManager imm = (InputMethodManager) getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
                         }
                     }
@@ -4510,10 +4515,11 @@ public class MainActivity extends BaseActivity
 
                                 //Get focus of the search field and show the keyboard
                                 GO_TO_SUB_FIELD.requestFocus();
-                                InputMethodManager imm = (InputMethodManager) getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                        InputMethodManager.HIDE_IMPLICIT_ONLY);
+                                InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                            InputMethodManager.HIDE_IMPLICIT_ONLY);
+                                }
 
 
                                 //Close the search UI and keyboard when clicking the close button
@@ -4524,9 +4530,10 @@ public class MainActivity extends BaseActivity
                                         if (view != null) {
                                             //Hide the keyboard
                                             InputMethodManager imm =
-                                                    (InputMethodManager) getSystemService(
-                                                            Context.INPUT_METHOD_SERVICE);
-                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                                    ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                            if (imm != null) {
+                                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                            }
                                         }
 
                                         //run the exit animations
@@ -4605,10 +4612,11 @@ public class MainActivity extends BaseActivity
                                                     if (view != null) {
                                                         //Hide the keyboard
                                                         InputMethodManager imm =
-                                                                (InputMethodManager) getSystemService(
-                                                                        Context.INPUT_METHOD_SERVICE);
-                                                        imm.hideSoftInputFromWindow(
-                                                                view.getWindowToken(), 0);
+                                                                ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                                        if (imm != null) {
+                                                            imm.hideSoftInputFromWindow(
+                                                                    view.getWindowToken(), 0);
+                                                        }
                                                     }
 
                                                     SUGGESTIONS_BACKGROUND.setVisibility(View.GONE);
@@ -4950,8 +4958,10 @@ public class MainActivity extends BaseActivity
                     badge.setVisibility(View.GONE);
                 }
                 NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancel(0);
+                        ContextCompat.getSystemService(MainActivity.this, NotificationManager.class);
+                if (notificationManager != null) {
+                    notificationManager.cancel(0);
+                }
             } else if (count != -1) {
                 if (badge != null) {
                     badge.setVisibility(View.VISIBLE);

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -308,8 +309,7 @@ public class CommentCacheAsync extends AsyncTask {
 
             if (!sub.isEmpty()) {
                 if (!sub.equals(SAVED_SUBMISSIONS)) {
-                    mNotifyManager = (NotificationManager) context.getSystemService(
-                            Context.NOTIFICATION_SERVICE);
+                    mNotifyManager = ContextCompat.getSystemService(context, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(context, Reddit.CHANNEL_COMMENT_CACHE);
                     mBuilder.setOngoing(true);
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,

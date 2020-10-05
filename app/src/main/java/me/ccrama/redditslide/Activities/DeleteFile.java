@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 
+import androidx.core.content.ContextCompat;
+
 import java.io.File;
 
 /**
@@ -33,8 +35,10 @@ public class DeleteFile extends Activity {
         super.onCreate(savedInstance);
         Intent intent = getIntent();
 
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
+        NotificationManager manager = ContextCompat.getSystemService(this, NotificationManager.class);
+        if (manager != null) {
+            manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
+        }
 
         Bundle extras = intent.getExtras();
         String image;

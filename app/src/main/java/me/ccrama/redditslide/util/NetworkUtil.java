@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import androidx.core.content.ContextCompat;
+
 import me.ccrama.redditslide.Reddit;
 
 /**
@@ -26,9 +28,9 @@ public class NetworkUtil {
      * @return A non-null value defined in {@link Status}
      */
     public static Status getConnectivityStatus(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = ContextCompat.getSystemService(context, ConnectivityManager.class);
 
+        assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         switch (activeNetwork != null ? activeNetwork.getType() : CONST_NO_NETWORK) {
             case ConnectivityManager.TYPE_WIFI: case ConnectivityManager.TYPE_ETHERNET:

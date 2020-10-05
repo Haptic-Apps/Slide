@@ -28,6 +28,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDexApplication;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -588,7 +589,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public boolean isNotificationAccessEnabled() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = ContextCompat.getSystemService(this, ActivityManager.class);
         if (manager != null) {
             for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
                     Integer.MAX_VALUE)) {
@@ -624,8 +625,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                 NotificationManager.IMPORTANCE_LOW));
                     }};
 
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
             for (Triple<String, String, Integer> notificationTriple : notificationTripleList) {
                 NotificationChannel notificationChannel =
@@ -703,8 +703,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @TargetApi(Build.VERSION_CODES.M)
     private static void setCanUseNightModeAuto() {
-        UiModeManager uiModeManager =
-                (UiModeManager) getAppContext().getSystemService(Context.UI_MODE_SERVICE);
+        UiModeManager uiModeManager = getAppContext().getSystemService(UiModeManager.class);
         if (uiModeManager != null) {
             uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
             canUseNightModeAuto = true;

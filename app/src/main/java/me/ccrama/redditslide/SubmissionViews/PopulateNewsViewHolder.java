@@ -873,10 +873,12 @@ public class PopulateNewsViewHolder {
                                 "https://reddit.com" + submission.getPermalink(), mContext);
                         break;
                     case 6: {
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
-                                Context.CLIPBOARD_SERVICE);
+                        ClipboardManager clipboard = ContextCompat.getSystemService(mContext,
+                                ClipboardManager.class);
                         ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                        clipboard.setPrimaryClip(clip);
+                        if (clipboard != null) {
+                            clipboard.setPrimaryClip(clip);
+                        }
                         Toast.makeText(mContext, R.string.submission_link_copied,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -902,8 +904,8 @@ public class PopulateNewsViewHolder {
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
                                                 ClipboardManager clipboard =
-                                                        (ClipboardManager) mContext.getSystemService(
-                                                                Context.CLIPBOARD_SERVICE);
+                                                        ContextCompat.getSystemService(mContext,
+                                                                ClipboardManager.class);
                                                 ClipData clip;
                                                 if (!selected.isEmpty()) {
                                                     clip = ClipData.newPlainText("Selftext",
@@ -917,7 +919,9 @@ public class PopulateNewsViewHolder {
                                                                             + submission.getSelftext()));
 
                                                 }
-                                                clipboard.setPrimaryClip(clip);
+                                                if (clipboard != null) {
+                                                    clipboard.setPrimaryClip(clip);
+                                                }
                                                 Toast.makeText(mContext,
                                                         R.string.submission_comment_copied,
                                                         Toast.LENGTH_SHORT).show();
@@ -930,14 +934,16 @@ public class PopulateNewsViewHolder {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 ClipboardManager clipboard =
-                                                        (ClipboardManager) mContext.getSystemService(
-                                                                Context.CLIPBOARD_SERVICE);
+                                                        ContextCompat.getSystemService(mContext,
+                                                                ClipboardManager.class);
                                                 ClipData clip = ClipData.newPlainText("Selftext",
                                                         StringEscapeUtils.unescapeHtml4(
                                                                 submission.getTitle()
                                                                         + "\n\n"
                                                                         + submission.getSelftext()));
-                                                clipboard.setPrimaryClip(clip);
+                                                if (clipboard != null) {
+                                                    clipboard.setPrimaryClip(clip);
+                                                }
 
                                                 Toast.makeText(mContext,
                                                         R.string.submission_text_copied,

@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -86,7 +87,8 @@ public class ToolboxUI {
             return;
         }
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = ContextCompat.getSystemService(context, LayoutInflater.class);
+        assert inflater != null;
         final View dialogContent = inflater.inflate(R.layout.toolbox_removal_dialog, null);
 
         final CheckBox headerToggle = dialogContent.findViewById(R.id.toolbox_header_toggle);

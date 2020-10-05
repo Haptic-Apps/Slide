@@ -261,8 +261,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 //Make sure bitmap loaded works well with screen density.
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 DisplayMetrics metrics = new DisplayMetrics();
-                ((WindowManager) getContext().getSystemService(
-                        Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+                ContextCompat.getSystemService(getContext(), WindowManager.class).getDefaultDisplay().getMetrics(metrics);
                 options.inDensity = 240;
                 options.inScreenDensity = metrics.densityDpi;
                 options.inScaled = true;
@@ -537,10 +536,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             @Override
                             public void onButtonUp() {
                                 ClipboardManager clipboard =
-                                        (ClipboardManager) rootView.getContext()
-                                                .getSystemService(Context.CLIPBOARD_SERVICE);
+                                        ContextCompat.getSystemService(rootView.getContext(), ClipboardManager.class);
                                 ClipData clip = ClipData.newPlainText("Link", url);
-                                clipboard.setPrimaryClip(clip);
+                                if (clipboard != null) {
+                                    clipboard.setPrimaryClip(clip);
+                                }
                                 Toast.makeText(rootView.getContext(),
                                         R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }

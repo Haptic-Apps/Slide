@@ -234,10 +234,11 @@ public class LinkUtil {
 
     public static void copyUrl(String url, Context context) {
         url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
-        ClipboardManager clipboard =
-                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = ContextCompat.getSystemService(context, ClipboardManager.class);
         ClipData clip = ClipData.newPlainText("Link", url);
-        clipboard.setPrimaryClip(clip);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+        }
         Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
     }
 

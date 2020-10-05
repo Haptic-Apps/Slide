@@ -2,11 +2,9 @@ package me.ccrama.redditslide.Activities;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -34,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -359,7 +358,7 @@ public class MediaView extends FullScreenActivity
                                     .randomUUID()
                                     .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
                     mNotifyManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
                             .setSmallIcon(R.drawable.save);
@@ -415,9 +414,10 @@ public class MediaView extends FullScreenActivity
                                                 .build();
 
                                         NotificationManager mNotificationManager =
-                                                (NotificationManager) getSystemService(
-                                                        Activity.NOTIFICATION_SERVICE);
-                                        mNotificationManager.notify(1, notif);
+                                                ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
+                                        if (mNotificationManager != null) {
+                                            mNotificationManager.notify(1, notif);
+                                        }
                                     }
                                 });
                     } catch (Exception e) {
@@ -444,7 +444,7 @@ public class MediaView extends FullScreenActivity
                                     .randomUUID()
                                     .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
                     mNotifyManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
                             .setSmallIcon(R.drawable.save);
@@ -489,9 +489,11 @@ public class MediaView extends FullScreenActivity
                                         startActivity(
                                                 Intent.createChooser(shareIntent, "Share GIF"));
                                         NotificationManager mNotificationManager =
-                                                (NotificationManager) getSystemService(
-                                                        Activity.NOTIFICATION_SERVICE);
-                                        mNotificationManager.cancel(1);
+                                                ContextCompat.getSystemService(MediaView.this,
+                                                        NotificationManager.class);
+                                        if (mNotificationManager != null) {
+                                            mNotificationManager.cancel(1);
+                                        }
                                     }
                                 });
                     } catch (Exception e) {

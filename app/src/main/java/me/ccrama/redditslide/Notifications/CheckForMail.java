@@ -19,6 +19,7 @@ import android.text.Html;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Message;
@@ -257,7 +258,7 @@ public class CheckForMail extends BroadcastReceiver {
             if (messages != null && !messages.isEmpty()) {
                 Collections.reverse(messages);
                 NotificationManager notificationManager =
-                        (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+                        ContextCompat.getSystemService(c, NotificationManager.class);
 
                 Intent notificationIntent = new Intent(c, ModQueue.class);
 
@@ -297,7 +298,9 @@ public class CheckForMail extends BroadcastReceiver {
                     }
                     Notification notification = builder.build();
 
-                    notificationManager.notify(1, notification);
+                    if (notificationManager != null) {
+                        notificationManager.notify(1, notification);
+                    }
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -328,7 +331,9 @@ public class CheckForMail extends BroadcastReceiver {
                             builder.setSound(null);
                         }
                         Notification notification = builder.build();
-                        notificationManager.notify((int) m.getCreated().getTime(), notification);
+                        if (notificationManager != null) {
+                            notificationManager.notify((int) m.getCreated().getTime(), notification);
+                        }
                     }
                 }
 
@@ -369,8 +374,7 @@ public class CheckForMail extends BroadcastReceiver {
         public void onPostExecute(List<Submission> messages) {
             if (messages != null) {
                 if (!messages.isEmpty()) {
-                    NotificationManager notificationManager =
-                            (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager = ContextCompat.getSystemService(c, NotificationManager.class);
                     for (Submission s : messages) {
                         Intent readIntent = new Intent(c, OpenContent.class);
                         readIntent.putExtra(OpenContent.EXTRA_URL,
@@ -417,8 +421,10 @@ public class CheckForMail extends BroadcastReceiver {
                                                 R.string.sub_post_notifs_notification_btn,
                                                 s.getSubredditName()), cancelPi)
                                         .build();
-                        notificationManager.notify((int) (s.getCreated().getTime() / 1000),
-                                notification);
+                        if (notificationManager != null) {
+                            notificationManager.notify((int) (s.getCreated().getTime() / 1000),
+                                    notification);
+                        }
                     }
                 }
             }
