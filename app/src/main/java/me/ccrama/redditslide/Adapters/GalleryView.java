@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.text.Html;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cocosw.bottomsheet.BottomSheet;
@@ -209,7 +209,8 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 break;
                             case EMBEDDED:
                                 if (SettingValues.video) {
-                                    String data = Html.fromHtml(submission.getDataNode().get("media_embed").get("content").asText()).toString();
+                                    String data = HtmlCompat.fromHtml(submission.getDataNode().get("media_embed").get("content").asText(),
+                                            HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
                                     {
                                         Intent i = new Intent(main, FullscreenVideo.class);
                                         i.putExtra(FullscreenVideo.EXTRA_HTML, data);

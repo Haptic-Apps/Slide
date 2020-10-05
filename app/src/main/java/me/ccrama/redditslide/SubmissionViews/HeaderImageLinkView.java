@@ -11,7 +11,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -288,19 +288,19 @@ public class HeaderImageLinkView extends RelativeLayout {
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (SettingValues.lqMid && length >= 4) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (length >= 5) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else {
-                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                            url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                     }
@@ -374,26 +374,26 @@ public class HeaderImageLinkView extends RelativeLayout {
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (SettingValues.lqMid && length >= 4) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (length >= 5) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else {
-                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                            url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                     }
                     lq = true;
 
                 } else {
-                    url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                    url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                             .toString(); //unescape url characters
                 }
                 if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb || (news && submission.getScore() < 5000)) {

@@ -6,11 +6,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -91,26 +92,26 @@ public class CommentCacheAsync extends AsyncTask {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3)
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                         else if (SettingValues.lqMid && length >= 4)
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                         else if (length >= 5)
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                         else
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getSource().getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
 
@@ -168,31 +169,31 @@ public class CommentCacheAsync extends AsyncTask {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3)
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                         else if (SettingValues.lqMid && length >= 4)
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                         else if (length >= 5)
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                         else
                         {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getSource().getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
 
                     } else {
-                        url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                        url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                 .toString(); //unescape url characters
                     }
 
@@ -308,8 +309,7 @@ public class CommentCacheAsync extends AsyncTask {
 
             if (!sub.isEmpty()) {
                 if (!sub.equals(SAVED_SUBMISSIONS)) {
-                    mNotifyManager = (NotificationManager) context.getSystemService(
-                            Context.NOTIFICATION_SERVICE);
+                    mNotifyManager = ContextCompat.getSystemService(context, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(context, Reddit.CHANNEL_COMMENT_CACHE);
                     mBuilder.setOngoing(true);
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,

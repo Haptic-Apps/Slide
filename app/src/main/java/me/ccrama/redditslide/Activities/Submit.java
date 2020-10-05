@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -296,8 +297,10 @@ public class Submit extends BaseActivity {
 
                 tedBottomPicker.show(getSupportFragmentManager());
                 InputMethodManager imm =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(findViewById(R.id.bodytext).getWindowToken(), 0);
+                        ContextCompat.getSystemService(Submit.this, InputMethodManager.class);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(findViewById(R.id.bodytext).getWindowToken(), 0);
+                }
             }
         });
 

@@ -4,10 +4,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
+import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Submission;
 
@@ -60,7 +61,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
             try {
 
                 //todo rv.setImageViewBitmap(R.id.thumbnail, Glide.with(mContext).load(url).asBitmap().);
-                rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
+                rv.setTextViewText(R.id.title, HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
             } catch (Exception e) {
@@ -68,7 +69,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
             }
 
 
-            rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
+            rv.setTextViewText(R.id.title, HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
             rv.setTextViewText(R.id.subreddit, submission.getSubredditName());
             rv.setTextViewText(R.id.info, submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));

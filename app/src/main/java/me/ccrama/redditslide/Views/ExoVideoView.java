@@ -17,6 +17,8 @@ import android.view.animation.AnimationSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.core.content.ContextCompat;
+
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -109,7 +111,7 @@ public class ExoVideoView extends RelativeLayout {
         player.setVolume(0f);
 
         // Create audio focus helper
-        audioFocusHelper = new AudioFocusHelper((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
+        audioFocusHelper = new AudioFocusHelper(ContextCompat.getSystemService(context, AudioManager.class));
 
         // Make the video use the correct aspect ratio
         player.addVideoListener(new VideoListener() {

@@ -14,7 +14,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +25,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsServiceConnection;
 import androidx.browser.customtabs.CustomTabsSession;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Submission;
 
@@ -209,7 +209,7 @@ public class LinkUtil {
      * @param url     URL to open
      */
     public static void openExternally(String url) {
-        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
         Uri uri = formatURL(url);
 
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -233,11 +233,12 @@ public class LinkUtil {
     }
 
     public static void copyUrl(String url, Context context) {
-        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
-        ClipboardManager clipboard =
-                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
+        ClipboardManager clipboard = ContextCompat.getSystemService(context, ClipboardManager.class);
         ClipData clip = ClipData.newPlainText("Link", url);
-        clipboard.setPrimaryClip(clip);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+        }
         Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
     }
 

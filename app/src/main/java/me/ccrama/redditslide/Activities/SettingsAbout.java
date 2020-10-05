@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -44,9 +46,11 @@ public class SettingsAbout extends BaseActivityAnim {
                             "STACKTRACE", Context.MODE_PRIVATE);
                     String stacktrace = prefs.getString("stacktrace", null);
                     if (stacktrace != null) {
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipboardManager clipboard = ContextCompat.getSystemService(SettingsAbout.this, ClipboardManager.class);
                         ClipData clip = ClipData.newPlainText("Stacktrace", stacktrace);
-                        clipboard.setPrimaryClip(clip);
+                        if (clipboard != null) {
+                            clipboard.setPrimaryClip(clip);
+                        }
                     }
                     prefs.edit().clear().apply();
                     return true;
@@ -58,9 +62,11 @@ public class SettingsAbout extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 String versionNumber = version.getText().toString();
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipboardManager clipboard = ContextCompat.getSystemService(SettingsAbout.this, ClipboardManager.class);
                 ClipData clip = ClipData.newPlainText("Version", versionNumber);
-                clipboard.setPrimaryClip(clip);
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip);
+                }
                 Toast.makeText(SettingsAbout.this, R.string.settings_about_version_copied_toast, Toast.LENGTH_SHORT).show();
 
             }

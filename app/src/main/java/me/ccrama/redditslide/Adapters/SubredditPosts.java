@@ -3,12 +3,12 @@ package me.ccrama.redditslide.Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.core.text.HtmlCompat;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -109,19 +109,19 @@ public class SubredditPosts implements PostLoader {
 
                             int length = submission.getThumbnails().getVariations().length;
                             if (SettingValues.lqLow && length >= 3) {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getVariations()[2].getUrl())
+                                url = HtmlCompat.fromHtml(
+                                        submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                         .toString(); //unescape url characters
                             } else if (SettingValues.lqMid && length >= 4) {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getVariations()[3].getUrl())
+                                url = HtmlCompat.fromHtml(
+                                        submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                         .toString(); //unescape url characters
                             } else if (length >= 5) {
-                                url = Html.fromHtml(submission.getThumbnails().getVariations()[
+                                url = HtmlCompat.fromHtml(submission.getThumbnails().getVariations()[
                                         length
-                                                - 1].getUrl()).toString(); //unescape url characters
+                                                - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(); //unescape url characters
                             } else {
-                                url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                                url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                         .toString(); //unescape url characters
                             }
 
@@ -178,24 +178,24 @@ public class SubredditPosts implements PostLoader {
 
                             int length = submission.getThumbnails().getVariations().length;
                             if (SettingValues.lqLow && length >= 3) {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getVariations()[2].getUrl())
+                                url = HtmlCompat.fromHtml(
+                                        submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                         .toString(); //unescape url characters
                             } else if (SettingValues.lqMid && length >= 4) {
-                                url = Html.fromHtml(
-                                        submission.getThumbnails().getVariations()[3].getUrl())
+                                url = HtmlCompat.fromHtml(
+                                        submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                         .toString(); //unescape url characters
                             } else if (length >= 5) {
-                                url = Html.fromHtml(submission.getThumbnails().getVariations()[
+                                url = HtmlCompat.fromHtml(submission.getThumbnails().getVariations()[
                                         length
-                                                - 1].getUrl()).toString(); //unescape url characters
+                                                - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(); //unescape url characters
                             } else {
-                                url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                                url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                         .toString(); //unescape url characters
                             }
 
                         } else {
-                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                            url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
 

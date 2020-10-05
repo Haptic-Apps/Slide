@@ -18,7 +18,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -40,6 +39,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
@@ -123,7 +124,7 @@ public class CommentAdapterHelper {
         ta.recycle();
 
         BottomSheet.Builder b =
-                new BottomSheet.Builder((Activity) mContext).title(Html.fromHtml(n.getBody()));
+                new BottomSheet.Builder((Activity) mContext).title(HtmlCompat.fromHtml(n.getBody(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         if (Authentication.didOnline) {
             b.sheet(1, profile, "/u/" + n.getAuthor());
@@ -291,11 +292,13 @@ public class CommentAdapterHelper {
                                                 .substring(showText.getSelectionStart(),
                                                         showText.getSelectionEnd());
                                         ClipboardManager clipboard =
-                                                (ClipboardManager) mContext.getSystemService(
-                                                        Context.CLIPBOARD_SERVICE);
+                                                ContextCompat.getSystemService(mContext,
+                                                        ClipboardManager.class);
                                         ClipData clip =
                                                 ClipData.newPlainText("Comment text", selected);
-                                        clipboard.setPrimaryClip(clip);
+                                        if (clipboard != null) {
+                                            clipboard.setPrimaryClip(clip);
+                                        }
 
                                         Toast.makeText(mContext, R.string.submission_comment_copied,
                                                 Toast.LENGTH_SHORT).show();
@@ -308,12 +311,14 @@ public class CommentAdapterHelper {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 ClipboardManager clipboard =
-                                                        (ClipboardManager) mContext.getSystemService(
-                                                                Context.CLIPBOARD_SERVICE);
+                                                        ContextCompat.getSystemService(mContext,
+                                                                ClipboardManager.class);
                                                 ClipData clip =
                                                         ClipData.newPlainText("Comment text",
                                                                 StringEscapeUtils.unescapeHtml4(n.getBody()));
-                                                clipboard.setPrimaryClip(clip);
+                                                if (clipboard != null) {
+                                                    clipboard.setPrimaryClip(clip);
+                                                }
 
                                                 Toast.makeText(mContext,
                                                         R.string.submission_comment_copied,
@@ -669,7 +674,7 @@ public class CommentAdapterHelper {
 
         //Bottom sheet builder
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                Html.fromHtml(comment.getBody()));
+                HtmlCompat.fromHtml(comment.getBody(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         int reportCount = reports.size() + reports2.size();
 
@@ -1588,7 +1593,8 @@ public class CommentAdapterHelper {
                 theme.resolveAttribute(R.attr.activity_background, typedValue, true);
                 int color = typedValue.data;
                 SpannableStringBuilder pinned =
-                        new SpannableStringBuilder("\u00A0" + Html.fromHtml(flairText) + "\u00A0");
+                        new SpannableStringBuilder("\u00A0" + HtmlCompat.fromHtml(flairText,
+                                HtmlCompat.FROM_HTML_MODE_LEGACY) + "\u00A0");
                 pinned.setSpan(
                         new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color,
                                 false, mContext), 0, pinned.length(),

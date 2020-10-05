@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
+
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.InboxManager;
 
@@ -34,8 +36,10 @@ public class MarkAsReadService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
+        NotificationManager manager = ContextCompat.getSystemService(this, NotificationManager.class);
+        if (manager != null) {
+            manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
+        }
 
         String[] messages = null;
         Bundle extras = intent.getExtras();

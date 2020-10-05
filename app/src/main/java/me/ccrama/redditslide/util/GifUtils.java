@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.exoplayer2.Player;
@@ -100,8 +101,10 @@ public class GifUtils {
                                         .build();
 
                         NotificationManager mNotificationManager =
-                                (NotificationManager) c.getSystemService(Activity.NOTIFICATION_SERVICE);
-                        mNotificationManager.notify((int) System.currentTimeMillis(), notif);
+                                ContextCompat.getSystemService(c, NotificationManager.class);
+                        if (mNotificationManager != null) {
+                            mNotificationManager.notify((int) System.currentTimeMillis(), notif);
+                        }
                     }
                 }
         );
@@ -174,7 +177,7 @@ public class GifUtils {
         } else {
             new AsyncTask<Void, Integer, Boolean>() {
                 File outFile;
-                NotificationManager notifMgr = (NotificationManager) a.getSystemService(Activity.NOTIFICATION_SERVICE);
+                NotificationManager notifMgr = ContextCompat.getSystemService(a, NotificationManager.class);
 
                 @Override
                 protected void onPreExecute() {

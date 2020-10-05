@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -18,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.common.io.Files;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -87,7 +87,8 @@ public class ImageDownloadNotificationService extends Service {
 
         public void startNotification() {
             id = (int) (System.currentTimeMillis() / 1000);
-            mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotifyManager = ContextCompat.getSystemService(
+                    ImageDownloadNotificationService.this, NotificationManager.class);
             mBuilder = new NotificationCompat.Builder(getApplicationContext(), Reddit.CHANNEL_IMG);
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
                     .setContentText(getString(R.string.mediaview_notif_text))
@@ -340,10 +341,12 @@ public class ImageDownloadNotificationService extends Service {
                                     .build();
 
                             NotificationManager mNotificationManager =
-                                    (NotificationManager) getApplicationContext().getSystemService(
-                                            NOTIFICATION_SERVICE);
+                                    ContextCompat.getSystemService(getApplicationContext(),
+                                            NotificationManager.class);
                             notif.flags |= Notification.FLAG_AUTO_CANCEL;
-                            mNotificationManager.notify(id, notif);
+                            if (mNotificationManager != null) {
+                                mNotificationManager.notify(id, notif);
+                            }
                             loadedImage.recycle();
                             stopSelf();
                         }

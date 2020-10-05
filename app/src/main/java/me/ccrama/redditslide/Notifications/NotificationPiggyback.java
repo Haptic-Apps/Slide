@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Notifications;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.service.notification.NotificationListenerService;
@@ -10,6 +9,7 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by Carlos on 9/27/2017.
@@ -31,8 +31,10 @@ public class NotificationPiggyback extends NotificationListenerService {
             PendingIntent pendingIntent =
                     PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
             AlarmManager manager =
-                    (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
-            manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 100, pendingIntent);
+                    ContextCompat.getSystemService(getApplication(), AlarmManager.class);
+            if (manager != null) {
+                manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 100, pendingIntent);
+            }
         }
     }
 

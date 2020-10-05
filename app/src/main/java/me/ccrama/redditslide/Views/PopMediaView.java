@@ -5,12 +5,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
+import androidx.core.text.HtmlCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -67,7 +68,7 @@ public class PopMediaView {
         mashapeKey = SecretConstants.getImgurApiKey(c);
 
         if (contentUrl.contains("reddituploads.com")) {
-            contentUrl = Html.fromHtml(contentUrl).toString();
+            contentUrl = HtmlCompat.fromHtml(contentUrl, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
         }
         if (contentUrl != null && shouldTruncate(contentUrl)) {
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));

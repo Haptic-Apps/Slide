@@ -23,11 +23,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.multidex.MultiDexApplication;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -150,7 +151,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void defaultShareText(String title, String url, Context c) {
-        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         /* Decode html entities */
@@ -588,7 +589,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public boolean isNotificationAccessEnabled() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = ContextCompat.getSystemService(this, ActivityManager.class);
         if (manager != null) {
             for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
                     Integer.MAX_VALUE)) {
@@ -624,8 +625,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                 NotificationManager.IMPORTANCE_LOW));
                     }};
 
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
             for (Triple<String, String, Integer> notificationTriple : notificationTripleList) {
                 NotificationChannel notificationChannel =
@@ -703,8 +703,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @TargetApi(Build.VERSION_CODES.M)
     private static void setCanUseNightModeAuto() {
-        UiModeManager uiModeManager =
-                (UiModeManager) getAppContext().getSystemService(Context.UI_MODE_SERVICE);
+        UiModeManager uiModeManager = getAppContext().getSystemService(UiModeManager.class);
         if (uiModeManager != null) {
             uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
             canUseNightModeAuto = true;

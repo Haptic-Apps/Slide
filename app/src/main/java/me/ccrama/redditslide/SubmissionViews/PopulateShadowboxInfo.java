@@ -3,7 +3,6 @@ package me.ccrama.redditslide.SubmissionViews;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -13,7 +12,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -29,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -78,7 +77,7 @@ public class PopulateShadowboxInfo {
             else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
                 distingush = "[A]";
 
-            title.setText(Html.fromHtml(s.getTitle()));
+            title.setText(HtmlCompat.fromHtml(s.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
             String spacer = c.getString(R.string.submission_properties_seperator);
             SpannableStringBuilder titleString = new SpannableStringBuilder();
@@ -299,7 +298,7 @@ public class PopulateShadowboxInfo {
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 commentTitle.append(level);
             }
-            commentTitle.append(Html.fromHtml(s.getDataNode().get("body_html").asText().trim()));
+            commentTitle.append(HtmlCompat.fromHtml(s.getDataNode().get("body_html").asText().trim(), HtmlCompat.FROM_HTML_MODE_LEGACY));
             title.setTextHtml(commentTitle);
             title.setMaxLines(3);
 
@@ -512,7 +511,7 @@ public class PopulateShadowboxInfo {
         ta.recycle();
 
         BottomSheet.Builder b = new BottomSheet.Builder(mContext)
-                .title(Html.fromHtml(submission.getTitle()));
+                .title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
         if (Authentication.didOnline) {
@@ -636,9 +635,12 @@ public class PopulateShadowboxInfo {
                                 }
                                 break;
                             case 6: {
-                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipboardManager clipboard = ContextCompat.getSystemService(mContext,
+                                        ClipboardManager.class);
                                 ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                clipboard.setPrimaryClip(clip);
+                                if (clipboard != null) {
+                                    clipboard.setPrimaryClip(clip);
+                                }
                                 Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
                             break;

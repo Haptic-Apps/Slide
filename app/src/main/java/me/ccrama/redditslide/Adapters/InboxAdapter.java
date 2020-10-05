@@ -18,7 +18,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -35,6 +34,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -229,7 +229,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (comment.getDataNode().has("link_title")) {
                 SpannableStringBuilder link = new SpannableStringBuilder(" "
-                        + Html.fromHtml(comment.getDataNode().get("link_title").asText())
+                        + HtmlCompat.fromHtml(comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                         + " ");
                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -274,7 +274,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ta.recycle();
 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                            Html.fromHtml(comment.getSubject()));
+                            HtmlCompat.fromHtml(comment.getSubject(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                     String author = comment.getAuthor();
                     if (!dataSet.where.contains("mod")
@@ -332,11 +332,13 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 break;
                                 case 25: {
                                     ClipboardManager clipboard =
-                                            (ClipboardManager) mContext.getSystemService(
-                                                    Context.CLIPBOARD_SERVICE);
+                                            ContextCompat.getSystemService(
+                                                    mContext, ClipboardManager.class);
                                     ClipData clip =
                                             ClipData.newPlainText("Message", comment.getBody());
-                                    clipboard.setPrimaryClip(clip);
+                                    if (clipboard != null) {
+                                        clipboard.setPrimaryClip(clip);
+                                    }
                                     Toast.makeText(mContext,
                                             mContext.getString(R.string.mail_message_copied),
                                             Toast.LENGTH_SHORT).show();
@@ -383,8 +385,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (comment.getDataNode().has("link_title")) {
                                 SpannableStringBuilder link = new SpannableStringBuilder(
                                         " "
-                                                + Html.fromHtml(
-                                                comment.getDataNode().get("link_title").asText())
+                                                + HtmlCompat.fromHtml(
+                                                comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                                 + " ");
                                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
