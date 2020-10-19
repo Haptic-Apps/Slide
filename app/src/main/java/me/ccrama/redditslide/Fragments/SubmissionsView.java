@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.MarginLayoutParamsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
@@ -101,9 +100,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
                 new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
-        final View v = ContextCompat.getSystemService(
-                contextThemeWrapper, LayoutInflater.class).inflate(R.layout.fragment_verticalcontent,
-                container, false);
+        final View v = LayoutInflater.from(contextThemeWrapper)
+                .inflate(R.layout.fragment_verticalcontent, container, false);
 
         if (getActivity() instanceof MainActivity) {
             v.findViewById(R.id.back).setBackgroundResource(0);

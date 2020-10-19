@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +45,7 @@ public class SubredditListView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(where));
-        View v = ContextCompat.getSystemService(contextThemeWrapper, LayoutInflater.class).inflate(R.layout.fragment_verticalcontent, container, false);
+        View v = LayoutInflater.from(contextThemeWrapper).inflate(R.layout.fragment_verticalcontent, container, false);
 
         rv = v.findViewById(R.id.vertical_content);
         final RecyclerView.LayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
