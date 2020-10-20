@@ -10,13 +10,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standard_toolbar_height"
-        android:minHeight="@dimen/standard_toolbar_height"
         android:background="@color/md_amber_500"
         android:elevation="8dp"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:paddingEnd="16dp"
         android:theme="@style/Theme.AppCompat"
-        android:title="@string/editor_submit">
-    </androidx.appcompat.widget.Toolbar>
+        android:title="@string/editor_submit" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
         android:layout_marginBottom="72dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/area"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,18 +43,20 @@
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
             <TextView
-                    android:id="@+id/sendas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="Sending as you"
-                    android:textAllCaps="true"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                android:id="@+id/sendas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Sending as you"
+                android:textAllCaps="true"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,13 +68,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tintColor"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-/."
                     android:hint="@string/mail_hint_recipient"
+                    android:imeOptions="flagNavigateNext"
                     android:inputType="textFilter"
                     android:maxLength="24"
                     android:maxLines="1"
-                    android:imeOptions="flagNavigateNext"
-                    android:textColor="?attr/fontColor"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-/." />
+                    android:textColor="?attr/fontColor" />
+
                 <requestFocus />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,11 +90,10 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tintColor"
                     android:hint="@string/mail_hint_subject"
+                    android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect"
                     android:maxLength="300"
                     android:maxLines="1"
-                    android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect"
-                    android:textColor="?attr/fontColor">
-                </EditText>
+                    android:textColor="?attr/fontColor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -117,8 +118,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <include
-                layout="@layout/editor_items"/>
+            <include layout="@layout/editor_items" />
 
             <TextView
                 android:id="@+id/preview"
@@ -139,8 +139,8 @@
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:tint="@color/white"

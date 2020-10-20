@@ -5,33 +5,33 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical">
-<View
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000000"
-    android:alpha=".7"
-    android:id="@+id/black"
-    />
-    <RelativeLayout
+
+    <View
+        android:id="@+id/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:alpha=".7"
+        android:background="#000000" />
+
+    <RelativeLayout
+        android:id="@+id/gifarea"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#33000000"
-        android:id="@+id/gifarea">
+        android:visibility="gone">
 
         <me.ccrama.redditslide.Views.ExoVideoView
             android:id="@+id/gif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true">
-
-        </me.ccrama.redditslide.Views.ExoVideoView>
+            android:layout_centerInParent="true" />
 
         <FrameLayout
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="#00000000" />
+
         <ProgressBar
             android:id="@+id/gifprogress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -45,76 +45,81 @@
     <me.ccrama.redditslide.Views.SubsamplingScaleImageView
         android:id="@+id/submission_image"
         android:layout_width="match_parent"
-        android:transitionName="large_image"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:transitionName="large_image" />
 
     <RelativeLayout
+        android:id="@+id/gifheader"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:id="@+id/gifheader"
         android:gravity="right|bottom"
         android:weightSum="6">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:paddingLeft="16dp"
-            android:gravity="center"
             android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_toRightOf="@+id/comments"
-            android:textSize="12sp"
-            android:layout_height="match_parent" />
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:textSize="12sp" />
+
         <ImageView
-                android:id="@+id/mute"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:theme="@style/Ripple.List"
-                android:layout_toLeftOf="@+id/hq"
-                android:padding="15dp"
-                app:srcCompat="@drawable/mute"
-                android:tint="#e1e1e1" />
+            android:id="@+id/mute"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_toLeftOf="@+id/hq"
+            android:padding="15dp"
+            android:theme="@style/Ripple.List"
+            android:tint="#e1e1e1"
+            app:srcCompat="@drawable/mute" />
+
         <ImageView
             android:id="@+id/hq"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:theme="@style/Ripple.List"
             android:layout_toLeftOf="@+id/save"
             android:padding="15dp"
-            app:srcCompat="@drawable/hd"
-            android:tint="#e1e1e1" />
+            android:theme="@style/Ripple.List"
+            android:tint="#e1e1e1"
+            app:srcCompat="@drawable/hd" />
+
         <ImageView
             android:id="@+id/comments"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:theme="@style/Ripple.List"
             android:layout_alignParentLeft="true"
             android:padding="15dp"
-            app:srcCompat="@drawable/commentchange"
-            android:tint="#e1e1e1" />
+            android:theme="@style/Ripple.List"
+            android:tint="#e1e1e1"
+            app:srcCompat="@drawable/commentchange" />
+
         <ImageView
             android:id="@+id/save"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_toLeftOf="@+id/more"
-            android:theme="@style/Ripple.List"
             android:padding="15dp"
-            app:srcCompat="@drawable/save"
-            android:tint="#e1e1e1" />
+            android:theme="@style/Ripple.List"
+            android:tint="#e1e1e1"
+            app:srcCompat="@drawable/save" />
+
         <ImageView
             android:id="@+id/more"
             style="@style/Ripple.List"
             android:layout_width="48dp"
             android:layout_height="56dp"
-            android:theme="@style/Ripple.List"
+            android:layout_alignParentRight="true"
             android:layout_gravity="right"
             android:paddingStart="11dp"
-            android:paddingEnd="11dp"
             android:paddingTop="15dp"
-            android:layout_alignParentRight="true"
+            android:paddingEnd="11dp"
             android:paddingBottom="15dp"
-            app:srcCompat="@drawable/more"
-            android:tint="#e1e1e1" />
-
+            android:theme="@style/Ripple.List"
+            android:tint="#e1e1e1"
+            app:srcCompat="@drawable/more" />
     </RelativeLayout>
 
     <ProgressBar
@@ -127,5 +132,4 @@
         android:max="100"
         android:progress="0"
         android:visibility="invisible" />
-
 </RelativeLayout>

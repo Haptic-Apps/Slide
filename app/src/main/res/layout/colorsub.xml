@@ -51,14 +51,14 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
-                        <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                        <uz.shift.colorpicker.LineColorPicker
                             android:id="@+id/picker"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:orientation="horizontal"
                             app:selectedColorIndex="0" />
 
-                        <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                        <uz.shift.colorpicker.LineColorPicker
                             android:id="@+id/picker2"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
@@ -82,7 +82,7 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
-                        <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                        <uz.shift.colorpicker.LineColorPicker
                             android:id="@+id/picker3"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
@@ -104,7 +104,6 @@
                     android:layout_height="wrap_content"
                     android:padding="18dp"
                     android:text="@string/settings_subredditspecific_selftext" />
-
             </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>

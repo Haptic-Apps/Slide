@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -21,29 +21,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
-                android:textColor="#fff"
-
                 android:padding="24dp"
                 android:text="@string/settings_title_notifications"
+                android:textColor="#fff"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <LinearLayout
                     android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="20dp"
                     android:paddingStart="20dp"
+                    android:paddingTop="8dp"
                     android:paddingEnd="20dp"
-
-                    android:paddingTop="8dp">
-
+                    android:paddingBottom="20dp">
 
                     <CheckBox
                         android:id="@+id/load"
@@ -52,25 +48,24 @@
                         android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tintColor"
                         android:buttonTint="?attr/tintColor"
-
                         android:padding="16dp"
                         android:text="@string/settings_mail_check"
                         android:textColor="?attr/fontColor"
                         android:textSize="14sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <CheckBox
-                            android:id="@+id/sound"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?android:selectableItemBackground"
-                            android:backgroundTint="?attr/tintColor"
-                            android:buttonTint="?attr/tintColor"
-                            android:padding="16dp"
-                            android:text="@string/settings_general_inbox_snd"
-                            android:textColor="?attr/fontColor"
-                            android:textSize="14sp"
-                            android:textStyle="bold"/>
+                        android:id="@+id/sound"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tintColor"
+                        android:buttonTint="?attr/tintColor"
+                        android:padding="16dp"
+                        android:text="@string/settings_general_inbox_snd"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <com.rey.material.widget.Slider
                         android:id="@+id/landscape"
@@ -78,11 +73,11 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="8dp"
+                        app:sl_alwaysFillThumb="true"
                         app:sl_maxValue="96"
                         app:sl_minValue="1"
-                        app:sl_alwaysFillThumb="true"
                         app:sl_secondaryColor="?attr/tintColor"
-                        app:sl_stepValue="15"/>
+                        app:sl_stepValue="15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -91,7 +86,7 @@
                         android:padding="16dp"
                         android:text="@string/settings_mail_info"
                         android:textColor="?attr/fontColor"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -101,18 +96,16 @@
                             android:id="@+id/save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:background="?android:selectableItemBackground"
                             android:padding="16dp"
                             android:text="@string/btn_done"
-                            android:layout_alignParentEnd="true"
                             android:textAllCaps="true"
                             android:textColor="?attr/fontColor"
                             android:textSize="14sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </RelativeLayout>
-
                 </LinearLayout>
-
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

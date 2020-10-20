@@ -15,5 +15,4 @@
         android:textColor="#fff"
         android:textSize="10sp"
         android:textStyle="bold" />
-
 </merge>

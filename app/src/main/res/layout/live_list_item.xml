@@ -13,23 +13,23 @@
     cardview:cardElevation="0dp"
     cardview:cardMaxElevation="0dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
         android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:background="?android:selectableItemBackground">
+        android:paddingBottom="12dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toLeftOf="@+id/go"
             android:tag="tint"
             android:text="@string/example_title"
             android:textColor="?attr/fontColor"
-            android:layout_toLeftOf="@+id/go"
             android:textSize="?attr/font_commentbody" />
 
         <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -38,35 +38,38 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:layout_gravity="start"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toLeftOf="@+id/go"
             android:gravity="center_vertical"
             android:tag="tintsecond"
             android:textColor="?attr/tintColor"
-            android:layout_toLeftOf="@+id/go"
             android:textSize="?attr/font_cardtitle" />
+
         <ImageView
-            android:layout_width="48dp"
             android:id="@+id/go"
-            app:srcCompat="@drawable/world"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
             android:padding="10dp"
             android:theme="@style/Ripple.List"
-            android:layout_alignParentRight="true"
-            android:layout_height="48dp" />
+            app:srcCompat="@drawable/world" />
+
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_margin="16dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
             android:id="@+id/image_area"
-            android:layout_below="@+id/body"
-            android:layout_height="wrap_content" />
-        <WebView
             android:layout_width="match_parent"
-            android:layout_margin="16dp"
-            android:id="@+id/twitter_area"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/body"
-            android:layout_height="wrap_content"/>
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+
+        <WebView
+            android:id="@+id/twitter_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/body"
+            android:layout_margin="16dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

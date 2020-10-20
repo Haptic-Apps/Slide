@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.ccrama.redditslide.Views.SidebarLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<me.ccrama.redditslide.Views.SidebarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -15,15 +14,15 @@
             android:layout_width="1dp"
             android:layout_height="1dp"
             android:layout_gravity="top|end"
-            android:layout_marginEnd="3dp"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="3dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/content_view"
             android:layout_width="match_parent"
-            android:background="?attr/activity_background"
+            android:layout_height="match_parent"
             android:layout_marginTop="56dp"
-            android:layout_height="match_parent" />
+            android:background="?attr/activity_background" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/header"
@@ -37,13 +36,12 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:background="@color/md_red_300"
                 android:layout_height="@dimen/standard_toolbar_height"
+                android:background="@color/md_red_300"
                 android:minHeight="@dimen/standard_toolbar_height"
                 android:theme="@style/ActionBarCompat" />
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
     <include
         layout="@layout/subinfo"

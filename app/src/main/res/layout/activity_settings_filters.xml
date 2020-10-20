@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:focusableInTouchMode="true"
-    android:descendantFocusability="beforeDescendants"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <include layout="@layout/settings_toolbar" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:background="?attr/card_background">
 
         <LinearLayout
@@ -26,8 +22,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -40,8 +36,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/link"
-                        android:tint="?attr/tintColor" />
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/link" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -52,36 +48,36 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/domainlist"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
                 <EditText
                     android:id="@+id/domain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:hint="@string/enter_text_to_filter_click_enter_to_add"
+                    android:imeOptions="actionDone"
                     android:inputType="textUri"
+                    android:singleLine="true"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:background="?attr/tintColor"
+                android:layout_height="0.25dp"
                 android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                android:background="?attr/tintColor" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -94,8 +90,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/fontsize"
-                        android:tint="?attr/tintColor" />
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/fontsize" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -105,34 +101,36 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/selftextlist"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
                 <EditText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:hint="@string/enter_text_to_filter_click_enter_to_add"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:background="?attr/tintColor"
+                android:layout_height="0.25dp"
                 android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                android:background="?attr/tintColor" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -145,8 +143,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/info"
-                        android:tint="?attr/tintColor" />
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/info" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -156,34 +154,36 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/titlelist"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
                 <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:hint="@string/enter_text_to_filter_click_enter_to_add"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:background="?attr/tintColor"
+                android:layout_height="0.25dp"
                 android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                android:background="?attr/tintColor" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -196,8 +196,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/profile"
-                        android:tint="?attr/tintColor" />
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/profile" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -207,34 +207,36 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/userlist"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
                 <EditText
                     android:id="@+id/user"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:hint="@string/enter_text_to_filter_click_enter_to_add"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:background="?attr/tintColor"
+                android:layout_height="0.25dp"
                 android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                android:background="?attr/tintColor" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -247,8 +249,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/sub"
-                        android:tint="?attr/tintColor" />
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/sub" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -258,36 +260,36 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/subredditlist"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
 
-                    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/subredditlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
                 <EditText
                     android:id="@+id/subreddit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:hint="@string/enter_text_to_filter_click_enter_to_add"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:background="?attr/tintColor"
+                android:layout_height="0.25dp"
                 android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                android:background="?attr/tintColor" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -300,8 +302,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/flair"
-                        android:tint="?attr/tintColor" />
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/flair" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -311,25 +313,23 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/flairlist"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
 
-                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/flairlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
                 <EditText
                     android:id="@+id/flair"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:hint="@string/enter_text_to_filter_click_enter_to_add_flair"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/settings_reddit_child"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -25,9 +25,9 @@
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
             android:tag="label"
             android:text="@string/nsfw"
             android:textColor="?attr/colorAccent" />
@@ -41,10 +41,10 @@
             android:paddingStart="16dp">
 
             <LinearLayout
-                android:layout_marginEnd="64dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -59,11 +59,11 @@
                 android:id="@+id/settings_reddit_nsfwcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingEnd="16dp"
                 android:backgroundTint="?attr/tintColor"
                 android:button="@null"
                 android:buttonTint="?attr/tintColor"
                 android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
                 android:textColor="?attr/fontColor"
                 android:textColorHint="?attr/fontColor" />
         </RelativeLayout>
@@ -83,10 +83,10 @@
             android:paddingStart="16dp">
 
             <LinearLayout
-                android:layout_marginEnd="64dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -102,11 +102,11 @@
                 android:id="@+id/settings_reddit_nsfwrpev"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingEnd="16dp"
                 android:backgroundTint="?attr/tintColor"
                 android:button="@null"
                 android:buttonTint="?attr/tintColor"
                 android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
                 android:textColor="?attr/fontColor"
                 android:textColorHint="?attr/fontColor" />
         </RelativeLayout>
@@ -126,16 +126,16 @@
             android:paddingStart="16dp">
 
             <LinearLayout
-                android:layout_marginEnd="64dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/settings_reddit_nsfwcollection_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/settings_reddit_nsfwcollection_text"
                     android:text="Hide NSFW previews in collections (like /r/all)"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp" />
@@ -145,14 +145,15 @@
                 android:id="@+id/settings_reddit_nsfwcollection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingEnd="16dp"
                 android:backgroundTint="?attr/tintColor"
                 android:button="@null"
                 android:buttonTint="?attr/tintColor"
                 android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
                 android:textColor="?attr/fontColor"
                 android:textColorHint="?attr/fontColor" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
@@ -168,10 +169,10 @@
             android:paddingStart="16dp">
 
             <LinearLayout
-                android:layout_marginEnd="64dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -186,25 +187,26 @@
                 android:id="@+id/settings_reddit_ignorepref"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingEnd="16dp"
                 android:backgroundTint="?attr/tintColor"
                 android:button="@null"
                 android:buttonTint="?attr/tintColor"
                 android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
                 android:textColor="?attr/fontColor"
                 android:textColorHint="?attr/fontColor" />
         </RelativeLayout>
+
         <TextView
-            style="@style/TextAppearance.AppCompat.Body2"
             android:id="@+id/settings_reddit_redditPrefsHeader"
-            android:text="@string/view_reddit_settings"
-            android:tag="label"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
+            style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
-            android:textColor="?attr/colorAccent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:tag="label"
+            android:text="@string/view_reddit_settings"
+            android:textColor="?attr/colorAccent" />
 
         <RelativeLayout
             android:id="@+id/settings_reddit_viewRedditPrefs"
@@ -213,8 +215,8 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

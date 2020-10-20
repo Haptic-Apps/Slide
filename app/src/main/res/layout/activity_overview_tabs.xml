@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.tabs.TabLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.tabs.TabLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/Theme.AppCompat"
     android:id="@+id/sliding_tabs"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:tabMode="scrollable"/>
+    android:theme="@style/Theme.AppCompat"
+    app:tabMode="scrollable" />

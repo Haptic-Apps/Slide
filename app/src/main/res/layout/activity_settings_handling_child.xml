@@ -6,144 +6,144 @@
     android:orientation="vertical">
 
     <TextView
-            android:id="@+id/settings_handling_browserHeader"
-            style="@style/TextAppearance.AppCompat.Body2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:tag="label"
-            android:text="@string/settings_section_browser"
-            android:textColor="?attr/colorAccent"/>
+        android:id="@+id/settings_handling_browserHeader"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:tag="label"
+        android:text="@string/settings_section_browser"
+        android:textColor="?attr/colorAccent" />
 
     <RadioGroup
+        android:id="@+id/settings_handling_select_browser_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <RadioButton
+            android:id="@+id/settings_handling_browser_type_external_browser"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/settings_handling_select_browser_type"
-            android:padding="8dp">
+            android:layout_height="match_parent"
+            android:text="@string/handling_external_browser" />
 
         <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/handling_external_browser"
-                android:id="@+id/settings_handling_browser_type_external_browser"/>
+            android:id="@+id/settings_handling_browser_type_internal_browser"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/handling_internal_browser" />
 
         <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/handling_internal_browser"
-                android:id="@+id/settings_handling_browser_type_internal_browser"/>
-
-        <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/settings_link_chrome"
-                android:id="@+id/settings_handling_browser_type_custom_tabs"/>
+            android:id="@+id/settings_handling_browser_type_custom_tabs"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/settings_link_chrome" />
     </RadioGroup>
 
     <RelativeLayout
-            android:id="@+id/settings_handling_select_browser"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/handling_browser"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
-
-            <TextView
-                    android:id="@+id/settings_handling_browser"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="13sp"/>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="0.25dp"
-            android:alpha=".25"
-            android:background="?attr/tintColor"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:paddingStart="16dp"
-            android:paddingLeft="16dp">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="64dp"
-                android:orientation="vertical"
-                android:layout_marginRight="64dp">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_link_reader_mode_title"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:text="@string/settings_link_reader_mode_description"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="13sp"/>
-        </LinearLayout>
-
-        <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_handling_reader_mode"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="?attr/tintColor"
-                android:button="@null"
-                android:buttonTint="?attr/tintColor"
-                android:hapticFeedbackEnabled="true"
-                android:paddingEnd="16dp"
-                android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor"
-                android:paddingRight="16dp"/>
-    </RelativeLayout>
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="0.25dp"
-            android:alpha=".25"
-            android:background="?attr/tintColor"/>
-
-    <RelativeLayout
+        android:id="@+id/settings_handling_select_browser"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/handling_browser"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_handling_browser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_link_reader_mode_title"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:text="@string/settings_link_reader_mode_description"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_handling_reader_mode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingStart="16dp">
 
         <LinearLayout
@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings_link_reader_night"
                 android:textColor="?attr/fontColor"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
                 android:alpha=".86"
                 android:text="Must have Reader mode selected above and Night mode enabled"
                 android:textColor="?attr/fontColor"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
@@ -179,7 +179,7 @@
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
@@ -188,17 +188,16 @@
         android:alpha=".25"
         android:background="?attr/tintColor" />
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="?android:selectableItemBackground"
-        android:gravity="center_vertical"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="16dp">
 
@@ -214,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings_shortlink"
                 android:textColor="?attr/fontColor"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -222,7 +221,7 @@
                 android:alpha=".86"
                 android:text="@string/settings_shortlink_description"
                 android:textColor="?attr/fontColor"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
@@ -235,20 +234,20 @@
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <TextView
-            android:id="@+id/settings_handling_internalViewersHeader"
-            style="@style/TextAppearance.AppCompat.Body2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:tag="label"
-            android:text="@string/settings_section_internal_viewers"
-            android:textColor="?attr/colorAccent"/>
+        android:id="@+id/settings_handling_internalViewersHeader"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:tag="label"
+        android:text="@string/settings_section_internal_viewers"
+        android:textColor="?attr/colorAccent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -277,11 +276,11 @@
             android:id="@+id/settings_handling_gif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
@@ -319,11 +318,11 @@
             android:id="@+id/settings_handling_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
@@ -361,11 +360,11 @@
             android:id="@+id/settings_handling_album"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
@@ -403,18 +402,18 @@
             android:id="@+id/settings_handling_peek"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/settings_handling_video"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <View
@@ -429,8 +428,8 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -448,5 +447,4 @@
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
-
 </LinearLayout>

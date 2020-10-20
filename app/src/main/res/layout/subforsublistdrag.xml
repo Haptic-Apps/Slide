@@ -10,64 +10,66 @@
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal">
+
         <ImageView
-            android:layout_width="48dp"
-            android:padding="8dp"
             android:id="@+id/dragit"
-            app:srcCompat="@drawable/dragit"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:padding="8dp"
             android:tint="?attr/tintColor"
-            android:layout_height="match_parent" />
+            app:srcCompat="@drawable/dragit" />
 
         <View
             android:id="@+id/color"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:adjustViewBounds="true"
-
             android:background="@drawable/circle" />
+
         <View
-                android:id="@+id/pinned"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:backgroundTint="?attr/fontColor"
-                android:background="@drawable/pin" />
+            android:id="@+id/pinned"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/pin"
+            android:backgroundTint="?attr/fontColor" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="49dp"
-
             android:orientation="vertical">
+
             <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/name"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:textColor="?attr/fontColor"
-                        android:textSize="16sp"
-                        android:text="Android"/>
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:text="Android"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="16sp" />
+
                 <androidx.appcompat.widget.AppCompatCheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:padding="8dp"
-                        android:id="@+id/isSubscribed"
-                        />
+                    android:id="@+id/isSubscribed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="8dp" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -6,7 +6,7 @@
 
     <include layout="@layout/settings_toolbar" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/card_background">
@@ -15,22 +15,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:textSize="14sp"
+                android:layout_height="wrap_content"
                 android:alpha=".5"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:paddingRight="16dp"
                 android:text="@string/settings_description_synccit"
-                android:layout_height="wrap_content" />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:focusableInTouchMode="true"
                 android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
                 android:paddingTop="16dp">
 
                 <EditText

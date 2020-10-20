@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/head"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/head"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/tohide"
@@ -16,9 +16,9 @@
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
             android:text="@string/widget_visuals" />
 
         <RadioGroup
@@ -56,9 +56,9 @@
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
             android:text="@string/widget_posttype_title" />
 
         <RadioGroup
@@ -103,9 +103,9 @@
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
             android:text="@string/widget_content" />
     </LinearLayout>
 
@@ -113,9 +113,9 @@
         android:id="@+id/sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="?attr/tintColor"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
         android:hint="@string/widget_subname_hint"

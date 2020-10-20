@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                       android:layout_width="match_parent"
-                                                       android:layout_height="match_parent"
-                                                       android:background="?attr/activity_background"
-                                                       android:id="@+id/ref"
-                                                       android:orientation="vertical">
+    android:id="@+id/ref"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
 
     <WebView
-            android:layout_width="match_parent"
-            android:id="@+id/wiki_web_view"
-            android:layout_height="match_parent"
-            android:visibility="invisible"/>
+        android:id="@+id/wiki_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -4,7 +4,7 @@
     android:id="@+id/settings_child"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +17,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
             android:tag="label"
             android:text="@string/settings_section_general"
             android:textColor="?attr/colorAccent"
@@ -124,30 +124,29 @@
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/settings_child_moderation"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-                android:visibility="gone">
+            android:id="@+id/settings_child_moderation"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/mod"/>
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:tint="?attr/tintColor"
+                app:srcCompat="@drawable/mod" />
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/settings_moderation"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings_moderation"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -158,14 +157,13 @@
         android:elevation="8dp"
         android:orientation="vertical">
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
             android:tag="label"
             android:text="@string/settings_section_appearance"
             android:textColor="?attr/colorAccent"
@@ -195,7 +193,6 @@
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/settings_child_layout"
@@ -305,12 +302,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:text="@string/settings_section_content"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
             android:tag="label"
+            android:text="@string/settings_section_content"
             android:textColor="?attr/colorAccent"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -447,12 +444,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:text="@string/settings_section_other"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
             android:tag="label"
+            android:text="@string/settings_section_other"
             android:textColor="?attr/colorAccent"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -504,7 +501,6 @@
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/settings_child_pro"

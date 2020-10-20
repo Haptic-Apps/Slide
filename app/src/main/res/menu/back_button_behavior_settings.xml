@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/back_button_behavior_default"
-            android:title="@string/back_button_behavior_default"/>
-
+        android:id="@+id/back_button_behavior_default"
+        android:title="@string/back_button_behavior_default" />
     <item
-            android:id="@+id/back_button_behavior_confirm_exit"
-            android:title="@string/back_button_behavior_confirm_exit"/>
-
+        android:id="@+id/back_button_behavior_confirm_exit"
+        android:title="@string/back_button_behavior_confirm_exit" />
     <item
-            android:id="@+id/back_button_behavior_open_drawer"
-            android:title="@string/back_button_behavior_drawer"/>
+        android:id="@+id/back_button_behavior_open_drawer"
+        android:title="@string/back_button_behavior_drawer" />
     <item
-            android:id="@+id/back_button_behavior_goto_first"
-            android:title="@string/back_button_behavior_goto_first"/>
+        android:id="@+id/back_button_behavior_goto_first"
+        android:title="@string/back_button_behavior_goto_first" />
 </menu>

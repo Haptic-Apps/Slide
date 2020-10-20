@@ -28,9 +28,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="12dp"
             android:layout_marginTop="-59dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="16dp"
             android:padding="12dp"
             android:tint="@color/white"
             app:srcCompat="@drawable/share" />
@@ -44,10 +44,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingEnd="20dp"
                 android:paddingStart="20dp"
-                android:paddingTop="8dp">
+                android:paddingTop="8dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,11 +134,11 @@
                     android:layout_height="48dp"
                     android:layout_marginStart="5dp"
                     android:gravity="center_vertical"
-                    android:paddingEnd="16dp"
                     android:paddingStart="8dp"
+                    android:paddingEnd="16dp"
                     android:text="Redditor for 2 years, 3 months of gold remiaing"
                     android:textColor="?attr/fontColor"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <HorizontalScrollView
                     android:id="@+id/trophies"
@@ -155,8 +155,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:alpha=".8"
                     android:background="?attr/tintColor" />
 
@@ -287,30 +287,31 @@
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
-                        android:id="@+id/block_body"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
+                    android:id="@+id/block_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp">
 
                     <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:padding="12dp"
-                            android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/close" />
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:alpha=".86"
+                        android:padding="12dp"
+                        android:tint="?attr/tintColor"
+                        app:srcCompat="@drawable/close" />
 
                     <TextView
-                            android:id="@+id/block"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/profile_block_user"
-                            android:textColor="?attr/fontColor"
-                            android:textSize="16sp" />
+                        android:id="@+id/block"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_block_user"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -318,31 +319,31 @@
                 android:id="@+id/body2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignBottom="@+id/body"
                 android:layout_alignTop="@+id/body"
+                android:layout_alignBottom="@+id/body"
                 android:background="?attr/card_background"
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                <uz.shift.colorpicker.LineColorPicker
                     android:id="@+id/picker"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="24dp"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="24dp"
+                    android:orientation="horizontal"
                     app:selectedColorIndex="0" />
 
-                <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                <uz.shift.colorpicker.LineColorPicker
                     android:id="@+id/picker2"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@+id/picker"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
+                    android:orientation="horizontal"
                     app:selectedColorIndex="5" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -355,17 +356,17 @@
                     android:layout_margin="8dp"
                     android:padding="8dp"
                     android:text="@string/btn_ok" />
-                <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/reset"
-                        style="?attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_margin="8dp"
-                        android:padding="8dp"
-                        android:text="@string/btn_reset_color" />
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/reset"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="8dp"
+                    android:padding="8dp"
+                    android:text="@string/btn_reset_color" />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

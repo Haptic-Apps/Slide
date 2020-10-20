@@ -2,18 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/disabled"
-        android:title="@string/fab_disabled"/>
-
+        android:title="@string/fab_disabled" />
     <item
         android:id="@+id/create"
-        android:title="@string/fab_create"/>
-
+        android:title="@string/fab_create" />
     <item
         android:id="@+id/hide"
-        android:title="@string/fab_hide"/>
-
+        android:title="@string/fab_hide" />
     <item
         android:id="@+id/search"
-        android:title="@string/fab_search"/>
-
+        android:title="@string/fab_search" />
 </menu>

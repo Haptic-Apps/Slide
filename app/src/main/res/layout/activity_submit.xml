@@ -10,13 +10,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standard_toolbar_height"
-        android:minHeight="@dimen/standard_toolbar_height"
         android:background="@color/md_amber_500"
         android:elevation="8dp"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:paddingEnd="16dp"
         android:theme="@style/Theme.AppCompat"
-        android:title="@string/editor_submit">
-    </androidx.appcompat.widget.Toolbar>
+        android:title="@string/editor_submit" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
         android:layout_marginBottom="72dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -76,14 +75,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tintColor"
-                    android:textCursorDrawable="@drawable/cursor"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"
                     android:hint="@string/editor_hint_subreddit"
+                    android:imeOptions="flagNavigateNext"
                     android:inputType="textFilter"
                     android:maxLength="22"
                     android:maxLines="1"
-                    android:imeOptions="flagNavigateNext"
                     android:textColor="?attr/fontColor"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" />
+                    android:textCursorDrawable="@drawable/cursor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -95,11 +94,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tintColor"
-                    android:textCursorDrawable="@drawable/cursor"
                     android:hint="@string/editor_title"
                     android:inputType="text|textAutoCorrect|textCapSentences"
+                    android:maxLength="300"
                     android:maxLines="1"
-                    android:maxLength="300" />
+                    android:textCursorDrawable="@drawable/cursor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -118,10 +117,10 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="?attr/tintColor"
                         android:hint="@string/editor_hint_optional_body"
-                        android:textCursorDrawable="@drawable/cursor"
                         android:imeOptions="actionDone|flagNoEnterAction"
                         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-                        android:textColor="?attr/fontColor" />
+                        android:textColor="?attr/fontColor"
+                        android:textCursorDrawable="@drawable/cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <include layout="@layout/editor_items" />
@@ -151,11 +150,11 @@
                     android:id="@+id/selImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:background="?android:selectableItemBackground"
                     android:padding="16dp"
                     android:text="@string/editor_select_img"
                     android:textAllCaps="true"
-                    android:layout_gravity="right"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -182,9 +181,9 @@
                         android:id="@+id/urltext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textCursorDrawable="@drawable/cursor"
                         android:backgroundTint="?attr/tintColor"
-                        android:hint="@string/editor_url" />
+                        android:hint="@string/editor_url"
+                        android:textCursorDrawable="@drawable/cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -192,13 +191,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:padding="16dp"
                     android:background="?android:selectableItemBackground"
+                    android:padding="16dp"
                     android:text="@string/btn_suggest_title"
                     android:textAllCaps="true"
                     android:textColor="?attr/fontColor"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -206,9 +205,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
                 android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentbody" />
 
@@ -219,7 +218,7 @@
                 android:orientation="vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -228,9 +227,9 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="100dp"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="?attr/tintColor"
         android:button="@null"
         android:buttonTint="?attr/tintColor"
@@ -244,8 +243,8 @@
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/activity_vertical_margin"
         app:elevation="6dp"
         app:fabSize="normal"

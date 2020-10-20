@@ -3,18 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activities.Profile">
+
     <item
         android:id="@+id/category"
         android:icon="@drawable/collection"
         android:title="@string/profile_saved_categories"
-        app:showAsAction="always"/>
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/sort"
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"
-        app:showAsAction="always"/>
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/info"
         android:icon="@drawable/info"

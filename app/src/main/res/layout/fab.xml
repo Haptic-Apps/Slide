@@ -4,9 +4,9 @@
     android:layout_width="56dp"
     android:layout_height="56dp"
     android:contentDescription="@string/btn_fab_post"
-    app:srcCompat="@drawable/add"
     app:elevation="4dp"
     app:fabSize="normal"
     app:layout_anchorGravity="bottom|right|end"
     app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
-    app:pressedTranslationZ="12dp" />
+    app:pressedTranslationZ="12dp"
+    app:srcCompat="@drawable/add" />

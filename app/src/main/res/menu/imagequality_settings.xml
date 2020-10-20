@@ -2,14 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/never"
-        android:title="@string/never"/>
-
+        android:title="@string/never" />
     <item
         android:id="@+id/mobile"
-        android:title="@string/datasave_mobile"/>
-
+        android:title="@string/datasave_mobile" />
     <item
         android:id="@+id/always"
-        android:title="@string/datasave_always"/>
-
+        android:title="@string/datasave_always" />
 </menu>

@@ -14,13 +14,12 @@
             android:id="@+id/vertical_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="4dp"
             android:cacheColorHint="@android:color/transparent"
             android:clipToPadding="false"
             android:divider="@null"
             android:listSelector="@android:color/transparent"
-            android:orientation="vertical">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:orientation="vertical"
+            android:padding="4dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -28,16 +27,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_deep_orange_400"
-        android:orientation="vertical"
-        android:elevation="16dp">
+        android:elevation="16dp"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/standard_toolbar_height"
             android:minHeight="@dimen/standard_toolbar_height"
-            android:theme="@style/ActionBarCompat"/>
+            android:theme="@style/ActionBarCompat" />
     </com.google.android.material.appbar.AppBarLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-

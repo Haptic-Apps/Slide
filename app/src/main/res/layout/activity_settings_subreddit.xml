@@ -14,9 +14,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/standard_toolbar_height"
-            android:minHeight="@dimen/standard_toolbar_height"
-            android:elevation="16dp"
             android:background="@color/md_light_blue_500"
+            android:elevation="16dp"
+            android:minHeight="@dimen/standard_toolbar_height"
             android:theme="@style/Theme.AppCompat">
 
             <ImageView
@@ -25,8 +25,8 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
-                android:paddingBottom="12dp"
                 android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/delete" />
 
@@ -36,8 +36,8 @@
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
                 android:background="?android:selectableItemBackground"
-                android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:scaleType="fitCenter"
                 android:tint="@color/white"
                 app:srcCompat="@drawable/palette" />
@@ -47,15 +47,15 @@
             android:id="@+id/subslist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </LinearLayout>
 
     <include
         layout="@layout/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_vertical_margin" />
 </RelativeLayout>

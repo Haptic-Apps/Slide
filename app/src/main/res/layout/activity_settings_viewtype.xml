@@ -4,23 +4,26 @@
     android:layout_height="match_parent"
     android:background="?attr/card_background">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <include layout="@layout/settings_toolbar" />
+
         <TextView
             android:layout_width="match_parent"
-            android:padding="16dp"
-            android:textSize="14sp"
+            android:layout_height="wrap_content"
             android:alpha=".5"
+            android:padding="16dp"
             android:text="@string/settings_description_view_type"
-            android:layout_height="wrap_content" />
+            android:textSize="14sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/viewtype"
                 android:layout_width="match_parent"
@@ -28,8 +31,8 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

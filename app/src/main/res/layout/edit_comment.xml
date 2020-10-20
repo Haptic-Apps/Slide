@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,13 +19,13 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/profile"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:id="@+id/profile"
-                android:padding="5dp"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <me.ccrama.redditslide.Views.ImageInsertEditText
                 android:id="@+id/entry"
@@ -37,8 +36,8 @@
                 android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                 android:minHeight="30dp"
                 android:textColor="?attr/fontColor"
-                android:textSize="16sp"
                 android:textCursorDrawable="@drawable/cursor"
+                android:textSize="16sp"
                 android:theme="@style/ReplyEditTextTheme" />
         </LinearLayout>
 
@@ -46,8 +45,8 @@
             layout="@layout/editor_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -10,11 +10,11 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
-        android:text="@string/display"
+        android:paddingEnd="16dp"
         android:tag="label"
+        android:text="@string/display"
         android:textColor="?attr/colorAccent" />
 
     <RelativeLayout
@@ -24,8 +24,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,8 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="64dp"
-            android:orientation="vertical"
-            android:layout_marginRight="64dp">
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,9 +90,9 @@
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"
-            android:paddingRight="16dp"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
@@ -108,8 +108,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,8 +154,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="64dp"
-            android:orientation="vertical"
-            android:layout_marginRight="64dp">
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -182,9 +182,9 @@
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"
-            android:paddingRight="16dp"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
@@ -200,8 +200,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -231,29 +231,28 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
-        android:text="@string/settings_title_notifications"
+        android:paddingEnd="16dp"
         android:tag="label"
+        android:text="@string/settings_title_notifications"
         android:textColor="?attr/colorAccent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="Notifications include Inbox replies, Mod Mail, and Subreddit post notifications."
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
         android:tag="label"
+        android:text="Notifications include Inbox replies, Mod Mail, and Subreddit post notifications."
         android:textColor="?attr/fontColor"
         android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.25dp"
-
         android:alpha=".25"
         android:background="?attr/tintColor" />
 
@@ -261,12 +260,12 @@
         android:id="@+id/settings_general_installreddit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="@string/install_notif_piggyback"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
         android:tag="label"
+        android:text="@string/install_notif_piggyback"
         android:textColor="?attr/fontColor"
         android:textSize="12sp"
         android:visibility="gone" />
@@ -287,8 +286,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="64dp"
-            android:orientation="vertical"
-            android:layout_marginRight="64dp">
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -311,22 +310,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignBottom="@+id/settings_general_linearLayout"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"
-            android:paddingRight="16dp"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.25dp"
-
         android:alpha=".25"
         android:background="?attr/tintColor" />
 
@@ -343,8 +341,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -382,8 +380,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -407,11 +405,11 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
-        android:text="@string/sorting"
+        android:paddingEnd="16dp"
         android:tag="label"
+        android:text="@string/sorting"
         android:textColor="?attr/colorAccent" />
 
     <RelativeLayout
@@ -421,8 +419,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -460,8 +458,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -491,11 +489,11 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
-        android:text="@string/image_downloads"
+        android:paddingEnd="16dp"
         android:tag="label"
+        android:text="@string/image_downloads"
         android:textColor="?attr/colorAccent" />
 
     <RelativeLayout
@@ -505,8 +503,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -551,8 +549,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="64dp"
-            android:orientation="vertical"
-            android:layout_marginRight="64dp">
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -579,9 +577,9 @@
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"
-            android:paddingRight="16dp"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
@@ -604,8 +602,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="64dp"
-            android:orientation="vertical"
-            android:layout_marginRight="64dp">
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -632,9 +630,9 @@
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"
-            android:paddingRight="16dp"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <TextView
@@ -642,36 +640,36 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
-        android:text="@string/settings_section_other"
+        android:paddingEnd="16dp"
         android:tag="label"
+        android:text="@string/settings_section_other"
         android:textColor="?attr/colorAccent" />
 
     <LinearLayout
-            android:id="@+id/settings_general_drawer_items"
-            android:layout_width="match_parent"
+        android:id="@+id/settings_general_drawer_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:text="@string/settings_general_title_drawer_items"
+            android:textColor="?attr/fontColor"
+            android:textSize="14sp" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_general_title_drawer_items"
-                android:textColor="?attr/fontColor"
-                android:textSize="14sp"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha=".86"
-                android:text="@string/settings_general_subtitle_drawer_items"
-                android:textColor="?attr/fontColor"
-                android:textSize="13sp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".86"
+            android:text="@string/settings_general_subtitle_drawer_items"
+            android:textColor="?attr/fontColor"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <RelativeLayout
@@ -710,17 +708,17 @@
             android:id="@+id/settings_general_forcelanguage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"
-            android:paddingRight="16dp"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
@@ -743,8 +741,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="64dp"
-            android:orientation="vertical"
-            android:layout_marginRight="64dp">
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -771,9 +769,9 @@
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"
-            android:paddingRight="16dp"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
@@ -789,8 +787,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -803,15 +801,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/back_button_behavior_title"
                 android:textColor="?attr/fontColor"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
-                    android:id="@+id/settings_general_back_button_behavior_current"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="13sp" />
+                android:id="@+id/settings_general_back_button_behavior_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/fontColor"
+                android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -1,43 +1,40 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".SubredditOverview">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
 
     <item
-            android:id="@+id/refresh"
-            android:icon="@drawable/refresh"
-            android:title="@string/btn_refresh"
-            app:showAsAction="ifRoom"/>
-
+        android:id="@+id/refresh"
+        android:icon="@drawable/refresh"
+        android:title="@string/btn_refresh"
+        app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/read"
-            android:icon="@drawable/fontsize"
-            android:title="@string/internal_browser_readermode"
-            app:showAsAction="always"/>
-
+        android:id="@+id/read"
+        android:icon="@drawable/fontsize"
+        android:title="@string/internal_browser_readermode"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/chrome"
-            android:icon="@drawable/open_in_browser"
-            android:title="@string/website_external"
-            app:showAsAction="always"/>
+        android:id="@+id/chrome"
+        android:icon="@drawable/open_in_browser"
+        android:title="@string/website_external"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/comments"
-            android:icon="@drawable/commentchange"
-            android:title="@string/btn_open_comments"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/comments"
+        android:icon="@drawable/commentchange"
+        android:title="@string/btn_open_comments"
+        app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/share"
-            android:title="@string/submission_link_share"
-            app:showAsAction="never"/>
+        android:id="@+id/share"
+        android:title="@string/submission_link_share"
+        app:showAsAction="never" />
     <item
-            android:id="@+id/external"
-            android:title="@string/open_links_externally"
-            app:showAsAction="never"/>
+        android:id="@+id/external"
+        android:title="@string/open_links_externally"
+        app:showAsAction="never" />
     <item
-            android:id="@+id/store_cookies"
-            android:checkable="true"
-            android:title="@string/internal_browser_storecookies"
-            app:actionViewClass="android.widget.CheckBox"
-            app:showAsAction="withText" />
-
+        android:id="@+id/store_cookies"
+        android:checkable="true"
+        android:title="@string/internal_browser_storecookies"
+        app:actionViewClass="android.widget.CheckBox"
+        app:showAsAction="withText" />
 </menu>

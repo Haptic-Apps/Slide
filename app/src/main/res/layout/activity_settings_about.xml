@@ -3,11 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="?attr/card_background">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -25,27 +23,25 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/report"
-                    android:tint="?attr/tintColor"/>
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/report" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-
                     android:text="@string/settings_bugs"
                     android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -54,27 +50,25 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/info"
-                    android:tint="?attr/tintColor"/>
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/info" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-
                     android:text="@string/settings_changelog"
                     android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -83,18 +77,17 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/star"
-                    android:tint="?attr/tintColor"/>
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,26 +95,26 @@
                     android:gravity="center_vertical"
                     android:text="@string/rate_slide"
                     android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/sub"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/sub"
-                    android:tint="?attr/tintColor"/>
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/sub" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -129,7 +122,7 @@
                     android:gravity="center_vertical"
                     android:text="/r/slideforreddit"
                     android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -138,27 +131,25 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
-                    app:srcCompat="@drawable/info"
-                    android:tint="?attr/tintColor"/>
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:tint="?attr/tintColor"
+                    app:srcCompat="@drawable/info" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-
                     android:text="@string/settings_libs"
                     android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -167,7 +158,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
@@ -178,9 +168,8 @@
                     android:gravity="center_vertical|center_horizontal"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ScrimInsetsView"></declare-styleable>
+    <declare-styleable name="ScrimInsetsView" />
+
     <declare-styleable name="FontStyle">
         <attr name="font_cardtitle" format="dimension" />
         <attr name="font_cardinfo" format="dimension" />
@@ -14,10 +15,10 @@
         <attr name="card_background" format="color" />
         <attr name="fontColor" format="color" />
         <attr name="tintColor" format="color" />
-        <attr name="colorAccent" format="color"/>
+        <attr name="colorAccent" format="color" />
         <attr name="list_background" format="color" />
-
     </declare-styleable>
+
     <declare-styleable name="ExpandablePanel">
         <attr name="handle" format="reference" />
         <attr name="content" format="reference" />
@@ -27,21 +28,21 @@
 
     <!-- from SwipeBackLayout !-->
     <declare-styleable name="SwipeBackLayout">
-        <attr name="edge_size" format="dimension"/>
+        <attr name="edge_size" format="dimension" />
         <attr name="edge_flag">
             <enum name="left" value="0" />
             <enum name="right" value="1" />
             <enum name="bottom" value="2" />
-            <enum name="top" value="3"/>
+            <enum name="top" value="3" />
             <enum name="all" value="4" />
         </attr>
-        <attr name="shadow_left" format="reference"/>
-        <attr name="shadow_right" format="reference"/>
-        <attr name="shadow_bottom" format="reference"/>
-        <attr name="shadow_top" format="reference"/>
+        <attr name="shadow_left" format="reference" />
+        <attr name="shadow_right" format="reference" />
+        <attr name="shadow_bottom" format="reference" />
+        <attr name="shadow_top" format="reference" />
     </declare-styleable>
 
-    <attr name="SwipeBackLayoutStyle" format="reference"/>
+    <attr name="SwipeBackLayoutStyle" format="reference" />
 
     <declare-styleable name="LineColorPicker">
         <attr name="android:orientation" />

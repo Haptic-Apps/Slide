@@ -23,8 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_toolbar_height"
                 android:minHeight="@dimen/standard_toolbar_height"
-                app:layout_scrollFlags="scroll|enterAlways">
-            </androidx.appcompat.widget.Toolbar>
+                app:layout_scrollFlags="scroll|enterAlways" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/sliding_tabs"
@@ -36,9 +35,8 @@
         <me.ccrama.redditslide.Views.ToggleSwipeViewPager
             android:id="@+id/content_view"
             android:layout_width="match_parent"
-            android:background="?attr/activity_background"
             android:layout_height="match_parent"
+            android:background="?attr/activity_background"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </merge>
-

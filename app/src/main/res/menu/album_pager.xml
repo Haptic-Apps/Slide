@@ -13,7 +13,6 @@
         android:icon="@drawable/album_grid"
         android:title="@string/album_grid"
         app:showAsAction="always" />
-
     <item
         android:id="@+id/download"
         android:title="@string/download_album"
@@ -26,5 +25,4 @@
         android:id="@+id/comments"
         android:title="@string/btn_open_comments"
         app:showAsAction="never" />
-
 </menu>

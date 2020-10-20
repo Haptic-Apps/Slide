@@ -23,21 +23,17 @@
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
-                    android:textColor="#fff"
-
                     android:layout_height="wrap_content"
                     android:background="@color/md_light_green_500"
                     android:padding="24dp"
                     android:text="@string/settings_accent_title"
+                    android:textColor="#fff"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-
                     android:layout_height="match_parent"
-
                     android:background="?attr/card_background"
                     android:orientation="vertical"
                     android:padding="24dp">
@@ -47,10 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:orientation="horizontal"
-
                         app:selectedColorIndex="0" />
-
-
                 </RelativeLayout>
 
                 <TextView
@@ -58,7 +51,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right|bottom"
-
                     android:padding="16dp"
                     android:text="@string/btn_ok"
                     android:textColor="?attr/fontColor"

@@ -36,16 +36,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="20dp"
                     android:paddingStart="20dp"
+                    android:paddingTop="20dp"
                     android:paddingEnd="20dp"
-                    android:paddingTop="20dp">
+                    android:paddingBottom="20dp">
 
                     <TextView
+                        android:id="@+id/progressnumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/multi_column_landscape"
-                        android:id="@+id/progressnumber"
                         android:textColor="?attr/fontColor"
                         android:textSize="16sp" />
 
@@ -54,29 +54,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="8dp"
-                        android:max="5" />
+                        android:max="5"
+                        android:padding="8dp" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/singlecolumnmultiwindow"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:backgroundTint="?attr/tintColor"
-                            android:button="@null"
-                            android:buttonTint="?attr/tintColor"
-                            android:hapticFeedbackEnabled="true"
-                            android:text="@string/single_column_multi_window"
-                            android:textColor="?attr/fontColor"
-                            android:textColorHint="?attr/fontColor" />
+                        android:id="@+id/singlecolumnmultiwindow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="?attr/tintColor"
+                        android:button="@null"
+                        android:buttonTint="?attr/tintColor"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="@string/single_column_multi_window"
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/dualcolumns"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/tintColor"
                         android:button="@null"
                         android:buttonTint="?attr/tintColor"
@@ -89,8 +89,8 @@
                         android:id="@+id/fullcomment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/tintColor"
                         android:button="@null"
                         android:buttonTint="?attr/tintColor"

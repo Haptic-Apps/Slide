@@ -7,14 +7,12 @@
         android:id="@+id/compose"
         android:icon="@drawable/edit"
         android:title="@string/compose_message"
-        app:showAsAction="always"/>
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/read"
         android:icon="@drawable/visibility"
         android:title="@string/mark_all_as_read"
         app:showAsAction="always" />
-
     <item
         android:id="@+id/notifs"
         android:title="@string/settings_title_notifications"

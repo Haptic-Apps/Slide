@@ -8,27 +8,25 @@
 
     <include layout="@layout/settings_toolbar" />
 
-        <ScrollView
-            android:id="@+id/base"
-            android:layout_marginTop="56dp"
+    <ScrollView
+        android:id="@+id/base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
+
+        <LinearLayout
+            android:id="@+id/settings_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <!--suppress CheckTagEmptyBody -->
             <LinearLayout
-                android:id="@+id/settings_home"
+                android:id="@+id/settings_parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
 
-                <!--suppress CheckTagEmptyBody -->
-                <LinearLayout
-                    android:id="@+id/settings_parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
+        </LinearLayout>
+    </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:background="?attr/card_background"
     android:orientation="vertical">
 
@@ -11,9 +11,9 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standard_toolbar_height"
-        android:minHeight="@dimen/standard_toolbar_height"
-        android:elevation="8dp"
         android:background="?attr/tintColor"
+        android:elevation="8dp"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways">
 
@@ -22,34 +22,36 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end|center_vertical"
-            android:paddingBottom="12dp"
-            android:theme="@style/Ripple.List"
             android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/upvoted"
-            android:tint="@color/white" />
+            android:theme="@style/Ripple.List"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/upvoted" />
+
         <ImageView
-                android:id="@+id/pin"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|center_vertical"
-                android:paddingBottom="12dp"
-                android:theme="@style/Ripple.List"
-                android:paddingTop="12dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/pin"
-                android:tint="@color/white" />
+            android:id="@+id/pin"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:scaleType="fitCenter"
+            android:theme="@style/Ripple.List"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/pin" />
+
         <ImageView
             android:id="@+id/delete"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end|center_vertical"
-            android:theme="@style/Ripple.List"
-            android:paddingBottom="12dp"
             android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/delete"
-            android:tint="@color/white" />
+            android:theme="@style/Ripple.List"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/delete" />
     </androidx.appcompat.widget.Toolbar>
 
     <include layout="@layout/settings_toolbar" />
@@ -58,53 +60,52 @@
         android:id="@+id/subslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:fadeScrollbars="true"
         android:layout_below="@id/toolbar2"
-        android:orientation="vertical">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:fadeScrollbars="true"
+        android:orientation="vertical"
+        android:scrollbars="vertical" />
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/add"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        app:srcCompat="@drawable/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
         android:layout_marginStart="16dp"
+        app:srcCompat="@drawable/add"
         fab:fab_addButtonColorNormal="?attr/colorAccent"
-        fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_addButtonColorPressed="?attr/colorAccent"
+        fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_addButtonSize="normal"
         fab:fab_labelStyle="@style/menu_labels_style"
         fab:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/md_amber_A400"
             fab:fab_colorPressed="@color/md_amber_A400"
-            android:id="@+id/sub"
             fab:fab_size="mini"
-            fab:fab_title="@string/reorder_fab_subreddit"/>
+            fab:fab_title="@string/reorder_fab_subreddit" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/md_deep_orange_A400"
+            fab:fab_colorPressed="@color/md_deep_orange_A400"
             fab:fab_size="mini"
-            android:id="@+id/collection"
-            fab:fab_title="@string/reorder_fab_collection"
-            fab:fab_colorPressed="@color/md_deep_orange_A400"/>
+            fab:fab_title="@string/reorder_fab_collection" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/domain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/md_indigo_A400"
+            fab:fab_colorPressed="@color/md_indigo_A400"
             fab:fab_size="mini"
-            fab:fab_title="@string/reorder_fab_domain"
-            android:id="@+id/domain"
-            fab:fab_colorPressed="@color/md_indigo_A400"/>
+            fab:fab_title="@string/reorder_fab_domain" />
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>

@@ -7,14 +7,12 @@
         android:id="@+id/time"
         android:icon="@drawable/history"
         android:title="@string/btn_time"
-        app:showAsAction="ifRoom"/>
-
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/sort"
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom" />
-
     <item
         android:id="@+id/edit"
         android:icon="@drawable/edit"

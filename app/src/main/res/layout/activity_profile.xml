@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
- xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
@@ -8,16 +7,16 @@
     <View
         android:id="@+id/anchor"
         android:layout_width="1dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="3dp"
+        android:layout_height="1dp"
         android:layout_gravity="top|end"
-        android:layout_height="1dp" />
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="3dp" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/content_view"
-        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/header"
@@ -32,8 +31,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/standard_toolbar_height"
-            android:minHeight="@dimen/standard_toolbar_height">
-        </androidx.appcompat.widget.Toolbar>
+            android:minHeight="@dimen/standard_toolbar_height" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/sliding_tabs"
@@ -41,6 +39,3 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-

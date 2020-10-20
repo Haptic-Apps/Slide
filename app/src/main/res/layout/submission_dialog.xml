@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:orientation="vertical"
         android:theme="@style/popup"
-        cardview:cardCornerRadius="2dp"
-        cardview:cardBackgroundColor="?attr/card_background">
+        cardview:cardBackgroundColor="?attr/card_background"
+        cardview:cardCornerRadius="2dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,13 +20,13 @@
             android:orientation="vertical">
 
             <ScrollView
+                android:id="@+id/scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/buttons"
-                android:id="@+id/scroll"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp">
+                android:paddingTop="16dp"
+                android:paddingRight="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -52,21 +52,21 @@
                         android:id="@+id/commentOverflow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:orientation="vertical"
                         android:visibility="invisible" />
                 </LinearLayout>
             </ScrollView>
 
             <RelativeLayout
-                android:layout_width="match_parent"
                 android:id="@+id/buttons"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_height="wrap_content">
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/comments"

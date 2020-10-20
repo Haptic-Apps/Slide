@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoPanelHeight="48dp"
-    sothree:umanoOverlay="true">
+    sothree:umanoOverlay="true"
+    sothree:umanoPanelHeight="48dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -28,9 +28,7 @@
                 android:id="@+id/gif"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true">
-
-            </me.ccrama.redditslide.Views.ExoVideoView>
+                android:layout_centerInParent="true" />
 
             <FrameLayout
                 android:id="@+id/placeholder"
@@ -63,14 +61,14 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:transitionName="profile" />
+
         <ImageView
-                android:id="@+id/type"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:padding="16dp"
-                android:layout_centerInParent="true"
-                android:tint="#e1e1e1"
-                />
+            android:id="@+id/type"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerInParent="true"
+            android:padding="16dp"
+            android:tint="#e1e1e1" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -95,28 +93,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
             android:text="asdf"
             android:textColor="#ffffff"
             android:textSize="?attr/font_cardtitle" />
+
         <TextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:paddingTop="8dp"
+            android:paddingEnd="16dp"
             android:text="@string/example_url"
             android:textColor="#bcffffff"
             android:textSize="14sp" />
 
-        <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <me.ccrama.redditslide.Views.RevealRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/desc">
-
 
             <LinearLayout
                 android:id="@+id/vote"
@@ -133,22 +131,22 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp"
+                android:contentDescription="@string/img_score"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                android:contentDescription="@string/img_score"
                 sothree:srcCompat="@drawable/upvoted" />
 
             <TextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:textColor="?attr/tintColor"
                 android:layout_below="@+id/innerrelative"
                 android:layout_gravity="center_vertical"
                 android:layout_toRightOf="@+id/scoreimg"
                 android:gravity="center_vertical"
                 android:tag="tintactionbar"
                 android:text="400"
+                android:textColor="?attr/tintColor"
                 android:textSize="?attr/font_cardinfo" />
 
             <ImageView
@@ -160,15 +158,14 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="4dp"
                 android:layout_toRightOf="@+id/score"
+                android:contentDescription="@string/img_comments"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                android:contentDescription="@string/img_comments"
                 sothree:srcCompat="@drawable/commentchange" />
 
             <TextView
                 android:id="@+id/comments"
                 android:layout_width="wrap_content"
-                android:textColor="?attr/tintColor"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
                 android:layout_gravity="center_vertical"
@@ -176,8 +173,8 @@
                 android:gravity="center_vertical"
                 android:tag="tintactionbar"
                 android:text="420"
+                android:textColor="?attr/tintColor"
                 android:textSize="?attr/font_cardinfo" />
-
 
             <ImageView
                 android:id="@+id/save"
@@ -185,12 +182,11 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/upvote"
+                android:contentDescription="@string/btn_save"
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                android:contentDescription="@string/btn_save"
                 sothree:srcCompat="@drawable/star" />
 
             <ImageView
@@ -200,11 +196,10 @@
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
                 android:layout_toLeftOf="@+id/downvote"
+                android:contentDescription="@string/btn_upvote"
                 android:padding="8dp"
-
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                android:contentDescription="@string/btn_upvote"
                 sothree:srcCompat="@drawable/upvoted" />
 
             <ImageView
@@ -213,26 +208,24 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/menu"
+                android:contentDescription="@string/btn_downvote"
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                android:contentDescription="@string/btn_downvote"
                 sothree:srcCompat="@drawable/downvote" />
-
 
             <ImageView
                 android:id="@+id/menu"
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/innerrelative"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/btn_menu"
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                android:contentDescription="@string/btn_menu"
                 sothree:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>

@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#3f000000"
-        >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3f000000">
+
     <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/title"
-            android:text="https://imgur.com/a/duARTe"
-            android:maxLines="1"
-            android:gravity="center_vertical"
-            android:layout_marginTop="36dp"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:padding="16dp"
+        android:text="https://imgur.com/a/duARTe"
+        android:textStyle="bold" />
+
     <ImageView
-            android:layout_width="match_parent"
-            android:layout_below="@+id/title"
-            android:id="@+id/pop"
-            app:srcCompat="@drawable/up"
-            android:layout_height="0dp"/>
+        android:id="@+id/pop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/title"
+        app:srcCompat="@drawable/up" />
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/menu"
-            android:orientation="horizontal"
-            android:layout_height="62dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true">
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:id="@+id/share"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                app:srcCompat="@drawable/share"
-                android:clickable="true"
-                android:layout_height="match_parent"/>
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:id="@+id/external"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-
-                app:srcCompat="@drawable/open_external"
-                android:clickable="true"
-                android:layout_height="match_parent"/>
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:id="@+id/copy"
-                app:srcCompat="@drawable/copy"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
+            android:id="@+id/share"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:srcCompat="@drawable/share" />
 
-                android:clickable="true"
-                android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/external"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:srcCompat="@drawable/open_external" />
+
+        <ImageView
+            android:id="@+id/copy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:srcCompat="@drawable/copy" />
     </LinearLayout>
 
     <me.ccrama.redditslide.Views.PeekMediaView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/peek"
-            android:layout_marginTop="29dp"
-            android:paddingBottom="36dp"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_below="@+id/pop"
-            android:layout_centerHorizontal="true"/>
+        android:id="@+id/peek"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/pop"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:paddingBottom="36dp" />
 </RelativeLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background"
@@ -11,8 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standard_toolbar_height"
-        android:minHeight="@dimen/standard_toolbar_height"
         android:background="?attr/card_background"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         app:layout_scrollFlags="scroll|enterAlways">
@@ -22,11 +21,11 @@
             android:layout_height="48dp"
             android:layout_gravity="start|center_vertical"
             android:background="#00ffffff"
-            android:paddingBottom="12dp"
             android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/search"
-            android:tint="?attr/tintColor" />
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/search" />
 
         <EditText
             android:id="@+id/search"

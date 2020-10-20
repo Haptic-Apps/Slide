@@ -3,9 +3,9 @@
     android:id="@+id/top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="4dp"
     android:layout_marginStart="24dp"
     android:layout_marginTop="4dp"
+    android:layout_marginEnd="4dp"
     android:layout_marginBottom="4dp"
     android:background="#424242"
     android:clipChildren="false"
@@ -42,8 +42,8 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
                 android:paddingTop="2dp"
+                android:paddingBottom="6dp"
                 android:text="4 hours ago"
                 android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentinfo" />
@@ -51,8 +51,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
                 android:paddingTop="2dp"
+                android:paddingBottom="6dp"
                 android:text="@string/submission_properties_seperator"
                 android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentinfo" />
@@ -61,8 +61,8 @@
                 android:id="@+id/user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
                 android:paddingTop="2dp"
+                android:paddingBottom="6dp"
                 android:text="ccrama"
                 android:textColor="?attr/fontColor"
                 android:textSize="?attr/font_commentinfo" />
@@ -70,10 +70,10 @@
 
         <me.ccrama.redditslide.SpoilerRobotoTextView
             android:id="@+id/content"
-            android:paddingBottom="4dp"
-            android:text="This is some test content."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:text="This is some test content."
             android:textColor="?attr/fontColor"
             android:textSize="?attr/font_commentbody" />
 

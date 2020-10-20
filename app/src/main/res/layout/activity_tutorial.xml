@@ -2,16 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/activity_background"
     android:layout_gravity="center"
+    android:background="?attr/activity_background"
     android:orientation="vertical">
-
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
-
 </RelativeLayout>

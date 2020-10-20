@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<merge
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/imagearea"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    android:layout_height="wrap_content">
 
     <me.ccrama.redditslide.Views.MaxHeightImageView
         android:id="@+id/leadimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:transitionName="large_image"
         android:maxHeight="3200px"
         android:scaleType="centerCrop"
-        android:src="@drawable/chameleon" />
+        android:src="@drawable/chameleon"
+        android:transitionName="large_image" />
 
     <me.ccrama.redditslide.Views.TransparentTagTextView
-        android:layout_width="wrap_content"
-        android:text="IMAGE"
         android:id="@+id/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/leadimage"
-        android:textAllCaps="true"
         android:layout_alignParentRight="true"
-        android:alpha=".86"
         android:layout_margin="10dp"
-        android:textSize="10sp"
-        android:textStyle="bold"
+        android:alpha=".86"
         android:padding="2dp"
-        android:layout_height="wrap_content" />
+        android:text="IMAGE"
+        android:textAllCaps="true"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/base"
         android:layout_width="match_parent"
@@ -46,9 +44,9 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:text="@string/example_domain"
-            android:textStyle="bold"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/subtextimage"
@@ -59,6 +57,4 @@
             android:textColor="#8Affffff"
             android:textSize="12sp" />
     </LinearLayout>
-
-
 </merge>

@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/content_view"
         android:layout_width="match_parent"
-        android:theme="@style/popup"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:theme="@style/popup" />
 </merge>
-

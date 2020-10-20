@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-
     android:orientation="vertical">
-
 
     <RelativeLayout
         android:id="@+id/imagearea"
@@ -21,9 +16,7 @@
             android:id="@+id/gif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-        </me.ccrama.redditslide.Views.ExoVideoView>
+            android:layout_centerInParent="true" />
 
         <ProgressBar
             android:id="@+id/gifprogress"
@@ -32,7 +25,6 @@
             android:layout_height="wrap_content"
             android:indeterminate="false"
             android:max="100"
-
             android:progress="0" />
     </RelativeLayout>
 
@@ -44,40 +36,37 @@
         android:layout_marginTop="-56dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:paddingLeft="16dp"
-                android:gravity="center"
-                android:id="@+id/size"
-                android:layout_marginLeft="16dp"
-                android:layout_alignParentLeft="true"
-                android:textSize="12sp"
-                android:layout_height="match_parent" />
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:textSize="12sp" />
+
         <ImageView
             android:id="@+id/save"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:layout_toLeftOf="@+id/more"
             android:padding="15dp"
             android:theme="@style/Ripple.List"
             android:tint="@color/white"
-            android:layout_toLeftOf="@+id/more"
             app:srcCompat="@drawable/save" />
 
         <ImageView
             android:id="@+id/more"
             style="@style/Ripple.List"
-            android:layout_alignParentRight="true"
             android:layout_width="48dp"
             android:layout_height="56dp"
+            android:layout_alignParentRight="true"
             android:layout_gravity="right"
-            android:paddingBottom="15dp"
             android:paddingStart="11dp"
-            android:paddingEnd="11dp"
             android:paddingTop="15dp"
+            android:paddingEnd="11dp"
+            android:paddingBottom="15dp"
             android:theme="@style/Ripple.List"
             app:srcCompat="@drawable/more" />
     </RelativeLayout>
-
 </RelativeLayout>
-
-
-

@@ -19,14 +19,13 @@
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:textColor="#fff"
-
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:padding="24dp"
                 android:text="Post title here"
+                android:textColor="#fff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -34,27 +33,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <LinearLayout
                     android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="20dp"
                     android:paddingStart="20dp"
+                    android:paddingTop="8dp"
                     android:paddingEnd="20dp"
-
-                    android:paddingTop="8dp">
-
+                    android:paddingBottom="20dp">
 
                     <LinearLayout
                         android:id="@+id/sidebar"
                         android:layout_width="match_parent"
-
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
@@ -62,24 +56,18 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-
                             android:padding="12dp"
-
-                            app:srcCompat="@drawable/profile"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/profile" />
 
                         <TextView
                             android:id="@+id/userpopup"
-
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-
                             android:gravity="center_vertical"
                             android:text="/u/ccrama"
                             android:textColor="?attr/fontColor"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -87,35 +75,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
-
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
-
                             android:alpha=".86"
                             android:padding="12dp"
-
-                            app:srcCompat="@drawable/sub"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/sub" />
 
                         <TextView
                             android:id="@+id/subpopup"
-
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-
                             android:gravity="center_vertical"
                             android:text="/r/Android"
-
                             android:textColor="?attr/fontColor"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -123,9 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
-
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
@@ -134,22 +111,16 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/star"
-
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/star" />
 
                         <TextView
                             android:id="@+id/savedtext"
-
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-
                             android:gravity="center_vertical"
-
                             android:text="@string/submission_save"
-
                             android:textColor="?attr/fontColor"
-
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -160,7 +131,6 @@
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
@@ -169,21 +139,15 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-
-                            app:srcCompat="@drawable/open_external"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/open_external" />
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
-
                             android:text="@string/submission_gild"
-
                             android:textColor="?attr/fontColor"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -192,7 +156,6 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-
                         android:paddingEnd="16dp"
                         android:visibility="gone">
 
@@ -201,21 +164,15 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-
-                            app:srcCompat="@drawable/report"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/report" />
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
-
                             android:text="@string/submission_report"
-
                             android:textColor="?attr/fontColor"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -224,7 +181,6 @@
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
@@ -234,8 +190,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/copy"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/copy" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -243,7 +199,6 @@
                             android:text="@string/misc_copy_text"
                             android:textColor="?attr/fontColor"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -252,7 +207,6 @@
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
@@ -261,20 +215,15 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/link"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/link" />
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
                             android:text="@string/submission_share_permalink"
-
-
                             android:textColor="?attr/fontColor"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -283,7 +232,6 @@
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
@@ -292,61 +240,53 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/hide"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/hide" />
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
                             android:text="@string/submission_hide"
-
-
                             android:textColor="?attr/fontColor"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-                        android:visibility="gone"
                         android:orientation="horizontal"
-                     >
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/commentchange"
-                            android:tint="?attr/tintColor" />
-
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/commentchange" />
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/downvote"
-                            android:tint="?attr/tintColor" />
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/downvote" />
+
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/upvoted"
-                            android:tint="?attr/tintColor" />
-
+                            android:tint="?attr/tintColor"
+                            app:srcCompat="@drawable/upvoted" />
                     </LinearLayout>
-
                 </LinearLayout>
-
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

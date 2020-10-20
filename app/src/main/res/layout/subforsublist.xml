@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
-
         android:orientation="horizontal"
         android:paddingStart="16dp">
 
@@ -17,9 +16,9 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:adjustViewBounds="true"
             android:background="@drawable/circle" />
 
@@ -33,6 +32,5 @@
             android:text="Android"
             android:textColor="?attr/fontColor"
             android:textSize="16sp" />
-
     </LinearLayout>
 </LinearLayout>

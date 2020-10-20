@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="2dp"
     android:background="?attr/card_background"
     android:orientation="vertical">
@@ -18,9 +18,9 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:adjustViewBounds="true"
             android:background="@drawable/circle" />
 
@@ -40,12 +40,12 @@
             android:id="@+id/subscribers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:paddingRight="8dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
             android:textColor="?attr/fontColor"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,13 +54,13 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            app:srcCompat="@drawable/subscribed"
             android:id="@+id/subbed"
-            android:layout_height="15dp" />
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            app:srcCompat="@drawable/subscribed" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,8 +79,8 @@
                 android:id="@+id/overflow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingEnd="8dp" />
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

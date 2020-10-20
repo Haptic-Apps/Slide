@@ -1,211 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/manage_history_child"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:id="@+id/manage_history_autocache"
-            android:layout_width="match_parent"
+        android:id="@+id/manage_history_autocache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:text="@string/autocache_subreddits"
+            android:textColor="?attr/fontColor"
+            android:textSize="16sp" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/autocache_subreddits"
-                android:textColor="?attr/fontColor"
-                android:textSize="16sp" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha=".86"
-                android:id="@+id/manage_history_autocache_text"
-                android:textColor="?attr/fontColor"
-                android:textSize="13sp" />
-
+            android:id="@+id/manage_history_autocache_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".86"
+            android:textColor="?attr/fontColor"
+            android:textSize="13sp" />
     </LinearLayout>
+
     <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:padding="16dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <LinearLayout
-                android:layout_marginEnd="64dp"
-                android:layout_marginRight="64dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:layout_marginRight="64dp"
+            android:orientation="vertical">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cache_wifi_only"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="16sp"/>
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cache_wifi_only"
+                android:textColor="?attr/fontColor"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/manage_history_wifi"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:selectableItemBackground"
-                android:backgroundTint="?attr/tintColor"
-                android:button="@null"
-                android:buttonTint="?attr/tintColor"
-                android:hapticFeedbackEnabled="true"
-                android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor"/>
-
+            android:id="@+id/manage_history_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:selectableItemBackground"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
 
     <LinearLayout
-            android:id="@+id/manage_history_comments_depth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:background="?android:selectableItemBackground"
-            android:padding="16dp">
+        android:id="@+id/manage_history_comments_depth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/comments_depth"
-                android:textColor="?attr/fontColor"
-                android:textSize="16sp" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comments_depth"
+            android:textColor="?attr/fontColor"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
 
     <LinearLayout
-            android:id="@+id/manage_history_comments_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:background="?android:selectableItemBackground"
-            android:padding="16dp">
+        android:id="@+id/manage_history_comments_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/comments_count"
-                android:textColor="?attr/fontColor"
-                android:textSize="16sp" />
-
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comments_count"
+            android:textColor="?attr/fontColor"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
 
     <LinearLayout
-            android:id="@+id/manage_history_autocache_time_touch"
-            android:layout_width="match_parent"
+        android:id="@+id/manage_history_autocache_time_touch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:text="@string/autocache_time"
+            android:textColor="?attr/fontColor"
+            android:textSize="16sp" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/autocache_time"
-                android:textColor="?attr/fontColor"
-                android:textSize="16sp" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha=".86"
-                android:id="@+id/manage_history_autocache_time"
-                android:textColor="?attr/fontColor"
-                android:textSize="13sp" />
-
+            android:id="@+id/manage_history_autocache_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".86"
+            android:textColor="?attr/fontColor"
+            android:textSize="13sp" />
     </LinearLayout>
+
     <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
 
     <LinearLayout
-            android:id="@+id/manage_history_sync_now"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="16dp">
+        android:id="@+id/manage_history_sync_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cache_subreddits_now"
-                android:textColor="?attr/fontColor"
-                android:textSize="16sp" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cache_subreddits_now"
+            android:textColor="?attr/fontColor"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
 
     <LinearLayout
-            android:id="@+id/manage_history_clear_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="16dp">
+        android:id="@+id/manage_history_clear_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clear_saved_subreddits"
-                android:textColor="?attr/fontColor"
-                android:textSize="16sp" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clear_saved_subreddits"
+            android:textColor="?attr/fontColor"
+            android:textSize="16sp" />
     </LinearLayout>
-    <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_marginBottom="8dp"
-            android:layout_height="0.25dp"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
 </LinearLayout>

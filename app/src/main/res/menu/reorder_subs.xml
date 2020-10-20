@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="UnusedResources">
+
     <item
         android:id="@+id/alphabetize"
+        android:icon="@drawable/az"
         android:title="@string/alphabetize_subreddits"
-        app:showAsAction="always"
-        android:icon="@drawable/az" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/refresh"
+        android:icon="@drawable/sync"
         android:title="@string/sync_subscriptions"
-        app:showAsAction="always"
-        android:icon="@drawable/sync" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/info"
+        android:icon="@drawable/info"
         android:title="@string/help"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/info" />
+        app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/alphabetize_subscribe"
-            android:checkable="true"
-            android:title="Auto alphabetize"
-            app:actionViewClass="android.widget.CheckBox"
-            app:showAsAction="withText" />
+        android:id="@+id/alphabetize_subscribe"
+        android:checkable="true"
+        android:title="Auto alphabetize"
+        app:actionViewClass="android.widget.CheckBox"
+        app:showAsAction="withText" />
 </menu>

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:id="@+id/back"
-    android:background="?attr/activity_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"
-        android:layout_marginStart="4dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/vertical_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
             android:clipToPadding="false"
             android:divider="@null"
-            android:scrollbars="vertical"
             android:fadeScrollbars="true"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:scrollbarStyle="outsideInset"
-            android:orientation="vertical"/>
+            android:scrollbars="vertical" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         layout="@layout/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_vertical_margin" />
 </RelativeLayout>

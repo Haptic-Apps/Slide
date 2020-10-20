@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
     android:gravity="center"
-
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000000"
-
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
-
             android:background="#000000">
-
 
             <RelativeLayout
                 android:id="@+id/imagearea"
@@ -38,14 +31,12 @@
                     android:layout_alignParentTop="true"
                     android:indeterminate="false"
                     android:max="100"
-
                     android:progress="0" />
 
                 <me.ccrama.redditslide.Views.SubsamplingScaleImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:layout_alignParentLeft="true"
                     app:srcCompat="@drawable/chameleon" />
 
@@ -57,7 +48,6 @@
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     app:riv_corner_radius="2dp" />
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -75,17 +65,16 @@
                     android:textColor="#ffffff"
                     android:textSize="?attr/font_cardtitle" />
 
-
                 <ImageView
                     android:id="@+id/scoreimg"
-                    android:layout_below="@+id/title"
                     android:layout_width="15dp"
                     android:layout_height="36dp"
+                    android:layout_below="@+id/title"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="4dp"
-                    app:srcCompat="@drawable/upvoted"
-                    android:tag="tint" />
+                    android:tag="tint"
+                    app:srcCompat="@drawable/upvoted" />
 
                 <TextView
                     android:id="@+id/score"
@@ -102,9 +91,9 @@
                     android:id="@+id/pointsimg"
                     android:layout_width="15dp"
                     android:layout_height="36dp"
+                    android:layout_below="@+id/title"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
-                    android:layout_below="@+id/title"
                     android:layout_marginEnd="4dp"
                     android:layout_toRightOf="@+id/score"
                     app:srcCompat="@drawable/commentchange" />
@@ -113,10 +102,10 @@
                     android:id="@+id/comments"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
+                    android:layout_below="@+id/title"
                     android:layout_gravity="center_vertical"
                     android:layout_toRightOf="@+id/pointsimg"
                     android:gravity="center_vertical"
-                    android:layout_below="@+id/title"
                     android:textColor="#bcffffff"
                     android:textSize="?attr/font_cardinfo" />
 
@@ -124,18 +113,15 @@
                     android:id="@+id/desc"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
+                    android:layout_below="@+id/title"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toRightOf="@+id/comments"
                     android:gravity="right|center_vertical"
-                    android:layout_below="@+id/title"
                     android:text="@string/example_url"
                     android:textColor="#bcffffff"
                     android:textSize="14sp" />
             </RelativeLayout>
         </RelativeLayout>
-
-
     </LinearLayout>
-
 </LinearLayout>

@@ -1,20 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="35dp"
-    android:background="?attr/card_background"
     android:layout_marginTop="0.25dp"
+    android:background="?attr/card_background"
     android:scrollbars="none">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="?attr/activity_background"
         android:orientation="horizontal" />
+
     <View
         android:id="@+id/dot"
         android:layout_width="3dp"
         android:layout_height="35dp"
-        android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/loading"
+        android:layout_alignParentTop="true"
         android:background="?attr/tintColor" />
 
     <ProgressBar
@@ -28,10 +30,9 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_marginStart="11dp"
         android:layout_toRightOf="@+id/loading"
         android:gravity="center_vertical"
-        android:layout_marginStart="11dp"
         android:textColor="?attr/fontColor"
         android:textSize="?attr/font_commenttitle" />
-
 </RelativeLayout>

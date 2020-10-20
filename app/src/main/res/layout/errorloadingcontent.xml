@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
-    android:paddingBottom="24dp"
     android:paddingTop="24dp"
+    android:paddingBottom="24dp"
     app:cardBackgroundColor="?attr/card_background">
 
     <TextView
@@ -30,5 +30,4 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:theme="@style/Ripple.List" />
-
 </RelativeLayout>

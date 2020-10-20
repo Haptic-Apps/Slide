@@ -19,13 +19,13 @@
             android:id="@+id/name"
             android:layout_width="160dp"
             android:layout_height="match_parent"
-            android:tint="@color/white"
             android:hint="@string/multireddit_create_hint"
             android:inputType="textCapWords"
             android:maxLength="21"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            android:tint="@color/white" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -33,15 +33,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:orientation="vertical">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:orientation="vertical" />
 
     <include
         android:id="@+id/add"
         layout="@layout/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/activity_vertical_margin" />
 </RelativeLayout>

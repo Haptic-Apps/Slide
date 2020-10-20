@@ -9,78 +9,80 @@
     sothree:umanoPanelHeight="48dp"
     sothree:umanoShadowHeight="4dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
+        android:id="@+id/margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/margin"
-        android:paddingBottom="48dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="48dp">
 
         <me.ccrama.redditslide.Views.SubsamplingScaleImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-             />
+            android:layout_alignParentTop="true" />
 
         <RelativeLayout
+            android:id="@+id/gifheader"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
-            android:id="@+id/gifheader"
             android:gravity="right|bottom"
             android:weightSum="6">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:paddingLeft="16dp"
-                android:gravity="center"
-                android:layout_toRightOf="@+id/comments"
                 android:id="@+id/size"
-                android:textSize="12sp"
-                android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/comments"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:textSize="12sp" />
+
             <ImageView
                 android:id="@+id/hq"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:theme="@style/Ripple.List"
                 android:layout_toLeftOf="@+id/save"
                 android:padding="15dp"
-                sothree:srcCompat="@drawable/hd"
-                android:tint="#e1e1e1" />
+                android:theme="@style/Ripple.List"
+                android:tint="#e1e1e1"
+                sothree:srcCompat="@drawable/hd" />
+
             <ImageView
                 android:id="@+id/comments"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:theme="@style/Ripple.List"
                 android:layout_alignParentLeft="true"
                 android:padding="15dp"
-                sothree:srcCompat="@drawable/commentchange"
-                android:tint="#e1e1e1" />
+                android:theme="@style/Ripple.List"
+                android:tint="#e1e1e1"
+                sothree:srcCompat="@drawable/commentchange" />
+
             <ImageView
                 android:id="@+id/save"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_toLeftOf="@+id/more"
-                android:theme="@style/Ripple.List"
                 android:padding="15dp"
-                sothree:srcCompat="@drawable/save"
-                android:tint="#e1e1e1" />
+                android:theme="@style/Ripple.List"
+                android:tint="#e1e1e1"
+                sothree:srcCompat="@drawable/save" />
+
             <ImageView
                 android:id="@+id/more"
                 style="@style/Ripple.List"
                 android:layout_width="48dp"
                 android:layout_height="56dp"
-                android:theme="@style/Ripple.List"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="right"
                 android:paddingStart="11dp"
-                android:paddingEnd="11dp"
                 android:paddingTop="15dp"
-                android:layout_alignParentRight="true"
+                android:paddingEnd="11dp"
                 android:paddingBottom="15dp"
-                sothree:srcCompat="@drawable/more"
-                android:tint="#e1e1e1" />
-
+                android:theme="@style/Ripple.List"
+                android:tint="#e1e1e1"
+                sothree:srcCompat="@drawable/more" />
         </RelativeLayout>
 
         <ProgressBar
@@ -96,23 +98,25 @@
 
     <LinearLayout
         android:id="@+id/panel"
-        android:background="#aa000000"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#aa000000"
+        android:orientation="vertical">
+
         <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:id="@+id/title"
             android:textColor="#fff"
             android:textSize="16sp" />
+
         <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
             android:padding="8dp"
-            android:id="@+id/body"
+            android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

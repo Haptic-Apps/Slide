@@ -1,161 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:id="@+id/menu"
-            android:layout_width="match_parent"
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="0dp"
             android:layout_height="48dp"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/btn_edit"
+            android:padding="12dp"
+            app:srcCompat="@drawable/edit" />
 
         <ImageView
-                android:id="@+id/edit"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:contentDescription="@string/btn_edit"
-                app:srcCompat="@drawable/edit"/>
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/btn_delete"
+            android:padding="12dp"
+            app:srcCompat="@drawable/delete" />
 
         <ImageView
-                android:id="@+id/delete"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:contentDescription="@string/btn_delete"
-                app:srcCompat="@drawable/delete"/>
+            android:id="@+id/upvote"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/btn_upvote"
+            android:padding="12dp"
+            app:srcCompat="@drawable/upvoted" />
 
         <ImageView
-                android:id="@+id/upvote"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:contentDescription="@string/btn_upvote"
-                app:srcCompat="@drawable/upvoted"/>
+            android:id="@+id/downvote"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/btn_downvote"
+            android:padding="12dp"
+            app:srcCompat="@drawable/downvote" />
 
         <ImageView
-                android:id="@+id/downvote"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:contentDescription="@string/btn_downvote"
-                app:srcCompat="@drawable/downvote"/>
+            android:id="@+id/reply"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/btn_reply"
+            android:padding="12dp"
+            app:srcCompat="@drawable/reply" />
 
         <ImageView
-                android:id="@+id/reply"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:contentDescription="@string/btn_reply"
-                app:srcCompat="@drawable/reply"/>
+            android:id="@+id/more"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/btn_menu"
+            android:padding="12dp"
+            app:srcCompat="@drawable/more" />
 
         <ImageView
-                android:id="@+id/more"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:contentDescription="@string/btn_menu"
-                app:srcCompat="@drawable/more"/>
-
-        <ImageView
-                android:id="@+id/mod"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:contentDescription="@string/btn_mod"
-                app:srcCompat="@drawable/mod"/>
+            android:id="@+id/mod"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/btn_mod"
+            android:padding="12dp"
+            app:srcCompat="@drawable/mod" />
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/replyArea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+        android:id="@+id/replyArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:id="@+id/profile"
-                android:padding="5dp"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <me.ccrama.redditslide.Views.ImageInsertEditText
-                android:id="@+id/replyLine"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/btn_reply"
-                android:imeOptions="actionDone|flagNoEnterAction"
-                android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-                android:minHeight="30dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textCursorDrawable="@drawable/cursor"
-                android:theme="@style/ReplyEditTextTheme"/>
+            android:id="@+id/replyLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/btn_reply"
+            android:imeOptions="actionDone|flagNoEnterAction"
+            android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+            android:minHeight="30dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@drawable/cursor"
+            android:theme="@style/ReplyEditTextTheme" />
 
-        <include
-                layout="@layout/editor_items"/>
+        <include layout="@layout/editor_items" />
 
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
-                    android:id="@+id/discard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:padding="16dp"
-                    android:text="@string/btn_discard"
-                    android:textAllCaps="true"
-                    android:textColor="#fff"
-                    android:textColorHint="#fff"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                android:id="@+id/discard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                android:padding="16dp"
+                android:text="@string/btn_discard"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <TextView
-                    android:id="@+id/preview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/send"
-                    android:background="?android:selectableItemBackground"
-                    android:padding="16dp"
-                    android:text="@string/btn_preview"
-                    android:textAllCaps="true"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                android:id="@+id/preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/send"
+                android:background="?android:selectableItemBackground"
+                android:padding="16dp"
+                android:text="@string/btn_preview"
+                android:textAllCaps="true"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <TextView
-                    android:id="@+id/send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="?android:selectableItemBackground"
-                    android:padding="16dp"
-                    android:text="@string/btn_submit"
-                    android:textAllCaps="true"
-                    android:textColor="#fff"
-                    android:textColorHint="#fff"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="?android:selectableItemBackground"
+                android:padding="16dp"
+                android:text="@string/btn_submit"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

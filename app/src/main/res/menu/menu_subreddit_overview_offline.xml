@@ -16,5 +16,4 @@
         android:id="@+id/night"
         android:title="@string/theme_base"
         app:showAsAction="never" />
-
 </menu>

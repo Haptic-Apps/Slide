@@ -10,9 +10,9 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
+        android:paddingEnd="16dp"
         android:tag="label"
         android:text="@string/display"
         android:textColor="?attr/colorAccent" />
@@ -20,16 +20,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -44,34 +44,34 @@
             android:id="@+id/settings_comments_cropimage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -86,34 +86,34 @@
             android:id="@+id/settings_comments_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -128,33 +128,34 @@
             android:id="@+id/settings_comments_opColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -169,34 +170,34 @@
             android:id="@+id/settings_comments_wide"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="64dp"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -211,34 +212,34 @@
             android:id="@+id/settings_comments_fab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -253,34 +254,34 @@
             android:id="@+id/settings_comments_rightHandedComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -295,46 +296,44 @@
             android:id="@+id/settings_comments_percentvote"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
-
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.25dp"
-
         android:alpha=".25"
-        android:background="?attr/tintColor"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
+        android:id="@+id/settings_comments_redditnotifs"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
-        android:id="@+id/settings_comments_redditnotifs"
         android:orientation="horizontal"
         android:paddingStart="16dp">
 
         <LinearLayout
+            android:id="@+id/settings_comments_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="64dp"
-            android:orientation="vertical"
-            android:id="@+id/settings_comments_linearLayout">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_colored_time"
                 android:textColor="?attr/fontColor"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -342,7 +341,7 @@
                 android:alpha=".86"
                 android:text="@string/settings_highlight_time_desc"
                 android:textColor="?attr/fontColor"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
@@ -350,15 +349,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignBottom="@+id/settings_comments_linearLayout"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
             android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
-            android:textColorHint="?attr/fontColor"/>
+            android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <TextView
@@ -366,9 +365,9 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
+        android:paddingEnd="16dp"
         android:tag="label"
         android:text="@string/navigation"
         android:textColor="?attr/colorAccent" />
@@ -376,16 +375,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -408,34 +407,34 @@
             android:id="@+id/settings_comments_commentnav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -451,77 +450,77 @@
             android:id="@+id/settings_comments_autohidenav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
-            android:layout_width="match_parent"
-            android:background="?attr/tintColor"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:paddingStart="16dp">
-
-        <LinearLayout
-                android:layout_marginEnd="64dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
-
-            <TextView
-                    android:id="@+id/show_collapse_expand_nav_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/show_collapse_expand_nav_bar"
-                    android:textColor="?attr/fontColor"
-                    android:textSize="14sp" />
-        </LinearLayout>
-
-        <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_comments_show_collapse_expand"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingEnd="16dp"
-                android:backgroundTint="?attr/tintColor"
-                android:button="@null"
-                android:buttonTint="?attr/tintColor"
-                android:hapticFeedbackEnabled="true"
-                android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor" />
-    </RelativeLayout>
-
-    <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/show_collapse_expand_nav_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_collapse_expand_nav_bar"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_comments_show_collapse_expand"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -536,33 +535,34 @@
             android:id="@+id/settings_comments_volumenavcomments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -571,6 +571,7 @@
                 android:text="@string/navigation_bar_vote_gestures"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -584,11 +585,11 @@
             android:id="@+id/settings_comments_gestures"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
@@ -598,9 +599,9 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
+        android:paddingEnd="16dp"
         android:tag="label"
         android:text="@string/collapse_comments"
         android:textColor="?attr/colorAccent" />
@@ -608,16 +609,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -632,34 +633,34 @@
             android:id="@+id/settings_comments_swapGesture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -668,6 +669,7 @@
                 android:text="@string/settings_comment_collapse"
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -681,34 +683,34 @@
             android:id="@+id/settings_comments_collapse"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -723,34 +725,34 @@
             android:id="@+id/settings_comments_collapse_comments_default"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="?attr/tintColor"
+        android:layout_height="0.25dp"
         android:alpha=".25"
-        android:layout_height="0.25dp"/>
+        android:background="?attr/tintColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="?android:selectableItemBackground"
         android:paddingStart="16dp">
 
         <LinearLayout
-            android:layout_marginEnd="64dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
             android:orientation="vertical">
 
             <TextView
@@ -765,13 +767,12 @@
             android:id="@+id/settings_comments_collapse_deleted"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="16dp"
             android:backgroundTint="?attr/tintColor"
             android:button="@null"
             android:buttonTint="?attr/tintColor"
             android:hapticFeedbackEnabled="true"
+            android:paddingEnd="16dp"
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
-
 </LinearLayout>

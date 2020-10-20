@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/settings_font_child"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,9 +16,9 @@
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
             android:tag="label"
             android:text="@string/type_links"
             android:textColor="?attr/colorAccent" />
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/enlarge_links"
                     android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                     android:alpha=".86"
                     android:text="@string/enlarge_links_warning"
                     android:textColor="?attr/fontColor"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
@@ -64,14 +64,14 @@
                 android:hapticFeedbackEnabled="true"
                 android:paddingEnd="16dp"
                 android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor"/>
+                android:textColorHint="?attr/fontColor" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
             android:alpha=".25"
-            android:background="?attr/tintColor"/>
+            android:background="?attr/tintColor" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/show_content_type_text_beside_links"
                     android:textColor="?attr/fontColor"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
@@ -106,7 +106,7 @@
                 android:hapticFeedbackEnabled="true"
                 android:paddingEnd="16dp"
                 android:textColor="?attr/fontColor"
-                android:textColorHint="?attr/fontColor"/>
+                android:textColorHint="?attr/fontColor" />
         </RelativeLayout>
 
         <TextView
@@ -114,12 +114,12 @@
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:text="@string/font_styles"
+            android:paddingEnd="16dp"
             android:tag="label"
-            android:textColor="?attr/colorAccent"/>
+            android:text="@string/font_styles"
+            android:textColor="?attr/colorAccent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,10 +139,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
+                android:tag="label"
                 android:text="@string/settings_font_comment"
                 android:textColor="?attr/fontColor"
-                android:textSize="16sp"
-                android:tag="label"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,8 +152,8 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -169,7 +169,7 @@
                     android:text="@string/font_size_comment"
                     android:textColor="?attr/fontColor"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/settings_font_commentFont"
@@ -178,7 +178,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/theme_card"
                     android:textColor="?attr/fontColor"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -186,9 +186,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="16dp"
+            android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingBottom="16dp">
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_creg"
@@ -197,7 +197,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_regular"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_regular"/>
+                app:robotoTypeface="roboto_regular" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_cslab"
@@ -206,7 +206,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_slab"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_slab_regular"/>
+                app:robotoTypeface="roboto_slab_regular" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_ccond"
@@ -215,7 +215,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_condensed"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_condensed_regular"/>
+                app:robotoTypeface="roboto_condensed_regular" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_clight"
@@ -224,7 +224,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_light"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_light"/>
+                app:robotoTypeface="roboto_light" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_cnone"
@@ -232,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_system"
-                android:textColor="?attr/fontColor"/>
+                android:textColor="?attr/fontColor" />
         </RadioGroup>
     </LinearLayout>
 
@@ -240,7 +240,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.25dp"
         android:alpha=".25"
-        android:background="?attr/tintColor"/>
+        android:background="?attr/tintColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -265,10 +265,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
+                android:tag="label"
                 android:text="@string/settings_font_post"
                 android:textColor="?attr/fontColor"
-                android:textSize="16sp"
-                android:tag="label"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -278,8 +278,8 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -295,7 +295,7 @@
                     android:text="@string/font_size_post"
                     android:textColor="?attr/fontColor"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/settings_font_postFont"
@@ -304,7 +304,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/theme_card"
                     android:textColor="?attr/fontColor"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -312,9 +312,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="16dp"
+            android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingBottom="16dp">
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_sreg"
@@ -323,7 +323,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_regular"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_regular"/>
+                app:robotoTypeface="roboto_regular" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_sbold"
@@ -332,7 +332,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_bold"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_bold"/>
+                app:robotoTypeface="roboto_bold" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_smed"
@@ -341,7 +341,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_medium"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_medium"/>
+                app:robotoTypeface="roboto_medium" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_sregl"
@@ -350,7 +350,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_light"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_light"/>
+                app:robotoTypeface="roboto_light" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_sslab"
@@ -359,7 +359,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_slab"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_slab_regular"/>
+                app:robotoTypeface="roboto_slab_regular" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_sslabl"
@@ -368,7 +368,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_slab_light"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_slab_light"/>
+                app:robotoTypeface="roboto_slab_light" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_scond"
@@ -377,7 +377,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_condensed"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_condensed_regular"/>
+                app:robotoTypeface="roboto_condensed_regular" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/scondl"
@@ -386,7 +386,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_condensed_light"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_condensed_light"/>
+                app:robotoTypeface="roboto_condensed_light" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_scondb"
@@ -395,7 +395,7 @@
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_condensed_bold"
                 android:textColor="?attr/fontColor"
-                app:robotoTypeface="roboto_condensed_bold"/>
+                app:robotoTypeface="roboto_condensed_bold" />
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:id="@+id/settings_font_snone"
@@ -403,8 +403,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
                 android:text="@string/settings_font_system"
-                android:textColor="?attr/fontColor"/>
+                android:textColor="?attr/fontColor" />
         </RadioGroup>
     </LinearLayout>
-
 </LinearLayout>

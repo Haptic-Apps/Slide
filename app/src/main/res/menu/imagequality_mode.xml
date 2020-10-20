@@ -2,18 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/never"
-        android:title="@string/never_load_images"/>
-
+        android:title="@string/never_load_images" />
     <item
         android:id="@+id/low"
-        android:title="@string/load_low_quality"/>
-
+        android:title="@string/load_low_quality" />
     <item
         android:id="@+id/medium"
-        android:title="@string/load_medium_quality"/>
-
+        android:title="@string/load_medium_quality" />
     <item
         android:id="@+id/high"
-        android:title="@string/load_high_quality"/>
-
+        android:title="@string/load_high_quality" />
 </menu>

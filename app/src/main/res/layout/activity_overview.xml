@@ -13,10 +13,10 @@
         <View
             android:id="@+id/anchor"
             android:layout_width="1dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="3dp"
+            android:layout_height="1dp"
             android:layout_gravity="top|end"
-            android:layout_height="1dp" />
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="3dp" />
 
         <me.ccrama.redditslide.Views.ToggleSwipeViewPager
             android:id="@+id/content_view"
@@ -34,7 +34,7 @@
                 android:layout_height="@dimen/standard_toolbar_height"
                 android:minHeight="@dimen/standard_toolbar_height"
                 android:theme="@style/ActionBarCompat"
-                android:title="@string/app_name" >
+                android:title="@string/app_name">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -42,31 +42,31 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/toolbar_search"
+                        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
                         android:hint="@string/drawer_search"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/md_grey_300"
-                        android:visibility="gone"
                         android:imeOptions="actionSearch|flagNoExtractUi"
                         android:singleLine="true"
-                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/md_grey_300"
                         android:theme="@style/SearchEditTextTheme"
-                        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/close_search_toolbar"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_alignBottom="@+id/toolbar_search"
-                        android:layout_toEndOf="@+id/toolbar_search"
-                        android:padding="8dp"
                         android:layout_marginBottom="8dp"
+                        android:layout_toEndOf="@+id/toolbar_search"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
+                        android:padding="8dp"
+                        android:tint="@color/white"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/close"
-                        android:tint="@color/white" />
+                        app:srcCompat="@drawable/close" />
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 
@@ -82,17 +82,16 @@
             android:id="@+id/toolbar_search_suggestions"
             android:layout_width="256dp"
             android:layout_height="316dp"
-            android:visibility="gone"
             android:layout_below="@id/header"
             android:elevation="8dp"
+            android:visibility="gone"
             app:cardBackgroundColor="?attr/card_background">
 
             <ListView
                 android:id="@+id/toolbar_search_suggestions_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/card_background">
-            </ListView>
+                android:background="?attr/card_background" />
         </androidx.cardview.widget.CardView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -109,5 +108,4 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end" />
-
 </me.ccrama.redditslide.Views.SidebarLayout>

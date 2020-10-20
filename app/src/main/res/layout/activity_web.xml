@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/activity_background">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/standard_toolbar_height"
-            android:minHeight="@dimen/standard_toolbar_height">
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/standard_toolbar_height"
+        android:minHeight="@dimen/standard_toolbar_height">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/standard_toolbar_height"
-                android:clipToPadding="false"
-                android:elevation="8dp"
-                android:minHeight="@dimen/standard_toolbar_height"
-                android:theme="@style/Theme.AppCompat"
-                app:layout_scrollFlags="scroll|enterAlways">
-        </androidx.appcompat.widget.Toolbar>
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/standard_toolbar_height"
+            android:clipToPadding="false"
+            android:elevation="8dp"
+            android:minHeight="@dimen/standard_toolbar_height"
+            android:theme="@style/Theme.AppCompat"
+            app:layout_scrollFlags="scroll|enterAlways" />
 
         <ProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="-7dp"
-                android:layout_marginTop="-7dp"
-                android:indeterminate="false"
-                android:max="100"
-                android:progress="0"/>
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="-7dp"
+            android:layout_marginBottom="-7dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <me.ccrama.redditslide.Views.NestedWebView
-            android:id="@+id/web"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <FrameLayout
-            android:id="@+id/web_fullscreen"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:id="@+id/web_fullscreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

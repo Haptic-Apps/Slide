@@ -3,18 +3,14 @@
 
     <item
         android:id="@+id/comment"
-        android:title="@string/toolbox_removal_comment"/>
-
+        android:title="@string/toolbox_removal_comment" />
     <item
         android:id="@+id/pm"
-        android:title="@string/toolbox_removal_pm"/>
-
+        android:title="@string/toolbox_removal_pm" />
     <item
         android:id="@+id/both"
-        android:title="@string/toolbox_removal_both"/>
-
+        android:title="@string/toolbox_removal_both" />
     <item
         android:id="@+id/none"
-        android:title="@string/toolbox_removal_none"/>
-
+        android:title="@string/toolbox_removal_none" />
 </menu>

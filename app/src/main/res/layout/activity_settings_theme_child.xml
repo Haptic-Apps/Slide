@@ -11,9 +11,9 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
+        android:paddingEnd="16dp"
         android:tag="label"
         android:text="@string/app_theme"
         android:textColor="?attr/colorAccent" />
@@ -30,8 +30,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/palette"
-            android:tint="?attr/tintColor" />
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/palette" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,8 +54,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/accent"
-            android:tint="?attr/tintColor"/>
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/accent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,8 +78,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/theme"
-            android:tint="?attr/tintColor" />
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/theme" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,8 +102,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/nighttheme"
-            android:tint="?attr/tintColor" />
+            android:tint="?attr/tintColor"
+            app:srcCompat="@drawable/nighttheme" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -119,9 +119,9 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
+        android:paddingEnd="16dp"
         android:tag="label"
         android:text="@string/tinting"
         android:textColor="?attr/colorAccent" />
@@ -133,8 +133,8 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -300,6 +300,4 @@
             android:textColor="?attr/fontColor"
             android:textColorHint="?attr/fontColor" />
     </RelativeLayout>
-
-
 </LinearLayout>

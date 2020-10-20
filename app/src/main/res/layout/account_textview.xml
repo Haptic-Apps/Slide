@@ -2,27 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="48dp"
     android:paddingStart="18dp"
-    android:paddingEnd="18dp"
-    android:layout_height="48dp">
+    android:paddingEnd="18dp">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
         android:text="ccrama"
         android:textSize="18sp"
         android:textStyle="bold" />
+
     <ImageView
-        android:layout_width="36dp"
         android:id="@+id/remove"
-        android:layout_alignParentRight="true"
-        android:padding="6dp"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/close"
-        android:tint="?attr/tintColor"
+        android:layout_width="36dp"
         android:layout_height="36dp"
-        android:contentDescription="@string/btn_remove" />
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/btn_remove"
+        android:padding="6dp"
+        android:tint="?attr/tintColor"
+        app:srcCompat="@drawable/close" />
 </RelativeLayout>

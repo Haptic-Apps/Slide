@@ -2,18 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/card"
-        android:title="@string/mode_card"/>
-
+        android:title="@string/mode_card" />
     <item
         android:id="@+id/center"
-        android:title="@string/mode_centered"/>
-
+        android:title="@string/mode_centered" />
     <item
         android:id="@+id/list"
-        android:title="@string/mode_list"/>
-
+        android:title="@string/mode_list" />
     <item
         android:id="@+id/desktop"
-        android:title="@string/mode_desktop_compact"/>
-
+        android:title="@string/mode_desktop_compact" />
 </menu>

@@ -14,8 +14,8 @@
             android:layout_width="1dp"
             android:layout_height="1dp"
             android:layout_gravity="top|end"
-            android:layout_marginEnd="3dp"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="3dp" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/content_view"
@@ -48,16 +48,13 @@
     <ScrollView
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:background="?attr/card_background"
-        android:layout_gravity="end">
+        android:layout_gravity="end"
+        android:background="?attr/card_background">
 
         <LinearLayout
             android:id="@+id/sidebar_scroll"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>
-
-
-

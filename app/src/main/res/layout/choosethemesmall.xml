@@ -24,7 +24,6 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:background="@color/md_light_green_500"
                     android:padding="24dp"
                     android:text="@string/theme_base"
@@ -33,20 +32,18 @@
                     android:textStyle="bold" />
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="-24dp"
-                        android:id="@+id/nightmsg"
-                        android:visibility="gone"
-                        android:padding="24dp"
-                        android:text="Night Mode is currently enabled, you won't see the theme change until night mode is off!"
-                        android:layout_height="wrap_content"/>
-
+                    android:id="@+id/nightmsg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-24dp"
+                    android:padding="24dp"
+                    android:text="Night Mode is currently enabled, you won't see the theme change until night mode is off!"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/body2"
                     android:layout_width="match_parent"
-
                     android:layout_height="match_parent"
                     android:background="?attr/card_background"
                     android:orientation="vertical"
@@ -59,7 +56,6 @@
                         android:background="#ffffff"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-
                         android:paddingEnd="16dp">
 
                         <ImageView
@@ -72,15 +68,10 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
-
                             android:text="@string/theme_light"
-
                             android:textColor="#cd000000"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -106,7 +97,6 @@
                             android:text="@string/theme_sepia"
                             android:textColor="#DE3e3d36"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -116,7 +106,6 @@
                         android:background="#37474F"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-
                         android:paddingEnd="16dp">
 
                         <ImageView
@@ -129,26 +118,17 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
-
                             android:text="@string/theme_dark_blue"
-
                             android:textColor="#ffffff"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/dark"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-
                         android:background="#424242"
-
-
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
@@ -163,87 +143,70 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
-
                             android:text="@string/theme_dark"
-
                             android:textColor="#ffffff"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
-                            android:id="@+id/pixel"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="#2d2d2d"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-
-                            android:paddingEnd="16dp">
+                        android:id="@+id/pixel"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#2d2d2d"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
 
                         <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="match_parent"
-                                android:alpha=".86"
-                                android:padding="12dp"
-                                android:tint="#ffffff"
-                                app:srcCompat="@drawable/theme" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/theme" />
 
                         <TextView
-                                android:layout_width="wrap_content"
-
-                                android:layout_height="wrap_content"
-
-                                android:text="@string/theme_pixel"
-
-                                android:textColor="#ffffff"
-
-                                android:textSize="16sp" />
-
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/theme_pixel"
+                            android:textColor="#ffffff"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                            android:id="@+id/deep"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="#16161C"
-                            android:gravity="center_vertical"
-
-                            android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                        android:id="@+id/deep"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#16161C"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
 
                         <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="match_parent"
-                                android:alpha=".86"
-                                android:padding="12dp"
-                                android:tint="#ffffff"
-                                app:srcCompat="@drawable/theme" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/theme" />
 
                         <TextView
-                                android:layout_width="wrap_content"
-
-                                android:layout_height="wrap_content"
-
-                                android:text="@string/theme_deep"
-
-                                android:textColor="#ffffff"
-
-                                android:textSize="16sp" />
-
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/theme_deep"
+                            android:textColor="#ffffff"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                            android:id="@+id/amoled_contrast"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="#121212"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                        android:id="@+id/amoled_contrast"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#121212"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -259,18 +222,16 @@
                             android:text="@string/theme_amoled_contrast"
                             android:textColor="#ffffff"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
-                            android:id="@+id/amoled"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="#0e0e0e"
-                            android:gravity="center_vertical"
-
-                            android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                        android:id="@+id/amoled"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#0e0e0e"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
@@ -282,49 +243,37 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
-
                             android:text="@string/theme_black"
-
                             android:textColor="#ffffff"
-
                             android:textSize="16sp" />
-
                     </LinearLayout>
-                    <LinearLayout
-                            android:id="@+id/red"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="#44302f"
-                            android:gravity="center_vertical"
 
-                            android:orientation="horizontal"
-                            android:paddingEnd="16dp">
+                    <LinearLayout
+                        android:id="@+id/red"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#44302f"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
 
                         <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="match_parent"
-                                android:alpha=".86"
-                                android:padding="12dp"
-                                android:tint="#ffffff"
-                                app:srcCompat="@drawable/theme" />
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/theme" />
 
                         <TextView
-                                android:layout_width="wrap_content"
-
-                                android:layout_height="wrap_content"
-
-                                android:text="@string/theme_red_shift"
-
-                                android:textColor="#ffffff"
-
-                                android:textSize="16sp" />
-
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/theme_red_shift"
+                            android:textColor="#ffffff"
+                            android:textSize="16sp" />
                     </LinearLayout>
-
                 </LinearLayout>
-
             </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>
