@@ -374,9 +374,7 @@ public class UserSubscriptions {
                             concatenatedSubs.toString());
                 }
             }
-        } catch (ApiException e) {
-            e.printStackTrace();
-        } catch (NetworkException e) {
+        } catch (ApiException | NetworkException e) {
             e.printStackTrace();
         }
     }
