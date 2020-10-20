@@ -444,9 +444,7 @@ public class LiveThread extends BaseActivityAnim {
                             }
                         });
                         ws.connect();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (WebSocketException e) {
+                    } catch (IOException | WebSocketException e) {
                         e.printStackTrace();
                     }
                     return null;

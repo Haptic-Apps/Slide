@@ -1053,10 +1053,7 @@ public class GifUtils {
         try {
             new MovieCreator();
             video = MovieCreator.build(videoFile);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
+        } catch (RuntimeException | IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -1065,10 +1062,7 @@ public class GifUtils {
         try {
             new MovieCreator();
             audio = MovieCreator.build(audioFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NullPointerException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
             return false;
         }

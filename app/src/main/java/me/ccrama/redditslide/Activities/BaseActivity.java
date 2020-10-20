@@ -3,6 +3,8 @@ package me.ccrama.redditslide.Activities;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -15,6 +17,7 @@ import android.view.View;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
 
@@ -479,14 +482,24 @@ public class BaseActivity extends PeekViewActivity
      */
     public void setRecentBar(@Nullable String title, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (title == null || title.isEmpty()) {
+                title = getString(R.string.app_name);
+            }
+            setRecentBarTaskDescription(title, color);
+        }
+    }
 
-            if (title == null || title.isEmpty()) title = getString(R.string.app_name);
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setRecentBarTaskDescription(@Nullable String title, int color) {
+        int icon = title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
+                : R.drawable.ic_launcher;
 
-            int drawable = title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
-                    : R.drawable.ic_launcher;
-
-            setTaskDescription(
-                    new ActivityManager.TaskDescription(title, drawable, color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            setTaskDescription(new ActivityManager.TaskDescription(title, icon, color));
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), icon);
+            setTaskDescription(new ActivityManager.TaskDescription(title, bitmap, color));
+            bitmap.recycle();
         }
     }
 }

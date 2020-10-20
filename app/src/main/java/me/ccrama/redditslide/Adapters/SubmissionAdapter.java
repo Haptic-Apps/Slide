@@ -456,7 +456,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
                     submissions[0].saved = false;
-                    v = null;
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
                     final Snackbar s =
@@ -474,8 +473,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
                     submissions[0].saved = true;
-                    v = null;
                 }
+                v = null;
             } catch (Exception e) {
                 return null;
             }

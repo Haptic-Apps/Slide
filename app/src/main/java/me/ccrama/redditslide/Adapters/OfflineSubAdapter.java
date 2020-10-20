@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 /**
  * Created by carlo_000 on 4/18/2016.
  */
@@ -36,13 +34,11 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
     }
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-        LayoutInflater inflater =
-                ContextCompat.getSystemService(mContext, LayoutInflater.class);
-
         ViewHolder holder;
-        if (inflater != null && convertView == null) {
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(mContext)
+                    .inflate(android.R.layout.simple_list_item_1, null);
             holder = new ViewHolder();
             holder.txt01 = convertView.findViewById(android.R.id.text1);
             holder.txt01.setTextColor(Color.WHITE);

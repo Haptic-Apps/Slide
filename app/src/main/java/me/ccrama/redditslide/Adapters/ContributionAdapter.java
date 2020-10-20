@@ -167,7 +167,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
                     submissions[0].saved = false;
-                    v = null;
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
                     final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
@@ -184,8 +183,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
                     submissions[0].saved = true;
-                    v = null;
                 }
+                v = null;
             } catch (Exception e) {
                 return null;
             }

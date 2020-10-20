@@ -78,10 +78,11 @@ dependencies {
 /** Custom **/
     implementation 'com.github.ccrama:JRAW:9a2494892d'
     implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'
-    implementation 'com.github.ccrama:commonmark-java:07b304b575'
-    implementation 'com.github.ccrama:PeekAndPop:09adee29f1'
+    implementation 'com.github.ccrama.commonmark-java:commonmark:07b304b575'
+    implementation 'com.github.ccrama.commonmark-java:commonmark-ext-gfm-strikethrough:07b304b575'
+    implementation 'com.github.ccrama.commonmark-java:commonmark-ext-gfm-tables:07b304b575'
     implementation 'com.github.ccrama:JReadability:bb291880a5'
-    implementation 'com.github.Alexendoo:Android-RobotoTextView:f6d0eb5ac7'
+    implementation 'com.github.Alexendoo.Android-RobotoTextView:robototextview:f6d0eb5ac7'
 
 /** AndroidX **/
     implementation 'androidx.appcompat:appcompat:1.2.0'
