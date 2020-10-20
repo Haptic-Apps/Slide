@@ -25,17 +25,17 @@ public class AnimateHelper {
         v.post(new Runnable() {
             @Override
             public void run() {
-        v.setBackgroundColor(color);
-        v.setVisibility(View.VISIBLE);
-        v.setAlpha(1f);
+                v.setBackgroundColor(color);
+                v.setVisibility(View.VISIBLE);
+                v.setAlpha(1f);
 
-        final int cx = (from.getLeft() + from.getRight()) / 2;
-        final int cy = vBig.getHeight() - (from.getHeight() / 2);//from.getRight() - ( from.getWidth()/ 2);
+                final int cx = (from.getLeft() + from.getRight()) / 2;
+                final int cy = vBig.getHeight() - (from.getHeight() / 2);//from.getRight() - ( from.getWidth()/ 2);
 
 // get the final radius for the clipping circle
-        int dx = Math.max(cx, vBig.getWidth() - cx);
-        int dy = Math.max(cy, vBig.getHeight() - cy);
-        final float finalRadius = (float) Math.hypot(dx, dy);
+                int dx = Math.max(cx, vBig.getWidth() - cx);
+                int dy = Math.max(cy, vBig.getHeight() - cy);
+                final float finalRadius = (float) Math.hypot(dx, dy);
 
 
                 try {
@@ -77,7 +77,7 @@ public class AnimateHelper {
 
                         }
                     }, 450);
-                } catch(Exception e){
+                } catch (Exception e) {
                     v.setVisibility(View.GONE);
                 }
 

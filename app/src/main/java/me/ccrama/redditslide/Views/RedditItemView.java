@@ -61,7 +61,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class RedditItemView extends RelativeLayout {
 
     OpenRedditLink.RedditLinkType contentType;
-
+    ProgressBar progress;
 
     public RedditItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -73,11 +73,11 @@ public class RedditItemView extends RelativeLayout {
         init();
     }
 
+
     public RedditItemView(Context context) {
         super(context);
         init();
     }
-
 
     public void loadUrl(PeekMediaView v, String url, ProgressBar progress) {
 
@@ -146,42 +146,6 @@ public class RedditItemView extends RelativeLayout {
         }
     }
 
-    ProgressBar progress;
-
-    public class AsyncLoadProfile extends AsyncTask<Void, Void, Account> {
-
-        String id;
-
-        public AsyncLoadProfile(String profileName) {
-            this.id = profileName;
-        }
-
-        @Override
-        protected Account doInBackground(Void... params) {
-            try {
-                return Authentication.reddit.getUser(id);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Account account) {
-            if (account != null && (account.getDataNode().has("is_suspended")
-                    && !account.getDataNode().get("is_suspended").asBoolean())) {
-                View content = LayoutInflater.from(getContext())
-                        .inflate(R.layout.account_pop, RedditItemView.this, false);
-                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
-                params.addRule(CENTER_IN_PARENT);
-                addView(content);
-                doUser(account, content);
-            }
-            if (progress != null) {
-                progress.setVisibility(GONE);
-            }
-        }
-    }
-
     private void doUser(Account account, View content) {
         String name = account.getFullName();
         final TextView title = content.findViewById(R.id.title);
@@ -200,39 +164,6 @@ public class RedditItemView extends RelativeLayout {
         ((TextView) content.findViewById(R.id.linkkarma)).setText(
                 String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
 
-    }
-
-    public class AsyncLoadSubreddit extends AsyncTask<Void, Void, Subreddit> {
-
-        String id;
-
-        public AsyncLoadSubreddit(String subredditName) {
-            this.id = subredditName;
-        }
-
-        @Override
-        protected Subreddit doInBackground(Void... params) {
-            try {
-                return Authentication.reddit.getSubreddit(id);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null) {
-                View content = LayoutInflater.from(getContext())
-                        .inflate(R.layout.subreddit_pop, RedditItemView.this, false);
-                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
-                params.addRule(CENTER_IN_PARENT);
-                addView(content);
-                doSidebar(subreddit, content);
-            }
-            if (progress != null) {
-                progress.setVisibility(GONE);
-            }
-        }
     }
 
     private void doSidebar(Subreddit subreddit, View content) {
@@ -281,72 +212,6 @@ public class RedditItemView extends RelativeLayout {
                 getContext().getString(R.string.subreddit_active_users_string_new,
                         subreddit.getLocalizedAccountsActive()));
         content.findViewById(R.id.active_users).setVisibility(View.VISIBLE);
-    }
-
-
-    public class AsyncLoadComment extends AsyncTask<Void, Void, Comment> {
-
-        String id;
-
-        public AsyncLoadComment(String commentId) {
-            this.id = commentId;
-        }
-
-        @Override
-        protected Comment doInBackground(Void... params) {
-            try {
-                return (Comment) Authentication.reddit.get("t1_" + id).get(0);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Comment comment) {
-            if (comment != null) {
-                LogUtil.v("Adding view");
-                View content = LayoutInflater.from(getContext())
-                        .inflate(R.layout.profile_comment, RedditItemView.this, false);
-                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
-                params.addRule(CENTER_IN_PARENT);
-                addView(content);
-                doComment(comment, content);
-            }
-            if (progress != null) {
-                progress.setVisibility(GONE);
-            }
-        }
-    }
-
-    public class AsyncLoadSubmission extends AsyncTask<Void, Void, Submission> {
-
-        String id;
-
-        public AsyncLoadSubmission(String submissionId) {
-            this.id = submissionId;
-        }
-
-        @Override
-        protected Submission doInBackground(Void... params) {
-            try {
-                return Authentication.reddit.getSubmission(id);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Submission submission) {
-            if (submission != null) {
-                View content = CreateCardView.CreateView(RedditItemView.this);
-                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
-                params.addRule(CENTER_IN_PARENT);
-                addView(content);
-                doSubmission(submission, content);
-            }
-            if (progress != null) {
-                progress.setVisibility(GONE);
-            }}
     }
 
     public void doComment(Comment comment, View content) {
@@ -420,7 +285,7 @@ public class RedditItemView extends RelativeLayout {
         }
         holder.content.setTypeface(typeface);
 
-        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
+        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0 || comment.getTimesPlatinized() > 0) {
             TypedArray a = getContext().obtainStyledAttributes(
                     new FontPreferences(getContext()).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);
@@ -502,7 +367,7 @@ public class RedditItemView extends RelativeLayout {
     }
 
     private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
-            CommentOverflow commentOverflow) {
+                          CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -564,6 +429,139 @@ public class RedditItemView extends RelativeLayout {
             }
         } else {
             holder.overflow.removeAllViews();
+        }
+    }
+
+    public class AsyncLoadProfile extends AsyncTask<Void, Void, Account> {
+
+        String id;
+
+        public AsyncLoadProfile(String profileName) {
+            this.id = profileName;
+        }
+
+        @Override
+        protected Account doInBackground(Void... params) {
+            try {
+                return Authentication.reddit.getUser(id);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Account account) {
+            if (account != null && (account.getDataNode().has("is_suspended")
+                    && !account.getDataNode().get("is_suspended").asBoolean())) {
+                View content = LayoutInflater.from(getContext())
+                        .inflate(R.layout.account_pop, RedditItemView.this, false);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
+                addView(content);
+                doUser(account, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
+            }
+        }
+    }
+
+    public class AsyncLoadSubreddit extends AsyncTask<Void, Void, Subreddit> {
+
+        String id;
+
+        public AsyncLoadSubreddit(String subredditName) {
+            this.id = subredditName;
+        }
+
+        @Override
+        protected Subreddit doInBackground(Void... params) {
+            try {
+                return Authentication.reddit.getSubreddit(id);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Subreddit subreddit) {
+            if (subreddit != null) {
+                View content = LayoutInflater.from(getContext())
+                        .inflate(R.layout.subreddit_pop, RedditItemView.this, false);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
+                addView(content);
+                doSidebar(subreddit, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
+            }
+        }
+    }
+
+    public class AsyncLoadComment extends AsyncTask<Void, Void, Comment> {
+
+        String id;
+
+        public AsyncLoadComment(String commentId) {
+            this.id = commentId;
+        }
+
+        @Override
+        protected Comment doInBackground(Void... params) {
+            try {
+                return (Comment) Authentication.reddit.get("t1_" + id).get(0);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Comment comment) {
+            if (comment != null) {
+                LogUtil.v("Adding view");
+                View content = LayoutInflater.from(getContext())
+                        .inflate(R.layout.profile_comment, RedditItemView.this, false);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
+                addView(content);
+                doComment(comment, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
+            }
+        }
+    }
+
+    public class AsyncLoadSubmission extends AsyncTask<Void, Void, Submission> {
+
+        String id;
+
+        public AsyncLoadSubmission(String submissionId) {
+            this.id = submissionId;
+        }
+
+        @Override
+        protected Submission doInBackground(Void... params) {
+            try {
+                return Authentication.reddit.getSubmission(id);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Submission submission) {
+            if (submission != null) {
+                View content = CreateCardView.CreateView(RedditItemView.this);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
+                addView(content);
+                doSubmission(submission, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
+            }
         }
     }
 

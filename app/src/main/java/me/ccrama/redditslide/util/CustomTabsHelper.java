@@ -34,11 +34,11 @@ import static me.ccrama.redditslide.Fragments.SettingsHandlingFragment.LinkHandl
  * Helper class for Custom Tabs.
  */
 public class CustomTabsHelper {
-    private static final String TAG = "CustomTabsHelper";
     static final String STABLE_PACKAGE = "com.android.chrome";
     static final String BETA_PACKAGE = "com.chrome.beta";
     static final String DEV_PACKAGE = "com.chrome.dev";
     static final String LOCAL_PACKAGE = "com.google.android.apps.chrome";
+    private static final String TAG = "CustomTabsHelper";
     private static final String EXTRA_CUSTOM_TABS_KEEP_ALIVE =
             "android.support.customtabs.extra.KEEP_ALIVE";
     private static final String ACTION_CUSTOM_TABS_CONNECTION =
@@ -46,13 +46,14 @@ public class CustomTabsHelper {
 
     private static String sPackageNameToUse;
 
-    private CustomTabsHelper() {}
+    private CustomTabsHelper() {
+    }
 
     /**
      * Goes through all apps that handle VIEW intents and have a warmup service. Picks
      * the one chosen by the user if there is one, otherwise makes a best effort to return a
      * valid package name.
-     *
+     * <p>
      * This is <strong>not</strong> threadsafe.
      *
      * @param context {@link Context} to use for accessing {@link PackageManager}.
@@ -111,6 +112,7 @@ public class CustomTabsHelper {
 
     /**
      * Used to check whether there is a specialized handler for a given intent.
+     *
      * @param intent The intent to check with.
      * @return Whether there is a specialized handler for the given intent.
      */

@@ -67,20 +67,19 @@ public class Settings extends BaseActivity
         implements FolderChooserDialogCreate.FolderCallback, SettingsFragment.RestartActivity {
 
     private final static int RESTART_SETTINGS_RESULT = 2;
-    private       int                                                scrollY;
-    private       SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
-    private       String                                             prev_text;
-    public static boolean                                            changed;  //whether or not a Setting was changed
-
-    private SettingsGeneralFragment      mSettingsGeneralFragment      = new SettingsGeneralFragment(this);
+    public static boolean changed;  //whether or not a Setting was changed
+    private int scrollY;
+    private SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
+    private String prev_text;
+    private SettingsGeneralFragment mSettingsGeneralFragment = new SettingsGeneralFragment(this);
     private ManageOfflineContentFragment mManageOfflineContentFragment = new ManageOfflineContentFragment(this);
-    private SettingsThemeFragment        mSettingsThemeFragment        = new SettingsThemeFragment(this);
-    private SettingsFontFragment         mSettingsFontFragment         = new SettingsFontFragment(this);
-    private SettingsCommentsFragment     mSettingsCommentsFragment     = new SettingsCommentsFragment(this);
-    private SettingsHandlingFragment     mSettingsHandlingFragment     = new SettingsHandlingFragment(this);
-    private SettingsHistoryFragment      mSettingsHistoryFragment      = new SettingsHistoryFragment(this);
-    private SettingsDataFragment         mSettingsDataFragment         = new SettingsDataFragment(this);
-    private SettingsRedditFragment       mSettingsRedditFragment       = new SettingsRedditFragment(this);
+    private SettingsThemeFragment mSettingsThemeFragment = new SettingsThemeFragment(this);
+    private SettingsFontFragment mSettingsFontFragment = new SettingsFontFragment(this);
+    private SettingsCommentsFragment mSettingsCommentsFragment = new SettingsCommentsFragment(this);
+    private SettingsHandlingFragment mSettingsHandlingFragment = new SettingsHandlingFragment(this);
+    private SettingsHistoryFragment mSettingsHistoryFragment = new SettingsHistoryFragment(this);
+    private SettingsDataFragment mSettingsDataFragment = new SettingsDataFragment(this);
+    private SettingsRedditFragment mSettingsRedditFragment = new SettingsRedditFragment(this);
 
     private List<Integer> settings_activities = new ArrayList<>(
             Arrays.asList(
@@ -127,7 +126,7 @@ public class Settings extends BaseActivity
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                if(findViewById(R.id.settings_search).getVisibility() == View.VISIBLE){
+                if (findViewById(R.id.settings_search).getVisibility() == View.VISIBLE) {
                     findViewById(R.id.settings_search).setVisibility(View.GONE);
                     findViewById(R.id.search).setVisibility(View.VISIBLE);
                 } else {
@@ -205,10 +204,10 @@ public class Settings extends BaseActivity
         Bind();
 
         /* The EditView contains text that we can use to search for matching settings */
-        if (!Strings.isNullOrEmpty(text)){
+        if (!Strings.isNullOrEmpty(text)) {
             LayoutInflater inflater = getLayoutInflater();
 
-            for (Integer activity: settings_activities) {
+            for (Integer activity : settings_activities) {
                 parent.addView(inflater.inflate(activity, null));
             }
 
@@ -337,7 +336,7 @@ public class Settings extends BaseActivity
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -355,7 +354,7 @@ public class Settings extends BaseActivity
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     })
@@ -367,7 +366,8 @@ public class Settings extends BaseActivity
         ((EditText) findViewById(R.id.settings_search)).addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -379,7 +379,8 @@ public class Settings extends BaseActivity
             }
 
             @Override
-            public void afterTextChanged(Editable editable) { }
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         findViewById(R.id.settings_child_general).setOnClickListener(new OnSingleClickListener() {
@@ -525,7 +526,7 @@ public class Settings extends BaseActivity
                     landscape.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress,
-                                boolean fromUser) {
+                                                      boolean fromUser) {
                             ((TextView) dialoglayout.findViewById(R.id.progressnumber)).setText(
                                     res.getQuantityString(R.plurals.landscape_columns,
                                             landscape.getProgress() + 1,
@@ -594,7 +595,7 @@ public class Settings extends BaseActivity
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -612,7 +613,7 @@ public class Settings extends BaseActivity
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
 
                                         }
                                     })
@@ -621,13 +622,13 @@ public class Settings extends BaseActivity
             }
         });
 
-        if(BuildConfig.isFDroid){
+        if (BuildConfig.isFDroid) {
             ((TextView) findViewById(R.id.settings_child_donatetext)).setText("Donate via PayPal");
         }
         findViewById(R.id.settings_child_support).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if(BuildConfig.isFDroid){
+                if (BuildConfig.isFDroid) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=56FKCCYLX7L72"));
                     startActivity(browserIntent);
                 } else {

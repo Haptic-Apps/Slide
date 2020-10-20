@@ -69,7 +69,7 @@ public class SidebarLayout extends DrawerLayout {
         }
         try {
             return super.onInterceptTouchEvent(ev);
-        } catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

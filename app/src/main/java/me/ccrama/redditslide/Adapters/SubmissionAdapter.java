@@ -46,20 +46,23 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements BaseAdapter {
 
-    private final RecyclerView     listView;
-    public final  String           subreddit;
-    public        Activity         context;
-    private final boolean          custom;
-    public        SubredditPosts   dataSet;
-    public        List<Submission> seen;
+    public final String subreddit;
+    private final RecyclerView listView;
+    private final boolean custom;
     private final int LOADING_SPINNER = 5;
-    private final int NO_MORE         = 3;
-    private final int SPACER          = 6;
+    private final int NO_MORE = 3;
+    private final int SPACER = 6;
     private final int ERROR = 7;
+    public Activity context;
+    public SubredditPosts dataSet;
+    public List<Submission> seen;
+    public boolean isError;
     SubmissionDisplay displayer;
+    int tag = 1;
+    int clicked;
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView,
-            String subreddit, SubmissionDisplay displayer) {
+                             String subreddit, SubmissionDisplay displayer) {
         this.subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         this.listView = listView;
         this.dataSet = dataSet;
@@ -72,12 +75,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void setError(Boolean b) {
-       listView.setAdapter(new ErrorAdapter());
+        listView.setAdapter(new ErrorAdapter());
         isError = true;
         listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation, context)));
     }
-
-    public boolean isError;
 
     @Override
     public long getItemId(int position) {
@@ -123,8 +124,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return 1;
     }
 
-    int tag = 1;
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         tag++;
@@ -158,8 +157,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return new SubmissionViewHolder(v);
         }
     }
-
-    int clicked;
 
     public void refreshView() {
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
@@ -242,7 +239,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                a.toOpenComments + 1;
                                                                        try {
                                                                            a.adapter.notifyDataSetChanged();
-                                                                       } catch(Exception ignored){
+                                                                       } catch (Exception ignored) {
 
                                                                        }
                                                                    }
@@ -303,7 +300,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                new DialogInterface.OnClickListener() {
                                                                                    @Override
                                                                                    public void onClick(DialogInterface dialog,
-                                                                                           int which) {
+                                                                                                       int which) {
                                                                                        Reddit.appRestart.edit()
                                                                                                .putString("offlinepopup", "")
                                                                                                .apply();
@@ -325,7 +322,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                        new DialogInterface.OnClickListener() {
                                                                                            @Override
                                                                                            public void onClick(DialogInterface dialog,
-                                                                                                   int which) {
+                                                                                                               int which) {
                                                                                                Reddit.appRestart.edit()
                                                                                                        .putString("offlinepopup", "")
                                                                                                        .apply();
@@ -367,7 +364,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ((SubmissionsView)displayer).forceRefresh();
+                                ((SubmissionsView) displayer).forceRefresh();
                             }
                         });
 
@@ -407,6 +404,27 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    @Override
+    public int getItemCount() {
+        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
+            return 0;
+        } else {
+            return dataSet.posts.size() + 2; // Always account for footer
+        }
+    }
+
+    public void performClick(int adapterPosition) {
+        if (listView != null) {
+            RecyclerView.ViewHolder holder =
+                    listView.findViewHolderForLayoutPosition(adapterPosition);
+            if (holder != null) {
+                View view = holder.itemView;
+                if (view != null) {
+                    view.performClick();
+                }
+            }
+        }
+    }
 
     public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
@@ -417,15 +435,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
-            return 0;
-        } else {
-            return dataSet.posts.size() + 2; // Always account for footer
         }
     }
 
@@ -479,20 +488,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return null;
             }
             return null;
-        }
-    }
-
-
-    public void performClick(int adapterPosition) {
-        if (listView != null) {
-            RecyclerView.ViewHolder holder =
-                    listView.findViewHolderForLayoutPosition(adapterPosition);
-            if (holder != null) {
-                View view = holder.itemView;
-                if (view != null) {
-                    view.performClick();
-                }
-            }
         }
     }
 }

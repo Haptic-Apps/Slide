@@ -2,7 +2,7 @@ package me.ccrama.redditslide.util;
 
 /**
  * Created by carlo_000 on 1/29/2016.
- *
+ * <p>
  * Might be a thing in the future, removing all code for now to get rid of dependencies
  */
 /*import org.jsoup.Jsoup;

@@ -37,14 +37,19 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
  * Created by ccrama on 9/17/2015.
  */
 public class Gallery extends FullScreenActivity implements SubmissionDisplay {
-    public static final String EXTRA_PROFILE     = "profile";
-    public static final String EXTRA_PAGE        = "page";
-    public static final String EXTRA_SUBREDDIT   = "subreddit";
+    public static final String EXTRA_PROFILE = "profile";
+    public static final String EXTRA_PAGE = "page";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
     public PostLoader subredditPosts;
-    public String     subreddit;
+    public String subreddit;
 
     public ArrayList<Submission> baseSubs;
+    public int pastVisiblesItems;
+    public int visibleItemCount;
+    public int totalItemCount;
+    GalleryView recyclerAdapter;
+    RecyclerView rv;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -129,12 +134,6 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         });
 
     }
-
-    GalleryView recyclerAdapter;
-    public int pastVisiblesItems;
-    public int visibleItemCount;
-    public int totalItemCount;
-    RecyclerView rv;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

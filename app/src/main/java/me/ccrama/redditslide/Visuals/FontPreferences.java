@@ -35,33 +35,37 @@ public class FontPreferences {
                 FontStyle.Medium.name()));
     }
 
+    public void setPostFontStyle(FontStyle style) {
+        edit().putString(FONT_STYLE_POST, style.name()).commit();
+    }
+
     public FontStyleComment getCommentFontStyle() {
         return FontStyleComment.valueOf(open().getString(FONT_STYLE_COMMENT,
                 FontStyleComment.Medium.name()));
     }
 
+    public void setCommentFontStyle(FontStyleComment style) {
+        edit().putString(FONT_STYLE_COMMENT, style.name()).commit();
+    }
 
     public FontTypeComment getFontTypeComment() {
         return FontTypeComment.valueOf(open().getString(FONT_COMMENT,
                 FontTypeComment.Regular.name()));
     }
+
     public FontTypeTitle getFontTypeTitle() {
         return FontTypeTitle.valueOf(open().getString(FONT_TITLE,
                 FontTypeTitle.Regular.name()));
     }
 
-    public void setPostFontStyle(FontStyle style) {
-        edit().putString(FONT_STYLE_POST, style.name()).commit();
-    }
-    public void setCommentFontStyle(FontStyleComment style) {
-        edit().putString(FONT_STYLE_COMMENT, style.name()).commit();
-    }
     public void setCommentFont(FontTypeComment style) {
         edit().putString(FONT_COMMENT, style.name()).commit();
     }
+
     public void setTitleFont(FontTypeTitle style) {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
+
     public enum FontStyle {
         Tiny(R.style.FontStyle_TinyPost, R.string.font_size_tiny),
         Smaller(R.style.FontStyle_SmallerPost, R.string.font_size_smaller),
@@ -74,17 +78,17 @@ public class FontPreferences {
         private final int resId;
         private final int title;
 
+        FontStyle(int resId, int title) {
+            this.resId = resId;
+            this.title = title;
+        }
+
         public int getResId() {
             return resId;
         }
 
         public int getTitle() {
             return title;
-        }
-
-        FontStyle(int resId, int title) {
-            this.resId = resId;
-            this.title = title;
         }
     }
 
@@ -99,6 +103,11 @@ public class FontPreferences {
         private final int resId;
         private final int title;
 
+        FontStyleComment(int resId, int title) {
+            this.resId = resId;
+            this.title = title;
+        }
+
         public int getResId() {
             return resId;
         }
@@ -106,13 +115,7 @@ public class FontPreferences {
         public int getTitle() {
             return title;
         }
-
-        FontStyleComment(int resId, int title) {
-            this.resId = resId;
-            this.title = title;
-        }
     }
-
 
 
     public enum FontTypeComment {
@@ -125,6 +128,11 @@ public class FontPreferences {
         private final int typeface;
         private final String title;
 
+        FontTypeComment(int resId, String title) {
+            this.typeface = resId;
+            this.title = title;
+        }
+
         public int getTypeface() {
             return typeface;
         }
@@ -132,12 +140,8 @@ public class FontPreferences {
         public String getTitle() {
             return title;
         }
-
-        FontTypeComment(int resId, String title) {
-            this.typeface = resId;
-            this.title = title;
-        }
     }
+
     public enum FontTypeTitle {
         Slab(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_LIGHT, "Slab Light"),
         SlabReg(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_REGULAR, "Slab Regular"),
@@ -153,17 +157,17 @@ public class FontPreferences {
         private final int typeface;
         private final String title;
 
+        FontTypeTitle(int resId, String title) {
+            this.typeface = resId;
+            this.title = title;
+        }
+
         public int getTypeface() {
             return typeface;
         }
 
         public String getTitle() {
             return title;
-        }
-
-        FontTypeTitle(int resId, String title) {
-            this.typeface = resId;
-            this.title = title;
         }
     }
 }

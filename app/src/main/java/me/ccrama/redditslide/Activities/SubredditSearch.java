@@ -22,6 +22,8 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 9/17/2015.
  */
 public class SubredditSearch extends BaseActivityAnim {
+    String term;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -69,8 +71,6 @@ public class SubredditSearch extends BaseActivityAnim {
                 return false;
         }
     }
-
-    String term;
 
     @Override
     public void onCreate(Bundle savedInstance) {

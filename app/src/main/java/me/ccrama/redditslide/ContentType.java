@@ -17,6 +17,8 @@ import java.util.Locale;
  * Created by ccrama on 5/26/2015.
  */
 public class ContentType {
+    static HashMap<String, String> contentDescriptions = new HashMap<>();
+
     /**
      * Checks if {@code host} is contains by any of the provided {@code bases}
      * <p/>
@@ -73,7 +75,6 @@ public class ContentType {
             return false;
         }
     }
-
 
     public static boolean isImage(URI uri) {
         try {
@@ -169,8 +170,8 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
             final String scheme = uri.getScheme().toLowerCase(Locale.ENGLISH);
 
-            if(hostContains(host, "v.redd.it") || (host.equals("reddit.com") && url.contains("reddit.com/video/"))){
-                if(url.contains("DASH_")){
+            if (hostContains(host, "v.redd.it") || (host.equals("reddit.com") && url.contains("reddit.com/video/"))) {
+                if (url.contains("DASH_")) {
                     return Type.VREDDIT_DIRECT;
                 } else {
                     return Type.VREDDIT_REDIRECT;
@@ -410,8 +411,6 @@ public class ContentType {
         }
         return R.string.type_link;
     }
-
-    static HashMap<String, String> contentDescriptions = new HashMap<>();
 
     /**
      * Returns a description of the submission, for example "Link", "NSFW link", if the link is set

@@ -340,8 +340,88 @@ public class GifUtils {
         }
     }
 
+    /**
+     * Shows a ProgressBar in the UI. If this method is called from a non-main thread, it will run
+     * the UI code on the main thread
+     *
+     * @param activity        The activity context to use to display the ProgressBar
+     * @param progressBar     The ProgressBar to display
+     * @param isIndeterminate True to show an indeterminate ProgressBar, false otherwise
+     */
+    private static void showProgressBar(final Activity activity, final ProgressBar progressBar,
+                                        final boolean isIndeterminate) {
+        if (activity == null) return;
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            // Current Thread is Main Thread.
+            if (progressBar != null) progressBar.setIndeterminate(isIndeterminate);
+        } else {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (progressBar != null) progressBar.setIndeterminate(isIndeterminate);
+                }
+            });
+        }
+    }
+
+    /**
+     * Mux a video and audio file (e.g. from DASH) together into a single video
+     *
+     * @param videoFile  Video file
+     * @param audioFile  Audio file
+     * @param outputFile File to output muxed video to
+     * @return Whether the muxing completed successfully
+     */
+    private static boolean mux(String videoFile, String audioFile, String outputFile) {
+        Movie video;
+        try {
+            new MovieCreator();
+            video = MovieCreator.build(videoFile);
+        } catch (RuntimeException | IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Movie audio;
+        try {
+            new MovieCreator();
+            audio = MovieCreator.build(audioFile);
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Track audioTrack = audio.getTracks().get(0);
+
+        ClippedTrack croppedTrack = new ClippedTrack(audioTrack, 0, audioTrack.getSamples().size());
+        video.addTrack(croppedTrack);
+        Container out = new DefaultMp4Builder().build(video);
+
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(outputFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        BufferedWritableFileByteChannel byteBufferByteChannel =
+                new BufferedWritableFileByteChannel(fos);
+        try {
+            out.writeContainer(byteBufferByteChannel);
+            byteBufferByteChannel.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public static class AsyncLoadGif extends AsyncTask<String, Void, Uri> {
 
+        public String subreddit;
+        Gson gson;
+        OkHttpClient client = Reddit.client;
         private Activity c;
         private ExoVideoView video;
         private ProgressBar progressBar;
@@ -350,13 +430,11 @@ public class GifUtils {
         private boolean closeIfNull;
         private Runnable doOnClick;
         private boolean autostart;
-        public String subreddit;
-
         private TextView size;
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull ExoVideoView video,
-                @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
-                boolean closeIfNull, boolean autostart, String subreddit) {
+                            @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
+                            boolean closeIfNull, boolean autostart, String subreddit) {
             this.c = c;
             this.subreddit = subreddit;
             this.video = video;
@@ -368,8 +446,8 @@ public class GifUtils {
         }
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull ExoVideoView video,
-                @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
-                boolean closeIfNull, boolean autostart, TextView size, String subreddit) {
+                            @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
+                            boolean closeIfNull, boolean autostart, TextView size, String subreddit) {
             this.c = c;
             this.video = video;
             this.subreddit = subreddit;
@@ -381,13 +459,9 @@ public class GifUtils {
             this.size = size;
         }
 
-        public void onError() {
-
-        }
-
         public AsyncLoadGif(@NotNull Activity c, @NotNull ExoVideoView video,
-                @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull,
-                boolean autostart, String subreddit) {
+                            @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull,
+                            boolean autostart, String subreddit) {
             this.c = c;
             this.video = video;
             this.subreddit = subreddit;
@@ -395,27 +469,6 @@ public class GifUtils {
             this.closeIfNull = closeIfNull;
             this.placeholder = placeholder;
             this.autostart = autostart;
-        }
-
-        public void cancel() {
-            LogUtil.v("cancelling");
-            video.stop();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            gson = new Gson();
-        }
-
-        Gson gson;
-
-        public enum VideoType {
-            IMGUR, STREAMABLE, GFYCAT, DIRECT, OTHER, VREDDIT;
-
-            public boolean shouldLoadPreview() {
-                return this == OTHER;
-            }
         }
 
         /**
@@ -473,7 +526,151 @@ public class GifUtils {
             return VideoType.OTHER;
         }
 
-        OkHttpClient client = Reddit.client;
+        /**
+         * Convert a byte count into a human-readable size
+         *
+         * @param size Byte count
+         * @return Human-readable size
+         */
+        static String readableFileSize(long size) {
+            if (size <= 0) return "0";
+            final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+            int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+            return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups))
+                    + " "
+                    + units[digitGroups];
+        }
+
+        /**
+         * Get a remote video's file size
+         *
+         * @param url      URL of video (or v.redd.it DASH manifest) to get
+         * @param client   OkHttpClient
+         * @param sizeText TextView to put size into
+         * @param c        Activity
+         */
+        static void getRemoteFileSize(String url, OkHttpClient client,
+                                      final TextView sizeText, Activity c) {
+            if (!url.contains("v.redd.it")) {
+                Request request = new Request.Builder().url(url).head().build();
+                Response response;
+                try {
+                    response = client.newCall(request).execute();
+                    final long size = response.body().contentLength();
+                    response.close();
+                    c.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            sizeText.setText(readableFileSize(size));
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                DataSource.Factory downloader = new OkHttpDataSourceFactory(Reddit.client,
+                        c.getString(R.string.app_name));
+                DataSource.Factory cacheDataSourceFactory =
+                        new CacheDataSource.Factory()
+                                .setCache(Reddit.videoCache)
+                                .setUpstreamDataSourceFactory(downloader);
+                InputStream dashManifestStream = new DataSourceInputStream(cacheDataSourceFactory.createDataSource(),
+                        new DataSpec(Uri.parse(url)));
+                try {
+                    DashManifest dashManifest = new DashManifestParser().parse(Uri.parse(url), dashManifestStream);
+                    dashManifestStream.close();
+                    long videoSize = 0;
+                    long audioSize = 0;
+
+                    for (int i = 0; i < dashManifest.getPeriodCount(); i++) {
+                        for (AdaptationSet as : dashManifest.getPeriod(i).adaptationSets) {
+                            boolean isAudio = false;
+                            int bitrate = 0;
+                            String hqUri = null;
+                            for (Representation r : as.representations) {
+                                if (r.format.bitrate > bitrate) {
+                                    bitrate = r.format.bitrate;
+                                    hqUri = r.baseUrl;
+                                }
+                                if (MimeTypes.isAudio(r.format.sampleMimeType)) {
+                                    isAudio = true;
+                                }
+                            }
+
+                            Request request = new Request.Builder().url(hqUri).head().build();
+                            Response response = null;
+                            try {
+                                response = client.newCall(request).execute();
+                                if (isAudio) {
+                                    audioSize = response.body().contentLength();
+                                } else {
+                                    videoSize = response.body().contentLength();
+                                }
+                                response.close();
+                            } catch (IOException e) {
+                                if (response != null)
+                                    response.close();
+                            }
+                        }
+                    }
+                    final long totalSize = videoSize + audioSize;
+                    c.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // We can't know which quality will be selected, so we display <= the highest quality size
+                            if (totalSize > 0)
+                                sizeText.setText("≤ " + readableFileSize(totalSize));
+                        }
+                    });
+                } catch (IOException ignored) {
+                }
+            }
+        }
+
+        public void onError() {
+
+        }
+
+        public void cancel() {
+            LogUtil.v("cancelling");
+            video.stop();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            gson = new Gson();
+        }
+
+        /*Loads a direct MP4, used for DASH mp4 or direct/imgur videos, currently unused
+        private void loadDirect(String url) {
+            try {
+                writeGif(new URL(url), progressBar, c, subreddit);
+            } catch (Exception e) {
+                LogUtil.e(e,
+                        "Error loading URL " + url); //Most likely is an image, not a gif!
+                if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
+                        ".mp4")) {
+                    c.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            (c).startActivity(new Intent(c, MediaView.class).putExtra(
+                                    MediaView.EXTRA_URL, url.replace(".mp4",
+                                            ".png"))); //Link is likely an image and not a gif
+                            (c).finish();
+                        }
+                    });
+                } else {
+                    if (closeIfNull) {
+                        Intent web = new Intent(c, Website.class);
+                        web.putExtra(LinkUtil.EXTRA_URL, url);
+                        web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
+                        c.startActivity(web);
+                        c.finish();
+                    }
+                }
+            }
+        }*/
 
         /**
          * Load the correct URL for a gfycat gif
@@ -507,7 +704,7 @@ public class GifUtils {
                         HttpURLConnection ucon = (HttpURLConnection) newUrl.openConnection();
                         ucon.setInstanceFollowRedirects(false);
                         String secondURL = new URL(ucon.getHeaderField("location")).toString();
-                        if (secondURL.contains("gifdeliverynetwork")){
+                        if (secondURL.contains("gifdeliverynetwork")) {
                             return Uri.parse(secondURL);
                         }
 
@@ -529,7 +726,7 @@ public class GifUtils {
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
-                                                            int which) {
+                                                                        int which) {
                                                         c.finish();
                                                     }
                                                 })
@@ -559,36 +756,6 @@ public class GifUtils {
             }
             return Uri.parse(obj);
         }
-
-        /*Loads a direct MP4, used for DASH mp4 or direct/imgur videos, currently unused
-        private void loadDirect(String url) {
-            try {
-                writeGif(new URL(url), progressBar, c, subreddit);
-            } catch (Exception e) {
-                LogUtil.e(e,
-                        "Error loading URL " + url); //Most likely is an image, not a gif!
-                if (c instanceof MediaView && url.contains("imgur.com") && url.endsWith(
-                        ".mp4")) {
-                    c.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            (c).startActivity(new Intent(c, MediaView.class).putExtra(
-                                    MediaView.EXTRA_URL, url.replace(".mp4",
-                                            ".png"))); //Link is likely an image and not a gif
-                            (c).finish();
-                        }
-                    });
-                } else {
-                    if (closeIfNull) {
-                        Intent web = new Intent(c, Website.class);
-                        web.putExtra(LinkUtil.EXTRA_URL, url);
-                        web.putExtra(LinkUtil.EXTRA_COLOR, Color.BLACK);
-                        c.startActivity(web);
-                        c.finish();
-                    }
-                }
-            }
-        }*/
 
         //Handles failures of loading a DASH mp4 or muxing a Reddit video
         private void catchVRedditFailure(Exception e, String url) {
@@ -656,7 +823,7 @@ public class GifUtils {
                     //Check if resolved gfycat link is gifdeliverynetwork. If it is gifdeliverynetwork, open the link externally
                     try {
                         Uri uri = loadGfycat(name, url, gson);
-                        if(uri.toString().contains("gifdeliverynetwork")){
+                        if (uri.toString().contains("gifdeliverynetwork")) {
                             openWebsite(url);
                             return null;
                         } else return uri;
@@ -802,53 +969,6 @@ public class GifUtils {
             return null;
         }
 
-        @Override
-        protected void onPostExecute(Uri uri) {
-            if (uri == null) {
-                cancel();
-                return;
-            }
-            progressBar.setIndeterminate(true);
-
-            if (gifSave != null) {
-                gifSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cacheSaveGif(uri, c, subreddit, true);
-                    }
-                });
-            } else if (doOnClick != null) {
-                MediaView.doOnClick = new Runnable() {
-                    @Override
-                    public void run() {
-                        cacheSaveGif(uri, c, subreddit, true);
-                    }
-                };
-            }
-
-            ExoVideoView.VideoType type = uri.getHost().equals("v.redd.it")
-                    ? ExoVideoView.VideoType.DASH : ExoVideoView.VideoType.STANDARD;
-            video.setVideoURI(uri, type, new Player.EventListener() {
-                @Override
-                public void onPlaybackStateChanged(int playbackState) {
-                    if (playbackState == Player.STATE_READY) {
-                        progressBar.setVisibility(View.GONE);
-                        if (size != null) {
-                            size.setVisibility(View.GONE);
-                        }
-                    } else if (playbackState == Player.STATE_BUFFERING) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        if (size != null) {
-                            size.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }
-            });
-            if (autostart) {
-                video.play();
-            }
-        }
-
         /* Code currently unused, but could be used for future DASH issues
                 public interface VideoSuccessCallback {
             void onVideoFound(Boolean didFindVideo, String videoUrl);
@@ -903,108 +1023,54 @@ public class GifUtils {
         }
          */
 
-        /**
-         * Convert a byte count into a human-readable size
-         *
-         * @param size Byte count
-         * @return Human-readable size
-         */
-        static String readableFileSize(long size) {
-            if (size <= 0) return "0";
-            final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
-            int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-            return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups))
-                    + " "
-                    + units[digitGroups];
-        }
+        @Override
+        protected void onPostExecute(Uri uri) {
+            if (uri == null) {
+                cancel();
+                return;
+            }
+            progressBar.setIndeterminate(true);
 
-        /**
-         * Get a remote video's file size
-         *
-         * @param url      URL of video (or v.redd.it DASH manifest) to get
-         * @param client   OkHttpClient
-         * @param sizeText TextView to put size into
-         * @param c        Activity
-         */
-        static void getRemoteFileSize(String url, OkHttpClient client,
-                final TextView sizeText, Activity c) {
-            if (!url.contains("v.redd.it")) {
-                Request request = new Request.Builder().url(url).head().build();
-                Response response;
-                try {
-                    response = client.newCall(request).execute();
-                    final long size = response.body().contentLength();
-                    response.close();
-                    c.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            sizeText.setText(readableFileSize(size));
+            if (gifSave != null) {
+                gifSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cacheSaveGif(uri, c, subreddit, true);
+                    }
+                });
+            } else if (doOnClick != null) {
+                MediaView.doOnClick = new Runnable() {
+                    @Override
+                    public void run() {
+                        cacheSaveGif(uri, c, subreddit, true);
+                    }
+                };
+            }
+
+            ExoVideoView.VideoType type = uri.getHost().equals("v.redd.it")
+                    ? ExoVideoView.VideoType.DASH : ExoVideoView.VideoType.STANDARD;
+            video.setVideoURI(uri, type, new Player.EventListener() {
+                @Override
+                public void onPlaybackStateChanged(int playbackState) {
+                    if (playbackState == Player.STATE_READY) {
+                        progressBar.setVisibility(View.GONE);
+                        if (size != null) {
+                            size.setVisibility(View.GONE);
                         }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                DataSource.Factory downloader = new OkHttpDataSourceFactory(Reddit.client,
-                        c.getString(R.string.app_name));
-                DataSource.Factory cacheDataSourceFactory =
-                        new CacheDataSource.Factory()
-                                .setCache(Reddit.videoCache)
-                                .setUpstreamDataSourceFactory(downloader);
-                InputStream dashManifestStream = new DataSourceInputStream(cacheDataSourceFactory.createDataSource(),
-                        new DataSpec(Uri.parse(url)));
-                try {
-                    DashManifest dashManifest = new DashManifestParser().parse(Uri.parse(url), dashManifestStream);
-                    dashManifestStream.close();
-                    long videoSize = 0;
-                    long audioSize = 0;
-
-                    for (int i = 0; i < dashManifest.getPeriodCount(); i++) {
-                        for (AdaptationSet as : dashManifest.getPeriod(i).adaptationSets) {
-                            boolean isAudio = false;
-                            int bitrate = 0;
-                            String hqUri = null;
-                            for (Representation r : as.representations) {
-                                if (r.format.bitrate > bitrate) {
-                                    bitrate = r.format.bitrate;
-                                    hqUri = r.baseUrl;
-                                }
-                                if (MimeTypes.isAudio(r.format.sampleMimeType)) {
-                                    isAudio = true;
-                                }
-                            }
-
-                            Request request = new Request.Builder().url(hqUri).head().build();
-                            Response response = null;
-                            try {
-                                response = client.newCall(request).execute();
-                                if (isAudio) {
-                                    audioSize = response.body().contentLength();
-                                } else {
-                                    videoSize = response.body().contentLength();
-                                }
-                                response.close();
-                            } catch (IOException e) {
-                                if (response != null)
-                                    response.close();
-                            }
+                    } else if (playbackState == Player.STATE_BUFFERING) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        if (size != null) {
+                            size.setVisibility(View.VISIBLE);
                         }
                     }
-                    final long totalSize = videoSize + audioSize;
-                    c.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // We can't know which quality will be selected, so we display <= the highest quality size
-                            if (totalSize > 0)
-                                sizeText.setText("≤ " + readableFileSize(totalSize));
-                        }
-                    });
-                } catch (IOException ignored) {
                 }
+            });
+            if (autostart) {
+                video.play();
             }
         }
 
-        private void openWebsite(String url){
+        private void openWebsite(String url) {
             if (closeIfNull) {
                 Intent web = new Intent(c, Website.class);
                 web.putExtra(LinkUtil.EXTRA_URL, url);
@@ -1014,92 +1080,22 @@ public class GifUtils {
             }
         }
 
-    }
+        public enum VideoType {
+            IMGUR, STREAMABLE, GFYCAT, DIRECT, OTHER, VREDDIT;
 
-    /**
-     * Shows a ProgressBar in the UI. If this method is called from a non-main thread, it will run
-     * the UI code on the main thread
-     *
-     * @param activity        The activity context to use to display the ProgressBar
-     * @param progressBar     The ProgressBar to display
-     * @param isIndeterminate True to show an indeterminate ProgressBar, false otherwise
-     */
-    private static void showProgressBar(final Activity activity, final ProgressBar progressBar,
-            final boolean isIndeterminate) {
-        if (activity == null) return;
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            // Current Thread is Main Thread.
-            if (progressBar != null) progressBar.setIndeterminate(isIndeterminate);
-        } else {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (progressBar != null) progressBar.setIndeterminate(isIndeterminate);
-                }
-            });
-        }
-    }
-
-    /**
-     * Mux a video and audio file (e.g. from DASH) together into a single video
-     *
-     * @param videoFile  Video file
-     * @param audioFile  Audio file
-     * @param outputFile File to output muxed video to
-     * @return Whether the muxing completed successfully
-     */
-    private static boolean mux(String videoFile, String audioFile, String outputFile) {
-        Movie video;
-        try {
-            new MovieCreator();
-            video = MovieCreator.build(videoFile);
-        } catch (RuntimeException | IOException e) {
-            e.printStackTrace();
-            return false;
+            public boolean shouldLoadPreview() {
+                return this == OTHER;
+            }
         }
 
-        Movie audio;
-        try {
-            new MovieCreator();
-            audio = MovieCreator.build(audioFile);
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        Track audioTrack = audio.getTracks().get(0);
-
-        ClippedTrack croppedTrack = new ClippedTrack(audioTrack, 0, audioTrack.getSamples().size());
-        video.addTrack(croppedTrack);
-        Container out = new DefaultMp4Builder().build(video);
-
-        FileOutputStream fos;
-        try {
-            fos = new FileOutputStream(outputFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
-        BufferedWritableFileByteChannel byteBufferByteChannel =
-                new BufferedWritableFileByteChannel(fos);
-        try {
-            out.writeContainer(byteBufferByteChannel);
-            byteBufferByteChannel.close();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 
     private static class BufferedWritableFileByteChannel implements WritableByteChannel {
         private static final int BUFFER_CAPACITY = 1000000;
-
-        private boolean isOpen = true;
         private final OutputStream outputStream;
         private final ByteBuffer byteBuffer;
         private final byte[] rawBuffer = new byte[BUFFER_CAPACITY];
+        private boolean isOpen = true;
 
         private BufferedWritableFileByteChannel(OutputStream outputStream) {
             this.outputStream = outputStream;

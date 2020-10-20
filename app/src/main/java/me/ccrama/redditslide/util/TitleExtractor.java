@@ -19,7 +19,7 @@ public class TitleExtractor {
      * the DOTALL flag accounts for sites that have
      * line feeds in the title text */
     private static final Pattern TITLE_TAG =
-            Pattern.compile("<title[^>]*>(.*?)</title>", Pattern.CASE_INSENSITIVE|Pattern.DOTALL);
+            Pattern.compile("<title[^>]*>(.*?)</title>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
     private TitleExtractor() {
     }

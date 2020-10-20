@@ -24,9 +24,9 @@ public class ContributionPosts extends GeneralPosts {
     protected final String where;
     protected final String subreddit;
     public boolean loading;
-    private UserContributionPaginator paginator;
     protected SwipeRefreshLayout refreshLayout;
     protected ContributionAdapter adapter;
+    private UserContributionPaginator paginator;
 
     public ContributionPosts(String subreddit, String where) {
         this.subreddit = subreddit;

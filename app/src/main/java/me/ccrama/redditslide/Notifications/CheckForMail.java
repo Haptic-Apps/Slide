@@ -50,7 +50,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class CheckForMail extends BroadcastReceiver {
 
     public static final String MESSAGE_EXTRA = "MESSAGE_FULLNAMES";
-    public static final String SUBS_TO_GET   = "SUBREDDIT_NOTIFS";
+    public static final String SUBS_TO_GET = "SUBREDDIT_NOTIFS";
     private Context c;
 
     @Override
@@ -73,6 +73,128 @@ public class CheckForMail extends BroadcastReceiver {
         if (Reddit.notificationTime != -1) new NotificationJobScheduler(context).start(context);
     }
 
+    public static class AsyncGetSubs extends AsyncTask<Void, Void, List<Submission>> {
+
+        public Context c;
+        HashMap<String, Integer> subThresholds;
+
+        public AsyncGetSubs(Context context) {
+            this.c = context;
+        }
+
+        @Override
+        public void onPostExecute(List<Submission> messages) {
+            if (messages != null) {
+                if (!messages.isEmpty()) {
+                    NotificationManager notificationManager = ContextCompat.getSystemService(c, NotificationManager.class);
+                    for (Submission s : messages) {
+                        Intent readIntent = new Intent(c, OpenContent.class);
+                        readIntent.putExtra(OpenContent.EXTRA_URL,
+                                "https://reddit.com" + s.getPermalink());
+                        readIntent.setAction(s.getTitle());
+                        PendingIntent readPI = PendingIntent.getActivity(c,
+                                (int) (s.getCreated().getTime() / 1000), readIntent,
+                                0);
+
+                        Intent cancelIntent = new Intent(c, CancelSubNotifs.class);
+                        cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB, s.getSubredditName());
+                        PendingIntent cancelPi = PendingIntent.getActivity(c, (int) s.getCreated().getTime() / 1000, cancelIntent,
+                                0);
+
+
+                        NotificationCompat.BigTextStyle notiStyle =
+                                new NotificationCompat.BigTextStyle();
+                        notiStyle.setBigContentTitle("/r/" + s.getSubredditName());
+
+                        notiStyle.bigText(Html.fromHtml(s.getTitle() + " " + c.getString(
+                                R.string.submission_properties_seperator_comments)) + " "
+                                + s.getAuthor());
+
+
+                        Notification notification =
+                                new NotificationCompat.Builder(c, Reddit.CHANNEL_SUBCHECKING).setContentIntent(readPI)
+                                        .setSmallIcon(R.drawable.notif)
+                                        .setTicker(c.getString(
+                                                R.string.sub_post_notifs_notification_title,
+                                                s.getSubredditName()))
+                                        .setWhen(System.currentTimeMillis())
+                                        .setAutoCancel(true)
+                                        .setContentTitle("/r/"
+                                                + s.getSubredditName()
+                                                + " " + c.getString(
+                                                R.string.submission_properties_seperator_comments) + " "
+                                                + Html.fromHtml(s.getTitle()))
+                                        .setContentText(Html.fromHtml(s.getTitle()) + " " + c.getString(
+                                                R.string.submission_properties_seperator_comments) + " "
+                                                + s.getAuthor())
+                                        .setColor(Palette.getColor(s.getSubredditName()))
+                                        .setStyle(notiStyle)
+                                        .addAction(R.drawable.close, c.getString(
+                                                R.string.sub_post_notifs_notification_btn,
+                                                s.getSubredditName()), cancelPi)
+                                        .build();
+                        if (notificationManager != null) {
+                            notificationManager.notify((int) (s.getCreated().getTime() / 1000),
+                                    notification);
+                        }
+                    }
+                }
+            }
+            if (Reddit.notificationTime != -1) new NotificationJobScheduler(c).start(c);
+        }
+
+        @Override
+        protected List<Submission> doInBackground(Void... params) {
+            try {
+                long lastTime = (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
+                ArrayList<Submission> toReturn = new ArrayList<>();
+                ArrayList<String> rawSubs =
+                        Reddit.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));
+                subThresholds = new HashMap<>();
+                for (String s : rawSubs) {
+                    try {
+                        String[] split = s.split(":");
+                        subThresholds.put(split[0].toLowerCase(Locale.ENGLISH),
+                                Integer.valueOf(split[1]));
+                    } catch (Exception ignored) {
+
+                    }
+                }
+                if (subThresholds.isEmpty()) {
+                    return null;
+                }
+
+                String first = "";
+                boolean skipFirst = false;
+                ArrayList<String> finalSubs = new ArrayList<>();
+                for (String s : subThresholds.keySet()) {
+                    if (!s.isEmpty() && !skipFirst) {
+                        finalSubs.add(s);
+                    } else {
+                        skipFirst = true;
+                        first = s;
+                    }
+                }
+                SubredditPaginator unread = new SubredditPaginator(Authentication.reddit, first,
+                        finalSubs.toArray(new String[0]));
+                unread.setSorting(Sorting.NEW);
+                unread.setLimit(30);
+                if (unread.hasNext()) {
+                    for (Submission subm : unread.next()) {
+                        if (subm.getCreated().getTime() > lastTime && subm.getScore() >= subThresholds.get(subm.getSubredditName().toLowerCase()) && !HasSeen
+                                .getSeen(subm)) {
+                            toReturn.add(subm);
+                        }
+                    }
+                }
+                return toReturn;
+
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     private class AsyncGetMail extends AsyncTask<Void, Void, List<Message>> {
 
@@ -191,7 +313,7 @@ public class CheckForMail extends BroadcastReceiver {
                             openPIBase = new Intent(c, Inbox.class);
                             openPIBase.putExtra(Inbox.EXTRA_UNREAD, true);
                         }
-                      //  openPIBase.setFlags(
+                        //  openPIBase.setFlags(
                         //        Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                         PendingIntent openPi =
@@ -207,18 +329,18 @@ public class CheckForMail extends BroadcastReceiver {
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                                 Reddit.CHANNEL_MAIL).setContentIntent(openPi)
-                                        .setSmallIcon(R.drawable.notif)
-                                        .setTicker(res.getQuantityString(
-                                                R.plurals.mail_notification_title, 1, 1))
-                                        .setWhen(System.currentTimeMillis())
-                                        .setAutoCancel(true)
-                                        .setContentTitle(contentTitle)
-                                        .setContentText(Html.fromHtml(unescape, Html.FROM_HTML_MODE_LEGACY))
-                                        .setStyle(notiStyle)
-                                        .setGroup("MESSAGES")
-                                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                        .addAction(R.drawable.check_all,
-                                                c.getString(R.string.mail_mark_read), readPISingle);
+                                .setSmallIcon(R.drawable.notif)
+                                .setTicker(res.getQuantityString(
+                                        R.plurals.mail_notification_title, 1, 1))
+                                .setWhen(System.currentTimeMillis())
+                                .setAutoCancel(true)
+                                .setContentTitle(contentTitle)
+                                .setContentText(Html.fromHtml(unescape, Html.FROM_HTML_MODE_LEGACY))
+                                .setStyle(notiStyle)
+                                .setGroup("MESSAGES")
+                                .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                                .addAction(R.drawable.check_all,
+                                        c.getString(R.string.mail_mark_read), readPISingle);
                         if (!SettingValues.notifSound) {
                             builder.setSound(null);
                         }
@@ -261,8 +383,8 @@ public class CheckForMail extends BroadcastReceiver {
 
                 Intent notificationIntent = new Intent(c, ModQueue.class);
 
-              //  notificationIntent.setFlags(
-              //          Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //  notificationIntent.setFlags(
+                //          Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 PendingIntent intent = PendingIntent.getActivity(c, 0, notificationIntent, 0);
 
@@ -281,16 +403,16 @@ public class CheckForMail extends BroadcastReceiver {
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                             Reddit.CHANNEL_MODMAIL).setContentIntent(intent)
-                                    .setSmallIcon(R.drawable.mod)
-                                    .setTicker(res.getQuantityString(
-                                            R.plurals.mod_mail_notification_title, amount, amount))
-                                    .setWhen(System.currentTimeMillis())
-                                    .setAutoCancel(true)
-                                    .setGroupSummary(true)
-                                    .setGroup("MODMAIL")
-                                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                    .setContentTitle(res.getQuantityString(
-                                            R.plurals.mod_mail_notification_title, amount, amount))
+                            .setSmallIcon(R.drawable.mod)
+                            .setTicker(res.getQuantityString(
+                                    R.plurals.mod_mail_notification_title, amount, amount))
+                            .setWhen(System.currentTimeMillis())
+                            .setAutoCancel(true)
+                            .setGroupSummary(true)
+                            .setGroup("MODMAIL")
+                            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                            .setContentTitle(res.getQuantityString(
+                                    R.plurals.mod_mail_notification_title, amount, amount))
                             .setStyle(notiStyle);
                     if (!SettingValues.notifSound) {
                         builder.setSound(null);
@@ -314,17 +436,17 @@ public class CheckForMail extends BroadcastReceiver {
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                                 Reddit.CHANNEL_MODMAIL).setContentIntent(intent)
-                                        .setSmallIcon(R.drawable.mod)
-                                        .setTicker(res.getQuantityString(
-                                                R.plurals.mod_mail_notification_title, 1, 1))
-                                        .setWhen(System.currentTimeMillis())
-                                        .setAutoCancel(true)
-                                        .setGroup("MODMAIL")
-                                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                        .setContentTitle(
-                                                c.getString(R.string.mail_notification_author,
-                                                        m.getSubject(), m.getAuthor()))
-                                        .setContentText(Html.fromHtml(m.getBody(), Html.FROM_HTML_MODE_LEGACY))
+                                .setSmallIcon(R.drawable.mod)
+                                .setTicker(res.getQuantityString(
+                                        R.plurals.mod_mail_notification_title, 1, 1))
+                                .setWhen(System.currentTimeMillis())
+                                .setAutoCancel(true)
+                                .setGroup("MODMAIL")
+                                .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                                .setContentTitle(
+                                        c.getString(R.string.mail_notification_author,
+                                                m.getSubject(), m.getAuthor()))
+                                .setContentText(Html.fromHtml(m.getBody(), Html.FROM_HTML_MODE_LEGACY))
                                 .setStyle(notiStyle);
                         if (!SettingValues.notifSound) {
                             builder.setSound(null);
@@ -355,130 +477,6 @@ public class CheckForMail extends BroadcastReceiver {
                 }
             } catch (Exception ignored) {
 
-                ignored.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-    public static class AsyncGetSubs extends AsyncTask<Void, Void, List<Submission>> {
-
-        public Context c;
-
-        public AsyncGetSubs(Context context) {
-            this.c = context;
-        }
-
-        @Override
-        public void onPostExecute(List<Submission> messages) {
-            if (messages != null) {
-                if (!messages.isEmpty()) {
-                    NotificationManager notificationManager = ContextCompat.getSystemService(c, NotificationManager.class);
-                    for (Submission s : messages) {
-                        Intent readIntent = new Intent(c, OpenContent.class);
-                        readIntent.putExtra(OpenContent.EXTRA_URL,
-                                "https://reddit.com" + s.getPermalink());
-                        readIntent.setAction(s.getTitle());
-                        PendingIntent readPI = PendingIntent.getActivity(c,
-                                (int) (s.getCreated().getTime() / 1000), readIntent,
-                                0);
-
-                        Intent cancelIntent = new Intent(c, CancelSubNotifs.class);
-                        cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB, s.getSubredditName());
-                        PendingIntent cancelPi = PendingIntent.getActivity(c,  (int)s.getCreated().getTime() / 1000, cancelIntent,
-                                0);
-
-
-                        NotificationCompat.BigTextStyle notiStyle =
-                                new NotificationCompat.BigTextStyle();
-                        notiStyle.setBigContentTitle("/r/" + s.getSubredditName());
-
-                        notiStyle.bigText(Html.fromHtml(s.getTitle() + " " + c.getString(
-                                R.string.submission_properties_seperator_comments)) + " "
-                                + s.getAuthor());
-
-
-                        Notification notification =
-                                new NotificationCompat.Builder(c, Reddit.CHANNEL_SUBCHECKING).setContentIntent(readPI)
-                                        .setSmallIcon(R.drawable.notif)
-                                        .setTicker(c.getString(
-                                                R.string.sub_post_notifs_notification_title,
-                                                s.getSubredditName()))
-                                        .setWhen(System.currentTimeMillis())
-                                        .setAutoCancel(true)
-                                        .setContentTitle("/r/"
-                                                + s.getSubredditName()
-                                                + " " + c.getString(
-                                                R.string.submission_properties_seperator_comments) + " "
-                                                + Html.fromHtml(s.getTitle()))
-                                        .setContentText(Html.fromHtml(s.getTitle()) + " " + c.getString(
-                                                R.string.submission_properties_seperator_comments) + " "
-                                                + s.getAuthor())
-                                        .setColor(Palette.getColor(s.getSubredditName()))
-                                        .setStyle(notiStyle)
-                                        .addAction(R.drawable.close, c.getString(
-                                                R.string.sub_post_notifs_notification_btn,
-                                                s.getSubredditName()), cancelPi)
-                                        .build();
-                        if (notificationManager != null) {
-                            notificationManager.notify((int) (s.getCreated().getTime() / 1000),
-                                    notification);
-                        }
-                    }
-                }
-            }
-            if (Reddit.notificationTime != -1) new NotificationJobScheduler(c).start(c);
-        }
-
-        HashMap<String, Integer> subThresholds;
-
-        @Override
-        protected List<Submission> doInBackground(Void... params) {
-            try {
-                long lastTime = (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
-                ArrayList<Submission> toReturn = new ArrayList<>();
-                ArrayList<String> rawSubs =
-                        Reddit.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));
-                subThresholds = new HashMap<>();
-                for (String s : rawSubs) {
-                    try {
-                        String[] split = s.split(":");
-                        subThresholds.put(split[0].toLowerCase(Locale.ENGLISH),
-                                Integer.valueOf(split[1]));
-                    } catch (Exception ignored) {
-
-                    }
-                }
-                if (subThresholds.isEmpty()) {
-                    return null;
-                }
-
-                String first = "";
-                boolean skipFirst = false;
-                ArrayList<String> finalSubs = new ArrayList<>();
-                for (String s : subThresholds.keySet()) {
-                    if (!s.isEmpty() && !skipFirst) {
-                        finalSubs.add(s);
-                    } else {
-                        skipFirst = true;
-                        first = s;
-                    }
-                }
-                SubredditPaginator unread = new SubredditPaginator(Authentication.reddit, first,
-                        finalSubs.toArray(new String[0]));
-                unread.setSorting(Sorting.NEW);
-                unread.setLimit(30);
-                if (unread.hasNext()) {
-                    for (Submission subm : unread.next()) {
-                        if (subm.getCreated().getTime() > lastTime && subm.getScore() >= subThresholds.get(subm.getSubredditName().toLowerCase()) && !HasSeen
-                                .getSeen(subm)) {
-                            toReturn.add(subm);
-                        }
-                    }
-                }
-                return toReturn;
-
-            } catch (Exception ignored) {
                 ignored.printStackTrace();
             }
             return null;

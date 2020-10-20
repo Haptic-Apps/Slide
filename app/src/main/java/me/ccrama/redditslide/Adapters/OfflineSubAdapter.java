@@ -13,16 +13,17 @@ import android.widget.TextView;
  */
 public class OfflineSubAdapter extends ArrayAdapter<String> {
 
+    String[] titles;
     private Context mContext;
+
     public OfflineSubAdapter(Context context, int textViewResourceId,
-                            String[] objects) {
+                             String[] objects) {
         super(context, textViewResourceId, objects);
 
         this.titles = objects;
         mContext = context;
     }
 
-    String[] titles;
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position, convertView, parent);
@@ -55,7 +56,6 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
     static class ViewHolder {
         TextView txt01;
     }
-
 
 
 }

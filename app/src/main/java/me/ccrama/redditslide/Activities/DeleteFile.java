@@ -25,7 +25,7 @@ public class DeleteFile extends Activity {
 
     public static PendingIntent getDeleteIntent(int notificationId, Context context, String toDelete) {
         Intent intent = new Intent(context, DeleteFile.class);
-        intent.putExtra(NOTIFICATION_ID , notificationId - 3);
+        intent.putExtra(NOTIFICATION_ID, notificationId - 3);
         intent.putExtra(PATH, toDelete);
         return PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
@@ -48,7 +48,7 @@ public class DeleteFile extends Activity {
             image = image.replace("/external_files", Environment.getExternalStorageDirectory().toString());
             try {
                 final String finalImage = image;
-                MediaScannerConnection.scanFile(this, new String[] { image }, null,
+                MediaScannerConnection.scanFile(this, new String[]{image}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             public void onScanCompleted(String path, Uri uri) {
                                 if (uri != null) {
@@ -60,7 +60,8 @@ public class DeleteFile extends Activity {
                         });
             } catch (Exception e) {
                 e.printStackTrace();
-            }        }
+            }
+        }
         finish();
     }
 }

@@ -27,14 +27,15 @@ import me.ccrama.redditslide.util.SortingUtil;
  * Created by ccrama on 9/17/2015.
  */
 public class SubredditSearchPosts extends GeneralPosts {
+    public boolean loading;
+    public SwipeRefreshLayout refreshLayout;
+    public Activity parent;
+    boolean multireddit;
+    TimePeriod time = TimePeriod.ALL;
     private String term;
     private String subreddit = "";
-    public  boolean               loading;
     private Paginator<Submission> paginator;
-    public  SwipeRefreshLayout    refreshLayout;
-    private ContributionAdapter   adapter;
-
-    public Activity parent;
+    private ContributionAdapter adapter;
 
     public SubredditSearchPosts(String subreddit, String term, Activity parent, boolean multireddit) {
         if (subreddit != null) {
@@ -59,7 +60,7 @@ public class SubredditSearchPosts extends GeneralPosts {
     }
 
     public void loadMore(ContributionAdapter a, String subreddit, String where, boolean reset,
-            boolean multi, TimePeriod time) {
+                         boolean multi, TimePeriod time) {
         this.adapter = a;
         this.subreddit = subreddit;
         this.term = where;
@@ -68,9 +69,6 @@ public class SubredditSearchPosts extends GeneralPosts {
         new LoadData(reset).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    boolean multireddit;
-    TimePeriod time = TimePeriod.ALL;
-
     public void reset(TimePeriod time) {
         this.time = time;
         new LoadData(true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -78,6 +76,7 @@ public class SubredditSearchPosts extends GeneralPosts {
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
         final boolean reset;
+        Exception error;
 
         public LoadData(boolean reset) {
             this.reset = reset;
@@ -87,13 +86,13 @@ public class SubredditSearchPosts extends GeneralPosts {
         public void onPostExecute(ArrayList<Contribution> submissions) {
             loading = false;
 
-            if(error != null){
-                if(error instanceof NetworkException){
-                    NetworkException e = (NetworkException)error;
-                    Toast.makeText(adapter.mContext,"Loading failed, " + e.getResponse().getStatusCode() + ": " + ((NetworkException) error).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+            if (error != null) {
+                if (error instanceof NetworkException) {
+                    NetworkException e = (NetworkException) error;
+                    Toast.makeText(adapter.mContext, "Loading failed, " + e.getResponse().getStatusCode() + ": " + ((NetworkException) error).getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
                 }
-                if(error.getCause() instanceof UnknownHostException){
-                    Toast.makeText(adapter.mContext,"Loading failed, please check your internet connection", Toast.LENGTH_LONG).show();
+                if (error.getCause() instanceof UnknownHostException) {
+                    Toast.makeText(adapter.mContext, "Loading failed, please check your internet connection", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -187,12 +186,11 @@ public class SubredditSearchPosts extends GeneralPosts {
 
                 return newSubmissions;
             } catch (Exception e) {
-              error = e;
+                error = e;
                 e.printStackTrace();
                 return null;
             }
         }
-        Exception error;
 
     }
 

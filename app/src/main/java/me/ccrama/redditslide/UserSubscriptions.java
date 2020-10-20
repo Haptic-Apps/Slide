@@ -38,8 +38,8 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by carlo_000 on 1/16/2016.
  */
 public class UserSubscriptions {
-    public static final String       SUB_NAME_TO_PROPERTIES = "multiNameToSubs";
-    public static final List<String> defaultSubs            =
+    public static final String SUB_NAME_TO_PROPERTIES = "multiNameToSubs";
+    public static final List<String> defaultSubs =
             Arrays.asList("frontpage", "all", "announcements", "Art", "AskReddit", "askscience",
                     "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries",
                     "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology",
@@ -50,7 +50,7 @@ public class UserSubscriptions {
                     "science", "Showerthoughts", "space", "sports", "television", "tifu",
                     "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews",
                     "WritingPrompts");
-    public static final List<String> specialSubreddits      =
+    public static final List<String> specialSubreddits =
             Arrays.asList("frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod",
                     "popular");
     public static SharedPreferences subscriptions;
@@ -58,6 +58,13 @@ public class UserSubscriptions {
     public static SharedPreferences newsNameToSubs;
     public static SharedPreferences news;
     public static SharedPreferences pinned;
+    public static CaseInsensitiveArrayList pins;
+    public static CaseInsensitiveArrayList modOf;
+    public static ArrayList<MultiReddit> multireddits;
+    public static HashMap<String, List<MultiReddit>> public_multireddits =
+            new HashMap<String, List<MultiReddit>>();
+    public static CaseInsensitiveArrayList toreturn;
+    public static CaseInsensitiveArrayList friends = new CaseInsensitiveArrayList();
 
     public static void setSubNameToProperties(String name, String descrption) {
         multiNameToSubs.edit().putString(name, descrption).apply();
@@ -100,7 +107,6 @@ public class UserSubscriptions {
 
         return multiNameToSubsMap;
     }
-
 
     private static Map<String, String> getSubsNameToMulti() {
         Map<String, String> multiNameToSubsMap = new HashMap<>();
@@ -212,28 +218,6 @@ public class UserSubscriptions {
                 .apply();
     }
 
-    public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
-
-        Context c;
-
-        public SyncMultireddits(Context c) {
-            this.c = c;
-        }
-
-        @Override
-        public void onPostExecute(Boolean b) {
-            Intent i = new Intent(c, MultiredditOverview.class);
-            c.startActivity(i);
-            ((Activity) c).finish();
-        }
-
-        @Override
-        public Boolean doInBackground(Void... params) {
-            syncMultiReddits(c);
-            return null;
-        }
-    }
-
     public static CaseInsensitiveArrayList getSubscriptions(Context c) {
         String s = subscriptions.getString(Authentication.name, "");
         if (s.isEmpty()) {
@@ -247,8 +231,6 @@ public class UserSubscriptions {
             return subredditsForHome;
         }
     }
-
-    public static CaseInsensitiveArrayList pins;
 
     public static CaseInsensitiveArrayList getPinned() {
         String s = pinned.getString(Authentication.name, "");
@@ -264,6 +246,11 @@ public class UserSubscriptions {
         } else {
             return pins;
         }
+    }
+
+    public static void setPinned(CaseInsensitiveArrayList subs) {
+        pinned.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+        pins = null;
     }
 
     public static CaseInsensitiveArrayList getSubscriptionsForShortcut(Context c) {
@@ -285,11 +272,6 @@ public class UserSubscriptions {
         return s.isEmpty();
     }
 
-    public static CaseInsensitiveArrayList modOf;
-    public static ArrayList<MultiReddit>   multireddits;
-    public static HashMap<String, List<MultiReddit>> public_multireddits =
-            new HashMap<String, List<MultiReddit>>();
-
     public static void doOnlineSyncing() {
         if (Authentication.mod) {
             doModOf();
@@ -303,9 +285,6 @@ public class UserSubscriptions {
         doFriendsOf();
         loadMultireddits();
     }
-
-    public static CaseInsensitiveArrayList toreturn;
-    public static CaseInsensitiveArrayList friends = new CaseInsensitiveArrayList();
 
     public static CaseInsensitiveArrayList syncSubscriptionsOverwrite(final Context c) {
         toreturn = new CaseInsensitiveArrayList();
@@ -383,11 +362,6 @@ public class UserSubscriptions {
         subscriptions.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
     }
 
-    public static void setPinned(CaseInsensitiveArrayList subs) {
-        pinned.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
-        pins = null;
-    }
-
     public static void switchAccounts() {
         SharedPreferences.Editor editor = Reddit.appRestart.edit();
         editor.putBoolean("back", true);
@@ -415,10 +389,6 @@ public class UserSubscriptions {
                 callback.onComplete(multiReddits);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    public interface MultiCallback {
-        void onComplete(List<MultiReddit> multis);
     }
 
     public static void loadMultireddits() {
@@ -537,7 +507,7 @@ public class UserSubscriptions {
     }
 
     public static MultiReddit getPublicMultiredditByDisplayName(String profile,
-            String displayName) {
+                                                                String displayName) {
         if (profile.isEmpty()) {
             return getMultiredditByDisplayName(displayName);
         }
@@ -774,9 +744,36 @@ public class UserSubscriptions {
         return getSubscriptions(c).contains(s.toLowerCase(Locale.ENGLISH));
     }
 
+    public interface MultiCallback {
+        void onComplete(List<MultiReddit> multis);
+    }
+
+    public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
+
+        Context c;
+
+        public SyncMultireddits(Context c) {
+            this.c = c;
+        }
+
+        @Override
+        public void onPostExecute(Boolean b) {
+            Intent i = new Intent(c, MultiredditOverview.class);
+            c.startActivity(i);
+            ((Activity) c).finish();
+        }
+
+        @Override
+        public Boolean doInBackground(Void... params) {
+            syncMultiReddits(c);
+            return null;
+        }
+    }
+
     public static class SubscribeTask extends AsyncTask<String, Void, Void> {
         Context context;
-        public SubscribeTask(Context context){
+
+        public SubscribeTask(Context context) {
             this.context = context;
         }
 
@@ -786,7 +783,7 @@ public class UserSubscriptions {
             for (String subreddit : subreddits) {
                 try {
                     m.subscribe(Authentication.reddit.getSubreddit(subreddit));
-                } catch(Exception e){
+                } catch (Exception e) {
                     Toast.makeText(context, "Couldn't subscribe, subreddit is private, quarantined, or invite only", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -802,7 +799,7 @@ public class UserSubscriptions {
                 for (String subreddit : subreddits) {
                     m.unsubscribe(Authentication.reddit.getSubreddit(subreddit));
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
 
             }
             return null;

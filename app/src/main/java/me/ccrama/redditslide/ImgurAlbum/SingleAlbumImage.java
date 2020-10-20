@@ -32,9 +32,7 @@ public class SingleAlbumImage {
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
-     *
-     * @return
-     * The data
+     * @return The data
      */
     @JsonProperty("data")
     public SingleImage getData() {
@@ -42,9 +40,7 @@ public class SingleAlbumImage {
     }
 
     /**
-     *
-     * @param data
-     * The data
+     * @param data The data
      */
     @JsonProperty("data")
     public void setData(SingleImage data) {
@@ -52,9 +48,7 @@ public class SingleAlbumImage {
     }
 
     /**
-     *
-     * @return
-     * The success
+     * @return The success
      */
     @JsonProperty("success")
     public Boolean getSuccess() {
@@ -62,9 +56,7 @@ public class SingleAlbumImage {
     }
 
     /**
-     *
-     * @param success
-     * The success
+     * @param success The success
      */
     @JsonProperty("success")
     public void setSuccess(Boolean success) {
@@ -72,9 +64,7 @@ public class SingleAlbumImage {
     }
 
     /**
-     *
-     * @return
-     * The status
+     * @return The status
      */
     @JsonProperty("status")
     public Integer getStatus() {
@@ -82,9 +72,7 @@ public class SingleAlbumImage {
     }
 
     /**
-     *
-     * @param status
-     * The status
+     * @param status The status
      */
     @JsonProperty("status")
     public void setStatus(Integer status) {

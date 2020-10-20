@@ -96,19 +96,23 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
  */
 public class PopulateNewsViewHolder {
 
+    public String reason;
+    boolean[] chosen = new boolean[]{false, false, false};
+    boolean[] oldChosen = new boolean[]{false, false, false};
+
     public PopulateNewsViewHolder() {
     }
 
     public static int getStyleAttribColorValue(final Context context, final int attribResId,
-            final int defaultValue) {
+                                               final int defaultValue) {
         final TypedValue tv = new TypedValue();
         final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
         return found ? tv.data : defaultValue;
     }
 
     private static void addClickFunctions(final View base, final ContentType.Type type,
-            final Activity contextActivity, final Submission submission,
-            final NewsViewHolder holder, final boolean full) {
+                                          final Activity contextActivity, final Submission submission,
+                                          final NewsViewHolder holder, final boolean full) {
         base.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -273,7 +277,7 @@ public class PopulateNewsViewHolder {
     }
 
     public static void openImage(ContentType.Type type, Activity contextActivity,
-            Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
+                                 Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
@@ -321,7 +325,7 @@ public class PopulateNewsViewHolder {
     }
 
     public static void addAdaptorPosition(Intent myIntent, Submission submission,
-            int adapterPosition) {
+                                          int adapterPosition) {
         if (submission.getComments() == null && adapterPosition != -1) {
             myIntent.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
             myIntent.putExtra(MediaView.SUBMISSION_URL, submission.getPermalink());
@@ -332,7 +336,7 @@ public class PopulateNewsViewHolder {
     }
 
     public static void openGif(Activity contextActivity, Submission submission,
-            int adapterPosition) {
+                               int adapterPosition) {
         if (SettingValues.gif) {
             DataShare.sharedSubmission = submission;
 
@@ -409,18 +413,13 @@ public class PopulateNewsViewHolder {
 
     }
 
-    public String reason;
-
-    boolean[] chosen    = new boolean[]{false, false, false};
-    boolean[] oldChosen = new boolean[]{false, false, false};
-
     public static int getWhiteTintColor() {
         return Palette.ThemeEnum.DARK.getTint();
     }
 
     public <T extends Contribution> void showBottomSheet(final Activity mContext,
-            final Submission submission, final NewsViewHolder holder, final List<T> posts,
-            final String baseSub, final RecyclerView recyclerview, final boolean full) {
+                                                         final Submission submission, final NewsViewHolder holder, final List<T> posts,
+                                                         final String baseSub, final RecyclerView recyclerview, final boolean full) {
 
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
@@ -536,7 +535,7 @@ public class PopulateNewsViewHolder {
                         final String flair = submission.getSubmissionFlair().getText() != null
                                 ? submission.getSubmissionFlair().getText() : "";
                         if (flair.isEmpty()) {
-                            choices = new String[] {
+                            choices = new String[]{
                                     mContext.getString(R.string.filter_posts_sub,
                                             submission.getSubredditName()),
                                     mContext.getString(R.string.filter_posts_user,
@@ -547,7 +546,7 @@ public class PopulateNewsViewHolder {
                                             submission.getDomain())
                             };
 
-                            chosen = new boolean[] {
+                            chosen = new boolean[]{
                                     SettingValues.subredditFilters.contains(
                                             submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
                                     SettingValues.userFilters.contains(
@@ -559,7 +558,7 @@ public class PopulateNewsViewHolder {
                             };
                             oldChosen = chosen.clone();
                         } else {
-                            choices = new String[] {
+                            choices = new String[]{
                                     mContext.getString(R.string.filter_posts_sub,
                                             submission.getSubredditName()),
                                     mContext.getString(R.string.filter_posts_user,
@@ -571,7 +570,7 @@ public class PopulateNewsViewHolder {
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
                         }
-                        chosen = new boolean[] {
+                        chosen = new boolean[]{
                                 SettingValues.subredditFilters.contains(
                                         submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
                                 SettingValues.userFilters.contains(
@@ -590,7 +589,7 @@ public class PopulateNewsViewHolder {
                                         new DialogInterface.OnMultiChoiceClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which,
-                                                    boolean isChecked) {
+                                                                boolean isChecked) {
                                                 chosen[which] = isChecked;
                                             }
                                         })
@@ -959,7 +958,7 @@ public class PopulateNewsViewHolder {
     }
 
     public <T extends Contribution> void hideSubmission(final Submission submission,
-            final List<T> posts, final String baseSub, final RecyclerView recyclerview, Context c) {
+                                                        final List<T> posts, final String baseSub, final RecyclerView recyclerview, Context c) {
         final int pos = posts.indexOf(submission);
         if (pos != -1) {
             if (submission.isHidden()) {
@@ -1017,7 +1016,7 @@ public class PopulateNewsViewHolder {
     }
 
     public void doText(NewsViewHolder holder, Submission submission, Context mContext,
-            String baseSub) {
+                       String baseSub) {
         SpannableStringBuilder t = SubmissionCache.getTitleLine(submission, mContext);
         SpannableStringBuilder l = SubmissionCache.getInfoLine(submission, mContext, baseSub);
 

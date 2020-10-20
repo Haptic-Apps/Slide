@@ -43,13 +43,12 @@ public class TumblrUtils {
 
         public String blog, id;
         public Activity baseActivity;
-
+        JsonElement[] target;
+        int count;
+        int done;
+        TumblrPost post;
         private OkHttpClient client;
-        private Gson         gson;
-
-        public void onError() {
-
-        }
+        private Gson gson;
 
         public GetTumblrPostWithCallback(@NotNull String url, @NotNull Activity baseActivity) {
 
@@ -63,17 +62,15 @@ public class TumblrUtils {
             gson = new Gson();
         }
 
+        public void onError() {
+
+        }
+
         public void doWithData(List<Photo> data) {
             if (data == null || data.isEmpty()) {
                 onError();
             }
         }
-
-        JsonElement[] target;
-        int           count;
-        int           done;
-
-        TumblrPost post;
 
         public void parseJson(JsonElement baseData) {
             try {

@@ -29,6 +29,8 @@ import me.ccrama.redditslide.util.SortingUtil;
  */
 public class SetupWidget extends BaseActivity {
 
+    public String name;
+    View header;
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     @Override
@@ -55,14 +57,14 @@ public class SetupWidget extends BaseActivity {
             appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
     }
-    View header;
+
     public void doShortcut() {
 
         setContentView(R.layout.activity_setup_widget);
         setupAppBar(R.id.toolbar, R.string.widget_creation_title, true, true);
         header = getLayoutInflater().inflate(R.layout.widget_header, null);
 
-        ListView list = (ListView)findViewById(R.id.subs);
+        ListView list = (ListView) findViewById(R.id.subs);
         final ArrayList<String> sorted = UserSubscriptions.getSubscriptionsForShortcut(SetupWidget.this);
         final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
 
@@ -70,7 +72,7 @@ public class SetupWidget extends BaseActivity {
         list.setAdapter(adapter);
 
         (header.findViewById(R.id.sort)).clearFocus();
-        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
+        ((EditText) header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
@@ -89,9 +91,6 @@ public class SetupWidget extends BaseActivity {
         });
     }
 
-    public String name;
-
-
     /**
      * This method right now displays the widget and starts a Service to fetch
      * remote data from Server
@@ -104,7 +103,7 @@ public class SetupWidget extends BaseActivity {
 
                 SubredditWidgetProvider.setSubFromid(appWidgetId, name, SetupWidget.this);
                 int theme = 0;
-                switch(((RadioGroup)header.findViewById(R.id.theme)).getCheckedRadioButtonId()){
+                switch (((RadioGroup) header.findViewById(R.id.theme)).getCheckedRadioButtonId()) {
                     case R.id.dark:
                         theme = 1;
                         break;
@@ -113,7 +112,7 @@ public class SetupWidget extends BaseActivity {
                         break;
                 }
                 int view = 0;
-                switch(((RadioGroup)header.findViewById(R.id.type)).getCheckedRadioButtonId()){
+                switch (((RadioGroup) header.findViewById(R.id.type)).getCheckedRadioButtonId()) {
                     case R.id.big:
                         view = 1;
                         break;

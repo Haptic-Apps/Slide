@@ -42,8 +42,11 @@ import me.ccrama.redditslide.util.LinkUtil;
 public class RedditGallery extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String SUBREDDIT = "subreddit";
     public static final String GALLERY_URLS = "galleryurls";
+    public String url;
+    public String subreddit;
+    public OverviewPagerAdapter album;
     private List<GalleryImage> images;
-    private int         adapterPosition;
+    private int adapterPosition;
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
@@ -150,9 +153,6 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
                 .show();
     }
 
-    public String url;
-    public String subreddit;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -163,8 +163,6 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         }
         return true;
     }
-
-    public OverviewPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -177,7 +175,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if(getIntent().hasExtra(SUBREDDIT)){
+        if (getIntent().hasExtra(SUBREDDIT)) {
             this.subreddit = getIntent().getExtras().getString(SUBREDDIT);
         }
 
@@ -189,7 +187,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
-                                                  int positionOffsetPixels) {
+                                                                     int positionOffsetPixels) {
                                               if (position == 0 && positionOffsetPixels == 0) {
                                                   finish();
                                               }
@@ -231,9 +229,17 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         }
     }
 
+    public int adjustAlpha(float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
+    }
+
     public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
-        public AlbumFrag     album;
+        public AlbumFrag album;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -259,21 +265,13 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
 
     }
 
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
-    }
-
     public static class AlbumFrag extends Fragment {
-        View rootView;
         public RecyclerView recyclerView;
+        View rootView;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
             final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());

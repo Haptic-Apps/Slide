@@ -36,6 +36,8 @@ import me.ccrama.redditslide.util.NetworkUtil;
 
 public class ManageOfflineContentFragment {
 
+    public ArrayList<String> domains = new ArrayList<>();
+    List<String> subsToBack;
     private Activity context;
 
     public ManageOfflineContentFragment(Activity context) {
@@ -150,17 +152,17 @@ public class ManageOfflineContentFragment {
                 new AlertDialogWrapper.Builder(context)
                         .alwaysCallMultiChoiceCallback()
                         .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                if (!isChecked) {
-                                    toCheck.remove(all[which]);
-                                } else {
-                                    toCheck.add(all[which]);
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                        if (!isChecked) {
+                                            toCheck.remove(all[which]);
+                                        } else {
+                                            toCheck.add(all[which]);
+                                        }
+                                    }
                                 }
-                            }
-                        }
 
-                ).setTitle(R.string.multireddit_selector).setPositiveButton(
+                        ).setTitle(R.string.multireddit_selector).setPositiveButton(
                         context.getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -245,9 +247,6 @@ public class ManageOfflineContentFragment {
             text.setText(toSay);
         }
     }
-
-    public ArrayList<String> domains = new ArrayList<>();
-    List<String> subsToBack;
 
     public void updateFilters() {
         if (context.findViewById(R.id.manage_history_domainlist) != null) {

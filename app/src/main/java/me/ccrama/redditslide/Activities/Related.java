@@ -25,14 +25,12 @@ public class Related extends BaseActivityAnim {
     //todo NFC support
 
     public static final String EXTRA_URL = "url";
-
+    String url;
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
     private ContributionAdapter adapter;
-
     private SubredditSearchPosts posts;
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -42,8 +40,6 @@ public class Related extends BaseActivityAnim {
         }
         return false;
     }
-
-    String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,10 +52,10 @@ public class Related extends BaseActivityAnim {
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
             url = intent.getStringExtra(Intent.EXTRA_TEXT);
         }
-        if(intent.hasExtra(EXTRA_URL)){
+        if (intent.hasExtra(EXTRA_URL)) {
             url = intent.getStringExtra(EXTRA_URL);
         }
-        if(url == null || url.isEmpty()){
+        if (url == null || url.isEmpty()) {
             new AlertDialogWrapper.Builder(this).setTitle("URL is empty")
                     .setMessage("Try again with a different link!")
                     .setCancelable(false)
@@ -99,7 +95,7 @@ public class Related extends BaseActivityAnim {
                     }
                 }
 
-                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount) {
+                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                     posts.loading = true;
                     posts.loadMore(adapter, "", "url:" + url, false);
 

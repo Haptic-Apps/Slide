@@ -82,13 +82,14 @@ import me.ccrama.redditslide.util.LogUtil;
  * Created by carlo_000 on 1/11/2016.
  */
 public class SpoilerRobotoTextView extends RobotoTextView implements ClickableText {
-    private              List<CharacterStyle> storedSpoilerSpans  = new ArrayList<>();
-    private              List<Integer>        storedSpoilerStarts = new ArrayList<>();
-    private              List<Integer>        storedSpoilerEnds   = new ArrayList<>();
-    private static final Pattern              htmlSpoilerPattern  =
+    private static final Pattern htmlSpoilerPattern =
             Pattern.compile("<a href=\"[#/](?:spoiler|sp|s)\">([^<]*)</a>");
     private static final Pattern nativeSpoilerPattern =
             Pattern.compile("<span class=\"[^\"]*md-spoiler-text+[^\"]*\">([^<]*)</span>");
+    public boolean spoilerClicked = false;
+    private List<CharacterStyle> storedSpoilerSpans = new ArrayList<>();
+    private List<Integer> storedSpoilerStarts = new ArrayList<>();
+    private List<Integer> storedSpoilerEnds = new ArrayList<>();
 
     public SpoilerRobotoTextView(Context context) {
         super(context);
@@ -105,16 +106,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         setLineSpacing(0, 1.1f);
     }
 
-    public boolean isSpoilerClicked() {
-        return spoilerClicked;
-    }
-
-    public void resetSpoilerClicked() {
-        spoilerClicked = false;
-    }
-
-    public boolean spoilerClicked = false;
-
     private static SpannableStringBuilder removeNewlines(SpannableStringBuilder s) {
         int start = 0;
         int end = s.length();
@@ -127,6 +118,14 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
 
         return (SpannableStringBuilder) s.subSequence(start, end);
+    }
+
+    public boolean isSpoilerClicked() {
+        return spoilerClicked;
+    }
+
+    public void resetSpoilerClicked() {
+        spoilerClicked = false;
     }
 
     /**
@@ -300,8 +299,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 bod = " (" + ((url.contains("/") && url.startsWith("/") && !(url.split("/").length
                         > 2)) ? url
                         : (getContext().getString(ContentType.getContentID(contentType, false)) + (
-                                contentType == ContentType.Type.LINK ? " " + Uri.parse(url)
-                                        .getHost() : ""))) + ")";
+                        contentType == ContentType.Type.LINK ? " " + Uri.parse(url)
+                                .getHost() : ""))) + ")";
             } catch (Exception e) {
                 bod = " ("
                         + getContext().getString(ContentType.getContentID(contentType, false))
@@ -632,7 +631,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     private void openGif(String url, String subreddit, Activity activity) {
         if (SettingValues.gif) {
-            if(GifUtils.AsyncLoadGif.getVideoType(url).shouldLoadPreview()){
+            if (GifUtils.AsyncLoadGif.getVideoType(url).shouldLoadPreview()) {
                 LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
             } else {
                 Intent myIntent = new Intent(getContext(), MediaView.class);
@@ -774,18 +773,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         return sequence;
     }
 
-    private static class URLSpanNoUnderline extends URLSpan {
-        public URLSpanNoUnderline(String url) {
-            super(url);
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setUnderlineText(false);
-        }
-    }
-
     /**
      * Sets the styling for string with code segments. <p/> The general process is to search for
      * <code>[[&lt;[</code> and <code>]&gt;]]</code> tokens to find the code fragments within the
@@ -825,6 +812,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
 
         return sequence;
+    }
+
+    private static class URLSpanNoUnderline extends URLSpan {
+        public URLSpanNoUnderline(String url) {
+            super(url);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+        }
     }
 
 

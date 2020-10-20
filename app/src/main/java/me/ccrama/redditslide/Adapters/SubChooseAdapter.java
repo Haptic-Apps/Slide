@@ -37,10 +37,10 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class SubChooseAdapter extends ArrayAdapter<String> {
     private final List<String> objects;
-    private Filter filter;
     public ArrayList<String> baseItems;
     public ArrayList<String> fitems;
     public boolean openInSubView = true;
+    private Filter filter;
 
     public SubChooseAdapter(Context context, ArrayList<String> objects, ArrayList<String> allSubreddits) {
         super(context, 0, objects);
@@ -69,25 +69,17 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         return filter;
     }
 
-    private static class ViewHolderItem {
-		private TextView t;
-
-        ViewHolderItem(TextView t){
-            this.t = t;
-        }
-	}
-
-	@Override
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolderItem viewHolderItem;
-		if (convertView == null) {
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
-			viewHolderItem = new ViewHolderItem(convertView.findViewById(R.id.name));
-			convertView.setTag(viewHolderItem);
-		} else {
-			viewHolderItem = (ViewHolderItem) convertView.getTag();
-		}
-		final TextView t =
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
+            viewHolderItem = new ViewHolderItem(convertView.findViewById(R.id.name));
+            convertView.setTag(viewHolderItem);
+        } else {
+            viewHolderItem = (ViewHolderItem) convertView.getTag();
+        }
+        final TextView t =
                 viewHolderItem.t;
         t.setText(fitems.get(position));
 
@@ -97,23 +89,23 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(
                 Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
 
-        if(getContext() instanceof SetupWidget){
+        if (getContext() instanceof SetupWidget) {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((SetupWidget)getContext()).name = subreddit;
+                    ((SetupWidget) getContext()).name = subreddit;
                     SubredditWidgetProvider.lastDone = subreddit;
-                    ((SetupWidget)getContext()).startWidget();
+                    ((SetupWidget) getContext()).startWidget();
                 }
             });
 
-        } else if(getContext()instanceof Shortcut){
+        } else if (getContext() instanceof Shortcut) {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final Bitmap src;
                     final Bitmap bm2;
-                    Intent shortcutIntent  = new Intent(getContext(), OpenContent.class);
+                    Intent shortcutIntent = new Intent(getContext(), OpenContent.class);
                     if (subreddit.toLowerCase(Locale.ENGLISH).equals("androidcirclejerk")) {
                         bm2 = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
                         Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
@@ -144,9 +136,9 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
                     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + subreddit);
                     intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Bitmap.createScaledBitmap(bm2, p, p, false));
-                    ((Shortcut)getContext()).setResult(Activity.RESULT_OK, intent);
+                    ((Shortcut) getContext()).setResult(Activity.RESULT_OK, intent);
 
-                    ((Shortcut)getContext()).finish();
+                    ((Shortcut) getContext()).finish();
                 }
             });
         }
@@ -156,6 +148,14 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
     @Override
     public int getCount() {
         return fitems.size();
+    }
+
+    private static class ViewHolderItem {
+        private TextView t;
+
+        ViewHolderItem(TextView t) {
+            this.t = t;
+        }
     }
 
     private class SubFilter extends Filter {

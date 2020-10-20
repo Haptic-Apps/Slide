@@ -98,19 +98,22 @@ import me.ccrama.redditslide.util.SubmissionParser;
 
 public class SubredditView extends BaseActivity {
 
-    public static final String  EXTRA_SUBREDDIT = "subreddit";
-    public              boolean canSubmit       = true;
-    public String               subreddit;
-    public Submission           openingComments;
-    public int                  currentComment;
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static boolean restarting;
+    public boolean canSubmit = true;
+    public String subreddit;
+    public Submission openingComments;
+    public int currentComment;
     public OverviewPagerAdapter adapter;
-    public String               term;
+    public String term;
     public ToggleSwipeViewPager pager;
-    public boolean              singleMode;
-    public boolean              commentPager;
-    public boolean              loaded;
-    View      header;
+    public boolean singleMode;
+    public boolean commentPager;
+    public boolean loaded;
+    View header;
     Subreddit sub;
+    TimePeriod time = TimePeriod.DAY;
+    Sorting sorts;
     private DrawerLayout drawerLayout;
     private boolean currentlySubbed = false;
 
@@ -335,7 +338,7 @@ public class SubredditView extends BaseActivity {
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -353,7 +356,7 @@ public class SubredditView extends BaseActivity {
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     })
@@ -368,7 +371,7 @@ public class SubredditView extends BaseActivity {
                                         new MaterialDialog.InputCallback() {
                                             @Override
                                             public void onInput(MaterialDialog materialDialog,
-                                                    CharSequence charSequence) {
+                                                                CharSequence charSequence) {
                                                 term = charSequence.toString();
                                             }
                                         })
@@ -376,7 +379,7 @@ public class SubredditView extends BaseActivity {
                                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog materialDialog,
-                                            @NonNull DialogAction dialogAction) {
+                                                        @NonNull DialogAction dialogAction) {
                                         Intent i = new Intent(SubredditView.this, Search.class);
                                         i.putExtra(Search.EXTRA_TERM, term);
                                         startActivity(i);
@@ -396,7 +399,7 @@ public class SubredditView extends BaseActivity {
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog,
-                                        @NonNull DialogAction dialogAction) {
+                                                    @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(SubredditView.this, Search.class);
                                     i.putExtra(Search.EXTRA_TERM, term);
                                     i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
@@ -432,7 +435,7 @@ public class SubredditView extends BaseActivity {
 
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -450,7 +453,7 @@ public class SubredditView extends BaseActivity {
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     })
@@ -573,11 +576,11 @@ public class SubredditView extends BaseActivity {
 
             final TextView sort = dialoglayout.findViewById(R.id.sort);
             Sorting sortingis = Sorting.HOT;
-            if(SettingValues.hasSort(subreddit)) {
+            if (SettingValues.hasSort(subreddit)) {
                 sortingis = SettingValues.getBaseSubmissionSort(subreddit);
                 sort.setText(sortingis.name()
-                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
-                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP) ? " of "
+                        + SettingValues.getBaseTimePeriod(subreddit).name() : ""));
             } else {
                 sort.setText("Set default sorting");
 
@@ -612,11 +615,11 @@ public class SubredditView extends BaseActivity {
                                             return;
                                     }
 
-                                    SettingValues.setSubSorting(sorts,time,subreddit);
+                                    SettingValues.setSubSorting(sorts, time, subreddit);
                                     Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
                                     sort.setText(sortingis.name()
-                                            + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
-                                            + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                                            + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP) ? " of "
+                                            + SettingValues.getBaseTimePeriod(subreddit).name() : ""));
                                     reloadSubs();
 
                                 }
@@ -632,11 +635,11 @@ public class SubredditView extends BaseActivity {
                             SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
                             SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
                             final TextView sort = dialoglayout.findViewById(R.id.sort);
-                            if(SettingValues.hasSort(subreddit)) {
+                            if (SettingValues.hasSort(subreddit)) {
                                 Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
                                 sort.setText(sortingis.name()
-                                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
-                                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP) ? " of "
+                                        + SettingValues.getBaseTimePeriod(subreddit).name() : ""));
                             } else {
                                 sort.setText("Set default sorting");
 
@@ -706,7 +709,7 @@ public class SubredditView extends BaseActivity {
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
                                         public void onSelection(MaterialDialog dialog,
-                                                View itemView, int which, CharSequence text) {
+                                                                View itemView, int which, CharSequence text) {
                                             Intent i =
                                                     new Intent(SubredditView.this, Profile.class);
                                             i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
@@ -717,7 +720,7 @@ public class SubredditView extends BaseActivity {
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog,
-                                                @NonNull DialogAction which) {
+                                                            @NonNull DialogAction which) {
                                             Intent i = new Intent(SubredditView.this,
                                                     SendMessage.class);
                                             i.putExtra(SendMessage.EXTRA_NAME, "/r/" + subOverride);
@@ -785,8 +788,8 @@ public class SubredditView extends BaseActivity {
                                             .itemsCallback(new MaterialDialog.ListCallback() {
                                                 @Override
                                                 public void onSelection(MaterialDialog dialog,
-                                                        View itemView, int which,
-                                                        CharSequence text) {
+                                                                        View itemView, int which,
+                                                                        CharSequence text) {
                                                     final FlairTemplate t = flairs.get(which);
                                                     if (t.isTextEditable()) {
                                                         new MaterialDialog.Builder(
@@ -1081,9 +1084,6 @@ public class SubredditView extends BaseActivity {
         return position;
     }
 
-    TimePeriod time = TimePeriod.DAY;
-    Sorting sorts;
-
     private void askTimePeriod(final Sorting sort, final String sub, final View dialoglayout) {
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -1115,8 +1115,8 @@ public class SubredditView extends BaseActivity {
                 final TextView sort = dialoglayout.findViewById(R.id.sort);
                 Sorting sortingis = SettingValues.getBaseSubmissionSort("Default sorting: " + subreddit);
                 sort.setText(sortingis.name()
-                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
-                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP) ? " of "
+                        + SettingValues.getBaseTimePeriod(subreddit).name() : ""));
                 reloadSubs();
             }
         };
@@ -1126,6 +1126,7 @@ public class SubredditView extends BaseActivity {
                 SortingUtil.getSortingTimeId(""), l2);
         builder.show();
     }
+
     public void openPopup() {
         PopupMenu popup =
                 new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
@@ -1228,8 +1229,6 @@ public class SubredditView extends BaseActivity {
         popup.show();
     }
 
-    public static boolean restarting;
-
     public void restartTheme() {
         Intent intent = this.getIntent();
         intent.putExtra(EXTRA_SUBREDDIT, subreddit);
@@ -1327,8 +1326,8 @@ public class SubredditView extends BaseActivity {
                                         .itemsCallback(new MaterialDialog.ListCallback() {
                                             @Override
                                             public void onSelection(MaterialDialog dialog,
-                                                    View itemView, final int which,
-                                                    CharSequence text) {
+                                                                    View itemView, final int which,
+                                                                    CharSequence text) {
                                                 new AsyncTask<Void, Void, Void>() {
                                                     @Override
                                                     protected Void doInBackground(Void... params) {
@@ -1430,7 +1429,7 @@ public class SubredditView extends BaseActivity {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     new AsyncTask<Void, Void, Boolean>() {
                                                         @Override
                                                         public void onPostExecute(Boolean success) {
@@ -1507,7 +1506,7 @@ public class SubredditView extends BaseActivity {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     changeSubscription(subreddit,
                                                             true); // Force add the subscription
                                                     Snackbar s = Snackbar.make(mToolbar,
@@ -1545,7 +1544,7 @@ public class SubredditView extends BaseActivity {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     new AsyncTask<Void, Void, Boolean>() {
                                                         @Override
                                                         public void onPostExecute(Boolean success) {
@@ -1622,7 +1621,7 @@ public class SubredditView extends BaseActivity {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     changeSubscription(subreddit,
                                                             false); // Force add the subscription
                                                     Snackbar s = Snackbar.make(mToolbar,
@@ -1654,7 +1653,7 @@ public class SubredditView extends BaseActivity {
                         new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView,
-                                    boolean isChecked) {
+                                                         boolean isChecked) {
                                 if (isChecked) {
                                     final String sub = subreddit.getDisplayName();
 
@@ -1815,7 +1814,7 @@ public class SubredditView extends BaseActivity {
     }
 
     private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
-            CommentOverflow commentOverflow) {
+                          CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -1853,7 +1852,7 @@ public class SubredditView extends BaseActivity {
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
-        private BlankFragment   blankPage;
+        private BlankFragment blankPage;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -1861,7 +1860,7 @@ public class SubredditView extends BaseActivity {
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
                     if (position == 0) {
                         CoordinatorLayout.LayoutParams params =
                                 (CoordinatorLayout.LayoutParams) header.getLayoutParams();
@@ -1962,7 +1961,7 @@ public class SubredditView extends BaseActivity {
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
                     if (position == 0) {
                         CoordinatorLayout.LayoutParams params =
                                 (CoordinatorLayout.LayoutParams) header.getLayoutParams();
@@ -2165,7 +2164,7 @@ public class SubredditView extends BaseActivity {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     dialog.dismiss();
                                                     setResult(4);
                                                     finish();

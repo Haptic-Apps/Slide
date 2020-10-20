@@ -87,7 +87,7 @@ public class Discover extends BaseActivityAnim {
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
 
-        ((DrawerLayout)findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         setupAppBar(R.id.toolbar, R.string.discover_title, true, false);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
@@ -131,7 +131,7 @@ public class Discover extends BaseActivityAnim {
         public Fragment getItem(int i) {
             Fragment f = new SubredditListView();
             Bundle args = new Bundle();
-            args.putString("id", i == 1?"trending":"popular");
+            args.putString("id", i == 1 ? "trending" : "popular");
             f.setArguments(args);
 
             return f;

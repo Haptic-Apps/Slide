@@ -45,19 +45,22 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements BaseAdapter {
 
-    private final RecyclerView        listView;
-    public final  String              subreddit;
-    public        Activity            context;
-    private final boolean             custom;
-    public        SubredditPostsRealm dataSet;
-    public        List<Submission>    seen;
+    public final String subreddit;
+    private final RecyclerView listView;
+    private final boolean custom;
     private final int LOADING_SPINNER = 5;
-    private final int NO_MORE         = 3;
-    private final int SPACER          = 6;
+    private final int NO_MORE = 3;
+    private final int SPACER = 6;
+    public Activity context;
+    public SubredditPostsRealm dataSet;
+    public List<Submission> seen;
+    public boolean isError;
     SubmissionDisplay displayer;
+    int tag = 1;
+    int clicked;
 
     public SubmissionNewsAdapter(Activity context, SubredditPostsRealm dataSet,
-            RecyclerView listView, String subreddit, SubmissionDisplay displayer) {
+                                 RecyclerView listView, String subreddit, SubmissionDisplay displayer) {
         this.subreddit = subreddit.toLowerCase(Locale.ENGLISH);
         this.listView = listView;
         this.dataSet = dataSet;
@@ -77,8 +80,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation,
                         context)));
     }
-
-    public boolean isError;
 
     @Override
     public long getItemId(int position) {
@@ -125,8 +126,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return 1;
     }
 
-    int tag = 1;
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         tag++;
@@ -149,8 +148,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return new NewsViewHolder(v);
         }
     }
-
-    int clicked;
 
     public void refreshView() {
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
@@ -293,7 +290,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     Reddit.appRestart.edit()
                                                             .putString("offlinepopup", "")
                                                             .apply();
@@ -315,7 +312,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             Reddit.appRestart.edit()
                                                                     .putString("offlinepopup", "")
                                                                     .apply();
@@ -395,6 +392,27 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
+    @Override
+    public int getItemCount() {
+        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
+            return 0;
+        } else {
+            return dataSet.posts.size() + 2; // Always account for footer
+        }
+    }
+
+    public void performClick(int adapterPosition) {
+        if (listView != null) {
+            RecyclerView.ViewHolder holder =
+                    listView.findViewHolderForLayoutPosition(adapterPosition);
+            if (holder != null) {
+                View view = holder.itemView;
+                if (view != null) {
+                    view.performClick();
+                }
+            }
+        }
+    }
 
     public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
@@ -405,15 +423,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
-            return 0;
-        } else {
-            return dataSet.posts.size() + 2; // Always account for footer
         }
     }
 
@@ -467,20 +476,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 return null;
             }
             return null;
-        }
-    }
-
-
-    public void performClick(int adapterPosition) {
-        if (listView != null) {
-            RecyclerView.ViewHolder holder =
-                    listView.findViewHolderForLayoutPosition(adapterPosition);
-            if (holder != null) {
-                View view = holder.itemView;
-                if (view != null) {
-                    view.performClick();
-                }
-            }
         }
     }
 }

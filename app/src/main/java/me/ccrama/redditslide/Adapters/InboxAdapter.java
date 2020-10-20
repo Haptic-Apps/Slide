@@ -74,10 +74,10 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements BaseAdapter {
 
     private static final int TOP_LEVEL = 1;
-    private final        int SPACER    = 6;
-    public final  Context       mContext;
-    private final RecyclerView  listView;
-    public        InboxMessages dataSet;
+    public final Context mContext;
+    private final int SPACER = 6;
+    private final RecyclerView listView;
+    public InboxMessages dataSet;
 
     public InboxAdapter(Context mContext, InboxMessages dataSet, RecyclerView listView) {
 
@@ -458,11 +458,73 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private void setViews(String rawHTML, String subredditName, MessageViewHolder holder) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            holder.content.setVisibility(View.VISIBLE);
+            holder.content.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            holder.content.setText("");
+            holder.content.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                holder.commentOverflow.setViews(blocks, subredditName);
+            } else {
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()),
+                        subredditName);
+            }
+        } else {
+            holder.commentOverflow.removeAllViews();
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
+            return 0;
+        } else {
+            return dataSet.posts.size() + 2;
+
+        }
+    }
+
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    private static class AsyncSetRead extends AsyncTask<Message, Void, Void> {
+
+        Boolean b;
+
+        public AsyncSetRead(Boolean b) {
+            this.b = b;
+        }
+
+        @Override
+        protected Void doInBackground(Message... params) {
+            new InboxManager(Authentication.reddit).setRead(b, params[0]);
+            return null;
+        }
+    }
+
     private class AsyncReplyTask extends AsyncTask<Void, Void, Void> {
         String trying;
 
         Message replyTo;
-        String  text;
+        String text;
+        boolean sent;
 
         public AsyncReplyTask(Message replyTo, String text) {
             this.replyTo = replyTo;
@@ -475,8 +537,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             return null;
         }
-
-        boolean sent;
 
         public void sendMessage(Captcha captcha, String captchaAttempt) {
             try {
@@ -509,69 +569,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Drafts.addDraft(text);
                 sent = true;
             }
-        }
-    }
-
-
-    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
-        public SpacerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    private void setViews(String rawHTML, String subredditName, MessageViewHolder holder) {
-        if (rawHTML.isEmpty()) {
-            return;
-        }
-
-        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
-
-        int startIndex = 0;
-        // the <div class="md"> case is when the body contains a table or code block first
-        if (!blocks.get(0).equals("<div class=\"md\">")) {
-            holder.content.setVisibility(View.VISIBLE);
-            holder.content.setTextHtml(blocks.get(0), subredditName);
-            startIndex = 1;
-        } else {
-            holder.content.setText("");
-            holder.content.setVisibility(View.GONE);
-        }
-
-        if (blocks.size() > 1) {
-            if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName);
-            } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()),
-                        subredditName);
-            }
-        } else {
-            holder.commentOverflow.removeAllViews();
-        }
-    }
-
-
-    @Override
-    public int getItemCount() {
-        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
-            return 0;
-        } else {
-            return dataSet.posts.size() + 2;
-
-        }
-    }
-
-    private static class AsyncSetRead extends AsyncTask<Message, Void, Void> {
-
-        Boolean b;
-
-        public AsyncSetRead(Boolean b) {
-            this.b = b;
-        }
-
-        @Override
-        protected Void doInBackground(Message... params) {
-            new InboxManager(Authentication.reddit).setRead(b, params[0]);
-            return null;
         }
     }
 

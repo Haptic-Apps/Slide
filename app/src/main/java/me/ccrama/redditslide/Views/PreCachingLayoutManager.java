@@ -20,14 +20,7 @@ public class PreCachingLayoutManager extends LinearLayoutManager {
 
         this.context = context;
     }
-    @Override
-    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        try {
-            super.onLayoutChildren(recycler, state);
-        } catch (IndexOutOfBoundsException e) {
-            LogUtil.v("Met a IOOBE in RecyclerView");
-        }
-    }
+
     public PreCachingLayoutManager(Context context, int extraLayoutSpace) {
         super(context);
         this.context = context;
@@ -38,6 +31,15 @@ public class PreCachingLayoutManager extends LinearLayoutManager {
     public PreCachingLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
         this.context = context;
+    }
+
+    @Override
+    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        try {
+            super.onLayoutChildren(recycler, state);
+        } catch (IndexOutOfBoundsException e) {
+            LogUtil.v("Met a IOOBE in RecyclerView");
+        }
     }
 
     public void setExtraLayoutSpace(int extraLayoutSpace) {

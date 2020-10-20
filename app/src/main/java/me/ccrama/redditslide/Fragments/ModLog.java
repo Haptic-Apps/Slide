@@ -21,8 +21,8 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 public class ModLog extends Fragment {
 
 
-    public  ModLogAdapter adapter;
-    private ModLogPosts   posts;
+    public ModLogAdapter adapter;
+    private ModLogPosts posts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

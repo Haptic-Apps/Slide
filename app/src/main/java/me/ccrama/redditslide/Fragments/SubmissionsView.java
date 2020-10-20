@@ -61,22 +61,62 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
-    private static int               adapterPosition;
-    private static int               currentPosition;
-    public         SubredditPosts    posts;
-    public         RecyclerView      rv;
-    public         SubmissionAdapter adapter;
-    public         String            id;
-    public         boolean           main;
-    public         boolean           forced;
-    int     diff;
+    private static int adapterPosition;
+    private static int currentPosition;
+    private static Submission currentSubmission;
+    public SubredditPosts posts;
+    public RecyclerView rv;
+    public SubmissionAdapter adapter;
+    public String id;
+    public boolean main;
+    public boolean forced;
+    int diff;
     boolean forceLoad;
-    private        FloatingActionButton fab;
-    private        int                  visibleItemCount;
-    private        int                  pastVisiblesItems;
-    private        int                  totalItemCount;
-    private        SwipeRefreshLayout   mSwipeRefreshLayout;
-    private static Submission           currentSubmission;
+    Runnable mLongPressRunnable;
+    GestureDetector detector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
+    float origY;
+    View header;
+    ToolbarScrollHideHandler toolbarScroll;
+    private FloatingActionButton fab;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+    private int totalItemCount;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @NonNull
+    public static RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
+        return new CatchStaggeredGridLayoutManager(numColumns,
+                CatchStaggeredGridLayoutManager.VERTICAL);
+    }
+
+    public static int getNumColumns(final int orientation, Activity context) {
+        final int numColumns;
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow = context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
+            numColumns = Reddit.dpWidth;
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
+                && SettingValues.dualPortrait) {
+            numColumns = 2;
+        } else {
+            numColumns = 1;
+        }
+        return numColumns;
+    }
+
+    public static void datachanged(int adaptorPosition2) {
+        adapterPosition = adaptorPosition2;
+    }
+
+    public static void currentPosition(int adapterPosition) {
+        currentPosition = adapterPosition;
+    }
+
+    public static void currentSubmission(Submission current) {
+        currentSubmission = current;
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -90,13 +130,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mLayoutManager.setSpanCount(getNumColumns(currentOrientation, getActivity()));
     }
 
-    Runnable mLongPressRunnable;
-    GestureDetector detector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
-    float origY;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
                 new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
@@ -168,6 +204,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 fab.setContentDescription(getString(R.string.btn_fab_search));
                 fab.setOnClickListener(new View.OnClickListener() {
                     String term;
+
                     @Override
                     public void onClick(View v) {
                         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
@@ -242,7 +279,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     Reddit.colors.edit()
                                                             .putBoolean(
                                                                     SettingValues.PREF_FAB_CLEAR,
@@ -269,7 +306,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                             origY = event.getY();
                             handler.postDelayed(mLongPressRunnable, android.view.ViewConfiguration.getLongPressTimeout());
                         }
-                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight()/2.0f)|| (event.getAction() == MotionEvent.ACTION_UP)) {
+                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight() / 2.0f) || (event.getAction() == MotionEvent.ACTION_UP)) {
                             handler.removeCallbacks(mLongPressRunnable);
                         }
                         return false;
@@ -286,7 +323,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     Reddit.colors.edit()
                                                             .putBoolean(
                                                                     SettingValues.PREF_FAB_CLEAR,
@@ -360,33 +397,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             doAdapter();
         }
         return v;
-    }
-
-    View header;
-
-    ToolbarScrollHideHandler toolbarScroll;
-
-    @NonNull
-    public static RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
-        return new CatchStaggeredGridLayoutManager(numColumns,
-                CatchStaggeredGridLayoutManager.VERTICAL);
-    }
-
-    public static int getNumColumns(final int orientation, Activity context) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
-                && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
     }
 
     public void doAdapter() {
@@ -481,11 +491,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
     }
 
-
-    public static void datachanged(int adaptorPosition2) {
-        adapterPosition = adaptorPosition2;
-    }
-
     private void refresh() {
         posts.forced = true;
         forced = true;
@@ -520,7 +525,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (startIndex != -1 && !forced ) {
+                    if (startIndex != -1 && !forced) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                     } else {
                         forced = false;
@@ -604,7 +609,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                             super.onScrolled(recyclerView, dx, dy);
 
-                            if (!posts.loading && !posts.nomore && !posts.offline && !adapter.isError){
+                            if (!posts.loading && !posts.nomore && !posts.offline && !adapter.isError) {
                                 visibleItemCount = rv.getLayoutManager().getChildCount();
                                 totalItemCount = rv.getLayoutManager().getItemCount();
 
@@ -653,8 +658,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                         fab.show();
                                     }
                                 } else {
-                                    if(!SettingValues.alwaysShowFAB)
-                                    {
+                                    if (!SettingValues.alwaysShowFAB) {
                                         fab.hide();
                                     }
                                 }
@@ -693,13 +697,5 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         } else {
             toolbarScroll.reset = true;
         }
-    }
-
-    public static void currentPosition(int adapterPosition) {
-        currentPosition = adapterPosition;
-    }
-
-    public static void currentSubmission(Submission current) {
-        currentSubmission = current;
     }
 }

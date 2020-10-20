@@ -44,11 +44,13 @@ public class BaseActivity extends PeekViewActivity
         implements SwipeBackActivityBase, NfcAdapter.CreateNdefMessageCallback,
         NfcAdapter.OnNdefPushCompleteCallback {
     @Nullable
-    public    Toolbar                 mToolbar;
+    public Toolbar mToolbar;
+    public boolean shouldInterceptAlways = false;
+    public String shareUrl;
     protected SwipeBackActivityHelper mHelper;
     protected boolean overrideRedditSwipeAnywhere = false;
-    protected boolean enableSwipeBackLayout       = true;
-    protected boolean overrideSwipeFromAnywhere   = false;
+    protected boolean enableSwipeBackLayout = true;
+    protected boolean overrideSwipeFromAnywhere = false;
     protected boolean verticalExit = false;
     NfcAdapter mNfcAdapter;
 
@@ -65,7 +67,7 @@ public class BaseActivity extends PeekViewActivity
         }
     }
 
-    public void hideDecor(){
+    public void hideDecor() {
         try {
             if (SettingValues.immersiveMode) {
                 final View decorView = getWindow().getDecorView();
@@ -91,7 +93,7 @@ public class BaseActivity extends PeekViewActivity
                     }
                 });
             }
-        } catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
@@ -121,8 +123,6 @@ public class BaseActivity extends PeekViewActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-    public boolean shouldInterceptAlways = false;
 
     /**
      * Force English locale if setting is checked
@@ -165,7 +165,7 @@ public class BaseActivity extends PeekViewActivity
                 if (overrideSwipeFromAnywhere) {
                     shouldInterceptAlways = true;
                 } else {
-                    if(verticalExit){
+                    if (verticalExit) {
                         mHelper.getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_BOTTOM | SwipeBackLayout.EDGE_TOP);
                     } else {
                         mHelper.getSwipeBackLayout()
@@ -233,7 +233,7 @@ public class BaseActivity extends PeekViewActivity
         overrideSwipeFromAnywhere = true;
     }
 
-    protected void swipeVerticalExit(){
+    protected void swipeVerticalExit() {
         verticalExit = true;
     }
 
@@ -301,7 +301,7 @@ public class BaseActivity extends PeekViewActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
     protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton,
-            boolean colorToolbar) {
+                               boolean colorToolbar) {
         setupAppBar(toolbar, getString(title), enableUpButton, colorToolbar);
     }
 
@@ -313,7 +313,7 @@ public class BaseActivity extends PeekViewActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
-            boolean colorToolbar) {
+                               boolean colorToolbar) {
         int systemBarColor = Palette.getStatusBarColor();
         mToolbar = (Toolbar) findViewById(toolbar);
 
@@ -340,7 +340,7 @@ public class BaseActivity extends PeekViewActivity
      * @param color          Color to color the tab bar
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, int color,
-            @IdRes int appbar) {
+                               @IdRes int appbar) {
         int systemBarColor = Palette.getDarkerColor(color);
         mToolbar = (Toolbar) findViewById(toolbar);
         findViewById(appbar).setBackgroundColor(color);
@@ -366,7 +366,7 @@ public class BaseActivity extends PeekViewActivity
      * @param username       The username to base the theme on
      */
     protected void setupUserAppBar(@IdRes int toolbar, @Nullable String title,
-            boolean enableUpButton, String username) {
+                                   boolean enableUpButton, String username) {
         int systemBarColor = Palette.getUserStatusBarColor(username);
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColorUser(username));
@@ -393,7 +393,7 @@ public class BaseActivity extends PeekViewActivity
      * @param subreddit      The subreddit to base the theme on
      */
     protected void setupSubredditAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
-            String subreddit) {
+                                        String subreddit) {
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColor(subreddit));
         setSupportActionBar(mToolbar);
@@ -438,8 +438,6 @@ public class BaseActivity extends PeekViewActivity
     public void setRecentBar(String subreddit) {
         setRecentBar(subreddit, Palette.getColor(subreddit));
     }
-
-    public String shareUrl;
 
     public void setShareUrl(String url) {
         try {

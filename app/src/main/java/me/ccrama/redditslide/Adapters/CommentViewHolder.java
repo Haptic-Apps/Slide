@@ -39,7 +39,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         textColorRegular = firstTextView.getCurrentTextColor();
         textColorUp = ContextCompat.getColor(v.getContext(), R.color.md_orange_500);
         content = v.findViewById(R.id.content);
-        imageFlair= v.findViewById(R.id.flair);
+        imageFlair = v.findViewById(R.id.flair);
         commentOverflow = v.findViewById(R.id.commentOverflow);
     }
 }

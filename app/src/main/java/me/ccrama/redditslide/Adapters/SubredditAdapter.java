@@ -35,12 +35,13 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     private final RecyclerView listView;
-    public Activity context;
-    public SubredditNames dataSet;
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE = 3;
     private final int SPACER = 6;
+    public Activity context;
+    public SubredditNames dataSet;
     SubredditListView displayer;
+    int tag = 1;
 
     public SubredditAdapter(Activity context, SubredditNames dataSet, RecyclerView listView, String where, SubredditListView displayer) {
         String where1 = where.toLowerCase(Locale.ENGLISH);
@@ -74,8 +75,6 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         return 1;
     }
-
-    int tag = 1;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -183,18 +182,6 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
-        public SubmissionFooterViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
-        public SpacerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     @Override
     public int getItemCount() {
         if (dataSet.posts == null || dataSet.posts.isEmpty()) {
@@ -230,6 +217,18 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         } else {
             commentOverflow.removeAllViews();
+        }
+    }
+
+    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+        public SubmissionFooterViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
         }
     }
 

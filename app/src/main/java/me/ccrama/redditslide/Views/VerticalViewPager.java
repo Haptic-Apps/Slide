@@ -29,8 +29,36 @@ public class VerticalViewPager extends ViewPager {
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
+    /**
+     * Swaps the X and Y coordinates of your touch event.
+     */
+    private MotionEvent swapXY(MotionEvent ev) {
+        float width = getWidth();
+        float height = getHeight();
+
+        float newX = (ev.getY() / height) * width;
+        float newY = (ev.getX() / width) * height;
+
+        ev.setLocation(newX, newY);
+
+        return ev;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        boolean intercepted = super.onInterceptTouchEvent(swapXY(ev));
+        swapXY(ev); // return touch coordinates to original reference frame for any child views
+        return intercepted;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return super.onTouchEvent(swapXY(ev));
+    }
+
     private static class VerticalPageTransformer implements ViewPager.PageTransformer {
         private static final float MIN_SCALE = 0.75f;
+
         @Override
         public void transformPage(View view, float position) {
 
@@ -38,7 +66,7 @@ public class VerticalViewPager extends ViewPager {
                 // This page is way off-screen to the left.
                 view.setAlpha(0);
 
-            }  else if (position <= 0) { // [-1,0]
+            } else if (position <= 0) { // [-1,0]
                 // Use the default slide transition when moving to the left page
                 view.setAlpha(1);
                 // Counteract the default slide transition
@@ -70,32 +98,5 @@ public class VerticalViewPager extends ViewPager {
 
         }
 
-    }
-
-    /**
-     * Swaps the X and Y coordinates of your touch event.
-     */
-    private MotionEvent swapXY(MotionEvent ev) {
-        float width = getWidth();
-        float height = getHeight();
-
-        float newX = (ev.getY() / height) * width;
-        float newY = (ev.getX() / width) * height;
-
-        ev.setLocation(newX, newY);
-
-        return ev;
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev){
-        boolean intercepted = super.onInterceptTouchEvent(swapXY(ev));
-        swapXY(ev); // return touch coordinates to original reference frame for any child views
-        return intercepted;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return super.onTouchEvent(swapXY(ev));
     }
 }

@@ -9,14 +9,14 @@ import net.dean.jraw.models.MoreChildren;
 public class MoreChildItem extends CommentObject {
     public MoreChildren children;
 
-    @Override
-    public boolean isComment() {
-        return false;
-    }
-
     public MoreChildItem(CommentNode node, MoreChildren children) {
         comment = node;
         this.children = children;
         this.name = comment.getComment().getFullName() + "more";
+    }
+
+    @Override
+    public boolean isComment() {
+        return false;
     }
 }

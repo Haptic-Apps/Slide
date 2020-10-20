@@ -77,12 +77,18 @@ import static me.ccrama.redditslide.UserSubscriptions.setPinned;
 
 public class ReorderSubreddits extends BaseActivityAnim {
 
-    private CaseInsensitiveArrayList subs;
-    private CustomAdapter            adapter;
-    private RecyclerView             recyclerView;
-    private String                   input;
     public static final String MULTI_REDDIT = "/m/";
+    public int diff;
     MenuItem subscribe;
+    HashMap<String, Boolean> isSubscribed;
+    private CaseInsensitiveArrayList subs;
+    private CustomAdapter adapter;
+    private RecyclerView recyclerView;
+    private String input;
+    private ArrayList<String> chosen = new ArrayList<>();
+    private boolean isMultiple;
+    private int done = 0;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -159,8 +165,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         .putBoolean(SettingValues.PREF_ALPHABETIZE_SUBSCRIBE, !SettingValues.alphabetizeOnSubscribe)
                         .apply();
                 SettingValues.alphabetizeOnSubscribe = !SettingValues.alphabetizeOnSubscribe;
-                if(subscribe != null)
-                subscribe.setChecked(SettingValues.alphabetizeOnSubscribe);
+                if (subscribe != null)
+                    subscribe.setChecked(SettingValues.alphabetizeOnSubscribe);
                 return true;
             case R.id.info:
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
@@ -193,11 +199,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
     }
 
-    private ArrayList<String> chosen = new ArrayList<>();
-    HashMap<String, Boolean> isSubscribed;
-    private boolean isMultiple;
-    private int done = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -212,6 +213,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         if (Authentication.isLoggedIn) {
             new AsyncTask<Void, Void, Void>() {
                 boolean success = true;
+                Dialog d;
 
                 @Override
                 protected Void doInBackground(Void... params) {
@@ -231,7 +233,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         isSubscribed.put(s.getDisplayName().toLowerCase(Locale.ENGLISH), true);
                     }
 
-                    if(UserSubscriptions.multireddits == null){
+                    if (UserSubscriptions.multireddits == null) {
                         UserSubscriptions.loadMultireddits();
                     }
                     return null;
@@ -257,8 +259,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 .show();
                     }
                 }
-
-                Dialog d;
 
                 @Override
                 protected void onPreExecute() {
@@ -420,7 +420,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             new MaterialDialog.InputCallback() {
                                                 @Override
                                                 public void onInput(MaterialDialog dialog,
-                                                        CharSequence raw) {
+                                                                    CharSequence raw) {
                                                     input = raw.toString();
                                                 }
                                             })
@@ -428,7 +428,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(MaterialDialog dialog,
-                                                DialogAction which) {
+                                                            DialogAction which) {
                                             new AsyncGetSubreddit().execute(input);
                                         }
                                     })
@@ -436,7 +436,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(MaterialDialog dialog,
-                                                DialogAction which) {
+                                                            DialogAction which) {
 
                                         }
                                     });
@@ -459,7 +459,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     null, false, new MaterialDialog.InputCallback() {
                                         @Override
                                         public void onInput(MaterialDialog dialog,
-                                                CharSequence raw) {
+                                                            CharSequence raw) {
                                             input = raw.toString()
                                                     .replaceAll("\\s",
                                                             ""); //remove whitespace from input
@@ -549,8 +549,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
         });
     }
 
-    public int diff;
-
     public void doCollection() {
         final ArrayList<String> subs2 =
                 UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));
@@ -573,7 +571,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, Integer[] which,
-                            CharSequence[] text) {
+                                               CharSequence[] text) {
                         ArrayList<String> selectedSubs = new ArrayList<>();
                         for (int i : which) {
                             selectedSubs.add(subsAsChar[i].toString());
@@ -624,7 +622,55 @@ public class ReorderSubreddits extends BaseActivityAnim {
         return i;
     }
 
+    public void doOldToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Check if all of the subreddits are single
+     *
+     * @param subreddits list of subreddits to check
+     * @return if all of the subreddits are single
+     * @see #isSingle(java.lang.String)
+     */
+    private boolean isSingle(List<String> subreddits) {
+        for (String subreddit : subreddits) {
+            if (!isSingle(subreddit)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * If the subreddit isn't special, combined, or a multireddit - can attempt to be subscribed to
+     *
+     * @param subreddit name of a subreddit
+     * @return if the subreddit is single
+     */
+    private boolean isSingle(String subreddit) {
+        return !(isSpecial(subreddit)
+                || subreddit.contains("+")
+                || subreddit.contains(".")
+                || subreddit.contains(MULTI_REDDIT));
+    }
+
+    /**
+     * Subreddits with important behaviour - frontpage, all, random, etc.
+     *
+     * @param subreddit name of a subreddit
+     * @return if the subreddit is special
+     */
+    private boolean isSpecial(String subreddit) {
+        for (String specialSubreddit : UserSubscriptions.specialSubreddits) {
+            if (subreddit.equalsIgnoreCase(specialSubreddit)) return true;
+        }
+        return false;
+    }
+
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+        ArrayList<Subreddit> otherSubs;
+        String sub;
+
         @Override
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null) {
@@ -633,9 +679,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 doAddSub(sub);
             }
         }
-
-        ArrayList<Subreddit> otherSubs;
-        String               sub;
 
         @Override
         protected Subreddit doInBackground(final String... params) {
@@ -664,7 +707,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
-                                                            int which) {
+                                                                        int which) {
                                                         dialog.dismiss();
 
                                                     }
@@ -695,7 +738,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
-                                                            int which) {
+                                                                        int which) {
                                                         doAddSub(subs.get(which));
                                                     }
                                                 })
@@ -711,13 +754,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
     }
 
-    public void doOldToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setVisibility(View.VISIBLE);
-    }
-
     public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final ArrayList<String> items;
+        int[] textColorAttr = new int[]{R.attr.fontColor};
+        TypedArray ta = obtainStyledAttributes(textColorAttr);
+        int textColor = ta.getColor(0, Color.BLACK);
 
         public CustomAdapter(ArrayList<String> items) {
             this.items = items;
@@ -759,7 +800,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     for (String s : chosen) {
                                                         int index = subs.indexOf(s);
                                                         subs.remove(index);
@@ -836,10 +877,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
             });
         }
 
-        int[]      textColorAttr = new int[]{R.attr.fontColor};
-        TypedArray ta            = obtainStyledAttributes(textColorAttr);
-        int        textColor     = ta.getColor(0, Color.BLACK);
-
         public void updateToolbar() {
             mToolbar.setTitle(
                     getResources().getQuantityString(R.plurals.reorder_selected, chosen.size(),
@@ -870,7 +907,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView,
-                                    boolean isChecked) {
+                                                         boolean isChecked) {
                                 //do nothing
                             }
                         });
@@ -881,7 +918,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView,
-                                    boolean isChecked) {
+                                                         boolean isChecked) {
                                 if (!isChecked) {
                                     new UserSubscriptions.UnsubscribeTask().execute(origPos);
                                     Snackbar.make(mToolbar,
@@ -1069,7 +1106,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView          text;
+            final TextView text;
             final AppCompatCheckBox check;
 
             public ViewHolder(View itemView) {
@@ -1090,45 +1127,5 @@ public class ReorderSubreddits extends BaseActivityAnim {
             }
         }
 
-    }
-
-    /**
-     * Check if all of the subreddits are single
-     *
-     * @param subreddits list of subreddits to check
-     * @return if all of the subreddits are single
-     * @see #isSingle(java.lang.String)
-     */
-    private boolean isSingle(List<String> subreddits) {
-        for (String subreddit : subreddits) {
-            if (!isSingle(subreddit)) return false;
-        }
-        return true;
-    }
-
-    /**
-     * If the subreddit isn't special, combined, or a multireddit - can attempt to be subscribed to
-     *
-     * @param subreddit name of a subreddit
-     * @return if the subreddit is single
-     */
-    private boolean isSingle(String subreddit) {
-        return !(isSpecial(subreddit)
-                || subreddit.contains("+")
-                || subreddit.contains(".")
-                || subreddit.contains(MULTI_REDDIT));
-    }
-
-    /**
-     * Subreddits with important behaviour - frontpage, all, random, etc.
-     *
-     * @param subreddit name of a subreddit
-     * @return if the subreddit is special
-     */
-    private boolean isSpecial(String subreddit) {
-        for (String specialSubreddit : UserSubscriptions.specialSubreddits) {
-            if (subreddit.equalsIgnoreCase(specialSubreddit)) return true;
-        }
-        return false;
     }
 }

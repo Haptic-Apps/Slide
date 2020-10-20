@@ -21,8 +21,19 @@ import me.ccrama.redditslide.Activities.Slide;
  */
 public class ColorPreferences {
 
+    public final static String FONT_STYLE = "THEME";
     private final static String USER_THEME_DELIMITER = "$USER$";
-    public final static  String FONT_STYLE           = "THEME";
+    public static List<Pair<Integer, Integer>> themePairList = new ArrayList<>(
+            Arrays.asList(new Pair<>(R.id.dark, ColorPreferences.ColorThemeOptions.Dark.getValue()),
+                    new Pair<>(R.id.light, ColorPreferences.ColorThemeOptions.Light.getValue()),
+                    new Pair<>(R.id.amoled, ColorPreferences.ColorThemeOptions.AMOLED.getValue()),
+                    new Pair<>(R.id.blue, ColorPreferences.ColorThemeOptions.DarkBlue.getValue()),
+                    new Pair<>(R.id.amoled_contrast,
+                            ColorPreferences.ColorThemeOptions.AMOLEDContrast.getValue()),
+                    new Pair<>(R.id.sepia, ColorPreferences.ColorThemeOptions.Sepia.getValue()),
+                    new Pair<>(R.id.red, ColorPreferences.ColorThemeOptions.RedShift.getValue()),
+                    new Pair<>(R.id.pixel, ColorPreferences.ColorThemeOptions.Pixel.getValue()),
+                    new Pair<>(R.id.deep, ColorPreferences.ColorThemeOptions.Deep.getValue())));
     private final Context context;
 
     public ColorPreferences(Context context) {
@@ -528,16 +539,16 @@ public class ColorPreferences {
         }
     }
 
+    public void setFontStyle(Theme style) {
+        setUserThemeName(FONT_STYLE, style.name());
+    }
+
     public Theme getFontStyleSubreddit(String s) {
         try {
             return Theme.valueOf(getUserThemeName(s, getFontStyle().name()));
         } catch (Exception e) {
             return Theme.dark_amber;
         }
-    }
-
-    public void setFontStyle(Theme style) {
-        setUserThemeName(FONT_STYLE, style.name());
     }
 
     public int getThemeSubreddit(String s) {
@@ -564,7 +575,7 @@ public class ColorPreferences {
     }
 
     public Theme getThemeSubreddit(String s, boolean b) {
-        if(s == null){
+        if (s == null) {
             s = "Promoted";
         }
         int back = getFontStyle().getThemeType();
@@ -860,18 +871,6 @@ public class ColorPreferences {
             return color;
         }
     }
-
-    public static List<Pair<Integer, Integer>> themePairList = new ArrayList<>(
-            Arrays.asList(new Pair<>(R.id.dark, ColorPreferences.ColorThemeOptions.Dark.getValue()),
-                    new Pair<>(R.id.light, ColorPreferences.ColorThemeOptions.Light.getValue()),
-                    new Pair<>(R.id.amoled, ColorPreferences.ColorThemeOptions.AMOLED.getValue()),
-                    new Pair<>(R.id.blue, ColorPreferences.ColorThemeOptions.DarkBlue.getValue()),
-                    new Pair<>(R.id.amoled_contrast,
-                            ColorPreferences.ColorThemeOptions.AMOLEDContrast.getValue()),
-                    new Pair<>(R.id.sepia, ColorPreferences.ColorThemeOptions.Sepia.getValue()),
-                    new Pair<>(R.id.red, ColorPreferences.ColorThemeOptions.RedShift.getValue()),
-                    new Pair<>(R.id.pixel, ColorPreferences.ColorThemeOptions.Pixel.getValue()),
-                    new Pair<>(R.id.deep, ColorPreferences.ColorThemeOptions.Deep.getValue())));
 
     public enum ColorThemeOptions {
         Dark(0), Light(1), AMOLED(2), DarkBlue(3), AMOLEDContrast(4), Sepia(5), RedShift(6), Pixel(

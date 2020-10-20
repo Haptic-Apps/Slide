@@ -54,21 +54,38 @@ public class Search extends BaseActivityAnim {
     public static final String EXTRA_SELF = "self";
     public static final String EXTRA_NSFW = "nsfw";
     public static final String EXTRA_AUTHOR = "author";
-
+    public TimePeriod time;
+    public boolean multireddit;
+    RecyclerView rv;
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
-    private ContributionAdapter adapter;
-
-    private String where;
-    private String subreddit;
-//    private String site;
+    //    private String site;
 //    private String url;
 //    private boolean self;
 //    private boolean nsfw;
 //    private String author;
-
+    private ContributionAdapter adapter;
+    private String where;
+    private String subreddit;
     private SubredditSearchPosts posts;
+
+    public static int getNumColumns(final int orientation, Context context) {
+        final int numColumns;
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow = ((Activity) context).isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
+            numColumns = Reddit.dpWidth;
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
+                && SettingValues.dualPortrait) {
+            numColumns = 2;
+        } else {
+            numColumns = 1;
+        }
+        return numColumns;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,8 +177,6 @@ public class Search extends BaseActivityAnim {
         builder.show();
     }
 
-    public TimePeriod time;
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -208,9 +223,6 @@ public class Search extends BaseActivityAnim {
         return false;
     }
 
-    public boolean multireddit;
-    RecyclerView rv;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -222,7 +234,7 @@ public class Search extends BaseActivityAnim {
 
         if (getIntent().hasExtra(EXTRA_MULTIREDDIT)) {
             multireddit = true;
-            subreddit  = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
+            subreddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         } else {
             if (getIntent().hasExtra(EXTRA_AUTHOR)) {
                 where = where + "&author=" + getIntent().getExtras().getString(EXTRA_AUTHOR);
@@ -289,7 +301,7 @@ public class Search extends BaseActivityAnim {
                     }
                 }
 
-                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount && !posts.nomore) {
+                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount && !posts.nomore) {
                     posts.loading = true;
                     posts.loadMore(adapter, subreddit, where, false, multireddit, time);
 
@@ -329,6 +341,7 @@ public class Search extends BaseActivityAnim {
                 }
         );
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -340,26 +353,10 @@ public class Search extends BaseActivityAnim {
 
         mLayoutManager.setSpanCount(getNumColumns(currentOrientation, Search.this));
     }
+
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,
                 CatchStaggeredGridLayoutManager.VERTICAL);
-    }
-
-    public static int getNumColumns(final int orientation, Context context) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = ((Activity)context).isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
-                && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
     }
 }

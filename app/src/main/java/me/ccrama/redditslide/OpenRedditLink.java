@@ -37,6 +37,14 @@ public class OpenRedditLink {
         openUrl(context, url, openIfOther);
     }
 
+    public OpenRedditLink(Context c, String submission, String subreddit, String id) {
+        Intent i = new Intent(c, CommentsScreenSingle.class);
+        i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, subreddit);
+        i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, id);
+        i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, submission);
+        c.startActivity(i);
+    }
+
     /**
      * If the Uri has a query parameter called key, call intent.putExtra with the corresponding
      * query paramter value as a String.
@@ -67,7 +75,7 @@ public class OpenRedditLink {
      * @see Intent#putExtra(String, boolean)
      */
     private static void putExtraIfParamEquals(Intent intent, Uri uri, String name, String key,
-            String toCompare) {
+                                              String toCompare) {
         String param = uri.getQueryParameter(key);
 
         if (param != null && param.equals(toCompare)) {
@@ -180,7 +188,7 @@ public class OpenRedditLink {
 
                     if (end.length() >= 3) i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
 
-                    putExtraIfParamExists(i, uri, CommentsScreenSingle.EXTRA_CONTEXT_NUMBER,"context");
+                    putExtraIfParamExists(i, uri, CommentsScreenSingle.EXTRA_CONTEXT_NUMBER, "context");
 
                     try {
                         String contextNumber = uri.getQueryParameter("context");
@@ -270,21 +278,12 @@ public class OpenRedditLink {
         return true;
     }
 
-    public OpenRedditLink(Context c, String submission, String subreddit, String id) {
-        Intent i = new Intent(c, CommentsScreenSingle.class);
-        i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, subreddit);
-        i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, id);
-        i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, submission);
-        c.startActivity(i);
-    }
-
     /**
      * Append every path segment in segments to a Uri.Builder
      *
-     * @param builder Uri builder to append the path segments to
+     * @param builder  Uri builder to append the path segments to
      * @param segments A list of path segments to append to the builder
-     *
-     * @see Uri#getPathSegments() 
+     * @see Uri#getPathSegments()
      */
     private static void appendPathSegments(Uri.Builder builder, List<String> segments) {
         for (String segment : segments) {

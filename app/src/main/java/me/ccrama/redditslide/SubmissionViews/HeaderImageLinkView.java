@@ -56,12 +56,13 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by carlo_000 on 2/7/2016.
  */
 public class HeaderImageLinkView extends RelativeLayout {
-    public String    loadedUrl;
-    public boolean   lq;
+    public String loadedUrl;
+    public boolean lq;
     public ImageView thumbImage2;
-    public TextView  secondTitle;
-    public TextView  secondSubTitle;
-    public View      wrapArea;
+    public TextView secondTitle;
+    public TextView secondSubTitle;
+    public View wrapArea;
+    public ImageView backdrop;
     boolean done;
     String lastDone = "";
     ContentType.Type type;
@@ -71,15 +72,16 @@ public class HeaderImageLinkView extends RelativeLayout {
             .cacheInMemory(false)
             .displayer(new FadeInBitmapDisplayer(250))
             .build();
-    Activity            activity   = null;
-    boolean     clickHandled;
-    Handler     handler;
+    Activity activity = null;
+    boolean clickHandled;
+    Handler handler;
     MotionEvent event;
-    Runnable    longClicked;
-    float       position;
-    private TextView  title;
-    private TextView  info;
-    public  ImageView backdrop;
+    Runnable longClicked;
+    float position;
+    boolean thumbUsed;
+    boolean popped;
+    private TextView title;
+    private TextView info;
 
     public HeaderImageLinkView(Context context) {
         super(context);
@@ -95,8 +97,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         super(context, attrs, defStyle);
         init();
     }
-
-    boolean thumbUsed;
 
     public void doImageAndText(final Submission submission, boolean full, String baseSub, boolean news) {
 
@@ -212,7 +212,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
 
             JsonNode node = submission.getDataNode();
-            if(!SettingValues.ignoreSubSetting && node != null && node.has("sr_detail") && node.get("sr_detail").has("show_media") && !node.get("sr_detail").get("show_media").asBoolean()){
+            if (!SettingValues.ignoreSubSetting && node != null && node.has("sr_detail") && node.get("sr_detail").has("show_media") && !node.get("sr_detail").get("show_media").asBoolean()) {
                 thumbnailType = Submission.ThumbnailType.NONE;
             }
 
@@ -227,7 +227,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         ContextCompat.getDrawable(getContext(), R.drawable.web));
                 thumbUsed = true;
             } else if (submission.isNsfw()
-                    && SettingValues.getIsNSFWEnabled() || (baseSub != null && submission.isNsfw() && SettingValues.hideNSFWCollection && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.contains("+") || baseSub.equals("popular")) )) {
+                    && SettingValues.getIsNSFWEnabled() || (baseSub != null && submission.isNsfw() && SettingValues.hideNSFWCollection && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.contains("+") || baseSub.equals("popular")))) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -505,8 +505,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    boolean popped;
-
     public double getHeightFromAspectRatio(int imageHeight, int imageWidth) {
         double ratio = (double) imageHeight / (double) imageWidth;
         double width = getWidth();
@@ -704,7 +702,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     }
 
     public void setSubmission(final Submission submission, final boolean full, String baseSub,
-            ContentType.Type type) {
+                              ContentType.Type type) {
         this.type = type;
         if (!lastDone.equals(submission.getFullName())) {
             lq = false;
@@ -717,7 +715,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     }
 
     public void setSubmissionNews(final Submission submission, final boolean full, String baseSub,
-            ContentType.Type type) {
+                                  ContentType.Type type) {
         this.type = type;
         if (!lastDone.equals(submission.getFullName())) {
             lq = false;

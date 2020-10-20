@@ -59,10 +59,11 @@ import me.ccrama.redditslide.util.SortingUtil;
  * Created by ccrama on 3/5/2015.
  */
 public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & FolderCallback>
-            implements  FolderCallback {
+        implements FolderCallback {
 
-    private ActivityType context;
     public static boolean searchChanged; //whether or not the subreddit search method changed
+    private ActivityType context;
+    private String input;
 
     public SettingsGeneralFragment(ActivityType context) {
         this.context = context;
@@ -192,6 +193,50 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                 }
             }
         });
+    }
+
+    public static void doNotifText(final Activity context) {
+        {
+            View notifs = context.findViewById(R.id.settings_general_redditnotifs);
+            if (notifs != null) {
+                if (!Reddit.isPackageInstalled("com.reddit.frontpage") ||
+                        Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    notifs.setVisibility(View.GONE);
+                    if (context.findViewById(R.id.settings_general_installreddit) != null) {
+                        context.findViewById(R.id.settings_general_installreddit).setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (((Reddit) context.getApplication()).isNotificationAccessEnabled()) {
+                        SwitchCompat single = context.findViewById(R.id.settings_general_piggyback);
+                        if (single != null) {
+                            single.setChecked(true);
+                            single.setEnabled(false);
+                        }
+                    } else {
+                        final SwitchCompat single = context.findViewById(R.id.settings_general_piggyback);
+                        if (single != null) {
+                            single.setChecked(false);
+                            single.setEnabled(true);
+                            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                    single.setChecked(false);
+                                    Snackbar s = Snackbar.make(single, "Give Slide notification access", Snackbar.LENGTH_LONG);
+                                    s.setAction("Go to settings", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            context.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+
+                                        }
+                                    });
+                                    s.show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /* Allow SettingsGeneral and Settings Activity classes to use the same XML functionality */
@@ -769,50 +814,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
     }
 
-    public static void doNotifText(final Activity context) {
-        {
-            View notifs = context.findViewById(R.id.settings_general_redditnotifs);
-            if (notifs != null) {
-                if (!Reddit.isPackageInstalled("com.reddit.frontpage") ||
-                        Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    notifs.setVisibility(View.GONE);
-                    if (context.findViewById(R.id.settings_general_installreddit) != null) {
-                        context.findViewById(R.id.settings_general_installreddit).setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    if (((Reddit) context.getApplication()).isNotificationAccessEnabled()) {
-                        SwitchCompat single = context.findViewById(R.id.settings_general_piggyback);
-                        if (single != null) {
-                            single.setChecked(true);
-                            single.setEnabled(false);
-                        }
-                    } else {
-                        final SwitchCompat single = context.findViewById(R.id.settings_general_piggyback);
-                        if (single != null) {
-                            single.setChecked(false);
-                            single.setEnabled(true);
-                            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                                    single.setChecked(false);
-                                    Snackbar s = Snackbar.make(single, "Give Slide notification access", Snackbar.LENGTH_LONG);
-                                    s.setAction("Go to settings", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            context.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-
-                                        }
-                                    });
-                                    s.show();
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private void askTimePeriod() {
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -881,8 +882,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
         ((TextView) context.findViewById(R.id.settings_general_sub_notifs_current)).setText(subText);
     }
-
-    private String input;
 
     private void showSelectDialog() {
         ArrayList<String> rawSubs =
@@ -1063,6 +1062,16 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         setSubText();
     }
 
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
+        if (folder != null) {
+            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+            Toast.makeText(context,
+                    context.getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                    Toast.LENGTH_LONG).show();
+            ((TextView) context.findViewById(R.id.settings_general_location)).setText(folder.getAbsolutePath());
+        }
+    }
+
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
         @Override
         public void onPostExecute(Subreddit subreddit) {
@@ -1110,16 +1119,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
                 return null;
             }
-        }
-    }
-
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(context,
-                    context.getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                    Toast.LENGTH_LONG).show();
-            ((TextView) context.findViewById(R.id.settings_general_location)).setText(folder.getAbsolutePath());
         }
     }
 

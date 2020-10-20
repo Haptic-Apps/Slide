@@ -20,7 +20,7 @@ import okhttp3.ResponseBody;
 
 /**
  * A class that helps with HTTP requests and response parsing.
- *
+ * <p>
  * Created by Fernando Barillas on 7/13/16.
  */
 public class HttpUtil {
@@ -38,7 +38,7 @@ public class HttpUtil {
      * Exception thrown by the HTTP call
      */
     public static JsonObject getImgurMashapeJsonObject(final OkHttpClient client, final Gson gson,
-            final String apiUrl, final String mashapeKey) {
+                                                       final String apiUrl, final String mashapeKey) {
         Map<String, String> imgurHeadersMap = new HashMap<>();
         imgurHeadersMap.put("X-Mashape-Key", mashapeKey);
         imgurHeadersMap.put("Authorization", "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID);
@@ -57,7 +57,7 @@ public class HttpUtil {
      * Exception thrown by the HTTP call
      */
     public static JsonObject getJsonObject(final OkHttpClient client, final Gson gson,
-            final String apiUrl, @Nullable final Map<String, String> headersMap) {
+                                           final String apiUrl, @Nullable final Map<String, String> headersMap) {
         if (client == null || gson == null || TextUtils.isEmpty(apiUrl)) return null;
         Request.Builder builder = new Request.Builder().url(apiUrl);
 
@@ -92,7 +92,7 @@ public class HttpUtil {
      * Exception thrown by the HTTP call
      */
     public static JsonObject getJsonObject(final OkHttpClient client, final Gson gson,
-            final String apiUrl) {
+                                           final String apiUrl) {
         return getJsonObject(client, gson, apiUrl, null);
     }
 }

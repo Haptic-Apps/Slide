@@ -15,6 +15,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 public class RoundImageTriangleView extends RoundedImageView {
 
+    int color = Color.TRANSPARENT;
+
     public RoundImageTriangleView(Context context) {
         super(context);
     }
@@ -26,9 +28,8 @@ public class RoundImageTriangleView extends RoundedImageView {
     public RoundImageTriangleView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-    int color = Color.TRANSPARENT;
 
-    public void setFlagColor(@ColorRes int color){
+    public void setFlagColor(@ColorRes int color) {
         this.color = color;
         invalidate();
     }

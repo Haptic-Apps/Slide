@@ -47,13 +47,12 @@ import static me.ccrama.redditslide.Fragments.SettingsHandlingFragment.LinkHandl
 
 public class LinkUtil {
 
-    private static CustomTabsSession           mCustomTabsSession;
-    private static CustomTabsClient            mClient;
-    private static CustomTabsServiceConnection mConnection;
-
-    public static final String EXTRA_URL        = "url";
-    public static final String EXTRA_COLOR      = "color";
+    public static final String EXTRA_URL = "url";
+    public static final String EXTRA_COLOR = "color";
     public static final String ADAPTER_POSITION = "adapter_position";
+    private static CustomTabsSession mCustomTabsSession;
+    private static CustomTabsClient mClient;
+    private static CustomTabsServiceConnection mConnection;
 
     private LinkUtil() {
     }
@@ -85,7 +84,7 @@ public class LinkUtil {
      *                        related components.
      */
     public static void openCustomTab(@NonNull String url, int color,
-            @NonNull Activity contextActivity, @NonNull String packageName) {
+                                     @NonNull Activity contextActivity, @NonNull String packageName) {
         Intent intent = new Intent(contextActivity, MakeExternal.class);
         intent.putExtra(LinkUtil.EXTRA_URL, url);
         PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
@@ -114,7 +113,7 @@ public class LinkUtil {
     }
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity,
-            @Nullable Integer adapterPosition, @Nullable Submission submission) {
+                               @Nullable Integer adapterPosition, @Nullable Submission submission) {
         if (!(contextActivity instanceof ReaderMode) && ((SettingValues.readerMode
                 && !SettingValues.readerNight)
                 || SettingValues.readerMode
@@ -137,8 +136,8 @@ public class LinkUtil {
     }
 
     private static void openIntentThemed(@NonNull Intent intent, @NonNull String url, int color,
-            @NonNull Activity contextActivity, @Nullable Integer adapterPosition,
-            @Nullable Submission submission) {
+                                         @NonNull Activity contextActivity, @Nullable Integer adapterPosition,
+                                         @Nullable Submission submission) {
         intent.putExtra(EXTRA_URL, url);
         if (adapterPosition != null && submission != null) {
             PopulateSubmissionViewHolder.addAdaptorPosition(intent, submission, adapterPosition);
@@ -206,7 +205,7 @@ public class LinkUtil {
      * Opens the {@code uri} externally or shows an application chooser if it is set to open in this
      * application
      *
-     * @param url     URL to open
+     * @param url URL to open
      */
     public static void openExternally(String url) {
         url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());

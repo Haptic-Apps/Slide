@@ -136,6 +136,12 @@ public class WikiPage extends Fragment {
         this.listener = listener;
     }
 
+    public interface WikiPageListener {
+        void embeddedWikiLinkClicked(String wikiPageTitle);
+
+        void overflowTouched();
+    }
+
     private static class WikiAsyncTask extends AsyncTask<Object, Void, String> {
         WeakReference<WikiPage> wikiPageWeakReference;
 
@@ -162,11 +168,5 @@ public class WikiPage extends Fragment {
         public void overflowTouched() {
             listener.overflowTouched();
         }
-    }
-
-    public interface WikiPageListener {
-        void embeddedWikiLinkClicked(String wikiPageTitle);
-
-        void overflowTouched();
     }
 }

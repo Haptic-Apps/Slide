@@ -27,9 +27,9 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 
 public class ReaderMode extends BaseActivityAnim {
-    private       int    mSubredditColor;
     public static String html;
     SpoilerRobotoTextView v;
+    private int mSubredditColor;
     private String url;
 
 
@@ -86,6 +86,38 @@ public class ReaderMode extends BaseActivityAnim {
             ((Toolbar) findViewById(R.id.toolbar)).setTitle(
                     v.getText().toString().substring(0, index));
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        if (url != null) {
+            inflater.inflate(R.menu.menu_reader, menu);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.web:
+                LinkUtil.openUrl(url, mSubredditColor, this);
+                finish();
+                return true;
+            case R.id.share:
+                Reddit.defaultShareText(
+                        ((Toolbar) findViewById(R.id.toolbar)).getTitle().toString(), url,
+                        ReaderMode.this);
+
+                return true;
+
+        }
+        return false;
     }
 
     public class AsyncGetArticle extends AsyncTask<Void, Void, Void> {
@@ -153,38 +185,5 @@ public class ReaderMode extends BaseActivityAnim {
         protected void onPreExecute() {
 
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        if (url != null) {
-            inflater.inflate(R.menu.menu_reader, menu);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.web:
-                LinkUtil.openUrl(url, mSubredditColor, this);
-                finish();
-                return true;
-            case R.id.share:
-                Reddit.defaultShareText(
-                        ((Toolbar) findViewById(R.id.toolbar)).getTitle().toString(), url,
-                        ReaderMode.this);
-
-                return true;
-
-        }
-        return false;
     }
 }

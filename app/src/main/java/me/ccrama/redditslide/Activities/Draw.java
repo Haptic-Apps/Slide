@@ -38,11 +38,12 @@ import me.ccrama.redditslide.util.FileUtil;
  */
 public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallback {
 
-    CanvasView drawView;
-    View       color;
-    Bitmap     bitmap;
-    public static Uri             uri;
+    public static Uri uri;
     public static DoEditorActions editor;
+    CanvasView drawView;
+    View color;
+    Bitmap bitmap;
+    boolean enabled;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -70,7 +71,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         if (id == android.R.id.home) {
             onBackPressed();
         }
-        if(id == R.id.done && enabled){
+        if (id == R.id.done && enabled) {
             File image; //image to share
             //check to see if the cache/shared_images directory is present
             final File imagesDir = new File(
@@ -123,8 +124,6 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         inflater.inflate(R.menu.draw_menu, menu);
         return true;
     }
-
-    boolean enabled ;
 
     @Override
     protected void onActivityResult(int code, int resultC, Intent data) {

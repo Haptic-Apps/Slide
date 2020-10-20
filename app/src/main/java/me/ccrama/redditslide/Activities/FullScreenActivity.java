@@ -10,7 +10,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by tomer aka rosenpin on 11/27/15.
- *
+ * <p>
  * This Activity allows for fullscreen viewing without the statusbar visible
  */
 public class FullScreenActivity extends BaseActivity {
@@ -19,7 +19,7 @@ public class FullScreenActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         //TODO something like this getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-             //   WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //   WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         if (Reddit.peek) {
             overridePendingTransition(R.anim.pop_in, 0);
         } else {
@@ -29,6 +29,7 @@ public class FullScreenActivity extends BaseActivity {
 
 
     }
+
     @Override
     public void finish() {
         super.finish();
@@ -41,10 +42,10 @@ public class FullScreenActivity extends BaseActivity {
             findViewById(android.R.id.content).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                 //   Blurry.with(FullScreenActivity.this).radius(2).sampling(5).animate().color(Color.parseColor("#99000000")).onto((ViewGroup) findViewById(android.R.id.content));
+                    //   Blurry.with(FullScreenActivity.this).radius(2).sampling(5).animate().color(Color.parseColor("#99000000")).onto((ViewGroup) findViewById(android.R.id.content));
                 }
             });
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
         super.onPostCreate(savedInstanceState);

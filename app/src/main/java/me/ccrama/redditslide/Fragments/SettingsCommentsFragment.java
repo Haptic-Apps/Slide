@@ -29,10 +29,10 @@ public class SettingsCommentsFragment {
                     //Disable autohidenav and showcollapseexpand if commentNav isn't checked
                     if (!isChecked) {
                         context.findViewById(R.id.settings_comments_autohidenav).setEnabled(false);
-                        ((SwitchCompat)context.findViewById(R.id.settings_comments_autohidenav)).setChecked(SettingValues.commentAutoHide);
+                        ((SwitchCompat) context.findViewById(R.id.settings_comments_autohidenav)).setChecked(SettingValues.commentAutoHide);
                         context.findViewById(R.id.settings_comments_auto_hide_the_comment_nav_bar_text).setAlpha(0.25f);
                         context.findViewById(R.id.settings_comments_show_collapse_expand).setEnabled(false);
-                        ((SwitchCompat)context.findViewById(R.id.settings_comments_show_collapse_expand)).setChecked(SettingValues.commentAutoHide);
+                        ((SwitchCompat) context.findViewById(R.id.settings_comments_show_collapse_expand)).setChecked(SettingValues.commentAutoHide);
                         context.findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(0.25f);
                     } else {
                         context.findViewById(R.id.settings_comments_autohidenav).setEnabled(true);

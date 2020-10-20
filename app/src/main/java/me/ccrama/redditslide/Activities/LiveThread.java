@@ -72,7 +72,10 @@ public class LiveThread extends BaseActivityAnim {
 
     public static final String EXTRA_LIVEURL = "liveurl";
     public net.dean.jraw.models.LiveThread thread;
-
+    public RecyclerView baseRecycler;
+    public String term;
+    ArrayList<LiveUpdate> updates;
+    LiveThreadPaginator paginator;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -95,16 +98,11 @@ public class LiveThread extends BaseActivityAnim {
         return true;
     }
 
-    public RecyclerView baseRecycler;
-
-    public String term;
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         //todo finish
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,7 +133,7 @@ public class LiveThread extends BaseActivityAnim {
             protected Void doInBackground(Void... params) {
                 try {
                     thread = new LiveThreadManager(Authentication.reddit).get(getIntent().getStringExtra(EXTRA_LIVEURL));
-                } catch(Exception e){
+                } catch (Exception e) {
 
                 }
                 return null;
@@ -143,7 +141,7 @@ public class LiveThread extends BaseActivityAnim {
 
             @Override
             public void onPostExecute(Void aVoid) {
-                if(thread == null){
+                if (thread == null) {
                     new AlertDialogWrapper.Builder(LiveThread.this)
                             .setTitle(R.string.livethread_not_found)
                             .setMessage(R.string.misc_please_try_again_soon)
@@ -171,9 +169,6 @@ public class LiveThread extends BaseActivityAnim {
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-
-    ArrayList<LiveUpdate> updates;
-    LiveThreadPaginator paginator;
 
     public void doPaginator() {
         new AsyncTask<Void, Void, Void>() {
@@ -454,6 +449,67 @@ public class LiveThread extends BaseActivityAnim {
         }
     }
 
+    public void doLiveSidebar() {
+        findViewById(R.id.loader).setVisibility(View.GONE);
+
+        final View dialoglayout = findViewById(R.id.sidebarsub);
+
+        dialoglayout.findViewById(R.id.sub_stuff).setVisibility(View.GONE);
+
+        ((TextView) dialoglayout.findViewById(R.id.sub_infotitle)).setText((thread.getState() ? "LIVE: " : "") + thread.getTitle());
+        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount() + " viewing");
+        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount());
+
+        {
+            final String text = thread.getDataNode().get("resources_html").asText();
+            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+            setViews(text, "none", body, overflow);
+        }
+        {
+            final String text = thread.getDataNode().get("description_html").asText();
+            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sub_title);
+            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.sub_title_overflow);
+            setViews(text, "none", body, overflow);
+        }
+    }
+
+    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subreddit);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subreddit);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
+            }
+            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
+            for (int i = 0; i < commentOverflow.getChildCount(); i++) {
+                View maybeScrollable = commentOverflow.getChildAt(i);
+                if (maybeScrollable instanceof HorizontalScrollView) {
+                    sidebar.addScrollable(maybeScrollable);
+                }
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
+    }
+
     public class PaginatorAdapter extends RecyclerView.Adapter<PaginatorAdapter.ItemHolder> {
 
         private LayoutInflater layoutInflater;
@@ -525,13 +581,18 @@ public class LiveThread extends BaseActivityAnim {
 
         }
 
+        @Override
+        public int getItemCount() {
+            return updates.size();
+        }
+
         public class LoadTwitter extends AsyncTask<String, Void, Void> {
 
+            String url;
+            TwitterObject twitter;
             private OkHttpClient client;
             private Gson gson;
-            String url;
             private WebView view;
-            TwitterObject twitter;
 
             public LoadTwitter(@NotNull WebView view, @NotNull String url) {
                 this.view = view;
@@ -566,12 +627,6 @@ public class LiveThread extends BaseActivityAnim {
 
         }
 
-
-        @Override
-        public int getItemCount() {
-            return updates.size();
-        }
-
         public class ItemHolder extends RecyclerView.ViewHolder {
 
             TextView title;
@@ -595,67 +650,6 @@ public class LiveThread extends BaseActivityAnim {
 
             }
 
-        }
-    }
-
-    public void doLiveSidebar() {
-        findViewById(R.id.loader).setVisibility(View.GONE);
-
-        final View dialoglayout = findViewById(R.id.sidebarsub);
-
-        dialoglayout.findViewById(R.id.sub_stuff).setVisibility(View.GONE);
-
-        ((TextView) dialoglayout.findViewById(R.id.sub_infotitle)).setText((thread.getState() ? "LIVE: " : "") + thread.getTitle());
-        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount() + " viewing");
-        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount());
-
-        {
-            final String text = thread.getDataNode().get("resources_html").asText();
-            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
-            setViews(text, "none", body, overflow);
-        }
-        {
-            final String text = thread.getDataNode().get("description_html").asText();
-            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sub_title);
-            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.sub_title_overflow);
-            setViews(text, "none", body, overflow);
-        }
-    }
-
-    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
-        if (rawHTML.isEmpty()) {
-            return;
-        }
-
-        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
-
-        int startIndex = 0;
-        // the <div class="md"> case is when the body contains a table or code block first
-        if (!blocks.get(0).equals("<div class=\"md\">")) {
-            firstTextView.setVisibility(View.VISIBLE);
-            firstTextView.setTextHtml(blocks.get(0), subreddit);
-            startIndex = 1;
-        } else {
-            firstTextView.setText("");
-            firstTextView.setVisibility(View.GONE);
-        }
-
-        if (blocks.size() > 1) {
-            if (startIndex == 0) {
-                commentOverflow.setViews(blocks, subreddit);
-            } else {
-                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
-            }
-            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
-            for (int i = 0; i < commentOverflow.getChildCount(); i++) {
-                View maybeScrollable = commentOverflow.getChildAt(i);
-                if (maybeScrollable instanceof HorizontalScrollView) {
-                    sidebar.addScrollable(maybeScrollable);
-                }
-            }
-        } else {
-            commentOverflow.removeAllViews();
         }
     }
 

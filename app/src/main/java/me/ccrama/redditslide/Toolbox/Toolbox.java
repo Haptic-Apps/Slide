@@ -92,7 +92,7 @@ public class Toolbox {
     }
 
     public static void createUsernotes(String subreddit) {
-        notes.put(subreddit, new Usernotes(6, new Usernotes.UsernotesConstants(new String[] {}, new String[] {}),
+        notes.put(subreddit, new Usernotes(6, new Usernotes.UsernotesConstants(new String[]{}, new String[]{}),
                 new TreeMap<>(String.CASE_INSENSITIVE_ORDER), subreddit));
     }
 
@@ -109,7 +109,7 @@ public class Toolbox {
      * Ensures that a subreddit's config is cached
      *
      * @param subreddit Subreddit to cache
-     * @param thorough Whether to reload from net/cache if toolboxConfigs already contains something for subreddit
+     * @param thorough  Whether to reload from net/cache if toolboxConfigs already contains something for subreddit
      */
     public static void ensureConfigCachedLoaded(String subreddit, boolean thorough) {
         if (!thorough && toolboxConfigs.containsKey(subreddit)) {
@@ -148,7 +148,7 @@ public class Toolbox {
      * Ensures that a subreddit's usernotes are cached
      *
      * @param subreddit Subreddit to cache
-     * @param thorough Whether to reload from net/cache if notes already contains something for subreddit
+     * @param thorough  Whether to reload from net/cache if notes already contains something for subreddit
      */
     public static void ensureUsernotesCachedLoaded(String subreddit, boolean thorough) {
         if (!thorough && notes.containsKey(subreddit)) {
@@ -161,7 +161,8 @@ public class Toolbox {
                 || lastCached == -1) { // Usernotes not cached
             new AsyncLoadUsernotes().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subreddit);
         } else {
-            Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
+            Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {
+                    }.getType(),
                     new Usernotes.BlobDeserializer()).create();
             try {
                 Usernotes result = gson.fromJson(cache.getString(subreddit + "_usernotes_data", null), Usernotes.class);
@@ -184,7 +185,8 @@ public class Toolbox {
      */
     public static void downloadUsernotes(String subreddit) {
         WikiManager manager = new WikiManager(Authentication.reddit);
-        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {
+                }.getType(),
                 new Usernotes.BlobDeserializer()).create();
         try {
             String data = manager.get(subreddit, "usernotes").getContent();
@@ -239,12 +241,13 @@ public class Toolbox {
     /**
      * Upload a subreddit's usernotes to the wiki
      *
-     * @param subreddit Sub to upload usernotes for
+     * @param subreddit  Sub to upload usernotes for
      * @param editReason Reason for the wiki edit
      */
     public static void uploadUsernotes(String subreddit, String editReason) {
         WikiManager manager = new WikiManager(Authentication.reddit);
-        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {}.getType(),
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, List<Usernote>>>() {
+                }.getType(),
                 new Usernotes.BlobSerializer()).disableHtmlEscaping().create();
         String data = gson.toJson(getUsernotes(subreddit));
         try {

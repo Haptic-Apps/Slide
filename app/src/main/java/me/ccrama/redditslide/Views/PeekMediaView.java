@@ -64,13 +64,20 @@ import me.ccrama.redditslide.util.NetworkUtil;
  */
 public class PeekMediaView extends RelativeLayout {
 
+    public WebView website;
     ContentType.Type contentType;
-    private GifUtils.AsyncLoadGif     gif;
-    private ExoVideoView              videoView;
-    public  WebView                   website;
-    private ProgressBar               progress;
+    boolean web;
+    float origY = 0;
+    List<Image> images;
+    List<Photo> tumblrImages;
+    WebChromeClient client;
+    WebViewClient webClient;
+    boolean imageShown;
+    String actuallyLoaded;
+    private GifUtils.AsyncLoadGif gif;
+    private ExoVideoView videoView;
+    private ProgressBar progress;
     private SubsamplingScaleImageView image;
-
 
     public PeekMediaView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -86,9 +93,6 @@ public class PeekMediaView extends RelativeLayout {
         super(context);
         init();
     }
-
-    boolean web;
-    float origY = 0;
 
     public void doClose() {
         website.setVisibility(View.GONE);
@@ -107,7 +111,6 @@ public class PeekMediaView extends RelativeLayout {
             website.scrollBy(0, (int) -(origY - event.getY()) / 5);
         }
     }
-
 
     public void setUrl(String url) {
         contentType = ContentType.getContentType(url);
@@ -218,26 +221,12 @@ public class PeekMediaView extends RelativeLayout {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    List<Image> images;
-    List<Photo> tumblrImages;
-
-    WebChromeClient client;
-    WebViewClient   webClient;
-
     public void setValue(int newProgress) {
         progress.setProgress(newProgress);
         if (newProgress == 100) {
             progress.setVisibility(View.GONE);
         } else if (progress.getVisibility() == View.GONE) {
             progress.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private class MyWebViewClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            setValue(newProgress);
-            super.onProgressChanged(view, newProgress);
         }
     }
 
@@ -276,13 +265,13 @@ public class PeekMediaView extends RelativeLayout {
         client = new MyWebViewClient();
         web = true;
         webClient = new WebViewClient() {
+            private Map<String, Boolean> loadedUrls = new HashMap<>();
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 website.loadUrl(
                         "javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
             }
-
-            private Map<String, Boolean> loadedUrls = new HashMap<>();
 
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
@@ -308,7 +297,7 @@ public class PeekMediaView extends RelativeLayout {
         website.getSettings().setUseWideViewPort(true);
         website.setDownloadListener(new DownloadListener() {
             public void onDownloadStart(String url, String userAgent, String contentDisposition,
-                    String mimetype, long contentLength) {
+                                        String mimetype, long contentLength) {
                 //Downloads using download manager on default browser
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
@@ -430,8 +419,6 @@ public class PeekMediaView extends RelativeLayout {
         }
     }
 
-    boolean imageShown;
-
     public void doLoadImage(String contentUrl) {
         if (contentUrl != null && contentUrl.contains("bildgur.de")) {
             contentUrl = contentUrl.replace("b.bildgur.de", "i.imgur.com");
@@ -499,8 +486,6 @@ public class PeekMediaView extends RelativeLayout {
             displayImage(contentUrl);
         }
     }
-
-    String actuallyLoaded;
 
     public void doLoadGif(final String dat) {
         videoView = findViewById(R.id.gif);
@@ -608,14 +593,14 @@ public class PeekMediaView extends RelativeLayout {
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view,
-                                            FailReason failReason) {
+                                                                FailReason failReason) {
                                         Log.v(LogUtil.getTag(), "LOADING FAILED");
                                         imageShown = false;
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            Bitmap loadedImage) {
+                                                                  Bitmap loadedImage) {
                                         imageShown = true;
 
                                         File f =
@@ -639,7 +624,7 @@ public class PeekMediaView extends RelativeLayout {
                                 }, new ImageLoadingProgressListener() {
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
-                                            int current, int total) {
+                                                                 int current, int total) {
                                         progress.setProgress(Math.round(100.0f * current / total));
                                     }
                                 });
@@ -653,5 +638,13 @@ public class PeekMediaView extends RelativeLayout {
         this.videoView = findViewById(R.id.gif);
         this.website = findViewById(R.id.website);
         this.progress = findViewById(R.id.progress);
+    }
+
+    private class MyWebViewClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            setValue(newProgress);
+            super.onProgressChanged(view, newProgress);
+        }
     }
 }

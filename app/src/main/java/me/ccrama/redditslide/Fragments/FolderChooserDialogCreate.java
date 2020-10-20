@@ -38,16 +38,11 @@ import me.ccrama.redditslide.R;
 public class FolderChooserDialogCreate extends DialogFragment implements MaterialDialog.ListCallback {
 
     private final static String DEFAULT_TAG = "[MD_FOLDER_SELECTOR]";
-
+    String createdFile;
     private File parentFolder;
     private File[] parentContents;
     private boolean canGoUp = true;
     private FolderCallback mCallback;
-    String createdFile;
-
-    public interface FolderCallback {
-        void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder, boolean isSaveToLocation);
-    }
 
     public FolderChooserDialogCreate() {
     }
@@ -196,6 +191,16 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         show(context.getSupportFragmentManager(), tag);
     }
 
+    @SuppressWarnings("ConstantConditions")
+    @NonNull
+    private Builder getBuilder() {
+        return (Builder) getArguments().getSerializable("builder");
+    }
+
+    public interface FolderCallback {
+        void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder, boolean isSaveToLocation);
+    }
+
     public static class Builder implements Serializable {
 
         @NonNull
@@ -264,12 +269,6 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
             dialog.show(mContext);
             return dialog;
         }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @NonNull
-    private Builder getBuilder() {
-        return (Builder) getArguments().getSerializable("builder");
     }
 
     private static class FolderSorter implements Comparator<File> {

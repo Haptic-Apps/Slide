@@ -17,7 +17,7 @@ import androidx.core.view.ViewCompat;
 
 /**
  * Copyright (c) Tuenti Technologies. All rights reserved.
- *
+ * <p>
  * WebView compatible with CoordinatorLayout.
  * The implementation based on NestedScrollView of design library
  */
@@ -348,7 +348,7 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
 
     @Override
     public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed,
-            int[] offsetInWindow) {
+                                        int[] offsetInWindow) {
         return mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 

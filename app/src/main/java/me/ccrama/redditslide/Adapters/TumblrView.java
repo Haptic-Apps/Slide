@@ -83,6 +83,20 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
     }
 
+    public static void setTextWithLinks(String s, SpoilerRobotoTextView text) {
+        String[] parts = s.split("\\s+");
+
+        StringBuilder b = new StringBuilder();
+        for (String item : parts)
+            try {
+                URL url = new URL(item);
+                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
+            } catch (MalformedURLException e) {
+                b.append(" ").append(item);
+            }
+        text.setTextHtml(b.toString(), "no sub");
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 1) {
@@ -150,7 +164,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.text.setTypeface(typeface);
             }
             {
-                    holder.text.setVisibility(View.GONE);
+                holder.text.setVisibility(View.GONE);
             }
             {
                 if (user.getCaption() != null) {
@@ -168,7 +182,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (SettingValues.image ) {
+                    if (SettingValues.image) {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getOriginalSize().getUrl());
@@ -196,20 +210,6 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), paddingBottom ? height : main.findViewById(R.id.toolbar).getHeight()));
         }
 
-    }
-
-    public static void setTextWithLinks(String s, SpoilerRobotoTextView text) {
-        String[] parts = s.split("\\s+");
-
-        StringBuilder b = new StringBuilder();
-        for (String item : parts)
-            try {
-                URL url = new URL(item);
-                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
-            } catch (MalformedURLException e) {
-                b.append(" ").append(item);
-            }
-        text.setTextHtml(b.toString(), "no sub");
     }
 
     @Override

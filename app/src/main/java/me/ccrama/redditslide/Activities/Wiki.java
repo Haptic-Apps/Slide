@@ -34,15 +34,27 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
 
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_PAGE = "page";
-
+    private static String globalCustomCss;
+    private static String globalCustomJavaScript;
+    public WikiManager wiki;
     private TabLayout tabs;
     private ToggleSwipeViewPager pager;
     private String subreddit;
     private Wiki.OverviewPagerAdapter adapter;
     private List<String> pages;
     private String page;
-    private static String globalCustomCss;
-    private static String globalCustomJavaScript;
+
+    private static String getHexFromColorInt(@ColorInt int colorInt) {
+        return String.format("#%06X", (0xFFFFFF & colorInt));
+    }
+
+    public static String getGlobalCustomCss() {
+        return globalCustomCss;
+    }
+
+    public static String getGlobalCustomJavaScript() {
+        return globalCustomJavaScript;
+    }
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -60,7 +72,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
         setContentView(R.layout.activity_slidetabs);
         setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);
 
-        if(getIntent().hasExtra(EXTRA_PAGE)) {
+        if (getIntent().hasExtra(EXTRA_PAGE)) {
             page = getIntent().getExtras().getString(EXTRA_PAGE);
             LogUtil.v("Page is " + page);
         } else {
@@ -109,20 +121,6 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                 "</script>";
     }
 
-    private static String getHexFromColorInt(@ColorInt int colorInt) {
-        return String.format("#%06X", (0xFFFFFF & colorInt));
-    }
-
-    public static String getGlobalCustomCss() {
-        return globalCustomCss;
-    }
-
-    public static String getGlobalCustomJavaScript() {
-        return globalCustomJavaScript;
-    }
-
-    public WikiManager wiki;
-
     @Override
     public void embeddedWikiLinkClicked(String wikiPageTitle) {
         if (pages.contains(wikiPageTitle)) {
@@ -152,7 +150,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
         @Override
         protected Void doInBackground(Void... params) {
 
-           wiki = new WikiManager(Authentication.reddit);
+            wiki = new WikiManager(Authentication.reddit);
             try {
                 pages = wiki.getPages(subreddit);
 
@@ -188,7 +186,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                                     finish();
                                 }
                             }).show();
-                        } catch(Exception ignored){
+                        } catch (Exception ignored) {
 
                         }
                     }
@@ -202,7 +200,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
             if (adapter != null) {
                 pager.setAdapter(adapter);
                 tabs.setupWithViewPager(pager);
-                if(pages.contains(page)){
+                if (pages.contains(page)) {
                     pager.setCurrentItem(pages.indexOf(page));
                 }
             } else {
@@ -223,7 +221,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                                 }
                             })
                             .show();
-                } catch(Exception e){
+                } catch (Exception e) {
 
                 }
             }

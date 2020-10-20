@@ -71,13 +71,14 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     public static Activity multiActivity;
 
-    public static MultiReddit          searchMulti;
-    public        OverviewPagerAdapter adapter;
-    private       ViewPager            pager;
-    private       String               profile;
-    private       TabLayout            tabs;
-    private       List<MultiReddit>    usedArray;
-    private       String               initialMulti;
+    public static MultiReddit searchMulti;
+    public OverviewPagerAdapter adapter;
+    String term;
+    private ViewPager pager;
+    private String profile;
+    private TabLayout tabs;
+    private List<MultiReddit> usedArray;
+    private String initialMulti;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,8 +135,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         return position;
     }
 
-    String term;
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -185,7 +184,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog materialDialog,
-                                                @NonNull DialogAction dialogAction) {
+                                                            @NonNull DialogAction dialogAction) {
                                             Intent i = new Intent(MultiredditOverview.this,
                                                     Search.class);
                                             i.putExtra(Search.EXTRA_TERM, term);
@@ -238,7 +237,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -256,7 +255,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     });
@@ -307,7 +306,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -325,7 +324,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     });
@@ -729,14 +728,38 @@ public class MultiredditOverview extends BaseActivityAnim {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 940 && adapter != null && adapter.getCurrentFragment() != null) {
+            if (resultCode == RESULT_OK) {
+                LogUtil.v("Doing hide posts");
+                ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
+                ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView(posts);
+                if (data.hasExtra("lastPage")
+                        && data.getIntExtra("lastPage", 0) != 0
+                        && ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager) {
+                    ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1,
+                                    mToolbar.getHeight());
+                }
+            } else {
+                ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView();
+            }
+        }
+
+    }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+
+        private Fragment mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
 
                 }
 
@@ -779,8 +802,6 @@ public class MultiredditOverview extends BaseActivityAnim {
             return f;
         }
 
-        private Fragment mCurrentFragment;
-
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
@@ -806,29 +827,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         public CharSequence getPageTitle(int position) {
             return usedArray.get(position).getFullName();
         }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 940 && adapter != null && adapter.getCurrentFragment() != null) {
-            if (resultCode == RESULT_OK) {
-                LogUtil.v("Doing hide posts");
-                ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
-                ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView(posts);
-                if (data.hasExtra("lastPage")
-                        && data.getIntExtra("lastPage", 0) != 0
-                        && ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager) {
-                    ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1,
-                                    mToolbar.getHeight());
-                }
-            } else {
-                ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView();
-            }
-        }
-
     }
 
 }

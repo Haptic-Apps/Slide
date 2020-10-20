@@ -37,11 +37,10 @@ import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 public class AlbumFullComments extends Fragment {
 
     boolean gallery = false;
-    private View list;
-    private CommentUrlObject s;
     boolean hidden;
     View rootView;
-
+    private View list;
+    private CommentUrlObject s;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -170,6 +169,13 @@ public class AlbumFullComments extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        s = ShadowboxComments.comments.get(bundle.getInt("page", 0));
+    }
+
     public class LoadIntoRecycler extends AlbumUtils.GetAlbumWithCallback {
 
         String url;
@@ -187,13 +193,6 @@ public class AlbumFullComments extends Fragment {
             ((RecyclerView) list).setAdapter(adapter);
         }
 
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        s = ShadowboxComments.comments.get(bundle.getInt("page", 0));
     }
 
 

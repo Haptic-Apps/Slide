@@ -56,10 +56,12 @@ import me.ccrama.redditslide.util.LinkUtil;
  */
 public class Tumblr extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
-    private List<Photo> images;
     public static final String SUBREDDIT = "subreddit";
-    private int    adapterPosition;
-    public  String subreddit;
+    public String subreddit;
+    public String url;
+    public OverviewPagerAdapter album;
+    private List<Photo> images;
+    private int adapterPosition;
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
@@ -88,7 +90,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if(getIntent().hasExtra(SUBREDDIT)){
+            if (getIntent().hasExtra(SUBREDDIT)) {
                 i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
             }
             i.putExtra("url", url);
@@ -203,8 +205,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
     }
 
-    public String url;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -215,8 +215,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         }
         return true;
     }
-
-    public OverviewPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -234,13 +232,13 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         album = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
-        if(getIntent().hasExtra(SUBREDDIT)){
+        if (getIntent().hasExtra(SUBREDDIT)) {
             subreddit = getIntent().getStringExtra(SUBREDDIT);
         }
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
-                                                  int positionOffsetPixels) {
+                                                                     int positionOffsetPixels) {
                                               if (position == 0 && positionOffsetPixels == 0) {
                                                   finish();
                                               }
@@ -281,9 +279,17 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         }
     }
 
+    public int adjustAlpha(float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
+    }
+
     public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
-        public AlbumFrag     album;
+        public AlbumFrag album;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -309,21 +315,13 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
     }
 
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
-    }
-
     public static class AlbumFrag extends Fragment {
-        View rootView;
         public RecyclerView recyclerView;
+        View rootView;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
             final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());

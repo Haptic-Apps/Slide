@@ -26,6 +26,7 @@ public class TransparentTagTextView extends AppCompatTextView {
     Bitmap mBackgroundBitmap;
     Canvas mBackgroundCanvas;
     boolean mSetBoundsOnSizeAvailable = false;
+    Drawable backdrop;
 
     public TransparentTagTextView(Context context) {
         super(context);
@@ -46,8 +47,6 @@ public class TransparentTagTextView extends AppCompatTextView {
         setBackground(context.getResources().getDrawable(R.drawable.flairback));
     }
 
-
-    Drawable backdrop;
     public void resetBackground(Context context) {
         mPaint = new Paint();
         super.setTextColor(Color.BLACK);
@@ -58,7 +57,7 @@ public class TransparentTagTextView extends AppCompatTextView {
 
     @Override
     public void setBackground(Drawable bg) {
-        if(bg != null) {
+        if (bg != null) {
             mBackground = bg;
             int w = bg.getIntrinsicWidth();
             int h = bg.getIntrinsicHeight();
@@ -88,7 +87,7 @@ public class TransparentTagTextView extends AppCompatTextView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if(w > 0 && h > 0) {
+        if (w > 0 && h > 0) {
             mBackgroundBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             mBackgroundCanvas = new Canvas(mBackgroundBitmap);
             mMaskBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -109,7 +108,7 @@ public class TransparentTagTextView extends AppCompatTextView {
         mBackground.draw(mBackgroundCanvas);
 
         // Draw mask
-        if(mMaskCanvas != null) {
+        if (mMaskCanvas != null) {
             mMaskCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
             super.onDraw(mMaskCanvas);
             mBackgroundCanvas.drawBitmap(mMaskBitmap, 0.f, 0.f, mPaint);

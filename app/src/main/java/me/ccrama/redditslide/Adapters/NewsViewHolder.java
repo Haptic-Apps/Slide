@@ -15,11 +15,11 @@ import me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView;
  */
 public class NewsViewHolder extends RecyclerView.ViewHolder {
     public final SpoilerRobotoTextView title;
-    public final View                  menu;
-    public final View                  comment;
-    public final HeaderImageLinkView   leadImage;
-    public final RelativeLayout        innerRelative;
-    public final ImageView             thumbnail;
+    public final View menu;
+    public final View comment;
+    public final HeaderImageLinkView leadImage;
+    public final RelativeLayout innerRelative;
+    public final ImageView thumbnail;
 
     public NewsViewHolder(View v) {
         super(v);

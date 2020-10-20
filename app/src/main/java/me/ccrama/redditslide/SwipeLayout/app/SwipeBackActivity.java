@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.SwipeLayout.app;
 
 import android.os.Bundle;

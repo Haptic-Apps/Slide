@@ -58,22 +58,66 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class NewsView extends Fragment implements SubmissionDisplay {
-    private static int                 adapterPosition;
-    private static int                 currentPosition;
-    public         SubredditPostsRealm posts;
-    public         RecyclerView        rv;
-    public         SubmissionNewsAdapter   adapter;
-    public         String              id;
-    public         boolean             main;
-    public         boolean             forced;
-    int     diff;
+    private static int adapterPosition;
+    private static int currentPosition;
+    private static Submission currentSubmission;
+    public SubredditPostsRealm posts;
+    public RecyclerView rv;
+    public SubmissionNewsAdapter adapter;
+    public String id;
+    public boolean main;
+    public boolean forced;
+    int diff;
     boolean forceLoad;
-    private        FloatingActionButton fab;
-    private        int                  visibleItemCount;
-    private        int                  pastVisiblesItems;
-    private        int                  totalItemCount;
-    private        SwipeRefreshLayout   mSwipeRefreshLayout;
-    private static Submission           currentSubmission;
+    Runnable mLongPressRunnable;
+    GestureDetector detector =
+            new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
+    float origY;
+    View header;
+    ToolbarScrollHideHandler toolbarScroll;
+    private FloatingActionButton fab;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+    private int totalItemCount;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @NonNull
+    public static RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
+        return new CatchStaggeredGridLayoutManager(numColumns,
+                CatchStaggeredGridLayoutManager.VERTICAL);
+    }
+
+    public static int getNumColumns(final int orientation, Activity context) {
+        final int numColumns;
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow =
+                    context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE
+                && SettingValues.isPro
+                && !singleColumnMultiWindow) {
+            numColumns = Reddit.dpWidth;
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
+                && SettingValues.dualPortrait) {
+            numColumns = 2;
+        } else {
+            numColumns = 1;
+        }
+        return numColumns;
+    }
+
+    public static void datachanged(int adaptorPosition2) {
+        adapterPosition = adaptorPosition2;
+    }
+
+    public static void currentPosition(int adapterPosition) {
+        currentPosition = adapterPosition;
+    }
+
+    public static void currentSubmission(Submission current) {
+        currentSubmission = current;
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -87,14 +131,9 @@ public class NewsView extends Fragment implements SubmissionDisplay {
         mLayoutManager.setSpanCount(getNumColumns(currentOrientation, getActivity()));
     }
 
-    Runnable mLongPressRunnable;
-    GestureDetector detector =
-            new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener());
-    float origY;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
                 new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
@@ -175,7 +214,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     Reddit.colors.edit()
                                                             .putBoolean(
                                                                     SettingValues.PREF_FAB_CLEAR,
@@ -222,7 +261,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     Reddit.colors.edit()
                                                             .putBoolean(
                                                                     SettingValues.PREF_FAB_CLEAR,
@@ -296,36 +335,6 @@ public class NewsView extends Fragment implements SubmissionDisplay {
             doAdapter();
         }
         return v;
-    }
-
-    View header;
-
-    ToolbarScrollHideHandler toolbarScroll;
-
-    @NonNull
-    public static RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
-        return new CatchStaggeredGridLayoutManager(numColumns,
-                CatchStaggeredGridLayoutManager.VERTICAL);
-    }
-
-    public static int getNumColumns(final int orientation, Activity context) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow =
-                    context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE
-                && SettingValues.isPro
-                && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
-                && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
     }
 
     public void doAdapter() {
@@ -419,11 +428,6 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                 adapterPosition = -1;
             }
         }
-    }
-
-
-    public static void datachanged(int adaptorPosition2) {
-        adapterPosition = adaptorPosition2;
     }
 
     private void refresh() {
@@ -633,13 +637,5 @@ public class NewsView extends Fragment implements SubmissionDisplay {
         } else {
             toolbarScroll.reset = true;
         }
-    }
-
-    public static void currentPosition(int adapterPosition) {
-        currentPosition = adapterPosition;
-    }
-
-    public static void currentSubmission(Submission current) {
-        currentSubmission = current;
     }
 }

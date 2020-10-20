@@ -71,7 +71,7 @@ public class PopulateShadowboxInfo {
         TextView title = rootView.findViewById(R.id.title);
         TextView desc = rootView.findViewById(R.id.desc);
         String distingush = "";
-        if(s != null) {
+        if (s != null) {
             if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
                 distingush = "[M]";
             else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
@@ -284,7 +284,7 @@ public class PopulateShadowboxInfo {
         TitleTextView title = rootView.findViewById(R.id.title);
         TextView desc = rootView.findViewById(R.id.desc);
         String distingush = "";
-        if(s != null) {
+        if (s != null) {
             if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
                 distingush = "[M]";
             else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
@@ -292,9 +292,9 @@ public class PopulateShadowboxInfo {
 
             SpannableStringBuilder commentTitle = new SpannableStringBuilder();
             SpannableStringBuilder level = new SpannableStringBuilder();
-            if(!node.isTopLevel()){
+            if (!node.isTopLevel()) {
                 level.append("[").append(String.valueOf(node.getDepth())).append("] ");
-                level.setSpan(new RelativeSizeSpan(0.7f),0, level.length(),
+                level.setSpan(new RelativeSizeSpan(0.7f), 0, level.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 commentTitle.append(level);
             }
@@ -628,7 +628,7 @@ public class PopulateShadowboxInfo {
                                 reportDialog.show();
                                 break;
                             case 8:
-                                if(SettingValues.shareLongLink){
+                                if (SettingValues.shareLongLink) {
                                     Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
                                 } else {
                                     Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);

@@ -19,12 +19,12 @@ import okio.Okio;
 
 /**
  * Created by Carlos on 8/12/2016.
- *
+ * <p>
  * Code adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
  */
 public class AdBlocker {
-    private static final String      DOMAINS_FILE = "adblocksources.txt";
-    private static final Set<String> DOMAINS      = new HashSet<>(); //Use hash set for performance
+    private static final String DOMAINS_FILE = "adblocksources.txt";
+    private static final Set<String> DOMAINS = new HashSet<>(); //Use hash set for performance
 
     public static void init(final Context context) {
         new AsyncTask<Void, Void, Void>() {
@@ -51,7 +51,7 @@ public class AdBlocker {
             }
             buffer.close();
             stream.close();
-        } catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
@@ -68,7 +68,7 @@ public class AdBlocker {
     }
 
     private static boolean hostMatches(String host) {
-        if(host.isEmpty())
+        if (host.isEmpty())
             return false;
         int firstPeriod = host.indexOf(".");
         return DOMAINS.contains(host) || firstPeriod + 1 < host.length() && DOMAINS.contains(

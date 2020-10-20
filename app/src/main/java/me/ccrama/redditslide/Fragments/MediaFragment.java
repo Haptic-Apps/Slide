@@ -78,18 +78,130 @@ public class MediaFragment extends Fragment {
     public String sub;
     public String actuallyLoaded;
     public int i;
+    public boolean isGif;
     private ViewGroup rootView;
     private ExoVideoView videoView;
     private boolean imageShown;
     private float previous;
     private boolean hidden;
     private long stopPosition;
-    public boolean isGif;
     private GifUtils.AsyncLoadGif gif;
     private Submission s;
     private OkHttpClient client;
     private Gson gson;
     private String mashapeKey;
+
+    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel,
+                                          final View clickingArea, final ContentType.Type type, final Activity contextActivity,
+                                          final Submission submission) {
+        base.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                } else {
+                    switch (type) {
+                        case STREAMABLE:
+
+                            if (SettingValues.video) {
+                                Intent myIntent = new Intent(contextActivity, MediaView.class);
+                                myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                myIntent.putExtra(MediaView.SUBREDDIT,
+                                        submission.getSubredditName());
+                                contextActivity.startActivity(myIntent);
+
+                            } else {
+                                LinkUtil.openExternally(submission.getUrl());
+                            }
+
+                        case EMBEDDED:
+
+                            if (SettingValues.video) {
+                                LinkUtil.openExternally(submission.getUrl());
+                                String data = submission.getDataNode()
+                                        .get("media_embed")
+                                        .get("content")
+                                        .asText();
+                                {
+                                    Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                    i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                    contextActivity.startActivity(i);
+                                }
+                            } else {
+                                LinkUtil.openExternally(submission.getUrl());
+                            }
+                            break;
+                        case REDDIT:
+
+                            PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(),
+                                    contextActivity);
+
+                            break;
+                        case LINK:
+
+                            LinkUtil.openUrl(submission.getUrl(),
+                                    Palette.getColor(submission.getSubredditName()),
+                                    contextActivity);
+
+                            break;
+                        case SELF:
+                        case NONE:
+
+                            break;
+                        case ALBUM:
+                            if (SettingValues.album) {
+                                if (SettingValues.albumSwipe) {
+                                    Intent i = new Intent(contextActivity, AlbumPager.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(AlbumPager.SUBREDDIT, submission.getSubredditName());
+                                    contextActivity.startActivity(i);
+                                } else {
+                                    Intent i = new Intent(contextActivity, Album.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(Album.SUBREDDIT, submission.getSubredditName());
+                                    contextActivity.startActivity(i);
+                                }
+                            } else {
+                                LinkUtil.openExternally(submission.getUrl());
+                            }
+                            break;
+                        case TUMBLR:
+                            if (SettingValues.image) {
+                                if (SettingValues.albumSwipe) {
+                                    Intent i = new Intent(contextActivity, TumblrPager.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(TumblrPager.SUBREDDIT,
+                                            submission.getSubredditName());
+                                    contextActivity.startActivity(i);
+                                } else {
+                                    Intent i = new Intent(contextActivity, Tumblr.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    i.putExtra(Tumblr.SUBREDDIT, submission.getSubredditName());
+                                    contextActivity.startActivity(i);
+                                }
+                            } else {
+                                LinkUtil.openExternally(submission.getUrl());
+                            }
+                            break;
+                        case DEVIANTART:
+                        case XKCD:
+                        case IMAGE:
+                            PopulateSubmissionViewHolder.openImage(type, contextActivity,
+                                    submission, null, -1);
+                            break;
+                        case GIF:
+                            PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
+                            break;
+                        case VIDEO:
+                            if (!LinkUtil.tryOpenWithVideoPlugin(submission.getUrl())) {
+                                LinkUtil.openUrl(submission.getUrl(), Palette.getStatusBarColor(),
+                                        contextActivity);
+                            }
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onDestroy() {
@@ -137,7 +249,7 @@ public class MediaFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.submission_mediacard, container, false);
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getLong("position");
@@ -258,8 +370,8 @@ public class MediaFragment extends Fragment {
 
             @Override
             public void onPanelStateChanged(View panel,
-                    SlidingUpPanelLayout.PanelState previousState,
-                    SlidingUpPanelLayout.PanelState newState) {
+                                            SlidingUpPanelLayout.PanelState previousState,
+                                            SlidingUpPanelLayout.PanelState newState) {
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -320,118 +432,6 @@ public class MediaFragment extends Fragment {
                 doLoadGif(s);
                 break;
         }
-    }
-
-    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel,
-            final View clickingArea, final ContentType.Type type, final Activity contextActivity,
-            final Submission submission) {
-        base.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                } else {
-                    switch (type) {
-                        case STREAMABLE:
-
-                            if (SettingValues.video) {
-                                Intent myIntent = new Intent(contextActivity, MediaView.class);
-                                myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
-                                myIntent.putExtra(MediaView.SUBREDDIT,
-                                        submission.getSubredditName());
-                                contextActivity.startActivity(myIntent);
-
-                            } else {
-                                LinkUtil.openExternally(submission.getUrl());
-                            }
-
-                        case EMBEDDED:
-
-                            if (SettingValues.video) {
-                                LinkUtil.openExternally(submission.getUrl());
-                                String data = submission.getDataNode()
-                                        .get("media_embed")
-                                        .get("content")
-                                        .asText();
-                                {
-                                    Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                    i.putExtra(FullscreenVideo.EXTRA_HTML, data);
-                                    contextActivity.startActivity(i);
-                                }
-                            } else {
-                                LinkUtil.openExternally(submission.getUrl());
-                            }
-                            break;
-                        case REDDIT:
-
-                            PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(),
-                                    contextActivity);
-
-                            break;
-                        case LINK:
-
-                            LinkUtil.openUrl(submission.getUrl(),
-                                    Palette.getColor(submission.getSubredditName()),
-                                    contextActivity);
-
-                            break;
-                        case SELF:
-                        case NONE:
-
-                            break;
-                        case ALBUM:
-                            if (SettingValues.album) {
-                                if (SettingValues.albumSwipe) {
-                                    Intent i = new Intent(contextActivity, AlbumPager.class);
-                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    i.putExtra(AlbumPager.SUBREDDIT, submission.getSubredditName());
-                                    contextActivity.startActivity(i);
-                                } else {
-                                    Intent i = new Intent(contextActivity, Album.class);
-                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    i.putExtra(Album.SUBREDDIT, submission.getSubredditName());
-                                    contextActivity.startActivity(i);
-                                }
-                            } else {
-                                LinkUtil.openExternally(submission.getUrl());
-                            }
-                            break;
-                        case TUMBLR:
-                            if (SettingValues.image) {
-                                if (SettingValues.albumSwipe) {
-                                    Intent i = new Intent(contextActivity, TumblrPager.class);
-                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    i.putExtra(TumblrPager.SUBREDDIT,
-                                            submission.getSubredditName());
-                                    contextActivity.startActivity(i);
-                                } else {
-                                    Intent i = new Intent(contextActivity, Tumblr.class);
-                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    i.putExtra(Tumblr.SUBREDDIT, submission.getSubredditName());
-                                    contextActivity.startActivity(i);
-                                }
-                            } else {
-                                LinkUtil.openExternally(submission.getUrl());
-                            }
-                            break;
-                        case DEVIANTART:
-                        case XKCD:
-                        case IMAGE:
-                            PopulateSubmissionViewHolder.openImage(type, contextActivity,
-                                    submission, null, -1);
-                            break;
-                        case GIF:
-                            PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
-                            break;
-                        case VIDEO:
-                            if (!LinkUtil.tryOpenWithVideoPlugin(submission.getUrl())) {
-                                LinkUtil.openUrl(submission.getUrl(), Palette.getStatusBarColor(),
-                                        contextActivity);
-                            }
-                    }
-                }
-            }
-        });
     }
 
     public void doLoadGif(final Submission s) {
@@ -883,14 +883,14 @@ public class MediaFragment extends Fragment {
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view,
-                                            FailReason failReason) {
+                                                                FailReason failReason) {
                                         Log.v(LogUtil.getTag(), "LOADING FAILED");
 
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            Bitmap loadedImage) {
+                                                                  Bitmap loadedImage) {
                                         imageShown = true;
                                         File f = null;
                                         if (getActivity() != null) {
@@ -980,7 +980,7 @@ public class MediaFragment extends Fragment {
                                 }, new ImageLoadingProgressListener() {
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
-                                            int current, int total) {
+                                                                 int current, int total) {
                                         ((ProgressBar) rootView.findViewById(
                                                 R.id.progress)).setProgress(
                                                 Math.round(100.0f * current / total));

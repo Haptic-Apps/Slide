@@ -20,6 +20,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class OpenContent extends Activity {
 
     public static final String EXTRA_URL = "url";
+    boolean second = false;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -43,12 +44,10 @@ public class OpenContent extends Activity {
         new OpenRedditLink(this, url);
     }
 
-    boolean second = false;
-
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(second){
+        if (second) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAndRemoveTask();
             } else {
@@ -60,7 +59,7 @@ public class OpenContent extends Activity {
     }
 
     @Override
-    public void onNewIntent(Intent intent){
+    public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Uri data = intent.getData();
         Bundle extras = intent.getExtras();

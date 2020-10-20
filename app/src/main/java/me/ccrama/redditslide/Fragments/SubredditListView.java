@@ -33,13 +33,13 @@ import me.ccrama.redditslide.util.LogUtil;
 public class SubredditListView extends Fragment {
     public SubredditNames posts;
     public RecyclerView rv;
+    public SubredditAdapter adapter;
+    public String where;
+    public boolean main;
     private int visibleItemCount;
     private int pastVisiblesItems;
     private int totalItemCount;
-    public SubredditAdapter adapter;
-    public String where;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,8 +68,6 @@ public class SubredditListView extends Fragment {
         return v;
     }
 
-    public boolean main;
-
     public void doAdapter() {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
@@ -92,7 +90,7 @@ public class SubredditListView extends Fragment {
                     visibleItemCount = rv.getLayoutManager().getChildCount();
                     totalItemCount = rv.getLayoutManager().getItemCount();
 
-                    pastVisiblesItems = ((LinearLayoutManager)rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
                         LogUtil.v("Loading more");

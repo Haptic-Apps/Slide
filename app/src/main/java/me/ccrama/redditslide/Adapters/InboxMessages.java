@@ -23,9 +23,9 @@ import me.ccrama.redditslide.Authentication;
 public class InboxMessages extends GeneralPosts {
     public ArrayList<Message> posts;
     public boolean loading;
+    public String where;
     private Paginator<Message> paginator;
     private SwipeRefreshLayout refreshLayout;
-    public String where;
     private InboxAdapter adapter;
 
     public InboxMessages(ArrayList<Message> firstData, InboxPaginator paginator) {
@@ -45,8 +45,7 @@ public class InboxMessages extends GeneralPosts {
 
     public void loadMore(InboxAdapter adapter, String where, boolean refresh) {
 
-            new LoadData(refresh).execute(where);
-
+        new LoadData(refresh).execute(where);
 
 
     }
@@ -67,17 +66,17 @@ public class InboxMessages extends GeneralPosts {
             if (subs == null && !nomore) {
                 adapter.setError(true);
                 refreshLayout.setRefreshing(false);
-            } else if(!nomore) {
+            } else if (!nomore) {
 
-                if(subs.size() < 25){
+                if (subs.size() < 25) {
                     nomore = true;
                 }
                 if (reset) {
                     posts = subs;
 
                 } else {
-                    if(posts == null){
-                        posts =new ArrayList<>();
+                    if (posts == null) {
+                        posts = new ArrayList<>();
                     }
                     posts.addAll(subs);
                 }

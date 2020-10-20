@@ -29,10 +29,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  * multiple blocks of text.
  */
 public class CommentOverflow extends LinearLayout {
-    private ColorPreferences colorPreferences;
-    private Typeface typeface = null;
-    private              int                textColor;
-    private              int                fontSize;
     private static final MarginLayoutParams COLUMN_PARAMS;
     private static final MarginLayoutParams MARGIN_PARAMS;
     private static final MarginLayoutParams HR_PARAMS;
@@ -50,6 +46,11 @@ public class CommentOverflow extends LinearLayout {
                 Reddit.dpToPxVertical(2));
         HR_PARAMS.setMargins(0, 16, 0, 16);
     }
+
+    private ColorPreferences colorPreferences;
+    private Typeface typeface = null;
+    private int textColor;
+    private int fontSize;
 
     public CommentOverflow(Context context) {
         super(context);
@@ -87,7 +88,7 @@ public class CommentOverflow extends LinearLayout {
      * @param subreddit
      */
     public void setViews(List<String> blocks, String subreddit, OnClickListener click,
-            OnLongClickListener longClick) {
+                         OnLongClickListener longClick) {
         Context context = getContext();
         int type = new FontPreferences(context).getFontTypeComment().getTypeface();
         if (type >= 0) {
@@ -164,7 +165,7 @@ public class CommentOverflow extends LinearLayout {
     }
 
     private TableLayout formatTable(String text, String subreddit, OnClickListener click,
-            OnLongClickListener longClick) {
+                                    OnLongClickListener longClick) {
         TableRow.LayoutParams rowParams =
                 new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                         TableRow.LayoutParams.WRAP_CONTENT);

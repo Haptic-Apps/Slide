@@ -64,21 +64,49 @@ import okhttp3.OkHttpClient;
  */
 public class MediaFragmentComment extends Fragment {
 
-    public  String                contentUrl;
-    public  String                sub;
-    public  String                actuallyLoaded;
-    public  int                   i;
-    private ViewGroup             rootView;
-    private ExoVideoView          videoView;
-    private boolean               imageShown;
-    private float                 previous;
-    private boolean               hidden;
-    private long                   stopPosition;
-    public  boolean               isGif;
-    private CommentUrlObject      s;
-    private OkHttpClient          client;
-    private Gson                  gson;
-    private String                mashapeKey;
+    public String contentUrl;
+    public String sub;
+    public String actuallyLoaded;
+    public int i;
+    public boolean isGif;
+    private ViewGroup rootView;
+    private ExoVideoView videoView;
+    private boolean imageShown;
+    private float previous;
+    private boolean hidden;
+    private long stopPosition;
+    private CommentUrlObject s;
+    private OkHttpClient client;
+    private Gson gson;
+    private String mashapeKey;
+
+    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel,
+                                          final View clickingArea, final ContentType.Type type, final Activity contextActivity,
+                                          final CommentUrlObject submission) {
+        base.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                } else {
+                    if (type == ContentType.Type.IMAGE) {
+                        if (SettingValues.image) {
+                            Intent myIntent = new Intent(contextActivity, MediaView.class);
+                            String url = submission.getUrl();
+                            myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
+                            myIntent.putExtra(MediaView.EXTRA_URL, url);
+                            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+                            myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
+
+                            contextActivity.startActivity(myIntent);
+                        } else {
+                            LinkUtil.openExternally(submission.getUrl());
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onDestroy() {
@@ -119,7 +147,7 @@ public class MediaFragmentComment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.submission_mediacard, container, false);
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getLong("position");
@@ -165,8 +193,8 @@ public class MediaFragmentComment extends Fragment {
 
                     @Override
                     public void onPanelStateChanged(View panel,
-                            SlidingUpPanelLayout.PanelState previousState,
-                            SlidingUpPanelLayout.PanelState newState) {
+                                                    SlidingUpPanelLayout.PanelState previousState,
+                                                    SlidingUpPanelLayout.PanelState newState) {
                         if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                             final Comment c = s.comment.getComment();
                             rootView.findViewById(R.id.base)
@@ -287,36 +315,6 @@ public class MediaFragmentComment extends Fragment {
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
-
-
-    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel,
-            final View clickingArea, final ContentType.Type type, final Activity contextActivity,
-            final CommentUrlObject submission) {
-        base.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                } else {
-                    if (type == ContentType.Type.IMAGE) {
-                        if (SettingValues.image) {
-                            Intent myIntent = new Intent(contextActivity, MediaView.class);
-                            String url = submission.getUrl();
-                            myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
-                            myIntent.putExtra(MediaView.EXTRA_URL, url);
-                            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
-                            myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
-
-                            contextActivity.startActivity(myIntent);
-                        } else {
-                            LinkUtil.openExternally(submission.getUrl());
-                        }
-                    }
-                }
-            }
-        });
-    }
-
 
     public void doLoadGif(final String dat) {
         isGif = true;
@@ -618,14 +616,14 @@ public class MediaFragmentComment extends Fragment {
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view,
-                                            FailReason failReason) {
+                                                                FailReason failReason) {
                                         Log.v(LogUtil.getTag(), "LOADING FAILED");
 
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            Bitmap loadedImage) {
+                                                                  Bitmap loadedImage) {
                                         imageShown = true;
                                         File f = null;
                                         if (getActivity() != null) {
@@ -715,7 +713,7 @@ public class MediaFragmentComment extends Fragment {
                                 }, new ImageLoadingProgressListener() {
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
-                                            int current, int total) {
+                                                                 int current, int total) {
                                         ((ProgressBar) rootView.findViewById(
                                                 R.id.progress)).setProgress(
                                                 Math.round(100.0f * current / total));

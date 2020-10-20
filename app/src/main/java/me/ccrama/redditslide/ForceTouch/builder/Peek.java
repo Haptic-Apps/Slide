@@ -35,6 +35,22 @@ import me.ccrama.redditslide.ForceTouch.util.GestureListener;
  */
 public class Peek {
 
+    private int layoutRes = 0;
+    private View layout = null;
+    private PeekViewOptions options = new PeekViewOptions();
+    private OnPeek callbacks;
+
+    private Peek(@LayoutRes int layoutRes, @Nullable OnPeek callbacks) {
+        this.layoutRes = layoutRes;
+        this.callbacks = callbacks;
+
+    }
+
+    private Peek(View layout, @Nullable OnPeek callbacks) {
+        this.layout = layout;
+        this.callbacks = callbacks;
+    }
+
     public static Peek into(@LayoutRes int layoutRes, @Nullable OnPeek onPeek) {
         return new Peek(layoutRes, onPeek);
     }
@@ -53,23 +69,6 @@ public class Peek {
         view.setOnTouchListener(null);
     }
 
-    private int layoutRes = 0;
-    private View layout = null;
-
-    private PeekViewOptions options = new PeekViewOptions();
-    private OnPeek callbacks;
-
-    private Peek(@LayoutRes int layoutRes, @Nullable OnPeek callbacks) {
-        this.layoutRes = layoutRes;
-        this.callbacks = callbacks;
-
-    }
-
-    private Peek(View layout, @Nullable OnPeek callbacks) {
-        this.layout = layout;
-        this.callbacks = callbacks;
-    }
-
     /**
      * Apply the options to the PeekView, when it is shown.
      *
@@ -84,7 +83,7 @@ public class Peek {
      * Finish the builder by selecting the base view that you want to show the PeekView from.
      *
      * @param activity the PeekViewActivity that you are on.
-     * @param base the view that you want to touch to apply the peek to.
+     * @param base     the view that you want to touch to apply the peek to.
      */
     public void applyTo(final PeekViewActivity activity, final View base) {
         final GestureDetectorCompat detector =
@@ -127,7 +126,7 @@ public class Peek {
     private void forceRippleAnimation(View view, MotionEvent event) {
         Drawable background = view.getBackground();
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background instanceof RippleDrawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background instanceof RippleDrawable) {
             final RippleDrawable rippleDrawable = (RippleDrawable) background;
 
             rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});

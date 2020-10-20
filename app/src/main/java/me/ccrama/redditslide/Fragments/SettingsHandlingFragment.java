@@ -32,9 +32,8 @@ import me.ccrama.redditslide.SettingValues;
 
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
 
-    private Activity context;
-
     EditText domain;
+    private Activity context;
 
     public SettingsHandlingFragment(Activity context) {
         this.context = context;
@@ -242,20 +241,20 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             mIdRes = stringRes;
         }
 
-        public int getValue() {
-            return mValue;
-        }
-
-        public int getIdRes() {
-            return mIdRes;
-        }
-
         public static int idResFromValue(int value) {
             return sBiMap.get(value);
         }
 
         public static int valueFromIdRes(@IdRes int idRes) {
             return sBiMap.inverse().get(idRes);
+        }
+
+        public int getValue() {
+            return mValue;
+        }
+
+        public int getIdRes() {
+            return mIdRes;
         }
     }
 }

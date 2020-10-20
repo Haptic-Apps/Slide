@@ -22,12 +22,13 @@ import me.ccrama.redditslide.R;
  */
 public class ShadowboxComments extends FullScreenActivity {
     public static ArrayList<CommentUrlObject> comments;
+    OverviewPagerAdapter commentPager;
 
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
 
-        if(comments == null || comments.isEmpty()){
+        if (comments == null || comments.isEmpty()) {
             finish();
         }
         applyDarkColorTheme(comments.get(0).comment.getComment().getSubredditName());
@@ -38,8 +39,6 @@ public class ShadowboxComments extends FullScreenActivity {
         commentPager = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(commentPager);
     }
-
-    OverviewPagerAdapter commentPager;
 
     public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -69,8 +68,7 @@ public class ShadowboxComments extends FullScreenActivity {
                 case EMBEDDED:
                 case LINK:
                 case STREAMABLE:
-                case VIDEO:
-                {
+                case VIDEO: {
                     f = new MediaFragmentComment();
                     Bundle args = new Bundle();
                     args.putString("contentUrl", url);
@@ -94,7 +92,7 @@ public class ShadowboxComments extends FullScreenActivity {
 
         @Override
         public int getCount() {
-            return comments.size() ;
+            return comments.size();
         }
 
 

@@ -47,9 +47,13 @@ public class CommentCacheAsync extends AsyncTask {
     List<Submission> alreadyReceived;
 
     NotificationManager mNotifyManager;
+    String[] subs;
+    Context context;
+    NotificationCompat.Builder mBuilder;
+    boolean[] otherChoices;
 
     public CommentCacheAsync(List<Submission> submissions, Context c, String subreddit,
-            boolean[] otherChoices) {
+                             boolean[] otherChoices) {
         alreadyReceived = submissions;
         this.context = c;
         this.subs = new String[]{subreddit};
@@ -57,7 +61,7 @@ public class CommentCacheAsync extends AsyncTask {
     }
 
     public CommentCacheAsync(List<Submission> submissions, Activity mContext, String baseSub,
-            String alternateSubName) {
+                             String alternateSubName) {
         this(submissions, mContext, baseSub, new boolean[]{true, true});
 
     }
@@ -66,13 +70,6 @@ public class CommentCacheAsync extends AsyncTask {
         this.context = c;
         this.subs = subreddits;
     }
-
-    String[] subs;
-
-    Context                    context;
-    NotificationCompat.Builder mBuilder;
-
-    boolean[] otherChoices;
 
     public void loadPhotos(Submission submission, Context c) {
         String url;
@@ -90,26 +87,19 @@ public class CommentCacheAsync extends AsyncTask {
                             && submission.getThumbnails().getVariations().length > 0) {
 
                         int length = submission.getThumbnails().getVariations().length;
-                        if (SettingValues.lqLow && length >= 3)
-                        {
+                        if (SettingValues.lqLow && length >= 3) {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
-                        }
-                        else if (SettingValues.lqMid && length >= 4)
-                        {
+                        } else if (SettingValues.lqMid && length >= 4) {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
-                        }
-                        else if (length >= 5)
-                        {
+                        } else if (length >= 5) {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
-                        }
-                        else
-                        {
+                        } else {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
@@ -144,13 +134,13 @@ public class CommentCacheAsync extends AsyncTask {
 
                                 @Override
                                 public void onLoadingFailed(String imageUri, View view,
-                                        FailReason failReason) {
+                                                            FailReason failReason) {
 
                                 }
 
                                 @Override
                                 public void onLoadingComplete(String imageUri, View view,
-                                        Bitmap loadedImage) {
+                                                              Bitmap loadedImage) {
 
                                 }
 
@@ -167,26 +157,19 @@ public class CommentCacheAsync extends AsyncTask {
                             && submission.getThumbnails().getVariations().length != 0) {
 
                         int length = submission.getThumbnails().getVariations().length;
-                        if (SettingValues.lqLow && length >= 3)
-                        {
+                        if (SettingValues.lqLow && length >= 3) {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
-                        }
-                        else if (SettingValues.lqMid && length >= 4)
-                        {
+                        } else if (SettingValues.lqMid && length >= 4) {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
-                        }
-                        else if (length >= 5)
-                        {
+                        } else if (length >= 5) {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
-                        }
-                        else
-                        {
+                        } else {
                             url = HtmlCompat.fromHtml(
                                     submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
@@ -206,13 +189,13 @@ public class CommentCacheAsync extends AsyncTask {
 
                                 @Override
                                 public void onLoadingFailed(String imageUri, View view,
-                                        FailReason failReason) {
+                                                            FailReason failReason) {
 
                                 }
 
                                 @Override
                                 public void onLoadingComplete(String imageUri, View view,
-                                        Bitmap loadedImage) {
+                                                              Bitmap loadedImage) {
 
                                 }
 
@@ -235,13 +218,13 @@ public class CommentCacheAsync extends AsyncTask {
 
                                 @Override
                                 public void onLoadingFailed(String imageUri, View view,
-                                        FailReason failReason) {
+                                                            FailReason failReason) {
 
                                 }
 
                                 @Override
                                 public void onLoadingComplete(String imageUri, View view,
-                                        Bitmap loadedImage) {
+                                                              Bitmap loadedImage) {
 
                                 }
 
@@ -262,7 +245,7 @@ public class CommentCacheAsync extends AsyncTask {
             if (Authentication.reddit == null) {
                 new Authentication(context);
             }
-            if(Authentication.reddit != null) {
+            if (Authentication.reddit != null) {
                 try {
                     Authentication.me = Authentication.reddit.me();
                     Authentication.mod = Authentication.me.isMod();
@@ -285,7 +268,7 @@ public class CommentCacheAsync extends AsyncTask {
                         Authentication.isLoggedIn = true;
                         Reddit.notFirst = true;
                     }
-                } catch(Exception e){
+                } catch (Exception e) {
                     new Authentication(context);
                 }
             }

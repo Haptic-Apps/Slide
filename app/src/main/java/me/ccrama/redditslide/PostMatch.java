@@ -13,6 +13,8 @@ import java.util.Set;
  * Created by carlo_000 on 1/13/2016.
  */
 public class PostMatch {
+    public static SharedPreferences filters;
+
     /**
      * Checks if a string is totally or partially contained in a set of strings
      *
@@ -82,10 +84,9 @@ public class PostMatch {
         }
     }
 
-    public static SharedPreferences filters;
-
     public static boolean doesMatch(Submission s, String baseSubreddit, boolean ignore18) {
-        if (Hidden.id.contains(s.getFullName())) return true; // if it's hidden we're not going to show it regardless
+        if (Hidden.id.contains(s.getFullName()))
+            return true; // if it's hidden we're not going to show it regardless
 
         String title = s.getTitle();
         String body = s.getSelftext();
@@ -100,7 +101,8 @@ public class PostMatch {
         if (contains(s.getAuthor(), SettingValues.userFilters, false)) return true;
 
         try {
-            if (isDomain(domain.toLowerCase(Locale.ENGLISH), SettingValues.domainFilters)) return true;
+            if (isDomain(domain.toLowerCase(Locale.ENGLISH), SettingValues.domainFilters))
+                return true;
         } catch (MalformedURLException ignored) {
         }
 

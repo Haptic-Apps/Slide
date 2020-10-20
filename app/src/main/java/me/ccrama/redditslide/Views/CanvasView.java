@@ -4,7 +4,7 @@ package me.ccrama.redditslide.Views;
  * <p/>
  * Copyright (c) 2014 Tomohiro IKEDA (Korilakkuma)
  * Released under the MIT license
- *
+ * <p>
  * Code based off of https://github.com/Korilakkuma/CanvasView
  */
 
@@ -35,32 +35,13 @@ import java.util.List;
  */
 public class CanvasView extends View {
 
-    // Enumeration for Mode
-    public enum Mode {
-        DRAW,
-        TEXT,
-        ERASER
-    }
-
-    // Enumeration for Drawer
-    public enum Drawer {
-        PEN,
-        LINE,
-        RECTANGLE,
-        CIRCLE,
-        ELLIPSE,
-        QUADRATIC_BEZIER,
-        QUBIC_BEZIER
-    }
-
+    private final Paint emptyPaint = new Paint();
+    public float right, height, width, bottom;
+    boolean imageChange = false;
     private Canvas canvas = null;
     private Bitmap bitmap = null;
-
     private List<Path> pathLists = new ArrayList<Path>();
     private List<Paint> paintLists = new ArrayList<Paint>();
-
-    private final Paint emptyPaint = new Paint();
-
     // for Eraser
     private int baseColor = Color.parseColor("#303030");
 
@@ -131,8 +112,22 @@ public class CanvasView extends View {
     }
 
     /**
-     * Common initialization.
+     * This static method gets the designated bitmap as byte array.
      *
+     * @param bitmap
+     * @param format
+     * @param quality
+     * @return This is returned as byte array of bitmap.
+     */
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap, CompressFormat format, int quality) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(format, quality, byteArrayOutputStream);
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    /**
+     * Common initialization.
      */
     private void setup() {
 
@@ -412,10 +407,6 @@ public class CanvasView extends View {
         }
     }
 
-    boolean imageChange = false;
-
-    public float right, height, width, bottom;
-
     /**
      * This method updates the instance of Canvas (View)
      *
@@ -432,12 +423,12 @@ public class CanvasView extends View {
             Matrix m = new Matrix();
             m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()), new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), Matrix.ScaleToFit.CENTER);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
-            height = (((canvas.getHeight()/2.0f)-bitmap.getHeight()/2.0f));
-            width=((canvas.getWidth()/2.0f)-bitmap.getWidth()/2.0f);
-            canvas.drawBitmap(bitmap,width,height, emptyPaint);
+            height = (((canvas.getHeight() / 2.0f) - bitmap.getHeight() / 2.0f));
+            width = ((canvas.getWidth() / 2.0f) - bitmap.getWidth() / 2.0f);
+            canvas.drawBitmap(bitmap, width, height, emptyPaint);
             right = canvas.getWidth();
             bottom = height + ((bitmap.getHeight()));
-            canvas.clipRect(0,height,right, bottom);
+            canvas.clipRect(0, height, right, bottom);
         }
 
         for (int i = 0; i < this.historyPointer; i++) {
@@ -885,21 +876,6 @@ public class CanvasView extends View {
     }
 
     /**
-     * This static method gets the designated bitmap as byte array.
-     *
-     * @param bitmap
-     * @param format
-     * @param quality
-     * @return This is returned as byte array of bitmap.
-     */
-    public static byte[] getBitmapAsByteArray(Bitmap bitmap, CompressFormat format, int quality) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(format, quality, byteArrayOutputStream);
-
-        return byteArrayOutputStream.toByteArray();
-    }
-
-    /**
      * This method gets the bitmap as byte array.
      *
      * @param format
@@ -921,6 +897,24 @@ public class CanvasView extends View {
      */
     public byte[] getBitmapAsByteArray() {
         return this.getBitmapAsByteArray(CompressFormat.PNG, 100);
+    }
+
+    // Enumeration for Mode
+    public enum Mode {
+        DRAW,
+        TEXT,
+        ERASER
+    }
+
+    // Enumeration for Drawer
+    public enum Drawer {
+        PEN,
+        LINE,
+        RECTANGLE,
+        CIRCLE,
+        ELLIPSE,
+        QUADRATIC_BEZIER,
+        QUBIC_BEZIER
     }
 
 }

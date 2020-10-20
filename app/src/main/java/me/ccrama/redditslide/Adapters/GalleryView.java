@@ -263,7 +263,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                                 break;
                             case GIF:
-                                PopulateSubmissionViewHolder.openGif(main, submission,  holder.getAdapterPosition());
+                                PopulateSubmissionViewHolder.openGif(main, submission, holder.getAdapterPosition());
                                 break;
                             case NONE:
                             case SELF:

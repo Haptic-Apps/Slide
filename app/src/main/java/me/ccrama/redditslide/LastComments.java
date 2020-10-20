@@ -33,7 +33,7 @@ public class LastComments {
                 // Check if KVStore has a key containing comments + the fullname
                 // This is necessary because the KVStore library is limited and Carlos didn't realize the performance impact
                 Cursor cur = m.execQuery("SELECT * FROM ? WHERE ? LIKE '%?%' LIMIT 1",
-                        new String[] { TABLE_NAME, COLUMN_KEY, "comments" + fullname });
+                        new String[]{TABLE_NAME, COLUMN_KEY, "comments" + fullname});
                 boolean contains = cur != null && cur.getCount() > 0;
                 CursorUtils.closeCursorQuietly(cur);
 
@@ -41,7 +41,7 @@ public class LastComments {
                     commentsSince.put(fullname, Integer.valueOf(m.get("comments" + fullname)));
                 }
             }
-        } catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }

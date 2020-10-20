@@ -31,7 +31,7 @@ public class LogUtil {
             final StackTraceElement ste = Thread.currentThread().getStackTrace()[CALLING_METHOD_INDEX];
             return "(" + ste.getFileName() + ":" + ste.getLineNumber() + ")";
 
-        } catch (Exception e){
+        } catch (Exception e) {
             return "Slide";
         }
     }

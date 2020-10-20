@@ -20,6 +20,4 @@ public class DataShare {
     public static SubredditPosts sharedSub;
 
 
-
-
 }

@@ -48,22 +48,23 @@ import me.ccrama.redditslide.SettingValues;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
-    public static final String EXTRA_PROFILE     = "profile";
-    public static final String EXTRA_PAGE        = "page";
-    public static final String EXTRA_SUBREDDIT   = "subreddit";
+    public static final String EXTRA_PROFILE = "profile";
+    public static final String EXTRA_PAGE = "page";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
 
     public ArrayList<Submission> currentPosts;
 
     public PostLoader subredditPosts;
+    public int currentPage;
+    public ArrayList<Integer> seen;
+    public boolean popup;
     int firstPage;
-
     OverviewPagerAdapter comments;
-    private String subreddit;
-    private String baseSubreddit;
-
     String multireddit;
     String profile;
+    private String subreddit;
+    private String baseSubreddit;
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -117,9 +118,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
     }
 
-    public int                currentPage;
-    public ArrayList<Integer> seen;
-
     public int adjustAlpha(float factor) {
         int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
         int red = Color.red(Color.BLACK);
@@ -127,8 +125,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         int blue = Color.blue(Color.BLACK);
         return Color.argb(alpha, red, green, blue);
     }
-
-    public boolean popup;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -211,7 +207,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                               @Override
                                               public void onPageScrolled(int position, float positionOffset,
-                                                      int positionOffsetPixels) {
+                                                                         int positionOffsetPixels) {
                                                   if (position <= firstPage && positionOffsetPixels == 0) {
                                                       finish();
                                                   }
@@ -269,7 +265,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     private void updateSubredditAndSubmission(Submission post) {
         subreddit = post.getSubredditName();
-        if(post.getSubredditName() == null){
+        if (post.getSubredditName() == null) {
             subreddit = "Promoted";
         }
         themeSystemBars(subreddit);
@@ -326,8 +322,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        private CommentPage   mCurrentFragment;
-        public  BlankFragment blankPage;
+        public BlankFragment blankPage;
+        private CommentPage mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

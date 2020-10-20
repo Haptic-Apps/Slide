@@ -21,10 +21,11 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
 public class SortingUtil {
-    public static final Map<String, TimePeriod>              times  = new HashMap<>();
-    public static       SubmissionSearchPaginator.SearchSort search =
+    public static final Map<String, TimePeriod> times = new HashMap<>();
+    public static final Map<String, Sorting> sorting = new HashMap<>();
+    public static SubmissionSearchPaginator.SearchSort search =
             SubmissionSearchPaginator.SearchSort.RELEVANCE;
-    public static Sorting    defaultSorting;
+    public static Sorting defaultSorting;
     public static TimePeriod timePeriod;
 
     public static Integer getSortingId(Sorting sort) {
@@ -99,13 +100,13 @@ public class SortingUtil {
     public static Integer getSortingSearchId(Search s) {
         return s.time == TimePeriod.HOUR ? 0 : s.time == TimePeriod.DAY ? 1
                 : s.time == TimePeriod.WEEK ? 2
-                        : s.time == TimePeriod.MONTH ? 3 : s.time == TimePeriod.YEAR ? 4 : 5;
+                : s.time == TimePeriod.MONTH ? 3 : s.time == TimePeriod.YEAR ? 4 : 5;
     }
 
     public static Integer getSearchType() {
         return search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0
                 : search == SubmissionSearchPaginator.SearchSort.TOP ? 1
-                        : search == SubmissionSearchPaginator.SearchSort.NEW ? 2 : 3;
+                : search == SubmissionSearchPaginator.SearchSort.NEW ? 2 : 3;
     }
 
     public static Spannable[] getSortingTimesSpannables(String currentSub) {
@@ -197,8 +198,6 @@ public class SortingUtil {
     public static void setSorting(String s, Sorting sort) {
         sorting.put(s.toLowerCase(Locale.ENGLISH), sort);
     }
-
-    public static final Map<String, Sorting> sorting = new HashMap<>();
 
     public static Sorting getSorting(String subreddit, Sorting defaultSort) {
         subreddit = subreddit.toLowerCase(Locale.ENGLISH);

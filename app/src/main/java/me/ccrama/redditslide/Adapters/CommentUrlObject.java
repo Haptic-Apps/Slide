@@ -7,9 +7,8 @@ import net.dean.jraw.models.CommentNode;
  */
 public class CommentUrlObject {
     public String url;
-    String subredditName;
-
     public CommentNode comment;
+    String subredditName;
 
     public CommentUrlObject(CommentNode comment, String url, String subredditName) {
         this.comment = comment;
@@ -17,7 +16,7 @@ public class CommentUrlObject {
         this.url = url;
     }
 
-    public String getSubredditName(){
+    public String getSubredditName() {
         return subredditName;
     }
 

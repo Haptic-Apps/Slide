@@ -57,9 +57,9 @@ import me.ccrama.redditslide.util.LogUtil;
 public class SettingsBackup extends BaseActivityAnim
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     MaterialDialog progress;
-    DriveFolder    appFolder;
-    String         title;
-    final private ResultCallback<DriveApi.MetadataBufferResult> newCallback  =
+    DriveFolder appFolder;
+    String title;
+    final private ResultCallback<DriveApi.MetadataBufferResult> newCallback =
             new ResultCallback<DriveApi.MetadataBufferResult>() {
                 @Override
                 public void onResult(DriveApi.MetadataBufferResult result) {
@@ -82,6 +82,35 @@ public class SettingsBackup extends BaseActivityAnim
 
                 }
             };
+    int errors;
+    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback =
+            new ResultCallback<DriveFolder.DriveFileResult>() {
+                @Override
+                public void onResult(DriveFolder.DriveFileResult result) {
+                    progress.setProgress(progress.getCurrentProgress() + 1);
+                    if (!result.getStatus().isSuccess()) {
+                        errors += 1;
+                        return;
+                    }
+
+                    if (progress.getCurrentProgress() == progress.getMaxProgress()) {
+
+                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                                R.string.backup_success)
+                                .setPositiveButton(R.string.btn_close,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        })
+                                .setCancelable(false)
+                                .show();
+                    }
+                }
+            };
+    File file;
+    private GoogleApiClient mGoogleApiClient;
     final private ResultCallback<DriveApi.MetadataBufferResult> newCallback2 =
             new ResultCallback<DriveApi.MetadataBufferResult>() {
                 @Override
@@ -196,7 +225,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             finish();
                                                         }
                                                     })
@@ -211,34 +240,14 @@ public class SettingsBackup extends BaseActivityAnim
                 }
             };
 
-    int errors;
-    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback =
-            new ResultCallback<DriveFolder.DriveFileResult>() {
-                @Override
-                public void onResult(DriveFolder.DriveFileResult result) {
-                    progress.setProgress(progress.getCurrentProgress() + 1);
-                    if (!result.getStatus().isSuccess()) {
-                        errors += 1;
-                        return;
-                    }
-
-                    if (progress.getCurrentProgress() == progress.getMaxProgress()) {
-
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                                R.string.backup_success)
-                                .setPositiveButton(R.string.btn_close,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        })
-                                .setCancelable(false)
-                                .show();
-                    }
-                }
-            };
-    private GoogleApiClient mGoogleApiClient;
+    public static void close(Closeable stream) {
+        try {
+            if (stream != null) {
+                stream.close();
+            }
+        } catch (IOException e) {
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -402,7 +411,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
                                                 File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
 
                                                 if (prefsdir.exists() && prefsdir.isDirectory()) {
@@ -436,7 +445,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
 
                                             }
                                         })
@@ -462,7 +471,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
                                                 progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                                         R.string.backup_restoring)
                                                         .content(R.string.misc_please_wait)
@@ -489,7 +498,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setPositiveButton(R.string.btn_ok,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
 
                                             }
                                         })
@@ -571,8 +580,6 @@ public class SettingsBackup extends BaseActivityAnim
         }
     }
 
-    File file;
-
     public void backupToDir(final boolean personal) {
 
         new AsyncTask<Void, Void, Void>() {
@@ -617,12 +624,12 @@ public class SettingsBackup extends BaseActivityAnim
                                     "albums") && !s.contains("STACKTRACE") && !s.contains(
                                     "com.google") && (!personal ||
                                     (!s.contains("SUBSNEW")
-                                    && !s.contains("appRestart")
-                                    && !s.contains("AUTH")
-                                    && !s.contains("TAGS")
-                                    && !s.contains("SEEN")
-                                    && !s.contains("HIDDEN")
-                                    && !s.contains("HIDDEN_POSTS")))) {
+                                            && !s.contains("appRestart")
+                                            && !s.contains("AUTH")
+                                            && !s.contains("TAGS")
+                                            && !s.contains("SEEN")
+                                            && !s.contains("HIDDEN")
+                                            && !s.contains("HIDDEN_POSTS")))) {
                                 FileReader fr = null;
                                 try {
                                     fr = new FileReader(new File(prefsdir + File.separator + s));
@@ -691,15 +698,6 @@ public class SettingsBackup extends BaseActivityAnim
             }
         }.execute();
 
-    }
-
-    public static void close(Closeable stream) {
-        try {
-            if (stream != null) {
-                stream.close();
-            }
-        } catch (IOException e) {
-        }
     }
 
     @Override

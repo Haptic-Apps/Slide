@@ -64,28 +64,69 @@ import me.ccrama.redditslide.util.NetworkUtil;
 
 public class NewsActivity extends BaseActivity
         implements NetworkStateReceiver.NetworkStateReceiverListener {
-    public static final  String IS_ONLINE     = "online";
+    public static final String IS_ONLINE = "online";
     // Instance state keys
-    static final         String SUBS          = "news";
+    static final String SUBS = "news";
     private static final String EXTRA_PAGE_TO = "PAGE_TO";
-    public View header;
-
     public static Loader loader;
-    public static Map<String, String> newsSubToMap            = new HashMap<>();
-    public final  long                ANIMATE_DURATION        = 250; //duration of animations
-    private final long                ANIMATE_DURATION_OFFSET = 45;
+    public static Map<String, String> newsSubToMap = new HashMap<>();
+    public final long ANIMATE_DURATION = 250; //duration of animations
+    private final long ANIMATE_DURATION_OFFSET = 45;
+    public View header;
     //offset for smoothing out the exit animations
-    public ToggleSwipeViewPager     pager;
+    public ToggleSwipeViewPager pager;
     public CaseInsensitiveArrayList usedArray;
-    public OverviewPagerAdapter     adapter;
-    public TabLayout                mTabLayout;
-    public String                   selectedSub; //currently selected subreddit
-    public boolean                  inNightMode;
+    public OverviewPagerAdapter adapter;
+    public TabLayout mTabLayout;
+    public String selectedSub; //currently selected subreddit
+    public boolean inNightMode;
+    public int reloadItemNumber = -2;
     boolean changed;
     boolean currentlySubbed;
-    int     back;
+    int back;
+    NetworkStateReceiver networkStateReceiver;
+    boolean isTop;
+    String shouldLoad;
+    int toGoto;
     private int headerHeight; //height of the header
-    public int reloadItemNumber = -2;
+
+    public static String abbreviate(final String str, final int maxWidth) {
+        if (str.length() <= maxWidth) {
+            return str;
+        }
+
+        final String abrevMarker = "...";
+        return str.substring(0, maxWidth - 3) + abrevMarker;
+    }
+
+    /**
+     * Set the drawer edge (i.e. how sensitive the drawer is) Based on a given screen width
+     * percentage.
+     *
+     * @param displayWidthPercentage larger the value, the more sensitive the drawer swipe is;
+     *                               percentage of screen width
+     * @param drawerLayout           drawerLayout to adjust the swipe edge
+     */
+    public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
+                                     DrawerLayout drawerLayout) {
+        try {
+            Field mDragger =
+                    drawerLayout.getClass().getSuperclass().getDeclaredField("mLeftDragger");
+            mDragger.setAccessible(true);
+
+            ViewDragHelper leftDragger = (ViewDragHelper) mDragger.get(drawerLayout);
+            Field mEdgeSize = leftDragger.getClass().getDeclaredField("mEdgeSize");
+            mEdgeSize.setAccessible(true);
+            final int currentEdgeSize = mEdgeSize.getInt(leftDragger);
+
+            Point displaySize = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+            mEdgeSize.setInt(leftDragger,
+                    Math.max(currentEdgeSize, (int) (displaySize.x * displayWidthPercentage)));
+        } catch (Exception e) {
+            LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -135,7 +176,7 @@ public class NewsActivity extends BaseActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            int[] grantResults) {
+                                           int[] grantResults) {
         if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -155,7 +196,7 @@ public class NewsActivity extends BaseActivity
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                int which) {
                                                 ActivityCompat.requestPermissions(
                                                         NewsActivity.this, new String[]{
                                                                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -167,7 +208,7 @@ public class NewsActivity extends BaseActivity
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                int which) {
                                                 dialog.dismiss();
                                             }
                                         })
@@ -241,8 +282,6 @@ public class NewsActivity extends BaseActivity
     public void networkAvailable() {
     }
 
-    NetworkStateReceiver networkStateReceiver;
-
     @Override
     public void networkUnavailable() {
     }
@@ -268,46 +307,6 @@ public class NewsActivity extends BaseActivity
         Slide.hasStarted = false;
         super.onDestroy();
     }
-
-    public static String abbreviate(final String str, final int maxWidth) {
-        if (str.length() <= maxWidth) {
-            return str;
-        }
-
-        final String abrevMarker = "...";
-        return str.substring(0, maxWidth - 3) + abrevMarker;
-    }
-
-    /**
-     * Set the drawer edge (i.e. how sensitive the drawer is) Based on a given screen width
-     * percentage.
-     *
-     * @param displayWidthPercentage larger the value, the more sensitive the drawer swipe is;
-     *                               percentage of screen width
-     * @param drawerLayout           drawerLayout to adjust the swipe edge
-     */
-    public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
-            DrawerLayout drawerLayout) {
-        try {
-            Field mDragger =
-                    drawerLayout.getClass().getSuperclass().getDeclaredField("mLeftDragger");
-            mDragger.setAccessible(true);
-
-            ViewDragHelper leftDragger = (ViewDragHelper) mDragger.get(drawerLayout);
-            Field mEdgeSize = leftDragger.getClass().getDeclaredField("mEdgeSize");
-            mEdgeSize.setAccessible(true);
-            final int currentEdgeSize = mEdgeSize.getInt(leftDragger);
-
-            Point displaySize = new Point();
-            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-            mEdgeSize.setInt(leftDragger,
-                    Math.max(currentEdgeSize, (int) (displaySize.x * displayWidthPercentage)));
-        } catch (Exception e) {
-            LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
-        }
-    }
-
-    boolean isTop;
 
     private void changeTop() {
         reloadSubs();
@@ -341,8 +340,6 @@ public class NewsActivity extends BaseActivity
         return position;
     }
 
-    String shouldLoad;
-
     public void reloadSubs() {
         int current = pager.getCurrentItem();
 
@@ -363,7 +360,6 @@ public class NewsActivity extends BaseActivity
 
         setToolbarClick();
     }
-
 
     public void restartTheme() {
         Intent intent = this.getIntent();
@@ -397,8 +393,6 @@ public class NewsActivity extends BaseActivity
         }
         ((NewsView) adapter.getCurrentFragment()).resetScroll();
     }
-
-    int toGoto;
 
     public void setDataSet(List<String> data) {
         if (data != null && !data.isEmpty()) {
@@ -514,7 +508,7 @@ public class NewsActivity extends BaseActivity
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
                     if (positionOffset == 0) {
                         header.animate()
                                 .translationY(0)

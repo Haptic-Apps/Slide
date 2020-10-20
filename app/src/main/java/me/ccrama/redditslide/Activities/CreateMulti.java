@@ -65,14 +65,13 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class CreateMulti extends BaseActivityAnim {
 
+    public static final String EXTRA_MULTI = "multi";
     private ArrayList<String> subs;
     private CustomAdapter adapter;
     private EditText title;
     private RecyclerView recyclerView;
     private String input;
     private String old;
-    public static final String EXTRA_MULTI = "multi";
-
     //Shows a dialog with all Subscribed subreddits and allows the user to select which ones to include in the Multireddit
     private String[] all;
 
@@ -236,6 +235,101 @@ public class CreateMulti extends BaseActivityAnim {
                 .show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_create_multi, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete:
+                new AlertDialogWrapper.Builder(CreateMulti.this)
+                        .setTitle(getString(R.string.delete_multireddit_title, title.getText().toString()))
+                        .setMessage(R.string.cannot_be_undone)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                MultiredditOverview.multiActivity.finish();
+                                new MaterialDialog.Builder(CreateMulti.this)
+                                        .title(R.string.deleting)
+                                        .progress(true, 100)
+                                        .content(R.string.misc_please_wait)
+                                        .cancelable(false)
+                                        .show();
+
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        try {
+                                            new MultiRedditManager(Authentication.reddit).delete(old);
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
+                                                }
+                                            });
+
+                                        } catch (final Exception e) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new AlertDialogWrapper.Builder(CreateMulti.this)
+                                                            .setTitle(R.string.err_title)
+                                                            .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
+                                                            .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    finish();
+                                                                }
+                                                            }).create().show();
+                                                }
+                                            });
+                                            e.printStackTrace();
+                                        }
+                                        return null;
+                                    }
+                                }.execute();
+                            }
+                        }).setNegativeButton(R.string.btn_cancel, null).show();
+                return true;
+            case R.id.save:
+                if (title.getText().toString().isEmpty()) {
+                    new AlertDialogWrapper.Builder(CreateMulti.this)
+                            .setTitle(R.string.multireddit_title_empty)
+                            .setMessage(R.string.multireddit_title_empty_msg)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    title.requestFocus();
+                                }
+                            }).show();
+                } else if (subs.isEmpty()) {
+                    new AlertDialogWrapper.Builder(CreateMulti.this)
+                            .setTitle(R.string.multireddit_no_subs)
+                            .setMessage(R.string.multireddit_no_subs_msg)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                } else {
+                    new SaveMulti().execute();
+                }
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return false;
+        }
+    }
+
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
         @Override
         public void onPostExecute(Subreddit subreddit) {
@@ -394,7 +488,7 @@ public class CreateMulti extends BaseActivityAnim {
                             errorMsg = getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() +
                                     "\n" + getString(R.string.misc_retry);
 
-                        } else if (((NetworkException) e).getResponse().getStatusCode() == 409){
+                        } else if (((NetworkException) e).getResponse().getStatusCode() == 409) {
                             //The HTTP status code returned when the name of the multireddit already exists or
                             //has more than 100 subs is 409
                             errorMsg = getString(R.string.multireddit_save_err);
@@ -429,101 +523,6 @@ public class CreateMulti extends BaseActivityAnim {
                 });
             }
             return null;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_create_multi, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.delete:
-                new AlertDialogWrapper.Builder(CreateMulti.this)
-                        .setTitle(getString(R.string.delete_multireddit_title, title.getText().toString()))
-                        .setMessage(R.string.cannot_be_undone)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                MultiredditOverview.multiActivity.finish();
-                                new MaterialDialog.Builder(CreateMulti.this)
-                                        .title(R.string.deleting)
-                                        .progress(true, 100)
-                                        .content(R.string.misc_please_wait)
-                                        .cancelable(false)
-                                        .show();
-
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        try {
-                                            new MultiRedditManager(Authentication.reddit).delete(old);
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
-                                                }
-                                            });
-
-                                        } catch (final Exception e) {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    new AlertDialogWrapper.Builder(CreateMulti.this)
-                                                            .setTitle(R.string.err_title)
-                                                            .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
-                                                            .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    finish();
-                                                                }
-                                                            }).create().show();
-                                                }
-                                            });
-                                            e.printStackTrace();
-                                        }
-                                        return null;
-                                    }
-                                }.execute();
-                            }
-                        }).setNegativeButton(R.string.btn_cancel, null).show();
-                return true;
-            case R.id.save:
-                if (title.getText().toString().isEmpty()) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this)
-                            .setTitle(R.string.multireddit_title_empty)
-                            .setMessage(R.string.multireddit_title_empty_msg)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    title.requestFocus();
-                                }
-                            }).show();
-                } else if (subs.isEmpty()) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this)
-                            .setTitle(R.string.multireddit_no_subs)
-                            .setMessage(R.string.multireddit_no_subs_msg)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                } else {
-                    new SaveMulti().execute();
-                }
-                return true;
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return false;
         }
     }
 }

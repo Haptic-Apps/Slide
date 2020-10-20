@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.Tumblr;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,8 +13,8 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "meta",
-    "response"
+        "meta",
+        "response"
 })
 public class Example {
 
@@ -27,9 +26,7 @@ public class Example {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The meta
+     * @return The meta
      */
     @JsonProperty("meta")
     public Meta getMeta() {
@@ -37,9 +34,7 @@ public class Example {
     }
 
     /**
-     * 
-     * @param meta
-     *     The meta
+     * @param meta The meta
      */
     @JsonProperty("meta")
     public void setMeta(Meta meta) {
@@ -47,9 +42,7 @@ public class Example {
     }
 
     /**
-     * 
-     * @return
-     *     The response
+     * @return The response
      */
     @JsonProperty("response")
     public Response getResponse() {
@@ -57,9 +50,7 @@ public class Example {
     }
 
     /**
-     * 
-     * @param response
-     *     The response
+     * @param response The response
      */
     @JsonProperty("response")
     public void setResponse(Response response) {

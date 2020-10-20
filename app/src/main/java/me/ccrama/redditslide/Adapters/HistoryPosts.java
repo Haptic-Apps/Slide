@@ -24,10 +24,11 @@ import me.ccrama.redditslide.PostMatch;
  * Created by ccrama on 9/17/2015.
  */
 public class HistoryPosts extends GeneralPosts {
-    private SwipeRefreshLayout  refreshLayout;
-    private ContributionAdapter adapter;
-    public  boolean             loading;
+    public boolean loading;
     String prefix = "";
+    FullnamesPaginator paginator;
+    private SwipeRefreshLayout refreshLayout;
+    private ContributionAdapter adapter;
 
     public HistoryPosts() {
     }
@@ -45,8 +46,6 @@ public class HistoryPosts extends GeneralPosts {
     public void loadMore(ContributionAdapter adapter, boolean reset) {
         new LoadData(reset).execute();
     }
-
-    FullnamesPaginator paginator;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
         final boolean reset;
@@ -142,7 +141,7 @@ public class HistoryPosts extends GeneralPosts {
                             }
                         } else {
                             String key = entry.getKey();
-                            if(!key.contains("_")){
+                            if (!key.contains("_")) {
                                 key = "t3_" + key;
                             }
                             idsSorted.put((Long) done, key.replace(prefix, ""));
@@ -156,7 +155,7 @@ public class HistoryPosts extends GeneralPosts {
                     }
 
                     paginator = new FullnamesPaginator(Authentication.reddit,
-                            ids.toArray(new String[ids.size()-1]));
+                            ids.toArray(new String[ids.size() - 1]));
 
 
                 }

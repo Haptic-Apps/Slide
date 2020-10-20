@@ -128,6 +128,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 fab.setImageResource(R.drawable.search);
                 fab.setOnClickListener(new View.OnClickListener() {
                     String term;
+
                     @Override
                     public void onClick(View v) {
                         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
@@ -421,7 +422,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     public void updateViews() {
         try {
             adapter.notifyItemRangeChanged(0, adapter.dataSet.getPosts().size());
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
     }

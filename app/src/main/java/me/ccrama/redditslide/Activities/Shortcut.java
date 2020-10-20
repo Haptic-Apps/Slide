@@ -23,6 +23,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  * Created by ccrama on 10/2/2015.
  */
 public class Shortcut extends BaseActivity {
+    View header;
     private String name = "";
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
@@ -61,14 +62,12 @@ public class Shortcut extends BaseActivity {
 
     }
 
-    View header;
-
     public void doShortcut() {
 
         setContentView(R.layout.activity_setup_widget);
         setupAppBar(R.id.toolbar, R.string.shortcut_creation_title, true, true);
         header = getLayoutInflater().inflate(R.layout.shortcut_header, null);
-        ListView list = (ListView)findViewById(R.id.subs);
+        ListView list = (ListView) findViewById(R.id.subs);
 
         list.addHeaderView(header);
 
@@ -77,7 +76,7 @@ public class Shortcut extends BaseActivity {
         list.setAdapter(adapter);
 
         (header.findViewById(R.id.sort)).clearFocus();
-        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
+        ((EditText) header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 

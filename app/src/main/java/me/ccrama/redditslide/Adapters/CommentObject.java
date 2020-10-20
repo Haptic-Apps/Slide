@@ -7,6 +7,7 @@ import net.dean.jraw.models.CommentNode;
  */
 public class CommentObject {
     public String name = "";
+    public CommentNode comment;
 
     public boolean isComment() {
         return false;
@@ -15,6 +16,4 @@ public class CommentObject {
     public String getName() {
         return name;
     }
-
-    public CommentNode comment;
 }

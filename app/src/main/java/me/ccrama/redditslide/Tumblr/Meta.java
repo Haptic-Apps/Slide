@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.Tumblr;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,8 +13,8 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "status",
-    "msg"
+        "status",
+        "msg"
 })
 public class Meta {
 
@@ -27,9 +26,7 @@ public class Meta {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The status
+     * @return The status
      */
     @JsonProperty("status")
     public Integer getStatus() {
@@ -37,9 +34,7 @@ public class Meta {
     }
 
     /**
-     * 
-     * @param status
-     *     The status
+     * @param status The status
      */
     @JsonProperty("status")
     public void setStatus(Integer status) {
@@ -47,9 +42,7 @@ public class Meta {
     }
 
     /**
-     * 
-     * @return
-     *     The msg
+     * @return The msg
      */
     @JsonProperty("msg")
     public String getMsg() {
@@ -57,9 +50,7 @@ public class Meta {
     }
 
     /**
-     * 
-     * @param msg
-     *     The msg
+     * @param msg The msg
      */
     @JsonProperty("msg")
     public void setMsg(String msg) {

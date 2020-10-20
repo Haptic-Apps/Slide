@@ -173,18 +173,18 @@ public class MediaVideoViewOld extends SurfaceView
                         mMediaController.hide();
                     }
 
-            /* If an error handler has been supplied, use it and finish. */
+                    /* If an error handler has been supplied, use it and finish. */
                     if (mOnErrorListener != null) {
                         if (mOnErrorListener.onError(mMediaPlayer, framework_err, impl_err)) {
                             return true;
                         }
                     }
 
-            /* Otherwise, pop up an error dialog so the user knows that
-             * something bad has happened. Only try and pop up the dialog
-             * if we're attached to a window. When we're going away and no
-             * longer have a window, don't bother showing the user an error.
-             */
+                    /* Otherwise, pop up an error dialog so the user knows that
+                     * something bad has happened. Only try and pop up the dialog
+                     * if we're attached to a window. When we're going away and no
+                     * longer have a window, don't bother showing the user an error.
+                     */
 //            if (getWindowToken() != null) {
 //               Resources r = getContext().getResources();
 //               int messageId;

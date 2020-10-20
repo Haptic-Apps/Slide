@@ -86,37 +86,37 @@ public class SettingsSynccit extends BaseActivityAnim {
                 try {
                     new MySynccitReadTask().execute("16noez").get();
                     if (SynccitRead.visitedIds.contains("16noez")) {
-                                //success
-                                d.dismiss();
-                                SharedPreferences.Editor e = SettingValues.prefs.edit();
+                        //success
+                        d.dismiss();
+                        SharedPreferences.Editor e = SettingValues.prefs.edit();
 
-                                e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
-                                e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
-                                e.apply();
-                                (findViewById(R.id.remove)).setEnabled(true);
+                        e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
+                        e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
+                        e.apply();
+                        (findViewById(R.id.remove)).setEnabled(true);
 
-                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                                        .setTitle(R.string.settings_synccit_connected)
-                                        .setMessage(R.string.settings_synccit_active)
-                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                                .setTitle(R.string.settings_synccit_connected)
+                                .setMessage(R.string.settings_synccit_active)
+                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onDismiss(DialogInterface dialog) {
+                                    public void onClick(DialogInterface dialog, int which) {
                                         finish();
                                     }
-                                }).show();
-                            } else {
-                                d.dismiss();
-
-                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                                        .setTitle(R.string.settings_synccit_failed)
-                                        .setMessage(R.string.settings_synccit_failed_msg)
-                                        .setPositiveButton(R.string.btn_ok, null).show();
+                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                finish();
                             }
+                        }).show();
+                    } else {
+                        d.dismiss();
+
+                        new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                                .setTitle(R.string.settings_synccit_failed)
+                                .setMessage(R.string.settings_synccit_failed_msg)
+                                .setPositiveButton(R.string.btn_ok, null).show();
+                    }
                 } catch (Exception e) {
                     d.dismiss();
 

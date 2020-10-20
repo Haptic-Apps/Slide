@@ -6,7 +6,7 @@ import android.widget.EditText;
 
 /**
  * Created by Fernando Barillas on 5/2/16.
- *
+ * <p>
  * Allows easier validation of EditText input via the use of an InputFilter. This way invalid text
  * is not allowed to be input.
  */

@@ -6,10 +6,10 @@ import androidx.annotation.FloatRange;
 
 public class PeekViewOptions {
 
-    @FloatRange(from=.1,to=.9)
+    @FloatRange(from = .1, to = .9)
     private float widthPercent = .6f;
 
-    @FloatRange(from=.1,to=.9)
+    @FloatRange(from = .1, to = .9)
     private float heightPercent = .5f;
 
     // Values should be in DP
@@ -18,7 +18,7 @@ public class PeekViewOptions {
 
     // 0.0 = fully transparent background dim
     // 1.0 = fully opaque (black) background dim
-    @FloatRange(from=0,to=1)
+    @FloatRange(from = 0, to = 1)
     private float backgroundDim = .6f;
 
     private boolean useFadeAnimation = true;
@@ -27,37 +27,6 @@ public class PeekViewOptions {
 
     private boolean blurBackground = true;
     private int blurOverlayColor = Color.parseColor("#99000000");
-
-    // region setters
-    public PeekViewOptions setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
-        this.widthPercent = widthPercent;
-        return this;
-    }
-
-    public PeekViewOptions setAbsoluteWidth(int width) {
-        this.absoluteWidth = width;
-        return this;
-    }
-
-    public PeekViewOptions setAbsoluteHeight(int height) {
-        this.absoluteHeight = height;
-        return this;
-    }
-
-    public PeekViewOptions setHeightPercent(@FloatRange(from=.1,to=.9) float heightPercent) {
-        this.heightPercent = heightPercent;
-        return this;
-    }
-
-    public PeekViewOptions setBackgroundDim(@FloatRange(from=0,to=1) float backgroundDim) {
-        this.backgroundDim = backgroundDim;
-        return this;
-    }
-
-    public PeekViewOptions setHapticFeedback(boolean useFeedback) {
-        this.hapticFeedback = useFeedback;
-        return this;
-    }
 
     public PeekViewOptions setUseFadeAnimation(boolean useFadeAnimation) {
         this.useFadeAnimation = useFadeAnimation;
@@ -74,35 +43,61 @@ public class PeekViewOptions {
         return this;
     }
 
-    public PeekViewOptions setBlurOverlayColor(int color) {
-        this.blurOverlayColor = color;
-        return this;
-    }
-    //endregion
-
     // region getters
     public float getWidthPercent() {
         return widthPercent;
+    }
+
+    // region setters
+    public PeekViewOptions setWidthPercent(@FloatRange(from = .1, to = .9) float widthPercent) {
+        this.widthPercent = widthPercent;
+        return this;
     }
 
     public float getHeightPercent() {
         return heightPercent;
     }
 
+    public PeekViewOptions setHeightPercent(@FloatRange(from = .1, to = .9) float heightPercent) {
+        this.heightPercent = heightPercent;
+        return this;
+    }
+
     public int getAbsoluteWidth() {
         return absoluteWidth;
     }
 
+    public PeekViewOptions setAbsoluteWidth(int width) {
+        this.absoluteWidth = width;
+        return this;
+    }
+
     public int getAbsoluteHeight() {
         return absoluteHeight;
+    }
+    //endregion
+
+    public PeekViewOptions setAbsoluteHeight(int height) {
+        this.absoluteHeight = height;
+        return this;
     }
 
     public float getBackgroundDim() {
         return backgroundDim;
     }
 
+    public PeekViewOptions setBackgroundDim(@FloatRange(from = 0, to = 1) float backgroundDim) {
+        this.backgroundDim = backgroundDim;
+        return this;
+    }
+
     public boolean getHapticFeedback() {
         return hapticFeedback;
+    }
+
+    public PeekViewOptions setHapticFeedback(boolean useFeedback) {
+        this.hapticFeedback = useFeedback;
+        return this;
     }
 
     public boolean useFadeAnimation() {
@@ -119,6 +114,11 @@ public class PeekViewOptions {
 
     public int getBlurOverlayColor() {
         return blurOverlayColor;
+    }
+
+    public PeekViewOptions setBlurOverlayColor(int color) {
+        this.blurOverlayColor = color;
+        return this;
     }
     // endregion
 }

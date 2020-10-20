@@ -14,7 +14,7 @@ import java.util.List;
 public class NetworkStateReceiver extends BroadcastReceiver {
 
     protected List<NetworkStateReceiverListener> listeners;
-    protected Boolean                            connected;
+    protected Boolean connected;
 
     public NetworkStateReceiver() {
         listeners = new ArrayList<NetworkStateReceiverListener>();
@@ -22,22 +22,22 @@ public class NetworkStateReceiver extends BroadcastReceiver {
     }
 
     public void onReceive(Context context, Intent intent) {
-        if(intent == null || intent.getExtras() == null)
+        if (intent == null || intent.getExtras() == null)
             return;
         connected = NetworkUtil.isConnected(context);
         notifyStateToAll();
     }
 
     private void notifyStateToAll() {
-        for(NetworkStateReceiverListener listener : listeners)
+        for (NetworkStateReceiverListener listener : listeners)
             notifyState(listener);
     }
 
     private void notifyState(NetworkStateReceiverListener listener) {
-        if(connected == null || listener == null)
+        if (connected == null || listener == null)
             return;
 
-        if(connected)
+        if (connected)
             listener.networkAvailable();
         else
             listener.networkUnavailable();
@@ -54,6 +54,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
 
     public interface NetworkStateReceiverListener {
         void networkAvailable();
+
         void networkUnavailable();
     }
 }

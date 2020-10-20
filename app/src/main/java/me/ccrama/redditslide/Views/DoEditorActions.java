@@ -80,9 +80,12 @@ import okio.Sink;
  */
 public class DoEditorActions {
 
+    public static Editable e;
+    public static int sStart, sEnd;
+
     public static void doActions(final EditText editText, final View baseView,
-            final FragmentManager fm, final Activity a, final String oldComment,
-            @Nullable final String[] authors) {
+                                 final FragmentManager fm, final Activity a, final String oldComment,
+                                 @Nullable final String[] authors) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,14 +108,14 @@ public class DoEditorActions {
                     @Override
                     public void onClick(View v) {
                         if (authors.length == 1) {
-                            String author =  "/u/" + authors[0];
+                            String author = "/u/" + authors[0];
                             insertBefore(author, editText);
                         } else {
                             new AlertDialogWrapper.Builder(a).setTitle(R.string.authors_above)
                                     .setItems(authors, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String author =  "/u/" + authors[which];
+                                            String author = "/u/" + authors[which];
                                             insertBefore(author, editText);
                                         }
                                     })
@@ -245,11 +248,11 @@ public class DoEditorActions {
                                                                                                     draf =
                                                                                                     new ArrayList<>();
                                                                                             for (int
-                                                                                                    i =
-                                                                                                    0;
-                                                                                                    i
-                                                                                                            < draftText.length;
-                                                                                                    i++) {
+                                                                                                 i =
+                                                                                                 0;
+                                                                                                 i
+                                                                                                         < draftText.length;
+                                                                                                 i++) {
                                                                                                 if (!selected[i]) {
                                                                                                     draf.add(
                                                                                                             draftText[i]);
@@ -322,7 +325,7 @@ public class DoEditorActions {
 
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 a.startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse("market://details?id="
@@ -340,7 +343,7 @@ public class DoEditorActions {
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     });
@@ -502,7 +505,7 @@ public class DoEditorActions {
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog dialog,
-                                            @NonNull DialogAction which) {
+                                                        @NonNull DialogAction which) {
                                         final EditText urlBox =
                                                 (EditText) dialog.findViewById(R.id.url_box);
                                         final EditText textBox =
@@ -563,9 +566,6 @@ public class DoEditorActions {
         }
     }
 
-    public static Editable e;
-    public static int      sStart, sEnd;
-
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         final Intent intent = new Intent(a, Draw.class);
         InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
@@ -597,21 +597,6 @@ public class DoEditorActions {
         tedBottomPicker.show(fm);
     }
 
-    public static class AuxiliaryFragment extends Fragment {
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if(data != null && data.getData() != null) {
-                handleImageIntent(new ArrayList<Uri>() {{
-                    add(data.getData());
-                }}, e, getContext());
-
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-            }
-
-        }
-    }
-
     public static String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.JPEG, 100,
@@ -625,6 +610,16 @@ public class DoEditorActions {
         editText.getText().insert(Math.min(start, end), wrapText);
     }
 
+    /**
+     * Wrap selected text in one or multiple characters, handling newlines and spaces properly for markdown
+     *
+     * @param wrapText Character(s) to wrap the selected text in
+     * @param editText EditText
+     */
+    public static void wrapString(String wrapText, EditText editText) {
+        wrapString(wrapText, wrapText, editText);
+    }
+
     /* not using this method anywhere ¯\_(ツ)_/¯ */
 //    public static void wrapNewline(String wrapText, EditText editText) {
 //        int start = Math.max(editText.getSelectionStart(), 0);
@@ -635,20 +630,12 @@ public class DoEditorActions {
 //    }
 
     /**
-     * Wrap selected text in one or multiple characters, handling newlines and spaces properly for markdown
-     * @param wrapText Character(s) to wrap the selected text in
-     * @param editText EditText
-     */
-    public static void wrapString(String wrapText, EditText editText) {
-        wrapString(wrapText, wrapText, editText);
-    }
-
-    /**
      * Wrap selected text in one or multiple characters, handling newlines, spaces, >s properly for markdown,
      * with different start and end text.
+     *
      * @param startWrap Character(s) to start wrapping with
-     * @param endWrap Character(s) to close wrapping with
-     * @param editText EditText
+     * @param endWrap   Character(s) to close wrapping with
+     * @param editText  EditText
      */
     public static void wrapString(String startWrap, String endWrap, EditText editText) {
         int start = Math.max(editText.getSelectionStart(), 0);
@@ -657,7 +644,7 @@ public class DoEditorActions {
         // insert the wrapping character inside any selected spaces and >s because they stop markdown formatting
         // we use replaceFirst because anchors (\A, \Z) aren't consumed
         selected = selected.replaceFirst("\\A[\\n> ]*", "$0" + startWrap)
-                           .replaceFirst("[\\n> ]*\\Z", endWrap + "$0");
+                .replaceFirst("[\\n> ]*\\Z", endWrap + "$0");
         // 2+ newlines stop formatting, so we do the formatting on each instance of text surrounded by 2+ newlines
         /* in case anyone needs to understand this in the future:
          * ([^\n> ]) captures any character that isn't a newline, >, or space
@@ -669,7 +656,7 @@ public class DoEditorActions {
     }
 
     private static void setViews(String rawHTML, String subredditName,
-            SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+                                 SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -700,11 +687,49 @@ public class DoEditorActions {
         }
     }
 
+    public static void handleImageIntent(List<Uri> uris, EditText ed, Context c) {
+        handleImageIntent(uris, ed.getText(), c);
+    }
+
+    public static void handleImageIntent(List<Uri> uris, Editable ed, Context c) {
+        if (uris.size() == 1) {
+            // Get the Image from data (single image)
+            try {
+                new UploadImgur(c).execute(uris.get(0));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            //Multiple images
+            try {
+                new UploadImgurAlbum(c).execute(uris.toArray(new Uri[0]));
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+    }
+
+    public static class AuxiliaryFragment extends Fragment {
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (data != null && data.getData() != null) {
+                handleImageIntent(new ArrayList<Uri>() {{
+                    add(data.getData());
+                }}, e, getContext());
+
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            }
+
+        }
+    }
+
     private static class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
 
-        final         Context        c;
+        final Context c;
         private final MaterialDialog dialog;
-        public        Bitmap         b;
+        public Bitmap b;
 
         public UploadImgur(Context c) {
             this.c = c;
@@ -912,9 +937,12 @@ public class DoEditorActions {
 
     private static class UploadImgurAlbum extends AsyncTask<Uri, Integer, String> {
 
-        final         Context        c;
+        final Context c;
         private final MaterialDialog dialog;
-        public        Bitmap         b;
+        public Bitmap b;
+        String finalUrl;
+        int uploadCount;
+        int totalCount;
 
         public UploadImgurAlbum(Context c) {
             this.c = c;
@@ -998,8 +1026,6 @@ public class DoEditorActions {
         }
 
         //End methods sourced from Opengur
-
-        String finalUrl;
 
         @Override
         protected String doInBackground(Uri... sub) {
@@ -1145,9 +1171,6 @@ public class DoEditorActions {
             }
         }
 
-        int uploadCount;
-        int totalCount;
-
         @Override
         protected void onProgressUpdate(Integer... values) {
             int progress = values[0];
@@ -1159,34 +1182,10 @@ public class DoEditorActions {
         }
     }
 
-    public static void handleImageIntent(List<Uri> uris, EditText ed, Context c) {
-        handleImageIntent(uris, ed.getText(), c);
-    }
-
-    public static void handleImageIntent(List<Uri> uris, Editable ed, Context c) {
-        if (uris.size() == 1) {
-            // Get the Image from data (single image)
-            try {
-                new UploadImgur(c).execute(uris.get(0));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            //Multiple images
-            try {
-                new UploadImgurAlbum(c).execute(uris.toArray(new Uri[0]));
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
-
-
     public static class ProgressRequestBody extends RequestBody {
 
-        protected RequestBody  mDelegate;
-        protected Listener     mListener;
+        protected RequestBody mDelegate;
+        protected Listener mListener;
         protected CountingSink mCountingSink;
 
         public ProgressRequestBody(RequestBody delegate, Listener listener) {
@@ -1217,6 +1216,10 @@ public class DoEditorActions {
             bufferedSink.flush();
         }
 
+        public interface Listener {
+            void onProgress(int progress);
+        }
+
         protected final class CountingSink extends ForwardingSink {
             private long bytesWritten = 0;
 
@@ -1230,10 +1233,6 @@ public class DoEditorActions {
                 bytesWritten += byteCount;
                 mListener.onProgress((int) (100F * bytesWritten / contentLength()));
             }
-        }
-
-        public interface Listener {
-            void onProgress(int progress);
         }
     }
 

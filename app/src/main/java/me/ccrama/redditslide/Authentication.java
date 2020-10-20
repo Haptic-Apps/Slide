@@ -32,31 +32,19 @@ import okhttp3.Protocol;
  * Created by ccrama on 3/30/2015.
  */
 public class Authentication {
-    private static final String CLIENT_ID    = "KI2Nl9A_ouG9Qw";
+    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    public static boolean           isLoggedIn;
-    public static RedditClient      reddit;
-    public static LoggedInAccount   me;
-    public static boolean           mod;
-    public static String            name;
+    public static boolean isLoggedIn;
+    public static RedditClient reddit;
+    public static LoggedInAccount me;
+    public static boolean mod;
+    public static String name;
     public static SharedPreferences authentication;
-    public static String            refresh;
-
-    public         boolean       hasDone;
-    public static  boolean       didOnline;
+    public static String refresh;
+    public static boolean didOnline;
+    public static boolean authedOnce;
     private static OkHttpAdapter httpAdapter;
-
-    public static void resetAdapter() {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (httpAdapter != null && httpAdapter.getNativeClient() != null) {
-                    httpAdapter.getNativeClient().connectionPool().evictAll();
-                }
-                return null;
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
+    public boolean hasDone;
 
     public Authentication(Context context) {
         Reddit.setDefaultErrorHandler(context);
@@ -91,6 +79,113 @@ public class Authentication {
 
     }
 
+    public static void resetAdapter() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (httpAdapter != null && httpAdapter.getNativeClient() != null) {
+                    httpAdapter.getNativeClient().connectionPool().evictAll();
+                }
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public static void doVerify(String lastToken, RedditClient baseReddit, boolean single, Context mContext) {
+        try {
+
+            if (BuildConfig.DEBUG) LogUtil.v("TOKEN IS " + lastToken);
+            if (!lastToken.isEmpty()) {
+
+                Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
+                OAuthHelper oAuthHelper = baseReddit.getOAuthHelper();
+                oAuthHelper.setRefreshToken(lastToken);
+
+                try {
+                    OAuthData finalData;
+                    if (!single
+                            && authentication.contains("backedCreds")
+                            && authentication.getLong("expires", 0) > Calendar.getInstance()
+                            .getTimeInMillis()) {
+                        finalData = oAuthHelper.refreshToken(credentials,
+                                authentication.getString("backedCreds", ""));
+                    } else {
+                        finalData = oAuthHelper.refreshToken(credentials); //does a request
+                        if (!single) {
+                            authentication.edit()
+                                    .putLong("expires",
+                                            Calendar.getInstance().getTimeInMillis() + 3000000)
+                                    .apply();
+                        }
+                    }
+                    baseReddit.authenticate(finalData);
+
+                    if (!single) {
+                        authentication.edit()
+                                .putString("backedCreds", finalData.getDataNode().toString())
+                                .apply();
+                        refresh = oAuthHelper.getRefreshToken();
+                        if (BuildConfig.DEBUG) {
+                            LogUtil.v("ACCESS TOKEN IS " + finalData.getAccessToken());
+                        }
+
+                        Authentication.isLoggedIn = true;
+
+                        UserSubscriptions.doCachedModSubs();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (e instanceof NetworkException) {
+                        Toast.makeText(mContext, "Error " + ((NetworkException) e).getResponse()
+                                        .getStatusMessage() + ": " + (e).getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                }
+                didOnline = true;
+
+            } else if (!single) {
+                if (BuildConfig.DEBUG) LogUtil.v("NOT LOGGED IN");
+
+                final Credentials fcreds =
+                        Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
+                OAuthData authData;
+                try {
+
+                    authData = reddit.getOAuthHelper().easyAuth(fcreds);
+                    authentication.edit()
+                            .putLong("expires",
+                                    Calendar.getInstance().getTimeInMillis() + 3000000)
+                            .apply();
+                    authentication.edit()
+                            .putString("backedCreds", authData.getDataNode().toString())
+                            .apply();
+                    reddit.authenticate(authData);
+
+                    Authentication.name = "LOGGEDOUT";
+                    Reddit.notFirst = true;
+                    didOnline = true;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (e instanceof NetworkException) {
+                        Toast.makeText(mContext, "Error " + ((NetworkException) e).getResponse()
+                                        .getStatusMessage() + ": " + (e).getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+            }
+            if (!single) authedOnce = true;
+
+        } catch (Exception e) {
+            //TODO fail
+
+
+        }
+    }
 
     public void updateToken(Context c) {
         if (BuildConfig.DEBUG) LogUtil.v("Executing update token");
@@ -107,8 +202,6 @@ public class Authentication {
             new UpdateToken(c).execute();
         }
     }
-
-    public static boolean authedOnce;
 
     public static class UpdateToken extends AsyncTask<Void, Void, Void> {
 
@@ -247,11 +340,10 @@ public class Authentication {
 
     }
 
-
     public static class VerifyCredentials extends AsyncTask<String, Void, Void> {
-        Context      mContext;
-        String       lastToken;
-        boolean      single;
+        Context mContext;
+        String lastToken;
+        boolean single;
 
         public VerifyCredentials(Context context) {
             mContext = context;
@@ -260,105 +352,9 @@ public class Authentication {
 
         @Override
         protected Void doInBackground(String... subs) {
-           doVerify(lastToken, reddit,single,mContext);
+            doVerify(lastToken, reddit, single, mContext);
             return null;
         }
 
-    }
-
-    public static void doVerify(String lastToken, RedditClient baseReddit,boolean single, Context mContext){
-        try {
-
-            if (BuildConfig.DEBUG) LogUtil.v("TOKEN IS " + lastToken);
-            if (!lastToken.isEmpty()) {
-
-                Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
-                OAuthHelper oAuthHelper = baseReddit.getOAuthHelper();
-                oAuthHelper.setRefreshToken(lastToken);
-
-                try {
-                    OAuthData finalData;
-                    if (!single
-                            && authentication.contains("backedCreds")
-                            && authentication.getLong("expires", 0) > Calendar.getInstance()
-                            .getTimeInMillis()) {
-                        finalData = oAuthHelper.refreshToken(credentials,
-                                authentication.getString("backedCreds", ""));
-                    } else {
-                        finalData = oAuthHelper.refreshToken(credentials); //does a request
-                        if (!single) {
-                            authentication.edit()
-                                    .putLong("expires",
-                                            Calendar.getInstance().getTimeInMillis() + 3000000)
-                                    .apply();
-                        }
-                    }
-                    baseReddit.authenticate(finalData);
-
-                    if (!single) {
-                        authentication.edit()
-                                .putString("backedCreds", finalData.getDataNode().toString())
-                                .apply();
-                        refresh = oAuthHelper.getRefreshToken();
-                        if (BuildConfig.DEBUG) {
-                            LogUtil.v("ACCESS TOKEN IS " + finalData.getAccessToken());
-                        }
-
-                        Authentication.isLoggedIn = true;
-
-                        UserSubscriptions.doCachedModSubs();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    if (e instanceof NetworkException) {
-                        Toast.makeText(mContext, "Error " + ((NetworkException) e).getResponse()
-                                        .getStatusMessage() + ": " + (e).getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-
-                }
-                didOnline = true;
-
-            } else if (!single) {
-                if (BuildConfig.DEBUG) LogUtil.v("NOT LOGGED IN");
-
-                final Credentials fcreds =
-                        Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
-                OAuthData authData;
-                try {
-
-                    authData = reddit.getOAuthHelper().easyAuth(fcreds);
-                    authentication.edit()
-                            .putLong("expires",
-                                    Calendar.getInstance().getTimeInMillis() + 3000000)
-                            .apply();
-                    authentication.edit()
-                            .putString("backedCreds", authData.getDataNode().toString())
-                            .apply();
-                    reddit.authenticate(authData);
-
-                    Authentication.name = "LOGGEDOUT";
-                    Reddit.notFirst = true;
-                    didOnline = true;
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    if (e instanceof NetworkException) {
-                        Toast.makeText(mContext, "Error " + ((NetworkException) e).getResponse()
-                                        .getStatusMessage() + ": " + (e).getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-
-
-            }
-            if (!single) authedOnce = true;
-
-        } catch (Exception e) {
-            //TODO fail
-
-
-        }
     }
 }

@@ -45,9 +45,11 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Inbox extends BaseActivityAnim {
 
     public static final String EXTRA_UNREAD = "unread";
-    public  Inbox.OverviewPagerAdapter adapter;
-    private TabLayout                  tabs;
-    private ViewPager                  pager;
+    public Inbox.OverviewPagerAdapter adapter;
+    public long last;
+    private TabLayout tabs;
+    private ViewPager pager;
+    private boolean changed;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,9 +61,6 @@ public class Inbox extends BaseActivityAnim {
 
         return true;
     }
-
-    private boolean changed;
-    public  long    last;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -188,7 +187,7 @@ public class Inbox extends BaseActivityAnim {
                             Reddit.notFirst = true;
                         }
 
-                    } catch (Exception ignored){
+                    } catch (Exception ignored) {
 
                     }
                     return null;
@@ -223,7 +222,7 @@ public class Inbox extends BaseActivityAnim {
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset,
-                    int positionOffsetPixels) {
+                                       int positionOffsetPixels) {
 
             }
 
@@ -246,6 +245,15 @@ public class Inbox extends BaseActivityAnim {
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        InputMethodManager keyboard = ContextCompat.getSystemService(this, InputMethodManager.class);
+        if (keyboard != null) {
+            keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
+        }
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
@@ -272,15 +280,6 @@ public class Inbox extends BaseActivityAnim {
         @Override
         public CharSequence getPageTitle(int position) {
             return getString(ContentGrabber.InboxValue.values()[position].getDisplayName());
-        }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        InputMethodManager keyboard = ContextCompat.getSystemService(this, InputMethodManager.class);
-        if (keyboard != null) {
-            keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
         }
     }
 }

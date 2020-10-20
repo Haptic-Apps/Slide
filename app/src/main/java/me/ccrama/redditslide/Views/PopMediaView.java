@@ -45,6 +45,10 @@ import okhttp3.OkHttpClient;
  */
 public class PopMediaView {
 
+    OkHttpClient client;
+    Gson gson;
+    String mashapeKey;
+
     public static boolean shouldTruncate(String url) {
         try {
             final URI uri = new URI(url);
@@ -57,10 +61,6 @@ public class PopMediaView {
             return false;
         }
     }
-
-    OkHttpClient client;
-    Gson gson;
-    String mashapeKey;
 
     public void doPop(View v, String contentUrl, Context c) {
         client = Reddit.client;

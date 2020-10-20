@@ -13,7 +13,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
-
 /**
  * Created by Alex Macleod on 28/03/2016.
  */

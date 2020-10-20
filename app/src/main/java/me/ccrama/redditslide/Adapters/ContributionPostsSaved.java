@@ -16,13 +16,12 @@ import me.ccrama.redditslide.SettingValues;
  */
 public class ContributionPostsSaved extends ContributionPosts {
     private final String category;
+    UserSavedPaginator paginator;
 
     public ContributionPostsSaved(String subreddit, String where, String category) {
         super(subreddit, where);
         this.category = category;
     }
-
-    UserSavedPaginator paginator;
 
     @Override
     public void loadMore(ContributionAdapter adapter, String subreddit, boolean reset) {
@@ -86,7 +85,7 @@ public class ContributionPostsSaved extends ContributionPosts {
                     paginator = new UserSavedPaginator(Authentication.reddit, where, subreddit);
                     paginator.setSorting(SettingValues.getSubmissionSort(subreddit));
                     paginator.setTimePeriod(SettingValues.getSubmissionTimePeriod(subreddit));
-                    if(category != null)
+                    if (category != null)
                         paginator.setCategory(category);
                 }
 

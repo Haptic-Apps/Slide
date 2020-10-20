@@ -67,16 +67,22 @@ public class ImageDownloadNotificationService extends Service {
                 AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        handleIntent(intent);
+        return START_NOT_STICKY;
+    }
+
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
-        public  int                        id;
-        private NotificationManager        mNotifyManager;
+        public int id;
+        public String actuallyLoaded;
+        public String saveToLocation;
+        int percentDone, latestPercentDone;
+        private NotificationManager mNotifyManager;
         private NotificationCompat.Builder mBuilder;
-        public  String                     actuallyLoaded;
-        private int                        index;
-        private String                     subreddit;
-        public  String                     saveToLocation;
-
+        private int index;
+        private String subreddit;
 
         public PollTask(String actuallyLoaded, int index, String subreddit, String saveToLocation) {
             this.actuallyLoaded = actuallyLoaded;
@@ -109,8 +115,6 @@ public class ImageDownloadNotificationService extends Service {
             mNotifyManager.notify(id, mBuilder.build());
         }
 
-        int percentDone, latestPercentDone;
-
         @Override
         protected Void doInBackground(Void... params) {
             final String finalUrl = actuallyLoaded;
@@ -122,30 +126,30 @@ public class ImageDownloadNotificationService extends Service {
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            final Bitmap loadedImage) {
+                                                                  final Bitmap loadedImage) {
                                         File f = ((Reddit) getApplicationContext()).getImageLoader()
                                                 .getDiskCache()
                                                 .get(finalUrl);
                                         if (f != null && f.exists()) {
                                             File f_out = null;
                                             try {
-                                                if(SettingValues.imageSubfolders && !subreddit.isEmpty()){
+                                                if (SettingValues.imageSubfolders && !subreddit.isEmpty()) {
                                                     File directory;
                                                     if (saveToLocation != null) {
                                                         directory = new File(new File(saveToLocation,
                                                                 "")
                                                                 + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : ""));
                                                     } else {
-                                                        directory = new File( Reddit.appRestart.getString("imagelocation",
+                                                        directory = new File(Reddit.appRestart.getString("imagelocation",
                                                                 "")
-                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : ""));
+                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : ""));
                                                     }
                                                     directory.mkdirs();
                                                 }
                                                 if (saveToLocation != null) {
                                                     f_out = new File(
                                                             saveToLocation
-                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : "")
                                                                     + File.separator
                                                                     + (index > -1 ? String.format(
                                                                     "%03d_", index) : "")
@@ -154,7 +158,7 @@ public class ImageDownloadNotificationService extends Service {
                                                     f_out = new File(
                                                             Reddit.appRestart.getString("imagelocation",
                                                                     "")
-                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : "")
                                                                     + File.separator
                                                                     + (index > -1 ? String.format(
                                                                     "%03d_", index) : "")
@@ -164,7 +168,7 @@ public class ImageDownloadNotificationService extends Service {
                                                 if (saveToLocation != null) {
                                                     f_out = new File(
                                                             saveToLocation
-                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : "")
                                                                     + File.separator
                                                                     + (index > -1 ? String.format(
                                                                     "%03d_", index) : "")
@@ -174,7 +178,7 @@ public class ImageDownloadNotificationService extends Service {
                                                     f_out = new File(
                                                             Reddit.appRestart.getString("imagelocation",
                                                                     "")
-                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
+                                                                    + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : "")
                                                                     + File.separator
                                                                     + (index > -1 ? String.format(
                                                                     "%03d_", index) : "")
@@ -204,7 +208,7 @@ public class ImageDownloadNotificationService extends Service {
                                 }, new ImageLoadingProgressListener() {
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
-                                            int current, int total) {
+                                                                 int current, int total) {
                                         latestPercentDone = (int) ((current / (float) total) * 100);
                                         if (percentDone <= latestPercentDone + 30
                                                 || latestPercentDone == 100) { //Do every 10 percent
@@ -223,13 +227,14 @@ public class ImageDownloadNotificationService extends Service {
             return null;
         }
 
-        public void onError(Exception e){
+        public void onError(Exception e) {
             e.printStackTrace();
             mNotifyManager.cancel(id);
             stopSelf();
             try {
                 Toast.makeText(getBaseContext(), "Error saving image", Toast.LENGTH_LONG).show();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         private String getFileName(URL url) {
@@ -379,11 +384,5 @@ public class ImageDownloadNotificationService extends Service {
             }
         }
 
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        handleIntent(intent);
-        return START_NOT_STICKY;
     }
 }

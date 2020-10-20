@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.ImgurAlbum;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;

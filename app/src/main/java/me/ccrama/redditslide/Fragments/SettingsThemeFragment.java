@@ -54,13 +54,12 @@ import uz.shift.colorpicker.OnColorChangedListener;
 
 public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsFragment.RestartActivity> {
 
-    private ActivityType context;
-
     public static boolean changed;
     int back;
+    private ActivityType context;
 
     public SettingsThemeFragment(ActivityType context) {
-        this.context =context;
+        this.context = context;
     }
 
     public void Bind() {
@@ -199,7 +198,8 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                     public void onColorChanged(int i) {
                         SettingsThemeFragment.changed = true;
                         title.setBackgroundColor(colorPicker2.getColor());
-                        if (context.findViewById(R.id.toolbar) != null) context.findViewById(R.id.toolbar).setBackgroundColor(colorPicker2.getColor());
+                        if (context.findViewById(R.id.toolbar) != null)
+                            context.findViewById(R.id.toolbar).setBackgroundColor(colorPicker2.getColor());
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = context.getWindow();
@@ -440,7 +440,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                                     new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView,
-                                                boolean isChecked) {
+                                                                     boolean isChecked) {
                                             if (isChecked) {
                                                 SettingsThemeFragment.changed = true;
                                                 SettingValues.nightTheme = pair.second;

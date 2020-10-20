@@ -45,72 +45,6 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         this.context = context;
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subforsublisteditor, parent, false);
-        return new ViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        View convertView = holder.itemView;
-        final TextView t = convertView.findViewById(R.id.name);
-        t.setText(objects.get(position));
-
-        final String subreddit = objects.get(position);
-        convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
-
-        final String DELETE_SUB_SETTINGS_TITLE = (subreddit.contains("/m/")) ? subreddit : ("/r/" + subreddit);
-        convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Palette.removeColor(subreddit);
-                                // Remove layout settings
-                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
-                                // Remove accent / font color settings
-                                new ColorPreferences(context).removeFontStyle(subreddit);
-
-                                SettingValues.resetPicsEnabled(subreddit);
-                                SettingValues.resetSelftextEnabled(subreddit);
-
-                                dialog.dismiss();
-                                objects.remove(subreddit);
-                                notifyDataSetChanged();
-                            }
-                        })
-                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                dialog.dismiss();
-                            }
-                        }).show();
-            }
-        });
-        convertView.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prepareAndShowSubEditor(subreddit);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return objects.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     /**
      * Displays the subreddit color chooser
      * It is possible to color multiple subreddits at the same time
@@ -444,6 +378,66 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         }
     }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subforsublisteditor, parent, false);
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        View convertView = holder.itemView;
+        final TextView t = convertView.findViewById(R.id.name);
+        t.setText(objects.get(position));
+
+        final String subreddit = objects.get(position);
+        convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
+
+        final String DELETE_SUB_SETTINGS_TITLE = (subreddit.contains("/m/")) ? subreddit : ("/r/" + subreddit);
+        convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Palette.removeColor(subreddit);
+                                // Remove layout settings
+                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
+                                // Remove accent / font color settings
+                                new ColorPreferences(context).removeFontStyle(subreddit);
+
+                                SettingValues.resetPicsEnabled(subreddit);
+                                SettingValues.resetSelftextEnabled(subreddit);
+
+                                dialog.dismiss();
+                                objects.remove(subreddit);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+        convertView.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prepareAndShowSubEditor(subreddit);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return objects.size();
+    }
+
     public void prepareAndShowSubEditor(ArrayList<String> subreddits) {
         if (subreddits.size() == 1) prepareAndShowSubEditor(subreddits.get(0));
         else if (subreddits.size() > 1) {
@@ -462,6 +456,12 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(subreddit);
         showSubThemeEditor(arrayList, context, dialoglayout);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
 }

@@ -117,7 +117,7 @@ public class ExoVideoView extends RelativeLayout {
         player.addVideoListener(new VideoListener() {
             @Override
             public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-                    float pixelWidthHeightRatio) {
+                                           float pixelWidthHeightRatio) {
                 frame.setAspectRatio((height == 0 || width == 0) ? 1 : (width * pixelWidthHeightRatio) / height);
             }
         });
@@ -368,6 +368,47 @@ public class ExoVideoView extends RelativeLayout {
         DASH
     }
 
+    static class PlayerUIFadeInAnimation extends AnimationSet {
+        private PlayerControlView animationView;
+        private boolean toVisible;
+
+        PlayerUIFadeInAnimation(PlayerControlView view, boolean toVisible, long duration) {
+            super(false);
+            this.toVisible = toVisible;
+            this.animationView = view;
+
+            float startAlpha = toVisible ? 0 : 1;
+            float endAlpha = toVisible ? 1 : 0;
+
+            AlphaAnimation alphaAnimation = new AlphaAnimation(startAlpha, endAlpha);
+            alphaAnimation.setDuration(duration);
+
+            addAnimation(alphaAnimation);
+            setAnimationListener(new PlayerUIFadeInAnimation.Listener());
+        }
+
+        private class Listener implements AnimationListener {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+                animationView.show();
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (toVisible)
+                    animationView.show();
+                else
+                    animationView.hide();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                // Purposefully left blank
+            }
+        }
+    }
+
     /**
      * Helps manage audio focus
      */
@@ -424,47 +465,6 @@ public class ExoVideoView extends RelativeLayout {
                 player.setPlayWhenReady(false);
             } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
                 player.setPlayWhenReady(wasPlaying);
-            }
-        }
-    }
-
-    static class PlayerUIFadeInAnimation extends AnimationSet {
-        private PlayerControlView animationView;
-        private boolean toVisible;
-
-        PlayerUIFadeInAnimation(PlayerControlView view, boolean toVisible, long duration) {
-            super(false);
-            this.toVisible = toVisible;
-            this.animationView = view;
-
-            float startAlpha = toVisible ? 0 : 1;
-            float endAlpha = toVisible ? 1 : 0;
-
-            AlphaAnimation alphaAnimation = new AlphaAnimation(startAlpha, endAlpha);
-            alphaAnimation.setDuration(duration);
-
-            addAnimation(alphaAnimation);
-            setAnimationListener(new PlayerUIFadeInAnimation.Listener());
-        }
-
-        private class Listener implements AnimationListener {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-                animationView.show();
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (toVisible)
-                    animationView.show();
-                else
-                    animationView.hide();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-                // Purposefully left blank
             }
         }
     }

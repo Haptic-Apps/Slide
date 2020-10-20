@@ -39,11 +39,11 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements BaseAdapter {
 
-    private final       int SPACER  = 6;
     public static final int MESSAGE = 2;
-    public final  Activity     mContext;
+    public final Activity mContext;
+    private final int SPACER = 6;
     private final RecyclerView listView;
-    public        ModLogPosts  dataSet;
+    public ModLogPosts dataSet;
 
     public ModLogAdapter(Activity mContext, ModLogPosts dataSet, RecyclerView listView) {
         this.mContext = mContext;
@@ -71,12 +71,6 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return MESSAGE;
     }
 
-    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
-        public SpacerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (i == SPACER) {
@@ -88,18 +82,6 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mod_action, viewGroup, false);
             return new ModLogViewHolder(v);
-        }
-    }
-
-    public static class ModLogViewHolder extends RecyclerView.ViewHolder {
-
-        SpoilerRobotoTextView body;
-        ImageView             icon;
-
-        public ModLogViewHolder(View itemView) {
-            super(itemView);
-            body = itemView.findViewById(R.id.body);
-            icon = itemView.findViewById(R.id.action);
         }
     }
 
@@ -254,6 +236,24 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return 0;
         } else {
             return dataSet.posts.size() + 1;
+        }
+    }
+
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public static class ModLogViewHolder extends RecyclerView.ViewHolder {
+
+        SpoilerRobotoTextView body;
+        ImageView icon;
+
+        public ModLogViewHolder(View itemView) {
+            super(itemView);
+            body = itemView.findViewById(R.id.body);
+            icon = itemView.findViewById(R.id.action);
         }
     }
 

@@ -49,9 +49,9 @@ import me.ccrama.redditslide.util.LogUtil;
  * Created by ccrama on 5/27/2015.
  */
 public class Login extends BaseActivityAnim {
-    private static final String CLIENT_ID    = "KI2Nl9A_ouG9Qw";
+    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    Dialog                           d;
+    Dialog d;
     CaseInsensitiveArrayList subNames;
 
     @Override
@@ -61,7 +61,7 @@ public class Login extends BaseActivityAnim {
         applyColorTheme("");
         try {
             setContentView(R.layout.activity_login);
-        } catch(Exception e){
+        } catch (Exception e) {
             finish();
             return;
         }
@@ -208,9 +208,9 @@ public class Login extends BaseActivityAnim {
 
 
     private final class UserChallengeTask extends AsyncTask<String, Void, OAuthData> {
-        private final OAuthHelper    mOAuthHelper;
-        private final Credentials    mCredentials;
-        private       MaterialDialog mMaterialDialog;
+        private final OAuthHelper mOAuthHelper;
+        private final Credentials mCredentials;
+        private MaterialDialog mMaterialDialog;
 
         public UserChallengeTask(OAuthHelper oAuthHelper, Credentials credentials) {
             Log.v(LogUtil.getTag(), "UserChallengeTask()");
@@ -291,7 +291,7 @@ public class Login extends BaseActivityAnim {
                                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(@Nullable MaterialDialog dialog,
-                                            @Nullable DialogAction which) {
+                                                        @Nullable DialogAction which) {
                                         Reddit.forceRestart(Login.this, true);
                                         finish();
 

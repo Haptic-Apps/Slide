@@ -62,7 +62,7 @@ public class ModeratorPosts {
         public void onPostExecute(ArrayList<PublicContribution> subs) {
             if (subs != null) {
 
-                if(reset || posts == null){
+                if (reset || posts == null) {
                     posts = new ArrayList<>(new LinkedHashSet(subs));
                 } else {
                     posts.addAll(subs);

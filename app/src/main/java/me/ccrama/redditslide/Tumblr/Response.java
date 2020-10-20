@@ -1,4 +1,3 @@
-
 package me.ccrama.redditslide.Tumblr;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -16,9 +15,9 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "blog",
-    "posts",
-    "total_posts"
+        "blog",
+        "posts",
+        "total_posts"
 })
 public class Response {
 
@@ -32,9 +31,7 @@ public class Response {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The blog
+     * @return The blog
      */
     @JsonProperty("blog")
     public Blog getBlog() {
@@ -42,9 +39,7 @@ public class Response {
     }
 
     /**
-     * 
-     * @param blog
-     *     The blog
+     * @param blog The blog
      */
     @JsonProperty("blog")
     public void setBlog(Blog blog) {
@@ -52,9 +47,7 @@ public class Response {
     }
 
     /**
-     * 
-     * @return
-     *     The posts
+     * @return The posts
      */
     @JsonProperty("posts")
     public List<Post> getPosts() {
@@ -62,9 +55,7 @@ public class Response {
     }
 
     /**
-     * 
-     * @param posts
-     *     The posts
+     * @param posts The posts
      */
     @JsonProperty("posts")
     public void setPosts(List<Post> posts) {
@@ -72,9 +63,7 @@ public class Response {
     }
 
     /**
-     * 
-     * @return
-     *     The totalPosts
+     * @return The totalPosts
      */
     @JsonProperty("total_posts")
     public Integer getTotalPosts() {
@@ -82,9 +71,7 @@ public class Response {
     }
 
     /**
-     * 
-     * @param totalPosts
-     *     The total_posts
+     * @param totalPosts The total_posts
      */
     @JsonProperty("total_posts")
     public void setTotalPosts(Integer totalPosts) {

@@ -49,9 +49,12 @@ public class MultiredditPosts implements PostLoader {
     public boolean offline;
     public boolean loading;
     public String profile;
-    private MultiRedditPaginator paginator;
+    public MultiReddit multiReddit;
+    public boolean skipOne;
     Context c;
     MultiredditAdapter adapter;
+    boolean usedOffline;
+    private MultiRedditPaginator paginator;
 
     public MultiredditPosts(String multireddit) {
         this(multireddit, "");
@@ -144,13 +147,13 @@ public class MultiredditPosts implements PostLoader {
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view,
-                                            FailReason failReason) {
+                                                                FailReason failReason) {
 
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            Bitmap loadedImage) {
+                                                                  Bitmap loadedImage) {
 
                                     }
 
@@ -198,13 +201,13 @@ public class MultiredditPosts implements PostLoader {
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view,
-                                            FailReason failReason) {
+                                                                FailReason failReason) {
 
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            Bitmap loadedImage) {
+                                                                  Bitmap loadedImage) {
 
                                     }
 
@@ -227,13 +230,13 @@ public class MultiredditPosts implements PostLoader {
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view,
-                                            FailReason failReason) {
+                                                                FailReason failReason) {
 
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            Bitmap loadedImage) {
+                                                                  Bitmap loadedImage) {
 
                                     }
 
@@ -253,23 +256,18 @@ public class MultiredditPosts implements PostLoader {
         return posts;
     }
 
-    public MultiReddit multiReddit;
-
     @Override
     public boolean hasMore() {
         return !nomore;
     }
-
-    public boolean skipOne;
-    boolean usedOffline;
 
     /**
      * Asynchronous task for loading data
      */
     private class LoadData extends AsyncTask<MultiReddit, Void, List<Submission>> {
         final boolean reset;
-        Context context;
         final SubmissionDisplay displayer;
+        Context context;
 
         public LoadData(Context context, SubmissionDisplay displayer, boolean reset) {
             this.context = context;

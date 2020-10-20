@@ -23,6 +23,52 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
     public static final String UPDATE_MEETING_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
     public static final String SUBMISSION = "SUBMISSION";
     public static final String REFRESH = "REFRESH";
+    public static String lastDone;
+
+    public static String getSubFromId(int id, Context mContext) {
+        String sub = mContext.getSharedPreferences("widget", 0).getString(id + "_sub", "");
+        if (sub.isEmpty() && lastDone != null) {
+            return lastDone;
+        } else {
+            return sub;
+        }
+    }
+
+    public static int getThemeFromId(int id, Context mContext) {
+        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_theme", 0);
+    }
+
+    public static int getViewType(int id, Context mContext) {
+        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_view", 0);
+    }
+
+    public static void setSubFromid(int id, String sub, Context mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putString(id + "_sub", sub).apply();
+    }
+
+    public static void setThemeToId(int id, int theme, Context mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_theme", theme).apply();
+    }
+
+    public static void setViewType(int id, int checked, SetupWidget mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_view", checked).apply();
+    }
+
+    public static void setSorting(int id, int sorting, SetupWidget mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_sort", sorting).apply();
+    }
+
+    public static int getSorting(int id, Context mContext) {
+        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_sort", 0);
+    }
+
+    public static void setSortingTime(int id, int sorting, SetupWidget mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_time", sorting).apply();
+    }
+
+    public static int getSortingTime(int id, Context mContext) {
+        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_time", 0);
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -31,7 +77,7 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
             mgr.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list_view);
             int view = R.layout.widget;
-            switch(getThemeFromId(appWidgetId, context)){
+            switch (getThemeFromId(appWidgetId, context)) {
                 case 1:
                     view = R.layout.widget_dark;
                     break;
@@ -57,44 +103,6 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
     }
 
-    public static String lastDone;
-
-    public static String getSubFromId(int id, Context mContext) {
-        String sub = mContext.getSharedPreferences("widget", 0).getString(id + "_sub", "");
-        if (sub.isEmpty() && lastDone != null) {
-            return lastDone;
-        } else {
-            return sub;
-        }
-    }
-
-    public static int getThemeFromId(int id, Context mContext) {
-        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_theme", 0);
-    }
-    public static int getViewType(int id, Context mContext) {
-        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_view", 0);
-    }
-    public static void setSubFromid(int id, String sub, Context mContext) {
-        mContext.getSharedPreferences("widget", 0).edit().putString(id + "_sub", sub).apply();
-    }
-    public static void setThemeToId(int id, int theme, Context mContext) {
-        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_theme", theme).apply();
-    }
-    public static void setViewType(int id, int checked, SetupWidget mContext) {
-        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_view", checked).apply();
-    }
-    public static void setSorting(int id, int sorting, SetupWidget mContext) {
-        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_sort", sorting).apply();
-    }
-    public static int getSorting(int id, Context mContext) {
-        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_sort", 0);
-    }
-    public static void setSortingTime(int id, int sorting, SetupWidget mContext) {
-        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_time", sorting).apply();
-    }
-    public static int getSortingTime(int id, Context mContext) {
-        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_time", 0);
-    }
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         // update each of the app widgets with the remote adapter
@@ -116,7 +124,7 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         // Instantiate the RemoteViews object for the app widget layout.
         int view = R.layout.widget;
-        switch(getThemeFromId(appWidgetId, context)){
+        switch (getThemeFromId(appWidgetId, context)) {
             case 1:
                 view = R.layout.widget_dark;
                 break;
@@ -174,13 +182,13 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // Add the app widget ID to the intent extras.
         Uri data = Uri.withAppendedPath(
                 Uri.parse("slide" + "://widget/id/")
-                , String.valueOf(appWidgetId)+ System.currentTimeMillis());
+                , String.valueOf(appWidgetId) + System.currentTimeMillis());
         intent.setData(data);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         // Instantiate the RemoteViews object for the app widget layout.
         int view = R.layout.widget;
-        switch(getThemeFromId(appWidgetId, context)){
+        switch (getThemeFromId(appWidgetId, context)) {
             case 1:
                 view = R.layout.widget_dark;
                 break;
@@ -233,7 +241,6 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
 
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
-
 
 
 }

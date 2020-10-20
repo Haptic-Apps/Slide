@@ -22,7 +22,7 @@ public class DrawerItemsDialog extends MaterialDialog {
                 .onPositive(new SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog,
-                            @NonNull DialogAction which) {
+                                        @NonNull DialogAction which) {
                         if (SettingsThemeFragment.changed) {
                             SettingValues.prefs.edit()
                                     .putLong(SettingValues.PREF_SELECTED_DRAWER_ITEMS,
@@ -94,14 +94,14 @@ public class DrawerItemsDialog extends MaterialDialog {
 
         public long value;
         @IdRes
-        public int  layoutId;
+        public int layoutId;
         @IdRes
-        public int  checkboxId;
+        public int checkboxId;
         @IdRes
-        public int  drawerId;
+        public int drawerId;
 
         SettingsDrawerEnum(long value, @IdRes int layoutId, @IdRes int checkboxId,
-                @IdRes int drawerId) {
+                           @IdRes int drawerId) {
             this.value = value;
             this.layoutId = layoutId;
             this.checkboxId = checkboxId;

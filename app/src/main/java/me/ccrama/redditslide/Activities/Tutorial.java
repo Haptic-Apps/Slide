@@ -41,7 +41,7 @@ public class Tutorial extends AppCompatActivity {
      * The number of pages (wizard steps) to show in this demo.
      */
     private static final int NUM_PAGES = 2;
-
+    int back;
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
@@ -67,7 +67,7 @@ public class Tutorial extends AppCompatActivity {
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        if(getIntent().hasExtra("page")){
+        if (getIntent().hasExtra("page")) {
             mPager.setCurrentItem(1);
         }
 
@@ -79,7 +79,6 @@ public class Tutorial extends AppCompatActivity {
         }
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -106,7 +105,7 @@ public class Tutorial extends AppCompatActivity {
             v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Tutorial)getActivity()).mPager.setCurrentItem(1);
+                    ((Tutorial) getActivity()).mPager.setCurrentItem(1);
                 }
             });
 
@@ -114,7 +113,6 @@ public class Tutorial extends AppCompatActivity {
         }
 
     }
-    int back;
 
     public static class Personalize extends Fragment {
         @Override
@@ -125,12 +123,12 @@ public class Tutorial extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                                  Bundle savedInstanceState) {
-            ((Tutorial)getActivity()).back = new ColorPreferences(getContext()).getFontStyle().getThemeType();
+            ((Tutorial) getActivity()).back = new ColorPreferences(getContext()).getFontStyle().getThemeType();
 
             View v = inflater.inflate(R.layout.fragment_basicinfo, container, false);
             final View header = v.findViewById(R.id.header);
 
-            ((ImageView)v.findViewById(R.id.tint_accent)).setColorFilter(getActivity().getResources().getColor(new ColorPreferences(getContext()).getFontStyle().getColor()));
+            ((ImageView) v.findViewById(R.id.tint_accent)).setColorFilter(getActivity().getResources().getColor(new ColorPreferences(getContext()).getFontStyle().getColor()));
             ((ImageView) v.findViewById(R.id.tint_primary)).setColorFilter(Palette.getDefaultColor());
             header.setBackgroundColor(Palette.getDefaultColor());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -195,7 +193,7 @@ public class Tutorial extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             Reddit.colors.edit().putInt("DEFAULTCOLOR", colorPicker2.getColor()).apply();
-                            Intent i = new Intent( getActivity(), Tutorial.class);
+                            Intent i = new Intent(getActivity(), Tutorial.class);
                             i.putExtra("page", 1);
                             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(i);
@@ -243,7 +241,7 @@ public class Tutorial extends AppCompatActivity {
                             int color = colorPicker.getColor();
                             ColorPreferences.Theme t = null;
                             for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                if (ContextCompat.getColor(getActivity(), type.getColor()) == color && ((Tutorial)getActivity()).back == type.getThemeType()) {
+                                if (ContextCompat.getColor(getActivity(), type.getColor()) == color && ((Tutorial) getActivity()).back == type.getThemeType()) {
                                     t = type;
                                     break;
                                 }
@@ -345,7 +343,7 @@ public class Tutorial extends AppCompatActivity {
         public Fragment getItem(int position) {
             if (position == 0) {
                 return new Welcome();
-            } else  {
+            } else {
                 return new Personalize();
             }
 

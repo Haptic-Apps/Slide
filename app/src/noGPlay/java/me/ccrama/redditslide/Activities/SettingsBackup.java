@@ -40,8 +40,8 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class SettingsBackup extends BaseActivityAnim {
     MaterialDialog progress;
-    String         title;
-    File           file;
+    String title;
+    File file;
 
     public static void close(Closeable stream) {
         try {

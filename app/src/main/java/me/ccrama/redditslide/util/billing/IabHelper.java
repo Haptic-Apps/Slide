@@ -74,72 +74,72 @@ import me.ccrama.redditslide.BuildConfig;
  */
 public class IabHelper {
     // Billing response codes
-    public static final  int     BILLING_RESPONSE_RESULT_OK                  = 0;
-    public static final  int     BILLING_RESPONSE_RESULT_USER_CANCELED       = 1;
-    public static final  int     BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE    = 4;
-    public static final  int     BILLING_RESPONSE_RESULT_DEVELOPER_ERROR     = 5;
-    public static final  int     BILLING_RESPONSE_RESULT_ERROR               = 6;
-    public static final  int     BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED  = 7;
-    public static final  int     BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED      = 8;
+    public static final int BILLING_RESPONSE_RESULT_OK = 0;
+    public static final int BILLING_RESPONSE_RESULT_USER_CANCELED = 1;
+    public static final int BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE = 4;
+    public static final int BILLING_RESPONSE_RESULT_DEVELOPER_ERROR = 5;
+    public static final int BILLING_RESPONSE_RESULT_ERROR = 6;
+    public static final int BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED = 7;
+    public static final int BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED = 8;
     // Item types
-    public static final  String  ITEM_TYPE_INAPP                             = "inapp";
-    public static final  String  GET_SKU_DETAILS_ITEM_TYPE_LIST              = "ITEM_TYPE_LIST";
-    private static final int     BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE = 3;
+    public static final String ITEM_TYPE_INAPP = "inapp";
+    public static final String GET_SKU_DETAILS_ITEM_TYPE_LIST = "ITEM_TYPE_LIST";
+    private static final int BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE = 3;
     // IAB Helper error codes
-    private static final int     IABHELPER_ERROR_BASE                        = -1000;
-    private static final int     IABHELPER_REMOTE_EXCEPTION                  = -1001;
-    private static final int     IABHELPER_BAD_RESPONSE                      = -1002;
-    private static final int     IABHELPER_VERIFICATION_FAILED               = -1003;
-    private static final int     IABHELPER_SEND_INTENT_FAILED                = -1004;
-    private static final int     IABHELPER_USER_CANCELLED                    = -1005;
-    private static final int     IABHELPER_UNKNOWN_PURCHASE_RESPONSE         = -1006;
-    private static final int     IABHELPER_MISSING_TOKEN                     = -1007;
-    private static final int     IABHELPER_UNKNOWN_ERROR                     = -1008;
-    private static final int     IABHELPER_SUBSCRIPTIONS_NOT_AVAILABLE       = -1009;
-    private static final int     IABHELPER_INVALID_CONSUMPTION               = -1010;
+    private static final int IABHELPER_ERROR_BASE = -1000;
+    private static final int IABHELPER_REMOTE_EXCEPTION = -1001;
+    private static final int IABHELPER_BAD_RESPONSE = -1002;
+    private static final int IABHELPER_VERIFICATION_FAILED = -1003;
+    private static final int IABHELPER_SEND_INTENT_FAILED = -1004;
+    private static final int IABHELPER_USER_CANCELLED = -1005;
+    private static final int IABHELPER_UNKNOWN_PURCHASE_RESPONSE = -1006;
+    private static final int IABHELPER_MISSING_TOKEN = -1007;
+    private static final int IABHELPER_UNKNOWN_ERROR = -1008;
+    private static final int IABHELPER_SUBSCRIPTIONS_NOT_AVAILABLE = -1009;
+    private static final int IABHELPER_INVALID_CONSUMPTION = -1010;
     // Keys for the responses from InAppBillingService
-    private static final String  RESPONSE_CODE                               = "RESPONSE_CODE";
-    private static final String  RESPONSE_GET_SKU_DETAILS_LIST               = "DETAILS_LIST";
-    private static final String  RESPONSE_BUY_INTENT                         = "BUY_INTENT";
-    private static final String  RESPONSE_INAPP_PURCHASE_DATA                =
+    private static final String RESPONSE_CODE = "RESPONSE_CODE";
+    private static final String RESPONSE_GET_SKU_DETAILS_LIST = "DETAILS_LIST";
+    private static final String RESPONSE_BUY_INTENT = "BUY_INTENT";
+    private static final String RESPONSE_INAPP_PURCHASE_DATA =
             "INAPP_PURCHASE_DATA";
-    private static final String  RESPONSE_INAPP_SIGNATURE                    =
+    private static final String RESPONSE_INAPP_SIGNATURE =
             "INAPP_DATA_SIGNATURE";
-    private static final String  RESPONSE_INAPP_ITEM_LIST                    =
+    private static final String RESPONSE_INAPP_ITEM_LIST =
             "INAPP_PURCHASE_ITEM_LIST";
-    private static final String  RESPONSE_INAPP_PURCHASE_DATA_LIST           =
+    private static final String RESPONSE_INAPP_PURCHASE_DATA_LIST =
             "INAPP_PURCHASE_DATA_LIST";
-    private static final String  RESPONSE_INAPP_SIGNATURE_LIST               =
+    private static final String RESPONSE_INAPP_SIGNATURE_LIST =
             "INAPP_DATA_SIGNATURE_LIST";
-    private static final String  INAPP_CONTINUATION_TOKEN                    =
+    private static final String INAPP_CONTINUATION_TOKEN =
             "INAPP_CONTINUATION_TOKEN";
-    private static final String  ITEM_TYPE_SUBS                              = "subs";
+    private static final String ITEM_TYPE_SUBS = "subs";
     // some fields on the getSkuDetails response bundle
-    private static final String  GET_SKU_DETAILS_ITEM_LIST                   = "ITEM_ID_LIST";
+    private static final String GET_SKU_DETAILS_ITEM_LIST = "ITEM_ID_LIST";
     // Is debug logging enabled?
-    private              boolean mDebugLog                                   = BuildConfig.DEBUG;
-    private              String  mDebugTag                                   = "Slide";
+    private boolean mDebugLog = BuildConfig.DEBUG;
+    private String mDebugTag = "Slide";
     // Is setup done?
-    private              boolean mSetupDone                                  = false;
+    private boolean mSetupDone = false;
     // Has this object been disposed of? (If so, we should ignore callbacks, etc)
-    private              boolean mDisposed                                   = false;
+    private boolean mDisposed = false;
     // Are subscriptions supported?
-    private              boolean mSubscriptionsSupported                     = false;
+    private boolean mSubscriptionsSupported = false;
     // Is an asynchronous operation in progress?
     // (only one at a time can be in progress)
-    private              boolean mAsyncInProgress                            = false;
+    private boolean mAsyncInProgress = false;
     // (for logging/debugging)
     // if mAsyncInProgress == true, what asynchronous operation is in progress?
-    private              String  mAsyncOperation                             = "";
+    private String mAsyncOperation = "";
     // Context we were passed during initialization
-    private Context              mContext;
+    private Context mContext;
     // Connection to the service
     private IInAppBillingService mService;
-    private ServiceConnection    mServiceConn;
+    private ServiceConnection mServiceConn;
     // The request code used to launch purchase flow
-    private int                  mRequestCode;
+    private int mRequestCode;
     // The item type of the current purchase flow
-    private String               mPurchasingItemType;
+    private String mPurchasingItemType;
     // Public key for verifying signature, in base64 encoding
     private String mSignatureBase64 = null;
     // The listener registered on launchPurchaseFlow, which we have to call back when
@@ -336,12 +336,12 @@ public class IabHelper {
     }
 
     public void launchPurchaseFlow(Activity act, String sku, int requestCode,
-            OnIabPurchaseFinishedListener listener) {
+                                   OnIabPurchaseFinishedListener listener) {
         launchPurchaseFlow(act, sku, requestCode, listener, "");
     }
 
     public void launchPurchaseFlow(Activity act, String sku, int requestCode,
-            OnIabPurchaseFinishedListener listener, String extraData) {
+                                   OnIabPurchaseFinishedListener listener, String extraData) {
         launchPurchaseFlow(act, sku, ITEM_TYPE_INAPP, requestCode, listener, extraData);
     }
 
@@ -366,7 +366,7 @@ public class IabHelper {
      *                    queried.
      */
     private void launchPurchaseFlow(Activity act, String sku, String itemType, int requestCode,
-            OnIabPurchaseFinishedListener listener, String extraData) {
+                                    OnIabPurchaseFinishedListener listener, String extraData) {
         checkNotDisposed();
         checkSetupDone("launchPurchaseFlow");
         flagStartAsync("launchPurchaseFlow");
@@ -590,7 +590,7 @@ public class IabHelper {
      * @param listener        The listener to notify when the refresh operation completes.
      */
     private void queryInventoryAsync(final boolean querySkuDetails,
-            final QueryInventoryFinishedListener listener) {
+                                     final QueryInventoryFinishedListener listener) {
         final Handler handler = new Handler();
         checkNotDisposed();
         checkSetupDone("queryInventory");
@@ -874,8 +874,8 @@ public class IabHelper {
     }
 
     private void consumeAsyncInternal(final List<Purchase> purchases,
-            final OnConsumeFinishedListener singleListener,
-            final OnConsumeMultiFinishedListener multiListener) {
+                                      final OnConsumeFinishedListener singleListener,
+                                      final OnConsumeMultiFinishedListener multiListener) {
         final Handler handler = new Handler();
         flagStartAsync("consume");
         (new Thread(new Runnable() {

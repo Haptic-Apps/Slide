@@ -29,9 +29,10 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class CreateCardView {
 
-    public static View CreateViewNews(ViewGroup viewGroup){
+    public static View CreateViewNews(ViewGroup viewGroup) {
         return LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_news, viewGroup, false);
     }
+
     public static View CreateView(ViewGroup viewGroup) {
         CardEnum cardEnum = SettingValues.defaultCardView;
         View v = null;
@@ -68,7 +69,7 @@ public class CreateCardView {
          * Adjusts the paddingTop of the innerrelative, and adjusts the margins on the thumbnail.
          */
         if (!SettingValues.bigThumbnails) {
-            if(SettingValues.defaultCardView == CardEnum.DESKTOP){
+            if (SettingValues.defaultCardView == CardEnum.DESKTOP) {
                 final int SQUARE_THUMBNAIL_SIZE = 48;
 
                 thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);

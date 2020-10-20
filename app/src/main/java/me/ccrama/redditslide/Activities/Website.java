@@ -43,12 +43,14 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class Website extends BaseActivityAnim {
 
-    WebView              v;
-    String               url;
-    int                  subredditColor;
-    MyWebViewClient      client;
+    public static ArrayList<String> triedURLS;
+    public String currentURL;
+    WebView v;
+    String url;
+    int subredditColor;
+    MyWebViewClient client;
     AdBlockWebViewClient webClient;
-    ProgressBar          p;
+    ProgressBar p;
 
     public static String getDomainName(String url) {
         URI uri;
@@ -56,7 +58,7 @@ public class Website extends BaseActivityAnim {
             uri = new URI(url);
 
             String domain = uri.getHost();
-            if(domain == null)
+            if (domain == null)
                 return "";
             return domain.startsWith("www.") ? domain.substring(4) : domain;
         } catch (URISyntaxException e) {
@@ -189,7 +191,7 @@ public class Website extends BaseActivityAnim {
                 cookieManager.removeAllCookies(null);
                 CookieManager.getInstance().flush();
                 cookieManager.setAcceptCookie(false);
-            } catch(NoSuchMethodError e){
+            } catch (NoSuchMethodError e) {
                 //Although these were added in api 12, some devices don't have this method
             }
             WebSettings ws = v.getSettings();
@@ -235,7 +237,7 @@ public class Website extends BaseActivityAnim {
         v.getSettings().setUseWideViewPort(true);
         v.setDownloadListener(new DownloadListener() {
             public void onDownloadStart(String url, String userAgent, String contentDisposition,
-                    String mimetype, long contentLength) {
+                                        String mimetype, long contentLength) {
                 //Downloads using download manager on default browser
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
@@ -327,11 +329,6 @@ public class Website extends BaseActivityAnim {
             }
         }
     }
-
-    public static ArrayList<String> triedURLS;
-
-    public String currentURL;
-
 
     //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
     public class AdBlockWebViewClient extends WebViewClient {

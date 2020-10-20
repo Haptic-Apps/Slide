@@ -79,18 +79,17 @@ import okio.BufferedSink;
  */
 public class Submit extends BaseActivity {
 
-    private boolean      sent;
-    private String       trying;
-    private String       URL;
-    private SwitchCompat inboxReplies;
-    private View         image;
-    private View         link;
-    private View         self;
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_BODY = "body";
     public static final String EXTRA_IS_SELF = "is_self";
-
     AsyncTask<Void, Void, Subreddit> tchange;
+    private boolean sent;
+    private String trying;
+    private String URL;
+    private SwitchCompat inboxReplies;
+    private View image;
+    private View link;
+    private View self;
 
     @Override
     public void onDestroy() {
@@ -366,7 +365,7 @@ public class Submit extends BaseActivity {
     }
 
     public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
-            CommentOverflow commentOverflow) {
+                         CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -412,6 +411,31 @@ public class Submit extends BaseActivity {
 
             }
         }
+    }
+
+    private void showErrorRetryDialog(String message) {
+        new AlertDialogWrapper.Builder(Submit.this).setTitle(R.string.err_title)
+                .setMessage(message)
+                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ((FloatingActionButton) findViewById(R.id.send)).show();
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        ((FloatingActionButton) findViewById(R.id.send)).show();
+                    }
+                })
+                .create()
+                .show();
     }
 
     private class AsyncDo extends AsyncTask<Void, Void, Void> {
@@ -545,10 +569,10 @@ public class Submit extends BaseActivity {
 
     private class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
 
-        final         Context        c;
+        final Context c;
         private final MaterialDialog dialog;
-        private final Uri            uri;
-        public        Bitmap         b;
+        private final Uri uri;
+        public Bitmap b;
 
         public UploadImgur(Context c, Uri u) {
             this.c = c;
@@ -722,10 +746,13 @@ public class Submit extends BaseActivity {
 
     private class UploadImgurAlbum extends AsyncTask<Uri, Integer, String> {
 
-        final         Context        c;
+        final Context c;
         private final MaterialDialog dialog;
-        private final Uri[]          uris;
-        public        Bitmap         b;
+        private final Uri[] uris;
+        public Bitmap b;
+        String finalUrl;
+        int uploadCount;
+        int totalCount;
 
         public UploadImgurAlbum(Context c, Uri... u) {
             this.c = c;
@@ -758,6 +785,8 @@ public class Submit extends BaseActivity {
                     })
                     .show();
         }
+
+        //End methods sourced from Opengur
 
         //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
         public File createFile(Uri uri, @NonNull Context context) {
@@ -830,10 +859,6 @@ public class Submit extends BaseActivity {
                 }
             }
         }
-
-        //End methods sourced from Opengur
-
-        String finalUrl;
 
         @Override
         protected String doInBackground(Uri... sub) {
@@ -932,9 +957,6 @@ public class Submit extends BaseActivity {
             }
         }
 
-        int uploadCount;
-        int totalCount;
-
         @Override
         protected void onProgressUpdate(Integer... values) {
             int progress = values[0];
@@ -944,31 +966,6 @@ public class Submit extends BaseActivity {
             dialog.setContent("Image " + uploadCount + "/" + totalCount);
             dialog.setProgress(progress);
         }
-    }
-
-    private void showErrorRetryDialog(String message) {
-        new AlertDialogWrapper.Builder(Submit.this).setTitle(R.string.err_title)
-                .setMessage(message)
-                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                })
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
-                .create()
-                .show();
     }
 
 }

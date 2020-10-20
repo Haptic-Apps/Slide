@@ -41,9 +41,8 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class SettingsSubreddit extends BaseActivityAnim {
     public SettingsSubAdapter mSettingsSubAdapter;
     ArrayList<String> changedSubs = new ArrayList<>();
-
+    int done;
     private RecyclerView recycler;
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -58,8 +57,6 @@ public class SettingsSubreddit extends BaseActivityAnim {
             overridePendingTransition(0, 0);
         }
     }
-
-    int done;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

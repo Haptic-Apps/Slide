@@ -60,7 +60,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements Filterable {
 
-    private final Context           mContext;
+    private final Context mContext;
     private final List<CommentNode> originalDataSet;
     private String search = "";
 
@@ -187,7 +187,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
+        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0 || comment.getTimesPlatinized() > 0) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);

@@ -36,19 +36,20 @@ import me.ccrama.redditslide.util.NetworkUtil;
  */
 public class SubmissionComments {
 
-    public boolean single;
     public final SwipeRefreshLayout refreshLayout;
     private final String fullName;
     private final CommentPage page;
+    public boolean single;
     public ArrayList<CommentObject> comments;
     public HashMap<String, String> commentOPs = new HashMap<>();
     public Submission submission;
+    public LoadData mLoadData;
+    public boolean online = true;
+    public boolean forceSorting = false;
+    int contextNumber = 5;
     private String context;
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
     private CommentAdapter adapter;
-    public LoadData mLoadData;
-    public boolean online = true;
-    int contextNumber = 5;
 
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, Submission s) {
         this.fullName = fullName;
@@ -209,8 +210,6 @@ public class SubmissionComments {
         commentAdapter.submission = Authentication.reddit.getSubmission(submission.getFullName().substring(3));
     }
 
-    public boolean forceSorting = false;
-
     public class LoadData extends AsyncTask<String, Void, ArrayList<CommentObject>> {
         final boolean reset;
 
@@ -256,7 +255,7 @@ public class SubmissionComments {
                 String currentOP = "";
 
                 for (CommentNode n : baseComment.walkTree()) {
-                    if(n.getDepth() == 1){
+                    if (n.getDepth() == 1) {
                         currentOP = n.getComment().getAuthor();
                     }
                     commentOPs.put(n.getComment().getId(), currentOP);

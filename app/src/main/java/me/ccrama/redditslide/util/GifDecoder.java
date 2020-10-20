@@ -529,6 +529,7 @@ class GifDecoder {
     private static class GifFrame {
         public final Bitmap image;
         public final int delay;
+
         public GifFrame(Bitmap im, int del) {
             image = im;
             delay = del;

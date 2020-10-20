@@ -79,13 +79,25 @@ public class Profile extends BaseActivityAnim {
     public static final String EXTRA_SUBMIT = "submitted";
     public static final String EXTRA_UPVOTE = "upvoted";
     public static final String EXTRA_HISTORY = "history";
+    public static Sorting profSort;
+    public static TimePeriod profTime;
+    public boolean isSavedView;
+    public String category;
+    public String subreddit;
     private String name;
     private Account account;
     private List<Trophy> trophyCase;
     private ViewPager pager;
     private TabLayout tabs;
     private String[] usedArray;
-    public boolean isSavedView;
+    private boolean friend;
+    private MenuItem sortItem;
+    private MenuItem categoryItem;
+
+    public static boolean isValidUsername(String user) {
+        /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
+        return user.matches("^[a-zA-Z0-9_-]{3,20}$");
+    }
 
     private void scrollToTabAfterLayout(final int tabIndex) {
         //from http://stackoverflow.com/a/34780589/3697225
@@ -104,17 +116,6 @@ public class Profile extends BaseActivityAnim {
             }
         }
     }
-
-    public static boolean isValidUsername(String user) {
-        /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
-        return user.matches("^[a-zA-Z0-9_-]{3,20}$");
-    }
-
-    private boolean friend;
-    private MenuItem sortItem;
-    private MenuItem categoryItem;
-    public static Sorting profSort;
-    public static TimePeriod profTime;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -270,101 +271,6 @@ public class Profile extends BaseActivityAnim {
 
     }
 
-    private class getProfile extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-                if (!isValidUsername(params[0])) {
-                    account = null;
-                    return null;
-                }
-                account = Authentication.reddit.getUser(params[0]);
-                trophyCase = new FluentRedditClient(Authentication.reddit).user(params[0]).trophyCase();
-            } catch (RuntimeException ignored) {
-            }
-            return null;
-
-        }
-
-        @Override
-        public void onPostExecute(Void voidd) {
-
-            doClick();
-
-        }
-    }
-
-    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
-
-        public ProfilePagerAdapter(FragmentManager fm) {
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-
-            if (i < 8) {
-                Fragment f = new ContributionsView();
-                Bundle args = new Bundle();
-
-                args.putString("id", name);
-                String place;
-                switch (i) {
-                    case 1:
-                        place = "comments";
-                        break;
-                    case 2:
-                        place = "submitted";
-                        break;
-                    case 3:
-                        place = "gilded";
-                        break;
-                    case 4:
-                        place = "liked";
-                        break;
-                    case 5:
-                        place = "disliked";
-                        break;
-                    case 6:
-                        place = "saved";
-                        break;
-                    case 7:
-                        place = "hidden";
-                        break;
-                    case 0:
-                    default:
-                        place = "overview";
-                }
-                args.putString("where", place);
-
-                f.setArguments(args);
-                return f;
-            } else {
-                return new HistoryView();
-            }
-
-
-        }
-
-
-        @Override
-        public int getCount() {
-            if (usedArray == null) {
-                return 1;
-            } else {
-                return usedArray.length;
-            }
-        }
-
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return usedArray[position];
-        }
-    }
-
     public void openPopup() {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
         final Spannable[] base = SortingUtil.getSortingSpannables(profSort);
@@ -468,9 +374,6 @@ public class Profile extends BaseActivityAnim {
         });
         popup.show();
     }
-
-    public String category;
-    public String subreddit;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -940,5 +843,100 @@ public class Profile extends BaseActivityAnim {
                 return true;
         }
         return false;
+    }
+
+    private class getProfile extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                if (!isValidUsername(params[0])) {
+                    account = null;
+                    return null;
+                }
+                account = Authentication.reddit.getUser(params[0]);
+                trophyCase = new FluentRedditClient(Authentication.reddit).user(params[0]).trophyCase();
+            } catch (RuntimeException ignored) {
+            }
+            return null;
+
+        }
+
+        @Override
+        public void onPostExecute(Void voidd) {
+
+            doClick();
+
+        }
+    }
+
+    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
+
+        public ProfilePagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+
+            if (i < 8) {
+                Fragment f = new ContributionsView();
+                Bundle args = new Bundle();
+
+                args.putString("id", name);
+                String place;
+                switch (i) {
+                    case 1:
+                        place = "comments";
+                        break;
+                    case 2:
+                        place = "submitted";
+                        break;
+                    case 3:
+                        place = "gilded";
+                        break;
+                    case 4:
+                        place = "liked";
+                        break;
+                    case 5:
+                        place = "disliked";
+                        break;
+                    case 6:
+                        place = "saved";
+                        break;
+                    case 7:
+                        place = "hidden";
+                        break;
+                    case 0:
+                    default:
+                        place = "overview";
+                }
+                args.putString("where", place);
+
+                f.setArguments(args);
+                return f;
+            } else {
+                return new HistoryView();
+            }
+
+
+        }
+
+
+        @Override
+        public int getCount() {
+            if (usedArray == null) {
+                return 1;
+            } else {
+                return usedArray.length;
+            }
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return usedArray[position];
+        }
     }
 }

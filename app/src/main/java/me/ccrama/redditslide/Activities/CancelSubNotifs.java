@@ -32,12 +32,12 @@ public class CancelSubNotifs extends Activity {
                     Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").toLowerCase(Locale.ENGLISH));
             String toRemove = "";
 
-            for(String s : subs){
-                if(s.startsWith(subName + ":")){
+            for (String s : subs) {
+                if (s.startsWith(subName + ":")) {
                     toRemove = s;
                 }
             }
-            if(!toRemove.isEmpty()){
+            if (!toRemove.isEmpty()) {
                 subs.remove(toRemove);
             }
             Reddit.appRestart.edit().putString(CheckForMail.SUBS_TO_GET, Reddit.arrayToString(subs)).apply();

@@ -69,7 +69,7 @@ public class ToolboxUI {
      * @param thing   Submission or Comment being removed
      */
     public static void showRemoval(final Context context, final PublicContribution thing,
-            final CompletedRemovalCallback callback) {
+                                   final CompletedRemovalCallback callback) {
         final RemovalReasons removalReasons;
         final MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
 
@@ -200,7 +200,7 @@ public class ToolboxUI {
                         replaceTokens(removalReasons.getLogTitle(), thing)          // log post title
                                 .replace("{reason}", logReason.getText()),
                         removalReasons.getLogSub(),                                 // log sub
-                        new String[] { flairText.toString(), flairCSS.toString() }  // flair text and css
+                        new String[]{flairText.toString(), flairCSS.toString()}  // flair text and css
                 );
             }
         });
@@ -361,13 +361,13 @@ public class ToolboxUI {
      * Appends a usernote to builder if a usernote in the subreddit is available, and the current
      * user has it enabled.
      *
-     * @param context Android context
-     * @param builder The builder to append the usernote to
+     * @param context   Android context
+     * @param builder   The builder to append the usernote to
      * @param subreddit The subreddit to look for notes in
-     * @param user The user to look for
+     * @param user      The user to look for
      */
     public static void appendToolboxNote(Context context, SpannableStringBuilder builder,
-            String subreddit, String user) {
+                                         String subreddit, String user) {
         if (!SettingValues.toolboxEnabled || !Authentication.mod) {
             return;
         }
@@ -392,6 +392,18 @@ public class ToolboxUI {
 
         builder.append(" ");
         builder.append(noteBuilder);
+    }
+
+    /**
+     * A callback for code to be run on the UI thread after removal.
+     */
+    public interface CompletedRemovalCallback {
+        /**
+         * Called when the removal is completed
+         *
+         * @param success Whether the removal and reason-sending process was 100% successful or not
+         */
+        void onComplete(boolean success);
     }
 
     public static class UsernoteListAdapter extends ArrayAdapter<UsernoteListItem> {
@@ -470,7 +482,7 @@ public class ToolboxUI {
         private String user;
 
         public UsernoteListItem(CharSequence authorDatetime, CharSequence noteText, String link, Usernote note,
-                String subreddit, String user) {
+                                String subreddit, String user) {
             this.authorDatetime = authorDatetime;
             this.noteText = noteText;
             this.link = link;
@@ -706,8 +718,8 @@ public class ToolboxUI {
          * @param flair         Flair [text, CSS]
          */
         public void execute(PublicContribution thing, int action, String removalReason, String pmSubject,
-                boolean modmail, boolean sticky, boolean lock, boolean log, String logTitle, String logSub,
-                String[] flair) {
+                            boolean modmail, boolean sticky, boolean lock, boolean log, String logTitle, String logSub,
+                            String[] flair) {
             super.execute(thing, action, removalReason, pmSubject, modmail, sticky, lock, log, logTitle, logSub, flair);
         }
     }
@@ -818,17 +830,5 @@ public class ToolboxUI {
                         .show();
             }
         }
-    }
-
-    /**
-     * A callback for code to be run on the UI thread after removal.
-     */
-    public interface CompletedRemovalCallback {
-        /**
-         * Called when the removal is completed
-         *
-         * @param success Whether the removal and reason-sending process was 100% successful or not
-         */
-        void onComplete(boolean success);
     }
 }

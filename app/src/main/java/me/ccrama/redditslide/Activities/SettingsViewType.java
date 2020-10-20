@@ -25,7 +25,6 @@ public class SettingsViewType extends BaseActivityAnim {
         setupAppBar(R.id.toolbar, R.string.settings_view_type, true, true);
 
 
-
         //View type multi choice
         ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
 

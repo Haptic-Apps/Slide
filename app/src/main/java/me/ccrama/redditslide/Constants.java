@@ -37,7 +37,9 @@ public class Constants {
     public static final float DRAWER_SWIPE_EDGE = 0.07f;
     public static final float DRAWER_SWIPE_EDGE_TABLET = 0.03f;
 
-    /** The client ID to use when making requests to the Imgur Mashape API */
+    /**
+     * The client ID to use when making requests to the Imgur Mashape API
+     */
     public static final String IMGUR_MASHAPE_CLIENT_ID = "bef87913eb202e9";
     public static final String TUMBLR_API_KEY = "qr0mPKRNb46Q5HwjkQjALEsA7m4Ub5MKvwv2qXmGHQJjG2B3gl";
 

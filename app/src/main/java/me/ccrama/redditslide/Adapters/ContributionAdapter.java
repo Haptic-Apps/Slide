@@ -67,11 +67,13 @@ import me.ccrama.redditslide.util.SubmissionParser;
 
 public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
-    private final int SPACER = 6;
     private static final int COMMENT = 1;
     public final Activity mContext;
+    private final int SPACER = 6;
     private final RecyclerView listView;
     private final Boolean isHiddenPost;
+    private final int LOADING_SPINNER = 5;
+    private final int NO_MORE = 3;
     public GeneralPosts dataSet;
 
     public ContributionAdapter(Activity mContext, GeneralPosts dataSet, RecyclerView listView) {
@@ -89,9 +91,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         this.isHiddenPost = isHiddenPost;
     }
-
-    private final int LOADING_SPINNER = 5;
-    private final int NO_MORE = 3;
 
     @Override
     public int getItemViewType(int position) {
@@ -133,63 +132,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         }
 
-    }
-
-    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
-        public SubmissionFooterViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
-        View v;
-
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (ActionStates.isSaved(submissions[0])) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = false;
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = true;
-                }
-                v = null;
-            } catch (Exception e) {
-                return null;
-            }
-            return null;
-        }
     }
 
     @Override
@@ -261,14 +203,13 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (submission.isSelfPost()){
-                                if(SettingValues.shareLongLink){
+                            if (submission.isSelfPost()) {
+                                if (SettingValues.shareLongLink) {
                                     Reddit.defaultShareText("", "https://reddit.com" + submission.getPermalink(), mContext);
                                 } else {
                                     Reddit.defaultShareText("", "https://redd.it/" + submission.getId(), mContext);
                                 }
-                            }
-                            else {
+                            } else {
                                 new BottomSheet.Builder(mContext)
                                         .title(R.string.submission_share_title)
                                         .grid()
@@ -278,7 +219,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        if(SettingValues.shareLongLink){
+                                                        if (SettingValues.shareLongLink) {
                                                             Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
                                                         } else {
                                                             Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
@@ -430,7 +371,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.content.setTypeface(typeface);
 
             ((TextView) holder.gild).setText("");
-            if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
+            if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0 || comment.getTimesPlatinized() > 0) {
                 TypedArray a = mContext.obtainStyledAttributes(
                         new FontPreferences(mContext).getPostFontStyle().getResId(),
                         R.styleable.FontStyle);
@@ -516,12 +457,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
-        public SpacerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     private void setViews(String rawHTML, String subredditName, ProfileCommentViewHolder holder) {
         if (rawHTML.isEmpty()) {
             return;
@@ -551,7 +486,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
     @Override
     public int getItemCount() {
         if (dataSet.posts == null || dataSet.posts.isEmpty()) {
@@ -571,9 +505,72 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         listView.setAdapter(this);
     }
 
+    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+        public SubmissionFooterViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     public static class EmptyViewHolder extends RecyclerView.ViewHolder {
         public EmptyViewHolder(View itemView) {
             super(itemView);
+        }
+    }
+
+    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
+        View v;
+
+        public AsyncSave(View v) {
+            this.v = v;
+        }
+
+        @Override
+        protected Void doInBackground(Submission... submissions) {
+            try {
+                if (ActionStates.isSaved(submissions[0])) {
+                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
+                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = s.getView();
+                            TextView tv =
+                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
+                    });
+
+
+                    submissions[0].saved = false;
+                } else {
+                    new AccountManager(Authentication.reddit).save(submissions[0]);
+                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = s.getView();
+                            TextView tv =
+                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
+                    });
+
+
+                    submissions[0].saved = true;
+                }
+                v = null;
+            } catch (Exception e) {
+                return null;
+            }
+            return null;
         }
     }
 }

@@ -20,11 +20,12 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class Announcement extends BaseActivity {
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(0, 0);
 
     }
+
     @Override
     public void onCreate(Bundle savedInstance) {
 

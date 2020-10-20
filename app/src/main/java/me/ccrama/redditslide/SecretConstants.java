@@ -30,6 +30,7 @@ public class SecretConstants {
         }
         return base64EncodedPublicKey;
     }
+
     public static String getApiKey(Context context) {
         if (apiKey == null) {
             InputStream input;
@@ -46,6 +47,7 @@ public class SecretConstants {
         }
         return apiKey;
     }
+
     public static String getImgurApiKey(Context context) {
         if (apiKey == null) {
             InputStream input;

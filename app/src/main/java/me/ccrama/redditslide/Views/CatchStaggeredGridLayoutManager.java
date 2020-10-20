@@ -19,6 +19,7 @@ public class CatchStaggeredGridLayoutManager extends StaggeredGridLayoutManager 
     public CatchStaggeredGridLayoutManager(int spanCount, int orientation) {
         super(spanCount, orientation);
     }
+
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         try {

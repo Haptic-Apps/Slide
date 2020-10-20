@@ -43,15 +43,17 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 8/17/2015.
  */
 public class SideArrayAdapter extends ArrayAdapter<String> {
-    private final List<String>             objects;
-    private       Filter                   filter;
-    public        CaseInsensitiveArrayList baseItems;
-    public        CaseInsensitiveArrayList fitems;
-    public        ListView                 parentL;
+    private final List<String> objects;
+    public CaseInsensitiveArrayList baseItems;
+    public CaseInsensitiveArrayList fitems;
+    public ListView parentL;
     public boolean openInSubView = true;
+    int height;
+    Map<String, String> multiToMatch;
+    private Filter filter;
 
     public SideArrayAdapter(Context context, ArrayList<String> objects,
-            ArrayList<String> allSubreddits, ListView view) {
+                            ArrayList<String> allSubreddits, ListView view) {
         super(context, 0, objects);
         this.objects = new ArrayList<>(allSubreddits);
         filter = new SubFilter();
@@ -79,9 +81,6 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         }
         return filter;
     }
-
-    int                 height;
-    Map<String, String> multiToMatch;
 
     private void hideSearchbarUI() {
         try {
@@ -153,7 +152,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
 
             final String subreddit = (sub.contains("+") || sub.contains("/m/")) ? sub
                     : SantitizeField.sanitizeString(
-                            sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
+                    sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
 
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             convertView.findViewById(R.id.color)

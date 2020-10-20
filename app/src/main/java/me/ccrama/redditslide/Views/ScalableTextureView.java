@@ -34,9 +34,6 @@ public class ScalableTextureView extends TextureView {
      * Zoom in to and center the tapped point immediately without animating.
      */
     public static final int ZOOM_FOCUS_CENTER_IMMEDIATE = 3;
-
-    private static final List<Integer> VALID_ZOOM_STYLES = Arrays.asList(ZOOM_FOCUS_FIXED, ZOOM_FOCUS_CENTER, ZOOM_FOCUS_CENTER_IMMEDIATE);
-
     /**
      * Quadratic ease out. Not recommended for scale animation, but good for panning.
      */
@@ -45,9 +42,6 @@ public class ScalableTextureView extends TextureView {
      * Quadratic ease in and out.
      */
     public static final int EASE_IN_OUT_QUAD = 2;
-
-    private static final List<Integer> VALID_EASING_STYLES = Arrays.asList(EASE_IN_OUT_QUAD, EASE_OUT_QUAD);
-
     /**
      * Don't allow the image to be panned off screen. As much of the image as possible is always displayed, centered in the view when it is smaller. This is the best option for galleries.
      */
@@ -60,9 +54,6 @@ public class ScalableTextureView extends TextureView {
      * Allows the image to be panned until a corner reaches the center of the screen but no further. Useful when you want to pan any spot on the image to the exact center of the screen.
      */
     public static final int PAN_LIMIT_CENTER = 3;
-
-    private static final List<Integer> VALID_PAN_LIMITS = Arrays.asList(PAN_LIMIT_INSIDE, PAN_LIMIT_OUTSIDE, PAN_LIMIT_CENTER);
-
     /**
      * Scale the image so that both dimensions of the image will be equal to or less than the corresponding dimension of the view. The image is then centered in the view. This is the default behaviour and best for galleries.
      */
@@ -75,56 +66,42 @@ public class ScalableTextureView extends TextureView {
      * Scale the image so that both dimensions of the image will be equal to or less than the maxScale and equal to or larger than minScale. The image is then centered in the view.
      */
     public static final int SCALE_TYPE_CUSTOM = 3;
-
+    private static final List<Integer> VALID_ZOOM_STYLES = Arrays.asList(ZOOM_FOCUS_FIXED, ZOOM_FOCUS_CENTER, ZOOM_FOCUS_CENTER_IMMEDIATE);
+    private static final List<Integer> VALID_EASING_STYLES = Arrays.asList(EASE_IN_OUT_QUAD, EASE_OUT_QUAD);
+    private static final List<Integer> VALID_PAN_LIMITS = Arrays.asList(PAN_LIMIT_INSIDE, PAN_LIMIT_OUTSIDE, PAN_LIMIT_CENTER);
     private static final List<Integer> VALID_SCALE_TYPES = Arrays.asList(SCALE_TYPE_CENTER_CROP, SCALE_TYPE_CENTER_INSIDE, SCALE_TYPE_CUSTOM);
-
+    private static final int MESSAGE_LONG_CLICK = 1;
+    // Current scale and scale at start of zoom
+    public float scale;
     // Bitmap (preview or full image)
     private Bitmap bitmap;
-
     // Whether the bitmap is a preview image
     private boolean bitmapIsPreview;
-
     // Specifies if a cache handler is also referencing the bitmap. Do not recycle if so.
     private boolean bitmapIsCached;
-
     // Uri of full size image
     private Uri uri;
-
     // Sample size used to display the whole image when fully zoomed out
     private int fullImageSampleSize;
-
     // Overlay tile boundaries and other info
     private boolean debug;
-
     // Max scale allowed (prevent infinite zoom)
     private float maxScale = 2F;
-
-    // Min scale allowed (prevent infinite zoom)
-    private float minScale = minScale();
-
     // Density to reach before loading higher resolution tiles
     private int minimumTileDpi = -1;
-
     // Pan limiting style
     private int panLimit = PAN_LIMIT_INSIDE;
-
     // Minimum scale type
     private int minimumScaleType = SCALE_TYPE_CENTER_INSIDE;
-
     // Whether to use the thread pool executor to load tiles
     private boolean parallelLoadingEnabled;
-
     // Gesture detection settings
     private boolean panEnabled = true;
     private boolean zoomEnabled = true;
     private boolean quickScaleEnabled = true;
-
     // Double tap zoom behaviour
     private float doubleTapZoomScale = 1F;
     private int doubleTapZoomStyle = ZOOM_FOCUS_FIXED;
-
-    // Current scale and scale at start of zoom
-    public float scale;
     private float scaleStart;
 
     // Screen coordinate of top-left corner of source image
@@ -139,10 +116,11 @@ public class ScalableTextureView extends TextureView {
     // Source image dimensions and orientation - dimensions relate to the unrotated image
     private int sWidth;
     private int sHeight;
+    // Min scale allowed (prevent infinite zoom)
+    private float minScale = minScale();
     private int sOrientation;
     private Rect sRegion;
     private Rect pRegion;
-
     // Is two-finger zooming in progress
     private boolean isZooming;
     // Is one-finger panning in progress
@@ -151,39 +129,29 @@ public class ScalableTextureView extends TextureView {
     private boolean isQuickScaling;
     // Max touches used in current gesture
     private int maxTouchCount;
-
     // Fling detector
     private GestureDetector detector;
-
     // Debug values
     private PointF vCenterStart;
     private float vDistStart;
-
     // Current quickscale state
     private float quickScaleThreshold;
     private PointF quickScaleCenter;
     private float quickScaleLastDistance;
     private PointF quickScaleLastPoint;
     private boolean quickScaleMoved;
-
     // Scale and center animation tracking
     private Anim anim;
-
     // Whether a ready notification has been sent to subclasses
     private boolean readySent;
     // Whether a base layer loaded notification has been sent to subclasses
     private boolean imageLoadedSent;
-
     //Zoom changed listener
     private OnZoomChangedListener onZoomChangedListener;
-
     // Long click listener
     private OnLongClickListener onLongClickListener;
-
     // Long click handler
     private Handler handler;
-    private static final int MESSAGE_LONG_CLICK = 1;
-
     // Paint objects created once and reused for efficiency
     private Paint bitmapPaint;
     private Paint debugPaint;
@@ -214,7 +182,6 @@ public class ScalableTextureView extends TextureView {
         quickScaleThreshold = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, context.getResources().getDisplayMetrics());
         preDraw();
     }
-
 
 
     /**
@@ -856,6 +823,68 @@ public class ScalableTextureView extends TextureView {
     }
 
 
+    /**
+     * An event listener for animations, allows events to be triggered when an animation completes,
+     * is aborted by another animation starting, or is aborted by a touch event. Note that none of
+     * these events are triggered if the activity is paused, the image is swapped, or in other cases
+     * where the view's internal state gets wiped or draw events stop.
+     */
+    public interface OnAnimationEventListener {
+
+        /**
+         * The animation has completed, having reached its endpoint.
+         */
+        void onComplete();
+
+        /**
+         * The animation has been aborted before reaching its endpoint because the user touched the screen.
+         */
+        void onInterruptedByUser();
+
+        /**
+         * The animation has been aborted before reaching its endpoint because a new animation has been started.
+         */
+        void onInterruptedByNewAnim();
+
+    }
+
+    /**
+     * An event listener, allowing to be notified of zoom events.
+     */
+    public interface OnZoomChangedListener {
+        /**
+         * Called when zoom level changed
+         * Warning! Method can be called very often
+         */
+        void onZoomLevelChanged(float zoom);
+    }
+
+    private static class Anim {
+
+        private float scaleStart; // Scale at start of anim
+        private float scaleEnd; // Scale at end of anim (target)
+        private PointF sCenterStart; // Source center point at start
+        private PointF sCenterEnd; // Source center point at end, adjusted for pan limits
+        private PointF sCenterEndRequested; // Source center point that was requested, without adjustment
+        private PointF vFocusStart; // View point that was double tapped
+        private PointF vFocusEnd; // Where the view focal point should be moved to during the anim
+        private long duration = 500; // How long the anim takes
+        private boolean interruptible = true; // Whether the anim can be interrupted by a touch
+        private int easing = EASE_IN_OUT_QUAD; // Easing style
+        private long time = System.currentTimeMillis(); // Start time
+        private OnAnimationEventListener listener; // Event listener
+
+    }
+
+    private static class ScaleAndTranslate {
+        private float scale;
+        private PointF vTranslate;
+
+        private ScaleAndTranslate(float scale, PointF vTranslate) {
+            this.scale = scale;
+            this.vTranslate = vTranslate;
+        }
+    }
 
     /**
      * Builder class used to set additional options for a scale animation. Create an instance using {@link #animateScale(float)},
@@ -1001,68 +1030,5 @@ public class ScalableTextureView extends TextureView {
             invalidate();
         }
 
-    }
-
-    private static class Anim {
-
-        private float scaleStart; // Scale at start of anim
-        private float scaleEnd; // Scale at end of anim (target)
-        private PointF sCenterStart; // Source center point at start
-        private PointF sCenterEnd; // Source center point at end, adjusted for pan limits
-        private PointF sCenterEndRequested; // Source center point that was requested, without adjustment
-        private PointF vFocusStart; // View point that was double tapped
-        private PointF vFocusEnd; // Where the view focal point should be moved to during the anim
-        private long duration = 500; // How long the anim takes
-        private boolean interruptible = true; // Whether the anim can be interrupted by a touch
-        private int easing = EASE_IN_OUT_QUAD; // Easing style
-        private long time = System.currentTimeMillis(); // Start time
-        private OnAnimationEventListener listener; // Event listener
-
-    }
-
-    /**
-     * An event listener for animations, allows events to be triggered when an animation completes,
-     * is aborted by another animation starting, or is aborted by a touch event. Note that none of
-     * these events are triggered if the activity is paused, the image is swapped, or in other cases
-     * where the view's internal state gets wiped or draw events stop.
-     */
-    public interface OnAnimationEventListener {
-
-        /**
-         * The animation has completed, having reached its endpoint.
-         */
-        void onComplete();
-
-        /**
-         * The animation has been aborted before reaching its endpoint because the user touched the screen.
-         */
-        void onInterruptedByUser();
-
-        /**
-         * The animation has been aborted before reaching its endpoint because a new animation has been started.
-         */
-        void onInterruptedByNewAnim();
-
-    }
-
-    private static class ScaleAndTranslate {
-        private ScaleAndTranslate(float scale, PointF vTranslate) {
-            this.scale = scale;
-            this.vTranslate = vTranslate;
-        }
-
-        private float scale;
-        private PointF vTranslate;
-    }
-
-    /**
-     * An event listener, allowing to be notified of zoom events.
-     */
-    public interface OnZoomChangedListener {
-        /**
-         * Called when zoom level changed
-         * Warning! Method can be called very often
-         */
-        void onZoomLevelChanged(float zoom);
     }
 }

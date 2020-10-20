@@ -10,7 +10,9 @@ import me.ccrama.redditslide.ForceTouch.PeekView;
 public interface OnPeek {
 
     void onInflated(PeekView rootView, View contentView);
+
     void shown();
+
     void dismissed();
 
 }

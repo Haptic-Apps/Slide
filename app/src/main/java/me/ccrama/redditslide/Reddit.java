@@ -84,45 +84,44 @@ import okhttp3.OkHttpClient;
  * Created by ccrama on 9/17/2015.
  */
 public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
-    private static Application mApplication;
-
     public static final String EMPTY_STRING = "NOTHING";
-
-    public static final long   enter_animation_time_original = 600;
-    public static final String PREF_LAYOUT                   = "PRESET";
-    public static final String SHARED_PREF_IS_MOD            = "is_mod";
+    public static final long enter_animation_time_original = 600;
+    public static final String PREF_LAYOUT = "PRESET";
+    public static final String SHARED_PREF_IS_MOD = "is_mod";
+    public static final int enter_animation_time_multiplier = 1;
+    public static final long time = System.currentTimeMillis();
+    public static final boolean noGapps = true; //for testing
+    public static final String CHANNEL_IMG = "IMG_DOWNLOADS";
+    public static final String CHANNEL_COMMENT_CACHE = "POST_SYNC";
+    public static final String CHANNEL_MAIL = "MAIL_NOTIFY";
+    public static final String CHANNEL_MODMAIL = "MODMAIL_NOTIFY";
+    public static final String CHANNEL_SUBCHECKING = "SUB_CHECK_NOTIFY";
     public static Cache videoCache;
-
     public static IabHelper mHelper;
-    public static       long enter_animation_time            = enter_animation_time_original;
-    public static final int  enter_animation_time_multiplier = 1;
-
+    public static long enter_animation_time = enter_animation_time_original;
     public static Authentication authentication;
-
     public static SharedPreferences colors;
     public static SharedPreferences appRestart;
     public static SharedPreferences tags;
-
-    public static int                      dpWidth;
-    public static int                      notificationTime;
-    public static boolean                  videoPlugin;
+    public static int dpWidth;
+    public static int notificationTime;
+    public static boolean videoPlugin;
     public static NotificationJobScheduler notifications;
-    public static       boolean isLoading = false;
-    public static final long    time      = System.currentTimeMillis();
-    public static boolean            fabClear;
+    public static boolean isLoading = false;
+    public static boolean fabClear;
     public static ArrayList<Integer> lastPosition;
-    public static int                currentPosition;
-    public static SharedPreferences  cachedData;
-    public static final boolean noGapps = true; //for testing
-    public static boolean            overrideLanguage;
-    public static boolean            isRestarting;
+    public static int currentPosition;
+    public static SharedPreferences cachedData;
+    public static boolean overrideLanguage;
+    public static boolean isRestarting;
     public static AutoCacheScheduler autoCache;
-    public static boolean            peek;
-    public        boolean      active;
-    private       ImageLoader  defaultImageLoader;
+    public static boolean peek;
     public static OkHttpClient client;
-
     public static boolean canUseNightModeAuto = false;
+    public static boolean notFirst = false;
+    private static Application mApplication;
+    public boolean active;
+    private ImageLoader defaultImageLoader;
 
     public static void forceRestart(Context context, boolean forceLoadScreen) {
         if (forceLoadScreen) {
@@ -243,45 +242,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return f;
     }
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        getImageLoader().clearMemoryCache();
-    }
-
-    public ImageLoader getImageLoader() {
-        if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
-            ImageLoaderUtils.initImageLoader(getApplicationContext());
-            defaultImageLoader = ImageLoaderUtils.imageLoader;
-        }
-
-        return defaultImageLoader;
-    }
-
-    public static boolean notFirst = false;
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-        doLanguages();
-        if (client == null) {
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.dns(new GfycatIpv4Dns());
-            client = builder.build();
-        }
-        if (authentication != null
-                && Authentication.didOnline
-                && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance()
-                .getTimeInMillis()) {
-            authentication.updateToken(activity);
-        } else if (NetworkUtil.isConnected(activity) && authentication == null) {
-            authentication = new Authentication(this);
-        }
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-    }
-
     public static void setDefaultErrorHandler(Context base) {
         //START code adapted from https://github.com/QuantumBadger/RedReader/
         final Thread.UncaughtExceptionHandler androidHandler =
@@ -310,7 +270,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                                   new DialogInterface.OnClickListener() {
                                                                       @Override
                                                                       public void onClick(DialogInterface dialog,
-                                                                              int which) {
+                                                                                          int which) {
                                                                           if (!(c instanceof MainActivity)) {
                                                                               ((Activity) c).finish();
                                                                           }
@@ -320,7 +280,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                                   new DialogInterface.OnClickListener() {
                                                                       @Override
                                                                       public void onClick(DialogInterface dialog,
-                                                                              int which) {
+                                                                                          int which) {
                                                                           Reddit.appRestart.edit()
                                                                                   .putBoolean("forceoffline",
                                                                                           true)
@@ -351,7 +311,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             if (!(c instanceof MainActivity)) {
                                                                 ((Activity) c).finish();
                                                             }
@@ -361,7 +321,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             authentication.updateToken((c));
                                                         }
                                                     })
@@ -385,7 +345,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             if (!(c instanceof MainActivity)) {
                                                                 ((Activity) c).finish();
                                                             }
@@ -437,6 +397,58 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         });
         //END adaptation
 
+    }
+
+    public static Context getAppContext() {
+        return mApplication.getApplicationContext();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private static void setCanUseNightModeAuto() {
+        UiModeManager uiModeManager = getAppContext().getSystemService(UiModeManager.class);
+        if (uiModeManager != null) {
+            uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            canUseNightModeAuto = true;
+        } else {
+            canUseNightModeAuto = false;
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        getImageLoader().clearMemoryCache();
+    }
+
+    public ImageLoader getImageLoader() {
+        if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
+            ImageLoaderUtils.initImageLoader(getApplicationContext());
+            defaultImageLoader = ImageLoaderUtils.imageLoader;
+        }
+
+        return defaultImageLoader;
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        doLanguages();
+        if (client == null) {
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.dns(new GfycatIpv4Dns());
+            client = builder.build();
+        }
+        if (authentication != null
+                && Authentication.didOnline
+                && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance()
+                .getTimeInMillis()) {
+            authentication.updateToken(activity);
+        } else if (NetworkUtil.isConnected(activity) && authentication == null) {
+            authentication = new Authentication(this);
+        }
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
     }
 
     @Override
@@ -601,13 +613,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return false;
     }
 
-
-    public static final String CHANNEL_IMG           = "IMG_DOWNLOADS";
-    public static final String CHANNEL_COMMENT_CACHE = "POST_SYNC";
-    public static final String CHANNEL_MAIL          = "MAIL_NOTIFY";
-    public static final String CHANNEL_MODMAIL       = "MODMAIL_NOTIFY";
-    public static final String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
-
     public void setupNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Each triple contains the channel ID, name, and importance level
@@ -666,7 +671,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-
     //IPV6 workaround by /u/talklittle
     public static class GfycatIpv4Dns implements Dns {
         @Override
@@ -694,21 +698,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             } else {
                 return Dns.SYSTEM.lookup(hostname);
             }
-        }
-    }
-
-    public static Context getAppContext() {
-        return mApplication.getApplicationContext();
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    private static void setCanUseNightModeAuto() {
-        UiModeManager uiModeManager = getAppContext().getSystemService(UiModeManager.class);
-        if (uiModeManager != null) {
-            uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
-            canUseNightModeAuto = true;
-        } else {
-            canUseNightModeAuto = false;
         }
     }
 }

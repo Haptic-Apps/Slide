@@ -20,9 +20,7 @@ import androidx.core.view.inputmethod.InputContentInfoCompat;
 
 public class ImageInsertEditText extends AppCompatEditText {
 
-    public interface ImageSelectedCallback {
-        void onImageSelected(Uri content, String mimeType);
-    }
+    private ImageSelectedCallback callback;
 
     // region view constructors
     public ImageInsertEditText(Context context) {
@@ -39,8 +37,6 @@ public class ImageInsertEditText extends AppCompatEditText {
 
     // endregion
 
-    private ImageSelectedCallback callback;
-
     public void setImageSelectedCallback(ImageSelectedCallback callback) {
         this.callback = callback;
     }
@@ -48,7 +44,7 @@ public class ImageInsertEditText extends AppCompatEditText {
     @Override
     public InputConnection onCreateInputConnection(EditorInfo attrs) {
         InputConnection con = super.onCreateInputConnection(attrs);
-        EditorInfoCompat.setContentMimeTypes(attrs, new String[] { "image/gif", "image/png" });
+        EditorInfoCompat.setContentMimeTypes(attrs, new String[]{"image/gif", "image/png"});
 
         return InputConnectionCompat.createWrapper(con, attrs, new InputConnectionCompat.OnCommitContentListener() {
             @Override
@@ -74,6 +70,10 @@ public class ImageInsertEditText extends AppCompatEditText {
                 }
             }
         });
+    }
+
+    public interface ImageSelectedCallback {
+        void onImageSelected(Uri content, String mimeType);
     }
 
 }

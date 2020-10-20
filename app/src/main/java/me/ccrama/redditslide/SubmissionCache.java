@@ -36,12 +36,14 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by carlo_000 on 4/22/2016.
  */
 public class SubmissionCache {
+    public static ArrayList<String> removed = new ArrayList<>();
+    public static ArrayList<String> approved = new ArrayList<>();
     private static WeakHashMap<String, SpannableStringBuilder> titles;
     private static WeakHashMap<String, SpannableStringBuilder> info;
     private static WeakHashMap<String, SpannableStringBuilder> crosspost;
 
     public static void cacheSubmissions(List<Submission> submissions, Context mContext,
-            String baseSub) {
+                                        String baseSub) {
         cacheInfo(submissions, mContext, baseSub);
     }
 
@@ -85,7 +87,7 @@ public class SubmissionCache {
     }
 
     public static SpannableStringBuilder getInfoLine(Submission s, Context mContext,
-            String baseSub) {
+                                                     String baseSub) {
         if (info == null) info = new WeakHashMap<>();
         if (info.containsKey(s.getFullName())) {
             return info.get(s.getFullName());
@@ -105,7 +107,7 @@ public class SubmissionCache {
         }
         json = json.get("crosspost_parent_list").get(0);
 
-        if(json.has("subreddit")){
+        if (json.has("subreddit")) {
             String subname = json.get("subreddit").asText().toLowerCase(Locale.ENGLISH);
             SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname + spacer);
 
@@ -124,7 +126,7 @@ public class SubmissionCache {
         }
 
         SpannableStringBuilder author =
-                new SpannableStringBuilder( json.get("author").asText() + " ");
+                new SpannableStringBuilder(json.get("author").asText() + " ");
 
         int authorcolor = Palette.getFontColorUser(json.get("author").asText());
 
@@ -155,7 +157,7 @@ public class SubmissionCache {
     }
 
     private static SpannableStringBuilder getInfoSpannable(Submission submission, Context mContext,
-            String baseSub) {
+                                                           String baseSub) {
         String spacer = mContext.getString(R.string.submission_properties_seperator);
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
@@ -404,7 +406,7 @@ public class SubmissionCache {
     }
 
     private static SpannableStringBuilder getTitleSpannable(Submission submission,
-            String flairOverride, Context mContext) {
+                                                            String flairOverride, Context mContext) {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
         titleString.append(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
@@ -533,11 +535,8 @@ public class SubmissionCache {
 
     }
 
-    public static ArrayList<String> removed  = new ArrayList<>();
-    public static ArrayList<String> approved = new ArrayList<>();
-
     private static SpannableStringBuilder getTitleSpannable(Submission submission,
-            Context mContext) {
+                                                            Context mContext) {
         return getTitleSpannable(submission, null, mContext);
     }
 

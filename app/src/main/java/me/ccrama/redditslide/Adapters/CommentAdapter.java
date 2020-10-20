@@ -101,40 +101,46 @@ import me.ccrama.redditslide.util.SubmissionParser;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    final static  int HEADER = 1;
-    private final int SPACER = 6;
+    final static int HEADER = 1;
     public final Bitmap[] awardIcons;
-    public Context            mContext;
+    private final int SPACER = 6;
+    public Context mContext;
     public SubmissionComments dataSet;
-    public Submission         submission;
-    public CommentViewHolder  currentlySelected;
-    public CommentNode        currentNode;
+    public Submission submission;
+    public CommentViewHolder currentlySelected;
+    public CommentNode currentNode;
     public String currentSelectedItem = "";
-    public int               shiftFrom;
-    public FragmentManager   fm;
-    public int               clickpos;
-    public int               currentPos;
+    public int shiftFrom;
+    public FragmentManager fm;
+    public int clickpos;
+    public int currentPos;
     public CommentViewHolder isHolder;
-    public boolean           isClicking;
+    public boolean isClicking;
     public HashMap<String, Integer> keys = new HashMap<>();
     public ArrayList<CommentObject> currentComments;
     public ArrayList<String> deleted = new ArrayList<>();
-    RecyclerView      listView;
-    CommentPage       mPage;
-    int               shifted;
-    int               toShiftTo;
+    public SubmissionViewHolder submissionViewHolder;
+    public ArrayList<String> approved = new ArrayList<>();
+    public ArrayList<String> removed = new ArrayList<>();
+    public EditText currentlyEditing;
+    RecyclerView listView;
+    CommentPage mPage;
+    int shifted;
+    int toShiftTo;
     HashSet<String> hidden;
     ArrayList<String> hiddenPersons;
     ArrayList<String> toCollapse;
-    private String backedText         = "";
-    private String currentlyEditingId = "";
-    public SubmissionViewHolder submissionViewHolder;
     long lastSeen = 0;
-    public ArrayList<String> approved = new ArrayList<>();
-    public ArrayList<String> removed  = new ArrayList<>();
+    AsyncLoadMore currentLoading;
+    String changedProfile;
+    int editingPosition;
+    ValueAnimator mAnimator;
+    CommentNode currentBaseNode;
+    private String backedText = "";
+    private String currentlyEditingId = "";
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView,
-            Submission submission, FragmentManager fm) {
+                          Submission submission, FragmentManager fm) {
         this.mContext = mContext.getContext();
         mPage = mContext;
         this.listView = listView;
@@ -155,7 +161,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         shifted = 0;
 
         // As per reddit API gids: 0=silver, 1=gold, 2=platinum
-        awardIcons = new Bitmap[] {
+        awardIcons = new Bitmap[]{
                 BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver),
                 BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold),
                 BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum),
@@ -163,7 +169,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView,
-            Submission submission, boolean reset) {
+                      Submission submission, boolean reset) {
 
         doTimes();
 
@@ -247,12 +253,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
-        public SpacerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     public void expandAll() {
         if (currentComments == null) return;
         for (CommentObject o : currentComments) {
@@ -263,7 +263,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         notifyItemChanged(2);
     }
-
 
     public void collapseAll() {
         if (currentComments == null) return;
@@ -306,7 +305,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
     }
-
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
@@ -672,9 +670,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    AsyncLoadMore currentLoading;
-    String        changedProfile;
-
     private void doReplySubmission(RecyclerView.ViewHolder submissionViewHolder) {
         final View replyArea = submissionViewHolder.itemView.findViewById(R.id.innerSend);
         if (replyArea.getVisibility() == View.GONE) {
@@ -798,7 +793,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void setViews(String rawHTML, String subredditName,
-            final SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+                         final SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -828,8 +823,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void setViews(String rawHTML, String subredditName,
-            final SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow,
-            View.OnClickListener click, View.OnLongClickListener onLongClickListener) {
+                         final SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow,
+                         View.OnClickListener click, View.OnLongClickListener onLongClickListener) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -864,12 +859,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void setViews(String rawHTML, String subredditName, CommentViewHolder holder,
-            View.OnClickListener click, View.OnLongClickListener longClickListener) {
+                          View.OnClickListener click, View.OnLongClickListener longClickListener) {
         setViews(rawHTML, subredditName, holder.firstTextView, holder.commentOverflow, click,
                 longClickListener);
     }
-
-    int editingPosition;
 
     private ValueAnimator slideAnimator(int start, int end, final View v) {
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
@@ -990,8 +983,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mAnimator.start();
     }
 
-    ValueAnimator mAnimator;
-
     private void expand(final View l) {
         l.setVisibility(View.VISIBLE);
 
@@ -1095,10 +1086,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mAnimator.start();
     }
 
-    CommentNode currentBaseNode;
-
     public void setCommentStateHighlighted(final CommentViewHolder holder, final Comment n,
-            final CommentNode baseNode, boolean isReplying, boolean animate) {
+                                           final CommentNode baseNode, boolean isReplying, boolean animate) {
         if (currentlySelected != null && currentlySelected != holder) {
             setCommentStateUnhighlighted(currentlySelected, currentBaseNode, true);
         }
@@ -1359,13 +1348,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     replyLine.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count,
-                                int after) {
+                                                      int after) {
 
                         }
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before,
-                                int count) {
+                                                  int count) {
                             backedText = s.toString();
                         }
 
@@ -1489,13 +1478,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         replyLine.addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence s, int start, int count,
-                                    int after) {
+                                                          int after) {
 
                             }
 
                             @Override
                             public void onTextChanged(CharSequence s, int start, int before,
-                                    int count) {
+                                                      int count) {
                                 backedText = s.toString();
                             }
 
@@ -1639,7 +1628,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doHighlighted(final CommentViewHolder holder, final Comment n,
-            final CommentNode baseNode, boolean animate) {
+                              final CommentNode baseNode, boolean animate) {
         if (mAnimator != null && mAnimator.isRunning()) {
             holder.itemView.postDelayed(new Runnable() {
                 @Override
@@ -1651,8 +1640,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             setCommentStateHighlighted(holder, n, baseNode, false, animate);
         }
     }
-
-    public EditText currentlyEditing;
 
     public void resetMenu(LinearLayout v, boolean collapsed) {
         v.removeAllViews();
@@ -1668,7 +1655,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void setCommentStateUnhighlighted(final CommentViewHolder holder,
-            final CommentNode baseNode, boolean animate) {
+                                             final CommentNode baseNode, boolean animate) {
         if (animate) {
             collapseAndRemove(holder.menuArea);
         } else {
@@ -1707,7 +1694,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void setCommentStateUnhighlighted(final CommentViewHolder holder, final Comment comment,
-            final CommentNode baseNode, boolean animate) {
+                                             final CommentNode baseNode, boolean animate) {
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
@@ -1779,7 +1766,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doLongClick(final CommentViewHolder holder, final Comment comment,
-            final CommentNode baseNode) {
+                            final CommentNode baseNode) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty()) {
             new AlertDialogWrapper.Builder(mContext).setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
@@ -1836,7 +1823,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doOnClick(final CommentViewHolder holder, final CommentNode baseNode,
-            final Comment comment) {
+                          final Comment comment) {
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
@@ -2162,15 +2149,70 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return count;
     }
 
+    public void editComment(CommentNode n, CommentViewHolder holder) {
+        if (n == null) {
+            dataSet.loadMoreReply(this);
+        } else {
+            int position = getRealPosition(holder.getAdapterPosition() - 1);
+            final int holderpos = holder.getAdapterPosition();
+            currentComments.remove(position - 1);
+            currentComments.add(position - 1, new CommentItem(n));
+            listView.setItemAnimator(new SlideRightAlphaAnimator());
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemChanged(holderpos);
+                }
+            });
+        }
+    }
+
+    private RedditClient getAuthenticatedClient(String profileName) {
+        String token;
+        RedditClient reddit = new RedditClient(
+                UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
+        final HashMap<String, String> accounts = new HashMap<>();
+
+        for (String s : Authentication.authentication.getStringSet("accounts",
+                new HashSet<String>())) {
+            if (s.contains(":")) {
+                accounts.put(s.split(":")[0], s.split(":")[1]);
+            } else {
+                accounts.put(s, "");
+            }
+        }
+        final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+        if (accounts.containsKey(profileName) && !accounts.get(profileName).isEmpty()) {
+            token = accounts.get(profileName);
+        } else {
+            ArrayList<String> tokens = new ArrayList<>(
+                    Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+            int index = keys.indexOf(profileName);
+            if (keys.indexOf(profileName) > tokens.size()) {
+                index -= 1;
+            }
+            token = tokens.get(index);
+        }
+        Authentication.doVerify(token, reddit, true, mContext);
+        return reddit;
+    }
+
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     public class AsyncLoadMore extends AsyncTask<MoreChildItem, Void, Integer> {
         public MoreCommentViewHolder holder;
-        public int                   holderPos;
-        public int                   position;
-        public int                   dataPos;
-        public String                fullname;
+        public int holderPos;
+        public int position;
+        public int dataPos;
+        public String fullname;
+        ArrayList<CommentObject> finalData;
 
         public AsyncLoadMore(int position, int holderPos, MoreCommentViewHolder holder, int dataPos,
-                String fullname) {
+                             String fullname) {
             this.holderPos = holderPos;
             this.holder = holder;
             this.position = position;
@@ -2219,8 +2261,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.loading.setVisibility(View.GONE);
             }
         }
-
-        ArrayList<CommentObject> finalData;
 
         @Override
         protected Integer doInBackground(MoreChildItem... params) {
@@ -2285,7 +2325,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                                   new DialogInterface.OnClickListener() {
                                                                       @Override
                                                                       public void onClick(DialogInterface dialog,
-                                                                              int which) {
+                                                                                          int which) {
 
                                                                       }
                                                                   })
@@ -2312,7 +2352,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
 
                                                         }
                                                     })
@@ -2320,7 +2360,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             Reddit.authentication.updateToken(
                                                                     (mContext));
                                                         }
@@ -2346,7 +2386,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
 
                                                         }
 
@@ -2366,9 +2406,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class AsyncForceLoadChild extends AsyncTask<String, Void, Integer> {
-        CommentNode node;
         public int holderPos;
         public int position;
+        CommentNode node;
 
 
         public AsyncForceLoadChild(int position, int holderPos, CommentNode baseNode) {
@@ -2442,34 +2482,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void editComment(CommentNode n, CommentViewHolder holder) {
-        if (n == null) {
-            dataSet.loadMoreReply(this);
-        } else {
-            int position = getRealPosition(holder.getAdapterPosition() - 1);
-            final int holderpos = holder.getAdapterPosition();
-            currentComments.remove(position - 1);
-            currentComments.add(position - 1, new CommentItem(n));
-            listView.setItemAnimator(new SlideRightAlphaAnimator());
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    notifyItemChanged(holderpos);
-                }
-            });
-        }
-    }
-
-
     public class ReplyTaskComment extends AsyncTask<String, Void, String> {
         public Contribution sub;
-        CommentNode       node;
+        CommentNode node;
         CommentViewHolder holder;
-        boolean           isSubmission;
-        String            profileName;
+        boolean isSubmission;
+        String profileName;
+        String why;
+        String commentBack;
 
         public ReplyTaskComment(Contribution n, CommentNode node, CommentViewHolder holder,
-                String profileName) {
+                                String profileName) {
             sub = n;
             this.holder = holder;
             this.node = node;
@@ -2521,9 +2544,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
 
-        String why;
-        String commentBack;
-
         @Override
         protected String doInBackground(String... comment) {
             if (Authentication.me != null) {
@@ -2546,35 +2566,5 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return null;
             }
         }
-    }
-
-    private RedditClient getAuthenticatedClient(String profileName) {
-        String token;
-        RedditClient reddit = new RedditClient(
-                UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
-        final HashMap<String, String> accounts = new HashMap<>();
-
-        for (String s : Authentication.authentication.getStringSet("accounts",
-                new HashSet<String>())) {
-            if (s.contains(":")) {
-                accounts.put(s.split(":")[0], s.split(":")[1]);
-            } else {
-                accounts.put(s, "");
-            }
-        }
-        final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
-        if (accounts.containsKey(profileName) && !accounts.get(profileName).isEmpty()) {
-            token = accounts.get(profileName);
-        } else {
-            ArrayList<String> tokens = new ArrayList<>(
-                    Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-            int index = keys.indexOf(profileName);
-            if (keys.indexOf(profileName) > tokens.size()) {
-                index -= 1;
-            }
-            token = tokens.get(index);
-        }
-        Authentication.doVerify(token, reddit, true, mContext);
-        return reddit;
     }
 }

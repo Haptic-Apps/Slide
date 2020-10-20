@@ -43,13 +43,22 @@ import me.ccrama.redditslide.util.LogUtil;
  * Submission object, and then displays the submission with its comments.
  */
 public class CommentsScreenSingle extends BaseActivityAnim {
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_CONTEXT = "context";
+    public static final String EXTRA_CONTEXT_NUMBER = "contextNumber";
+    public static final String EXTRA_SUBMISSION = "submission";
+    public static final String EXTRA_NP = "np";
+    public static final String EXTRA_LOADMORE = "loadmore";
     OverviewPagerAdapter comments;
-    boolean              np;
+    boolean np;
+    boolean locked;
+    boolean archived;
+    boolean contest;
     private ViewPager pager;
-    private String    subreddit;
-    private String    name;
-    private String    context;
-    private int       contextNumber;
+    private String subreddit;
+    private String name;
+    private String context;
+    private int contextNumber;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -59,13 +68,6 @@ public class CommentsScreenSingle extends BaseActivityAnim {
             comments.notifyDataSetChanged();
         }
     }
-
-    public static final String EXTRA_SUBREDDIT  = "subreddit";
-    public static final String EXTRA_CONTEXT    = "context";
-    public static final String EXTRA_CONTEXT_NUMBER    = "contextNumber";
-    public static final String EXTRA_SUBMISSION = "submission";
-    public static final String EXTRA_NP         = "np";
-    public static final String EXTRA_LOADMORE   = "loadmore";
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -152,7 +154,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                                 Authentication.isLoggedIn = true;
                                 Reddit.notFirst = true;
                             }
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             new Authentication(getApplicationContext());
                         }
                     }
@@ -182,7 +184,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset,
-                    int positionOffsetPixels) {
+                                       int positionOffsetPixels) {
                 if (position == 0 && positionOffsetPixels == 0) {
                     finish();
                 }
@@ -204,10 +206,6 @@ public class CommentsScreenSingle extends BaseActivityAnim {
             }
         });
     }
-
-    boolean locked;
-    boolean archived;
-    boolean contest;
 
     private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
 
@@ -233,7 +231,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 locked = s.isLocked();
                 archived = s.isArchived();
                 contest = s.getDataNode().get("contest_mode").asBoolean();
-                if(s.getSubredditName() == null){
+                if (s.getSubredditName() == null) {
                     subreddit = "Promoted";
                 } else {
                     subreddit = s.getSubredditName();
@@ -252,7 +250,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     finish();
                                                 }
                                             })
@@ -277,8 +275,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
-        private Fragment      mCurrentFragment;
-        public  BlankFragment blankPage;
+        public BlankFragment blankPage;
+        private Fragment mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

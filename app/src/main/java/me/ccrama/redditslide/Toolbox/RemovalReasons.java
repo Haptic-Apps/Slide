@@ -9,13 +9,18 @@ import java.net.URLDecoder;
 import java.util.List;
 
 public class RemovalReasons {
-    @SerializedName("pmsubject") private String pmSubject;
+    @SerializedName("pmsubject")
+    private String pmSubject;
     private String header;
     private String footer;
-    @SerializedName("logsub") private String logSub;
-    @SerializedName("logtitle") private String logTitle;
-    @SerializedName("logreason") private String logReason;
-    @SerializedName("bantitle") private String banTitle; // Is this even used by Toolbox? For mod button bans maybe (not a removal reason thing...)?
+    @SerializedName("logsub")
+    private String logSub;
+    @SerializedName("logtitle")
+    private String logTitle;
+    @SerializedName("logreason")
+    private String logReason;
+    @SerializedName("bantitle")
+    private String banTitle; // Is this even used by Toolbox? For mod button bans maybe (not a removal reason thing...)?
 
     private List<RemovalReason> reasons;
 

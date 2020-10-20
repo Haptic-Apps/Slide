@@ -6,11 +6,16 @@ import com.google.gson.annotations.SerializedName;
  * Defines a Usernote so GSON can deserialize it
  */
 public class Usernote {
-    @SerializedName("n") private String noteText;
-    @SerializedName("l") private String link;
-    @SerializedName("t") private long time;
-    @SerializedName("m") private int mod;
-    @SerializedName("w") private int warning;
+    @SerializedName("n")
+    private String noteText;
+    @SerializedName("l")
+    private String link;
+    @SerializedName("t")
+    private long time;
+    @SerializedName("m")
+    private int mod;
+    @SerializedName("w")
+    private int warning;
 
     public Usernote() { // for GSON
     }
@@ -57,12 +62,14 @@ public class Usernote {
 
     /**
      * Identify what type of link a usernote points to, if any
+     *
      * @return Type of link
      */
     public UsernoteLinkType getLinkType() {
         if (link.isEmpty()) {
             return null;
-        } if (link.startsWith("m,")) {
+        }
+        if (link.startsWith("m,")) {
             return UsernoteLinkType.MODMAIL;
         } else if (link.startsWith("l,") && link.split(",").length == 3) {
             return UsernoteLinkType.COMMENT;
@@ -75,6 +82,7 @@ public class Usernote {
 
     /**
      * Gets the Usernote's link as a URL
+     *
      * @return String of usernote's URL.
      */
     public String getLinkAsURL(String subreddit) {

@@ -128,19 +128,23 @@ import me.ccrama.redditslide.util.SubmissionParser;
  */
 public class PopulateSubmissionViewHolder {
 
+    public String reason;
+    boolean[] chosen = new boolean[]{false, false, false};
+    boolean[] oldChosen = new boolean[]{false, false, false};
+
     public PopulateSubmissionViewHolder() {
     }
 
     public static int getStyleAttribColorValue(final Context context, final int attribResId,
-            final int defaultValue) {
+                                               final int defaultValue) {
         final TypedValue tv = new TypedValue();
         final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
         return found ? tv.data : defaultValue;
     }
 
     private static void addClickFunctions(final View base, final ContentType.Type type,
-            final Activity contextActivity, final Submission submission,
-            final SubmissionViewHolder holder, final boolean full) {
+                                          final Activity contextActivity, final Submission submission,
+                                          final SubmissionViewHolder holder, final boolean full) {
         base.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -343,7 +347,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openImage(ContentType.Type type, Activity contextActivity,
-            Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
+                                 Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
@@ -391,7 +395,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void addAdaptorPosition(Intent myIntent, Submission submission,
-            int adapterPosition) {
+                                          int adapterPosition) {
         if (submission.getComments() == null && adapterPosition != -1) {
             myIntent.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
             myIntent.putExtra(MediaView.SUBMISSION_URL, submission.getPermalink());
@@ -402,7 +406,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openGif(Activity contextActivity, Submission submission,
-            int adapterPosition) {
+                               int adapterPosition) {
         if (SettingValues.gif) {
             DataShare.sharedSubmission = submission;
 
@@ -425,14 +429,14 @@ public class PopulateSubmissionViewHolder {
                             .get("dash_url") //In the future, we could load the HLS url as well
                             .asText()).replace("&amp;", "&"));
                 } else if (submission.getDataNode().has("media") && submission.getDataNode()
+                        .get("media")
+                        .has("reddit_video")) {
+                    myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
+                            .getDataNode()
                             .get("media")
-                            .has("reddit_video")) {
-                        myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
-                                .getDataNode()
-                                .get("media")
-                                .get("reddit_video")
-                                .get("fallback_url")
-                                .asText()).replace("&amp;", "&"));
+                            .get("reddit_video")
+                            .get("fallback_url")
+                            .asText()).replace("&amp;", "&"));
                 } else if (submission.getDataNode().has("crosspost_parent_list")) {
                     myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
                             .getDataNode()
@@ -528,18 +532,13 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    public String reason;
-
-    boolean[] chosen    = new boolean[]{false, false, false};
-    boolean[] oldChosen = new boolean[]{false, false, false};
-
     public static int getWhiteTintColor() {
         return Palette.ThemeEnum.DARK.getTint();
     }
 
     public <T extends Contribution> void showBottomSheet(final Activity mContext,
-            final Submission submission, final SubmissionViewHolder holder, final List<T> posts,
-            final String baseSub, final RecyclerView recyclerview, final boolean full) {
+                                                         final Submission submission, final SubmissionViewHolder holder, final List<T> posts,
+                                                         final String baseSub, final RecyclerView recyclerview, final boolean full) {
 
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
@@ -670,7 +669,7 @@ public class PopulateSubmissionViewHolder {
                                             submission.getDomain())
                             };
 
-                            chosen = new boolean[] {
+                            chosen = new boolean[]{
                                     SettingValues.subredditFilters.contains(
                                             submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
                                     SettingValues.userFilters.contains(
@@ -694,11 +693,11 @@ public class PopulateSubmissionViewHolder {
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
                         }
-                        chosen = new boolean[] {
+                        chosen = new boolean[]{
                                 SettingValues.subredditFilters.contains(
                                         submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
                                 SettingValues.userFilters.contains(
-                                submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                        submission.getAuthor().toLowerCase(Locale.ENGLISH)),
                                 SettingValues.domainFilters.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
                                 SettingValues.alwaysExternal.contains(
@@ -713,7 +712,7 @@ public class PopulateSubmissionViewHolder {
                                         new DialogInterface.OnMultiChoiceClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which,
-                                                    boolean isChecked) {
+                                                                boolean isChecked) {
                                                 chosen[which] = isChecked;
                                             }
                                         })
@@ -998,7 +997,7 @@ public class PopulateSubmissionViewHolder {
                         reportDialog.show();
                         break;
                     case 8:
-                        if(SettingValues.shareLongLink){
+                        if (SettingValues.shareLongLink) {
                             Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
                         } else {
                             Reddit.defaultShareText(submission.getTitle(), "https://redd.it/" + submission.getId(), mContext);
@@ -1091,7 +1090,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void saveSubmission(final Submission submission, final Activity mContext,
-            final SubmissionViewHolder holder, final boolean full) {
+                                final SubmissionViewHolder holder, final boolean full) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -1157,7 +1156,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void categorizeSaved(final Submission submission, View itemView,
-            final Context mContext) {
+                                 final Context mContext) {
         new AsyncTask<Void, Void, List<String>>() {
 
             Dialog d;
@@ -1194,7 +1193,7 @@ public class PopulateSubmissionViewHolder {
                             .itemsCallback(new MaterialDialog.ListCallback() {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, final View itemView,
-                                        int which, CharSequence text) {
+                                                        int which, CharSequence text) {
                                     final String t = data.get(which);
                                     if (which == data.size() - 1) {
                                         new MaterialDialog.Builder(mContext).title(
@@ -1336,7 +1335,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T extends Contribution> void hideSubmission(final Submission submission,
-            final List<T> posts, final String baseSub, final RecyclerView recyclerview, Context c) {
+                                                        final List<T> posts, final String baseSub, final RecyclerView recyclerview, Context c) {
         final int pos = posts.indexOf(submission);
         if (pos != -1) {
             if (submission.isHidden()) {
@@ -1394,9 +1393,9 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T extends Contribution> void showModBottomSheet(final Activity mContext,
-            final Submission submission, final List<T> posts, final SubmissionViewHolder holder,
-            final RecyclerView recyclerview, final Map<String, Integer> reports,
-            final Map<String, String> reports2) {
+                                                            final Submission submission, final List<T> posts, final SubmissionViewHolder holder,
+                                                            final RecyclerView recyclerview, final Map<String, Integer> reports,
+                                                            final Map<String, String> reports2) {
 
         final Resources res = mContext.getResources();
         int[] attrs = new int[]{R.attr.tintColor};
@@ -1548,7 +1547,7 @@ public class PopulateSubmissionViewHolder {
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
-                                                            int which) {
+                                                                        int which) {
 
                                                     }
                                                 })
@@ -1679,8 +1678,8 @@ public class PopulateSubmissionViewHolder {
     }
 
     private <T extends Contribution> void doRemoveSubmissionReason(final Activity mContext,
-            final Submission submission, final List<T> posts, final RecyclerView recyclerview,
-            final SubmissionViewHolder holder) {
+                                                                   final Submission submission, final List<T> posts, final RecyclerView recyclerview,
+                                                                   final SubmissionViewHolder holder) {
         reason = "";
         new MaterialDialog.Builder(mContext).title(R.string.mod_remove_title)
                 .positiveText(R.string.btn_remove)
@@ -1698,7 +1697,7 @@ public class PopulateSubmissionViewHolder {
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog,
-                            @NonNull DialogAction which) {
+                                        @NonNull DialogAction which) {
 
                     }
                 })
@@ -1717,8 +1716,8 @@ public class PopulateSubmissionViewHolder {
     }
 
     private <T extends Contribution> void removeSubmissionReason(final Submission submission,
-            final Activity mContext, final List<T> posts, final String reason,
-            final SubmissionViewHolder holder, final RecyclerView recyclerview) {
+                                                                 final Activity mContext, final List<T> posts, final String reason,
+                                                                 final SubmissionViewHolder holder, final RecyclerView recyclerview) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1776,8 +1775,8 @@ public class PopulateSubmissionViewHolder {
     }
 
     private <T extends Contribution> void removeSubmission(final Activity mContext,
-            final Submission submission, final List<T> posts, final RecyclerView recyclerview,
-            final SubmissionViewHolder holder, final boolean spam) {
+                                                           final Submission submission, final List<T> posts, final RecyclerView recyclerview,
+                                                           final SubmissionViewHolder holder, final boolean spam) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1834,7 +1833,7 @@ public class PopulateSubmissionViewHolder {
 
 
     private void doSetFlair(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                            final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, ArrayList<String>>() {
             ArrayList<FlairTemplate> flair;
 
@@ -1875,14 +1874,14 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void showFlairSelectionDialog(final Activity mContext, final Submission submission,
-            ArrayList<String> data, final ArrayList<FlairTemplate> flair,
-            final SubmissionViewHolder holder) {
+                                          ArrayList<String> data, final ArrayList<FlairTemplate> flair,
+                                          final SubmissionViewHolder holder) {
         new MaterialDialog.Builder(mContext).items(data)
                 .title(R.string.sidebar_select_flair)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int which,
-                            CharSequence text) {
+                                            CharSequence text) {
                         final FlairTemplate t = flair.get(which);
                         if (t.isTextEditable()) {
                             showFlairEditDialog(mContext, submission, t, holder);
@@ -1895,7 +1894,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void showFlairEditDialog(final Activity mContext, final Submission submission,
-            final FlairTemplate t, final SubmissionViewHolder holder) {
+                                     final FlairTemplate t, final SubmissionViewHolder holder) {
         new MaterialDialog.Builder(mContext).title(R.string.sidebar_select_flair_text)
                 .input(mContext.getString(R.string.mod_flair_hint), t.getText(), true,
                         new MaterialDialog.InputCallback() {
@@ -1917,7 +1916,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void setFlair(final Context mContext, final String flair, final Submission submission,
-            final FlairTemplate t, final SubmissionViewHolder holder) {
+                          final FlairTemplate t, final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
@@ -1961,7 +1960,7 @@ public class PopulateSubmissionViewHolder {
 
 
     public void doText(SubmissionViewHolder holder, Submission submission, Context mContext,
-            String baseSub, boolean full) {
+                       String baseSub, boolean full) {
         SpannableStringBuilder t = SubmissionCache.getTitleLine(submission, mContext);
         SpannableStringBuilder l = SubmissionCache.getInfoLine(submission, mContext, baseSub);
         SpannableStringBuilder c = SubmissionCache.getCrosspostLine(submission, mContext);
@@ -1985,7 +1984,7 @@ public class PopulateSubmissionViewHolder {
             s.append("\n");
             s.append(t);
         }
-        if(!full && c != null){
+        if (!full && c != null) {
             c.setSpan(new AbsoluteSizeSpan(textSizeI), 0, c.length(), 0);
             s.append("\n");
             s.append(c);
@@ -1997,7 +1996,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void stickySubmission(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                                  final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2033,7 +2032,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void unStickySubmission(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                                    final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2069,7 +2068,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void lockSubmission(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                                final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2104,7 +2103,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void unLockSubmission(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                                  final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2139,7 +2138,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void distinguishSubmission(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                                       final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2175,7 +2174,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void unDistinguishSubmission(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                                         final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2211,7 +2210,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void setPostNsfw(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                             final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2247,7 +2246,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void unNsfwSubmission(final Context mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                                  final SubmissionViewHolder holder) {
         //todo update view with NSFW tag
         new AsyncTask<Void, Void, Boolean>() {
 
@@ -2284,7 +2283,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void setSpoiler(final Activity mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                            final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2320,7 +2319,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private void unSpoiler(final Context mContext, final Submission submission,
-            final SubmissionViewHolder holder) {
+                           final SubmissionViewHolder holder) {
         //todo update view with NSFW tag
         new AsyncTask<Void, Void, Boolean>() {
 
@@ -2357,8 +2356,8 @@ public class PopulateSubmissionViewHolder {
     }
 
     private <T extends Thing> void approveSubmission(final Context mContext, final List<T> posts,
-            final Submission submission, final RecyclerView recyclerview,
-            final SubmissionViewHolder holder) {
+                                                     final Submission submission, final RecyclerView recyclerview,
+                                                     final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -2416,7 +2415,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public void showBan(final Context mContext, final View mToolbar, final Submission submission,
-            String rs, String nt, String msg, String t) {
+                        String rs, String nt, String msg, String t) {
         LinearLayout l = new LinearLayout(mContext);
         l.setOrientation(LinearLayout.VERTICAL);
         int sixteen = Reddit.dpToPxVertical(16);
@@ -2463,7 +2462,7 @@ public class PopulateSubmissionViewHolder {
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             showBan(mContext, mToolbar, submission,
                                                                     reason.getText().toString(),
                                                                     note.getText().toString(),
@@ -2475,6 +2474,8 @@ public class PopulateSubmissionViewHolder {
                                             .show();
                                 } else {
                                     new AsyncTask<Void, Void, Boolean>() {
+                                        boolean scope;
+
                                         @Override
                                         protected Boolean doInBackground(Void... params) {
                                             try {
@@ -2509,8 +2510,6 @@ public class PopulateSubmissionViewHolder {
                                                 return false;
                                             }
                                         }
-
-                                        boolean scope;
 
                                         @Override
                                         protected void onPostExecute(Boolean done) {
@@ -2557,9 +2556,7 @@ public class PopulateSubmissionViewHolder {
 
                                             }
 
-                                            if (s != null)
-
-                                            {
+                                            if (s != null) {
                                                 View view = s.getView();
                                                 TextView tv = view.findViewById(
                                                         com.google.android.material.R.id.snackbar_text);
@@ -2817,9 +2814,9 @@ public class PopulateSubmissionViewHolder {
                 && submission.getDataNode().get("crosspost_parent_list") != null
                 && submission.getDataNode().get("crosspost_parent_list").get(0) != null)) {
             holder.itemView.findViewById(R.id.crosspost).setVisibility(View.VISIBLE);
-            ((TextView)holder.itemView.findViewById(R.id.crossinfo)).setText(SubmissionCache.getCrosspostLine(submission, mContext));
+            ((TextView) holder.itemView.findViewById(R.id.crossinfo)).setText(SubmissionCache.getCrosspostLine(submission, mContext));
             ((Reddit) mContext.getApplicationContext()).getImageLoader()
-                    .displayImage(submission.getDataNode().get("crosspost_parent_list").get(0).get("thumbnail").asText(), ((ImageView)holder.itemView.findViewById(R.id.crossthumb)));
+                    .displayImage(submission.getDataNode().get("crosspost_parent_list").get(0).get("thumbnail").asText(), ((ImageView) holder.itemView.findViewById(R.id.crossthumb)));
             holder.itemView.findViewById(R.id.crosspost).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -3111,7 +3108,7 @@ public class PopulateSubmissionViewHolder {
                             ta.recycle();
 
                             BottomSheet.Builder b = new BottomSheet.Builder(mContext).title(
-                                            HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                                    HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                             if (submission.isSelfPost()) {
                                 b.sheet(1, edit_drawable,
@@ -3139,9 +3136,7 @@ public class PopulateSubmissionViewHolder {
 
                             }
 
-                            b.listener(new DialogInterface.OnClickListener()
-
-                            {
+                            b.listener(new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     switch (which) {

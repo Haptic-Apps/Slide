@@ -37,16 +37,15 @@ import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 public class AlbumFull extends Fragment {
 
     boolean gallery = false;
+    boolean hidden;
+    View rootView;
     private View list;
     private int i = 0;
     private Submission s;
-    boolean hidden;
-    View    rootView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.submission_albumcard, container, false);
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
@@ -139,8 +138,8 @@ public class AlbumFull extends Fragment {
 
                     @Override
                     public void onPanelStateChanged(View panel,
-                            SlidingUpPanelLayout.PanelState previousState,
-                            SlidingUpPanelLayout.PanelState newState) {
+                                                    SlidingUpPanelLayout.PanelState previousState,
+                                                    SlidingUpPanelLayout.PanelState newState) {
                         if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                             rootView.findViewById(R.id.base)
                                     .setOnClickListener(new View.OnClickListener() {
@@ -166,6 +165,20 @@ public class AlbumFull extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        i = bundle.getInt("page", 0);
+        if (((Shadowbox) getActivity()).subredditPosts == null
+                || ((Shadowbox) getActivity()).subredditPosts.getPosts().size() < bundle.getInt(
+                "page", 0)) {
+            getActivity().finish();
+        } else {
+            s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
+        }
+    }
+
     public class LoadIntoRecycler extends AlbumUtils.GetAlbumWithCallback {
 
         String url;
@@ -184,20 +197,6 @@ public class AlbumFull extends Fragment {
             ((RecyclerView) list).setAdapter(adapter);
         }
 
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        i = bundle.getInt("page", 0);
-        if (((Shadowbox) getActivity()).subredditPosts == null
-                || ((Shadowbox) getActivity()).subredditPosts.getPosts().size() < bundle.getInt(
-                "page", 0)) {
-            getActivity().finish();
-        } else {
-            s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
-        }
     }
 
 

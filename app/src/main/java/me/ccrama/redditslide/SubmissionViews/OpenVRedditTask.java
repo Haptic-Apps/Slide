@@ -17,14 +17,14 @@ public class OpenVRedditTask extends AsyncTask<String, Void, Void> {
     private WeakReference<Activity> contextActivity;
     private String subreddit;
 
-    public OpenVRedditTask(Activity contextActivity, String subreddit){
+    public OpenVRedditTask(Activity contextActivity, String subreddit) {
         this.contextActivity = new WeakReference<>(contextActivity);
         this.subreddit = subreddit;
     }
 
     protected Void doInBackground(String... urls) {
         String url = urls[0];
-        if(url.endsWith("/")){
+        if (url.endsWith("/")) {
             url = url.substring(0, url.length() - 1);
         }
         String hash = url.substring(url.lastIndexOf("/"));
@@ -36,11 +36,11 @@ public class OpenVRedditTask extends AsyncTask<String, Void, Void> {
 
             LogUtil.v(secondURL);
 
-            OpenRedditLink.openUrl(contextActivity.get(),secondURL, true);
+            OpenRedditLink.openUrl(contextActivity.get(), secondURL, true);
 
         } catch (Exception e) {
             e.printStackTrace();
-            LinkUtil.openUrl(url,Palette.getColor(subreddit), contextActivity.get());
+            LinkUtil.openUrl(url, Palette.getColor(subreddit), contextActivity.get());
 
         }
         return null;

@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
 
+    public int verticalOffset;
+    public boolean reset = false;
     Toolbar tToolbar;
     View mAppBar;
     View extra;
     View opposite;
+    boolean scrollingUp;
 
     public ToolbarScrollHideHandler(Toolbar t, View appBar) {
         tToolbar = t;
@@ -29,14 +32,10 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         this.opposite = opposite;
     }
 
-    public int verticalOffset;
-
-    boolean scrollingUp;
-
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-            if(reset){
+            if (reset) {
                 verticalOffset = 0;
                 reset = false;
             }
@@ -67,10 +66,10 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
             }
         }
     }
-    public boolean reset = false;
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        if(verticalOffset == 0 && dy < 0){ //if scrolling begins halfway through an adapter, don't treat it like going negative and instead reset the start position to 0
+        if (verticalOffset == 0 && dy < 0) { //if scrolling begins halfway through an adapter, don't treat it like going negative and instead reset the start position to 0
             dy = 0;
         }
         verticalOffset += dy;
@@ -98,7 +97,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                     extra.setTranslationY(-toolbarYOffset);
             }
         }
-        if(opposite != null){
+        if (opposite != null) {
             toolbarYOffset = (int) (dy + opposite.getTranslationY());
             opposite.animate().cancel();
             if (scrollingUp) {
@@ -113,8 +112,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         }
     }
 
-    public void toolbarShow()
-    {
+    public void toolbarShow() {
         mAppBar.setTranslationY(0);
     }
 

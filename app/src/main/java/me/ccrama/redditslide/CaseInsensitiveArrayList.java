@@ -23,7 +23,7 @@ public class CaseInsensitiveArrayList extends ArrayList<String> {
 
     @Override
     public boolean contains(Object o) {
-        String parameter = (String)o;
+        String parameter = (String) o;
         for (String s : this) {
             if (parameter.equalsIgnoreCase(s)) return true;
         }

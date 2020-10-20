@@ -126,28 +126,38 @@ import me.ccrama.redditslide.util.SubmissionParser;
  */
 public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickListener {
 
-    boolean np;
     public boolean archived, locked, contest;
-    boolean loadMore;
-    private SwipeRefreshLayout              mSwipeRefreshLayout;
-    public  RecyclerView                    rv;
-    private int                             page;
-    private SubmissionComments              comments;
-    private boolean                         single;
-    public  CommentAdapter                  adapter;
-    private String                          fullname;
-    private String                          context;
-    private int                             contextNumber;
-    private ContextWrapper                  contextThemeWrapper;
-    private PreCachingLayoutManagerComments mLayoutManager;
-    public  String                          subreddit;
+    public RecyclerView rv;
+    public CommentAdapter adapter;
+    public String subreddit;
     public boolean loaded = false;
     public boolean overrideFab;
-    private boolean upvoted   = false;
+    public Toolbar toolbar;
+    public int headerHeight;
+    public int shownHeaders = 0;
+    public View fastScroll;
+    public FloatingActionButton fab;
+    public int diff;
+    public CommentSort commentSorting;
+    boolean np;
+    boolean loadMore;
+    ToolbarScrollHideHandler toolbarScroll;
+    View v;
+    CommentNavType currentSort = CommentNavType.PARENTS;
+    long sortTime = 0;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private int page;
+    private SubmissionComments comments;
+    private boolean single;
+    private String fullname;
+    private String context;
+    private int contextNumber;
+    private ContextWrapper contextThemeWrapper;
+    private PreCachingLayoutManagerComments mLayoutManager;
+    private boolean upvoted = false;
     private boolean downvoted = false;
     private boolean currentlySubbed;
     private boolean collapsed = SettingValues.collapseCommentsDefault;
-
 
     public void doResult(Intent data) {
         if (data.hasExtra("fullname")) {
@@ -183,11 +193,6 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         }
 
     }
-
-    ToolbarScrollHideHandler toolbarScroll;
-    public Toolbar toolbar;
-    public int     headerHeight;
-    public int shownHeaders = 0;
 
     public void doTopBar(Submission s) {
         archived = s.isArchived();
@@ -302,14 +307,9 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                 Constants.SINGLE_HEADER_VIEW_OFFSET + (Constants.PTR_OFFSET_BOTTOM + shownHeaders));
     }
 
-    View v;
-    public View                 fastScroll;
-    public FloatingActionButton fab;
-    public int                  diff;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
@@ -472,7 +472,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 if (o.comment.isTopLevel()) parentCount++;
                                 if (o.comment.getComment().getTimesGilded() > 0
                                         || o.comment.getComment().getTimesSilvered() > 0
-                                        || o.comment.getComment().getTimesPlatinized() > 0) awardCount++;
+                                        || o.comment.getComment().getTimesPlatinized() > 0)
+                                    awardCount++;
                                 if (o.comment.getComment().getAuthor() != null
                                         && o.comment.getComment().getAuthor().equals(op)) {
                                     opCount++;
@@ -1068,7 +1069,630 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         new AsyncGetSubreddit().execute(subreddit);
     }
 
+    private void addClickFunctionSubName(Toolbar toolbar) {
+        TextView titleTv = null;
+        for (int i = 0; i < toolbar.getChildCount(); i++) {
+            View view = toolbar.getChildAt(i);
+            CharSequence text = null;
+            if (view instanceof TextView && (text = ((TextView) view).getText()) != null) {
+                titleTv = (TextView) view;
+            }
+        }
+        if (titleTv != null) {
+            final String text = titleTv.getText().toString();
+            titleTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), SubredditView.class);
+                    i.putExtra(SubredditView.EXTRA_SUBREDDIT, text);
+                    startActivity(i);
+                }
+            });
+        }
+    }
+
+    public void doAdapter(boolean load) {
+        commentSorting = SettingValues.getCommentSorting(subreddit);
+        if (load) doRefresh(true);
+        if (load) loaded = true;
+        if (!single
+                && getActivity() instanceof CommentsScreen
+                && ((CommentsScreen) getActivity()).subredditPosts != null
+                && Authentication.didOnline && ((CommentsScreen) getActivity()).currentPosts != null && ((CommentsScreen) getActivity()).currentPosts.size() > page) {
+            try {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            } catch (IndexOutOfBoundsException e) {
+                return;
+            }
+            Submission s = ((CommentsScreen) getActivity()).currentPosts.get(page);
+            if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode()
+                    .get("suggested_sort")
+                    .asText()
+                    .equalsIgnoreCase("null")) {
+                String sorting = s.getDataNode().get("suggested_sort").asText().toUpperCase();
+                sorting = sorting.replace("İ", "I");
+                commentSorting = CommentSort.valueOf(sorting);
+            } else if (s != null) {
+                commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
+            }
+            if (load) comments.setSorting(commentSorting);
+            if (adapter == null) {
+                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                rv.setAdapter(adapter);
+            }
+        } else if (getActivity() instanceof MainActivity) {
+            if (Authentication.didOnline) {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                Submission s = ((MainActivity) getActivity()).openingComments;
+                if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode()
+                        .get("suggested_sort")
+                        .asText()
+                        .equalsIgnoreCase("null")) {
+                    String sorting = s.getDataNode().get("suggested_sort").asText().toUpperCase();
+                    sorting = sorting.replace("İ", "I");
+                    commentSorting = CommentSort.valueOf(sorting);
+                } else if (s != null) {
+                    commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
+                }
+                if (load) comments.setSorting(commentSorting);
+                if (adapter == null) {
+                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    rv.setAdapter(adapter);
+                }
+            } else {
+                Submission s = ((MainActivity) getActivity()).openingComments;
+                doRefresh(false);
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
+                if (adapter == null) {
+                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    rv.setAdapter(adapter);
+                }
+            }
+        } else {
+            Submission s = null;
+            try {
+                s = OfflineSubreddit.getSubmissionFromStorage(
+                        fullname.contains("_") ? fullname : "t3_" + fullname, getContext(),
+                        !NetworkUtil.isConnected(getActivity()), new ObjectMapper().reader());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (s != null && s.getComments() != null) {
+                doRefresh(false);
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
+                if (adapter == null) {
+
+                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    rv.setAdapter(adapter);
+                }
+            } else if (context.isEmpty()) {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                comments.setSorting(commentSorting);
+                if (adapter == null) {
+
+                    if (s != null) {
+                        adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    }
+                    rv.setAdapter(adapter);
+                }
+            } else {
+                if (context.equals(Reddit.EMPTY_STRING)) {
+                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                } else {
+                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context,
+                            contextNumber);
+                }
+                if (load) comments.setSorting(commentSorting);
+            }
+        }
+    }
+
+    public void doData(Boolean b) {
+        if (adapter == null || single) {
+            adapter = new CommentAdapter(this, comments, rv, comments.submission,
+                    getFragmentManager());
+
+            rv.setAdapter(adapter);
+            adapter.currentSelectedItem = context;
+
+            if (context.isEmpty()) {
+                if (SettingValues.collapseCommentsDefault) {
+                    adapter.collapseAll();
+                }
+            }
+
+            adapter.reset(getContext(), comments, rv, comments.submission, b);
+        } else if (!b) {
+            try {
+                adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity)
+                        ? ((MainActivity) getActivity()).openingComments : comments.submission, b);
+                if (SettingValues.collapseCommentsDefault) {
+                    adapter.collapseAll();
+                }
+            } catch (Exception ignored) {
+            }
+
+        } else {
+            adapter.reset(getContext(), comments, rv, comments.submission, b);
+            if (SettingValues.collapseCommentsDefault) {
+                adapter.collapseAll();
+            }
+            adapter.notifyItemChanged(1);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        subreddit = bundle.getString("subreddit", "");
+        fullname = bundle.getString("id", "");
+        page = bundle.getInt("page", 0);
+        single = bundle.getBoolean("single", false);
+        context = bundle.getString("context", "");
+        contextNumber = bundle.getInt("contextNumber", 5);
+        np = bundle.getBoolean("np", false);
+        archived = bundle.getBoolean("archived", false);
+        locked = bundle.getBoolean("locked", false);
+        contest = bundle.getBoolean("contest", false);
+
+        loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
+        if (!single) loadMore = false;
+        int subredditStyle = new ColorPreferences(getActivity()).getThemeSubreddit(subreddit);
+        contextThemeWrapper = new ContextThemeWrapper(getActivity(), subredditStyle);
+        mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (comments != null) comments.cancelLoad();
+        if (adapter != null && adapter.currentComments != null) {
+            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText()
+                    .toString()
+                    .isEmpty()) {
+                Drafts.addDraft(adapter.currentlyEditing.getText().toString());
+                Toast.makeText(getActivity().getApplicationContext(), R.string.msg_save_draft,
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public int getCurrentSort() {
+        switch (currentSort) {
+            case PARENTS:
+                return 0;
+            case CHILDREN:
+                return 1;
+            case TIME:
+            case OP:
+                return 3;
+            case GILDED:
+                return 6;
+            case YOU:
+                return 5;
+            case LINK:
+                return 4;
+        }
+        return 0;
+    }
+
+    public void resetScroll(boolean override) {
+        if (toolbarScroll == null) {
+            toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header),
+                    v.findViewById(R.id.progress),
+                    SettingValues.commentAutoHide ? v.findViewById(R.id.commentnav) : null) {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (SettingValues.fabComments) {
+                        if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING
+                                && !overrideFab) {
+                            diff += dy;
+                        } else if (!overrideFab) {
+                            diff = 0;
+                        }
+                        if (fab != null && !overrideFab) {
+                            if (dy <= 0 && fab.getId() != 0) {
+                                if (recyclerView.getScrollState()
+                                        != RecyclerView.SCROLL_STATE_DRAGGING
+                                        || diff < -fab.getHeight() * 2) {
+                                    fab.show();
+                                }
+                            } else {
+                                fab.hide();
+                            }
+                        }
+                    }
+                }
+            };
+            rv.addOnScrollListener(toolbarScroll);
+        } else {
+            toolbarScroll.reset = true;
+        }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //This is the filter
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return true;
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            goDown();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            goUp();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            return onMenuItemClick(toolbar.getMenu().findItem(R.id.search));
+        }
+        return false;
+    }
+
+    private void reloadSubs() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        comments.setSorting(commentSorting);
+        rv.scrollToPosition(0);
+    }
+
+    private void openPopup(View view) {
+        if (comments.comments != null && !comments.comments.isEmpty()) {
+            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (i) {
+                        case 0:
+                            commentSorting = CommentSort.CONFIDENCE;
+                            break;
+                        case 1:
+                            commentSorting = CommentSort.TOP;
+                            break;
+                        case 2:
+                            commentSorting = CommentSort.NEW;
+                            break;
+                        case 3:
+                            commentSorting = CommentSort.CONTROVERSIAL;
+                            break;
+                        case 4:
+                            commentSorting = CommentSort.OLD;
+                            break;
+                        case 5:
+                            commentSorting = CommentSort.QA;
+                            break;
+                    }
+                }
+            };
+
+            final int i = commentSorting == CommentSort.CONFIDENCE ? 0
+                    : commentSorting == CommentSort.TOP ? 1 : commentSorting == CommentSort.NEW ? 2
+                    : commentSorting == CommentSort.CONTROVERSIAL ? 3
+                    : commentSorting == CommentSort.OLD ? 4
+                    : commentSorting == CommentSort.QA ? 5 : 0;
+
+            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+            builder.setTitle(R.string.sorting_choose);
+            Resources res = getActivity().getBaseContext().getResources();
+            builder.setSingleChoiceItems(new String[]{
+                    res.getString(R.string.sorting_best), res.getString(R.string.sorting_top),
+                    res.getString(R.string.sorting_new),
+                    res.getString(R.string.sorting_controversial),
+                    res.getString(R.string.sorting_old), res.getString(R.string.sorting_ama)
+            }, i, l2);
+            builder.alwaysCallSingleChoiceCallback();
+            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    reloadSubs();
+                }
+            })
+                    .setNeutralButton(getString(R.string.sorting_defaultfor, subreddit),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SettingValues.setDefaultCommentSorting(commentSorting,
+                                            subreddit);
+                                    reloadSubs();
+                                }
+                            });
+            builder.show();
+        }
+
+    }
+
+    public void doGoUp(int old) {
+        int depth = -1;
+        if (adapter.currentlySelected != null) {
+            depth = adapter.currentNode.getDepth();
+        }
+        int pos = (old < 2) ? 0 : old - 1;
+
+        for (int i = pos - 1; i >= 0; i--) {
+            try {
+                CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));
+                if (o instanceof CommentItem && pos - 1 != i) {
+                    boolean matches = false;
+                    switch (currentSort) {
+
+                        case PARENTS:
+                            matches = o.comment.isTopLevel();
+                            break;
+                        case CHILDREN:
+                            if (depth == -1) {
+                                matches = o.comment.isTopLevel();
+                            } else {
+                                matches = o.comment.getDepth() == depth;
+                                if (matches) {
+                                    adapter.currentNode = o.comment;
+                                    adapter.currentSelectedItem =
+                                            o.comment.getComment().getFullName();
+                                }
+                            }
+                            break;
+                        case TIME:
+                            matches = (o.comment.getComment() != null
+                                    && o.comment.getComment().getCreated().getTime() > sortTime);
+
+                            break;
+                        case GILDED:
+                            matches = (o.comment.getComment().getTimesGilded() > 0
+                                    || o.comment.getComment().getTimesSilvered() > 0
+                                    || o.comment.getComment().getTimesPlatinized() > 0);
+                            break;
+                        case OP:
+                            matches = adapter.submission != null && o.comment.getComment()
+                                    .getAuthor()
+                                    .equals(adapter.submission.getAuthor());
+                            break;
+                        case YOU:
+                            matches = adapter.submission != null && o.comment.getComment()
+                                    .getAuthor()
+                                    .equals(Authentication.name);
+                            break;
+                        case LINK:
+                            matches = o.comment.getComment()
+                                    .getDataNode()
+                                    .get("body_html")
+                                    .asText()
+                                    .contains("&lt;/a");
+                            break;
+                    }
+                    if (matches) {
+                        if (i + 2 == old) {
+                            doGoUp(old - 1);
+                        } else {
+                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(
+                                    i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0
+                                            : (v.findViewById(R.id.header)).getHeight());
+                        }
+                        break;
+                    }
+                }
+            } catch (Exception ignored) {
+
+            }
+        }
+    }
+
+    private void goUp() {
+        int toGoto = mLayoutManager.findFirstVisibleItemPosition();
+        if (adapter != null
+                && adapter.currentComments != null
+                && !adapter.currentComments.isEmpty()) {
+            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText()
+                    .toString()
+                    .isEmpty()) {
+                final int finalToGoto = toGoto;
+                new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                        R.string.discard_comment_title)
+                        .setMessage(R.string.comment_discard_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapter.currentlyEditing = null;
+                                doGoUp(finalToGoto);
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, null)
+                        .show();
+
+            } else {
+                doGoUp(toGoto);
+            }
+        }
+    }
+
+    public void doGoDown(int old) {
+        int depth = -1;
+        if (adapter.currentlySelected != null) {
+            depth = adapter.currentNode.getDepth();
+        }
+        int pos = old - 2;
+        if (pos < 0) pos = 0;
+        String original = adapter.currentComments.get(adapter.getRealPosition(pos)).getName();
+        if (old < 2) {
+            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(
+                    2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0
+                            : (v.findViewById(R.id.header).getHeight()));
+        } else {
+            for (int i = pos + 1; i < adapter.currentComments.size(); i++) {
+                try {
+                    CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));
+                    if (o instanceof CommentItem) {
+                        boolean matches = false;
+                        switch (currentSort) {
+
+                            case PARENTS:
+                                matches = o.comment.isTopLevel();
+                                break;
+                            case CHILDREN:
+                                if (depth == -1) {
+                                    matches = o.comment.isTopLevel();
+                                } else {
+                                    matches = o.comment.getDepth() == depth;
+                                    if (matches) {
+                                        adapter.currentNode = o.comment;
+                                        adapter.currentSelectedItem =
+                                                o.comment.getComment().getFullName();
+                                    }
+                                }
+                                break;
+                            case TIME:
+                                matches = o.comment.getComment().getCreated().getTime() > sortTime;
+                                break;
+                            case GILDED:
+                                matches = (o.comment.getComment().getTimesGilded() > 0
+                                        || o.comment.getComment().getTimesSilvered() > 0
+                                        || o.comment.getComment().getTimesPlatinized() > 0);
+                                break;
+                            case OP:
+                                matches = adapter.submission != null && o.comment.getComment()
+                                        .getAuthor()
+                                        .equals(adapter.submission.getAuthor());
+                                break;
+                            case YOU:
+                                matches = adapter.submission != null && o.comment.getComment()
+                                        .getAuthor()
+                                        .equals(Authentication.name);
+                                break;
+                            case LINK:
+                                matches = o.comment.getComment()
+                                        .getDataNode()
+                                        .get("body_html")
+                                        .asText()
+                                        .contains("&lt;/a");
+                                break;
+                        }
+                        if (matches) {
+                            if (o.getName().equals(original)) {
+                                doGoDown(i + 2);
+                            } else {
+                                (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(
+                                        i + 2,
+                                        ((View) toolbar.getParent()).getTranslationY() != 0 ? 0
+                                                : (v.findViewById(R.id.header).getHeight()));
+                            }
+                            break;
+                        }
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        }
+    }
+
+    private void goDown() {
+        ((View) toolbar.getParent()).setTranslationY(-((View) toolbar.getParent()).getHeight());
+        int toGoto = mLayoutManager.findFirstVisibleItemPosition();
+        if (adapter != null
+                && adapter.currentComments != null
+                && !adapter.currentComments.isEmpty()) {
+            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText()
+                    .toString()
+                    .isEmpty()) {
+                final int finalToGoto = toGoto;
+                new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                        R.string.discard_comment_title)
+                        .setMessage(R.string.comment_discard_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapter.currentlyEditing = null;
+                                doGoDown(finalToGoto);
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, null)
+                        .show();
+
+            } else {
+                doGoDown(toGoto);
+            }
+        }
+    }
+
+    private void changeSubscription(Subreddit subreddit, boolean isChecked) {
+        UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH), getContext());
+
+        Snackbar s = Snackbar.make(toolbar, isChecked ? getString(R.string.misc_subscribed)
+                : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
+        View view = s.getView();
+        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        tv.setTextColor(Color.WHITE);
+        s.show();
+    }
+
+    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
+                          CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subreddit);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subreddit);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
+    }
+
+    private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
+        if (Authentication.didOnline) {
+            if (currentlySubbed) {
+                subscribe.setText(R.string.unsubscribe_caps);
+            } else {
+                subscribe.setText(R.string.subscribe_caps);
+            }
+        } else {
+            if (currentlySubbed) {
+                subscribe.setText(R.string.btn_remove_from_sublist);
+            } else {
+                subscribe.setText(R.string.btn_add_to_sublist);
+            }
+        }
+    }
+
+    /**
+     * This method will get the measured height of the text view taking into account if the text is multiline. This is done by
+     * drawing the text using TextPaint and measuring the height of the text in a text view with padding and alignment using StaticLayout.
+     * More details can be found in this thread: https://stackoverflow.com/questions/41779934/how-is-staticlayout-used-in-android/41779935#41779935
+     */
+    private int getTextViewMeasuredHeight(TextView tv) {
+        TextPaint textPaint = new TextPaint();
+        textPaint.setTypeface(tv.getTypeface());
+        textPaint.setTextSize(tv.getTextSize());
+        textPaint.setColor(tv.getCurrentTextColor());
+
+        //Since these text views takes the whole width of the screen, we get the width of the screen and subtract right and left padding to get the actual width of the text view
+        int deviceWidth = getResources().getDisplayMetrics().widthPixels - tv.getPaddingLeft() - tv.getPaddingRight();
+        Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
+
+        float spacingMultiplier = tv.getLineSpacingMultiplier();
+        float spacingAddition = tv.getLineSpacingExtra();
+
+        StaticLayout staticLayout = new StaticLayout(tv.getText(), textPaint, deviceWidth, alignment, spacingMultiplier, spacingAddition, false);
+
+        //Add top and bottom padding to the height and return the value
+        return staticLayout.getHeight() + tv.getPaddingTop() + tv.getPaddingBottom();
+    }
+
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+
+        Dialog d;
 
         @Override
         public void onPostExecute(final Subreddit baseSub) {
@@ -1149,7 +1773,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                       ImageFlairs.syncFlairs(getContext(), subreddit);
+                                        ImageFlairs.syncFlairs(getContext(), subreddit);
                                     }
                                 });
                         sidebar.findViewById(R.id.theme)
@@ -1708,8 +2332,6 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             }
         }
 
-        Dialog d;
-
         @Override
         protected void onPreExecute() {
             d = new MaterialDialog.Builder(getActivity()).title(R.string.subreddit_sidebar_progress)
@@ -1718,633 +2340,5 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                     .cancelable(false)
                     .show();
         }
-    }
-
-
-    public CommentSort commentSorting;
-
-    private void addClickFunctionSubName(Toolbar toolbar) {
-        TextView titleTv = null;
-        for (int i = 0; i < toolbar.getChildCount(); i++) {
-            View view = toolbar.getChildAt(i);
-            CharSequence text = null;
-            if (view instanceof TextView && (text = ((TextView) view).getText()) != null) {
-                titleTv = (TextView) view;
-            }
-        }
-        if (titleTv != null) {
-            final String text = titleTv.getText().toString();
-            titleTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), SubredditView.class);
-                    i.putExtra(SubredditView.EXTRA_SUBREDDIT, text);
-                    startActivity(i);
-                }
-            });
-        }
-    }
-
-    public void doAdapter(boolean load) {
-        commentSorting = SettingValues.getCommentSorting(subreddit);
-        if (load) doRefresh(true);
-        if (load) loaded = true;
-        if (!single
-                && getActivity() instanceof CommentsScreen
-                && ((CommentsScreen) getActivity()).subredditPosts != null
-                && Authentication.didOnline && ((CommentsScreen) getActivity()).currentPosts != null && ((CommentsScreen) getActivity()).currentPosts.size() > page) {
-            try {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-            } catch(IndexOutOfBoundsException e){
-                return;
-            }
-            Submission s = ((CommentsScreen) getActivity()).currentPosts.get(page);
-            if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode()
-                    .get("suggested_sort")
-                    .asText()
-                    .equalsIgnoreCase("null")) {
-                String sorting = s.getDataNode().get("suggested_sort").asText().toUpperCase();
-                sorting = sorting.replace("İ", "I");
-                commentSorting = CommentSort.valueOf(sorting);
-            } else if (s != null) {
-                commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
-            }
-            if (load) comments.setSorting(commentSorting);
-            if (adapter == null) {
-                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                rv.setAdapter(adapter);
-            }
-        } else if (getActivity() instanceof MainActivity) {
-            if (Authentication.didOnline) {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                Submission s = ((MainActivity) getActivity()).openingComments;
-                if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode()
-                        .get("suggested_sort")
-                        .asText()
-                        .equalsIgnoreCase("null")) {
-                    String sorting = s.getDataNode().get("suggested_sort").asText().toUpperCase();
-                    sorting = sorting.replace("İ", "I");
-                    commentSorting = CommentSort.valueOf(sorting);
-                } else if (s != null) {
-                    commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
-                }
-                if (load) comments.setSorting(commentSorting);
-                if (adapter == null) {
-                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                    rv.setAdapter(adapter);
-                }
-            } else {
-                Submission s = ((MainActivity) getActivity()).openingComments;
-                doRefresh(false);
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
-                if (adapter == null) {
-                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                    rv.setAdapter(adapter);
-                }
-            }
-        } else {
-            Submission s = null;
-            try {
-                s = OfflineSubreddit.getSubmissionFromStorage(
-                        fullname.contains("_") ? fullname : "t3_" + fullname, getContext(),
-                        !NetworkUtil.isConnected(getActivity()), new ObjectMapper().reader());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (s != null && s.getComments() != null) {
-                doRefresh(false);
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
-                if (adapter == null) {
-
-                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                    rv.setAdapter(adapter);
-                }
-            } else if (context.isEmpty()) {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                comments.setSorting(commentSorting);
-                if (adapter == null) {
-
-                    if (s != null) {
-                        adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                    }
-                    rv.setAdapter(adapter);
-                }
-            } else {
-                if (context.equals(Reddit.EMPTY_STRING)) {
-                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                } else {
-                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context,
-                            contextNumber);
-                }
-                if (load) comments.setSorting(commentSorting);
-            }
-        }
-    }
-
-    public void doData(Boolean b) {
-        if (adapter == null || single) {
-            adapter = new CommentAdapter(this, comments, rv, comments.submission,
-                    getFragmentManager());
-
-            rv.setAdapter(adapter);
-            adapter.currentSelectedItem = context;
-
-            if (context.isEmpty()) {
-                if (SettingValues.collapseCommentsDefault) {
-                    adapter.collapseAll();
-                }
-            }
-
-            adapter.reset(getContext(), comments, rv, comments.submission, b);
-        } else if (!b) {
-            try {
-                adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity)
-                        ? ((MainActivity) getActivity()).openingComments : comments.submission, b);
-                if (SettingValues.collapseCommentsDefault) {
-                    adapter.collapseAll();
-                }
-            } catch (Exception ignored) {
-            }
-
-        } else {
-            adapter.reset(getContext(), comments, rv, comments.submission, b);
-            if (SettingValues.collapseCommentsDefault) {
-                adapter.collapseAll();
-            }
-            adapter.notifyItemChanged(1);
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        subreddit = bundle.getString("subreddit", "");
-        fullname = bundle.getString("id", "");
-        page = bundle.getInt("page", 0);
-        single = bundle.getBoolean("single", false);
-        context = bundle.getString("context", "");
-        contextNumber = bundle.getInt("contextNumber", 5);
-        np = bundle.getBoolean("np", false);
-        archived = bundle.getBoolean("archived", false);
-        locked = bundle.getBoolean("locked", false);
-        contest = bundle.getBoolean("contest", false);
-
-        loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
-        if (!single) loadMore = false;
-        int subredditStyle = new ColorPreferences(getActivity()).getThemeSubreddit(subreddit);
-        contextThemeWrapper = new ContextThemeWrapper(getActivity(), subredditStyle);
-        mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (comments != null) comments.cancelLoad();
-        if (adapter != null && adapter.currentComments != null) {
-            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText()
-                    .toString()
-                    .isEmpty()) {
-                Drafts.addDraft(adapter.currentlyEditing.getText().toString());
-                Toast.makeText(getActivity().getApplicationContext(), R.string.msg_save_draft,
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public int getCurrentSort() {
-        switch (currentSort) {
-            case PARENTS:
-                return 0;
-            case CHILDREN:
-                return 1;
-            case TIME:
-            case OP:
-                return 3;
-            case GILDED:
-                return 6;
-            case YOU:
-                return 5;
-            case LINK:
-                return 4;
-        }
-        return 0;
-    }
-
-    public void resetScroll(boolean override) {
-        if (toolbarScroll == null) {
-            toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header),
-                    v.findViewById(R.id.progress),
-                    SettingValues.commentAutoHide ? v.findViewById(R.id.commentnav) : null) {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    if (SettingValues.fabComments) {
-                        if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING
-                                && !overrideFab) {
-                            diff += dy;
-                        } else if (!overrideFab) {
-                            diff = 0;
-                        }
-                        if (fab != null && !overrideFab) {
-                            if (dy <= 0 && fab.getId() != 0) {
-                                if (recyclerView.getScrollState()
-                                        != RecyclerView.SCROLL_STATE_DRAGGING
-                                        || diff < -fab.getHeight() * 2) {
-                                    fab.show();
-                                }
-                            } else {
-                                fab.hide();
-                            }
-                        }
-                    }
-                }
-            };
-            rv.addOnScrollListener(toolbarScroll);
-        } else {
-            toolbarScroll.reset = true;
-        }
-    }
-
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //This is the filter
-        if (event.getAction() != KeyEvent.ACTION_DOWN) return true;
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            goDown();
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            goUp();
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-            return onMenuItemClick(toolbar.getMenu().findItem(R.id.search));
-        }
-        return false;
-    }
-
-    private void reloadSubs() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        comments.setSorting(commentSorting);
-        rv.scrollToPosition(0);
-    }
-
-    private void openPopup(View view) {
-        if (comments.comments != null && !comments.comments.isEmpty()) {
-            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    switch (i) {
-                        case 0:
-                            commentSorting = CommentSort.CONFIDENCE;
-                            break;
-                        case 1:
-                            commentSorting = CommentSort.TOP;
-                            break;
-                        case 2:
-                            commentSorting = CommentSort.NEW;
-                            break;
-                        case 3:
-                            commentSorting = CommentSort.CONTROVERSIAL;
-                            break;
-                        case 4:
-                            commentSorting = CommentSort.OLD;
-                            break;
-                        case 5:
-                            commentSorting = CommentSort.QA;
-                            break;
-                    }
-                }
-            };
-
-            final int i = commentSorting == CommentSort.CONFIDENCE ? 0
-                    : commentSorting == CommentSort.TOP ? 1 : commentSorting == CommentSort.NEW ? 2
-                            : commentSorting == CommentSort.CONTROVERSIAL ? 3
-                                    : commentSorting == CommentSort.OLD ? 4
-                                            : commentSorting == CommentSort.QA ? 5 : 0;
-
-            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-            builder.setTitle(R.string.sorting_choose);
-            Resources res = getActivity().getBaseContext().getResources();
-            builder.setSingleChoiceItems(new String[]{
-                    res.getString(R.string.sorting_best), res.getString(R.string.sorting_top),
-                    res.getString(R.string.sorting_new),
-                    res.getString(R.string.sorting_controversial),
-                    res.getString(R.string.sorting_old), res.getString(R.string.sorting_ama)
-            }, i, l2);
-            builder.alwaysCallSingleChoiceCallback();
-            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    reloadSubs();
-                }
-            })
-                    .setNeutralButton(getString(R.string.sorting_defaultfor, subreddit),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    SettingValues.setDefaultCommentSorting(commentSorting,
-                                            subreddit);
-                                    reloadSubs();
-                                }
-                            });
-            builder.show();
-        }
-
-    }
-
-    public void doGoUp(int old) {
-        int depth = -1;
-        if (adapter.currentlySelected != null) {
-            depth = adapter.currentNode.getDepth();
-        }
-        int pos = (old < 2) ? 0 : old - 1;
-
-        for (int i = pos - 1; i >= 0; i--) {
-            try {
-                CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));
-                if (o instanceof CommentItem && pos - 1 != i) {
-                    boolean matches = false;
-                    switch (currentSort) {
-
-                        case PARENTS:
-                            matches = o.comment.isTopLevel();
-                            break;
-                        case CHILDREN:
-                            if (depth == -1) {
-                                matches = o.comment.isTopLevel();
-                            } else {
-                                matches = o.comment.getDepth() == depth;
-                                if (matches) {
-                                    adapter.currentNode = o.comment;
-                                    adapter.currentSelectedItem =
-                                            o.comment.getComment().getFullName();
-                                }
-                            }
-                            break;
-                        case TIME:
-                            matches = (o.comment.getComment() != null
-                                    && o.comment.getComment().getCreated().getTime() > sortTime);
-
-                            break;
-                        case GILDED:
-                            matches = (o.comment.getComment().getTimesGilded() > 0
-                                    || o.comment.getComment().getTimesSilvered() > 0
-                                    || o.comment.getComment().getTimesPlatinized() > 0);
-                            break;
-                        case OP:
-                            matches = adapter.submission != null && o.comment.getComment()
-                                    .getAuthor()
-                                    .equals(adapter.submission.getAuthor());
-                            break;
-                        case YOU:
-                            matches = adapter.submission != null && o.comment.getComment()
-                                    .getAuthor()
-                                    .equals(Authentication.name);
-                            break;
-                        case LINK:
-                            matches = o.comment.getComment()
-                                    .getDataNode()
-                                    .get("body_html")
-                                    .asText()
-                                    .contains("&lt;/a");
-                            break;
-                    }
-                    if (matches) {
-                        if (i + 2 == old) {
-                            doGoUp(old - 1);
-                        } else {
-                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(
-                                    i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0
-                                            : (v.findViewById(R.id.header)).getHeight());
-                        }
-                        break;
-                    }
-                }
-            } catch (Exception ignored) {
-
-            }
-        }
-    }
-
-    private void goUp() {
-        int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter != null
-                && adapter.currentComments != null
-                && !adapter.currentComments.isEmpty()) {
-            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText()
-                    .toString()
-                    .isEmpty()) {
-                final int finalToGoto = toGoto;
-                new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                        R.string.discard_comment_title)
-                        .setMessage(R.string.comment_discard_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                adapter.currentlyEditing = null;
-                                doGoUp(finalToGoto);
-                            }
-                        })
-                        .setNegativeButton(R.string.btn_no, null)
-                        .show();
-
-            } else {
-                doGoUp(toGoto);
-            }
-        }
-    }
-
-    public void doGoDown(int old) {
-        int depth = -1;
-        if (adapter.currentlySelected != null) {
-            depth = adapter.currentNode.getDepth();
-        }
-        int pos = old - 2;
-        if (pos < 0) pos = 0;
-        String original = adapter.currentComments.get(adapter.getRealPosition(pos)).getName();
-        if (old < 2) {
-            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(
-                    2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0
-                            : (v.findViewById(R.id.header).getHeight()));
-        } else {
-            for (int i = pos + 1; i < adapter.currentComments.size(); i++) {
-                try {
-                    CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));
-                    if (o instanceof CommentItem) {
-                        boolean matches = false;
-                        switch (currentSort) {
-
-                            case PARENTS:
-                                matches = o.comment.isTopLevel();
-                                break;
-                            case CHILDREN:
-                                if (depth == -1) {
-                                    matches = o.comment.isTopLevel();
-                                } else {
-                                    matches = o.comment.getDepth() == depth;
-                                    if (matches) {
-                                        adapter.currentNode = o.comment;
-                                        adapter.currentSelectedItem =
-                                                o.comment.getComment().getFullName();
-                                    }
-                                }
-                                break;
-                            case TIME:
-                                matches = o.comment.getComment().getCreated().getTime() > sortTime;
-                                break;
-                            case GILDED:
-                                matches = (o.comment.getComment().getTimesGilded() > 0
-                                        || o.comment.getComment().getTimesSilvered() > 0
-                                        || o.comment.getComment().getTimesPlatinized() > 0);
-                                break;
-                            case OP:
-                                matches = adapter.submission != null && o.comment.getComment()
-                                        .getAuthor()
-                                        .equals(adapter.submission.getAuthor());
-                                break;
-                            case YOU:
-                                matches = adapter.submission != null && o.comment.getComment()
-                                        .getAuthor()
-                                        .equals(Authentication.name);
-                                break;
-                            case LINK:
-                                matches = o.comment.getComment()
-                                        .getDataNode()
-                                        .get("body_html")
-                                        .asText()
-                                        .contains("&lt;/a");
-                                break;
-                        }
-                        if (matches) {
-                            if (o.getName().equals(original)) {
-                                doGoDown(i + 2);
-                            } else {
-                                (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(
-                                        i + 2,
-                                        ((View) toolbar.getParent()).getTranslationY() != 0 ? 0
-                                                : (v.findViewById(R.id.header).getHeight()));
-                            }
-                            break;
-                        }
-                    }
-                } catch (Exception ignored) {
-
-                }
-            }
-        }
-    }
-
-    private void goDown() {
-        ((View) toolbar.getParent()).setTranslationY(-((View) toolbar.getParent()).getHeight());
-        int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter != null
-                && adapter.currentComments != null
-                && !adapter.currentComments.isEmpty()) {
-            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText()
-                    .toString()
-                    .isEmpty()) {
-                final int finalToGoto = toGoto;
-                new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                        R.string.discard_comment_title)
-                        .setMessage(R.string.comment_discard_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                adapter.currentlyEditing = null;
-                                doGoDown(finalToGoto);
-                            }
-                        })
-                        .setNegativeButton(R.string.btn_no, null)
-                        .show();
-
-            } else {
-                doGoDown(toGoto);
-            }
-        }
-    }
-
-    private void changeSubscription(Subreddit subreddit, boolean isChecked) {
-        UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH), getContext());
-
-        Snackbar s = Snackbar.make(toolbar, isChecked ? getString(R.string.misc_subscribed)
-                : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
-        View view = s.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(Color.WHITE);
-        s.show();
-    }
-
-    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
-            CommentOverflow commentOverflow) {
-        if (rawHTML.isEmpty()) {
-            return;
-        }
-
-        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
-
-        int startIndex = 0;
-        // the <div class="md"> case is when the body contains a table or code block first
-        if (!blocks.get(0).equals("<div class=\"md\">")) {
-            firstTextView.setVisibility(View.VISIBLE);
-            firstTextView.setTextHtml(blocks.get(0), subreddit);
-            startIndex = 1;
-        } else {
-            firstTextView.setText("");
-            firstTextView.setVisibility(View.GONE);
-        }
-
-        if (blocks.size() > 1) {
-            if (startIndex == 0) {
-                commentOverflow.setViews(blocks, subreddit);
-            } else {
-                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
-            }
-        } else {
-            commentOverflow.removeAllViews();
-        }
-    }
-
-    private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
-        if (Authentication.didOnline) {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.unsubscribe_caps);
-            } else {
-                subscribe.setText(R.string.subscribe_caps);
-            }
-        } else {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.btn_remove_from_sublist);
-            } else {
-                subscribe.setText(R.string.btn_add_to_sublist);
-            }
-        }
-    }
-
-    CommentNavType currentSort = CommentNavType.PARENTS;
-    long           sortTime    = 0;
-
-
-    /**
-     * This method will get the measured height of the text view taking into account if the text is multiline. This is done by
-     * drawing the text using TextPaint and measuring the height of the text in a text view with padding and alignment using StaticLayout.
-     * More details can be found in this thread: https://stackoverflow.com/questions/41779934/how-is-staticlayout-used-in-android/41779935#41779935
-     * */
-    private int getTextViewMeasuredHeight(TextView tv){
-        TextPaint textPaint = new TextPaint();
-        textPaint.setTypeface(tv.getTypeface());
-        textPaint.setTextSize(tv.getTextSize());
-        textPaint.setColor(tv.getCurrentTextColor());
-
-        //Since these text views takes the whole width of the screen, we get the width of the screen and subtract right and left padding to get the actual width of the text view
-        int deviceWidth = getResources().getDisplayMetrics().widthPixels - tv.getPaddingLeft() - tv.getPaddingRight();
-        Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
-
-        float spacingMultiplier = tv.getLineSpacingMultiplier();
-        float spacingAddition = tv.getLineSpacingExtra();
-
-        StaticLayout staticLayout = new StaticLayout(tv.getText(),textPaint,deviceWidth,alignment,spacingMultiplier,spacingAddition,false);
-
-        //Add top and bottom padding to the height and return the value
-        return staticLayout.getHeight() + tv.getPaddingTop() + tv.getPaddingBottom();
     }
 }

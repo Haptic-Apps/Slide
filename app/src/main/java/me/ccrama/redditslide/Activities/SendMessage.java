@@ -36,12 +36,13 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 3/5/2015.
  */
 public class SendMessage extends BaseActivity {
-    public static final String EXTRA_NAME  = "name";
+    public static final String EXTRA_NAME = "name";
     public static final String EXTRA_REPLY = "reply";
-    public static final String EXTRA_MESSAGE  = "message";
-    public static final String EXTRA_SUBJECT  = "subject";
+    public static final String EXTRA_MESSAGE = "message";
+    public static final String EXTRA_SUBJECT = "subject";
 
     public String URL;
+    String author;
     private Boolean reply;
     private PrivateMessage previousMessage;
     private EditText subject;
@@ -50,11 +51,8 @@ public class SendMessage extends BaseActivity {
     private String subjecttext;
     private String totext;
     private EditText body;
-
     private String messageSentStatus; //the String to show in the Toast for when the message is sent
     private boolean messageSent = true; //whether or not the message was sent successfully
-
-    String author;
 
     public void onCreate(Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -78,16 +76,16 @@ public class SendMessage extends BaseActivity {
             public void onClick(View v) {
                 ArrayList<String> items = new ArrayList<>();
                 items.add("/u/" + Authentication.name);
-                if(UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty())
-                for(String s : UserSubscriptions.modOf){
-                    items.add("/r/" + s);
-                }
+                if (UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty())
+                    for (String s : UserSubscriptions.modOf) {
+                        items.add("/r/" + s);
+                    }
                 new MaterialDialog.Builder(SendMessage.this).title("Send message as")
                         .items(items)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int which,
-                                    CharSequence text) {
+                                                    CharSequence text) {
                                 SendMessage.this.author = (String) text;
                                 sendingAs.setText("Sending as " + author);
                             }
@@ -106,8 +104,8 @@ public class SendMessage extends BaseActivity {
             if (reply) {
                 b.setTitle(getString(R.string.mail_reply_to, name));
                 previousMessage = DataShare.sharedMessage;
-                if(previousMessage.getSubject() != null)
-                subject.setText(getString(R.string.mail_re, previousMessage.getSubject()));
+                if (previousMessage.getSubject() != null)
+                    subject.setText(getString(R.string.mail_re, previousMessage.getSubject()));
                 subject.setInputType(InputType.TYPE_NULL);
 
                 //Disable if replying to another user, as they are already set
@@ -135,11 +133,11 @@ public class SendMessage extends BaseActivity {
             b.setTitle(R.string.mail_send);
         }
 
-        if(getIntent().hasExtra(EXTRA_MESSAGE)){
+        if (getIntent().hasExtra(EXTRA_MESSAGE)) {
             body.setText(getIntent().getStringExtra(EXTRA_MESSAGE));
         }
 
-        if(getIntent().hasExtra(EXTRA_SUBJECT)){
+        if (getIntent().hasExtra(EXTRA_SUBJECT)) {
             subject.setText(getIntent().getStringExtra(EXTRA_SUBJECT));
         }
 
@@ -151,7 +149,7 @@ public class SendMessage extends BaseActivity {
         setupUserAppBar(R.id.toolbar, null, true, name);
         setRecentBar(b.getTitle().toString(), Palette.getDefaultColor());
 
-        if(reply || UserSubscriptions.modOf == null || UserSubscriptions.modOf.isEmpty()){
+        if (reply || UserSubscriptions.modOf == null || UserSubscriptions.modOf.isEmpty()) {
             sendingAs.setVisibility(View.GONE);
         }
 
@@ -161,12 +159,12 @@ public class SendMessage extends BaseActivity {
                 bodytext = body.getText().toString();
                 totext = to.getText().toString();
                 subjecttext = subject.getText().toString();
-                ((FloatingActionButton)findViewById(R.id.send)).hide();
+                ((FloatingActionButton) findViewById(R.id.send)).hide();
 
                 new AsyncDo(null, null).execute();
             }
         });
-        DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.area), getSupportFragmentManager(), SendMessage.this, previousMessage==null?null:previousMessage.getBody(),  null);
+        DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.area), getSupportFragmentManager(), SendMessage.this, previousMessage == null ? null : previousMessage.getBody(), null);
     }
 
 
@@ -174,7 +172,7 @@ public class SendMessage extends BaseActivity {
         String tried;
         Captcha captcha;
 
-        public AsyncDo(Captcha captcha, String tried){
+        public AsyncDo(Captcha captcha, String tried) {
             this.captcha = captcha;
             this.tried = tried;
         }
@@ -199,7 +197,7 @@ public class SendMessage extends BaseActivity {
                         new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext, captcha, captchaAttempt);
                     else {
                         String to = author;
-                        if(to.startsWith("/r/")){
+                        if (to.startsWith("/r/")) {
                             to = to.substring(3);
                             new InboxManager(Authentication.reddit).compose(to, totext, subjecttext,
                                     bodytext);
@@ -232,7 +230,7 @@ public class SendMessage extends BaseActivity {
             //If the error wasn't that the user doesn't exist, show a generic failure message
             if (messageSentStatus == null) {
                 messageSentStatus = getString(R.string.msg_sent_failure);
-                ((FloatingActionButton)findViewById(R.id.send)).show();
+                ((FloatingActionButton) findViewById(R.id.send)).show();
             }
 
             final String MESSAGE_SENT = (messageSent)
@@ -244,7 +242,7 @@ public class SendMessage extends BaseActivity {
             if (messageSent) {
                 finish();
             } else {
-                ((FloatingActionButton)findViewById(R.id.send)).show();
+                ((FloatingActionButton) findViewById(R.id.send)).show();
                 messageSent = true;
             }
         }

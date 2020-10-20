@@ -33,11 +33,14 @@ public class NetworkUtil {
         assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         switch (activeNetwork != null ? activeNetwork.getType() : CONST_NO_NETWORK) {
-            case ConnectivityManager.TYPE_WIFI: case ConnectivityManager.TYPE_ETHERNET:
+            case ConnectivityManager.TYPE_WIFI:
+            case ConnectivityManager.TYPE_ETHERNET:
                 if (cm.isActiveNetworkMetered())
                     return Status.MOBILE; // respect metered wifi networks as mobile
                 return Status.WIFI;
-            case ConnectivityManager.TYPE_MOBILE: case ConnectivityManager.TYPE_BLUETOOTH: case ConnectivityManager.TYPE_WIMAX:
+            case ConnectivityManager.TYPE_MOBILE:
+            case ConnectivityManager.TYPE_BLUETOOTH:
+            case ConnectivityManager.TYPE_WIMAX:
                 return Status.MOBILE;
             default:
                 return Status.NONE;
@@ -54,9 +57,11 @@ public class NetworkUtil {
     public static boolean isConnected(Context context) {
         return !Reddit.appRestart.contains("forceoffline") && getConnectivityStatus(context) != Status.NONE;
     }
+
     public static boolean isConnectedNoOverride(Context context) {
         return getConnectivityStatus(context) != Status.NONE;
     }
+
     /**
      * Checks if the network is connected to WiFi.
      *
@@ -66,17 +71,24 @@ public class NetworkUtil {
     public static boolean isConnectedWifi(Context context) {
         return getConnectivityStatus(context) == Status.WIFI;
     }
+
     /**
      * A simplified list of connectivity statuses. See {@link ConnectivityManager}'s {@code TYPE_*} for a full list.
      *
      * @author Matthew Dean
      */
     public enum Status {
-        /** Operating on a wireless connection */
+        /**
+         * Operating on a wireless connection
+         */
         WIFI,
-        /** Operating on 3G, 4G, 4G LTE, etc. */
+        /**
+         * Operating on 3G, 4G, 4G LTE, etc.
+         */
         MOBILE,
-        /** No connection present */
+        /**
+         * No connection present
+         */
         NONE
     }
 }

@@ -38,10 +38,10 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public static final String EXTRA_MULTIREDDIT = "multireddit";
     public PostLoader subredditPosts;
     public String subreddit;
-    int firstPage;
-    private int count;
-
     public ViewPager pager;
+    int firstPage;
+    OverviewPagerAdapter submissionsPager;
+    private int count;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -60,7 +60,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
-        if(multireddit == null){
+        if (multireddit == null) {
             setShareUrl("https://reddit.com/r/" + subreddit);
         }
 
@@ -68,7 +68,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_slide);
 
-        long offline = getIntent().getLongExtra("offline",0L);
+        long offline = getIntent().getLongExtra("offline", 0L);
 
         OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
@@ -100,8 +100,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         });
 
     }
-
-    OverviewPagerAdapter submissionsPager;
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {

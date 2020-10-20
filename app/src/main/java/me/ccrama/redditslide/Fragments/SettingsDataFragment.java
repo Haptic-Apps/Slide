@@ -23,7 +23,7 @@ public class SettingsDataFragment {
         //Image mode multi choice
         ((TextView) context.findViewById(R.id.settings_datasaving_currentmode)).setText(SettingValues.noImages ? context.getString(R.string.never_load_images)
                 : (SettingValues.lqLow ? context.getString(R.string.load_low_quality)
-                        : (SettingValues.lqMid ? context.getString(R.string.load_medium_quality) : context.getString(R.string.load_high_quality))));
+                : (SettingValues.lqMid ? context.getString(R.string.load_medium_quality) : context.getString(R.string.load_high_quality))));
 
         context.findViewById(R.id.settings_datasaving_datasavequality).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,8 +115,8 @@ public class SettingsDataFragment {
                             ((TextView) context.findViewById(R.id.settings_datasaving_currentmode)).setText(
                                     SettingValues.noImages ? context.getString(R.string.never_load_images)
                                             : (SettingValues.lqLow ? context.getString(R.string.load_low_quality)
-                                                    : (SettingValues.lqMid ? context.getString(R.string.load_medium_quality)
-                                                            : context.getString(R.string.load_high_quality))));
+                                            : (SettingValues.lqMid ? context.getString(R.string.load_medium_quality)
+                                            : context.getString(R.string.load_high_quality))));
                             return true;
                         }
                     });
@@ -183,8 +183,8 @@ public class SettingsDataFragment {
                             ((TextView) context.findViewById(R.id.settings_datasaving_currentmode)).setText(
                                     SettingValues.noImages ? context.getString(R.string.never_load_images)
                                             : (SettingValues.lqLow ? context.getString(R.string.load_low_quality)
-                                                    : (SettingValues.lqMid ? context.getString(R.string.load_medium_quality)
-                                                            : context.getString(R.string.load_high_quality))));
+                                            : (SettingValues.lqMid ? context.getString(R.string.load_medium_quality)
+                                            : context.getString(R.string.load_high_quality))));
                             context.findViewById(R.id.settings_datasaving_videoquality).setEnabled(true);
                         }
                         return true;

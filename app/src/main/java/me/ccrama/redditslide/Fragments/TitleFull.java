@@ -21,13 +21,13 @@ import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
  */
 public class TitleFull extends Fragment {
 
+    public String sub;
     private int i = 0;
     private Submission s;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         ViewGroup rootView =
                 (ViewGroup) inflater.inflate(R.layout.submission_titlecard, container, false);
 
@@ -47,8 +47,6 @@ public class TitleFull extends Fragment {
         });
         return rootView;
     }
-
-    public String sub;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

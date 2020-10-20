@@ -103,7 +103,7 @@ public class DonateView extends BaseActivityAnim {
         slider.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
             @Override
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos,
-                    int oldValue, int newValue) {
+                                          int oldValue, int newValue) {
                 ads.setText(" " + newValue * 330 + " ");
                 hours.setText(" " + (double) newValue / 10 + " ");
                 money.setText("$" + newValue);
@@ -129,8 +129,8 @@ public class DonateView extends BaseActivityAnim {
                 Reddit.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
                     @Override
                     public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-                        if(inv != null) {
-                                    SkuDetails donation = inv.getSkuDetails("donation_" + slider.getValue());
+                        if (inv != null) {
+                            SkuDetails donation = inv.getSkuDetails("donation_" + slider.getValue());
                             LogUtil.v("Trying to get donation_" + slider.getValue());
                             if (donation != null) {
                                 LogUtil.v("Not null");
@@ -138,8 +138,8 @@ public class DonateView extends BaseActivityAnim {
                                         4000, new IabHelper.OnIabPurchaseFinishedListener() {
                                             @Override
                                             public void onIabPurchaseFinished(IabResult result,
-                                                    Purchase info) {
-                                                if(result.isSuccess()){
+                                                                              Purchase info) {
+                                                if (result.isSuccess()) {
                                                     new AlertDialogWrapper.Builder(DonateView.this).setTitle("Thank you!").setMessage("Thank you very much for your support :)").setPositiveButton(R.string.btn_done, null).show();
                                                 } else {
                                                     new AlertDialogWrapper.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();

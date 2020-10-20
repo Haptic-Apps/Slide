@@ -39,10 +39,9 @@ import me.ccrama.redditslide.util.SubmissionParser;
  */
 public class Crosspost extends BaseActivity {
 
-    public static Submission   toCrosspost;
-    private       SwitchCompat inboxReplies;
-
+    public static Submission toCrosspost;
     AsyncTask<Void, Void, Subreddit> tchange;
+    private SwitchCompat inboxReplies;
 
     public void onCreate(Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -160,7 +159,7 @@ public class Crosspost extends BaseActivity {
     }
 
     public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
-            CommentOverflow commentOverflow) {
+                         CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -189,6 +188,30 @@ public class Crosspost extends BaseActivity {
         }
     }
 
+    private void showErrorRetryDialog(String message) {
+        new AlertDialogWrapper.Builder(Crosspost.this).setTitle(R.string.err_title)
+                .setMessage(message)
+                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ((FloatingActionButton) findViewById(R.id.send)).show();
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        ((FloatingActionButton) findViewById(R.id.send)).show();
+                    }
+                })
+                .create()
+                .show();
+    }
 
     private class AsyncDo extends AsyncTask<Void, Void, Void> {
 
@@ -238,32 +261,6 @@ public class Crosspost extends BaseActivity {
         }
 
 
-    }
-
-
-    private void showErrorRetryDialog(String message) {
-        new AlertDialogWrapper.Builder(Crosspost.this).setTitle(R.string.err_title)
-                .setMessage(message)
-                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                })
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
-                .create()
-                .show();
     }
 
 }

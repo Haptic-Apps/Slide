@@ -15,16 +15,16 @@ public class ImageUtil {
         int width = Math.max(bm.getWidth(), src.getWidth());
         int height = Math.max(bm.getHeight(), src.getHeight());
 
-        int[] bmpixels = new int[width*height];
+        int[] bmpixels = new int[width * height];
         bm.getPixels(bmpixels, 0, bm.getWidth(), 0, 0, width, height);
 
-        int[] srcpixels = new int[width*height];
+        int[] srcpixels = new int[width * height];
         src.getPixels(srcpixels, 0, src.getWidth(), 0, 0, width, height);
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (bmpixels[x+width*y] == targetcolor) {
-                    bmpixels[x+width*y] = srcpixels[x+width*y];
+                if (bmpixels[x + width * y] == targetcolor) {
+                    bmpixels[x + width * y] = srcpixels[x + width * y];
                 }
             }
         }

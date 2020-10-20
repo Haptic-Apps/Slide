@@ -94,7 +94,7 @@ import me.ccrama.redditslide.util.LinkUtil;
  */
 public class CommentAdapterHelper {
     public static void showOverflowBottomSheet(final CommentAdapter adapter, final Context mContext,
-            final CommentViewHolder holder, final CommentNode baseNode) {
+                                               final CommentViewHolder holder, final CommentNode baseNode) {
 
         int[] attrs = new int[]{R.attr.tintColor};
         final Comment n = baseNode.getComment();
@@ -380,7 +380,7 @@ public class CommentAdapterHelper {
     }
 
     private static void viewCommentParent(CommentAdapter adapter, CommentViewHolder holder,
-            Context mContext, CommentNode baseNode) {
+                                          Context mContext, CommentNode baseNode) {
         int old = holder.getAdapterPosition();
         int pos = (old < 2) ? 0 : old - 1;
         for (int i = pos - 1; i >= 0; i--) {
@@ -404,7 +404,7 @@ public class CommentAdapterHelper {
     }
 
     private static void saveComment(final Comment comment, final Context mContext,
-            final CommentViewHolder holder) {
+                                    final CommentViewHolder holder) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -494,7 +494,7 @@ public class CommentAdapterHelper {
                             .itemsCallback(new MaterialDialog.ListCallback() {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, final View itemView,
-                                        int which, CharSequence text) {
+                                                        int which, CharSequence text) {
                                     final String t = data.get(which);
                                     if (which == data.size() - 1) {
                                         new MaterialDialog.Builder(mContext).title(
@@ -635,8 +635,8 @@ public class CommentAdapterHelper {
     }
 
     public static void showModBottomSheet(final CommentAdapter adapter, final Context mContext,
-            final CommentNode baseNode, final Comment comment, final CommentViewHolder holder,
-            final Map<String, Integer> reports, final Map<String, String> reports2) {
+                                          final CommentNode baseNode, final Comment comment, final CommentViewHolder holder,
+                                          final Map<String, Integer> reports, final Map<String, String> reports2) {
 
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
@@ -806,7 +806,7 @@ public class CommentAdapterHelper {
     }
 
     public static void showBan(final Context mContext, final View mToolbar,
-            final Comment submission, String rs, String nt, String msg, String t) {
+                               final Comment submission, String rs, String nt, String msg, String t) {
         LinearLayout l = new LinearLayout(mContext);
         l.setOrientation(LinearLayout.VERTICAL);
         int sixteen = Reddit.dpToPxVertical(16);
@@ -853,7 +853,7 @@ public class CommentAdapterHelper {
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             showBan(mContext, mToolbar, submission,
                                                                     reason.getText().toString(),
                                                                     note.getText().toString(),
@@ -865,6 +865,8 @@ public class CommentAdapterHelper {
                                             .show();
                                 } else {
                                     new AsyncTask<Void, Void, Boolean>() {
+                                        boolean scope;
+
                                         @Override
                                         protected Boolean doInBackground(Void... params) {
                                             try {
@@ -899,8 +901,6 @@ public class CommentAdapterHelper {
                                                 return false;
                                             }
                                         }
-
-                                        boolean scope;
 
                                         @Override
                                         protected void onPostExecute(Boolean done) {
@@ -947,9 +947,7 @@ public class CommentAdapterHelper {
 
                                             }
 
-                                            if (s != null)
-
-                                            {
+                                            if (s != null) {
                                                 View view = s.getView();
                                                 TextView tv = view.findViewById(
                                                         com.google.android.material.R.id.snackbar_text);
@@ -969,7 +967,7 @@ public class CommentAdapterHelper {
     }
 
     public static void distinguishComment(final Context mContext, final CommentViewHolder holder,
-            final Comment comment) {
+                                          final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1004,7 +1002,7 @@ public class CommentAdapterHelper {
     }
 
     public static void unDistinguishComment(final Context mContext, final CommentViewHolder holder,
-            final Comment comment) {
+                                            final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1039,7 +1037,7 @@ public class CommentAdapterHelper {
     }
 
     public static void stickyComment(final Context mContext, final CommentViewHolder holder,
-            final Comment comment) {
+                                     final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1073,7 +1071,7 @@ public class CommentAdapterHelper {
     }
 
     public static void viewReports(final Context mContext, final Map<String, Integer> reports,
-            final Map<String, String> reports2) {
+                                   final Map<String, String> reports2) {
         new AsyncTask<Void, Void, ArrayList<String>>() {
             @Override
             protected ArrayList<String> doInBackground(Void... params) {
@@ -1107,7 +1105,7 @@ public class CommentAdapterHelper {
     }
 
     public static void doApproval(final Context mContext, final CommentViewHolder holder,
-            final Comment comment, final CommentAdapter adapter) {
+                                  final Comment comment, final CommentAdapter adapter) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1143,7 +1141,7 @@ public class CommentAdapterHelper {
     }
 
     public static void unStickyComment(final Context mContext, final CommentViewHolder holder,
-            final Comment comment) {
+                                       final Comment comment) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1177,7 +1175,7 @@ public class CommentAdapterHelper {
     }
 
     public static void removeComment(final Context mContext, final CommentViewHolder holder,
-            final Comment comment, final CommentAdapter adapter, final boolean spam) {
+                                     final Comment comment, final CommentAdapter adapter, final boolean spam) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1218,13 +1216,14 @@ public class CommentAdapterHelper {
 
     /**
      * Show a removal dialog to input a reason, then remove comment and post reason
+     *
      * @param mContext context
-     * @param holder commentviewholder
-     * @param comment comment
-     * @param adapter commentadapter
+     * @param holder   commentviewholder
+     * @param comment  comment
+     * @param adapter  commentadapter
      */
     public static void doRemoveCommentReason(final Context mContext,
-            final CommentViewHolder holder, final Comment comment, final CommentAdapter adapter) {
+                                             final CommentViewHolder holder, final Comment comment, final CommentAdapter adapter) {
         new MaterialDialog.Builder(mContext).title(R.string.mod_remove_title)
                 .positiveText(R.string.btn_remove)
                 .alwaysCallInputCallback()
@@ -1240,7 +1239,7 @@ public class CommentAdapterHelper {
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog,
-                            @NonNull DialogAction which) {
+                                        @NonNull DialogAction which) {
 
                     }
                 })
@@ -1257,14 +1256,15 @@ public class CommentAdapterHelper {
 
     /**
      * Remove a comment and post a reason
-     * @param comment comment
+     *
+     * @param comment  comment
      * @param mContext context
-     * @param holder commentviewholder
-     * @param adapter commentadapter
-     * @param reason reason
+     * @param holder   commentviewholder
+     * @param adapter  commentadapter
+     * @param reason   reason
      */
     public static void removeCommentReason(final Comment comment, final Context mContext, CommentViewHolder holder,
-            final CommentAdapter adapter, final String reason) {
+                                           final CommentAdapter adapter, final String reason) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1305,7 +1305,7 @@ public class CommentAdapterHelper {
     }
 
     public static void lockUnlockComment(final Context mContext, final CommentViewHolder holder,
-            final Comment comment, final boolean lock) {
+                                         final Comment comment, final boolean lock) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1376,7 +1376,7 @@ public class CommentAdapterHelper {
     }
 
     public static Spannable getScoreString(Comment comment, Context mContext,
-            CommentViewHolder holder, Submission submission, CommentAdapter adapter) {
+                                           CommentViewHolder holder, Submission submission, CommentAdapter adapter) {
         final String spacer =
                 " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString =
@@ -1495,7 +1495,7 @@ public class CommentAdapterHelper {
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
+        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0 || comment.getTimesPlatinized() > 0) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);
@@ -1648,8 +1648,8 @@ public class CommentAdapterHelper {
     }
 
     public static void doCommentEdit(final CommentAdapter adapter, final Context mContext,
-            FragmentManager fm, final CommentNode baseNode, String replyText,
-            final CommentViewHolder holder) {
+                                     FragmentManager fm, final CommentNode baseNode, String replyText,
+                                     final CommentViewHolder holder) {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
@@ -1684,7 +1684,7 @@ public class CommentAdapterHelper {
     }
 
     public static void deleteComment(final CommentAdapter adapter, final Context mContext,
-            final CommentNode baseNode, final CommentViewHolder holder) {
+                                     final CommentNode baseNode, final CommentViewHolder holder) {
         new AlertDialogWrapper.Builder(mContext).setTitle(R.string.comment_delete)
                 .setMessage(R.string.comment_delete_msg)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -1701,148 +1701,6 @@ public class CommentAdapterHelper {
                     }
                 })
                 .show();
-    }
-
-    public static class AsyncEditTask extends AsyncTask<Void, Void, Void> {
-        CommentAdapter    adapter;
-        CommentNode       baseNode;
-        String            text;
-        Context           mContext;
-        Dialog            dialog;
-        CommentViewHolder holder;
-
-        public AsyncEditTask(CommentAdapter adapter, CommentNode baseNode, String text,
-                Context mContext, Dialog dialog, CommentViewHolder holder) {
-            this.adapter = adapter;
-            this.baseNode = baseNode;
-            this.text = text;
-            this.mContext = mContext;
-            this.dialog = dialog;
-            this.holder = holder;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(),
-                        text);
-                adapter.currentSelectedItem = baseNode.getComment().getFullName();
-                CommentNode n = baseNode.notifyCommentChanged(Authentication.reddit);
-                adapter.editComment(n, holder);
-                dialog.dismiss();
-            } catch (Exception e) {
-                e.printStackTrace();
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new AlertDialogWrapper.Builder(mContext).setTitle(
-                                R.string.comment_delete_err)
-                                .setMessage(R.string.comment_delete_err_msg)
-                                .setPositiveButton(R.string.btn_yes,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                new AsyncEditTask(adapter, baseNode, text, mContext,
-                                                        AsyncEditTask.this.dialog,
-                                                        holder).execute();
-                                            }
-                                        })
-                                .setNegativeButton(R.string.btn_no,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                .show();
-                    }
-                });
-            }
-            return null;
-        }
-    }
-
-    public static class AsyncDeleteTask extends AsyncTask<Void, Void, Boolean> {
-        CommentAdapter    adapter;
-        CommentNode       baseNode;
-        CommentViewHolder holder;
-        Context           mContext;
-
-        public AsyncDeleteTask(CommentAdapter adapter, CommentNode baseNode,
-                CommentViewHolder holder, Context mContext) {
-            this.adapter = adapter;
-            this.baseNode = baseNode;
-            this.holder = holder;
-            this.mContext = mContext;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            if (success) {
-                holder.firstTextView.setTextHtml(mContext.getString(R.string.content_deleted));
-                holder.content.setText(R.string.content_deleted);
-            } else {
-                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.comment_delete_err)
-                        .setMessage(R.string.comment_delete_err_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                doInBackground();
-                            }
-                        })
-                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            try {
-                new ModerationManager(Authentication.reddit).delete(baseNode.getComment());
-                adapter.deleted.add(baseNode.getComment().getFullName());
-                return true;
-            } catch (ApiException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-    }
-
-    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
-        private CommentNode baseNode;
-        private View        contextView;
-
-        public AsyncReportTask(CommentNode baseNode, View contextView) {
-            this.baseNode = baseNode;
-            this.contextView = contextView;
-        }
-
-        @Override
-        protected Void doInBackground(String... reason) {
-            try {
-                new AccountManager(Authentication.reddit).report(baseNode.getComment(), reason[0]);
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Snackbar s =
-                    Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-            View view = s.getView();
-            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            s.show();
-        }
     }
 
     public static void showChildrenObject(final View v) {
@@ -1907,6 +1765,148 @@ public class CommentAdapterHelper {
         });
 
         animator.start();
+    }
+
+    public static class AsyncEditTask extends AsyncTask<Void, Void, Void> {
+        CommentAdapter adapter;
+        CommentNode baseNode;
+        String text;
+        Context mContext;
+        Dialog dialog;
+        CommentViewHolder holder;
+
+        public AsyncEditTask(CommentAdapter adapter, CommentNode baseNode, String text,
+                             Context mContext, Dialog dialog, CommentViewHolder holder) {
+            this.adapter = adapter;
+            this.baseNode = baseNode;
+            this.text = text;
+            this.mContext = mContext;
+            this.dialog = dialog;
+            this.holder = holder;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(),
+                        text);
+                adapter.currentSelectedItem = baseNode.getComment().getFullName();
+                CommentNode n = baseNode.notifyCommentChanged(Authentication.reddit);
+                adapter.editComment(n, holder);
+                dialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(mContext).setTitle(
+                                R.string.comment_delete_err)
+                                .setMessage(R.string.comment_delete_err_msg)
+                                .setPositiveButton(R.string.btn_yes,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                new AsyncEditTask(adapter, baseNode, text, mContext,
+                                                        AsyncEditTask.this.dialog,
+                                                        holder).execute();
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_no,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                .show();
+                    }
+                });
+            }
+            return null;
+        }
+    }
+
+    public static class AsyncDeleteTask extends AsyncTask<Void, Void, Boolean> {
+        CommentAdapter adapter;
+        CommentNode baseNode;
+        CommentViewHolder holder;
+        Context mContext;
+
+        public AsyncDeleteTask(CommentAdapter adapter, CommentNode baseNode,
+                               CommentViewHolder holder, Context mContext) {
+            this.adapter = adapter;
+            this.baseNode = baseNode;
+            this.holder = holder;
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+                holder.firstTextView.setTextHtml(mContext.getString(R.string.content_deleted));
+                holder.content.setText(R.string.content_deleted);
+            } else {
+                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.comment_delete_err)
+                        .setMessage(R.string.comment_delete_err_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                doInBackground();
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                new ModerationManager(Authentication.reddit).delete(baseNode.getComment());
+                adapter.deleted.add(baseNode.getComment().getFullName());
+                return true;
+            } catch (ApiException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
+        private CommentNode baseNode;
+        private View contextView;
+
+        public AsyncReportTask(CommentNode baseNode, View contextView) {
+            this.baseNode = baseNode;
+            this.contextView = contextView;
+        }
+
+        @Override
+        protected Void doInBackground(String... reason) {
+            try {
+                new AccountManager(Authentication.reddit).report(baseNode.getComment(), reason[0]);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Snackbar s =
+                    Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+            View view = s.getView();
+            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            s.show();
+        }
     }
 
 }

@@ -17,11 +17,11 @@ import me.ccrama.redditslide.Authentication;
  * Created by ccrama on 9/17/2015.
  */
 public class ModLogPosts {
-    public  ArrayList<ModAction> posts;
-    public  boolean              loading;
-    private SwipeRefreshLayout   refreshLayout;
-    private ModLogAdapter        adapter;
-    private ModLogPaginator      paginator;
+    public ArrayList<ModAction> posts;
+    public boolean loading;
+    private SwipeRefreshLayout refreshLayout;
+    private ModLogAdapter adapter;
+    private ModLogPaginator paginator;
 
     public ModLogPosts(ArrayList<ModAction> firstData, ModLogPaginator paginator) {
         posts = firstData;
