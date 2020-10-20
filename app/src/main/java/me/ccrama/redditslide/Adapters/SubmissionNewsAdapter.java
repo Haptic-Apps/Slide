@@ -444,7 +444,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
                     submissions[0].saved = false;
-                    v = null;
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
                     final Snackbar s =
@@ -462,8 +461,8 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
                     submissions[0].saved = true;
-                    v = null;
                 }
+                v = null;
             } catch (Exception e) {
                 return null;
             }
