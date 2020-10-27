@@ -1495,7 +1495,7 @@ public class CommentAdapterHelper {
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
+        if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);

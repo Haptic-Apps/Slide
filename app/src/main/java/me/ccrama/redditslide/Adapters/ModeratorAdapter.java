@@ -478,7 +478,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
             ((TextView) holder.gild).setText("");
-            if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
+            if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
                 TypedArray a = mContext.obtainStyledAttributes(
                         new FontPreferences(mContext).getPostFontStyle().getResId(),
                         R.styleable.FontStyle);
