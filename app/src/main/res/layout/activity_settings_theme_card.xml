@@ -597,6 +597,48 @@
                             android:textColorHint="?attr/fontColor" />
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.25dp"
+                    android:alpha=".25"
+                    android:background="?attr/tintColor" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="?android:selectableItemBackground"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_marginEnd="64dp"
+                        android:layout_marginRight="64dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_hide_post_awards"
+                            android:textColor="?attr/fontColor"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/hidePostAwards"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="?attr/tintColor"
+                        android:button="@null"
+                        android:buttonTint="?attr/tintColor"
+                        android:hapticFeedbackEnabled="true"
+                        android:textColor="?attr/fontColor"
+                        android:textColorHint="?attr/fontColor" />
+                </RelativeLayout>
+
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"

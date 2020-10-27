@@ -418,8 +418,9 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
-        if (submission.getTimesSilvered() > 0 || submission.getTimesGilded() > 0
-                || submission.getTimesPlatinized() > 0) {
+
+        if (!SettingValues.hidePostAwards &&
+                (submission.getTimesSilvered() > 0 || submission.getTimesGilded() > 0 || submission.getTimesPlatinized() > 0)) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);
