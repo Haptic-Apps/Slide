@@ -65,7 +65,7 @@ public class ImageLoaderUtils {
 
         options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
+                .bitmapConfig(SettingValues.highColorspaceImages ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .cacheInMemory(false)
                 .resetViewBeforeLoading(false)

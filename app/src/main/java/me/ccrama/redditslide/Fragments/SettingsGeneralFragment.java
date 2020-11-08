@@ -44,6 +44,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate.FolderCallback;
+import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
@@ -216,6 +217,28 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                         SettingValues.immersiveMode = isChecked;
                         SettingValues.prefs.edit()
                                 .putBoolean(SettingValues.PREF_IMMERSIVE_MODE, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_high_colorspace);
+
+            if (single != null) {
+                single.setChecked(SettingValues.highColorspaceImages);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingsThemeFragment.changed = true;
+                        SettingValues.highColorspaceImages = isChecked;
+
+                        Reddit application = (Reddit) context.getApplication();
+                        ImageLoaderUtils.initImageLoader(application.getApplicationContext());
+                        application.defaultImageLoader = ImageLoaderUtils.imageLoader;
+
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_HIGH_COLORSPACE_IMAGES, isChecked)
                                 .apply();
                     }
                 });

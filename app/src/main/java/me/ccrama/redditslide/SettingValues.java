@@ -136,6 +136,7 @@ public class SettingValues {
     public static final String PREF_MOD_TOOLBOX_LOCK       = "toolboxLock";
     public static final String PREF_MOD_TOOLBOX_MODMAIL    = "toolboxModmail";
     public static final String PREF_ALWAYS_SHOW_FAB        = "alwaysShowFAB";
+    public static final String PREF_HIGH_COLORSPACE_IMAGES = "highMemoryImages";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting                 defaultSorting;
@@ -219,6 +220,7 @@ public class SettingValues {
     public static boolean loadImageLq;
     public static boolean ignoreSubSetting;
     public static boolean hideNSFWCollection;
+    public static boolean highColorspaceImages;
 
     public static boolean fastscroll;
     public static boolean fab     = true;
@@ -355,6 +357,7 @@ public class SettingValues {
         lqMid = prefs.getBoolean(PREF_LQ_MID, true);
         lqHigh = prefs.getBoolean(PREF_LQ_HIGH, false);
         lqVideos = prefs.getBoolean(PREF_LQ_VIDEOS, true);
+        highColorspaceImages = prefs.getBoolean(PREF_HIGH_COLORSPACE_IMAGES, false);
 
         noImages = prefs.getBoolean(PREF_NO_IMAGES, false);
 
