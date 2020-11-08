@@ -184,11 +184,12 @@ public class MediaFragment extends Fragment {
                     ((Reddit) getContext().getApplicationContext()).getImageLoader()
                             .displayImage(s.getThumbnail(),
                                     ((ImageView) rootView.findViewById(R.id.thumbimage2)));
+                    addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
+                            type, getActivity(), s);
                 }
             }
 
         } else {
-
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
             addClickFunctions(img, slideLayout, rootView, type, getActivity(), s);
         }
@@ -435,6 +436,7 @@ public class MediaFragment extends Fragment {
 
                                 Bundle urlsBundle = new Bundle();
                                 urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, urls);
+                                LogUtil.v("Opening gallery with " + urls.size());
                                 i.putExtras(urlsBundle);
 
                                 contextActivity.startActivity(i);
