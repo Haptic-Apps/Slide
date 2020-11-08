@@ -52,6 +52,7 @@ public class ForceTouchLink extends BaseActivityAnim {
             case REDDIT:
             case IMGUR:
             case ALBUM:
+            case REDDIT_GALLERY:
             case VIDEO:
                 break;
             case IMAGE:

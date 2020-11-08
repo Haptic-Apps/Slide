@@ -149,6 +149,7 @@ public class PostMatch {
                     contentMatch = true;
                 }
                 break;
+            case REDDIT_GALLERY:
             case ALBUM:
                 if (albums) {
                     contentMatch = true;

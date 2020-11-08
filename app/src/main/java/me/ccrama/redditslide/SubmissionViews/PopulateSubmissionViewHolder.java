@@ -86,6 +86,7 @@ import me.ccrama.redditslide.Activities.PostReadLater;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Reauthenticate;
 import me.ccrama.redditslide.Activities.RedditGallery;
+import me.ccrama.redditslide.Activities.RedditGalleryPager;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Tumblr;
@@ -208,7 +209,17 @@ public class PopulateSubmissionViewHolder {
                                     break;
                                 case REDDIT_GALLERY:
                                     if (SettingValues.album) {
-                                        Intent i = new Intent(contextActivity, RedditGallery.class);
+                                        Intent i;
+                                        if (SettingValues.albumSwipe) {
+                                            i = new Intent(contextActivity, RedditGalleryPager.class);
+                                            i.putExtra(AlbumPager.SUBREDDIT,
+                                                    submission.getSubredditName());
+                                        } else {
+                                            i = new Intent(contextActivity, RedditGallery.class);
+                                            i.putExtra(Album.SUBREDDIT,
+                                                    submission.getSubredditName());
+                                        }
+
                                         i.putExtra(RedditGallery.SUBREDDIT,
                                                 submission.getSubredditName());
 
