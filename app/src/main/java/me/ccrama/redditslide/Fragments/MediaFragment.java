@@ -149,8 +149,9 @@ public class MediaFragment extends Fragment {
         }
 
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
+        View thumbnailView =  (rootView.findViewById(R.id.thumbimage2));
 
-        (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
+        thumbnailView.setVisibility(View.GONE);
 
         ImageView typeImage = rootView.findViewById(R.id.type);
         typeImage.setVisibility(View.VISIBLE);
@@ -170,27 +171,27 @@ public class MediaFragment extends Fragment {
         if (Strings.isNullOrEmpty(s.getThumbnail())
                 || Strings.isNullOrEmpty(firstUrl)
                 || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
-            ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
-            addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
+            thumbnailView.setVisibility(View.VISIBLE);
+            ((ImageView) thumbnailView).setImageResource(R.drawable.web);
+            addClickFunctions(thumbnailView, slideLayout, rootView,
+                    type, getActivity(), s);
+            addClickFunctions(typeImage, slideLayout, rootView,
                     type, getActivity(), s);
             (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
 
             if ((s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
-                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
+                ((ImageView) thumbnailView).setImageResource(
                         R.drawable.nsfw);
             } else {
                 if (Strings.isNullOrEmpty(firstUrl) && !Strings.isNullOrEmpty(s.getThumbnail())) {
                     ((Reddit) getContext().getApplicationContext()).getImageLoader()
                             .displayImage(s.getThumbnail(),
-                                    ((ImageView) rootView.findViewById(R.id.thumbimage2)));
-                    addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
-                            type, getActivity(), s);
+                                    ((ImageView) thumbnailView));
                 }
             }
 
         } else {
-            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
+            thumbnailView.setVisibility(View.GONE);
             addClickFunctions(img, slideLayout, rootView, type, getActivity(), s);
         }
 
