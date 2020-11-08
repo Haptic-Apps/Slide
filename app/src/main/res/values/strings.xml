@@ -1329,4 +1329,6 @@
     <string name="back_button_behavior_goto_first">Go to first subreddit</string>
     <string name="settings_hide_post_awards">Hide awards</string>
     <string name="settings_hide_comment_awards">Hide awards</string>
+    <string name="high_colorspace_images">High-Colorspace Images</string>
+    <string name="description_high_colorspace">Loads full colorspace on images, potentially leading to higher memory usage</string>
 </resources>

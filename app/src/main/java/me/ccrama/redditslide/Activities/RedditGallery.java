@@ -65,14 +65,17 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         if (id == R.id.slider) {
             SettingValues.albumSwipe = true;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
-            Intent i = new Intent(RedditGallery.this, AlbumPager.class);
+            Intent i = new Intent(RedditGallery.this, RedditGalleryPager.class);
             int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
             i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
             if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            i.putExtra("url", url);
+            Bundle urlsBundle = new Bundle();
+            urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, new ArrayList<GalleryImage>(images));
+            i.putExtras(urlsBundle);
+
             startActivity(i);
             finish();
         }

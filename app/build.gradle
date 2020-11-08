@@ -94,13 +94,13 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
 
 /** Third-party (Other) **/
-    def exoPlayerVersion = '2.12.0'
+    def exoPlayerVersion = '2.12.1'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:extension-okhttp:$exoPlayerVersion"
 
-    implementation 'com.google.guava:guava:29.0-android'
+    implementation 'com.google.guava:guava:30.0-android'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     //noinspection GradleDependency
     implementation 'com.afollestad.material-dialogs:commons:0.8.6.2' //0.9.6.0
@@ -133,7 +133,7 @@ dependencies {
     implementation 'org.mp4parser:muxer:1.9.41'
 
 /** Testing **/
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation 'org.robolectric:robolectric:4.4'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.7'

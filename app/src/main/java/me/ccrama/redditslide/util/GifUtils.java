@@ -278,7 +278,7 @@ public class GifUtils {
                                 return true;
                             } else if (audioUri != null && videoUri != null) {
                                 if (mux(new File(a.getCacheDir().getAbsolutePath(), "video.mp4").getAbsolutePath(),
-                                        new File(a.getCacheDir().getAbsolutePath(), "video.mp4").getAbsolutePath(),
+                                        new File(a.getCacheDir().getAbsolutePath(), "audio.mp4").getAbsolutePath(),
                                         new File(a.getCacheDir().getAbsolutePath(), "muxed.mp4").getAbsolutePath())) {
                                     in = new FileInputStream(new File(a.getCacheDir().getAbsolutePath(), "muxed.mp4"));
                                 } else {
@@ -1049,10 +1049,11 @@ public class GifUtils {
      * @return Whether the muxing completed successfully
      */
     private static boolean mux(String videoFile, String audioFile, String outputFile) {
-        Movie video;
+        Movie rawVideo;
+
         try {
             new MovieCreator();
-            video = MovieCreator.build(videoFile);
+            rawVideo = MovieCreator.build(videoFile);
         } catch (RuntimeException | IOException e) {
             e.printStackTrace();
             return false;
@@ -1068,9 +1069,14 @@ public class GifUtils {
         }
 
         Track audioTrack = audio.getTracks().get(0);
+        Track videoTrack = rawVideo.getTracks().get(0);
+        Movie video = new Movie();
 
-        ClippedTrack croppedTrack = new ClippedTrack(audioTrack, 0, audioTrack.getSamples().size());
-        video.addTrack(croppedTrack);
+        ClippedTrack croppedTrackAudio = new ClippedTrack(audioTrack, 0, audioTrack.getSamples().size());
+        video.addTrack(croppedTrackAudio);
+        ClippedTrack croppedTrackVideo = new ClippedTrack(videoTrack, 0, videoTrack.getSamples().size());
+        video.addTrack(croppedTrackVideo);
+
         Container out = new DefaultMp4Builder().build(video);
 
         FileOutputStream fos;

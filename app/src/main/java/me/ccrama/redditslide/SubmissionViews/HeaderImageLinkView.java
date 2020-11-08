@@ -393,7 +393,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     lq = true;
 
                 } else {
-                    url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl().isEmpty() ? submission.getThumbnail() : submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                             .toString(); //unescape url characters
                 }
                 if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb || (news && submission.getScore() < 5000)) {
@@ -430,6 +430,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!thumbnail
                     .isNull() && submission.isNsfw() && SettingValues.getIsNSFWEnabled()))) {
 
+                url = submission.getThumbnail();
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
                 } else {

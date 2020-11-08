@@ -125,6 +125,7 @@ public class PeekMediaView extends RelativeLayout {
             case LINK:
             case VIDEO:
             case SELF:
+            case REDDIT_GALLERY:
             case SPOILER:
             case NONE:
                 doLoadLink(url);

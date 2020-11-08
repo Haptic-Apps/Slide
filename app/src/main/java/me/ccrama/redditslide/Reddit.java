@@ -119,7 +119,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static AutoCacheScheduler autoCache;
     public static boolean            peek;
     public        boolean      active;
-    private       ImageLoader  defaultImageLoader;
+    public        ImageLoader  defaultImageLoader;
     public static OkHttpClient client;
 
     public static boolean canUseNightModeAuto = false;
