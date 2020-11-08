@@ -420,7 +420,7 @@ public class RedditItemView extends RelativeLayout {
         }
         holder.content.setTypeface(typeface);
 
-        if (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0) {
+        if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
             TypedArray a = getContext().obtainStyledAttributes(
                     new FontPreferences(getContext()).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);

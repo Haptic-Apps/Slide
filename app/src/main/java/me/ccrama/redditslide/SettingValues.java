@@ -59,6 +59,8 @@ public class SettingValues {
     public static final String PREF_DRAFTS                    = "drafts";
     public static final String PREF_SUBREDDIT_FILTERS         = "subredditFilters";
     public static final String PREF_ABBREVIATE_SCORES         = "abbreviateScores";
+    public static final String PREF_HIDE_POST_AWARDS          = "hidePostAwards";
+    public static final String PREF_HIDE_COMMENT_AWARDS       = "hideCommentAwards";
     public static final String PREF_FLAIR_FILTERS             = "subFlairFilters";
     public static final String PREF_COMMENT_LAST_VISIT        = "commentLastVisit";
     public static final String PREF_VOTES_INFO_LINE           = "votesInfoLine";
@@ -196,6 +198,8 @@ public class SettingValues {
     public static boolean collapseDeletedComments;
     public static boolean rightHandedCommentMenu;
     public static boolean abbreviateScores;
+    public static boolean hidePostAwards;
+    public static boolean hideCommentAwards;
     public static boolean shareLongLink;
     public static boolean isMuted;
     public static int     subredditSearchMethod;
@@ -362,6 +366,9 @@ public class SettingValues {
         noImages = prefs.getBoolean(PREF_NO_IMAGES, false);
 
         abbreviateScores = prefs.getBoolean(PREF_ABBREVIATE_SCORES, true);
+
+        hidePostAwards = prefs.getBoolean(PREF_HIDE_POST_AWARDS, false);
+        hideCommentAwards = prefs.getBoolean(PREF_HIDE_COMMENT_AWARDS, false);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);

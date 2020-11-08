@@ -130,6 +130,17 @@ public class EditCardsLayout extends BaseActivityAnim {
             });
         }
         {
+            SwitchCompat single2 = (SwitchCompat) findViewById(R.id.hidePostAwards);
+            single2.setChecked(SettingValues.hidePostAwards);
+            single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.hidePostAwards = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_POST_AWARDS, isChecked).apply();
+                }
+            });
+        }
+        {
             SwitchCompat single2 = (SwitchCompat) findViewById(R.id.titleTop);
             single2.setChecked(SettingValues.titleTop);
             single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

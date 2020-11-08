@@ -128,6 +128,17 @@ public class SettingsCommentsFragment {
             });
         }
         {
+            SwitchCompat single = context.findViewById(R.id.settings_comments_hide_awards);
+            single.setChecked(SettingValues.hideCommentAwards);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.hideCommentAwards = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_COMMENT_AWARDS, isChecked).apply();
+                }
+            });
+        }
+        {
             SwitchCompat single = context.findViewById(R.id.settings_comments_autohidenav);
             single.setChecked(SettingValues.commentAutoHide);
 
