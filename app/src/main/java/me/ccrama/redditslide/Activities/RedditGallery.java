@@ -39,6 +39,8 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.LinkUtil;
 
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.*;
+
 public class RedditGallery extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String SUBREDDIT = "subreddit";
     public static final String GALLERY_URLS = "galleryurls";
@@ -72,6 +74,8 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
+            if (subreddit != null && !subreddit.isEmpty()) i.putExtra(RedditGalleryPager.SUBREDDIT, subreddit);
+            if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
             Bundle urlsBundle = new Bundle();
             urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, new ArrayList<GalleryImage>(images));
             i.putExtras(urlsBundle);
@@ -90,15 +94,17 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
             LinkUtil.openExternally(url);
         }
         if (id == R.id.download) {
+            int index = 0;
             for (final GalleryImage elem : images) {
-                doImageSave(false, elem.url);
+                doImageSave(false, elem.url, index);
+                index++;
             }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void doImageSave(boolean isGif, String contentUrl) {
+    public void doImageSave(boolean isGif, String contentUrl, int index) {
         if (!isGif) {
             if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
                 showFirstDialog();
@@ -108,6 +114,8 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
                 if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
+                if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
+                i.putExtra("index", index);
                 startService(i);
             }
         } else {
@@ -155,6 +163,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
 
     public String url;
     public String subreddit;
+    private String submissionTitle;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,6 +191,9 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
 
         if(getIntent().hasExtra(SUBREDDIT)){
             this.subreddit = getIntent().getExtras().getString(SUBREDDIT);
+        }
+        if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
+            this.submissionTitle = getIntent().getExtras().getString(EXTRA_SUBMISSION_TITLE);
         }
 
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
@@ -282,19 +294,20 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
             final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
             recyclerView = rootView.findViewById(R.id.images);
             recyclerView.setLayoutManager(mLayoutManager);
-            ((RedditGallery) getActivity()).images = (ArrayList<GalleryImage>)
+            final RedditGallery galleryActivity = (RedditGallery) getActivity();
+            galleryActivity.images = (ArrayList<GalleryImage>)
                     getActivity().getIntent().getSerializableExtra(RedditGallery.GALLERY_URLS);
 
-            ((BaseActivity) getActivity()).setShareUrl(((RedditGallery) getActivity()).url);
+            ((BaseActivity) getActivity()).setShareUrl(galleryActivity.url);
 
-            ((RedditGallery) getActivity()).mToolbar = rootView.findViewById(R.id.toolbar);
-            ((RedditGallery) getActivity()).mToolbar.setTitle(R.string.type_album);
-            ToolbarColorizeHelper.colorizeToolbar(((RedditGallery) getActivity()).mToolbar, Color.WHITE,
+            galleryActivity.mToolbar = rootView.findViewById(R.id.toolbar);
+            galleryActivity.mToolbar.setTitle(R.string.type_album);
+            ToolbarColorizeHelper.colorizeToolbar(galleryActivity.mToolbar, Color.WHITE,
                     (getActivity()));
-            ((RedditGallery) getActivity()).setSupportActionBar(((RedditGallery) getActivity()).mToolbar);
-            ((RedditGallery) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            galleryActivity.setSupportActionBar(galleryActivity.mToolbar);
+            galleryActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            ((RedditGallery) getActivity()).mToolbar.setPopupTheme(
+            galleryActivity.mToolbar.setPopupTheme(
                     new ColorPreferences(getActivity()).getDarkThemeSubreddit(
                             ColorPreferences.FONT_STYLE));
 
@@ -302,8 +315,9 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
                 @Override
                 public void run() {
                     rootView.findViewById(R.id.progress).setVisibility(View.GONE);
-                    RedditGalleryView adapter = new RedditGalleryView(((RedditGallery) getActivity()), ((RedditGallery) getActivity()).images,
-                            rootView.findViewById(R.id.toolbar).getHeight(), ((RedditGallery) getActivity()).subreddit);
+                    RedditGalleryView adapter = new RedditGalleryView(galleryActivity, galleryActivity.images,
+                            rootView.findViewById(R.id.toolbar).getHeight(), galleryActivity.subreddit,
+                            galleryActivity.submissionTitle);
                     recyclerView.setAdapter(adapter);
                 }
             });

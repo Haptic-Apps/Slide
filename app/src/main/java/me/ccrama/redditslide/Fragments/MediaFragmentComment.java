@@ -42,6 +42,7 @@ import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Adapters.CommentUrlObject;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -57,6 +58,8 @@ import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
+
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 
 /**
@@ -305,6 +308,7 @@ public class MediaFragmentComment extends Fragment {
                             myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
                             myIntent.putExtra(MediaView.EXTRA_URL, url);
                             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+                            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.comment.getComment().getSubmissionTitle());
                             myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
                             contextActivity.startActivity(myIntent);
