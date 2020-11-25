@@ -38,6 +38,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
+import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;

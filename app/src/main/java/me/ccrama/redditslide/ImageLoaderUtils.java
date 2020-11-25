@@ -2,8 +2,11 @@ package me.ccrama.redditslide;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.os.Environment;
 
+import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
+import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiskCache;
@@ -17,6 +20,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import java.io.File;
 import java.io.IOException;
 
+import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.util.OkHttpImageDownloader;
 
 /**
@@ -66,11 +70,15 @@ public class ImageLoaderUtils {
         options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
                 .bitmapConfig(SettingValues.highColorspaceImages ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .imageScaleType(SettingValues.highColorspaceImages ? ImageScaleType.NONE_SAFE : ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .cacheInMemory(false)
                 .resetViewBeforeLoading(false)
                 .displayer(new FadeInBitmapDisplayer(250))
                 .build();
+
+        if(SettingValues.highColorspaceImages) {
+            SubsamplingScaleImageView.setPreferredBitmapConfig(Bitmap.Config.ARGB_8888);
+        }
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(threadPoolSize)
                 .denyCacheImageMultipleSizesInMemory()

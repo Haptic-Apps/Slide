@@ -37,6 +37,8 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
+import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

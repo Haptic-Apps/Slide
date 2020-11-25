@@ -26,6 +26,8 @@ import net.dean.jraw.http.HttpRequest;
 import net.dean.jraw.http.MediaTypes;
 import net.dean.jraw.http.RestResponse;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,13 +111,15 @@ public class ImageFlairs {
         @Override
         protected FlairStylesheet doInBackground(Void... params) {
             try {
-                HttpRequest r = new HttpRequest.Builder().host("reddit.com")
+                HttpRequest r = new HttpRequest.Builder().host("old.reddit.com")
                         .path("/r/" + subreddit + "/stylesheet")
                         .expected(MediaTypes.CSS.type())
                         .build();
-                RestResponse response = Authentication.reddit.execute(r);
-                String stylesheet = response.getRaw();
 
+
+                RestResponse response = Authentication.reddit.execute(r);
+
+                String stylesheet = response.getRaw();
                 ArrayList<String> allImages = new ArrayList<>();
                 FlairStylesheet flairStylesheet = new FlairStylesheet(stylesheet);
                 int count = 0;
@@ -521,7 +525,7 @@ public class ImageFlairs {
         /**
          * Request a flair by flair id. `.into` can be chained onto this method call.
          *
-         * @param id
+         * @param sub
          * @param context
          * @return
          */
@@ -656,7 +660,7 @@ public class ImageFlairs {
 
         private volatile static FlairImageLoader instance;
 
-        /** Returns singletone class instance */
+        /** Returns singleton class instance */
         public static FlairImageLoader getInstance() {
             if (instance == null) {
                 synchronized (ImageLoader.class) {

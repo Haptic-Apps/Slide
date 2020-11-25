@@ -409,17 +409,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     && !comment.getAuthorFlair().getCssClass().isEmpty()) {
                 boolean set = false;
                 for (String s : comment.getAuthorFlair().getCssClass().split(" ")) {
+                    ImageFlairs.FlairImageLoader loader = ImageFlairs.getFlairImageLoader(mContext);
                     File file = DiskCacheUtils.findInCache(
                             comment.getSubredditName().toLowerCase(Locale.ENGLISH)
                                     + ":"
                                     + s.toLowerCase(Locale.ENGLISH),
-                            ImageFlairs.FlairImageLoader.getInstance().getDiskCache());
+                            loader.getDiskCache());
                     if (file != null && file.exists()) {
                         set = true;
                         holder.imageFlair.setVisibility(View.VISIBLE);
                         String decodedImgUri = Uri.fromFile(file).toString();
-                        ImageFlairs.getFlairImageLoader(mContext)
-                                .displayImage(decodedImgUri, holder.imageFlair);
+                        loader.displayImage(decodedImgUri, holder.imageFlair);
                         break;
                     }
                 }

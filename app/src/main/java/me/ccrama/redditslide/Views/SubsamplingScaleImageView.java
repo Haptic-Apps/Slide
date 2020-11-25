@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import me.ccrama.redditslide.SettingValues;
 
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.R.styleable;
@@ -267,8 +268,9 @@ public class SubsamplingScaleImageView extends View {
     // Tile and image decoding
     private ImageRegionDecoder decoder;
     private final ReadWriteLock decoderLock = new ReentrantReadWriteLock(true);
-    private DecoderFactory<? extends ImageDecoder> bitmapDecoderFactory = new CompatDecoderFactory<ImageDecoder>(SkiaImageDecoder.class);
-    private DecoderFactory<? extends ImageRegionDecoder> regionDecoderFactory = new CompatDecoderFactory<ImageRegionDecoder>(SkiaImageRegionDecoder.class);
+    private DecoderFactory<? extends ImageDecoder> bitmapDecoderFactory = new CompatDecoderFactory<ImageDecoder>(SkiaImageDecoder.class,
+            SettingValues.highColorspaceImages ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+    private DecoderFactory<? extends ImageRegionDecoder> regionDecoderFactory = new CompatDecoderFactory<ImageRegionDecoder>(SkiaImageRegionDecoder.class, SettingValues.highColorspaceImages ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
 
     // Debug values
     private PointF vCenterStart;
