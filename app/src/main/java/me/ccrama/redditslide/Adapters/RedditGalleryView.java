@@ -33,6 +33,8 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.LinkUtil;
 
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
+
 public class RedditGalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<GalleryImage> images;
 
@@ -41,13 +43,15 @@ public class RedditGalleryView extends RecyclerView.Adapter<RecyclerView.ViewHol
     public boolean paddingBottom;
     public int height;
     public String subreddit;
+    private final String submissionTitle;
 
-    public RedditGalleryView(final Activity context, final List<GalleryImage> images, int height, String subreddit) {
-
+    public RedditGalleryView(final Activity context, final List<GalleryImage> images, int height,
+                             String subreddit, String submissionTitle) {
         this.height = height;
         main = context;
         this.images = images;
         this.subreddit = subreddit;
+        this.submissionTitle = submissionTitle;
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
         if (context.findViewById(R.id.grid) != null)
@@ -158,6 +162,10 @@ public class RedditGalleryView extends RecyclerView.Adapter<RecyclerView.ViewHol
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.EXTRA_URL, image.url);
                         myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                        if(submissionTitle != null) {
+                            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
+                        }
+                        myIntent.putExtra("index", position);
                         main.startActivity(myIntent);
                     } else {
                         LinkUtil.openExternally(image.url);

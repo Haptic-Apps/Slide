@@ -180,7 +180,7 @@ public class AlbumFull extends Fragment {
         public void doWithData(final List<Image> jsonElements) {
             super.doWithData(jsonElements);
             AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0,
-                    s.getSubredditName());
+                    s.getSubredditName(), s.getTitle());
             ((RecyclerView) list).setAdapter(adapter);
         }
 

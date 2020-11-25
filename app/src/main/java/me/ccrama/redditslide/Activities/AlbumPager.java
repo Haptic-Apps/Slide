@@ -81,6 +81,8 @@ import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.*;
+
 
 /**
  * Created by ccrama on 1/25/2016. <p/> This is an extension of Album.java which utilizes a
@@ -110,6 +112,9 @@ public class AlbumPager extends FullScreenActivity
             }
             if(getIntent().hasExtra(SUBREDDIT)){
                 i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
+            }
+            if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
+                i.putExtra(EXTRA_SUBMISSION_TITLE, getIntent().getStringExtra(EXTRA_SUBMISSION_TITLE));
             }
             i.putExtras(getIntent());
             startActivity(i);
@@ -498,6 +503,9 @@ public class AlbumPager extends FullScreenActivity
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
                 if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
+                if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
+                    i.putExtra(EXTRA_SUBMISSION_TITLE, getIntent().getStringExtra(EXTRA_SUBMISSION_TITLE));
+                }
                 i.putExtra("index", index);
                 startService(i);
             }

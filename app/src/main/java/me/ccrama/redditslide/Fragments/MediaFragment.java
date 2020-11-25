@@ -74,6 +74,8 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
 
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
+
 
 /**
  * Created by ccrama on 6/2/2015.
@@ -396,11 +398,13 @@ public class MediaFragment extends Fragment {
                                     Intent i = new Intent(contextActivity, AlbumPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     i.putExtra(AlbumPager.SUBREDDIT, submission.getSubredditName());
+                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     contextActivity.startActivity(i);
                                 } else {
                                     Intent i = new Intent(contextActivity, Album.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     i.putExtra(Album.SUBREDDIT, submission.getSubredditName());
+                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     contextActivity.startActivity(i);
                                 }
                             } else {
@@ -414,10 +418,12 @@ public class MediaFragment extends Fragment {
                                     i = new Intent(contextActivity, RedditGalleryPager.class);
                                     i.putExtra(AlbumPager.SUBREDDIT,
                                             submission.getSubredditName());
+                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                 } else {
                                     i = new Intent(contextActivity, RedditGallery.class);
                                     i.putExtra(Album.SUBREDDIT,
                                             submission.getSubredditName());
+                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                 }
 
                                 i.putExtra(RedditGallery.SUBREDDIT,
