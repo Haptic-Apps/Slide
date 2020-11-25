@@ -345,6 +345,7 @@ public class ImageDownloadNotificationService extends Service {
                                             NotificationManager.class);
                             notif.flags |= Notification.FLAG_AUTO_CANCEL;
                             if (mNotificationManager != null) {
+                                mNotificationManager.cancel(id);
                                 mNotificationManager.notify(id, notif);
                             }
                             loadedImage.recycle();
