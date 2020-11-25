@@ -5,14 +5,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 328
+        //Change to 28 for F-Droid, need to add this to the scheme
+        targetSdkVersion 29
+        versionCode 332
         versionName androidGitVersion.name()
 
         multiDexEnabled true
