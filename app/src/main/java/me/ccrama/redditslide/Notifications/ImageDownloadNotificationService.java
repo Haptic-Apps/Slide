@@ -217,10 +217,27 @@ public class ImageDownloadNotificationService extends Service {
             }
             String fileIndex = index > -1 ? String.format(Locale.ENGLISH, "_%03d", index) : "";
             String title = submissionTitle != null && !submissionTitle.replaceAll("\\W+", "").trim().isEmpty() //Replace all non-alphanumeric characters to ensure a valid File URL
-                    ? submissionTitle : UUID.randomUUID().toString();
-            return (title + fileIndex + extension)
+                    ? submissionTitle.replaceAll("\\W+", "") : UUID.randomUUID().toString();
+            String finalURL = (title + fileIndex + extension)
                     .replaceAll(RESERVED_CHARS, "")
                     .trim();
+
+            File file = new File(getFolderPath()
+                    + getSubfolderPath()
+                    + File.separator
+                    + finalURL);
+            int tries = 0;
+            while(file.exists()) {
+                tries += 1;
+                finalURL = (title + fileIndex + "_" + tries + extension )
+                        .replaceAll(RESERVED_CHARS, "")
+                        .trim();
+                file = new File(getFolderPath()
+                        + getSubfolderPath()
+                        + File.separator
+                        + finalURL);
+            }
+            return finalURL;
         }
 
         @Override
