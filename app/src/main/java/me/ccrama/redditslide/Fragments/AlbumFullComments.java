@@ -183,6 +183,7 @@ public class AlbumFullComments extends Fragment {
         @Override
         public void doWithData(final List<Image> jsonElements) {
             super.doWithData(jsonElements);
+            //May be a bug with downloading multiple comment albums off the same submission
             AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0, s.getSubredditName(),
                     s.comment.getComment().getSubmissionTitle());
             ((RecyclerView) list).setAdapter(adapter);

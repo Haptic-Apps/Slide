@@ -216,7 +216,7 @@ public class ImageDownloadNotificationService extends Service {
                 extension = ".png";
             }
             String fileIndex = index > -1 ? String.format(Locale.ENGLISH, "_%03d", index) : "";
-            String title = submissionTitle != null && !submissionTitle.trim().isEmpty()
+            String title = submissionTitle != null && !submissionTitle.replaceAll("\\W+", "").trim().isEmpty() //Replace all non-alphanumeric characters to ensure a valid File URL
                     ? submissionTitle : UUID.randomUUID().toString();
             return (title + fileIndex + extension)
                     .replaceAll(RESERVED_CHARS, "")

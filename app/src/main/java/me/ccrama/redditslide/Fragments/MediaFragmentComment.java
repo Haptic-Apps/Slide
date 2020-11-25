@@ -310,6 +310,7 @@ public class MediaFragmentComment extends Fragment {
                             myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
                             myIntent.putExtra(MediaView.EXTRA_URL, url);
                             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+                            //May be a bug with downloading multiple comment albums off the same submission
                             myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.comment.getComment().getSubmissionTitle());
                             myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
