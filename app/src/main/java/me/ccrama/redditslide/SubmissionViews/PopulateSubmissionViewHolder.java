@@ -236,6 +236,17 @@ public class PopulateSubmissionViewHolder {
                                                             .get("s")));
                                                 }
                                             }
+                                        } else if (dataNode.has("crosspost_parent_list")) { //Else, try getting crosspost gallery data
+                                            JsonNode crosspost_parent = dataNode.get("crosspost_parent_list").get(0);
+                                            for (JsonNode identifier : crosspost_parent.get("gallery_data").get("items")) {
+                                                if (crosspost_parent.has("media_metadata") && crosspost_parent.get(
+                                                        "media_metadata")
+                                                        .has(identifier.get("media_id").asText())) {
+                                                    urls.add(new GalleryImage(crosspost_parent.get("media_metadata")
+                                                            .get(identifier.get("media_id").asText())
+                                                            .get("s")));
+                                                }
+                                            }
                                         }
 
                                         Bundle urlsBundle = new Bundle();
