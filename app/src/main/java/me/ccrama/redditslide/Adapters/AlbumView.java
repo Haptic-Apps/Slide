@@ -26,6 +26,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -33,6 +34,8 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.*;
 
 public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Image> users;
@@ -42,13 +45,15 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public boolean paddingBottom;
     public int height;
     public String subreddit;
+    private final String submissionTitle;
 
-    public AlbumView(final Activity context, final List<Image> users, int height, String subreddit) {
+    public AlbumView(final Activity context, final List<Image> users, int height, String subreddit, String SubmissionTitle) {
 
         this.height = height;
         main = context;
         this.users = users;
         this.subreddit = subreddit;
+        this.submissionTitle = SubmissionTitle;
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
         if (context.findViewById(R.id.grid) != null)
@@ -181,6 +186,9 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getImageUrl());
                         myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                        if(submissionTitle != null) {
+                            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
+                        }
                         main.startActivity(myIntent);
                     } else {
                         LinkUtil.openExternally(user.getImageUrl());

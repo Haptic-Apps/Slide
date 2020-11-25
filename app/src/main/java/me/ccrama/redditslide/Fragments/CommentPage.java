@@ -119,6 +119,8 @@ import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
+
 /**
  * Fragment which displays comment trees.
  *
@@ -886,6 +888,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                     myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                                     myIntent.putExtra(MediaView.EXTRA_URL,
                                             adapter.submission.getUrl());
+                                    myIntent.putExtra(EXTRA_SUBMISSION_TITLE,
+                                            adapter.submission.getTitle());
                                     getActivity().startActivity(myIntent);
 
                                 } else {
@@ -896,6 +900,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             case XKCD:
                                 Intent i2 = new Intent(getActivity(), MediaView.class);
                                 i2.putExtra(MediaView.SUBREDDIT, subreddit);
+                                i2.putExtra(EXTRA_SUBMISSION_TITLE, adapter.submission.getTitle());
                                 if (adapter.submission.getDataNode().has("preview")
                                         && adapter.submission.getDataNode()
                                         .get("preview")
@@ -984,11 +989,13 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(AlbumPager.SUBREDDIT, subreddit);
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, adapter.submission.getTitle());
                                     } else {
                                         i = new Intent(getActivity(), Album.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                         i.putExtra(Album.SUBREDDIT, subreddit);
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, adapter.submission.getTitle());
                                     }
                                     getActivity().startActivity(i);
                                     getActivity().overridePendingTransition(

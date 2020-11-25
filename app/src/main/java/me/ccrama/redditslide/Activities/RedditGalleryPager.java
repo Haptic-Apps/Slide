@@ -72,6 +72,8 @@ import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
+
 /**
  * Created by ccrama on 11/7/2020. <p/> This is an extension of RedditAlbum.java which utilizes a
  * ViewPager for Reddit Gallery content instead of a RecyclerView (horizontal vs vertical).
@@ -100,6 +102,7 @@ public class RedditGalleryPager extends FullScreenActivity
             if(getIntent().hasExtra(SUBREDDIT)){
                 i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
             }
+            if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
             i.putExtras(getIntent());
             Bundle urlsBundle = new Bundle();
             urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, new ArrayList<GalleryImage>(images));
@@ -143,6 +146,7 @@ public class RedditGalleryPager extends FullScreenActivity
     }
 
     public String subreddit;
+    private String submissionTitle;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -157,6 +161,9 @@ public class RedditGalleryPager extends FullScreenActivity
 
         if(getIntent().hasExtra(SUBREDDIT)){
             this.subreddit = getIntent().getStringExtra(SUBREDDIT);
+        }
+        if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
+            this.submissionTitle = getIntent().getExtras().getString(EXTRA_SUBMISSION_TITLE);
         }
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -348,6 +355,7 @@ public class RedditGalleryPager extends FullScreenActivity
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
                 if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
+                if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
                 i.putExtra("index", index);
                 startService(i);
             }
@@ -396,7 +404,7 @@ public class RedditGalleryPager extends FullScreenActivity
 
                         @Override
                         public void onClick(View v2) {
-                            ((AlbumPager) getActivity()).doImageSave(false, url, i);
+                            ((RedditGalleryPager) getActivity()).doImageSave(false, url, i);
                         }
 
                     });
