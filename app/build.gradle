@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 328
         versionName androidGitVersion.name()
 
