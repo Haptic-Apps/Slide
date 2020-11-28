@@ -63,6 +63,9 @@ public class BaseActivity extends PeekViewActivity
                 hideDecor();
             }
         }
+        if (enableSwipeBackLayout) {
+            Utils.convertActivityToTranslucent(this);
+        }
     }
 
     public void hideDecor(){
