@@ -34,6 +34,7 @@ import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This is an activity which is the base for most of Slide's activities. It has support for handling

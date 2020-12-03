@@ -33,6 +33,7 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SwipeLayout.Utils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -50,6 +51,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     private String    name;
     private String    context;
     private int       contextNumber;
+    private Boolean   doneTranslucent = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -200,7 +202,10 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if(!doneTranslucent) {
+                    doneTranslucent = true;
+                    Utils.convertActivityToTranslucent(CommentsScreenSingle.this);
+                }
             }
         });
     }
