@@ -161,7 +161,7 @@
                     android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_history_scrollseenhide"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
