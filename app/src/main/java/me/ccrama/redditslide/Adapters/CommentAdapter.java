@@ -293,7 +293,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (fullname.contains("t3_")) {
                 fullname = fullname.substring(3);
             }
-            HasSeen.seenTimes.put(fullname, System.currentTimeMillis());
+            HasSeen.addSeen(fullname);
             KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
         }
         if (submission != null) {

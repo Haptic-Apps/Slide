@@ -52,6 +52,7 @@ public class SettingValues {
     public static final String PREF_STORE_HISTORY             = "storehistory";
     public static final String PREF_STORE_NSFW_HISTORY        = "storensfw";
     public static final String PREF_SCROLL_SEEN               = "scrollSeen";
+    public static final String PREF_SCROLL_SEEN_HIDE          = "scrollSeenHide";
     public static final String PREF_TITLE_FILTERS             = "titleFilters";
     public static final String PREF_TEXT_FILTERS              = "textFilters";
     public static final String PREF_DOMAIN_FILTERS            = "domainFilters";
@@ -181,6 +182,7 @@ public class SettingValues {
     public static boolean showNSFWContent;
     public static boolean storeNSFWHistory;
     public static boolean scrollSeen;
+    public static boolean scrollSeenHide;
     public static boolean saveButton;
     public static boolean voteGestures;
     public static boolean colorEverywhere;
@@ -391,6 +393,7 @@ public class SettingValues {
         upvotePercentage = prefs.getBoolean(PREF_UPVOTE_PERCENTAGE, false);
         storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, false);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
+        scrollSeenHide = prefs.getBoolean(PREF_SCROLL_SEEN_HIDE, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
         notifSound = prefs.getBoolean(PREF_SOUND_NOTIFS, false);
