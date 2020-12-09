@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import me.ccrama.redditslide.R;

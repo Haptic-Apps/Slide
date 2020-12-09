@@ -20,8 +20,6 @@ import android.widget.ProgressBar;
 import androidx.fragment.app.Fragment;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
-import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
