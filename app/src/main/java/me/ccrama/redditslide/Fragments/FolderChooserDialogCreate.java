@@ -102,11 +102,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         dialog.dismiss();
-                        if (getBuilder().mIsSaveToLocation) {
-                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, parentFolder, true);
-                        } else {
-                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, parentFolder, false);
-                        }
+                        mCallback.onFolderSelection(FolderChooserDialogCreate.this, parentFolder, getBuilder().mIsSaveToLocation);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -143,11 +139,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                                         File toCreate = new File(parentFolder.getPath() + File.separator + createdFile);
                                         toCreate.mkdir();
                                         dialog.dismiss();
-                                        if (getBuilder().mIsSaveToLocation) {
-                                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, true);
-                                        } else {
-                                            mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, false);
-                                        }
+                                        mCallback.onFolderSelection(FolderChooserDialogCreate.this, toCreate, getBuilder().mIsSaveToLocation);
                                     }
                                 }).show();
                     }

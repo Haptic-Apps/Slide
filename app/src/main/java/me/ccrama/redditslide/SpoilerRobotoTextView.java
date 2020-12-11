@@ -432,32 +432,26 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     break;
                 case ALBUM:
                     if (SettingValues.album) {
+                        Intent i;
                         if (SettingValues.albumSwipe) {
-                            Intent i = new Intent(activity, AlbumPager.class);
+                            i = new Intent(activity, AlbumPager.class);
                             i.putExtra(Album.EXTRA_URL, url);
                             i.putExtra(AlbumPager.SUBREDDIT, subreddit);
-                            activity.startActivity(i);
                         } else {
-                            Intent i = new Intent(activity, Album.class);
+                            i = new Intent(activity, Album.class);
                             i.putExtra(Album.SUBREDDIT, subreddit);
                             i.putExtra(Album.EXTRA_URL, url);
-                            activity.startActivity(i);
                         }
+                        activity.startActivity(i);
                     } else {
                         LinkUtil.openExternally(url);
                     }
                     break;
                 case TUMBLR:
                     if (SettingValues.image) {
-                        if (SettingValues.albumSwipe) {
-                            Intent i = new Intent(activity, TumblrPager.class);
-                            i.putExtra(Album.EXTRA_URL, url);
-                            activity.startActivity(i);
-                        } else {
-                            Intent i = new Intent(activity, TumblrPager.class);
-                            i.putExtra(Album.EXTRA_URL, url);
-                            activity.startActivity(i);
-                        }
+                        Intent i = new Intent(activity, TumblrPager.class);
+                        i.putExtra(Album.EXTRA_URL, url);
+                        activity.startActivity(i);
                     } else {
                         LinkUtil.openExternally(url);
                     }

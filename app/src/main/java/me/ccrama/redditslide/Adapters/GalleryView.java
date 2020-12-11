@@ -237,19 +237,19 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 break;
                             case ALBUM:
                                 if (SettingValues.album) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i = new Intent(main, AlbumPager.class);
+                                        i = new Intent(main, AlbumPager.class);
                                         i.putExtra(AlbumPager.SUBREDDIT, subreddit);
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                        main.startActivity(i);
                                     } else {
-                                        Intent i = new Intent(main, Album.class);
+                                        i = new Intent(main, Album.class);
                                         i.putExtra(Album.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
-                                        main.startActivity(i);
                                     }
+                                    main.startActivity(i);
                                 } else {
                                     LinkUtil.openExternally(submission.getUrl());
 
@@ -262,13 +262,12 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         i = new Intent(main, RedditGalleryPager.class);
                                         i.putExtra(AlbumPager.SUBREDDIT,
                                                 submission.getSubredditName());
-                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     } else {
                                         i = new Intent(main, RedditGallery.class);
                                         i.putExtra(Album.SUBREDDIT,
                                                 submission.getSubredditName());
-                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     }
+                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
 
                                     i.putExtra(RedditGallery.SUBREDDIT,
                                             submission.getSubredditName());
@@ -300,17 +299,16 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                             case TUMBLR:
                                 if (SettingValues.image) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i = new Intent(main, TumblrPager.class);
+                                        i = new Intent(main, TumblrPager.class);
                                         i.putExtra(TumblrPager.SUBREDDIT, subreddit);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                        main.startActivity(i);
                                     } else {
-                                        Intent i = new Intent(main, Tumblr.class);
+                                        i = new Intent(main, Tumblr.class);
                                         i.putExtra(Tumblr.SUBREDDIT, subreddit);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                        main.startActivity(i);
                                     }
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    main.startActivity(i);
                                 } else {
                                     LinkUtil.openExternally(submission.getUrl());
 

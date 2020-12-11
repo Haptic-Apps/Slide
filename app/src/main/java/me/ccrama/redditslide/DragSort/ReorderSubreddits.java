@@ -463,13 +463,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             input = raw.toString()
                                                     .replaceAll("\\s",
                                                             ""); //remove whitespace from input
-                                            if (input.contains(".")) {
-                                                dialog.getActionButton(DialogAction.POSITIVE)
-                                                        .setEnabled(true);
-                                            } else {
-                                                dialog.getActionButton(DialogAction.POSITIVE)
-                                                        .setEnabled(false);
-                                            }
+                                            dialog.getActionButton(DialogAction.POSITIVE)
+                                                    .setEnabled(input.contains("."));
                                         }
                                     })
                             .positiveText(R.string.btn_add)

@@ -53,11 +53,7 @@ public class Discover extends BaseActivityAnim {
                         .input(getString(R.string.discover_search), null, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (input.length() >= 3) {
-                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                } else {
-                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                                }
+                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(input.length() >= 3);
                             }
                         })
                         .positiveText(R.string.search_all)

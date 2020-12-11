@@ -406,15 +406,14 @@ public class Website extends BaseActivityAnim {
                         return super.shouldOverrideUrlLoading(view, url);
                     case ALBUM:
                         if (SettingValues.album) {
+                            Intent i;
                             if (SettingValues.albumSwipe) {
-                                Intent i = new Intent(view.getContext(), AlbumPager.class);
-                                i.putExtra(Album.EXTRA_URL, url);
-                                view.getContext().startActivity(i);
+                                i = new Intent(view.getContext(), AlbumPager.class);
                             } else {
-                                Intent i = new Intent(view.getContext(), Album.class);
-                                i.putExtra(Album.EXTRA_URL, url);
-                                view.getContext().startActivity(i);
+                                i = new Intent(view.getContext(), Album.class);
                             }
+                            i.putExtra(Album.EXTRA_URL, url);
+                            view.getContext().startActivity(i);
                             return true;
                         }
                         return super.shouldOverrideUrlLoading(view, url);

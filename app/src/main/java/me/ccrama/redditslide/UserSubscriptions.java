@@ -348,11 +348,10 @@ public class UserSubscriptions {
                 e.printStackTrace();
             }
             addSubsToHistory(toReturn, true);
-            return toReturn;
         } else {
             toReturn.addAll(defaultSubs);
-            return toReturn;
         }
+        return toReturn;
     }
 
     public static void syncMultiReddits(Context c) {
