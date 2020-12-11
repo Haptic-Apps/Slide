@@ -184,20 +184,14 @@ public class ExoVideoView extends RelativeLayout {
             // DASH video, e.g. v.redd.it video
             case DASH:
                 videoSource = new DashMediaSource.Factory(cacheDataSourceFactory)
-                        .createMediaSource(
-                                new MediaItem.Builder()
-                                        .setUri(uri)
-                                        .build());
+                        .createMediaSource(MediaItem.fromUri(uri));
                 break;
 
             // Standard video, e.g. MP4 file
             case STANDARD:
             default:
                 videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
-                        .createMediaSource(
-                                new MediaItem.Builder()
-                                        .setUri(uri)
-                                        .build());
+                        .createMediaSource(MediaItem.fromUri(uri));
                 break;
         }
 
@@ -219,14 +213,14 @@ public class ExoVideoView extends RelativeLayout {
      * Plays the video
      */
     public void play() {
-        player.setPlayWhenReady(true);
+        player.play();
     }
 
     /**
      * Pauses the video
      */
     public void pause() {
-        player.setPlayWhenReady(false);
+        player.pause();
     }
 
     /**
