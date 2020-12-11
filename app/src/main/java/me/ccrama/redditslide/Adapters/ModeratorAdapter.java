@@ -151,56 +151,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
-        View v;
 
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (ActionStates.isSaved(submissions[0])) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = false;
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = true;
-                }
-                v = null;
-            } catch (Exception e) {
-                return null;
-            }
-            return null;
-        }
-    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHold, final int pos) {
@@ -250,7 +201,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 
                             }
-                            new AsyncSave(firstHold.itemView).execute(submission);
+                            new AsyncSave(mContext, firstHold.itemView).execute(submission);
 
                         }
                     });
