@@ -33,7 +33,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SantitizeField;
+import me.ccrama.redditslide.SanitizeField;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -152,7 +152,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             }
 
             final String subreddit = (sub.contains("+") || sub.contains("/m/")) ? sub
-                    : SantitizeField.sanitizeString(
+                    : SanitizeField.sanitizeString(
                             sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
 
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
