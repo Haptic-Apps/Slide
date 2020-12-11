@@ -14,7 +14,7 @@ public class ReadLater {
             KVStore.getInstance()
                     .insert("readLater" + s.getFullName(), String.valueOf(System.currentTimeMillis()));
         } else {
-            if (!KVStore.getInstance().getByContains("readLater" + s.getFullName()).isEmpty()) {
+            if (isToBeReadLater(s)) {
                 KVStore.getInstance().delete("readLater" + s.getFullName());
             }
         }
