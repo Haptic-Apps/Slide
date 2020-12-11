@@ -27,41 +27,32 @@ public class AsyncSave extends AsyncTask<Submission, Void, Void> {
     @Override
     protected Void doInBackground(Submission... submissions) {
         try {
-            if (ActionStates.isSaved(submissions[0])) {
-                new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        View view = s.getView();
-                        TextView tv =
-                                view.findViewById(com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
-                    }
-                });
-                submissions[0].saved = false;
+            boolean subSaved = ActionStates.isSaved(submissions[0]);
+            final Snackbar s;
 
+            if (subSaved) {
+                new AccountManager(Authentication.reddit).unsave(submissions[0]);
+                s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
             } else {
                 new AccountManager(Authentication.reddit).save(submissions[0]);
-                final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        View view = s.getView();
-                        TextView tv =
-                                view.findViewById(com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
-                    }
-                });
-                submissions[0].saved = true;
+                s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
             }
+            runUiThread(s);
+            submissions[0].saved = !subSaved;
             v = null;
 
         } catch (Exception e) {
             return null;
         }
         return null;
+    }
+
+    private void runUiThread(final Snackbar s) {
+        mContext.runOnUiThread(() -> {
+            View view = s.getView();
+            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            s.show();
+        });
     }
 }
