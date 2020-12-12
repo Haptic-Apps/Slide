@@ -39,6 +39,7 @@ public class Authentication {
     public static LoggedInAccount   me;
     public static boolean           mod;
     public static String            name;
+    public static String            realName;
     public static SharedPreferences authentication;
     public static String            refresh;
 
