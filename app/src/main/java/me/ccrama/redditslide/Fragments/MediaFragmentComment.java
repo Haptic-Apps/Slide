@@ -20,8 +20,6 @@ import android.widget.ProgressBar;
 import androidx.fragment.app.Fragment;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
-import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -44,7 +42,6 @@ import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Adapters.CommentUrlObject;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;

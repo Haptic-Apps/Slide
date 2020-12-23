@@ -217,13 +217,12 @@ public class PopulateSubmissionViewHolder {
                                             i = new Intent(contextActivity, RedditGalleryPager.class);
                                             i.putExtra(AlbumPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         } else {
                                             i = new Intent(contextActivity, RedditGallery.class);
                                             i.putExtra(Album.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         }
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
 
                                         i.putExtra(RedditGallery.SUBREDDIT,
                                                 submission.getSubredditName());
@@ -286,13 +285,12 @@ public class PopulateSubmissionViewHolder {
                                             i = new Intent(contextActivity, AlbumPager.class);
                                             i.putExtra(AlbumPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
                                             i.putExtra(Album.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         }
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
                                         addAdaptorPosition(i, submission,
@@ -2989,7 +2987,6 @@ public class PopulateSubmissionViewHolder {
                                                 - 1; //if a post is at 0 votes, keep it at 0 when downvoting
                                 new Vote(false, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.DOWNVOTE);
-                                setSubmissionScoreText(submission, holder);
                             } else { //un-downvoted a post
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
@@ -3002,8 +2999,8 @@ public class PopulateSubmissionViewHolder {
                                                 mContext) : getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
                                 downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
-                                setSubmissionScoreText(submission, holder);
                             }
+                            setSubmissionScoreText(submission, holder);
                             if (!full
                                     && !SettingValues.actionbarVisible
                                     && SettingValues.defaultCardView
@@ -3049,7 +3046,6 @@ public class PopulateSubmissionViewHolder {
 
                                 new Vote(true, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.UPVOTE);
-                                setSubmissionScoreText(submission, holder);
 
                             } else { //un-upvoted a post
                                 points.setTextColor(comments.getCurrentTextColor());
@@ -3063,9 +3059,8 @@ public class PopulateSubmissionViewHolder {
                                                 mContext) : getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
                                 upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
-                                setSubmissionScoreText(submission, holder);
-
                             }
+                            setSubmissionScoreText(submission, holder);
                             if (!full
                                     && !SettingValues.actionbarVisible
                                     && SettingValues.defaultCardView

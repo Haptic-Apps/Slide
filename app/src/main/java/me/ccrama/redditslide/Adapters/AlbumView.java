@@ -26,7 +26,6 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.ImgurAlbum.Image;
-import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -35,7 +34,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
-import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.*;
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Image> users;

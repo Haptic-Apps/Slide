@@ -1656,15 +1656,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void resetMenu(LinearLayout v, boolean collapsed) {
         v.removeAllViews();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
         if (collapsed) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
             params.height = 0;
-            v.setLayoutParams(params);
         } else {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
             params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            v.setLayoutParams(params);
         }
+        v.setLayoutParams(params);
     }
 
     public void setCommentStateUnhighlighted(final CommentViewHolder holder,

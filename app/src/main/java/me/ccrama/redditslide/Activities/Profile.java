@@ -174,18 +174,10 @@ public class Profile extends BaseActivityAnim {
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
                 if (sortItem != null) {
-                    if (position < 3) {
-                        sortItem.setVisible(true);
-                    } else {
-                        sortItem.setVisible(false);
-                    }
+                    sortItem.setVisible(position < 3);
                 }
                 if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
-                    if (position == 6) {
-                        categoryItem.setVisible(true);
-                    } else {
-                        categoryItem.setVisible(false);
-                    }
+                    categoryItem.setVisible(position == 6);
                 }
             }
 
@@ -484,18 +476,10 @@ public class Profile extends BaseActivityAnim {
 
         int position = pager == null ? 0 : pager.getCurrentItem();
         if (sortItem != null) {
-            if (position < 3) {
-                sortItem.setVisible(true);
-            } else {
-                sortItem.setVisible(false);
-            }
+            sortItem.setVisible(position < 3);
         }
         if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
-            if (position == 6) {
-                categoryItem.setVisible(true);
-            } else {
-                categoryItem.setVisible(false);
-            }
+            categoryItem.setVisible(position == 6);
         }
         return true;
     }

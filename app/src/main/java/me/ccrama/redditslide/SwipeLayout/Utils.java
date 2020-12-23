@@ -7,8 +7,6 @@ import android.os.Build;
 
 import java.lang.reflect.Method;
 
-import me.ccrama.redditslide.util.LogUtil;
-
 /**
  * Created by Chaojun Wang on 6/9/14.
  *

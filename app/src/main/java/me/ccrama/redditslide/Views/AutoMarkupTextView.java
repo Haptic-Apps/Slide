@@ -5,6 +5,7 @@ import android.text.util.Linkify;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.text.util.LinkifyCompat;
 
 
 /**
@@ -34,7 +35,7 @@ public class AutoMarkupTextView extends AppCompatTextView {
 
         setText(s);
         int mask = Linkify.WEB_URLS;
-        Linkify.addLinks(this, mask);
+        LinkifyCompat.addLinks(this, mask);
 
         //todo this setMovementMethod(new CommentMovementMethod());
 

@@ -3,11 +3,8 @@ package me.ccrama.redditslide.Views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.media.AudioAttributes;
-import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -18,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.core.content.ContextCompat;
+import androidx.media.AudioAttributesCompat;
+import androidx.media.AudioFocusRequestCompat;
+import androidx.media.AudioManagerCompat;
 
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
@@ -184,20 +184,14 @@ public class ExoVideoView extends RelativeLayout {
             // DASH video, e.g. v.redd.it video
             case DASH:
                 videoSource = new DashMediaSource.Factory(cacheDataSourceFactory)
-                        .createMediaSource(
-                                new MediaItem.Builder()
-                                        .setUri(uri)
-                                        .build());
+                        .createMediaSource(MediaItem.fromUri(uri));
                 break;
 
             // Standard video, e.g. MP4 file
             case STANDARD:
             default:
                 videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
-                        .createMediaSource(
-                                new MediaItem.Builder()
-                                        .setUri(uri)
-                                        .build());
+                        .createMediaSource(MediaItem.fromUri(uri));
                 break;
         }
 
@@ -219,14 +213,14 @@ public class ExoVideoView extends RelativeLayout {
      * Plays the video
      */
     public void play() {
-        player.setPlayWhenReady(true);
+        player.play();
     }
 
     /**
      * Pauses the video
      */
     public void pause() {
-        player.setPlayWhenReady(false);
+        player.pause();
     }
 
     /**
@@ -374,46 +368,37 @@ public class ExoVideoView extends RelativeLayout {
     private class AudioFocusHelper implements AudioManager.OnAudioFocusChangeListener {
         private AudioManager manager;
         private boolean wasPlaying;
-        private AudioFocusRequest request;
+        private AudioFocusRequestCompat request;
 
         AudioFocusHelper(AudioManager manager) {
             this.manager = manager;
+
+            if (request == null) {
+                AudioAttributesCompat audioAttributes = new AudioAttributesCompat.Builder()
+                        .setContentType(AudioAttributesCompat.CONTENT_TYPE_MOVIE)
+                        .setUsage(AudioAttributesCompat.USAGE_MEDIA)
+                        .build();
+                request = new AudioFocusRequestCompat.Builder(AudioManagerCompat.AUDIOFOCUS_GAIN_TRANSIENT)
+                        //.setAcceptsDelayedFocusGain(false)
+                        .setAudioAttributes(audioAttributes)
+                        .setOnAudioFocusChangeListener(this)
+                        .setWillPauseWhenDucked(true)
+                        .build();
+            }
         }
 
         /**
          * Lose audio focus
          */
         void loseFocus() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (request != null) {
-                    manager.abandonAudioFocusRequest(request);
-                }
-            } else {
-                manager.abandonAudioFocus(this);
-            }
+            AudioManagerCompat.abandonAudioFocusRequest(manager, request);
         }
 
         /**
          * Gain audio focus
          */
         void gainFocus() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (request == null) {
-                    request = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
-                            .setAcceptsDelayedFocusGain(false)
-                            .setAudioAttributes(new AudioAttributes.Builder()
-                                    .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
-                                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                                    .build())
-                            .setOnAudioFocusChangeListener(this)
-                            .setWillPauseWhenDucked(true)
-                            .build();
-                }
-                manager.requestAudioFocus(request);
-            } else {
-                manager.requestAudioFocus(this, AudioManager.USE_DEFAULT_STREAM_TYPE,
-                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-            }
+            AudioManagerCompat.requestAudioFocus(manager, request);
         }
 
         @Override

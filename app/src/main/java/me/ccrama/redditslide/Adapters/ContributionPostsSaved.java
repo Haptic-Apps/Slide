@@ -37,45 +37,7 @@ public class ContributionPostsSaved extends ContributionPosts {
 
         @Override
         public void onPostExecute(ArrayList<Contribution> submissions) {
-            loading = false;
-
-            if (submissions != null && !submissions.isEmpty()) {
-                // new submissions found
-
-                int start = 0;
-                if (posts != null) {
-                    start = posts.size() + 1;
-                }
-
-                if (reset || posts == null) {
-                    posts = submissions;
-                    start = -1;
-                } else {
-                    posts.addAll(submissions);
-                }
-
-                final int finalStart = start;
-                // update online
-                if (refreshLayout != null) {
-                    refreshLayout.setRefreshing(false);
-                }
-
-                if (finalStart != -1) {
-                    adapter.notifyItemRangeInserted(finalStart + 1, posts.size());
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-
-            } else if (submissions != null) {
-                // end of submissions
-                nomore = true;
-                adapter.notifyDataSetChanged();
-
-            } else if (!nomore) {
-                // error
-                adapter.setError(true);
-            }
-            refreshLayout.setRefreshing(false);
+            super.onPostExecute(submissions);
         }
 
         @Override

@@ -12,8 +12,7 @@ local.properties
 .signing/
 
 # User-specific configurations
-.idea/*
-!.idea/codeStyleSettings.xml
+.idea/
 *.iml
 projectFilesBackup/
 
@@ -29,6 +28,8 @@ cd
 *.log
 
 # trace files
-/captures
+captures
 
-/app/src/main/assets/secretconstants.properties
+app/src/main/assets/secretconstants.properties
+app/noGPlay/
+app/withGPlay/

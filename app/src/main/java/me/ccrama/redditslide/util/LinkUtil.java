@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsCallback;
 import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -91,11 +92,14 @@ public class LinkUtil {
         PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
 
         CustomTabsIntent.Builder builder =
-                new CustomTabsIntent.Builder(getSession()).setToolbarColor(color)
+                new CustomTabsIntent.Builder(getSession())
+                        .setDefaultColorSchemeParams(new CustomTabColorSchemeParams.Builder()
+                                .setToolbarColor(color)
+                                .build())
                         .setShowTitle(true)
                         .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
                         .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
-                        .addDefaultShareMenuItem()
+                        .setShareState(CustomTabsIntent.SHARE_STATE_ON)
                         .addMenuItem(contextActivity.getString(R.string.open_links_externally),
                                 pendingIntent)
                         .setCloseButtonIcon(drawableToBitmap(

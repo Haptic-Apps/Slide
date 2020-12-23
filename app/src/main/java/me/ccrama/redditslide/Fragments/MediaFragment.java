@@ -20,8 +20,6 @@ import android.widget.ProgressBar;
 import androidx.fragment.app.Fragment;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
-import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
@@ -394,19 +392,18 @@ public class MediaFragment extends Fragment {
                             break;
                         case ALBUM:
                             if (SettingValues.album) {
+                                Intent i;
                                 if (SettingValues.albumSwipe) {
-                                    Intent i = new Intent(contextActivity, AlbumPager.class);
+                                    i = new Intent(contextActivity, AlbumPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     i.putExtra(AlbumPager.SUBREDDIT, submission.getSubredditName());
-                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
-                                    contextActivity.startActivity(i);
                                 } else {
-                                    Intent i = new Intent(contextActivity, Album.class);
+                                    i = new Intent(contextActivity, Album.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     i.putExtra(Album.SUBREDDIT, submission.getSubredditName());
-                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
-                                    contextActivity.startActivity(i);
                                 }
+                                i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
+                                contextActivity.startActivity(i);
                             } else {
                                 LinkUtil.openExternally(submission.getUrl());
                             }
@@ -418,13 +415,12 @@ public class MediaFragment extends Fragment {
                                     i = new Intent(contextActivity, RedditGalleryPager.class);
                                     i.putExtra(AlbumPager.SUBREDDIT,
                                             submission.getSubredditName());
-                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                 } else {
                                     i = new Intent(contextActivity, RedditGallery.class);
                                     i.putExtra(Album.SUBREDDIT,
                                             submission.getSubredditName());
-                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                 }
+                                i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
 
                                 i.putExtra(RedditGallery.SUBREDDIT,
                                         submission.getSubredditName());
@@ -456,18 +452,18 @@ public class MediaFragment extends Fragment {
                             break;
                         case TUMBLR:
                             if (SettingValues.image) {
+                                Intent i;
                                 if (SettingValues.albumSwipe) {
-                                    Intent i = new Intent(contextActivity, TumblrPager.class);
+                                    i = new Intent(contextActivity, TumblrPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     i.putExtra(TumblrPager.SUBREDDIT,
                                             submission.getSubredditName());
-                                    contextActivity.startActivity(i);
                                 } else {
-                                    Intent i = new Intent(contextActivity, Tumblr.class);
+                                    i = new Intent(contextActivity, Tumblr.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     i.putExtra(Tumblr.SUBREDDIT, submission.getSubredditName());
-                                    contextActivity.startActivity(i);
                                 }
+                                contextActivity.startActivity(i);
                             } else {
                                 LinkUtil.openExternally(submission.getUrl());
                             }
