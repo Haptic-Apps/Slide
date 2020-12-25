@@ -1487,18 +1487,18 @@ public class MainActivity extends BaseActivity
             hea = header.findViewById(R.id.back);
 
             drawerSubList.addHeaderView(header, null, false);
-            nameTextView = ((TextView) header.findViewById(R.id.name));
+            nameTextView = header.findViewById(R.id.name);
             // Fetching fakename in shared preferences
             SharedPreferences sharedPref = MainActivity.this.getSharedPreferences("FAKEUSERNAME", Context.MODE_PRIVATE);
             String fakeName = sharedPref.getString("FAKEUSERNAME", "");
-            if (fakeName.equals("")) {
+            if (fakeName.isEmpty()) {
                 fakeName = Authentication.name;
             }
             nameTextView.setText(fakeName);
             nameTextView.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
-                    openDialog();
+                    fakenameDialog();
                 }
             });
 
@@ -2337,7 +2337,7 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    public void openDialog() {
+    private void fakenameDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
 
         View layout = getLayoutInflater().inflate(R.layout.fakename_dialog, null);
@@ -2355,7 +2355,7 @@ public class MainActivity extends BaseActivity
                     editor.putString("FAKEUSERNAME", fakeName);
                     editor.apply();
 
-                    if (fakeName.equals("")) {
+                    if (fakeName.isEmpty()) {
                         nameTextView.setText(Authentication.name);
                     } else {
                         nameTextView.setText(fakeName);
