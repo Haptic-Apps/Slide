@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Comment;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -174,7 +173,7 @@ public class AlbumFullComments extends Fragment {
 
         String url;
 
-        public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
+        public LoadIntoRecycler(@NonNull String url, @NonNull Activity baseActivity) {
             super(url, baseActivity);
             //todo htis dontClose = true;
             this.url = url;

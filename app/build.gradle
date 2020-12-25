@@ -123,7 +123,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.12'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.ozodrukh.CircularReveal:circualreveal:2.1.0'
-    compileOnly 'org.jetbrains:annotations:20.1.0'
     implementation 'com.mikepenz:itemanimators:1.1.0@aar'
     implementation 'com.neovisionaries:nv-websocket-client:2.10'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'

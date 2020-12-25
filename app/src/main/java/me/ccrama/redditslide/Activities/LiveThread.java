@@ -20,6 +20,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,8 +43,6 @@ import com.neovisionaries.ws.client.WebSocketState;
 import net.dean.jraw.managers.LiveThreadManager;
 import net.dean.jraw.models.LiveUpdate;
 import net.dean.jraw.paginators.LiveThreadPaginator;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URI;
@@ -533,7 +532,7 @@ public class LiveThread extends BaseActivityAnim {
             private WebView view;
             TwitterObject twitter;
 
-            public LoadTwitter(@NotNull WebView view, @NotNull String url) {
+            public LoadTwitter(@NonNull WebView view, @NonNull String url) {
                 this.view = view;
                 this.url = url;
                 client = Reddit.client;

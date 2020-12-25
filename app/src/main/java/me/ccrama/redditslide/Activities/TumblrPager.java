@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -46,8 +47,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -189,7 +188,7 @@ public class TumblrPager extends FullScreenActivity
 
         String url;
 
-        public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
+        public LoadIntoPager(@NonNull String url, @NonNull Activity baseActivity) {
             super(url, baseActivity);
             this.url = url;
         }

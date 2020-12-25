@@ -5,13 +5,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class TumblrUtils {
 
         }
 
-        public GetTumblrPostWithCallback(@NotNull String url, @NotNull Activity baseActivity) {
+        public GetTumblrPostWithCallback(@NonNull String url, @NonNull Activity baseActivity) {
 
             this.baseActivity = baseActivity;
             Uri i = Uri.parse(url);

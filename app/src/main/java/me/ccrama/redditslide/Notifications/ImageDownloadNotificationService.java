@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
@@ -23,8 +24,6 @@ import com.google.common.io.Files;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -185,7 +184,7 @@ public class ImageDownloadNotificationService extends Service {
             else return Reddit.appRestart.getString("imagelocation", "");
         }
 
-        @NotNull
+        @NonNull
         private String getSubfolderPath() {
             return SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : "";
         }

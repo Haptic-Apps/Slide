@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -24,8 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -364,7 +363,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
             String url;
 
-            public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
+            public LoadIntoRecycler(@NonNull String url, @NonNull Activity baseActivity) {
                 super(url, baseActivity);
                 this.url = url;
             }
