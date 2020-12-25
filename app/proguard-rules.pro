@@ -1,5 +1,7 @@
 #Progaurd config based off of http://stackoverflow.com/a/6492478/3697225
 
+-dontobfuscate
+
 -optimizationpasses 5
 
 #When not preverifing in a case-insensitive filing system, such as Windows. Because this tool unpacks your processed jars, you should then use:
@@ -71,7 +73,7 @@
 # public void onClickButton(android.view.View);
 #}
 
-#Maintain java native methods 
+#Maintain java native methods
 -keepclasseswithmembernames class * {
     native <methods>;
 }
@@ -121,7 +123,7 @@
 #   void myCallbackMethod(java.lang.String);
 #}
 
-#Uncomment if using Serializable 
+#Uncomment if using Serializable
 #-keepclassmembers class * implements java.io.Serializable {
 #    private static final java.io.ObjectStreamField[] serialPersistentFields;
 #    private void writeObject(java.io.ObjectOutputStream);

@@ -1,12 +1,12 @@
 plugins {
-    id 'com.gladed.androidgitversion' version '0.4.13'
-    id 'com.github.ben-manes.versions' version '0.33.0'
+    id 'com.gladed.androidgitversion' version '0.4.14'
+    id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.android.application'
 }
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
@@ -35,15 +35,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "Slide"
         }
         debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "Slide Debug"
         }
-
     }
 
     packagingOptions {
@@ -102,7 +100,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:extension-okhttp:$exoPlayerVersion"
 
-    implementation 'com.google.guava:guava:30.0-android'
+    implementation 'com.google.guava:guava:30.1-android'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     //noinspection GradleDependency
     implementation 'com.afollestad.material-dialogs:commons:0.8.6.2' //0.9.6.0
@@ -138,5 +136,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation 'org.robolectric:robolectric:4.4'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.7'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
 }
