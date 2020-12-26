@@ -107,6 +107,7 @@ public class SettingValues {
     public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
     public static final String PREF_GIF                    = "gif";
+    public static final String PREF_HQGIF                  = "hqgif";
     public static final String PREF_FASTSCROLL             = "Fastscroll";
     public static final String PREF_FAB_CLEAR              = "fabClear";
     public static final String PREF_HIDEBUTTON             = "Hidebutton";
@@ -185,6 +186,7 @@ public class SettingValues {
     public static boolean voteGestures;
     public static boolean colorEverywhere;
     public static boolean gif;
+    public static boolean hqgif;
     public static boolean colorCommentDepth;
     public static boolean commentVolumeNav;
     public static boolean postNav;
@@ -429,6 +431,7 @@ public class SettingValues {
 
         commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);
+        hqgif = prefs.getBoolean(PREF_HQGIF, false);
         video = true;
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, true);
         typeInText = prefs.getBoolean(PREF_TYPE_IN_TEXT, false);
