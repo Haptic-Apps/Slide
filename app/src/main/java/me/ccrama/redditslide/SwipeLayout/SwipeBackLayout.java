@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import androidx.core.view.ViewCompat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -504,7 +502,7 @@ public class SwipeBackLayout extends FrameLayout {
     public void computeScroll() {
         mScrimOpacity = 1 - mScrollPercent;
         if (mDragHelper.continueSettling(true)) {
-            ViewCompat.postInvalidateOnAnimation(this);
+            this.postInvalidateOnAnimation();
         }
     }
 

@@ -123,7 +123,7 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
                 mActivePointerId = INVALID_POINTER;
                 recycleVelocityTracker();
                 if (mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0, getScrollRange())) {
-                    ViewCompat.postInvalidateOnAnimation(this);
+                    this.postInvalidateOnAnimation();
                 }
                 stopNestedScroll();
                 break;
@@ -215,7 +215,7 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
                         flingWithNestedDispatch(-initialVelocity);
                     } else if (mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0,
                             getScrollRange())) {
-                        ViewCompat.postInvalidateOnAnimation(this);
+                        this.postInvalidateOnAnimation();
                     }
                 }
                 mActivePointerId = INVALID_POINTER;
@@ -225,7 +225,7 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
                 if (mIsBeingDragged && getChildCount() > 0) {
                     if (mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0,
                             getScrollRange())) {
-                        ViewCompat.postInvalidateOnAnimation(this);
+                        this.postInvalidateOnAnimation();
                     }
                 }
                 mActivePointerId = INVALID_POINTER;
@@ -317,7 +317,7 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
             mScroller.fling(getScrollX(), getScrollY(), 0, velocityY, 0, 0, 0,
                     Math.max(0, bottom - height), 0, height / 2);
 
-            ViewCompat.postInvalidateOnAnimation(this);
+            this.postInvalidateOnAnimation();
         }
     }
 
