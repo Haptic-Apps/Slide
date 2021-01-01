@@ -22,6 +22,7 @@ public class TransparentTagTextView extends AppCompatTextView {
     Canvas mMaskCanvas;
     Paint mPaint;
 
+    Drawable backdrop;
     Drawable mBackground;
     Bitmap mBackgroundBitmap;
     Canvas mBackgroundCanvas;
@@ -42,22 +43,12 @@ public class TransparentTagTextView extends AppCompatTextView {
         mSetBoundsOnSizeAvailable = true;
         mPaint = new Paint();
         super.setTextColor(Color.BLACK);
-        super.setBackground(new ColorDrawable(Color.TRANSPARENT));
-        setBackground(context.getResources().getDrawable(R.drawable.flairback));
-    }
-
-
-    Drawable backdrop;
-    public void resetBackground(Context context) {
-        mPaint = new Paint();
-        super.setTextColor(Color.BLACK);
-        super.setBackground(new ColorDrawable(Color.TRANSPARENT));
-        backdrop = context.getResources().getDrawable(R.drawable.flairback);
-        setBackground(backdrop);
+        super.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setBackgroundDrawable(context.getResources().getDrawable(R.drawable.flairback));
     }
 
     @Override
-    public void setBackground(Drawable bg) {
+    public void setBackgroundDrawable(Drawable bg) {
         if(bg != null) {
             mBackground = bg;
             int w = bg.getIntrinsicWidth();
@@ -82,7 +73,7 @@ public class TransparentTagTextView extends AppCompatTextView {
 
     @Override
     public void setBackgroundColor(int color) {
-        setBackground(new ColorDrawable(color));
+        setBackgroundDrawable(new ColorDrawable(color));
     }
 
     @Override
@@ -103,7 +94,7 @@ public class TransparentTagTextView extends AppCompatTextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.setBackground(backdrop);
+        super.setBackgroundDrawable(backdrop);
 
         // Draw background
         mBackground.draw(mBackgroundCanvas);
