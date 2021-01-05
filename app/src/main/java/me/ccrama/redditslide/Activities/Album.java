@@ -42,6 +42,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
@@ -223,7 +224,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                                               .doOffset(positionOffset);
                                                   }
                                                   ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
-                                                          adjustAlpha(positionOffset * 0.7f));
+                                                          Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
                                           }
 
@@ -279,14 +280,6 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             return 2;
         }
 
-    }
-
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
     }
 
     public static class AlbumFrag extends Fragment {

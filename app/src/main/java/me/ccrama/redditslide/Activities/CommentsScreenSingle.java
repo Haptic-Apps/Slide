@@ -35,6 +35,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SwipeLayout.Utils;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -164,14 +165,6 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         }
     }
 
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
-    }
-
     private void setupAdapter() {
         themeSystemBars(subreddit);
         setRecentBar(subreddit);
@@ -191,7 +184,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 if (position == 0
                         && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
                     ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
-                    pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                    pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
                 }
             }
 

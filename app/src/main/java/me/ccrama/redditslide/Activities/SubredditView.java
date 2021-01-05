@@ -480,14 +480,6 @@ public class SubredditView extends BaseActivity {
         }
     }
 
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
-    }
-
     public void doPageSelectedComments(int position) {
         header.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(180);
         pager.setSwipeLeftOnly(false);
@@ -1827,7 +1819,7 @@ public class SubredditView extends BaseActivity {
                     if (position == 0) {
                         ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
                                 positionOffset);
-                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                        pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
                     }
                 }
 
@@ -1925,7 +1917,7 @@ public class SubredditView extends BaseActivity {
                         }
 
                         blankPage.doOffset(positionOffset);
-                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                        pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
 
                     } else if (positionOffset == 0) {
                         if (position == 1) {

@@ -35,6 +35,7 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing the post and its
@@ -119,14 +120,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     public int                currentPage;
     public ArrayList<Integer> seen;
-
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
-    }
 
     public boolean popup;
 
@@ -220,7 +213,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                                           ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
                                                                   positionOffset);
                                                       }
-                                                      pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                                                      pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
 
                                                   }
                                               }

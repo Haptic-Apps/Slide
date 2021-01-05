@@ -144,6 +144,14 @@ public class Palette {
         return color;
     }
 
+    public static int adjustAlpha(float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
+    }
+
     public enum ThemeEnum {
         DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
         LIGHT("Light",Color.parseColor("#e5e5e5"), Color.parseColor("#ffffff"), Color.parseColor("#de000000"), Color.parseColor("#8A000000") ),
