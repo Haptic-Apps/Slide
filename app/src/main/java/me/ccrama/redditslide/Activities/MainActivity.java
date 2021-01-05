@@ -23,7 +23,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -664,10 +663,7 @@ public class MainActivity extends BaseActivity
                 if (subreddit.equalsIgnoreCase("friends")) {
                     Snackbar s = Snackbar.make(findViewById(R.id.anchor),
                             getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     openPopup();
                 }
@@ -1070,11 +1066,7 @@ public class MainActivity extends BaseActivity
                                                     startActivity(i);
                                                 }
                                             });
-                                    View view = snack.getView();
-                                    TextView tv = view.findViewById(
-                                            com.google.android.material.R.id.snackbar_text);
-                                    tv.setTextColor(Color.WHITE);
-                                    snack.show();
+                                    LayoutUtils.showSnackbar(snack);
                                 }
                             }
                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -2465,11 +2457,7 @@ public class MainActivity extends BaseActivity
                                                                                             R.string.multi_subreddit_added,
                                                                                             multiName),
                                                                                     Snackbar.LENGTH_LONG);
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
@@ -2656,15 +2644,7 @@ public class MainActivity extends BaseActivity
                                                                                                     getString(
                                                                                                             R.string.misc_subscribed),
                                                                                                     Snackbar.LENGTH_LONG);
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             })
                                                                     .setNegativeButton(
@@ -2710,11 +2690,7 @@ public class MainActivity extends BaseActivity
                                                 Snackbar s =
                                                         Snackbar.make(mToolbar, R.string.sub_added,
                                                                 Snackbar.LENGTH_LONG);
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        com.google.android.material.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         })
                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -2758,15 +2734,7 @@ public class MainActivity extends BaseActivity
                                                                                                     getString(
                                                                                                             R.string.misc_unsubscribed),
                                                                                                     Snackbar.LENGTH_LONG);
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             })
                                                                     .setNegativeButton(
@@ -2811,11 +2779,7 @@ public class MainActivity extends BaseActivity
                                                 Snackbar s = Snackbar.make(mToolbar,
                                                         R.string.misc_unsubscribed,
                                                         Snackbar.LENGTH_LONG);
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        com.google.android.material.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         })
                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -3259,17 +3223,7 @@ public class MainActivity extends BaseActivity
                                                                                         }
                                                                                         if (s
                                                                                                 != null) {
-                                                                                            View
-                                                                                                    view =
-                                                                                                    s.getView();
-                                                                                            TextView
-                                                                                                    tv =
-                                                                                                    view
-                                                                                                            .findViewById(
-                                                                                                                    com.google.android.material.R.id.snackbar_text);
-                                                                                            tv.setTextColor(
-                                                                                                    Color.WHITE);
-                                                                                            s.show();
+                                                                                            LayoutUtils.showSnackbar(s);
                                                                                         }
                                                                                     }
                                                                                 }.executeOnExecutor(
@@ -3328,11 +3282,7 @@ public class MainActivity extends BaseActivity
                                                                             Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             }
                                                         }.executeOnExecutor(
@@ -4928,10 +4878,7 @@ public class MainActivity extends BaseActivity
                                 }
                             });
 
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 }
                 Reddit.appRestart.edit().putInt("inbox", count).apply();
             }

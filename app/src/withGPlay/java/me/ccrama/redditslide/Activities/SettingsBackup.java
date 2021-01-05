@@ -3,14 +3,12 @@ package me.ccrama.redditslide.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,6 +46,7 @@ import java.util.Calendar;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.FileUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -677,11 +676,7 @@ public class SettingsBackup extends BaseActivityAnim
                                                             "No file explorer found, file located at "
                                                                     + file.getAbsolutePath(),
                                                             Snackbar.LENGTH_INDEFINITE);
-                                            View view = s.getView();
-                                            TextView tv = view.findViewById(
-                                                    com.google.android.material.R.id.snackbar_text);
-                                            tv.setTextColor(Color.WHITE);
-                                            s.show();
+                                            LayoutUtils.showSnackbar(s);
                                         }
                                     }
                                 })

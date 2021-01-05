@@ -1,9 +1,6 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -29,6 +26,7 @@ import java.util.TreeMap;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.LastComments;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -158,10 +156,7 @@ public class SubmissionComments {
         mLoadData.execute(fullName);
         if (context == null || context.isEmpty()) {
             Snackbar s = Snackbar.make(page.rv, "Comment submitted", Snackbar.LENGTH_SHORT);
-            View view = s.getView();
-            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            s.show();
+            LayoutUtils.showSnackbar(s);
         }
     }
 

@@ -1,7 +1,11 @@
 package me.ccrama.redditslide.util;
 
+import android.graphics.Color;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 /**
@@ -31,5 +35,12 @@ public class LayoutUtils {
                 });
             }
         }
+    }
+
+    public static void showSnackbar(final Snackbar s) {
+        View view = s.getView();
+        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        tv.setTextColor(Color.WHITE);
+        s.show();
     }
 }

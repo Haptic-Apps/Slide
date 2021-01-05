@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,6 +66,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -491,21 +491,14 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onPostExecute(Void voids) {
+            Snackbar s;
             if (sent) {
-                Snackbar s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
-                View view = s.getView();
-                TextView tv =
-                        view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
+                s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
+                LayoutUtils.showSnackbar(s);
             } else {
-                Snackbar s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
+                s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
                         Snackbar.LENGTH_LONG);
-                View view = s.getView();
-                TextView tv =
-                        view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
+                LayoutUtils.showSnackbar(s);
                 Drafts.addDraft(text);
                 sent = true;
             }

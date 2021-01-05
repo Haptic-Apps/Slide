@@ -1,10 +1,8 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -14,6 +12,7 @@ import net.dean.jraw.models.Submission;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 public class AsyncSave extends AsyncTask<Submission, Void, Void> {
     final Activity mContext;
@@ -48,11 +47,6 @@ public class AsyncSave extends AsyncTask<Submission, Void, Void> {
     }
 
     private void runUiThread(final Snackbar s) {
-        mContext.runOnUiThread(() -> {
-            View view = s.getView();
-            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            s.show();
-        });
+        mContext.runOnUiThread(() -> LayoutUtils.showSnackbar(s));
     }
 }

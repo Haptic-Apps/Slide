@@ -119,6 +119,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
@@ -354,11 +355,7 @@ public class PopulateSubmissionViewHolder {
 
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 }
             }
@@ -891,11 +888,7 @@ public class PopulateSubmissionViewHolder {
                                     ReadLater.setReadLater(submission, false);
                                     Snackbar s2 = Snackbar.make(holder.itemView,
                                             "Removed from read later", Snackbar.LENGTH_SHORT);
-                                    View view2 = s2.getView();
-                                    TextView tv2 = view2.findViewById(
-                                            com.google.android.material.R.id.snackbar_text);
-                                    tv2.setTextColor(Color.WHITE);
-                                    s2.show();
+                                    LayoutUtils.showSnackbar(s2);
                                 }
                             });
                             if (NetworkUtil.isConnected(mContext)) {
@@ -1174,10 +1167,7 @@ public class PopulateSubmissionViewHolder {
                         holder.save.setContentDescription(mContext.getString(R.string.btn_save));
 
                     }
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } catch (Exception ignored) {
 
                 }
@@ -1275,14 +1265,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         itemView,
                                                                                         R.string.submission_info_saved,
                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                View view =
-                                                                                        s.getView();
-                                                                                TextView tv =
-                                                                                        view.findViewById(
-                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
+                                                                                LayoutUtils.showSnackbar(s);
                                                                             }
                                                                         } else {
                                                                             if (itemView != null) {
@@ -1290,14 +1273,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         itemView,
                                                                                         R.string.category_set_error,
                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                View view =
-                                                                                        s.getView();
-                                                                                TextView tv =
-                                                                                        view.findViewById(
-                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
+                                                                                LayoutUtils.showSnackbar(s);
                                                                             }
                                                                         }
 
@@ -1330,22 +1306,14 @@ public class PopulateSubmissionViewHolder {
                                                         s = Snackbar.make(itemView,
                                                                 R.string.submission_info_saved,
                                                                 Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                com.google.android.material.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
+                                                        LayoutUtils.showSnackbar(s);
                                                     }
                                                 } else {
                                                     if (itemView != null) {
                                                         s = Snackbar.make(itemView,
                                                                 R.string.category_set_error,
                                                                 Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                com.google.android.material.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
+                                                        LayoutUtils.showSnackbar(s);
                                                     }
                                                 }
                                             }
@@ -1374,10 +1342,7 @@ public class PopulateSubmissionViewHolder {
                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                 Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_unhidden,
                         Snackbar.LENGTH_LONG);
-                View view = snack.getView();
-                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             } else {
                 final T t = posts.get(pos);
                 posts.remove(pos);
@@ -1413,10 +1378,7 @@ public class PopulateSubmissionViewHolder {
 
                             }
                         });
-                View view = snack.getView();
-                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             }
 
         }
@@ -1664,10 +1626,7 @@ public class PopulateSubmissionViewHolder {
                                         Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                                                 Snackbar.LENGTH_LONG);
 
-                                        View view = s.getView();
-                                        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                                        tv.setTextColor(Color.WHITE);
-                                        s.show();
+                                        LayoutUtils.showSnackbar(s);
 
                                     } else {
                                         new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -1774,10 +1733,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
 
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -1835,10 +1791,7 @@ public class PopulateSubmissionViewHolder {
 
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -1979,10 +1932,7 @@ public class PopulateSubmissionViewHolder {
                     }
                 }
                 if (s != null) {
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -2035,10 +1985,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, R.string.really_pin_submission_message,
                                     Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2071,10 +2018,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, R.string.really_unpin_submission_message,
                                     Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2106,10 +2050,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s =
                             Snackbar.make(holder.itemView, R.string.mod_locked, Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2141,10 +2082,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s =
                             Snackbar.make(holder.itemView, R.string.mod_unlocked, Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2176,10 +2114,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Submission distinguished",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2212,10 +2147,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Submission distinguish removed",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2248,10 +2180,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s =
                             Snackbar.make(holder.itemView, "NSFW status set", Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2285,10 +2214,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "NSFW status removed",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2321,10 +2247,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Spoiler status set",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2358,10 +2281,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Spoiler status removed",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2414,11 +2334,7 @@ public class PopulateSubmissionViewHolder {
                     try {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.mod_approved,
                                 Snackbar.LENGTH_LONG);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     } catch (Exception ignored) {
 
                     }
@@ -2586,14 +2502,8 @@ public class PopulateSubmissionViewHolder {
 
                                             }
 
-                                            if (s != null)
-
-                                            {
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        com.google.android.material.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                            if (s != null) {
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         }
                                     }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -2868,10 +2778,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg),
                                     Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     if (SettingValues.actionbarTap && !full) {
                         CreateCardView.toggleActionbar(holder.itemView);
@@ -3438,19 +3345,8 @@ public class PopulateSubmissionViewHolder {
                                                                                                                                 Snackbar.LENGTH_SHORT);
                                                                                                             }
                                                                                                         }
-                                                                                                        if (s
-                                                                                                                != null) {
-                                                                                                            View
-                                                                                                                    view =
-                                                                                                                    s.getView();
-                                                                                                            TextView
-                                                                                                                    tv =
-                                                                                                                    view
-                                                                                                                            .findViewById(
-                                                                                                                                    com.google.android.material.R.id.snackbar_text);
-                                                                                                            tv.setTextColor(
-                                                                                                                    Color.WHITE);
-                                                                                                            s.show();
+                                                                                                        if (s != null) {
+                                                                                                            LayoutUtils.showSnackbar(s);
                                                                                                         }
                                                                                                     }
                                                                                                 }.executeOnExecutor(
@@ -3516,15 +3412,7 @@ public class PopulateSubmissionViewHolder {
                                                                                     }
                                                                                 }
                                                                                 if (s != null) {
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             }
                                                                         }.executeOnExecutor(
@@ -3655,10 +3543,7 @@ public class PopulateSubmissionViewHolder {
             if (contextView != null) {
                 try {
                     Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } catch (Exception ignored) {
 
                 }

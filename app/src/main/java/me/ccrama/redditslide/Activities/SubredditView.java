@@ -91,6 +91,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
@@ -305,10 +306,7 @@ public class SubredditView extends BaseActivity {
                 if (subreddit.equalsIgnoreCase("friends")) {
                     Snackbar s = Snackbar.make(findViewById(R.id.anchor),
                             getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     openPopup();
                 }
@@ -877,19 +875,8 @@ public class SubredditView extends BaseActivity {
                                                                                                             R.string.snackbar_flair_error,
                                                                                                             Snackbar.LENGTH_SHORT);
                                                                                         }
-                                                                                        if (s
-                                                                                                != null) {
-                                                                                            View
-                                                                                                    view =
-                                                                                                    s.getView();
-                                                                                            TextView
-                                                                                                    tv =
-                                                                                                    view
-                                                                                                            .findViewById(
-                                                                                                                    com.google.android.material.R.id.snackbar_text);
-                                                                                            tv.setTextColor(
-                                                                                                    Color.WHITE);
-                                                                                            s.show();
+                                                                                        if (s != null) {
+                                                                                            LayoutUtils.showSnackbar(s);
                                                                                         }
                                                                                     }
                                                                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -947,11 +934,7 @@ public class SubredditView extends BaseActivity {
                                                                             Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             }
                                                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1252,10 +1235,7 @@ public class SubredditView extends BaseActivity {
         }
         Snackbar s = Snackbar.make(mToolbar, isChecked ? getString(R.string.misc_subscribed)
                 : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
-        View view = s.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(Color.WHITE);
-        s.show();
+        LayoutUtils.showSnackbar(s);
     }
 
     private void doSubOnlyStuff(final Subreddit subreddit) {
@@ -1363,11 +1343,7 @@ public class SubredditView extends BaseActivity {
                                                                                             R.string.multi_subreddit_added,
                                                                                             multiName),
                                                                                     Snackbar.LENGTH_LONG);
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
@@ -1457,16 +1433,7 @@ public class SubredditView extends BaseActivity {
                                                                                                         getString(
                                                                                                                 R.string.misc_subscribed),
                                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                        View view =
-                                                                                                s.getView();
-                                                                                        TextView
-                                                                                                tv =
-                                                                                                view
-                                                                                                        .findViewById(
-                                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                        tv.setTextColor(
-                                                                                                Color.WHITE);
-                                                                                        s.show();
+                                                                                        LayoutUtils.showSnackbar(s);
                                                                                     }
                                                                                 })
                                                                         .setNegativeButton(
@@ -1513,11 +1480,7 @@ public class SubredditView extends BaseActivity {
                                                     Snackbar s = Snackbar.make(mToolbar,
                                                             R.string.sub_added,
                                                             Snackbar.LENGTH_SHORT);
-                                                    View view = s.getView();
-                                                    TextView tv = view.findViewById(
-                                                            com.google.android.material.R.id.snackbar_text);
-                                                    tv.setTextColor(Color.WHITE);
-                                                    s.show();
+                                                    LayoutUtils.showSnackbar(s);
                                                 }
                                             })
                                     .show();
@@ -1572,16 +1535,7 @@ public class SubredditView extends BaseActivity {
                                                                                                         getString(
                                                                                                                 R.string.misc_unsubscribed),
                                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                        View view =
-                                                                                                s.getView();
-                                                                                        TextView
-                                                                                                tv =
-                                                                                                view
-                                                                                                        .findViewById(
-                                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                        tv.setTextColor(
-                                                                                                Color.WHITE);
-                                                                                        s.show();
+                                                                                        LayoutUtils.showSnackbar(s);
                                                                                     }
                                                                                 })
                                                                         .setNegativeButton(
@@ -1628,11 +1582,7 @@ public class SubredditView extends BaseActivity {
                                                     Snackbar s = Snackbar.make(mToolbar,
                                                             R.string.misc_unsubscribed,
                                                             Snackbar.LENGTH_SHORT);
-                                                    View view = s.getView();
-                                                    TextView tv = view.findViewById(
-                                                            com.google.android.material.R.id.snackbar_text);
-                                                    tv.setTextColor(Color.WHITE);
-                                                    s.show();
+                                                    LayoutUtils.showSnackbar(s);
                                                 }
                                             })
                                     .setNegativeButton(R.string.btn_cancel, null)
