@@ -27,7 +27,6 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -163,7 +162,6 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 }
             });
-            final boolean saved = submission.isSaved();
 
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, true, false, "multi" + dataSet.multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH), null);
         }
@@ -220,11 +218,4 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    static void fixSliding(int position) {
-        try {
-            Reddit.lastPosition.add(position, 0);
-        } catch (IndexOutOfBoundsException e) {
-            fixSliding(position - 1);
-        }
-    }
 }

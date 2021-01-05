@@ -236,10 +236,6 @@ public class BaseActivity extends PeekViewActivity
         overrideSwipeFromAnywhere = true;
     }
 
-    protected void swipeVerticalExit(){
-        verticalExit = true;
-    }
-
     protected void overrideRedditSwipeAnywhere() {
         overrideRedditSwipeAnywhere = true;
     }

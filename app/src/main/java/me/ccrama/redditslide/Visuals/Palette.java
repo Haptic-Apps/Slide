@@ -9,8 +9,6 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Reddit;
 
 public class Palette {
-    private int fontColor;
-    public int backgroundColor;
 
     public static int getDefaultColor() {
         if (Reddit.colors.contains("DEFAULTCOLOR")) {
@@ -51,17 +49,6 @@ public class Palette {
             return Reddit.colors.getInt("ACCENTCOLOR", Color.parseColor("#ff6e40"));
         } else {
             return Color.parseColor("#ff6e40");
-        }
-    }
-
-    private int mainColor;
-    private int accentColor;
-
-    private static int getColorAccent(final String subreddit) {
-        if (Reddit.colors.contains("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH))) {
-            return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
-        } else {
-            return getDefaultColor();
         }
     }
 
@@ -119,28 +106,6 @@ public class Palette {
         Reddit.colors.edit().remove("USER" + username.toLowerCase(Locale.ENGLISH)).apply();
     }
 
-    public static Palette getSubredditPallete(String subredditname) {
-        Palette p = new Palette();
-
-        p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
-        p.fontColor = p.theme.getFontColor();
-        p.backgroundColor = p.theme.getBackgroundColor();
-        p.mainColor = getColor(subredditname);
-        p.accentColor = getColorAccent(subredditname);
-
-        return p;
-    }
-
-    public static Palette getDefaultPallete() {
-        Palette p = new Palette();
-
-        p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
-        p.fontColor = p.theme.getFontColor();
-        p.backgroundColor = p.theme.getBackgroundColor();
-
-        return p;
-    }
-
     public static int getDarkerColor(String s) {
         return getDarkerColor(getColor(s));
     }
@@ -154,8 +119,6 @@ public class Palette {
 
         return color;
     }
-
-    public ThemeEnum theme;
 
     public enum ThemeEnum {
         DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),

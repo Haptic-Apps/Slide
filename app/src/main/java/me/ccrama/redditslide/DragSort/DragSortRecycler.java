@@ -92,16 +92,8 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
         viewHandleId = R.id.dragit;
     }
 
-    public void setLeftDragArea(int w) {
-        dragHandleWidth = w;
-    }
-
     public void setFloatingAlpha() {
         floatingItemAlpha = 0.4f;
-    }
-
-    public void setFloatingBgColor(int c) {
-        floatingItemBgColor = c;
     }
 
     /*
@@ -185,7 +177,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
      * This *seems* to work, another method would be to use
      * getItemOffsets, but I think that could miss items?..
      */
-    private int getNewPostion(RecyclerView rv) {
+    private int getNewPosition(RecyclerView rv) {
         int itemsOnScreen = rv.getLayoutManager().getChildCount();
 
         float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2.0f;
@@ -311,7 +303,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
         if ((e.getAction() == MotionEvent.ACTION_UP) ||
                 (e.getAction() == MotionEvent.ACTION_CANCEL)) {
             if ((e.getAction() == MotionEvent.ACTION_UP) && selectedDragItemPos != -1) {
-                int newPos = getNewPostion(rv);
+                int newPos = getNewPosition(rv);
                 if (moveInterface != null)
                     moveInterface.onItemMoved(selectedDragItemPos, newPos);
             }

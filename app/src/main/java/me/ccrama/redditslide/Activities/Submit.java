@@ -80,7 +80,6 @@ import okio.BufferedSink;
 public class Submit extends BaseActivity {
 
     private boolean      sent;
-    private String       trying;
     private String       URL;
     private SwitchCompat inboxReplies;
     private View         image;

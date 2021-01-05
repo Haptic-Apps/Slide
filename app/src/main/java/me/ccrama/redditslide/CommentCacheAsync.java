@@ -108,7 +108,6 @@ public class CommentCacheAsync extends AsyncTask {
         if (Authentication.reddit == null) Reddit.authentication = new Authentication(context);
 
         ArrayList<String> success = new ArrayList<>();
-        ArrayList<String> error = new ArrayList<>();
 
         for (final String fSub : subs) {
             final String sub;

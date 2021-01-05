@@ -30,14 +30,6 @@ public class TumblrUtils {
 
     public static SharedPreferences tumblrRequests;
 
-    private static String cutEnds(String s) {
-        if (s.endsWith("/")) {
-            return s.substring(0, s.length() - 1);
-        } else {
-            return s;
-        }
-    }
-
     public static class GetTumblrPostWithCallback
             extends AsyncTask<String, Void, ArrayList<JsonElement>> {
 
@@ -68,10 +60,6 @@ public class TumblrUtils {
                 onError();
             }
         }
-
-        JsonElement[] target;
-        int           count;
-        int           done;
 
         TumblrPost post;
 

@@ -335,7 +335,7 @@ public class UserSubscriptions {
             pag.setLimit(100);
             try {
                 while (pag.hasNext()) {
-                    for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                    for (Subreddit s : pag.next()) {
                         toReturn.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
                     }
                 }
@@ -347,7 +347,7 @@ public class UserSubscriptions {
                 //failed;
                 e.printStackTrace();
             }
-            addSubsToHistory(toReturn, true);
+            addSubsToHistory(toReturn);
         } else {
             toReturn.addAll(defaultSubs);
         }
@@ -481,7 +481,7 @@ public class UserSubscriptions {
         pag.setLimit(100);
         try {
             while (pag.hasNext()) {
-                for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                for (Subreddit s : pag.next()) {
                     finished.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
                 }
             }
@@ -647,7 +647,7 @@ public class UserSubscriptions {
         subscriptions.edit().putString("subhistory", history.toString()).apply();
     }
 
-    public static void addSubsToHistory(CaseInsensitiveArrayList s2, boolean b) {
+    public static void addSubsToHistory(CaseInsensitiveArrayList s2) {
         StringBuilder history = new StringBuilder(subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH));
         for (String s : s2) {
             if (!history.toString().contains(s.toLowerCase(Locale.ENGLISH))) {
@@ -767,10 +767,6 @@ public class UserSubscriptions {
         java.util.Collections.sort(subs, String.CASE_INSENSITIVE_ORDER);
         finals.addAll(subs);
         return finals;
-    }
-
-    public static boolean isSubscriber(String s, Context c) {
-        return getSubscriptions(c).contains(s.toLowerCase(Locale.ENGLISH));
     }
 
     public static class SubscribeTask extends AsyncTask<String, Void, Void> {

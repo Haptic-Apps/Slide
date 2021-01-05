@@ -475,38 +475,6 @@ public class CreateCardView {
         return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.DESKTOP;
     }
 
-    public static CardEnum getCardView() {
-        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString()));
-    }
-
-    public static SettingValues.ColorIndicator getColorIndicator() {
-        String subreddit = "";
-
-        return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew", SettingValues.colorIndicator.toString()));
-    }
-
-    public static SettingValues.ColorMatchingMode getColorMatchingMode() {
-        String subreddit = "";
-
-        return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew", SettingValues.colorMatchingMode.toString()));
-    }
-
-    public static void setColorMatchingMode(SettingValues.ColorMatchingMode b) {
-        String subreddit = "";
-        if (subreddit.isEmpty()) {
-
-
-            SettingValues.prefs.edit().putString("ccolorMatchingModeNew", b.toString()).apply();
-
-            SettingValues.colorMatchingMode = b;
-
-        } else {
-            SettingValues.prefs.edit().putString(subreddit + "ccolorMatchingModeNew", b.toString()).apply();
-
-        }
-
-    }
-
     public enum CardEnum {
         LARGE("Big Card"),
         LIST("List"),

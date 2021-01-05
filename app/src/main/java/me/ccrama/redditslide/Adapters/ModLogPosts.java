@@ -9,7 +9,6 @@ import net.dean.jraw.paginators.ModLogPaginator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 
@@ -23,11 +22,6 @@ public class ModLogPosts {
     private ModLogAdapter        adapter;
     private ModLogPaginator      paginator;
 
-    public ModLogPosts(ArrayList<ModAction> firstData, ModLogPaginator paginator) {
-        posts = firstData;
-        this.paginator = paginator;
-    }
-
     public ModLogPosts() {
     }
 
@@ -39,10 +33,6 @@ public class ModLogPosts {
 
     public void loadMore(ModLogAdapter adapter) {
         new ModLogPosts.LoadData(true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    public void addData(List<ModAction> data) {
-        posts.addAll(data);
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<ModAction>> {

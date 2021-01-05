@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,11 +26,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.TumblrView;
 import me.ccrama.redditslide.ColorPreferences;
@@ -166,40 +162,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                 })
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
-    }
-
-    private void saveImageGallery(final Bitmap bitmap, String URL) {
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog();
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog();
-        } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "")
-                    + File.separator
-                    + UUID.randomUUID().toString()
-                    + ".png");
-
-
-            FileOutputStream out = null;
-            try {
-                f.createNewFile();
-                out = new FileOutputStream(f);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorDialog();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showErrorDialog();
-                }
-            }
-        }
-
     }
 
     public String url;

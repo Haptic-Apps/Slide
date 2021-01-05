@@ -97,7 +97,6 @@ public class SubredditPosts implements PostLoader {
         return !nomore;
     }
 
-    public boolean skipOne;
     boolean authedOnce = false;
     boolean usedOffline;
     public long              currentid;

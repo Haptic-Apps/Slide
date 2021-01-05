@@ -23,7 +23,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  * Created by ccrama on 10/2/2015.
  */
 public class Shortcut extends BaseActivity {
-    private String name = "";
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;

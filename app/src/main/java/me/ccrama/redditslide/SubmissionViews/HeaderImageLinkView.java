@@ -31,9 +31,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.dean.jraw.models.Submission;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -62,7 +59,6 @@ public class HeaderImageLinkView extends RelativeLayout {
     public TextView  secondTitle;
     public TextView  secondSubTitle;
     public View      wrapArea;
-    boolean done;
     String lastDone = "";
     ContentType.Type type;
     DisplayImageOptions bigOptions = new DisplayImageOptions.Builder().resetViewBeforeLoading(false)
@@ -71,7 +67,6 @@ public class HeaderImageLinkView extends RelativeLayout {
             .cacheInMemory(false)
             .displayer(new FadeInBitmapDisplayer(250))
             .build();
-    Activity            activity   = null;
     boolean     clickHandled;
     Handler     handler;
     MotionEvent event;
@@ -743,16 +738,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         secondTitle = v.findViewById(R.id.contenttitle);
         secondSubTitle = v.findViewById(R.id.contenturl);
 
-    }
-
-    private String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        if (domain != null && !domain.isEmpty()) {
-            return domain.startsWith("www.") ? domain.substring(4) : domain;
-        } else {
-            return "";
-        }
     }
 
     private void init() {

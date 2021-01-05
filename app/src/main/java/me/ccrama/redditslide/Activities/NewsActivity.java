@@ -3,13 +3,11 @@ package me.ccrama.redditslide.Activities;
 import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,12 +21,9 @@ import android.view.animation.LinearInterpolator;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.customview.widget.ViewDragHelper;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -36,7 +31,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import net.dean.jraw.managers.AccountManager;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +48,6 @@ import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
-import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LayoutUtils;
@@ -278,91 +271,7 @@ public class NewsActivity extends BaseActivity
         return str.substring(0, maxWidth - 3) + abrevMarker;
     }
 
-    /**
-     * Set the drawer edge (i.e. how sensitive the drawer is) Based on a given screen width
-     * percentage.
-     *
-     * @param displayWidthPercentage larger the value, the more sensitive the drawer swipe is;
-     *                               percentage of screen width
-     * @param drawerLayout           drawerLayout to adjust the swipe edge
-     */
-    public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
-            DrawerLayout drawerLayout) {
-        try {
-            Field mDragger =
-                    drawerLayout.getClass().getSuperclass().getDeclaredField("mLeftDragger");
-            mDragger.setAccessible(true);
-
-            ViewDragHelper leftDragger = (ViewDragHelper) mDragger.get(drawerLayout);
-            Field mEdgeSize = leftDragger.getClass().getDeclaredField("mEdgeSize");
-            mEdgeSize.setAccessible(true);
-            final int currentEdgeSize = mEdgeSize.getInt(leftDragger);
-
-            Point displaySize = new Point();
-            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-            mEdgeSize.setInt(leftDragger,
-                    Math.max(currentEdgeSize, (int) (displaySize.x * displayWidthPercentage)));
-        } catch (Exception e) {
-            LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
-        }
-    }
-
-    boolean isTop;
-
-    private void changeTop() {
-        reloadSubs();
-        //test
-    }
-
-    public int getCurrentPage() {
-        int position = 0;
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (adapter.getCurrentFragment() == null) {
-            return 0;
-        }
-        if (((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager
-                && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position =
-                    ((LinearLayoutManager) ((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPosition() - 1;
-        } else if (((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-            int[] firstVisibleItems = null;
-            firstVisibleItems =
-                    ((CatchStaggeredGridLayoutManager) ((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPositions(firstVisibleItems);
-            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                position = firstVisibleItems[0] - 1;
-            }
-        } else {
-            position =
-                    ((PreCachingLayoutManager) ((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPosition() - 1;
-        }
-        return position;
-    }
-
     String shouldLoad;
-
-    public void reloadSubs() {
-        int current = pager.getCurrentItem();
-
-        if (current < 0) {
-            current = 0;
-        }
-        reloadItemNumber = current;
-
-        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-        reloadItemNumber = -2;
-        shouldLoad = usedArray.get(current);
-        pager.setCurrentItem(current);
-        if (mTabLayout != null) {
-            mTabLayout.setupWithViewPager(pager);
-            LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
-        }
-
-        setToolbarClick();
-    }
 
 
     public void restartTheme() {

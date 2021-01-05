@@ -417,26 +417,10 @@ public class NewsView extends Fragment implements SubmissionDisplay {
     }
 
 
-    public static void datachanged(int adaptorPosition2) {
-        adapterPosition = adaptorPosition2;
-    }
-
     private void refresh() {
         posts.forced = true;
         forced = true;
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, id);
-    }
-
-    public void forceRefresh() {
-        rv.scrollToPosition(0);
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                refresh();
-            }
-        });
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

@@ -148,45 +148,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     int clicked;
 
-    public void refreshView() {
-        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
-        listView.setItemAnimator(null);
-        notifyItemChanged(clicked);
-        listView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setItemAnimator(a);
-            }
-        }, 500);
-    }
-
-    public void refreshView(boolean ignore18) {
-        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
-        listView.setItemAnimator(null);
-        notifyItemChanged(clicked);
-        listView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setItemAnimator(a);
-            }
-        }, 500);
-    }
-
-    public void refreshView(ArrayList<Integer> seen) {
-        listView.setItemAnimator(null);
-        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
-
-        for (int i : seen) {
-            notifyItemChanged(i + 1);
-        }
-        listView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setItemAnimator(a);
-            }
-        }, 500);
-    }
-
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int pos) {
 

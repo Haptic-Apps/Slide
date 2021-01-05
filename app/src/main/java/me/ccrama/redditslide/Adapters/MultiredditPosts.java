@@ -46,10 +46,6 @@ public class MultiredditPosts implements PostLoader {
     Context c;
     MultiredditAdapter adapter;
 
-    public MultiredditPosts(String multireddit) {
-        this(multireddit, "");
-    }
-
     public MultiredditPosts(String multireddit, String profile) {
         posts = new ArrayList<>();
         LogUtil.e("MJWHITTA: Profile is " + profile + ".");
@@ -86,7 +82,6 @@ public class MultiredditPosts implements PostLoader {
         return !nomore;
     }
 
-    public boolean skipOne;
     boolean usedOffline;
 
     /**
