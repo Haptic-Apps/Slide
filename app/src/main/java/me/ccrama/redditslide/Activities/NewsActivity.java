@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -58,6 +57,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -358,7 +358,7 @@ public class NewsActivity extends BaseActivity
         pager.setCurrentItem(current);
         if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(pager);
-            scrollToTabAfterLayout(current);
+            LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
         }
 
         setToolbarClick();
@@ -429,7 +429,7 @@ public class NewsActivity extends BaseActivity
             mTabLayout.setupWithViewPager(pager);
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(toGoto);
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, toGoto);
             }
             setToolbarClick();
         } else if (NetworkUtil.isConnected(this)) {
@@ -484,25 +484,6 @@ public class NewsActivity extends BaseActivity
             }
         }
     }
-
-    private void scrollToTabAfterLayout(final int tabIndex) {
-        //from http://stackoverflow.com/a/34780589/3697225
-        if (mTabLayout != null) {
-            final ViewTreeObserver observer = mTabLayout.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        mTabLayout.getTabAt(tabIndex).select();
-                    }
-                });
-            }
-        }
-    }
-
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         protected NewsView mCurrentFragment;

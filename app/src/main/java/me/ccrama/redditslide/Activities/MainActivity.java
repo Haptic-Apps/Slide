@@ -175,6 +175,7 @@ import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.EditTextValidator;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -261,7 +262,7 @@ public class MainActivity extends BaseActivity
             pager.setCurrentItem(current);
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(current);
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
             }
             setToolbarClick();
         } else if ((requestCode == 2001 || requestCode == 2002) && resultCode == RESULT_OK) {
@@ -1372,7 +1373,7 @@ public class MainActivity extends BaseActivity
             datasetChanged = false;
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(pager.getCurrentItem());
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, pager.getCurrentItem());
             }
             setToolbarClick();
         }*/
@@ -3767,7 +3768,7 @@ public class MainActivity extends BaseActivity
         pager.setCurrentItem(current);
         if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(pager);
-            scrollToTabAfterLayout(current);
+            LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
         }
 
 
@@ -3795,7 +3796,7 @@ public class MainActivity extends BaseActivity
                     pager.setAdapter(adapter);
                     if (mTabLayout != null) {
                         mTabLayout.setupWithViewPager(pager);
-                        scrollToTabAfterLayout(usedArray.indexOf(subToDo));
+                        LayoutUtils.scrollToTabAfterLayout(mTabLayout, usedArray.indexOf(subToDo));
                     }
 
                     setToolbarClick();
@@ -3923,7 +3924,7 @@ public class MainActivity extends BaseActivity
                 mTabLayout.setupWithViewPager(pager);
                 if (mTabLayout != null) {
                     mTabLayout.setupWithViewPager(pager);
-                    scrollToTabAfterLayout(toGoto);
+                    LayoutUtils.scrollToTabAfterLayout(mTabLayout, toGoto);
                 }
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
@@ -4389,24 +4390,6 @@ public class MainActivity extends BaseActivity
 
         ValueAnimator mAnimator = slideAnimator(0, v.getMeasuredHeight(), v);
         mAnimator.start();
-    }
-
-    private void scrollToTabAfterLayout(final int tabIndex) {
-        //from http://stackoverflow.com/a/34780589/3697225
-        if (mTabLayout != null) {
-            final ViewTreeObserver observer = mTabLayout.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        mTabLayout.getTabAt(tabIndex).select();
-                    }
-                });
-            }
-        }
     }
 
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,

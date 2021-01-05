@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
@@ -37,6 +36,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -103,7 +103,7 @@ public class Inbox extends BaseActivityAnim {
                                 pager.setAdapter(adapter);
                                 tabs.setupWithViewPager(pager);
 
-                                scrollToTabAfterLayout(CURRENT_TAB);
+                                LayoutUtils.scrollToTabAfterLayout(tabs, CURRENT_TAB);
                                 pager.setCurrentItem(CURRENT_TAB);
                             } catch (Exception e) {
 
@@ -114,28 +114,6 @@ public class Inbox extends BaseActivityAnim {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Method to scroll the TabLayout to a specific index
-     *
-     * @param tabPosition index to scroll to
-     */
-    private void scrollToTabAfterLayout(final int tabPosition) {
-        if (tabs != null) {
-            final ViewTreeObserver observer = tabs.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        tabs.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        tabs.getTabAt(tabPosition).select();
-                    }
-                });
-            }
-        }
     }
 
     @Override
