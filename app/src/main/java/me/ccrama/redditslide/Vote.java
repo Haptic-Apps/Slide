@@ -28,16 +28,12 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         this.v = v;
         this.c = c;
         Reddit.setDefaultErrorHandler(c);
-
     }
 
     public Vote(View v, Context c) {
-
         direction = VoteDirection.NO_VOTE;
-
         this.v = v;
         this.c = c;
-
     }
 
     @Override
@@ -47,45 +43,26 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
             try {
                 new AccountManager(Authentication.reddit).vote(sub[0], direction);
             } catch (ApiException | RuntimeException e) {
-                ((Activity) c).runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            if (v != null && c != null && v.getContext() != null) {
-                                Snackbar s = Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT);
-                                LayoutUtils.showSnackbar(s);
-                            }
-                        } catch (Exception ignored) {
-
-                        }
-                        c = null;
-                        v = null;
-                    }
-                });
+                createVoteSnackbar(R.string.vote_err);
                 e.printStackTrace();
             }
         } else {
-            ((Activity) c).runOnUiThread(new Runnable() {
-                public void run() {
-                    try {
-                        if (v != null && c != null && v.getContext() != null) {
-                            Snackbar s = Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT);
-                            LayoutUtils.showSnackbar(s);
-                        }
-                    } catch (Exception ignored) {
-
-                    }
-                    c = null;
-                    v = null;
-                }
-            });
+            createVoteSnackbar(R.string.vote_err_login);
         }
-
-
         return null;
-
-
     }
 
-
+    private void createVoteSnackbar(final int i) {
+        ((Activity) c).runOnUiThread(() -> {
+            try {
+                if (v != null && c != null && v.getContext() != null) {
+                    Snackbar snackbar = Snackbar.make(v, i, Snackbar.LENGTH_SHORT);
+                    LayoutUtils.showSnackbar(snackbar);
+                }
+            } catch (Exception ignored) {
+            }
+            c = null;
+            v = null;
+        });
+    }
 }
-
