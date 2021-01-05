@@ -135,13 +135,6 @@ public class PopulateSubmissionViewHolder {
     public PopulateSubmissionViewHolder() {
     }
 
-    public static int getStyleAttribColorValue(final Context context, final int attribResId,
-            final int defaultValue) {
-        final TypedValue tv = new TypedValue();
-        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
-        return found ? tv.data : defaultValue;
-    }
-
     private static void addClickFunctions(final View base, final ContentType.Type type,
             final Activity contextActivity, final Submission submission,
             final SubmissionViewHolder holder, final boolean full) {
@@ -549,19 +542,10 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-
-    }
-
     public String reason;
 
     boolean[] chosen    = new boolean[]{false, false, false};
     boolean[] oldChosen = new boolean[]{false, false, false};
-
-    public static int getWhiteTintColor() {
-        return Palette.ThemeEnum.DARK.getTint();
-    }
 
     public <T extends Contribution> void showBottomSheet(final Activity mContext,
             final Submission submission, final SubmissionViewHolder holder, final List<T> posts,
@@ -1162,8 +1146,8 @@ public class PopulateSubmissionViewHolder {
                         ((ImageView) holder.save).setColorFilter(
                                 ((((holder.itemView.getTag(holder.itemView.getId())) != null
                                         && holder.itemView.getTag(holder.itemView.getId())
-                                        .equals("none"))) || full) ? getCurrentTintColor(mContext)
-                                        : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                        .equals("none"))) || full) ? Palette.getCurrentTintColor(mContext)
+                                        : Palette.getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                         holder.save.setContentDescription(mContext.getString(R.string.btn_save));
 
                     }
@@ -2542,7 +2526,7 @@ public class PopulateSubmissionViewHolder {
                 ((ImageView) holder.mod).setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
             }
             holder.mod.setOnClickListener(new View.OnClickListener() {
@@ -2627,7 +2611,7 @@ public class PopulateSubmissionViewHolder {
                 downvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
                 downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                 if (submission.getVote() != VoteDirection.UPVOTE) {
@@ -2645,7 +2629,7 @@ public class PopulateSubmissionViewHolder {
                 upvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
                 upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                 if (submission.getVote() != VoteDirection.DOWNVOTE) {
@@ -2660,13 +2644,13 @@ public class PopulateSubmissionViewHolder {
                 downvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
                 upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                 upvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
                 downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                 break;
@@ -2709,7 +2693,7 @@ public class PopulateSubmissionViewHolder {
                 ((ImageView) holder.save).setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
                 holder.save.setContentDescription(mContext.getString(R.string.btn_save));
             }
@@ -2881,8 +2865,8 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
                                 downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvoted));
 
@@ -2902,8 +2886,8 @@ public class PopulateSubmissionViewHolder {
                                 downvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
                                 downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                             }
@@ -2941,8 +2925,8 @@ public class PopulateSubmissionViewHolder {
                                 downvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
                                 upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvoted));
 
@@ -2962,8 +2946,8 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
                                 upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                             }

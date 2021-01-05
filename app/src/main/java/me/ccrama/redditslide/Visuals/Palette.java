@@ -2,10 +2,12 @@ package me.ccrama.redditslide.Visuals;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.TypedValue;
 
 import java.util.Locale;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
 public class Palette {
@@ -64,6 +66,28 @@ public class Palette {
         } else {
             return 0;
         }
+    }
+
+    public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
+        final TypedValue tv = new TypedValue();
+        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
+        return found ? tv.data : defaultValue;
+    }
+
+    public static int getCurrentTintColor(final Context v) {
+        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
+    }
+
+    public static int getWhiteTintColor() {
+        return Palette.ThemeEnum.DARK.getTint();
+    }
+
+    public static int getCurrentFontColor(final Context v) {
+        return getStyleAttribColorValue(v, R.attr.fontColor, Color.WHITE);
+    }
+
+    public static int getWhiteFontColor() {
+        return Palette.ThemeEnum.DARK.getFontColor();
     }
 
     public static int[] getColors(String subreddit, Context context) {

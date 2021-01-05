@@ -2,8 +2,6 @@ package me.ccrama.redditslide.Views;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.util.TypedValue;
@@ -116,9 +114,9 @@ public class CreateCardView {
     public static void doColor(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
-                ((TextView) v2).setTextColor(getCurrentFontColor(v2.getContext()));
+                ((TextView) v2).setTextColor(Palette.getCurrentFontColor(v2.getContext()));
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(getCurrentTintColor(v2.getContext()));
+                ((ImageView) v2).setColorFilter(Palette.getCurrentTintColor(v2.getContext()));
 
             }
         }
@@ -127,9 +125,9 @@ public class CreateCardView {
     public static void doColorSecond(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
-                ((TextView) v2).setTextColor(getSecondFontColor(v2.getContext()));
+                ((TextView) v2).setTextColor(Palette.getCurrentTintColor(v2.getContext()));
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(getCurrentTintColor(v2.getContext()));
+                ((ImageView) v2).setColorFilter(Palette.getCurrentTintColor(v2.getContext()));
 
             }
         }
@@ -138,18 +136,12 @@ public class CreateCardView {
     public static void resetColor(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
-                ((TextView) v2).setTextColor(getWhiteFontColor());
+                ((TextView) v2).setTextColor(Palette.getWhiteFontColor());
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                ((ImageView) v2).setColorFilter(Palette.getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
             }
         }
-    }
-
-    public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
-        final TypedValue tv = new TypedValue();
-        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
-        return found ? tv.data : defaultValue;
     }
 
     private static ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
@@ -168,28 +160,6 @@ public class CreateCardView {
 
         }
         return views;
-    }
-
-    public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-
-    }
-
-    public static int getWhiteTintColor() {
-        return Palette.ThemeEnum.DARK.getTint();
-    }
-
-    public static int getCurrentFontColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.fontColor, Color.WHITE);
-    }
-
-    public static int getSecondFontColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-    }
-
-    public static int getWhiteFontColor() {
-        return Palette.ThemeEnum.DARK.getFontColor();
-
     }
 
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
