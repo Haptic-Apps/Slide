@@ -511,6 +511,7 @@
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_peek">Peek content (experimental)</string>
     <string name="settings_link_gif">Internal GIF view</string>
+    <string name="settings_link_hqgif">High quality Gfycat videos</string>
     <string name="settings_link_handling">Link handling</string>
     <string name="settings_link_image">Internal image view</string>
     <string name="settings_mail_check">Check for new messages</string>

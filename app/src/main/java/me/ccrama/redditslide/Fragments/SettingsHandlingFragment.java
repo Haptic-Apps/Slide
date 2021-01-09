@@ -44,18 +44,21 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
         //todo web stuff
         SwitchCompat image = context.findViewById(R.id.settings_handling_image);
         SwitchCompat gif = context.findViewById(R.id.settings_handling_gif);
+        SwitchCompat hqgif = context.findViewById(R.id.settings_handling_hqgif);
         SwitchCompat album = context.findViewById(R.id.settings_handling_album);
         SwitchCompat peek = context.findViewById(R.id.settings_handling_peek);
         SwitchCompat shortlink = context.findViewById(R.id.settings_handling_shortlink);
 
         image.setChecked(SettingValues.image);
         gif.setChecked(SettingValues.gif);
+        hqgif.setChecked(SettingValues.hqgif);
         album.setChecked(SettingValues.album);
         peek.setChecked(SettingValues.peek);
         shortlink.setChecked(!SettingValues.shareLongLink);
 
         image.setOnCheckedChangeListener(this);
         gif.setOnCheckedChangeListener(this);
+        hqgif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
         peek.setOnCheckedChangeListener(this);
         shortlink.setOnCheckedChangeListener(this);
@@ -188,6 +191,10 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             case R.id.settings_handling_gif:
                 SettingValues.gif = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_GIF, isChecked).apply();
+                break;
+            case R.id.settings_handling_hqgif:
+                SettingValues.hqgif = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HQGIF, isChecked).apply();
                 break;
             case R.id.settings_handling_album:
                 SettingValues.album = isChecked;
