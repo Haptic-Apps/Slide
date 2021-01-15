@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.text.Editable;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -40,14 +38,7 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,23 +48,13 @@ import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Activities.Draw;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.ImgurAlbum.UploadImgur;
+import me.ccrama.redditslide.ImgurAlbum.UploadImgurAlbum;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.ForwardingSink;
-import okio.Okio;
-import okio.Sink;
 
 /**
  * Created by carlo_000 on 10/18/2015.
@@ -700,129 +681,15 @@ public class DoEditorActions {
         }
     }
 
-    private static class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
+    private static class UploadImgurDEA extends UploadImgur {
 
-        final         Context        c;
-        private final MaterialDialog dialog;
-        public        Bitmap         b;
-
-        public UploadImgur(Context c) {
+        public UploadImgurDEA(Context c) {
             this.c = c;
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
                     .cancelable(false)
                     .show();
-        }
-
-        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
-        public static File createFile(Uri uri, @NonNull Context context) {
-            InputStream in;
-            ContentResolver resolver = context.getContentResolver();
-            String type = resolver.getType(uri);
-            String extension;
-
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
-            }
-
-            try {
-                in = resolver.openInputStream(uri);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
-
-            // Create files from a uri in our cache directory so they eventually get deleted
-            String timeStamp = String.valueOf(System.currentTimeMillis());
-            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
-                    .getDiskCache()
-                    .getDirectory();
-            File tempFile = new File(cacheDir, timeStamp + extension);
-
-            if (writeInputStreamToFile(in, tempFile)) {
-                return tempFile;
-            } else {
-                // If writeInputStreamToFile fails, delete the excess file
-                tempFile.delete();
-            }
-
-            return null;
-        }
-
-        public static boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
-            BufferedOutputStream buffer = null;
-            boolean didFinish = false;
-
-            try {
-                buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte[] byt = new byte[1024];
-                int i;
-
-                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
-                    buffer.write(byt, 0, i);
-                }
-
-                buffer.flush();
-                didFinish = true;
-            } catch (IOException e) {
-                didFinish = false;
-            } finally {
-                closeStream(in);
-                closeStream(buffer);
-            }
-
-            return didFinish;
-        }
-
-        public static void closeStream(@Nullable Closeable closeable) {
-            if (closeable != null) {
-                try {
-                    closeable.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-
-        //End methods sourced from Opengur
-
-        @Override
-        protected JSONObject doInBackground(Uri... sub) {
-            File bitmap = createFile(sub[0], c);
-
-            final OkHttpClient client = Reddit.client;
-
-            try {
-                RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("image", bitmap.getName(),
-                                RequestBody.create(MediaType.parse("image/*"), bitmap))
-                        .build();
-
-                ProgressRequestBody body =
-                        new ProgressRequestBody(formBody, this::publishProgress);
-
-
-                Request request = new Request.Builder().header("Authorization",
-                        "Client-ID bef87913eb202e9")
-                        .url("https://api.imgur.com/3/image")
-                        .post(body)
-                        .build();
-
-                Response response = client.newCall(request).execute();
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-                return new JSONObject(response.body().string());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -902,180 +769,17 @@ public class DoEditorActions {
                 e.printStackTrace();
             }
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            dialog.setProgress(values[0]);
-            LogUtil.v("Progress:" + values[0]);
-        }
     }
 
-    private static class UploadImgurAlbum extends AsyncTask<Uri, Integer, String> {
+    private static class UploadImgurAlbumDEA extends UploadImgurAlbum {
 
-        final         Context        c;
-        private final MaterialDialog dialog;
-        public        Bitmap         b;
-
-        public UploadImgurAlbum(Context c) {
+        public UploadImgurAlbumDEA(Context c) {
             this.c = c;
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
                     .cancelable(false)
                     .show();
-        }
-
-        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
-        public static File createFile(Uri uri, @NonNull Context context) {
-            InputStream in;
-            ContentResolver resolver = context.getContentResolver();
-            String type = resolver.getType(uri);
-            String extension;
-
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
-            }
-
-            try {
-                in = resolver.openInputStream(uri);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
-
-            // Create files from a uri in our cache directory so they eventually get deleted
-            String timeStamp = String.valueOf(System.currentTimeMillis());
-            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
-                    .getDiskCache()
-                    .getDirectory();
-            File tempFile = new File(cacheDir, timeStamp + extension);
-
-            if (writeInputStreamToFile(in, tempFile)) {
-                return tempFile;
-            } else {
-                // If writeInputStreamToFile fails, delete the excess file
-                tempFile.delete();
-            }
-
-            return null;
-        }
-
-        public static boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
-            BufferedOutputStream buffer = null;
-            boolean didFinish = false;
-
-            try {
-                buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte[] byt = new byte[1024];
-                int i;
-
-                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
-                    buffer.write(byt, 0, i);
-                }
-
-                buffer.flush();
-                didFinish = true;
-            } catch (IOException e) {
-                didFinish = false;
-            } finally {
-                closeStream(in);
-                closeStream(buffer);
-            }
-
-            return didFinish;
-        }
-
-        public static void closeStream(@Nullable Closeable closeable) {
-            if (closeable != null) {
-                try {
-                    closeable.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-
-        //End methods sourced from Opengur
-
-        String finalUrl;
-
-        @Override
-        protected String doInBackground(Uri... sub) {
-            totalCount = sub.length;
-            final OkHttpClient client = Reddit.client;
-
-            String albumurl;
-            {
-                Request request = new Request.Builder().header("Authorization",
-                        "Client-ID bef87913eb202e9")
-                        .url("https://api.imgur.com/3/album")
-                        .post(new RequestBody() {
-                            @Override
-                            public MediaType contentType() {
-                                return null;
-                            }
-
-                            @Override
-                            public void writeTo(BufferedSink sink) {
-
-                            }
-                        })
-                        .build();
-                Response response = null;
-                try {
-                    response = client.newCall(request).execute();
-
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
-                    JSONObject album = new JSONObject(response.body().string());
-                    albumurl = album.getJSONObject("data").getString("deletehash");
-                    finalUrl = "http://imgur.com/a/" + album.getJSONObject("data").getString("id");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-
-            }
-
-
-            try {
-                MultipartBody.Builder formBodyBuilder =
-                        new MultipartBody.Builder().setType(MultipartBody.FORM);
-                for (Uri uri : sub) {
-                    File bitmap = createFile(uri, c);
-                    formBodyBuilder.addFormDataPart("image", bitmap.getName(),
-                            RequestBody.create(MediaType.parse("image/*"), bitmap));
-                    formBodyBuilder.addFormDataPart("album", albumurl);
-                    MultipartBody formBody = formBodyBuilder.build();
-
-                    ProgressRequestBody body =
-                            new ProgressRequestBody(formBody, this::publishProgress);
-
-
-                    Request request = new Request.Builder().header("Authorization",
-                            "Client-ID bef87913eb202e9")
-                            .url("https://api.imgur.com/3/image")
-                            .post(body)
-                            .build();
-
-                    Response response = client.newCall(request).execute();
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -1144,19 +848,6 @@ public class DoEditorActions {
                 e.printStackTrace();
             }
         }
-
-        int uploadCount;
-        int totalCount;
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            int progress = values[0];
-            if (progress < dialog.getCurrentProgress() || uploadCount == 0) {
-                uploadCount += 1;
-            }
-            dialog.setContent("Image " + uploadCount + "/" + totalCount);
-            dialog.setProgress(progress);
-        }
     }
 
     public static void handleImageIntent(List<Uri> uris, EditText ed, Context c) {
@@ -1167,74 +858,18 @@ public class DoEditorActions {
         if (uris.size() == 1) {
             // Get the Image from data (single image)
             try {
-                new UploadImgur(c).execute(uris.get(0));
+                new UploadImgurDEA(c).execute(uris.get(0));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             //Multiple images
             try {
-                new UploadImgurAlbum(c).execute(uris.toArray(new Uri[0]));
+                new UploadImgurAlbumDEA(c).execute(uris.toArray(new Uri[0]));
             } catch (Exception e) {
                 e.printStackTrace();
 
             }
         }
     }
-
-
-    public static class ProgressRequestBody extends RequestBody {
-
-        protected RequestBody  mDelegate;
-        protected Listener     mListener;
-        protected CountingSink mCountingSink;
-
-        public ProgressRequestBody(RequestBody delegate, Listener listener) {
-            mDelegate = delegate;
-            mListener = listener;
-        }
-
-        @Override
-        public MediaType contentType() {
-            return mDelegate.contentType();
-        }
-
-        @Override
-        public long contentLength() {
-            try {
-                return mDelegate.contentLength();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return -1;
-        }
-
-        @Override
-        public void writeTo(BufferedSink sink) throws IOException {
-            mCountingSink = new CountingSink(sink);
-            BufferedSink bufferedSink = Okio.buffer(mCountingSink);
-            mDelegate.writeTo(bufferedSink);
-            bufferedSink.flush();
-        }
-
-        protected final class CountingSink extends ForwardingSink {
-            private long bytesWritten = 0;
-
-            public CountingSink(Sink delegate) {
-                super(delegate);
-            }
-
-            @Override
-            public void write(Buffer source, long byteCount) throws IOException {
-                super.write(source, byteCount);
-                bytesWritten += byteCount;
-                mListener.onProgress((int) (100F * bytesWritten / contentLength()));
-            }
-        }
-
-        public interface Listener {
-            void onProgress(int progress);
-        }
-    }
-
 }
