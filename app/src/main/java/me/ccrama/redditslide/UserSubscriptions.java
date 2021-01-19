@@ -64,28 +64,17 @@ public class UserSubscriptions {
     }
 
     public static Map<String, String> getMultiNameToSubs(boolean all) {
-        Map<String, String> multiNameToSubsMapBase = new HashMap<>();
-
-        Map<String, ?> multiNameToSubsObject = multiNameToSubs.getAll();
-
-        for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
-            multiNameToSubsMapBase.put(entry.getKey(), entry.getValue().toString());
-        }
-        if (all) multiNameToSubsMapBase.putAll(getSubsNameToMulti());
-
-        Map<String, String> multiNameToSubsMap = new HashMap<>();
-
-        for (Map.Entry<String, String> entries : multiNameToSubsMapBase.entrySet()) {
-            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH), entries.getValue());
-        }
-
-        return multiNameToSubsMap;
+        return getNameToSubs(multiNameToSubs, all);
     }
 
     public static Map<String, String> getNewsNameToSubs(boolean all) {
+        return getNameToSubs(newsNameToSubs, all);
+    }
+
+    private static Map<String, String> getNameToSubs(SharedPreferences sP, boolean all) {
         Map<String, String> multiNameToSubsMapBase = new HashMap<>();
 
-        Map<String, ?> multiNameToSubsObject = newsNameToSubs.getAll();
+        Map<String, ?> multiNameToSubsObject = sP.getAll();
 
         for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
             multiNameToSubsMapBase.put(entry.getKey(), entry.getValue().toString());
