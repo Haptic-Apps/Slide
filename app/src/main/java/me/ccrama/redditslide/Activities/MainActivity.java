@@ -2342,11 +2342,11 @@ public class MainActivity extends BaseActivity
 
         View layout = getLayoutInflater().inflate(R.layout.fakename_dialog, null);
         TextView title = layout.findViewById(R.id.fakename_title);
-        title.setText("Write your fake username");
+        title.setText(R.string.dialog_enter_hidden_username);
         EditText edittext = layout.findViewById(R.id.fakename_text);
         alertDialog.setView(layout);
 
-        alertDialog.setPositiveButton("Save",
+        alertDialog.setPositiveButton(R.string.btn_save,
                 (dialog, which) -> {
                     String fakeName = edittext.getText().toString();
 
@@ -2362,7 +2362,17 @@ public class MainActivity extends BaseActivity
                     }
                 });
 
-        alertDialog.setNegativeButton("Cancel",
+        alertDialog.setNegativeButton(R.string.btn_disable_username_hiding,
+                (dialog, which) -> {
+                    SharedPreferences sharedPref = MainActivity.this.getSharedPreferences("FAKEUSERNAME", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.remove("FAKEUSERNAME");
+                    editor.apply();
+
+                    nameTextView.setText(Authentication.name);
+                });
+
+        alertDialog.setNeutralButton(R.string.btn_cancel,
                 (dialog, which) -> dialog.cancel());
 
         alertDialog.show();

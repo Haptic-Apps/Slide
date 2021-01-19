@@ -1332,4 +1332,6 @@
     <string name="settings_hide_comment_awards">Hide awards</string>
     <string name="high_colorspace_images">High-Colorspace Images</string>
     <string name="description_high_colorspace">Loads full colorspace on images, potentially leading to higher memory usage</string>
+    <string name="dialog_enter_hidden_username">Write your fake username</string>
+    <string name="btn_disable_username_hiding">Disable username hiding</string>
 </resources>
