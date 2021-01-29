@@ -1,7 +1,9 @@
-package me.ccrama.redditslide;
+package me.ccrama.redditslide.util;
 
 import android.content.Context;
 import android.content.res.Resources;
+
+import me.ccrama.redditslide.R;
 
 /**
  * Created by ccrama on 3/1/2015.

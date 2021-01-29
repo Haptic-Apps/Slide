@@ -1,4 +1,4 @@
-package me.ccrama.redditslide;
+package me.ccrama.redditslide.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,8 +17,8 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import java.io.File;
 import java.io.IOException;
 
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
-import me.ccrama.redditslide.util.OkHttpImageDownloader;
 
 /**
  * Created by carlo_000 on 10/19/2015.

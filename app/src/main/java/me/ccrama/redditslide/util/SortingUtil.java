@@ -17,9 +17,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Search;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 
 public class SortingUtil {
     public static final Map<String, TimePeriod>              times  = new HashMap<>();

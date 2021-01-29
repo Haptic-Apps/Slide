@@ -8,9 +8,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ReadLaterView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 
 /**
  * Created by ccrama on 9/17/2015.

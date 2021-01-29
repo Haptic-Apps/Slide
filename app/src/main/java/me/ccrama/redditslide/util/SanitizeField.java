@@ -1,4 +1,4 @@
-package me.ccrama.redditslide;
+package me.ccrama.redditslide.util;
 
 /**
  * Created by carlo_000 on 10/19/2015.

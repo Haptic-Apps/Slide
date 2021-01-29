@@ -1,4 +1,4 @@
-package me.ccrama.redditslide;
+package me.ccrama.redditslide.Visuals;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.Slide;
+import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 7/9/2015.

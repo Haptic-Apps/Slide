@@ -1,4 +1,4 @@
-package me.ccrama.redditslide;
+package me.ccrama.redditslide.util;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;

@@ -31,6 +31,7 @@ import java.util.Set;
 
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.PhotoLoader;
 
 /**
  * Created by carlo_000 on 4/18/2016.

@@ -17,6 +17,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context mContext;

@@ -1,4 +1,4 @@
-package me.ccrama.redditslide;
+package me.ccrama.redditslide.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +14,9 @@ import net.dean.jraw.models.Thumbnails;
 
 import java.util.List;
 
-import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 public class PhotoLoader {
 

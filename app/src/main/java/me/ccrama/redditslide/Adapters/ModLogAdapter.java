@@ -31,9 +31,9 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>

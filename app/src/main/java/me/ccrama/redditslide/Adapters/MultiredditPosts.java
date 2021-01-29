@@ -17,7 +17,6 @@ import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PhotoLoader;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
@@ -27,6 +26,7 @@ import me.ccrama.redditslide.Synccit.MySynccitReadTask;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.PhotoLoader;
 
 /**
  * This class is reponsible for loading subreddit specific submissions

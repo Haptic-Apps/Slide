@@ -6,7 +6,6 @@ import android.util.TypedValue;
 
 import java.util.Locale;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
