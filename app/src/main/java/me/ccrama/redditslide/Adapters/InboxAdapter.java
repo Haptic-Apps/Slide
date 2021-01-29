@@ -6,8 +6,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -66,6 +64,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -331,14 +330,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 }
                                 break;
                                 case 25: {
-                                    ClipboardManager clipboard =
-                                            ContextCompat.getSystemService(
-                                                    mContext, ClipboardManager.class);
-                                    ClipData clip =
-                                            ClipData.newPlainText("Message", comment.getBody());
-                                    if (clipboard != null) {
-                                        clipboard.setPrimaryClip(clip);
-                                    }
+                                    ClipboardUtil.copyToClipboard(mContext, "Message", comment.getBody());
                                     Toast.makeText(mContext,
                                             mContext.getString(R.string.mail_message_copied),
                                             Toast.LENGTH_SHORT).show();

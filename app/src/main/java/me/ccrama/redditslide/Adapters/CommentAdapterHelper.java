@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,7 +37,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -87,6 +84,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 
@@ -292,14 +290,7 @@ public class CommentAdapterHelper {
                                                 .toString()
                                                 .substring(showText.getSelectionStart(),
                                                         showText.getSelectionEnd());
-                                        ClipboardManager clipboard =
-                                                ContextCompat.getSystemService(mContext,
-                                                        ClipboardManager.class);
-                                        ClipData clip =
-                                                ClipData.newPlainText("Comment text", selected);
-                                        if (clipboard != null) {
-                                            clipboard.setPrimaryClip(clip);
-                                        }
+                                        ClipboardUtil.copyToClipboard(mContext, "Comment text", selected);
 
                                         Toast.makeText(mContext, R.string.submission_comment_copied,
                                                 Toast.LENGTH_SHORT).show();
@@ -311,15 +302,8 @@ public class CommentAdapterHelper {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                ClipboardManager clipboard =
-                                                        ContextCompat.getSystemService(mContext,
-                                                                ClipboardManager.class);
-                                                ClipData clip =
-                                                        ClipData.newPlainText("Comment text",
-                                                                StringEscapeUtils.unescapeHtml4(n.getBody()));
-                                                if (clipboard != null) {
-                                                    clipboard.setPrimaryClip(clip);
-                                                }
+                                                ClipboardUtil.copyToClipboard(mContext, "Comment text",
+                                                        StringEscapeUtils.unescapeHtml4(n.getBody()));
 
                                                 Toast.makeText(mContext,
                                                         R.string.submission_comment_copied,

@@ -1,8 +1,6 @@
 package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -61,6 +59,7 @@ import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 
@@ -636,12 +635,7 @@ public class PopulateShadowboxInfo {
                                 }
                                 break;
                             case 6: {
-                                ClipboardManager clipboard = ContextCompat.getSystemService(mContext,
-                                        ClipboardManager.class);
-                                ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                if (clipboard != null) {
-                                    clipboard.setPrimaryClip(clip);
-                                }
+                                ClipboardUtil.copyToClipboard(mContext, "Link", submission.getUrl());
                                 Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
                             break;

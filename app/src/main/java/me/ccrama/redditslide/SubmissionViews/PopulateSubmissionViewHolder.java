@@ -3,8 +3,6 @@ package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,7 +19,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -118,6 +115,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -1011,12 +1009,7 @@ public class PopulateSubmissionViewHolder {
                         }
                         break;
                     case 6: {
-                        ClipboardManager clipboard = ContextCompat.getSystemService(mContext,
-                                ClipboardManager.class);
-                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                        if (clipboard != null) {
-                            clipboard.setPrimaryClip(clip);
-                        }
+                        ClipboardUtil.copyToClipboard(mContext, "Link", submission.getUrl());
                         Toast.makeText(mContext, R.string.submission_link_copied,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -1041,24 +1034,15 @@ public class PopulateSubmissionViewHolder {
                                                         .toString()
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
-                                                ClipboardManager clipboard =
-                                                        ContextCompat.getSystemService(mContext,
-                                                                ClipboardManager.class);
-                                                ClipData clip;
                                                 if (!selected.isEmpty()) {
-                                                    clip = ClipData.newPlainText("Selftext",
-                                                            selected);
-
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext", selected);
                                                 } else {
-                                                    clip = ClipData.newPlainText("Selftext",
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext",
                                                             HtmlCompat.fromHtml(
                                                                     submission.getTitle()
                                                                             + "\n\n"
-                                                                            + submission.getSelftext(), HtmlCompat.FROM_HTML_MODE_LEGACY));
-
-                                                }
-                                                if (clipboard != null) {
-                                                    clipboard.setPrimaryClip(clip);
+                                                                            + submission.getSelftext(),
+                                                                    HtmlCompat.FROM_HTML_MODE_LEGACY));
                                                 }
                                                 Toast.makeText(mContext,
                                                         R.string.submission_comment_copied,
@@ -1071,17 +1055,11 @@ public class PopulateSubmissionViewHolder {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                ClipboardManager clipboard =
-                                                        ContextCompat.getSystemService(mContext,
-                                                                ClipboardManager.class);
-                                                ClipData clip = ClipData.newPlainText("Selftext",
+                                                ClipboardUtil.copyToClipboard(mContext, "Selftext",
                                                         StringEscapeUtils.unescapeHtml4(
                                                                 submission.getTitle()
                                                                         + "\n\n"
                                                                         + submission.getSelftext()));
-                                                if (clipboard != null) {
-                                                    clipboard.setPrimaryClip(clip);
-                                                }
 
                                                 Toast.makeText(mContext,
                                                         R.string.submission_text_copied,
