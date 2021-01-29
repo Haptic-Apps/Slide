@@ -256,12 +256,12 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
                     final int color = ta.getColor(0, Color.WHITE);
-                    Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.reply);
-                    Drawable unhide = mContext.getResources().getDrawable(R.drawable.visibility);
-                    Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
-                    Drawable copy = mContext.getResources().getDrawable(R.drawable.copy);
-                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+                    Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.ic_reply);
+                    Drawable unhide = mContext.getResources().getDrawable(R.drawable.ic_visibility);
+                    Drawable hide = mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
+                    Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
+                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
                     profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                     hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));

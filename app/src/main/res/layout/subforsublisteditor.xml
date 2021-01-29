@@ -34,7 +34,7 @@
     <ImageView
         android:id="@+id/remove"
         style="@style/Ripple.List"
-        app:srcCompat="@drawable/delete"
+        app:srcCompat="@drawable/ic_delete"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
@@ -45,7 +45,7 @@
     <ImageView
         android:id="@+id/edit"
         style="@style/Ripple.List"
-        app:srcCompat="@drawable/edit"
+        app:srcCompat="@drawable/ic_edit"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentRight="true"

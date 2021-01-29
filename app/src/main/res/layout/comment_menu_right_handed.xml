@@ -19,7 +19,7 @@
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
                 android:contentDescription="@string/btn_mod"
-                app:srcCompat="@drawable/mod"/>
+                app:srcCompat="@drawable/ic_verified_user"/>
 
         <ImageView
                 android:id="@+id/more"
@@ -29,7 +29,7 @@
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
                 android:contentDescription="@string/btn_menu"
-                app:srcCompat="@drawable/more"/>
+                app:srcCompat="@drawable/ic_more_vert"/>
 
         <ImageView
                 android:id="@+id/reply"
@@ -39,7 +39,7 @@
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
                 android:contentDescription="@string/btn_reply"
-                app:srcCompat="@drawable/reply"/>
+                app:srcCompat="@drawable/ic_reply"/>
 
         <ImageView
                 android:id="@+id/upvote"
@@ -49,7 +49,7 @@
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
                 android:contentDescription="@string/btn_upvote"
-                app:srcCompat="@drawable/upvoted"/>
+                app:srcCompat="@drawable/ic_arrow_upward"/>
 
         <ImageView
                 android:id="@+id/downvote"
@@ -59,7 +59,7 @@
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
                 android:contentDescription="@string/btn_downvote"
-                app:srcCompat="@drawable/downvote"/>
+                app:srcCompat="@drawable/ic_arrow_downward"/>
 
         <ImageView
                 android:id="@+id/delete"
@@ -69,7 +69,7 @@
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
                 android:contentDescription="@string/btn_delete"
-                app:srcCompat="@drawable/delete"/>
+                app:srcCompat="@drawable/ic_delete"/>
 
         <ImageView
                 android:id="@+id/edit"
@@ -79,7 +79,7 @@
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
                 android:contentDescription="@string/btn_edit"
-                app:srcCompat="@drawable/edit"/>
+                app:srcCompat="@drawable/ic_edit"/>
     </LinearLayout>
 
     <LinearLayout

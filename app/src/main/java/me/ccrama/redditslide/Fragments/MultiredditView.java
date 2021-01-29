@@ -124,7 +124,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     }
                 });
             } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
-                fab.setImageResource(R.drawable.search);
+                fab.setImageResource(R.drawable.ic_search);
                 fab.setOnClickListener(new View.OnClickListener() {
                     String term;
                     @Override
@@ -159,7 +159,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     }
                 });
             } else {
-                fab.setImageResource(R.drawable.hide);
+                fab.setImageResource(R.drawable.ic_visibility_off);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

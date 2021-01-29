@@ -325,7 +325,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         {
             FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.collection);
             Drawable icon =
-                    ResourcesCompat.getDrawable(getResources(), R.drawable.collection, null);
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.ic_folder, null);
             collection.setIconDrawable(icon);
             collection.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -406,7 +406,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
         {
             FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.sub);
-            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.sub, null);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_bookmark_border, null);
             collection.setIconDrawable(icon);
             collection.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -446,7 +446,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
         {
             FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.domain);
-            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.link, null);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_link, null);
             collection.setIconDrawable(icon);
             collection.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -40,7 +40,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/settings" />
+                app:srcCompat="@drawable/ic_settings" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/multicolumn" />
+                app:srcCompat="@drawable/ic_dashboard" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/sub" />
+                app:srcCompat="@drawable/ic_bookmark_border" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/offline" />
+                app:srcCompat="@drawable/ic_cloud_off" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/mod"/>
+                    app:srcCompat="@drawable/ic_verified_user"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/theme" />
+                app:srcCompat="@drawable/ic_invert_colors" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -210,7 +210,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/card" />
+                app:srcCompat="@drawable/ic_view_agenda" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -234,7 +234,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/sub" />
+                app:srcCompat="@drawable/ic_bookmark_border" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -258,7 +258,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/fontsize" />
+                app:srcCompat="@drawable/ic_text_fields" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -282,7 +282,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/commentchange" />
+                app:srcCompat="@drawable/ic_forum" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -328,7 +328,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/link" />
+                app:srcCompat="@drawable/ic_link" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -352,7 +352,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/history" />
+                app:srcCompat="@drawable/ic_history" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -376,7 +376,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/world" />
+                app:srcCompat="@drawable/ic_public" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -400,7 +400,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/filter" />
+                app:srcCompat="@drawable/ic_filter_list" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -470,7 +470,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/backup" />
+                app:srcCompat="@drawable/ic_backup" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -519,7 +519,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/crown" />
+                app:srcCompat="@drawable/ic_crown" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -543,7 +543,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/donate" />
+                app:srcCompat="@drawable/ic_card_giftcard" />
 
             <TextView
                 android:id="@+id/settings_child_donatetext"
@@ -568,7 +568,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/info" />
+                app:srcCompat="@drawable/ic_info" />
 
             <TextView
                 android:layout_width="wrap_content"

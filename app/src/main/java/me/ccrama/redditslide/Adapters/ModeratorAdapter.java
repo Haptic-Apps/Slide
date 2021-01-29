@@ -553,18 +553,18 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //Initialize drawables
         int color = ta.getColor(0, Color.WHITE);
-        final Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
-        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable pin = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.star);
-        final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
-        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
-        final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
-        final Drawable note = mContext.getResources().getDrawable(R.drawable.note);
-        final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.report_reason);
-        final Drawable lock = mContext.getResources().getDrawable(R.drawable.lock);
+        final Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.ic_report);
+        final Drawable approve = mContext.getResources().getDrawable(R.drawable.ic_thumb_up);
+        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
+        final Drawable pin = mContext.getResources().getDrawable(R.drawable.ic_bookmark_border);
+        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.ic_star);
+        final Drawable remove = mContext.getResources().getDrawable(R.drawable.ic_close);
+        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ic_gavel);
+        final Drawable spam = mContext.getResources().getDrawable(R.drawable.ic_flag);
+        final Drawable note = mContext.getResources().getDrawable(R.drawable.ic_note);
+        final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.ic_announcement);
+        final Drawable lock = mContext.getResources().getDrawable(R.drawable.ic_lock);
 
         //Tint drawables
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));

@@ -140,7 +140,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignTop="@+id/subscribe"
                             android:padding="4dp"
-                            app:srcCompat="@drawable/collection"
+                            app:srcCompat="@drawable/ic_folder"
                             android:theme="@style/Ripple.List"
                             android:tint="?attr/tintColor"/>
                 </RelativeLayout>
@@ -208,7 +208,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/theme"/>
+                            app:srcCompat="@drawable/ic_invert_colors"/>
 
                     <TextView
                             android:id="@+id/theme_text"
@@ -235,7 +235,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/wiki"/>
+                            app:srcCompat="@drawable/ic_book"/>
 
                     <TextView
                             android:id="@+id/wiki_text"
@@ -262,7 +262,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/send"/>
+                            app:srcCompat="@drawable/ic_send"/>
 
                     <TextView
                             android:id="@+id/post_text"
@@ -289,7 +289,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/mod"/>
+                            app:srcCompat="@drawable/ic_verified_user"/>
 
                     <TextView
                             android:id="@+id/mods_text"
@@ -317,7 +317,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/fontsize"/>
+                            app:srcCompat="@drawable/ic_text_fields"/>
 
                     <TextView
                             android:id="@+id/flair_text"
@@ -345,7 +345,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/image"/>
+                            app:srcCompat="@drawable/ic_image"/>
 
                     <TextView
                             android:id="@+id/sync"
@@ -372,7 +372,7 @@
                             android:layout_height="48dp"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/sort"/>
+                            app:srcCompat="@drawable/ic_sort"/>
 
                     <TextView
                             android:id="@+id/sort"

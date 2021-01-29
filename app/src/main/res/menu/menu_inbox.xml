@@ -5,13 +5,13 @@
 
     <item
         android:id="@+id/compose"
-        android:icon="@drawable/edit"
+        android:icon="@drawable/ic_edit"
         android:title="@string/compose_message"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/read"
-        android:icon="@drawable/visibility"
+        android:icon="@drawable/ic_visibility"
         android:title="@string/mark_all_as_read"
         app:showAsAction="always" />
 

@@ -62,7 +62,7 @@
                         android:padding="8dp"
                         android:tint="@color/white"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/close"/>
+                        app:srcCompat="@drawable/ic_close"/>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 

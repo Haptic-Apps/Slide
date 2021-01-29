@@ -165,5 +165,5 @@
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/send" />
+        app:srcCompat="@drawable/ic_send" />
 </RelativeLayout>

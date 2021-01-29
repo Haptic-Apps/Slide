@@ -4,7 +4,7 @@
     android:layout_width="56dp"
     android:layout_height="56dp"
     android:contentDescription="@string/btn_fab_post"
-    app:srcCompat="@drawable/add"
+    app:srcCompat="@drawable/ic_add"
     app:elevation="4dp"
     app:fabSize="normal"
     app:layout_anchorGravity="bottom|right|end"

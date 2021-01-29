@@ -99,21 +99,21 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             switch (ContentType.getContentType(submission)) {
                 case REDDIT_GALLERY:
                 case ALBUM:
-                    holder.type.setImageResource(R.drawable.album);
+                    holder.type.setImageResource(R.drawable.ic_photo_library);
                     break;
                 case EXTERNAL:
                 case LINK:
                 case REDDIT:
-                    holder.type.setImageResource(R.drawable.world);
+                    holder.type.setImageResource(R.drawable.ic_public);
                     break;
                 case SELF:
-                    holder.type.setImageResource(R.drawable.fontsize);
+                    holder.type.setImageResource(R.drawable.ic_text_fields);
                     break;
                 case EMBEDDED:
                 case GIF:
                 case STREAMABLE:
                 case VIDEO:
-                    holder.type.setImageResource(R.drawable.play);
+                    holder.type.setImageResource(R.drawable.ic_play_arrow);
                     break;
                 default:
                     holder.type.setVisibility(View.GONE);
@@ -158,11 +158,11 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         TypedArray ta = main.obtainStyledAttributes(attrs);
 
                         int color = ta.getColor(0, Color.WHITE);
-                        Drawable open = main.getResources().getDrawable(R.drawable.open_in_browser);
+                        Drawable open = main.getResources().getDrawable(R.drawable.ic_open_in_new);
                         open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                        Drawable share = main.getResources().getDrawable(R.drawable.share);
+                        Drawable share = main.getResources().getDrawable(R.drawable.ic_share);
                         share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                        Drawable copy = main.getResources().getDrawable(R.drawable.copy);
+                        Drawable copy = main.getResources().getDrawable(R.drawable.ic_content_copy);
                         copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                         ta.recycle();

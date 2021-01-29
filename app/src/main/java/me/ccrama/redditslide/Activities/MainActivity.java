@@ -4119,14 +4119,14 @@ public class MainActivity extends BaseActivity
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
                         .setLongLabel("Open your Inbox")
-                        .setIcon(getIcon("inbox", R.drawable.sidebar_inbox))
+                        .setIcon(getIcon("inbox", R.drawable.ic_email))
                         .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 Inbox.class))
                         .build());
 
                 shortcuts.add(new ShortcutInfo.Builder(this, "submit").setShortLabel("Submit")
                         .setLongLabel("Create new Submission")
-                        .setIcon(getIcon("submit", R.drawable.edit))
+                        .setIcon(getIcon("submit", R.drawable.ic_edit))
                         .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 Submit.class))
                         .build());
@@ -4145,7 +4145,7 @@ public class MainActivity extends BaseActivity
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 frontpage)
                                 .setLongLabel(frontpage)
-                                .setIcon(getIcon(s, R.drawable.sub))
+                                .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
                                 .build());
                         count++;
@@ -4172,7 +4172,7 @@ public class MainActivity extends BaseActivity
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 frontpage)
                                 .setLongLabel(frontpage)
-                                .setIcon(getIcon(s, R.drawable.sub))
+                                .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
                                 .build();
                         count++;

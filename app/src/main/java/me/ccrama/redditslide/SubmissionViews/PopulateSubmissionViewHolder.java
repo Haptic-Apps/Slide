@@ -554,30 +554,30 @@ public class PopulateSubmissionViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
         final Drawable sub =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
         Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.star,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
                         null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
         final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
         Drawable copy =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.copy,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
         final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_get_app, null);
         Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.open_external, null);
-        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
+        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
         Drawable reddit =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forum,
                         null);
         Drawable filter =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.filter, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
         Drawable crosspost =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.forward, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forward, null);
 
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -1357,33 +1357,33 @@ public class PopulateSubmissionViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
         final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
         final Drawable approve =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_thumb_up, null);
         final Drawable nsfw =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
         final Drawable spoiler =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.spoil, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_remove_circle, null);
         final Drawable pin =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
         final Drawable lock =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_lock, null);
         final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(),
-                R.drawable.quote, null);
+                R.drawable.ic_format_quote, null);
         final Drawable remove =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.close, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_close, null);
         final Drawable remove_reason =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report_reason, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_announcement, null);
         final Drawable ban =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ban, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_gavel, null);
         final Drawable spam =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.spam, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_flag, null);
         final Drawable distinguish =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.star,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
                         null);
-        final Drawable note = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.note, null);
+        final Drawable note = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);
 
 
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -2990,13 +2990,13 @@ public class PopulateSubmissionViewHolder {
 
                             final int color2 = ta.getColor(0, Color.WHITE);
                             Drawable edit_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.edit);
+                                    mContext.getResources().getDrawable(R.drawable.ic_edit);
                             Drawable nsfw_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.hide);
+                                    mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
                             Drawable delete_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.delete);
+                                    mContext.getResources().getDrawable(R.drawable.ic_delete);
                             Drawable flair_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.fontsize);
+                                    mContext.getResources().getDrawable(R.drawable.ic_text_fields);
 
                             edit_drawable.setColorFilter(new PorterDuffColorFilter(color2, PorterDuff.Mode.SRC_ATOP));
                             nsfw_drawable.setColorFilter(new PorterDuffColorFilter(color2, PorterDuff.Mode.SRC_ATOP));

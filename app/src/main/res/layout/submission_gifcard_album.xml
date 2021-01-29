@@ -60,7 +60,7 @@
             android:theme="@style/Ripple.List"
             android:tint="@color/white"
             android:layout_toLeftOf="@+id/more"
-            app:srcCompat="@drawable/save" />
+            app:srcCompat="@drawable/ic_get_app" />
 
         <ImageView
             android:id="@+id/more"
@@ -74,7 +74,7 @@
             android:paddingEnd="11dp"
             android:paddingTop="15dp"
             android:theme="@style/Ripple.List"
-            app:srcCompat="@drawable/more" />
+            app:srcCompat="@drawable/ic_more_vert" />
     </RelativeLayout>
 
 </RelativeLayout>

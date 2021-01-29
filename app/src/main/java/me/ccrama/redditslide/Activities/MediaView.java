@@ -223,13 +223,13 @@ public class MediaView extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.open_external);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
-        Drawable collection = getResources().getDrawable(R.drawable.collection);
-        Drawable file = getResources().getDrawable(R.drawable.save_content);
-        Drawable thread = getResources().getDrawable(R.drawable.commentchange);
+        Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable image = getResources().getDrawable(R.drawable.ic_image);
+        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
+        Drawable collection = getResources().getDrawable(R.drawable.ic_folder);
+        Drawable file = getResources().getDrawable(R.drawable.ic_save);
+        Drawable thread = getResources().getDrawable(R.drawable.ic_forum);
 
         external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -366,7 +366,7 @@ public class MediaView extends FullScreenActivity
                             ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.save);
+                            .setSmallIcon(R.drawable.ic_get_app);
                     try {
 
                         final URL url =
@@ -414,7 +414,7 @@ public class MediaView extends FullScreenActivity
                                         Notification notif = new NotificationCompat.Builder(
                                                 MediaView.this, Reddit.CHANNEL_IMG)
                                                 .setContentTitle(getString(R.string.gif_saved))
-                                                .setSmallIcon(R.drawable.save_content)
+                                                .setSmallIcon(R.drawable.ic_save)
                                                 .setContentIntent(contentIntent)
                                                 .build();
 
@@ -452,7 +452,7 @@ public class MediaView extends FullScreenActivity
                             ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.save);
+                            .setSmallIcon(R.drawable.ic_get_app);
                     try {
 
                         final URL url =

@@ -26,7 +26,7 @@
             android:theme="@style/Ripple.List"
             android:paddingTop="12dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/upvoted"
+            app:srcCompat="@drawable/ic_arrow_upward"
             android:tint="@color/white" />
         <ImageView
                 android:id="@+id/pin"
@@ -37,7 +37,7 @@
                 android:theme="@style/Ripple.List"
                 android:paddingTop="12dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/pin"
+                app:srcCompat="@drawable/ic_push_pin"
                 android:tint="@color/white" />
         <ImageView
             android:id="@+id/delete"
@@ -48,7 +48,7 @@
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/delete"
+            app:srcCompat="@drawable/ic_delete"
             android:tint="@color/white" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -68,7 +68,7 @@
         android:id="@+id/add"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/add"
+        app:srcCompat="@drawable/ic_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

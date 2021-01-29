@@ -190,53 +190,53 @@ public class ModLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             switch (action) {
                 case "removelink":
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.close,
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_close,
                                     null));
                     break;
                 case "approvecomment":
                 case "approvelink":
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support,
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_thumb_up,
                                     null));
                     break;
                 case "removecomment":
                     holder.icon.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(),
-                            R.drawable.commentchange, null));
+                            R.drawable.ic_forum, null));
                     break;
                 case "editflair":
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.flair,
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_local_offer,
                                     null));
                     break;
                 case "distinguish":
                     holder.icon.setImageDrawable(ResourcesCompat.getDrawable(mContext.getResources(),
-                            R.drawable.star, null));
+                            R.drawable.ic_star, null));
                     break;
                 case "sticky":
                 case "unsticky":
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock,
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_lock,
                                     null));
                     break;
                 case "ignorereports":
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ignore,
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_notifications_off,
                                     null));
                     break;
                 case "unignorereports":
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.unignore,
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_notifications_active,
                                     null));
                     break;
                 case "marknsfw":
                 case "unmarknsfw":
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide,
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off,
                                     null));
                     break;
                 default:
                     holder.icon.setImageDrawable(
-                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.mod, null));
+                            ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_verified_user, null));
                     break;
             }
 

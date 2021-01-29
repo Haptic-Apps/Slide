@@ -127,7 +127,7 @@ public class CommentCacheAsync extends AsyncTask {
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
                             sub.equalsIgnoreCase("frontpage") ? fSub
                                     : (fSub.contains("/m/") ? fSub : "/r/" + fSub)))
-                            .setSmallIcon(R.drawable.save_content);
+                            .setSmallIcon(R.drawable.ic_save);
                 }
                 List<Submission> submissions = new ArrayList<>();
                 ArrayList<String> newFullnames = new ArrayList<>();

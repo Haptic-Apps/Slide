@@ -96,7 +96,7 @@ public class GifUtils {
 
                         Notification notif =
                                 new NotificationCompat.Builder(c, Reddit.CHANNEL_IMG).setContentTitle(c.getString(R.string.gif_saved))
-                                        .setSmallIcon(R.drawable.save_content)
+                                        .setSmallIcon(R.drawable.ic_save)
                                         .setContentIntent(contentIntent)
                                         .build();
 
@@ -186,7 +186,7 @@ public class GifUtils {
                         Notification notif = new NotificationCompat.Builder(a, Reddit.CHANNEL_IMG)
                                 .setContentTitle(a.getString(R.string.mediaview_saving,
                                         uri.toString().replace("/DASHPlaylist.mpd", "")))
-                                .setSmallIcon(R.drawable.save)
+                                .setSmallIcon(R.drawable.ic_get_app)
                                 .setProgress(0, 0, true)
                                 .setOngoing(true)
                                 .build();

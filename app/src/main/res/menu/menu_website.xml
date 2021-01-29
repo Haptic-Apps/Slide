@@ -5,24 +5,24 @@
 
     <item
             android:id="@+id/refresh"
-            android:icon="@drawable/refresh"
+            android:icon="@drawable/ic_refresh"
             android:title="@string/btn_refresh"
             app:showAsAction="ifRoom"/>
 
     <item
             android:id="@+id/read"
-            android:icon="@drawable/fontsize"
+            android:icon="@drawable/ic_text_fields"
             android:title="@string/internal_browser_readermode"
             app:showAsAction="always"/>
 
     <item
             android:id="@+id/chrome"
-            android:icon="@drawable/open_in_browser"
+            android:icon="@drawable/ic_open_in_new"
             android:title="@string/website_external"
             app:showAsAction="always"/>
     <item
             android:id="@+id/comments"
-            android:icon="@drawable/commentchange"
+            android:icon="@drawable/ic_forum"
             android:title="@string/btn_open_comments"
             app:showAsAction="ifRoom"/>
     <item

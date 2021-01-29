@@ -84,7 +84,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="4dp"
-                    app:srcCompat="@drawable/upvoted"
+                    app:srcCompat="@drawable/ic_arrow_upward"
                     android:tag="tint" />
 
                 <TextView
@@ -107,7 +107,7 @@
                     android:layout_below="@+id/title"
                     android:layout_marginEnd="4dp"
                     android:layout_toRightOf="@+id/score"
-                    app:srcCompat="@drawable/commentchange" />
+                    app:srcCompat="@drawable/ic_forum" />
 
                 <TextView
                     android:id="@+id/comments"

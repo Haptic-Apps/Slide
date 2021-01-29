@@ -416,10 +416,10 @@ public class TumblrPager extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.open_external);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
+        Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable image = getResources().getDrawable(R.drawable.ic_image);
+        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
 
         external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));

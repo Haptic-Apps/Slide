@@ -412,28 +412,28 @@ public class PopulateNewsViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
         final Drawable sub =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
         Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.star,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
                         null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
         final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
         Drawable copy =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.copy,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
         final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_get_app, null);
         Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.open_external, null);
-        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
+        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
         Drawable reddit =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forum,
                         null);
         Drawable filter =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.filter, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
 
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));

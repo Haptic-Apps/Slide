@@ -64,7 +64,7 @@
                     android:layout_height="30dp"
                     android:layout_margin="12dp"
                     android:contentDescription="@string/btn_expand"
-                    app:srcCompat="@drawable/down"/>
+                    app:srcCompat="@drawable/ic_keyboard_arrow_down"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
                     android:tint="#fff"
-                    app:srcCompat="@drawable/offline"/>
+                    app:srcCompat="@drawable/ic_cloud_off"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
                     android:tint="#ffffff"
-                    app:srcCompat="@drawable/save"/>
+                    app:srcCompat="@drawable/ic_get_app"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="26dp"
                     android:tint="#fff"
-                    app:srcCompat="@drawable/person"/>
+                    app:srcCompat="@drawable/ic_person"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
                     android:tint="#fff"
-                    app:srcCompat="@drawable/add"/>
+                    app:srcCompat="@drawable/ic_add"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -203,7 +203,7 @@
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/profile"/>
+                    app:srcCompat="@drawable/ic_account_circle"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -231,7 +231,7 @@
                 android:theme="@style/Ripple.List"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_expand"
-                app:srcCompat="@drawable/down"/>
+                app:srcCompat="@drawable/ic_keyboard_arrow_down"/>
     </RelativeLayout>
 
     <LinearLayout android:id="@+id/expand_profile"
@@ -343,7 +343,7 @@
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/sidebar_inbox"/>
+                    app:srcCompat="@drawable/ic_email"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -393,7 +393,7 @@
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/mod"/>
+                    app:srcCompat="@drawable/ic_verified_user"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -421,7 +421,7 @@
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/collection"/>
+                app:srcCompat="@drawable/ic_folder"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -447,7 +447,7 @@
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/crown"/>
+                app:srcCompat="@drawable/ic_crown"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -473,7 +473,7 @@
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/profile"/>
+                app:srcCompat="@drawable/ic_account_circle"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -500,7 +500,7 @@
                 android:layout_marginEnd="26dp"
                 android:layout_marginStart="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/world"/>
+                app:srcCompat="@drawable/ic_public"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -532,7 +532,7 @@
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/settings"/>
+                    app:srcCompat="@drawable/ic_settings"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -560,7 +560,7 @@
                 android:theme="@style/Ripple.List"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_expand"
-                app:srcCompat="@drawable/down"/>
+                app:srcCompat="@drawable/ic_keyboard_arrow_down"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -665,6 +665,6 @@
                 android:tint="?attr/tintColor"
                 android:visibility="gone"
                 android:contentDescription="@string/btn_close"
-                app:srcCompat="@drawable/close"/>
+                app:srcCompat="@drawable/ic_close"/>
     </RelativeLayout>
 </LinearLayout>

@@ -27,7 +27,7 @@
             android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:padding="4dp"
-                cardview:srcCompat="@drawable/support"
+                cardview:srcCompat="@drawable/ic_thumb_up"
             android:tint="?attr/tintColor" />
 
         <me.ccrama.redditslide.SpoilerRobotoTextView

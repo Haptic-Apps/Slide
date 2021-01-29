@@ -5,19 +5,19 @@
     tools:context=".Activities.Profile">
     <item
         android:id="@+id/category"
-        android:icon="@drawable/collection"
+        android:icon="@drawable/ic_folder"
         android:title="@string/profile_saved_categories"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/sort"
-        android:icon="@drawable/sort"
+        android:icon="@drawable/ic_sort"
         android:title="@string/sorting_change_sorting"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/info"
-        android:icon="@drawable/info"
+        android:icon="@drawable/ic_info"
         android:title="@string/profile_info"
         app:showAsAction="always" />
 </menu>

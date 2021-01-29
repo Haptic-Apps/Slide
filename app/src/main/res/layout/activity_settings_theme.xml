@@ -41,7 +41,7 @@
                     android:layout_gravity="right"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="-24dp"
-                    app:srcCompat="@drawable/more" />
+                    app:srcCompat="@drawable/ic_more_vert" />
 
             </LinearLayout>
 

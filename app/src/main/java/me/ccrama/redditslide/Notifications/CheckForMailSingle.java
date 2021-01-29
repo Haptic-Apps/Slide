@@ -119,7 +119,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     .setGroup("MESSAGES")
                                     .setGroupSummary(true)
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                    .addAction(R.drawable.check_all,
+                                    .addAction(R.drawable.ic_done_all,
                                             c.getString(R.string.mail_mark_read), readPI);
                     if (!SettingValues.notifSound) {
                         builder.setSound(null);
@@ -186,7 +186,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     .setStyle(notiStyle)
                                     .setGroup("MESSAGES")
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                    .addAction(R.drawable.check_all,
+                                    .addAction(R.drawable.ic_done_all,
                                             c.getString(R.string.mail_mark_read), readPISingle);
                     if (!SettingValues.notifSound) {
                         builder.setSound(null);

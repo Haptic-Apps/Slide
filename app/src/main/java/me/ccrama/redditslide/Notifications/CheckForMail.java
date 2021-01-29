@@ -149,7 +149,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     .setGroupSummary(true)
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
 
-                                    .addAction(R.drawable.check_all,
+                                    .addAction(R.drawable.ic_done_all,
                                             c.getString(R.string.mail_mark_read), readPI);
                     if (!SettingValues.notifSound) {
                         builder.setSound(null);
@@ -217,7 +217,7 @@ public class CheckForMail extends BroadcastReceiver {
                                         .setStyle(notiStyle)
                                         .setGroup("MESSAGES")
                                         .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                        .addAction(R.drawable.check_all,
+                                        .addAction(R.drawable.ic_done_all,
                                                 c.getString(R.string.mail_mark_read), readPISingle);
                         if (!SettingValues.notifSound) {
                             builder.setSound(null);
@@ -281,7 +281,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                             Reddit.CHANNEL_MODMAIL).setContentIntent(intent)
-                                    .setSmallIcon(R.drawable.mod)
+                                    .setSmallIcon(R.drawable.ic_verified_user)
                                     .setTicker(res.getQuantityString(
                                             R.plurals.mod_mail_notification_title, amount, amount))
                                     .setWhen(System.currentTimeMillis())
@@ -314,7 +314,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(c,
                                 Reddit.CHANNEL_MODMAIL).setContentIntent(intent)
-                                        .setSmallIcon(R.drawable.mod)
+                                        .setSmallIcon(R.drawable.ic_verified_user)
                                         .setTicker(res.getQuantityString(
                                                 R.plurals.mod_mail_notification_title, 1, 1))
                                         .setWhen(System.currentTimeMillis())
@@ -416,7 +416,7 @@ public class CheckForMail extends BroadcastReceiver {
                                                 + s.getAuthor())
                                         .setColor(Palette.getColor(s.getSubredditName()))
                                         .setStyle(notiStyle)
-                                        .addAction(R.drawable.close, c.getString(
+                                        .addAction(R.drawable.ic_close, c.getString(
                                                 R.string.sub_post_notifs_notification_btn,
                                                 s.getSubredditName()), cancelPi)
                                         .build();

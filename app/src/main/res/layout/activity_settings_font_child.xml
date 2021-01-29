@@ -133,7 +133,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/commentchange" />
+                app:srcCompat="@drawable/ic_forum" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -259,7 +259,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/fontsize" />
+                app:srcCompat="@drawable/ic_text_fields" />
 
             <TextView
                 android:layout_width="wrap_content"

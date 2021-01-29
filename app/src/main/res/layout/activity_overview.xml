@@ -65,7 +65,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/close"
+                        app:srcCompat="@drawable/ic_close"
                         android:tint="@color/white" />
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>

@@ -492,13 +492,13 @@ public class PopulateShadowboxInfo {
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        Drawable copy = mContext.getResources().getDrawable(R.drawable.copy);
-        Drawable open = mContext.getResources().getDrawable(R.drawable.open_external);
-        Drawable link = mContext.getResources().getDrawable(R.drawable.link);
-        Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+        final Drawable sub = mContext.getResources().getDrawable(R.drawable.ic_bookmark_border);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.ic_report);
+        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
+        Drawable open = mContext.getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable link = mContext.getResources().getDrawable(R.drawable.ic_link);
+        Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));

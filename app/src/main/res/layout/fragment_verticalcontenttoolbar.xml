@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="36dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/up"
+                app:srcCompat="@drawable/ic_keyboard_arrow_up"
                 android:contentDescription="@string/btn_nav_up"/>
 
         <ImageView
@@ -42,7 +42,7 @@
                 android:layout_width="48dp"
                 android:layout_height="36dp"
                 android:padding="8dp"
-                app:srcCompat="@drawable/navigation"
+                app:srcCompat="@drawable/ic_explore"
                 android:contentDescription="@string/btn_nav_mode"/>
         <ImageView
             android:id="@+id/collapse_expand"
@@ -50,7 +50,7 @@
             android:layout_width="48dp"
             android:layout_height="36dp"
             android:padding="8dp"
-            app:srcCompat="@drawable/comment"
+            app:srcCompat="@drawable/ic_comment"
             android:contentDescription="@string/btn_nav_collapse_expand"/>
 
         <ImageView
@@ -59,7 +59,7 @@
                 android:layout_width="0dp"
                 android:layout_height="36dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/down"
+                app:srcCompat="@drawable/ic_keyboard_arrow_down"
             android:contentDescription="@string/btn_nav_down"/>
     </LinearLayout>
 
@@ -76,7 +76,7 @@
                                                         app:layout_anchorGravity="bottom|right|end"
                                                         app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
                                                         app:pressedTranslationZ="12dp"
-                                                        app:srcCompat="@drawable/reply"
+                                                        app:srcCompat="@drawable/ic_reply"
                                                         android:contentDescription="@string/btn_fab_reply"/>
 
     <LinearLayout

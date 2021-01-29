@@ -152,7 +152,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             fab = v.findViewById(R.id.post_floating_action_button);
 
             if (SettingValues.fabType == Constants.FAB_POST) {
-                fab.setImageResource(R.drawable.add);
+                fab.setImageResource(R.drawable.ic_add);
                 fab.setContentDescription(getString(R.string.btn_fab_post));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -163,7 +163,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
                 });
             } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
-                fab.setImageResource(R.drawable.search);
+                fab.setImageResource(R.drawable.ic_search);
                 fab.setContentDescription(getString(R.string.btn_fab_search));
                 fab.setOnClickListener(new View.OnClickListener() {
                     String term;
@@ -228,7 +228,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
                 });
             } else {
-                fab.setImageResource(R.drawable.hide);
+                fab.setImageResource(R.drawable.ic_visibility_off);
                 fab.setContentDescription(getString(R.string.btn_fab_hide));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override

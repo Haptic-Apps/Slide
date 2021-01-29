@@ -597,11 +597,11 @@ public class HeaderImageLinkView extends RelativeLayout {
                 TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
                 int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.open_in_browser);
+                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_new);
                 open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                Drawable share = getResources().getDrawable(R.drawable.share);
+                Drawable share = getResources().getDrawable(R.drawable.ic_share);
                 share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                Drawable copy = getResources().getDrawable(R.drawable.copy);
+                Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
                 copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                 ta.recycle();
