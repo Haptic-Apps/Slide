@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.HorizontalScrollView;
 
+import androidx.appcompat.widget.AppCompatButton;
+
 import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
@@ -20,14 +22,13 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class Announcement extends BaseActivity {
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(0, 0);
-
     }
+
     @Override
     public void onCreate(Bundle savedInstance) {
-
         overridePendingTransition(R.anim.fade_in_real, 0);
         disableSwipeBackLayout();
         applyColorTheme();
@@ -37,22 +38,20 @@ public class Announcement extends BaseActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.submission_dialog);
 
-        setViews(Reddit.appRestart.getString("page", ""), "NO SUB", (SpoilerRobotoTextView) findViewById(R.id.firstTextView), (CommentOverflow) findViewById(R.id.commentOverflow));
-        ((TitleTextView) findViewById(R.id.title)).setText(Reddit.appRestart.getString("title", ""));
+        SpoilerRobotoTextView spoilerRobotoTextView = (SpoilerRobotoTextView) findViewById(R.id.submission_dialog_firstTextView);
+        CommentOverflow commentOverflow = (CommentOverflow) findViewById(R.id.submission_dialog_commentOverflow);
+        TitleTextView titleTextView = (TitleTextView) findViewById(R.id.submission_dialog_title);
+        AppCompatButton okBtn = (AppCompatButton) findViewById(R.id.submission_dialog_ok);
+        AppCompatButton commentsBtn = (AppCompatButton) findViewById(R.id.submission_dialog_comments);
 
-        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setViews(Reddit.appRestart.getString("page", ""), "NO SUB", spoilerRobotoTextView, commentOverflow);
+        titleTextView.setText(Reddit.appRestart.getString("title", ""));
 
-        findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new OpenRedditLink(Announcement.this, Reddit.appRestart.getString("url", ""));
-                finish();
-            }
+        okBtn.setOnClickListener(v -> finish());
+
+        commentsBtn.setOnClickListener(v -> {
+            new OpenRedditLink(Announcement.this, Reddit.appRestart.getString("url", ""));
+            finish();
         });
     }
 
@@ -81,7 +80,7 @@ public class Announcement extends BaseActivity {
             } else {
                 commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
-            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
+            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.submission_dialog_drawerLayout);
             for (int i = 0; i < commentOverflow.getChildCount(); i++) {
                 View maybeScrollable = commentOverflow.getChildAt(i);
                 if (maybeScrollable instanceof HorizontalScrollView) {
@@ -92,5 +91,4 @@ public class Announcement extends BaseActivity {
             commentOverflow.removeAllViews();
         }
     }
-
 }
