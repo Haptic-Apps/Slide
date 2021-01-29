@@ -214,7 +214,7 @@ public class TumblrPager extends FullScreenActivity
                 getSupportActionBar().setSubtitle(1 + "/" + images.size());
             }
 
-            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+            TumblrViewPagerAdapter adapter = new TumblrViewPagerAdapter(getSupportFragmentManager());
             p.setAdapter(adapter);
             p.setCurrentItem(1);
             findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -283,14 +283,15 @@ public class TumblrPager extends FullScreenActivity
         return true;
     }
 
-    public class AlbumViewPager extends FragmentStatePagerAdapter {
-        public AlbumViewPager(FragmentManager m) {
+    private class TumblrViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        TumblrViewPagerAdapter(FragmentManager m) {
             super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i == 0) {
                 return new BlankFragment();
             }
@@ -324,7 +325,6 @@ public class TumblrPager extends FullScreenActivity
                 return f;
             }
         }
-
 
         @Override
         public int getCount() {

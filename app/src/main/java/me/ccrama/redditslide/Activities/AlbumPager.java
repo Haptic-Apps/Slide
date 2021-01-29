@@ -250,7 +250,7 @@ public class AlbumPager extends FullScreenActivity
                 getSupportActionBar().setSubtitle(1 + "/" + images.size());
             }
 
-            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+            AlbumViewPagerAdapter adapter = new AlbumViewPagerAdapter(getSupportFragmentManager());
             p.setAdapter(adapter);
             p.setCurrentItem(1);
             findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -318,11 +318,13 @@ public class AlbumPager extends FullScreenActivity
         return true;
     }
 
-    public class AlbumViewPager extends FragmentStatePagerAdapter {
-        public AlbumViewPager(FragmentManager m) {
+    private class AlbumViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        AlbumViewPagerAdapter(FragmentManager m) {
             super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
 
@@ -350,7 +352,6 @@ public class AlbumPager extends FullScreenActivity
                 return f;
             }
         }
-
 
         @Override
         public int getCount() {

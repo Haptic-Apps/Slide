@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class Discover extends BaseActivityAnim {
 
-    public OverviewPagerAdapter adapter;
+    public DiscoverPagerAdapter adapter;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,7 +93,7 @@ public class Discover extends BaseActivityAnim {
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(Discover.this).getColor("no sub"));
 
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-        pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new DiscoverPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -117,12 +117,13 @@ public class Discover extends BaseActivityAnim {
     }
 
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class DiscoverPagerAdapter extends FragmentStatePagerAdapter {
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        DiscoverPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             Fragment f = new SubredditListView();
@@ -147,5 +148,4 @@ public class Discover extends BaseActivityAnim {
             }
         }
     }
-
 }

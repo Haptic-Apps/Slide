@@ -176,16 +176,16 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             final MainActivity a = (MainActivity) context;
                             if (a.singleMode
                                     && a.commentPager
-                                    && a.adapter instanceof MainActivity.OverviewPagerAdapterComment) {
+                                    && a.adapter instanceof MainActivity.MainPagerAdapterComment) {
 
                                 if (a.openingComments != submission) {
                                     clicked = holder2.getAdapterPosition();
                                     a.openingComments = submission;
                                     a.toOpenComments = a.pager.getCurrentItem() + 1;
                                     a.currentComment = holder.getAdapterPosition() - 1;
-                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment =
+                                    ((MainActivity.MainPagerAdapterComment) (a).adapter).storedFragment =
                                             (a).adapter.getCurrentFragment();
-                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size =
+                                    ((MainActivity.MainPagerAdapterComment) (a).adapter).size =
                                             a.toOpenComments + 1;
                                     try {
                                         a.adapter.notifyDataSetChanged();
@@ -217,9 +217,9 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     clicked = holder2.getAdapterPosition();
                                     a.openingComments = submission;
                                     a.currentComment = holder.getAdapterPosition() - 1;
-                                    ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment =
+                                    ((SubredditView.SubredditPagerAdapterComment) (a).adapter).storedFragment =
                                             (a).adapter.getCurrentFragment();
-                                    ((SubredditView.OverviewPagerAdapterComment) a.adapter).size =
+                                    ((SubredditView.SubredditPagerAdapterComment) a.adapter).size =
                                             3;
                                     a.adapter.notifyDataSetChanged();
                                 }

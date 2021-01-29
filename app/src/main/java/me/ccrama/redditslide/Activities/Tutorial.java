@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -38,8 +39,10 @@ import uz.shift.colorpicker.OnColorChangedListener;
 
 public class Tutorial extends AppCompatActivity {
     /**
-     * The number of pages (wizard steps) to show in this demo.
+     * The pages (wizard steps) to show in this demo.
      */
+    private static final int POS_WELCOME = 0;
+    private static final int POS_PERSONALIZE = 1;
     private static final int NUM_PAGES = 2;
 
     /**
@@ -64,7 +67,7 @@ public class Tutorial extends AppCompatActivity {
         /*
       The pager adapter, which provides the pages to the view pager widget.
      */
-        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        PagerAdapter mPagerAdapter = new TutorialPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
         if(getIntent().hasExtra("page")){
@@ -83,7 +86,7 @@ public class Tutorial extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
+        if (mPager.getCurrentItem() == POS_WELCOME) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
         } else {
@@ -336,19 +339,22 @@ public class Tutorial extends AppCompatActivity {
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
      */
-    private static class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+    private static class TutorialPagerAdapter extends FragmentStatePagerAdapter {
+
+        TutorialPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return new Welcome();
-            } else  {
-                return new Personalize();
+            switch (position) {
+                default:
+                case POS_WELCOME:
+                    return new Welcome();
+                case POS_PERSONALIZE:
+                    return new Personalize();
             }
-
         }
 
         @Override

@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.dean.jraw.models.Submission;
@@ -22,10 +19,6 @@ import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.Fragments.AlbumFull;
-import me.ccrama.redditslide.Fragments.MediaFragment;
-import me.ccrama.redditslide.Fragments.SelftextFull;
-import me.ccrama.redditslide.Fragments.TitleFull;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
@@ -216,101 +209,4 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         }
         return numColumns;
     }
-
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-
-            Fragment f = null;
-            ContentType.Type t = ContentType.getContentType(baseSubs.get(i));
-
-            if (baseSubs.size() - 2 <= i && subredditPosts.hasMore()) {
-                subredditPosts.loadMore(Gallery.this.getApplicationContext(), Gallery.this, false);
-            }
-            switch (t) {
-                case GIF:
-                case IMAGE:
-                case IMGUR:
-                case REDDIT:
-                case EXTERNAL:
-                case SPOILER:
-                case XKCD:
-                case REDDIT_GALLERY:
-                case DEVIANTART:
-                case EMBEDDED:
-                case LINK:
-                case STREAMABLE:
-                case VIDEO: {
-                    f = new MediaFragment();
-                    Bundle args = new Bundle();
-                    Submission submission = baseSubs.get(i);
-                    String previewUrl = "";
-                    if (t != ContentType.Type.XKCD
-                            && submission.getDataNode().has("preview")
-                            && submission.getDataNode()
-                            .get("preview")
-                            .get("images")
-                            .get(0)
-                            .get("source")
-                            .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                        previewUrl = submission.getDataNode()
-                                .get("preview")
-                                .get("images")
-                                .get(0)
-                                .get("source")
-                                .get("url")
-                                .asText();
-                    }
-                    args.putString("contentUrl", submission.getUrl());
-                    args.putString("firstUrl", previewUrl);
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-                    f.setArguments(args);
-                }
-                break;
-                case SELF:
-                case NONE: {
-                    if (baseSubs.get(i).getSelftext().isEmpty()) {
-                        f = new TitleFull();
-                    } else {
-                        f = new SelftextFull();
-                    }
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-                    f.setArguments(args);
-                }
-                break;
-                case ALBUM: {
-                    f = new AlbumFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
-            }
-
-
-            return f;
-
-
-        }
-
-
-        @Override
-        public int getCount() {
-            return baseSubs.size();
-        }
-
-
-    }
-
 }

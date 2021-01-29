@@ -170,10 +170,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                         ((Activity) getContext()).startActivityForResult(inte, 2001);
                     } else {
                         if (((MainActivity) getContext()).commentPager
-                                && ((MainActivity) getContext()).adapter instanceof MainActivity.OverviewPagerAdapterComment) {
+                                && ((MainActivity) getContext()).adapter instanceof MainActivity.MainPagerAdapterComment) {
                             ((MainActivity) getContext()).openingComments = null;
                             ((MainActivity) getContext()).toOpenComments = -1;
-                            ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size =
+                            ((MainActivity.MainPagerAdapterComment) ((MainActivity) getContext()).adapter).size =
                                     (((MainActivity) getContext()).usedArray.size() + 1);
                             ((MainActivity) getContext()).reloadItemNumber =
                                     ((MainActivity) getContext()).usedArray.indexOf(base);

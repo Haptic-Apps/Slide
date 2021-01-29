@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -35,22 +36,24 @@ public class ShadowboxComments extends FullScreenActivity {
         setContentView(R.layout.activity_slide);
 
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-        commentPager = new OverviewPagerAdapter(getSupportFragmentManager());
+        commentPager = new ShadowboxCommentsPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(commentPager);
     }
 
-    OverviewPagerAdapter commentPager;
+    ShadowboxCommentsPagerAdapter commentPager;
 
-    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private static class ShadowboxCommentsPagerAdapter extends FragmentStatePagerAdapter {
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        ShadowboxCommentsPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
 
             Fragment f = null;
+            Bundle args = new Bundle();
             Comment comment = comments.get(i).comment.getComment();
 
             String url = comments.get(i).url;
@@ -71,34 +74,25 @@ public class ShadowboxComments extends FullScreenActivity {
                 case LINK:
                 case STREAMABLE:
                 case VIDEO:
-                {
                     f = new MediaFragmentComment();
-                    Bundle args = new Bundle();
                     args.putString("contentUrl", url);
                     args.putString("firstUrl", url);
                     args.putInt("page", i);
                     args.putString("sub", comment.getSubredditName());
                     f.setArguments(args);
-                }
-                break;
-                case ALBUM: {
+                    break;
+                case ALBUM:
                     f = new AlbumFullComments();
-                    Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
-                }
-                break;
+                    break;
             }
             return f;
         }
-
 
         @Override
         public int getCount() {
             return comments.size() ;
         }
-
-
     }
-
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,7 +46,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Inbox extends BaseActivityAnim {
 
     public static final String EXTRA_UNREAD = "unread";
-    public  Inbox.OverviewPagerAdapter adapter;
+    public InboxPagerAdapter adapter;
     private TabLayout                  tabs;
     private ViewPager                  pager;
 
@@ -99,7 +100,7 @@ public class Inbox extends BaseActivityAnim {
 
                             try {
                                 final int CURRENT_TAB = tabs.getSelectedTabPosition();
-                                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                                adapter = new InboxPagerAdapter(getSupportFragmentManager());
                                 pager.setAdapter(adapter);
                                 tabs.setupWithViewPager(pager);
 
@@ -189,7 +190,7 @@ public class Inbox extends BaseActivityAnim {
 
         pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
-        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        adapter = new InboxPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
 
         if (getIntent() != null && getIntent().hasExtra(EXTRA_UNREAD)) {
@@ -226,15 +227,16 @@ public class Inbox extends BaseActivityAnim {
 
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        public OverviewPagerAdapter(FragmentManager fm) {
+    private class InboxPagerAdapter extends FragmentStatePagerAdapter {
+
+        InboxPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             Fragment f = new InboxPage();
-
             Bundle args = new Bundle();
             args.putString("id", ContentGrabber.InboxValue.values()[i].getWhereName());
             f.setArguments(args);

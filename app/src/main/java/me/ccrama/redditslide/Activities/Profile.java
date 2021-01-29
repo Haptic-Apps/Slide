@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -269,16 +270,15 @@ public class Profile extends BaseActivityAnim {
         }
     }
 
-    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
+    private class ProfilePagerAdapter extends FragmentStatePagerAdapter {
 
-        public ProfilePagerAdapter(FragmentManager fm) {
+        ProfilePagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i < 8) {
                 Fragment f = new ContributionsView();
                 Bundle args = new Bundle();
@@ -318,10 +318,7 @@ public class Profile extends BaseActivityAnim {
             } else {
                 return new HistoryView();
             }
-
-
         }
-
 
         @Override
         public int getCount() {
@@ -331,7 +328,6 @@ public class Profile extends BaseActivityAnim {
                 return usedArray.length;
             }
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {

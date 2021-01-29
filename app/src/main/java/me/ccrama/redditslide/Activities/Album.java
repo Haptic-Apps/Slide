@@ -184,7 +184,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         return true;
     }
 
-    public OverviewPagerAdapter album;
+    public AlbumPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -206,7 +206,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
-        album = new OverviewPagerAdapter(getSupportFragmentManager());
+        album = new AlbumPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -217,13 +217,13 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                                   finish();
                                               }
                                               if (position == 0
-                                                      && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      && ((AlbumPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                  if (((AlbumPagerAdapter) pager.getAdapter()).blankPage
                                                           != null) {
-                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      ((AlbumPagerAdapter) pager.getAdapter()).blankPage
                                                               .doOffset(positionOffset);
                                                   }
-                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
+                                                  ((AlbumPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
                                           }
@@ -254,14 +254,15 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         }
     }
 
-    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class AlbumPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
         public AlbumFrag album;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        public AlbumPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             if (i == 0) {
@@ -270,16 +271,13 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             } else {
                 album = new AlbumFrag();
                 return album;
-
             }
         }
 
         @Override
         public int getCount() {
-
             return 2;
         }
-
     }
 
     public static class AlbumFrag extends Fragment {

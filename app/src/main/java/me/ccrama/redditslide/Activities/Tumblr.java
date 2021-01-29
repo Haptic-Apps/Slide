@@ -178,7 +178,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         return true;
     }
 
-    public OverviewPagerAdapter album;
+    public TumblrPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -193,7 +193,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
-        album = new OverviewPagerAdapter(getSupportFragmentManager());
+        album = new TumblrPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
         if(getIntent().hasExtra(SUBREDDIT)){
@@ -207,12 +207,12 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                                                   finish();
                                               }
                                               if (position == 0
-                                                      && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
+                                                      && ((TumblrPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                  if (((TumblrPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                      ((TumblrPagerAdapter) pager.getAdapter()).blankPage.doOffset(
                                                               positionOffset);
                                                   }
-                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
+                                                  ((TumblrPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
                                           }
@@ -243,14 +243,15 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         }
     }
 
-    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class TumblrPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
         public AlbumFrag     album;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        public TumblrPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             if (i == 0) {
@@ -259,16 +260,13 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
             } else {
                 album = new AlbumFrag();
                 return album;
-
             }
         }
 
         @Override
         public int getCount() {
-
             return 2;
         }
-
     }
 
     public static class AlbumFrag extends Fragment {

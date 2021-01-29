@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -70,7 +71,7 @@ public class NewsActivity extends BaseActivity
     //offset for smoothing out the exit animations
     public ToggleSwipeViewPager     pager;
     public CaseInsensitiveArrayList usedArray;
-    public OverviewPagerAdapter     adapter;
+    public NewsPagerAdapter adapter;
     public TabLayout                mTabLayout;
     public String                   selectedSub; //currently selected subreddit
     public boolean                  inNightMode;
@@ -313,7 +314,7 @@ public class NewsActivity extends BaseActivity
         if (data != null && !data.isEmpty()) {
             usedArray = new CaseInsensitiveArrayList(data);
             if (adapter == null) {
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                adapter = new NewsPagerAdapter(getSupportFragmentManager());
             } else {
                 adapter.notifyDataSetChanged();
             }
@@ -394,10 +395,10 @@ public class NewsActivity extends BaseActivity
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class NewsPagerAdapter extends FragmentStatePagerAdapter {
         protected NewsView mCurrentFragment;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        NewsPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
@@ -440,7 +441,6 @@ public class NewsActivity extends BaseActivity
                                 }
                             }
                         }
-
                     });
                     colorAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
                     colorAnimation.setDuration(200);
@@ -460,7 +460,6 @@ public class NewsActivity extends BaseActivity
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
 
@@ -480,9 +479,9 @@ public class NewsActivity extends BaseActivity
             }
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             NewsView f = new NewsView();
             Bundle args = new Bundle();
             String name;
@@ -495,12 +494,10 @@ public class NewsActivity extends BaseActivity
             f.setArguments(args);
 
             return f;
-
-
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             if (reloadItemNumber == position || reloadItemNumber < 0) {
                 super.setPrimaryItem(container, position, object);
                 if (usedArray.size() >= position) doSetPrimary(object, position);
@@ -536,21 +533,17 @@ public class NewsActivity extends BaseActivity
             }
         }
 
-        public Fragment getCurrentFragment() {
+        Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
 
-
         @Override
         public CharSequence getPageTitle(int position) {
-
             if (usedArray != null) {
                 return abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }
-
-
         }
     }
 }

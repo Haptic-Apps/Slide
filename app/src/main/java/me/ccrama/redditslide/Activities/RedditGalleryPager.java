@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -185,7 +186,7 @@ public class RedditGalleryPager extends FullScreenActivity
             getSupportActionBar().setSubtitle(1 + "/" + images.size());
         }
 
-        GalleryViewPager adapter = new GalleryViewPager(getSupportFragmentManager());
+        GalleryViewPagerAdapter adapter = new GalleryViewPagerAdapter(getSupportFragmentManager());
         p.setAdapter(adapter);
         p.setCurrentItem(1);
         findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -252,18 +253,18 @@ public class RedditGalleryPager extends FullScreenActivity
         return true;
     }
 
-    public class GalleryViewPager extends FragmentStatePagerAdapter {
-        public GalleryViewPager(FragmentManager m) {
+    private class GalleryViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        GalleryViewPagerAdapter(FragmentManager m) {
             super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i == 0) {
                 return new BlankFragment();
             }
-
             i--;
 
             Fragment f = new ImageFullNoSubmission();
@@ -273,7 +274,6 @@ public class RedditGalleryPager extends FullScreenActivity
 
             return f;
         }
-
 
         @Override
         public int getCount() {

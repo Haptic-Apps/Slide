@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -177,7 +178,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         return true;
     }
 
-    public OverviewPagerAdapter album;
+    public RedditGalleryPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -199,7 +200,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
 
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
-        album = new OverviewPagerAdapter(getSupportFragmentManager());
+        album = new RedditGalleryPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -210,13 +211,13 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
                                                   finish();
                                               }
                                               if (position == 0
-                                                      && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      && ((RedditGalleryPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                  if (((RedditGalleryPagerAdapter) pager.getAdapter()).blankPage
                                                           != null) {
-                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      ((RedditGalleryPagerAdapter) pager.getAdapter()).blankPage
                                                               .doOffset(positionOffset);
                                                   }
-                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
+                                                  ((RedditGalleryPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
                                           }
@@ -247,14 +248,15 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         }
     }
 
-    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        public BlankFragment blankPage;
-        public AlbumFrag     album;
+    private static class RedditGalleryPagerAdapter extends FragmentStatePagerAdapter {
+        BlankFragment blankPage;
+        AlbumFrag     album;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        RedditGalleryPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             if (i == 0) {
@@ -263,16 +265,13 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
             } else {
                 album = new AlbumFrag();
                 return album;
-
             }
         }
 
         @Override
         public int getCount() {
-
             return 2;
         }
-
     }
 
     public static class AlbumFrag extends Fragment {
