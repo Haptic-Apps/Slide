@@ -316,24 +316,24 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300, false),
                         0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_500, false),
                         0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                         0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (Authentication.name != null && comment.getAuthor()
                     .toLowerCase(Locale.ENGLISH)
                     .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),

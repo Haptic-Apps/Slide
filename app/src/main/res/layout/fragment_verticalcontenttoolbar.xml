@@ -105,7 +105,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_np_link"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -115,7 +115,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_archived"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -125,7 +125,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_locked"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -135,7 +135,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_contest"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -146,7 +146,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_load_full"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"/>
         </com.google.android.material.appbar.AppBarLayout>
 

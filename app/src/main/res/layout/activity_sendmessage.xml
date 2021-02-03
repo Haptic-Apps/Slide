@@ -143,7 +143,7 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_vertical_margin"
-        android:tint="@color/white"
+        android:tint="@android:color/white"
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
         app:pressedTranslationZ="12dp"

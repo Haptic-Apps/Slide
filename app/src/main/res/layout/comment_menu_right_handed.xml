@@ -139,7 +139,7 @@
                     android:padding="16dp"
                     android:text="@string/btn_preview"
                     android:textAllCaps="true"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 

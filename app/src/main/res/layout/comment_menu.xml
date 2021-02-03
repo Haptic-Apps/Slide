@@ -105,8 +105,8 @@
                 android:imeOptions="actionDone|flagNoEnterAction"
                 android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                 android:minHeight="30dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
                 android:textCursorDrawable="@drawable/cursor"
                 android:theme="@style/ReplyEditTextTheme"/>
 
@@ -139,7 +139,7 @@
                     android:padding="16dp"
                     android:text="@string/btn_preview"
                     android:textAllCaps="true"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 

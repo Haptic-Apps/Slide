@@ -177,7 +177,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     SpannableStringBuilder pinned =
                             new SpannableStringBuilder(" " + UserTags.getUserTag(author) + " ");
                     pinned.setSpan(
-                            new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500,
+                            new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500,
                                     false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
                     titleString.append(" ");
@@ -186,7 +186,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (UserSubscriptions.friends.contains(author)) {
                     SpannableStringBuilder pinned = new SpannableStringBuilder(
                             " " + mContext.getString(R.string.profile_friend) + " ");
-                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
+                    pinned.setSpan(new RoundedBackgroundSpan(mContext, android.R.color.white,
                                     R.color.md_deep_orange_500, false), 0, pinned.length(),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);

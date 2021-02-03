@@ -116,7 +116,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="16dp"
-                    android:tint="#ffffff"
+                    android:tint="@android:color/white"
                     app:srcCompat="@drawable/ic_get_app"/>
 
             <TextView
@@ -124,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/manage_offline_content"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
         </LinearLayout>

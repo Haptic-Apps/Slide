@@ -12,7 +12,7 @@
             android:id="@+id/exo_play"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@color/transparent"
+            android:background="@android:color/transparent"
             app:srcCompat="@drawable/exo_icon_play"
             android:layout_centerInParent="true"
             android:contentDescription="@string/exo_controls_play_description"/>
@@ -21,7 +21,7 @@
             android:id="@+id/exo_pause"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@color/transparent"
+            android:background="@android:color/transparent"
             app:srcCompat="@drawable/exo_icon_pause"
             android:layout_centerInParent="true"
             android:contentDescription="@string/exo_controls_pause_description"/>

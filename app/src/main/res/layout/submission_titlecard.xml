@@ -12,7 +12,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000">
+        android:background="@android:color/black">
 
         <me.ccrama.redditslide.Views.TitleTextView
             android:id="@+id/title"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/example_domain"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="24sp"/>
     </FrameLayout>
 

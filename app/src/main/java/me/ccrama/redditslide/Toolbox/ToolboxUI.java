@@ -386,7 +386,7 @@ public class ToolboxUI {
                 new SpannableStringBuilder("\u00A0" + notes.getDisplayNoteForUser(user) + "\u00A0");
 
         noteBuilder.setSpan(
-                new RoundedBackgroundSpan(context.getResources().getColor(R.color.white),
+                new RoundedBackgroundSpan(context.getResources().getColor(android.R.color.white),
                         notes.getDisplayColorForUser(user), false, context), 0,
                 noteBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 

@@ -45,7 +45,7 @@
                         android:hint="@string/drawer_search"
                         android:imeOptions="actionSearch|flagNoExtractUi"
                         android:singleLine="true"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textColorHint="@color/md_grey_300"
                         android:theme="@style/SearchEditTextTheme"
                         android:visibility="gone"/>
@@ -60,7 +60,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:padding="8dp"
-                        android:tint="@color/white"
+                        android:tint="@android:color/white"
                         android:visibility="gone"
                         app:srcCompat="@drawable/ic_close"/>
             </RelativeLayout>

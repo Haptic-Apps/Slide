@@ -139,7 +139,7 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + UserTags.getUserTag(json.get("author").asText()) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
         }
@@ -148,7 +148,7 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + mContext.getString(R.string.profile_friend) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
         }
@@ -212,20 +212,20 @@ public class SubmissionCache {
             if (Authentication.name != null && submission.getAuthor()
                     .toLowerCase(Locale.ENGLISH)
                     .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
-                author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
+                author.setSpan(new RoundedBackgroundSpan(mContext, android.R.color.white,
                                 R.color.md_deep_orange_300, false), 0, author.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_purple_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_purple_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
@@ -242,7 +242,7 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + UserTags.getUserTag(submission.getAuthor()) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -252,7 +252,7 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + mContext.getString(R.string.profile_friend) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -414,7 +414,7 @@ public class SubmissionCache {
                     + mContext.getString(R.string.submission_stickied).toUpperCase()
                     + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, true),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -481,7 +481,7 @@ public class SubmissionCache {
         if (submission.isNsfw()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0NSFW\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, true), 0,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300, true), 0,
                     pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -489,14 +489,14 @@ public class SubmissionCache {
         if (submission.getDataNode().get("spoiler").asBoolean()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0SPOILER\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_grey_600, true),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_grey_600, true),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
         if (submission.getDataNode().get("is_original_content").asBoolean()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0OC\u00A0");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, true),
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, true),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);

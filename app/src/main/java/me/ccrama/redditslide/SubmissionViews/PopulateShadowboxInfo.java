@@ -309,9 +309,9 @@ public class PopulateShadowboxInfo {
             int authorcolor = Palette.getFontColorUser(s.getAuthor());
 
             if (Authentication.name != null && s.getAuthor().toLowerCase(Locale.ENGLISH).equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
-                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.setSpan(new RoundedBackgroundSpan(c, android.R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || s.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.setSpan(new RoundedBackgroundSpan(c, android.R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }

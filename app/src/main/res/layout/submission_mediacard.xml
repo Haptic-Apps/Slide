@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="#000000"
+        android:background="@android:color/black"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -36,7 +36,7 @@
                 android:id="@+id/placeholder"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#00000000" />
+                android:background="@android:color/transparent" />
 
             <ProgressBar
                 android:id="@+id/gifprogress"
@@ -98,7 +98,7 @@
             android:paddingEnd="16dp"
             android:paddingTop="16dp"
             android:text="asdf"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="?attr/font_cardtitle" />
         <TextView
             android:id="@+id/desc"

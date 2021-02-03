@@ -12,7 +12,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"
+        android:background="@android:color/black"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -38,7 +38,7 @@
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:text="asdf"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="?attr/font_cardtitle" />
 
         <TextView

@@ -153,7 +153,7 @@
                 android:gravity="bottom"
                 android:padding="16dp"
                 android:text="@string/donate_btn"
-                android:textColor="@color/black"
+                android:textColor="@android:color/black"
                 android:layout_gravity="end"
                 android:backgroundTint="@color/md_light_green_500"
                 style="@style/Widget.AppCompat.Button.Colored" />

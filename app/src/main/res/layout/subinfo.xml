@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toStartOf="@+id/subimage"
                         android:paddingStart="16dp"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
@@ -58,7 +58,7 @@
                         android:layout_below="@+id/sub_infotitle"
                         android:layout_toStartOf="@+id/subimage"
                         android:paddingStart="16dp"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textSize="14sp"/>
 
                 <TextView
@@ -68,7 +68,7 @@
                         android:layout_below="@id/subscribers"
                         android:layout_toStartOf="@+id/subimage"
                         android:paddingStart="16dp"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textSize="14sp"
                         android:textStyle="italic"/>
 
@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"/>
 
             <me.ccrama.redditslide.Views.CommentOverflow
