@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
@@ -1803,28 +1804,15 @@ public class CommentAdapterHelper {
             }
         });
 
-        animator.addListener(new Animator.AnimatorListener() {
-
-            @Override
-            public void onAnimationStart(Animator arg0) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator arg0) {
-
-            }
-
+        animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator arg0) {
-
                 v.setVisibility(View.GONE);
             }
 
             @Override
             public void onAnimationCancel(Animator arg0) {
                 v.setVisibility(View.GONE);
-
             }
         });
 

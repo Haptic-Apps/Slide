@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Views;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -52,25 +53,10 @@ public class AnimateHelper {
 
                             animator2.setInterpolator(new AccelerateDecelerateInterpolator());
                             animator2.setDuration(450);
-                            animator2.addListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-
-                                }
-
+                            animator2.addListener(new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
                                     v.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-
                                 }
                             });
                             animator2.start();
