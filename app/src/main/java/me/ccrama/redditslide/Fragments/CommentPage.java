@@ -1907,7 +1907,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                     v.findViewById(R.id.progress),
                     SettingValues.commentAutoHide ? v.findViewById(R.id.commentnav) : null) {
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     if (SettingValues.fabComments) {
                         if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING

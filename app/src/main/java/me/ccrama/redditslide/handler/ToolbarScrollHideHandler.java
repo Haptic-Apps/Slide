@@ -3,6 +3,7 @@ package me.ccrama.redditslide.handler;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,10 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
 
+    public int verticalOffset;
+    public boolean reset = false;
     Toolbar tToolbar;
     View mAppBar;
     View extra;
     View opposite;
+    boolean scrollingUp;
 
     public ToolbarScrollHideHandler(Toolbar t, View appBar) {
         tToolbar = t;
@@ -29,14 +33,10 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         this.opposite = opposite;
     }
 
-    public int verticalOffset;
-
-    boolean scrollingUp;
-
     @Override
-    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-            if(reset){
+            if (reset) {
                 verticalOffset = 0;
                 reset = false;
             }
@@ -44,33 +44,33 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                 if (verticalOffset > tToolbar.getHeight()) {
                     toolbarAnimateHide();
                 } else {
-                    toolbarAnimateShow(verticalOffset);
+                    toolbarAnimateShow();
                 }
                 if (opposite != null)
                     if (verticalOffset > opposite.getHeight()) {
                         oppositeAnimateHide();
                     } else {
-                        oppositeAnimateShow(verticalOffset);
+                        oppositeAnimateShow();
                     }
             } else {
                 if (mAppBar.getTranslationY() < tToolbar.getHeight() * -0.6 && verticalOffset > tToolbar.getHeight()) {
                     toolbarAnimateHide();
                 } else {
-                    toolbarAnimateShow(verticalOffset);
+                    toolbarAnimateShow();
                 }
                 if (opposite != null)
                     if (opposite.getTranslationY() < opposite.getHeight() * -0.6 && verticalOffset > opposite.getHeight()) {
                         oppositeAnimateHide();
                     } else {
-                        oppositeAnimateShow(verticalOffset);
+                        oppositeAnimateShow();
                     }
             }
         }
     }
-    public boolean reset = false;
+
     @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        if(verticalOffset == 0 && dy < 0){ //if scrolling begins halfway through an adapter, don't treat it like going negative and instead reset the start position to 0
+    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+        if (verticalOffset == 0 && dy < 0) { //if scrolling begins halfway through an adapter, don't treat it like going negative and instead reset the start position to 0
             dy = 0;
         }
         verticalOffset += dy;
@@ -89,7 +89,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
             }
         } else {
             if (toolbarYOffset < 0) {
-                mAppBar.setTranslationY(0);
+                toolbarShow();
                 if (extra != null)
                     extra.setTranslationY(0);
             } else {
@@ -98,7 +98,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                     extra.setTranslationY(-toolbarYOffset);
             }
         }
-        if(opposite != null){
+        if (opposite != null) {
             toolbarYOffset = (int) (dy + opposite.getTranslationY());
             opposite.animate().cancel();
             if (scrollingUp) {
@@ -113,45 +113,39 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         }
     }
 
-    public void toolbarShow()
-    {
+    public void toolbarShow() {
         mAppBar.setTranslationY(0);
     }
 
-    private void toolbarAnimateShow(final int verticalOffset) {
-        mAppBar.animate()
-                .translationY(0)
-                .setInterpolator(new LinearInterpolator())
-                .setDuration(180);
-        if (extra != null)
-            extra.animate()
-                    .translationY(0)
-                    .setInterpolator(new LinearInterpolator())
-                    .setDuration(180);
+    private void toolbarAnimateShow() {
+        toolbarAnimate(0);
     }
 
     private void toolbarAnimateHide() {
-        mAppBar.animate()
-                .translationY(-tToolbar.getHeight())
-                .setInterpolator(new LinearInterpolator())
-                .setDuration(180);
-        if (extra != null)
-            extra.animate()
-                    .translationY(-tToolbar.getHeight())
-                    .setInterpolator(new LinearInterpolator())
-                    .setDuration(180);
+        toolbarAnimate(-tToolbar.getHeight());
     }
 
-    private void oppositeAnimateShow(final int verticalOffset) {
-        opposite.animate()
-                .translationY(0)
-                .setInterpolator(new LinearInterpolator())
-                .setDuration(180);
+    private void toolbarAnimate(final int i) {
+        animate(mAppBar, i);
+        if (extra != null)
+            animate(extra, i);
+    }
+
+    private void oppositeAnimateShow() {
+        oppositeAnimate(0);
     }
 
     private void oppositeAnimateHide() {
-        opposite.animate()
-                .translationY(opposite.getHeight())
+        oppositeAnimate(opposite.getHeight());
+    }
+
+    private void oppositeAnimate(final int i) {
+        animate(opposite, i);
+    }
+
+    private void animate(final View v, final int i) {
+        v.animate()
+                .translationY(i)
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
     }

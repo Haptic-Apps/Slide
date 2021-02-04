@@ -520,7 +520,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
             toolbarScroll =
                     new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, header) {
                         @Override
-                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                             super.onScrolled(recyclerView, dx, dy);
 
                             if (!posts.loading
@@ -582,7 +582,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                         }
 
                         @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 //                switch (newState) {
 //                    case RecyclerView.SCROLL_STATE_IDLE:
 //                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
