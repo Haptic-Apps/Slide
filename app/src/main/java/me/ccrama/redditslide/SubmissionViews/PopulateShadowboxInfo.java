@@ -1,8 +1,6 @@
 package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -55,13 +53,15 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 /**
  * Created by carlo_000 on 2/27/2016.
@@ -309,9 +309,9 @@ public class PopulateShadowboxInfo {
             int authorcolor = Palette.getFontColorUser(s.getAuthor());
 
             if (Authentication.name != null && s.getAuthor().toLowerCase(Locale.ENGLISH).equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
-                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.setSpan(new RoundedBackgroundSpan(c, android.R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || s.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.setSpan(new RoundedBackgroundSpan(c, android.R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -492,13 +492,13 @@ public class PopulateShadowboxInfo {
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        Drawable copy = mContext.getResources().getDrawable(R.drawable.copy);
-        Drawable open = mContext.getResources().getDrawable(R.drawable.open_external);
-        Drawable link = mContext.getResources().getDrawable(R.drawable.link);
-        Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+        final Drawable sub = mContext.getResources().getDrawable(R.drawable.ic_bookmark_border);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.ic_report);
+        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
+        Drawable open = mContext.getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable link = mContext.getResources().getDrawable(R.drawable.ic_link);
+        Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -635,12 +635,7 @@ public class PopulateShadowboxInfo {
                                 }
                                 break;
                             case 6: {
-                                ClipboardManager clipboard = ContextCompat.getSystemService(mContext,
-                                        ClipboardManager.class);
-                                ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                if (clipboard != null) {
-                                    clipboard.setPrimaryClip(clip);
-                                }
+                                ClipboardUtil.copyToClipboard(mContext, "Link", submission.getUrl());
                                 Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
                             break;
@@ -674,11 +669,7 @@ public class PopulateShadowboxInfo {
         @Override
         protected void onPostExecute(Void aVoid) {
             Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-            View view = s.getView();
-            TextView tv = view.findViewById(
-                    com.google.android.material.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            s.show();
+            LayoutUtils.showSnackbar(s);
         }
     }
 

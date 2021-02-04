@@ -33,10 +33,10 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SanitizeField;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.SanitizeField;
 
 
 /**
@@ -170,10 +170,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                         ((Activity) getContext()).startActivityForResult(inte, 2001);
                     } else {
                         if (((MainActivity) getContext()).commentPager
-                                && ((MainActivity) getContext()).adapter instanceof MainActivity.OverviewPagerAdapterComment) {
+                                && ((MainActivity) getContext()).adapter instanceof MainActivity.MainPagerAdapterComment) {
                             ((MainActivity) getContext()).openingComments = null;
                             ((MainActivity) getContext()).toOpenComments = -1;
-                            ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size =
+                            ((MainActivity.MainPagerAdapterComment) ((MainActivity) getContext()).adapter).size =
                                     (((MainActivity) getContext()).usedArray.size() + 1);
                             ((MainActivity) getContext()).reloadItemNumber =
                                     ((MainActivity) getContext()).usedArray.indexOf(base);

@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -76,7 +77,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         count = subredditPosts.getPosts().size();
 
         pager = (ViewPager) findViewById(R.id.content_view);
-        submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
+        submissionsPager = new ShadowboxPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);
         pager.setCurrentItem(firstPage);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -101,7 +102,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
     }
 
-    OverviewPagerAdapter submissionsPager;
+    ShadowboxPagerAdapter submissionsPager;
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
@@ -151,16 +152,15 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         submissionsPager.notifyDataSetChanged();
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class ShadowboxPagerAdapter extends FragmentStatePagerAdapter {
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        ShadowboxPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             Fragment f = null;
             ContentType.Type t = ContentType.getContentType(subredditPosts.getPosts().get(i));
 
@@ -226,7 +226,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     args.putString("sub", subreddit);
-
                     f.setArguments(args);
                 }
                 break;
@@ -235,24 +234,17 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     args.putString("sub", subreddit);
-
                     f.setArguments(args);
                 }
                 break;
             }
 
             return f;
-
-
         }
-
 
         @Override
         public int getCount() {
             return count;
         }
-
-
     }
-
 }

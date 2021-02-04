@@ -19,13 +19,13 @@
             android:id="@+id/name"
             android:layout_width="160dp"
             android:layout_height="match_parent"
-            android:tint="@color/white"
+            android:tint="@android:color/white"
             android:hint="@string/multireddit_create_hint"
             android:inputType="textCapWords"
             android:maxLength="21"
             android:maxLines="1"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

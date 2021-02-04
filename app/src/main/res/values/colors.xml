@@ -161,8 +161,5 @@
     <color name="md_yellow_800">#f9a825</color>
     <color name="md_yellow_900">#f57f17</color>
     <color name="md_yellow_A400">#ffea00</color>
-    <color name="orange">#ff5722</color>
-    <color name="transparent">#00000000</color>
-    <color name="black">#000000</color>
-    <color name="white">#ffffff</color>
+    <color name="orange">@color/md_deep_orange_500</color>
 </resources>

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -44,7 +42,6 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubmissionNewsAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPostsRealm;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
@@ -54,8 +51,10 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 public class NewsView extends Fragment implements SubmissionDisplay {
     private static int                 adapterPosition;
@@ -151,7 +150,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
             fab = v.findViewById(R.id.post_floating_action_button);
 
             if (SettingValues.fabType == Constants.FAB_POST) {
-                fab.setImageResource(R.drawable.add);
+                fab.setImageResource(R.drawable.ic_add);
                 fab.setContentDescription(getString(R.string.btn_fab_post));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -162,7 +161,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                     }
                 });
             } else {
-                fab.setImageResource(R.drawable.hide);
+                fab.setImageResource(R.drawable.ic_visibility_off);
                 fab.setContentDescription(getString(R.string.btn_fab_hide));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -248,11 +247,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
 
                             }
                         });*/
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 };
             }
@@ -422,26 +417,10 @@ public class NewsView extends Fragment implements SubmissionDisplay {
     }
 
 
-    public static void datachanged(int adaptorPosition2) {
-        adapterPosition = adaptorPosition2;
-    }
-
     private void refresh() {
         posts.forced = true;
         forced = true;
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, id);
-    }
-
-    public void forceRefresh() {
-        rv.scrollToPosition(0);
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                refresh();
-            }
-        });
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -541,7 +520,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
             toolbarScroll =
                     new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, header) {
                         @Override
-                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                             super.onScrolled(recyclerView, dx, dy);
 
                             if (!posts.loading
@@ -603,7 +582,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                         }
 
                         @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 //                switch (newState) {
 //                    case RecyclerView.SCROLL_STATE_IDLE:
 //                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();

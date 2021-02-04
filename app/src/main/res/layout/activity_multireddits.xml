@@ -41,7 +41,7 @@
                 android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#00000000" />
+                android:background="@android:color/transparent" />
         </com.google.android.material.appbar.AppBarLayout>
     </FrameLayout>
 

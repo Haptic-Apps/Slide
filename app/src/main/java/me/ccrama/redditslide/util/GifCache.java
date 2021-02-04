@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import me.ccrama.redditslide.ImageLoaderUtils;
-
 /**
  * Created by carlo_000 on 5/5/2016.
  */

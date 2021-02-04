@@ -2,14 +2,15 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ReadLaterView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -28,16 +29,16 @@ public class PostReadLater extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-        pager.setAdapter(new ReadLaterAdaptor(getSupportFragmentManager()));
+        pager.setAdapter(new ReadLaterPagerAdapter(getSupportFragmentManager()));
     }
 
-    public static class ReadLaterAdaptor extends FragmentStatePagerAdapter {
+    private static class ReadLaterPagerAdapter extends FragmentStatePagerAdapter {
 
-        public ReadLaterAdaptor(FragmentManager fm) {
+        ReadLaterPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             return new ReadLaterView();

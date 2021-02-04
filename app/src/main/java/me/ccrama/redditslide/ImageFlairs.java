@@ -120,7 +120,6 @@ public class ImageFlairs {
                 String stylesheet = response.getRaw();
                 ArrayList<String> allImages = new ArrayList<>();
                 FlairStylesheet flairStylesheet = new FlairStylesheet(stylesheet);
-                int count = 0;
                 for (String s : flairStylesheet.getListOfFlairIds()) {
                     String classDef = flairStylesheet.getClass(flairStylesheet.stylesheetString,
                             "flair-" + s);
@@ -157,7 +156,7 @@ public class ImageFlairs {
         private int width, height, x, y;
         private String id;
 
-        public CropTransformation(Context context, String id, int width, int height, int x, int y) {
+        public CropTransformation(String id, int width, int height, int x, int y) {
             super();
             this.id = id;
             this.width = width;
@@ -615,7 +614,7 @@ public class ImageFlairs {
                             + ":"
                             + flairLocation.y);
                     try {
-                        newBit = new CropTransformation(context, id, flairDimensions.width,
+                        newBit = new CropTransformation(id, flairDimensions.width,
                                 flairDimensions.height, flairLocation.x, flairLocation.y).transform(
                                 loadedImage, flairLocation.isPercentage);
                     } catch (Exception e) {

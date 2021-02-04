@@ -110,6 +110,6 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/mod" />
+                app:srcCompat="@drawable/ic_verified_user" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

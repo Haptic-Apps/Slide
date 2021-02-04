@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/submission_dialog_drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
@@ -22,8 +22,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/buttons"
-                android:id="@+id/scroll"
+                android:layout_above="@+id/submission_dialog_buttons"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="16dp">
@@ -34,7 +33,7 @@
                     android:orientation="vertical">
 
                     <me.ccrama.redditslide.Views.TitleTextView
-                        android:id="@+id/title"
+                        android:id="@+id/submission_dialog_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="4dp"
@@ -42,14 +41,14 @@
                         android:textSize="?attr/font_cardtitle" />
 
                     <me.ccrama.redditslide.SpoilerRobotoTextView
-                        android:id="@+id/firstTextView"
+                        android:id="@+id/submission_dialog_firstTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="?attr/fontColor"
                         android:textSize="?attr/font_commentbody" />
 
                     <me.ccrama.redditslide.Views.CommentOverflow
-                        android:id="@+id/commentOverflow"
+                        android:id="@+id/submission_dialog_commentOverflow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -62,14 +61,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:id="@+id/buttons"
+                android:id="@+id/submission_dialog_buttons"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:layout_alignParentBottom="true"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/comments"
+                    android:id="@+id/submission_dialog_comments"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,7 +77,7 @@
                     android:text="@string/btn_open_comments" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/ok"
+                    android:id="@+id/submission_dialog_ok"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

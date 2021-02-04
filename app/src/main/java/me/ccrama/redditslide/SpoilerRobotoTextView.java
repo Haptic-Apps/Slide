@@ -1,8 +1,6 @@
 package me.ccrama.redditslide;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -74,6 +72,7 @@ import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -529,12 +528,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         peekView.addButton((R.id.copy), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                ClipboardManager clipboard =
-                                        ContextCompat.getSystemService(rootView.getContext(), ClipboardManager.class);
-                                ClipData clip = ClipData.newPlainText("Link", url);
-                                if (clipboard != null) {
-                                    clipboard.setPrimaryClip(clip);
-                                }
+                                ClipboardUtil.copyToClipboard(rootView.getContext(), "Link", url);
                                 Toast.makeText(rootView.getContext(),
                                         R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
@@ -583,11 +577,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
                 int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.open_in_browser);
+                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_new);
                 open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                Drawable share = getResources().getDrawable(R.drawable.share);
+                Drawable share = getResources().getDrawable(R.drawable.ic_share);
                 share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                Drawable copy = getResources().getDrawable(R.drawable.copy);
+                Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
                 copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                 ta.recycle();

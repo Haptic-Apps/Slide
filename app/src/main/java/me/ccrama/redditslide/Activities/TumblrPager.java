@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -47,8 +48,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -59,7 +58,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapterTumblr;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
@@ -75,6 +73,7 @@ import me.ccrama.redditslide.Views.ExoVideoView;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -189,7 +188,7 @@ public class TumblrPager extends FullScreenActivity
 
         String url;
 
-        public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
+        public LoadIntoPager(@NonNull String url, @NonNull Activity baseActivity) {
             super(url, baseActivity);
             this.url = url;
         }
@@ -215,7 +214,7 @@ public class TumblrPager extends FullScreenActivity
                 getSupportActionBar().setSubtitle(1 + "/" + images.size());
             }
 
-            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+            TumblrViewPagerAdapter adapter = new TumblrViewPagerAdapter(getSupportFragmentManager());
             p.setAdapter(adapter);
             p.setCurrentItem(1);
             findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -284,14 +283,15 @@ public class TumblrPager extends FullScreenActivity
         return true;
     }
 
-    public class AlbumViewPager extends FragmentStatePagerAdapter {
-        public AlbumViewPager(FragmentManager m) {
+    private class TumblrViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        TumblrViewPagerAdapter(FragmentManager m) {
             super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i == 0) {
                 return new BlankFragment();
             }
@@ -325,7 +325,6 @@ public class TumblrPager extends FullScreenActivity
                 return f;
             }
         }
-
 
         @Override
         public int getCount() {
@@ -417,10 +416,10 @@ public class TumblrPager extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.open_external);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
+        Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable image = getResources().getDrawable(R.drawable.ic_image);
+        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
 
         external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));

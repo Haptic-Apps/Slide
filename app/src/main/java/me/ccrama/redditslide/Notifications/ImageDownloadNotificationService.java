@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
@@ -23,8 +24,6 @@ import com.google.common.io.Files;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -100,7 +99,7 @@ public class ImageDownloadNotificationService extends Service {
             mBuilder = new NotificationCompat.Builder(getApplicationContext(), Reddit.CHANNEL_IMG);
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
                     .setContentText(getString(R.string.mediaview_notif_text))
-                    .setSmallIcon(R.drawable.save_content);
+                    .setSmallIcon(R.drawable.ic_save);
         }
 
         @Override
@@ -185,7 +184,7 @@ public class ImageDownloadNotificationService extends Service {
             else return Reddit.appRestart.getString("imagelocation", "");
         }
 
-        @NotNull
+        @NonNull
         private String getSubfolderPath() {
             return SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : "";
         }
@@ -323,13 +322,13 @@ public class ImageDownloadNotificationService extends Service {
                             Notification notif = new NotificationCompat.Builder(
                                     getApplicationContext(), Reddit.CHANNEL_IMG).setContentTitle(
                                     getString(R.string.info_photo_saved))
-                                    .setSmallIcon(R.drawable.save_content)
+                                    .setSmallIcon(R.drawable.ic_save)
                                     .setLargeIcon(loadedImage)
                                     .setContentIntent(pContentIntent)
-                                    .addAction(R.drawable.share, getString(R.string.share_image),
+                                    .addAction(R.drawable.ic_share, getString(R.string.share_image),
                                             pShareIntent)
                                     //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
-                                    .addAction(R.drawable.delete, getString(R.string.btn_delete),
+                                    .addAction(R.drawable.ic_delete, getString(R.string.btn_delete),
                                             pDeleteIntent)
                                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
                                             Bitmap.createScaledBitmap(loadedImage, 400, 400,

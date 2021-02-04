@@ -71,7 +71,6 @@ import java.util.Locale;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -90,7 +89,9 @@ import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
@@ -103,7 +104,7 @@ public class SubredditView extends BaseActivity {
     public String               subreddit;
     public Submission           openingComments;
     public int                  currentComment;
-    public OverviewPagerAdapter adapter;
+    public SubredditPagerAdapter adapter;
     public String               term;
     public ToggleSwipeViewPager pager;
     public boolean              singleMode;
@@ -119,7 +120,7 @@ public class SubredditView extends BaseActivity {
         // Check which request we're responding to
         if (requestCode == 2) {
             // Make sure the request was successful
-            pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
+            pager.setAdapter(new SubredditPagerAdapter(getSupportFragmentManager()));
         } else if (requestCode == 1) {
             restartTheme();
         } else if (requestCode == 940) {
@@ -186,11 +187,11 @@ public class SubredditView extends BaseActivity {
         commentPager = false;
         if (singleMode) commentPager = SettingValues.commentPager;
         if (commentPager) {
-            adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
+            adapter = new SubredditPagerAdapterComment(getSupportFragmentManager());
             pager.setSwipeLeftOnly(false);
             pager.setSwipingEnabled(true);
         } else {
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            adapter = new SubredditPagerAdapter(getSupportFragmentManager());
         }
         pager.setAdapter(adapter);
         pager.setCurrentItem(1);
@@ -305,10 +306,7 @@ public class SubredditView extends BaseActivity {
                 if (subreddit.equalsIgnoreCase("friends")) {
                     Snackbar s = Snackbar.make(findViewById(R.id.anchor),
                             getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     openPopup();
                 }
@@ -417,7 +415,7 @@ public class SubredditView extends BaseActivity {
             case R.id.action_shadowbox:
                 if (SettingValues.isPro) {
                     List<Submission> posts =
-                            ((SubmissionsView) ((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment()).posts.posts;
+                            ((SubmissionsView) ((SubredditPagerAdapter) pager.getAdapter()).getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
@@ -480,14 +478,6 @@ public class SubredditView extends BaseActivity {
                 e.apply();
             }
         }
-    }
-
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
     }
 
     public void doPageSelectedComments(int position) {
@@ -877,19 +867,8 @@ public class SubredditView extends BaseActivity {
                                                                                                             R.string.snackbar_flair_error,
                                                                                                             Snackbar.LENGTH_SHORT);
                                                                                         }
-                                                                                        if (s
-                                                                                                != null) {
-                                                                                            View
-                                                                                                    view =
-                                                                                                    s.getView();
-                                                                                            TextView
-                                                                                                    tv =
-                                                                                                    view
-                                                                                                            .findViewById(
-                                                                                                                    com.google.android.material.R.id.snackbar_text);
-                                                                                            tv.setTextColor(
-                                                                                                    Color.WHITE);
-                                                                                            s.show();
+                                                                                        if (s != null) {
+                                                                                            LayoutUtils.showSnackbar(s);
                                                                                         }
                                                                                     }
                                                                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -947,11 +926,7 @@ public class SubredditView extends BaseActivity {
                                                                             Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             }
                                                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1252,10 +1227,7 @@ public class SubredditView extends BaseActivity {
         }
         Snackbar s = Snackbar.make(mToolbar, isChecked ? getString(R.string.misc_subscribed)
                 : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
-        View view = s.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(Color.WHITE);
-        s.show();
+        LayoutUtils.showSnackbar(s);
     }
 
     private void doSubOnlyStuff(final Subreddit subreddit) {
@@ -1363,11 +1335,7 @@ public class SubredditView extends BaseActivity {
                                                                                             R.string.multi_subreddit_added,
                                                                                             multiName),
                                                                                     Snackbar.LENGTH_LONG);
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
@@ -1457,16 +1425,7 @@ public class SubredditView extends BaseActivity {
                                                                                                         getString(
                                                                                                                 R.string.misc_subscribed),
                                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                        View view =
-                                                                                                s.getView();
-                                                                                        TextView
-                                                                                                tv =
-                                                                                                view
-                                                                                                        .findViewById(
-                                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                        tv.setTextColor(
-                                                                                                Color.WHITE);
-                                                                                        s.show();
+                                                                                        LayoutUtils.showSnackbar(s);
                                                                                     }
                                                                                 })
                                                                         .setNegativeButton(
@@ -1513,11 +1472,7 @@ public class SubredditView extends BaseActivity {
                                                     Snackbar s = Snackbar.make(mToolbar,
                                                             R.string.sub_added,
                                                             Snackbar.LENGTH_SHORT);
-                                                    View view = s.getView();
-                                                    TextView tv = view.findViewById(
-                                                            com.google.android.material.R.id.snackbar_text);
-                                                    tv.setTextColor(Color.WHITE);
-                                                    s.show();
+                                                    LayoutUtils.showSnackbar(s);
                                                 }
                                             })
                                     .show();
@@ -1572,16 +1527,7 @@ public class SubredditView extends BaseActivity {
                                                                                                         getString(
                                                                                                                 R.string.misc_unsubscribed),
                                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                        View view =
-                                                                                                s.getView();
-                                                                                        TextView
-                                                                                                tv =
-                                                                                                view
-                                                                                                        .findViewById(
-                                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                        tv.setTextColor(
-                                                                                                Color.WHITE);
-                                                                                        s.show();
+                                                                                        LayoutUtils.showSnackbar(s);
                                                                                     }
                                                                                 })
                                                                         .setNegativeButton(
@@ -1628,11 +1574,7 @@ public class SubredditView extends BaseActivity {
                                                     Snackbar s = Snackbar.make(mToolbar,
                                                             R.string.misc_unsubscribed,
                                                             Snackbar.LENGTH_SHORT);
-                                                    View view = s.getView();
-                                                    TextView tv = view.findViewById(
-                                                            com.google.android.material.R.id.snackbar_text);
-                                                    tv.setTextColor(Color.WHITE);
-                                                    s.show();
+                                                    LayoutUtils.showSnackbar(s);
                                                 }
                                             })
                                     .setNegativeButton(R.string.btn_cancel, null)
@@ -1851,11 +1793,11 @@ public class SubredditView extends BaseActivity {
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public class SubredditPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
         private BlankFragment   blankPage;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        public SubredditPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1875,20 +1817,18 @@ public class SubredditView extends BaseActivity {
                     }
 
                     if (position == 0) {
-                        ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
+                        ((SubredditPagerAdapter) pager.getAdapter()).blankPage.doOffset(
                                 positionOffset);
-                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                        pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
                     }
                 }
 
                 @Override
                 public void onPageSelected(final int position) {
-
                 }
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
             if (pager.getAdapter() != null) {
@@ -1901,9 +1841,9 @@ public class SubredditView extends BaseActivity {
             return 2;
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i == 1) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
@@ -1915,12 +1855,10 @@ public class SubredditView extends BaseActivity {
                 blankPage = new BlankFragment();
                 return blankPage;
             }
-
-
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             super.setPrimaryItem(container, position, object);
             doSetPrimary(object, position);
         }
@@ -1938,7 +1876,6 @@ public class SubredditView extends BaseActivity {
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
                     mCurrentFragment.doAdapter();
-
                 }
             }
         }
@@ -1946,17 +1883,15 @@ public class SubredditView extends BaseActivity {
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
-
     }
 
-    public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
+    public class SubredditPagerAdapterComment extends SubredditPagerAdapter {
         public int size = 2;
         public Fragment storedFragment;
         BlankFragment blankPage;
         private SubmissionsView mCurrentFragment;
 
-
-        public OverviewPagerAdapterComment(FragmentManager fm) {
+        public SubredditPagerAdapterComment(FragmentManager fm) {
             super(fm);
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1975,7 +1910,7 @@ public class SubredditView extends BaseActivity {
                         }
 
                         blankPage.doOffset(positionOffset);
-                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                        pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
 
                     } else if (positionOffset == 0) {
                         if (position == 1) {
@@ -1995,27 +1930,22 @@ public class SubredditView extends BaseActivity {
                             pager.setSwipeLeftOnly(true);
                             themeSystemBars(openingComments.getSubredditName().toLowerCase(Locale.ENGLISH));
                             setRecentBar(openingComments.getSubredditName().toLowerCase(Locale.ENGLISH));
-
                         }
                     }
-
                 }
 
                 @Override
                 public void onPageSelected(int position) {
-
                 }
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
             if (pager.getAdapter() != null) {
                 pager.getAdapter().notifyDataSetChanged();
                 pager.setCurrentItem(1);
                 pager.setCurrentItem(0);
-
             }
         }
 
@@ -2040,18 +1970,17 @@ public class SubredditView extends BaseActivity {
                     }
                 }
             }
-
         }
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             if (object != storedFragment) return POSITION_NONE;
             return POSITION_UNCHANGED;
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i == 0) {
                 blankPage = new BlankFragment();
                 return blankPage;
@@ -2077,16 +2006,12 @@ public class SubredditView extends BaseActivity {
                 f.setArguments(args);
                 return f;
             }
-
-
         }
 
         @Override
         public int getCount() {
             return size;
         }
-
-
     }
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {

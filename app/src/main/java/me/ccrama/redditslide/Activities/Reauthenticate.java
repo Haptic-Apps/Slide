@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -23,7 +22,6 @@ import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 import net.dean.jraw.models.LoggedInAccount;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,8 +37,6 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Reauthenticate extends BaseActivityAnim {
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    Dialog d;
-    ArrayList<String> subNames;
 
     @Override
     public void onCreate(Bundle savedInstance) {

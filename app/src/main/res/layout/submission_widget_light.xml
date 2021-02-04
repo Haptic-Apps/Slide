@@ -89,7 +89,7 @@
                     android:layout_marginStart="16dp"
                     android:tag="tintactionbar"
                     android:contentDescription="@string/img_score"
-                    app:srcCompat="@drawable/upvoted" />
+                    app:srcCompat="@drawable/ic_arrow_upward" />
 
                 <TextView
                     android:id="@+id/score"
@@ -117,7 +117,7 @@
                     android:layout_toRightOf="@+id/score"
                     android:tag="tintactionbar"
                     android:contentDescription="@string/img_comments"
-                    app:srcCompat="@drawable/commentchange" />
+                    app:srcCompat="@drawable/ic_forum" />
 
                 <TextView
                     android:id="@+id/comments"

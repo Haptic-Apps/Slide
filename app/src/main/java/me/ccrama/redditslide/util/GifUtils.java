@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -39,7 +40,6 @@ import com.google.gson.JsonObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.NullOutputStream;
-import org.jetbrains.annotations.NotNull;
 import org.mp4parser.Container;
 import org.mp4parser.muxer.Movie;
 import org.mp4parser.muxer.Track;
@@ -96,7 +96,7 @@ public class GifUtils {
 
                         Notification notif =
                                 new NotificationCompat.Builder(c, Reddit.CHANNEL_IMG).setContentTitle(c.getString(R.string.gif_saved))
-                                        .setSmallIcon(R.drawable.save_content)
+                                        .setSmallIcon(R.drawable.ic_save)
                                         .setContentIntent(contentIntent)
                                         .build();
 
@@ -186,7 +186,7 @@ public class GifUtils {
                         Notification notif = new NotificationCompat.Builder(a, Reddit.CHANNEL_IMG)
                                 .setContentTitle(a.getString(R.string.mediaview_saving,
                                         uri.toString().replace("/DASHPlaylist.mpd", "")))
-                                .setSmallIcon(R.drawable.save)
+                                .setSmallIcon(R.drawable.ic_get_app)
                                 .setProgress(0, 0, true)
                                 .setOngoing(true)
                                 .build();
@@ -354,7 +354,7 @@ public class GifUtils {
 
         private TextView size;
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull ExoVideoView video,
+        public AsyncLoadGif(@NonNull Activity c, @NonNull ExoVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
                 boolean closeIfNull, boolean autostart, String subreddit) {
             this.c = c;
@@ -367,7 +367,7 @@ public class GifUtils {
             this.autostart = autostart;
         }
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull ExoVideoView video,
+        public AsyncLoadGif(@NonNull Activity c, @NonNull ExoVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
                 boolean closeIfNull, boolean autostart, TextView size, String subreddit) {
             this.c = c;
@@ -385,8 +385,8 @@ public class GifUtils {
 
         }
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull ExoVideoView video,
-                @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull,
+        public AsyncLoadGif(@NonNull Activity c, @NonNull ExoVideoView video,
+                @Nullable ProgressBar p, @Nullable View placeholder, boolean closeIfNull,
                 boolean autostart, String subreddit) {
             this.c = c;
             this.video = video;

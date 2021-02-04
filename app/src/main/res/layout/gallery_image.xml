@@ -26,7 +26,7 @@
             android:layout_height="56dp"
             android:padding="16dp"
             android:tint="#e1e1e1"
-            app:srcCompat="@drawable/album_grid"/>
+            app:srcCompat="@drawable/ic_view_module"/>
 
         <ImageView
             android:id="@+id/comments"
@@ -34,7 +34,7 @@
             android:layout_height="56dp"
             android:padding="16dp"
             android:tint="#e1e1e1"
-            app:srcCompat="@drawable/commentchange"
+            app:srcCompat="@drawable/ic_forum"
             android:background="?android:selectableItemBackground"/>
     </LinearLayout>
 </RelativeLayout>

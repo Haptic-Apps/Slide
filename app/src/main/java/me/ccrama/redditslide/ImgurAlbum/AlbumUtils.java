@@ -1,19 +1,16 @@
 package me.ccrama.redditslide.ImgurAlbum;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,7 +69,7 @@ public class AlbumUtils {
 
         }
 
-        public GetAlbumWithCallback(@NotNull String url, @NotNull Activity baseActivity) {
+        public GetAlbumWithCallback(@NonNull String url, @NonNull Activity baseActivity) {
 
             this.baseActivity = baseActivity;
             if(url.contains("/layout/")){
@@ -250,34 +247,4 @@ public class AlbumUtils {
     public static String getUrl(String hash) {
         return "http://imgur.com/ajaxalbums/getimages/" + hash + "/hit.json?all=true";
     }
-
-    public static void preloadImages(Context c, JsonObject result, boolean gallery) {
-        if (gallery && result != null) {
-
-            if (result.has("data") && result.get("data").getAsJsonObject().has("image") && result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images") && result.get("data").getAsJsonObject().get("image").getAsJsonObject().get("album_images").getAsJsonObject().has("images")) {
-                JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-                if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
-
-                    for (JsonElement o : obj) {
-                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage("https://imgur.com/" + o.getAsJsonObject().get("hash").getAsString() + ".png", new SimpleImageLoadingListener());
-                    }
-
-                }
-            }
-
-        } else if (result != null) {
-            if (result.has("album") && result.get("album").getAsJsonObject().has("images")) {
-                JsonObject obj = result.getAsJsonObject("album");
-                if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                    final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                    for (JsonElement o : jsonAuthorsArray) {
-                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(o.getAsJsonObject().getAsJsonObject("links").get("original").getAsString(), new SimpleImageLoadingListener());
-                    }
-                }
-            }
-        }
-    }
-
 }

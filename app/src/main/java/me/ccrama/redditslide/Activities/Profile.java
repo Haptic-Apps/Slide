@@ -20,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -28,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -54,17 +54,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.Fragments.HistoryView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserTags;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -86,24 +87,6 @@ public class Profile extends BaseActivityAnim {
     private TabLayout tabs;
     private String[] usedArray;
     public boolean isSavedView;
-
-    private void scrollToTabAfterLayout(final int tabIndex) {
-        //from http://stackoverflow.com/a/34780589/3697225
-        if (tabs != null) {
-            final ViewTreeObserver observer = tabs.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        tabs.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        tabs.getTabAt(tabIndex).select();
-                    }
-                });
-            }
-        }
-    }
 
     public static boolean isValidUsername(String user) {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
@@ -204,7 +187,7 @@ public class Profile extends BaseActivityAnim {
         }
         isSavedView = pager.getCurrentItem() == 6;
         if (pager.getCurrentItem() != 0) {
-            scrollToTabAfterLayout(pager.getCurrentItem());
+            LayoutUtils.scrollToTabAfterLayout(tabs, pager.getCurrentItem());
         }
     }
 
@@ -287,16 +270,15 @@ public class Profile extends BaseActivityAnim {
         }
     }
 
-    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
+    private class ProfilePagerAdapter extends FragmentStatePagerAdapter {
 
-        public ProfilePagerAdapter(FragmentManager fm) {
+        ProfilePagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i < 8) {
                 Fragment f = new ContributionsView();
                 Bundle args = new Bundle();
@@ -336,10 +318,7 @@ public class Profile extends BaseActivityAnim {
             } else {
                 return new HistoryView();
             }
-
-
         }
-
 
         @Override
         public int getCount() {
@@ -349,7 +328,6 @@ public class Profile extends BaseActivityAnim {
                 return usedArray.length;
             }
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {

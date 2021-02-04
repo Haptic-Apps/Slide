@@ -1,10 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -34,39 +31,6 @@ import me.ccrama.redditslide.util.billing.SkuDetails;
  * Allows a user to donate to Slide using Google Play's IabHelper
  */
 public class DonateView extends BaseActivityAnim {
-
-    private final IabHelper.OnConsumeFinishedListener mPurchaseFinishedListener =
-            new IabHelper.OnConsumeFinishedListener() {
-                @Override
-                public void onConsumeFinished(Purchase purchase, IabResult result) {
-                    if (result.isFailure()) {
-                        Log.d(LogUtil.getTag(), "Error purchasing: " + result);
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(DonateView.this);
-                        builder.setTitle(R.string.donate_err_title);
-                        builder.setMessage(R.string.donate_err_msg);
-                        builder.setNeutralButton(R.string.btn_ok, null);
-                        builder.show();
-                    } else if (purchase.getSku().contains("donation")) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                AlertDialog.Builder builder =
-                                        new AlertDialog.Builder(DonateView.this);
-                                builder.setTitle(R.string.donate_success_title);
-                                builder.setMessage(R.string.donate_success_msg);
-                                builder.setPositiveButton(R.string.donate_success_btn,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                DonateView.this.finish();
-                                            }
-                                        });
-                                builder.show();
-                            }
-                        });
-                    }
-                }
-            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
-            app:srcCompat="@drawable/online"
+            app:srcCompat="@drawable/ic_cloud"
             android:tint="?attr/tintColor" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
-            app:srcCompat="@drawable/save"
+            app:srcCompat="@drawable/ic_get_app"
             android:tint="?attr/tintColor" />
 
         <TextView
@@ -118,7 +118,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="26dp"
-                app:srcCompat="@drawable/settings"
+                app:srcCompat="@drawable/ic_settings"
                 android:tint="?attr/tintColor" />
 
             <TextView
@@ -146,7 +146,7 @@
                 android:theme="@style/Ripple.List"
                 android:tint="?attr/tintColor"
                 android:contentDescription="@string/btn_expand"
-                app:srcCompat="@drawable/down"/>
+                app:srcCompat="@drawable/ic_keyboard_arrow_down"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -248,6 +248,6 @@
             android:padding="8dp"
             android:theme="@style/Ripple.List"
             android:contentDescription="@string/btn_close"
-            app:srcCompat="@drawable/close" />
+            app:srcCompat="@drawable/ic_close" />
     </RelativeLayout>
 </LinearLayout>

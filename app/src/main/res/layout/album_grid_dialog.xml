@@ -4,7 +4,7 @@
     android:id="@+id/images"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#000000"
+    android:background="@android:color/black"
     android:columnWidth="80dp"
     android:gravity="center"
     android:horizontalSpacing="10dp"

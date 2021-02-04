@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -38,7 +39,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
     private TabLayout tabs;
     private ToggleSwipeViewPager pager;
     private String subreddit;
-    private Wiki.OverviewPagerAdapter adapter;
+    private WikiPagerAdapter adapter;
     private List<String> pages;
     private String page;
     private static String globalCustomCss;
@@ -165,7 +166,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                 pages.removeAll(toRemove);
 
 
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                adapter = new WikiPagerAdapter(getSupportFragmentManager());
 
 
             } catch (Exception e) {
@@ -230,12 +231,13 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class WikiPagerAdapter extends FragmentStatePagerAdapter {
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        WikiPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             WikiPage f = new WikiPage();
@@ -249,7 +251,6 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
 
             return f;
         }
-
 
         @Override
         public int getCount() {
@@ -265,5 +266,4 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
             return pages.get(position);
         }
     }
-
 }

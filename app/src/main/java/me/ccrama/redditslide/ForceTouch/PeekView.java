@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.ForceTouch;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -412,7 +413,7 @@ public class PeekView extends FrameLayout {
 
         // animate the alpha of the PeekView
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f);
-        animator.addListener(new AnimatorEndListener() {
+        animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 if (callbacks != null) {
@@ -432,7 +433,7 @@ public class PeekView extends FrameLayout {
 
         // animate with a fade
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f, 0.0f);
-        animator.addListener(new AnimatorEndListener() {
+        animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 // remove the view from the screen
@@ -455,23 +456,6 @@ public class PeekView extends FrameLayout {
 
     public void setOnRemoveListener(OnRemove onRemove){
         this.remove = onRemove;
-    }
-
-    /**
-     * Wrapper class so we only have to implement the onAnimationEnd method.
-     */
-    private abstract static class AnimatorEndListener implements Animator.AnimatorListener {
-        @Override
-        public void onAnimationStart(Animator animator) {
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator) {
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator) {
-        }
     }
 
     private enum Translation {HORIZONTAL, VERTICAL}

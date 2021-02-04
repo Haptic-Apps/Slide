@@ -211,20 +211,20 @@ public class MediaFragment extends Fragment {
         switch (type) {
             case ALBUM:
             case REDDIT_GALLERY:
-                typeImage.setImageResource(R.drawable.album);
+                typeImage.setImageResource(R.drawable.ic_photo_library);
                 break;
             case EXTERNAL:
             case LINK:
             case REDDIT:
-                typeImage.setImageResource(R.drawable.world);
+                typeImage.setImageResource(R.drawable.ic_public);
                 rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
                 break;
             case SELF:
-                typeImage.setImageResource(R.drawable.fontsize);
+                typeImage.setImageResource(R.drawable.ic_text_fields);
                 break;
             case EMBEDDED:
             case VIDEO:
-                typeImage.setImageResource(R.drawable.play);
+                typeImage.setImageResource(R.drawable.ic_play_arrow);
                 rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
                 break;
             default:

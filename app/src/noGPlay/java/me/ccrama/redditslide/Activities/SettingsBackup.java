@@ -2,14 +2,12 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -32,6 +30,7 @@ import java.util.Calendar;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.FileUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -218,7 +217,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle("Settings Backup is a Pro feature")
+            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_backup_ispro)
                     .setMessage(R.string.pro_upgrade_msg)
                     .setPositiveButton(R.string.btn_yes_exclaim,
 
@@ -348,11 +347,7 @@ public class SettingsBackup extends BaseActivityAnim {
                                                                     R.string.settings_backup_err_no_explorer,
                                                                     file.getAbsolutePath() + file),
                                                             Snackbar.LENGTH_INDEFINITE);
-                                            View view = s.getView();
-                                            TextView tv = view.findViewById(
-                                                    com.google.android.material.R.id.snackbar_text);
-                                            tv.setTextColor(Color.WHITE);
-                                            s.show();
+                                            LayoutUtils.showSnackbar(s);
                                         }
                                     }
                                 })

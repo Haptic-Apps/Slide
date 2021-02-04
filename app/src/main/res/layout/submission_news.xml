@@ -61,7 +61,7 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/comment" />
+                        app:srcCompat="@drawable/ic_comment" />
 
                 <ImageView
                         android:id="@+id/more"
@@ -78,7 +78,7 @@
                         android:layout_alignParentRight="true"
                         android:tint="?attr/tintColor"
                     android:contentDescription="@string/btn_menu"
-                    app:srcCompat="@drawable/more" />
+                    app:srcCompat="@drawable/ic_more_vert" />
                 <me.ccrama.redditslide.Views.TitleTextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"

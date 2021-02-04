@@ -1,11 +1,10 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,7 +38,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -79,7 +77,6 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
@@ -87,7 +84,10 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 /**
  * Created by Carlos on 8/4/2016.
@@ -101,15 +101,15 @@ public class CommentAdapterHelper {
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        Drawable saved = mContext.getResources().getDrawable(R.drawable.star);
-        Drawable gild = mContext.getResources().getDrawable(R.drawable.gild);
-        Drawable copy = mContext.getResources().getDrawable(R.drawable.copy);
-        Drawable share = mContext.getResources().getDrawable(R.drawable.share);
-        Drawable parent = mContext.getResources().getDrawable(R.drawable.commentchange);
-        Drawable replies = mContext.getResources().getDrawable(R.drawable.notifs);
-        Drawable permalink = mContext.getResources().getDrawable(R.drawable.link);
-        Drawable report = mContext.getResources().getDrawable(R.drawable.report);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+        Drawable saved = mContext.getResources().getDrawable(R.drawable.ic_star);
+        Drawable gild = mContext.getResources().getDrawable(R.drawable.ic_stars);
+        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
+        Drawable share = mContext.getResources().getDrawable(R.drawable.ic_share);
+        Drawable parent = mContext.getResources().getDrawable(R.drawable.ic_forum);
+        Drawable replies = mContext.getResources().getDrawable(R.drawable.ic_notifications);
+        Drawable permalink = mContext.getResources().getDrawable(R.drawable.ic_link);
+        Drawable report = mContext.getResources().getDrawable(R.drawable.ic_report);
 
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         saved.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -291,14 +291,7 @@ public class CommentAdapterHelper {
                                                 .toString()
                                                 .substring(showText.getSelectionStart(),
                                                         showText.getSelectionEnd());
-                                        ClipboardManager clipboard =
-                                                ContextCompat.getSystemService(mContext,
-                                                        ClipboardManager.class);
-                                        ClipData clip =
-                                                ClipData.newPlainText("Comment text", selected);
-                                        if (clipboard != null) {
-                                            clipboard.setPrimaryClip(clip);
-                                        }
+                                        ClipboardUtil.copyToClipboard(mContext, "Comment text", selected);
 
                                         Toast.makeText(mContext, R.string.submission_comment_copied,
                                                 Toast.LENGTH_SHORT).show();
@@ -310,15 +303,8 @@ public class CommentAdapterHelper {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                ClipboardManager clipboard =
-                                                        ContextCompat.getSystemService(mContext,
-                                                                ClipboardManager.class);
-                                                ClipData clip =
-                                                        ClipData.newPlainText("Comment text",
-                                                                StringEscapeUtils.unescapeHtml4(n.getBody()));
-                                                if (clipboard != null) {
-                                                    clipboard.setPrimaryClip(clip);
-                                                }
+                                                ClipboardUtil.copyToClipboard(mContext, "Comment text",
+                                                        StringEscapeUtils.unescapeHtml4(n.getBody()));
 
                                                 Toast.makeText(mContext,
                                                         R.string.submission_comment_copied,
@@ -366,11 +352,7 @@ public class CommentAdapterHelper {
                             s = Snackbar.make(holder.itemView, R.string.replies_enabled_comment,
                                     Snackbar.LENGTH_SHORT);
                         }
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 } catch (Exception ignored) {
 
@@ -445,11 +427,7 @@ public class CommentAdapterHelper {
                             s = Snackbar.make(holder.itemView, R.string.submission_comment_unsaved,
                                     Snackbar.LENGTH_SHORT);
                         }
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 } catch (Exception ignored) {
 
@@ -546,14 +524,7 @@ public class CommentAdapterHelper {
                                                                                         itemView,
                                                                                         R.string.submission_info_saved,
                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                View view =
-                                                                                        s.getView();
-                                                                                TextView tv =
-                                                                                        view.findViewById(
-                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
+                                                                                LayoutUtils.showSnackbar(s);
                                                                             }
                                                                         } else {
                                                                             if (itemView != null) {
@@ -561,14 +532,7 @@ public class CommentAdapterHelper {
                                                                                         itemView,
                                                                                         R.string.category_set_error,
                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                View view =
-                                                                                        s.getView();
-                                                                                TextView tv =
-                                                                                        view.findViewById(
-                                                                                                com.google.android.material.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
+                                                                                LayoutUtils.showSnackbar(s);
                                                                             }
                                                                         }
 
@@ -600,22 +564,14 @@ public class CommentAdapterHelper {
                                                         s = Snackbar.make(itemView,
                                                                 R.string.submission_info_saved,
                                                                 Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                com.google.android.material.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
+                                                        LayoutUtils.showSnackbar(s);
                                                     }
                                                 } else {
                                                     if (itemView != null) {
                                                         s = Snackbar.make(itemView,
                                                                 R.string.category_set_error,
                                                                 Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                com.google.android.material.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
+                                                        LayoutUtils.showSnackbar(s);
                                                     }
                                                 }
                                             }
@@ -643,18 +599,18 @@ public class CommentAdapterHelper {
 
         //Initialize drawables
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
-        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable pin = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.star);
-        final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
-        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
-        final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
-        final Drawable note = mContext.getResources().getDrawable(R.drawable.note);
-        final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.report_reason);
-        final Drawable lock = mContext.getResources().getDrawable(R.drawable.lock);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.ic_report);
+        final Drawable approve = mContext.getResources().getDrawable(R.drawable.ic_thumb_up);
+        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
+        final Drawable pin = mContext.getResources().getDrawable(R.drawable.ic_bookmark_border);
+        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.ic_star);
+        final Drawable remove = mContext.getResources().getDrawable(R.drawable.ic_close);
+        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ic_gavel);
+        final Drawable spam = mContext.getResources().getDrawable(R.drawable.ic_flag);
+        final Drawable note = mContext.getResources().getDrawable(R.drawable.ic_note);
+        final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.ic_announcement);
+        final Drawable lock = mContext.getResources().getDrawable(R.drawable.ic_lock);
 
         //Tint drawables
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -761,10 +717,7 @@ public class CommentAdapterHelper {
                                     if (success) {
                                         Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                                                 Snackbar.LENGTH_LONG);
-                                        View view = s.getView();
-                                        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                                        tv.setTextColor(Color.WHITE);
-                                        s.show();
+                                        LayoutUtils.showSnackbar(s);
 
                                         adapter.removed.add(comment.getFullName());
                                         adapter.approved.remove(comment.getFullName());
@@ -947,14 +900,8 @@ public class CommentAdapterHelper {
 
                                             }
 
-                                            if (s != null)
-
-                                            {
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        com.google.android.material.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                            if (s != null) {
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         }
                                     }.execute();
@@ -977,10 +924,7 @@ public class CommentAdapterHelper {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_distinguished,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
@@ -1012,10 +956,7 @@ public class CommentAdapterHelper {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_undistinguished,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
@@ -1047,10 +988,7 @@ public class CommentAdapterHelper {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_stickied,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
@@ -1151,10 +1089,7 @@ public class CommentAdapterHelper {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_unstickied,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
@@ -1185,10 +1120,7 @@ public class CommentAdapterHelper {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                     adapter.removed.add(comment.getFullName());
                     adapter.approved.remove(comment.getFullName());
@@ -1271,10 +1203,7 @@ public class CommentAdapterHelper {
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed, Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                     adapter.removed.add(comment.getFullName());
                     adapter.approved.remove(comment.getFullName());
@@ -1313,10 +1242,7 @@ public class CommentAdapterHelper {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, lock ? R.string.mod_locked : R.string.mod_unlocked,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
@@ -1391,24 +1317,24 @@ public class CommentAdapterHelper {
         if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_500, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (Authentication.name != null && comment.getAuthor()
                 .toLowerCase(Locale.ENGLISH)
                 .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_300,
                             false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (submission != null && comment.getAuthor()
                 .toLowerCase(Locale.ENGLISH)
@@ -1416,7 +1342,7 @@ public class CommentAdapterHelper {
                 .equals("[deleted]")) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (authorcolor != 0) {
             author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
@@ -1490,7 +1416,7 @@ public class CommentAdapterHelper {
                     + mContext.getString(R.string.submission_stickied).toUpperCase()
                     + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -1556,7 +1482,7 @@ public class CommentAdapterHelper {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     "\u00A0" + UserTags.getUserTag(comment.getAuthor()) + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -1565,7 +1491,7 @@ public class CommentAdapterHelper {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     "\u00A0" + mContext.getString(R.string.profile_friend) + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -1838,10 +1764,7 @@ public class CommentAdapterHelper {
         protected void onPostExecute(Void aVoid) {
             Snackbar s =
                     Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-            View view = s.getView();
-            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            s.show();
+            LayoutUtils.showSnackbar(s);
         }
     }
 
@@ -1881,28 +1804,15 @@ public class CommentAdapterHelper {
             }
         });
 
-        animator.addListener(new Animator.AnimatorListener() {
-
-            @Override
-            public void onAnimationStart(Animator arg0) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator arg0) {
-
-            }
-
+        animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator arg0) {
-
                 v.setVisibility(View.GONE);
             }
 
             @Override
             public void onAnimationCancel(Animator arg0) {
                 v.setVisibility(View.GONE);
-
             }
         });
 

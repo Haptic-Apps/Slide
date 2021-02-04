@@ -3,14 +3,12 @@ package me.ccrama.redditslide.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,6 +46,7 @@ import java.util.Calendar;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.FileUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -539,7 +538,7 @@ public class SettingsBackup extends BaseActivityAnim
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle("Settings Backup is a Pro feature")
+            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_backup_ispro)
                     .setMessage(R.string.pro_upgrade_msg)
                     //avoid that the dialog can be closed
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -670,18 +669,14 @@ public class SettingsBackup extends BaseActivityAnim
                                         if (intent.resolveActivityInfo(getPackageManager(), 0)
                                                 != null) {
                                             startActivity(
-                                                    Intent.createChooser(intent, "View backup"));
+                                                    Intent.createChooser(intent, getString(R.string.settings_backup_view)));
                                         } else {
                                             Snackbar s =
                                                     Snackbar.make(findViewById(R.id.restorefile),
-                                                            "No file explorer found, file located at "
+                                                            R.string.settings_backup_err_no_explorer
                                                                     + file.getAbsolutePath(),
                                                             Snackbar.LENGTH_INDEFINITE);
-                                            View view = s.getView();
-                                            TextView tv = view.findViewById(
-                                                    com.google.android.material.R.id.snackbar_text);
-                                            tv.setTextColor(Color.WHITE);
-                                            s.show();
+                                            LayoutUtils.showSnackbar(s);
                                         }
                                     }
                                 })

@@ -7,13 +7,11 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +35,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateNewsViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 
 public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -149,45 +148,6 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     int clicked;
 
-    public void refreshView() {
-        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
-        listView.setItemAnimator(null);
-        notifyItemChanged(clicked);
-        listView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setItemAnimator(a);
-            }
-        }, 500);
-    }
-
-    public void refreshView(boolean ignore18) {
-        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
-        listView.setItemAnimator(null);
-        notifyItemChanged(clicked);
-        listView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setItemAnimator(a);
-            }
-        }, 500);
-    }
-
-    public void refreshView(ArrayList<Integer> seen) {
-        listView.setItemAnimator(null);
-        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
-
-        for (int i : seen) {
-            notifyItemChanged(i + 1);
-        }
-        listView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setItemAnimator(a);
-            }
-        }, 500);
-    }
-
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int pos) {
 
@@ -216,16 +176,16 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             final MainActivity a = (MainActivity) context;
                             if (a.singleMode
                                     && a.commentPager
-                                    && a.adapter instanceof MainActivity.OverviewPagerAdapterComment) {
+                                    && a.adapter instanceof MainActivity.MainPagerAdapterComment) {
 
                                 if (a.openingComments != submission) {
                                     clicked = holder2.getAdapterPosition();
                                     a.openingComments = submission;
                                     a.toOpenComments = a.pager.getCurrentItem() + 1;
                                     a.currentComment = holder.getAdapterPosition() - 1;
-                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment =
+                                    ((MainActivity.MainPagerAdapterComment) (a).adapter).storedFragment =
                                             (a).adapter.getCurrentFragment();
-                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size =
+                                    ((MainActivity.MainPagerAdapterComment) (a).adapter).size =
                                             a.toOpenComments + 1;
                                     try {
                                         a.adapter.notifyDataSetChanged();
@@ -257,9 +217,9 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     clicked = holder2.getAdapterPosition();
                                     a.openingComments = submission;
                                     a.currentComment = holder.getAdapterPosition() - 1;
-                                    ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment =
+                                    ((SubredditView.SubredditPagerAdapterComment) (a).adapter).storedFragment =
                                             (a).adapter.getCurrentFragment();
-                                    ((SubredditView.OverviewPagerAdapterComment) a.adapter).size =
+                                    ((SubredditView.SubredditPagerAdapterComment) a.adapter).size =
                                             3;
                                     a.adapter.notifyDataSetChanged();
                                 }
@@ -321,11 +281,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                             .show();
                                 }
                             });
-                            View view = s.getView();
-                            TextView tv = view.findViewById(
-                                    com.google.android.material.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
+                            LayoutUtils.showSnackbar(s);
                         }
                     }
 

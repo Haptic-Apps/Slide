@@ -3,13 +3,11 @@ package me.ccrama.redditslide.Activities;
 import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,19 +15,16 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.customview.widget.ViewDragHelper;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -37,7 +32,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import net.dean.jraw.managers.AccountManager;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +40,6 @@ import java.util.Map;
 import me.ccrama.redditslide.Adapters.SubredditPostsRealm;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.NewsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -55,9 +48,10 @@ import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
-import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -77,7 +71,7 @@ public class NewsActivity extends BaseActivity
     //offset for smoothing out the exit animations
     public ToggleSwipeViewPager     pager;
     public CaseInsensitiveArrayList usedArray;
-    public OverviewPagerAdapter     adapter;
+    public NewsPagerAdapter adapter;
     public TabLayout                mTabLayout;
     public String                   selectedSub; //currently selected subreddit
     public boolean                  inNightMode;
@@ -278,91 +272,7 @@ public class NewsActivity extends BaseActivity
         return str.substring(0, maxWidth - 3) + abrevMarker;
     }
 
-    /**
-     * Set the drawer edge (i.e. how sensitive the drawer is) Based on a given screen width
-     * percentage.
-     *
-     * @param displayWidthPercentage larger the value, the more sensitive the drawer swipe is;
-     *                               percentage of screen width
-     * @param drawerLayout           drawerLayout to adjust the swipe edge
-     */
-    public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
-            DrawerLayout drawerLayout) {
-        try {
-            Field mDragger =
-                    drawerLayout.getClass().getSuperclass().getDeclaredField("mLeftDragger");
-            mDragger.setAccessible(true);
-
-            ViewDragHelper leftDragger = (ViewDragHelper) mDragger.get(drawerLayout);
-            Field mEdgeSize = leftDragger.getClass().getDeclaredField("mEdgeSize");
-            mEdgeSize.setAccessible(true);
-            final int currentEdgeSize = mEdgeSize.getInt(leftDragger);
-
-            Point displaySize = new Point();
-            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-            mEdgeSize.setInt(leftDragger,
-                    Math.max(currentEdgeSize, (int) (displaySize.x * displayWidthPercentage)));
-        } catch (Exception e) {
-            LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
-        }
-    }
-
-    boolean isTop;
-
-    private void changeTop() {
-        reloadSubs();
-        //test
-    }
-
-    public int getCurrentPage() {
-        int position = 0;
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (adapter.getCurrentFragment() == null) {
-            return 0;
-        }
-        if (((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager
-                && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position =
-                    ((LinearLayoutManager) ((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPosition() - 1;
-        } else if (((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-            int[] firstVisibleItems = null;
-            firstVisibleItems =
-                    ((CatchStaggeredGridLayoutManager) ((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPositions(firstVisibleItems);
-            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                position = firstVisibleItems[0] - 1;
-            }
-        } else {
-            position =
-                    ((PreCachingLayoutManager) ((NewsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPosition() - 1;
-        }
-        return position;
-    }
-
     String shouldLoad;
-
-    public void reloadSubs() {
-        int current = pager.getCurrentItem();
-
-        if (current < 0) {
-            current = 0;
-        }
-        reloadItemNumber = current;
-
-        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-        reloadItemNumber = -2;
-        shouldLoad = usedArray.get(current);
-        pager.setCurrentItem(current);
-        if (mTabLayout != null) {
-            mTabLayout.setupWithViewPager(pager);
-            scrollToTabAfterLayout(current);
-        }
-
-        setToolbarClick();
-    }
 
 
     public void restartTheme() {
@@ -404,7 +314,7 @@ public class NewsActivity extends BaseActivity
         if (data != null && !data.isEmpty()) {
             usedArray = new CaseInsensitiveArrayList(data);
             if (adapter == null) {
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                adapter = new NewsPagerAdapter(getSupportFragmentManager());
             } else {
                 adapter.notifyDataSetChanged();
             }
@@ -429,7 +339,7 @@ public class NewsActivity extends BaseActivity
             mTabLayout.setupWithViewPager(pager);
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(toGoto);
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, toGoto);
             }
             setToolbarClick();
         } else if (NetworkUtil.isConnected(this)) {
@@ -485,29 +395,10 @@ public class NewsActivity extends BaseActivity
         }
     }
 
-    private void scrollToTabAfterLayout(final int tabIndex) {
-        //from http://stackoverflow.com/a/34780589/3697225
-        if (mTabLayout != null) {
-            final ViewTreeObserver observer = mTabLayout.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        mTabLayout.getTabAt(tabIndex).select();
-                    }
-                });
-            }
-        }
-    }
-
-
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class NewsPagerAdapter extends FragmentStatePagerAdapter {
         protected NewsView mCurrentFragment;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        NewsPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
@@ -550,7 +441,6 @@ public class NewsActivity extends BaseActivity
                                 }
                             }
                         }
-
                     });
                     colorAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
                     colorAnimation.setDuration(200);
@@ -570,7 +460,6 @@ public class NewsActivity extends BaseActivity
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
 
@@ -590,9 +479,9 @@ public class NewsActivity extends BaseActivity
             }
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             NewsView f = new NewsView();
             Bundle args = new Bundle();
             String name;
@@ -605,12 +494,10 @@ public class NewsActivity extends BaseActivity
             f.setArguments(args);
 
             return f;
-
-
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             if (reloadItemNumber == position || reloadItemNumber < 0) {
                 super.setPrimaryItem(container, position, object);
                 if (usedArray.size() >= position) doSetPrimary(object, position);
@@ -646,21 +533,17 @@ public class NewsActivity extends BaseActivity
             }
         }
 
-        public Fragment getCurrentFragment() {
+        Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
 
-
         @Override
         public CharSequence getPageTitle(int position) {
-
             if (usedArray != null) {
                 return abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }
-
-
         }
     }
 }

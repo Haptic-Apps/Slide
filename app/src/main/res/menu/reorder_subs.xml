@@ -7,17 +7,17 @@
         android:id="@+id/alphabetize"
         android:title="@string/alphabetize_subreddits"
         app:showAsAction="always"
-        android:icon="@drawable/az" />
+        android:icon="@drawable/ic_sort_by_alpha" />
     <item
         android:id="@+id/refresh"
         android:title="@string/sync_subscriptions"
         app:showAsAction="always"
-        android:icon="@drawable/sync" />
+        android:icon="@drawable/ic_sync" />
     <item
         android:id="@+id/info"
         android:title="@string/help"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/info" />
+        android:icon="@drawable/ic_info" />
     <item
             android:id="@+id/alphabetize_subscribe"
             android:checkable="true"

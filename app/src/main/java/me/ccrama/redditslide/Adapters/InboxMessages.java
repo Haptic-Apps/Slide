@@ -13,7 +13,6 @@ import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.Paginator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 
@@ -27,11 +26,6 @@ public class InboxMessages extends GeneralPosts {
     private SwipeRefreshLayout refreshLayout;
     public String where;
     private InboxAdapter adapter;
-
-    public InboxMessages(ArrayList<Message> firstData, InboxPaginator paginator) {
-        posts = firstData;
-        this.paginator = paginator;
-    }
 
     public InboxMessages(String where) {
         this.where = where;
@@ -49,10 +43,6 @@ public class InboxMessages extends GeneralPosts {
 
 
 
-    }
-
-    public void addData(List<Message> data) {
-        posts.addAll(data);
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Message>> {

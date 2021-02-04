@@ -13,7 +13,7 @@
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center"
                                         android:orientation="vertical"
-                                        cardview:cardBackgroundColor="#000000"
+                                        cardview:cardBackgroundColor="@android:color/black"
                                         cardview:cardCornerRadius="2dp"
                                         cardview:cardElevation="8dp">
 

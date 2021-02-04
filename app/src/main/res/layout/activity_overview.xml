@@ -45,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:hint="@string/drawer_search"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textColorHint="@color/md_grey_300"
                         android:visibility="gone"
                         android:imeOptions="actionSearch|flagNoExtractUi"
@@ -65,8 +65,8 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/close"
-                        android:tint="@color/white" />
+                        app:srcCompat="@drawable/ic_close"
+                        android:tint="@android:color/white" />
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 

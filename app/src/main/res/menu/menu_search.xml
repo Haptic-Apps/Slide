@@ -5,19 +5,19 @@
 
     <item
         android:id="@+id/time"
-        android:icon="@drawable/history"
+        android:icon="@drawable/ic_history"
         android:title="@string/btn_time"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/sort"
-        android:icon="@drawable/sort"
+        android:icon="@drawable/ic_sort"
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/edit"
-        android:icon="@drawable/edit"
+        android:icon="@drawable/ic_edit"
         android:title="@string/edit_query"
         app:showAsAction="ifRoom" />
 </menu>

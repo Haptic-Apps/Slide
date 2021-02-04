@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/title"
             android:id="@+id/pop"
-            app:srcCompat="@drawable/up"
+            app:srcCompat="@drawable/ic_keyboard_arrow_up"
             android:layout_height="0dp"/>
 
     <me.ccrama.redditslide.Views.PeekMediaView
@@ -53,7 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:id="@+id/share"
-                app:srcCompat="@drawable/share"
+                app:srcCompat="@drawable/ic_share"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:clickable="true"
@@ -65,7 +65,7 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:id="@+id/upvoteb"
-                app:srcCompat="@drawable/upvoted"
+                app:srcCompat="@drawable/ic_arrow_upward"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
         <ImageView
@@ -74,7 +74,7 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:id="@+id/comments"
-                app:srcCompat="@drawable/commentchange"
+                app:srcCompat="@drawable/ic_forum"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
     </LinearLayout>

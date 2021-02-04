@@ -26,8 +26,8 @@
             android:theme="@style/Ripple.List"
             android:paddingTop="12dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/upvoted"
-            android:tint="@color/white" />
+            app:srcCompat="@drawable/ic_arrow_upward"
+            android:tint="@android:color/white" />
         <ImageView
                 android:id="@+id/pin"
                 android:layout_width="48dp"
@@ -37,8 +37,8 @@
                 android:theme="@style/Ripple.List"
                 android:paddingTop="12dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/pin"
-                android:tint="@color/white" />
+                app:srcCompat="@drawable/ic_push_pin"
+                android:tint="@android:color/white" />
         <ImageView
             android:id="@+id/delete"
             android:layout_width="48dp"
@@ -48,8 +48,8 @@
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/delete"
-            android:tint="@color/white" />
+            app:srcCompat="@drawable/ic_delete"
+            android:tint="@android:color/white" />
     </androidx.appcompat.widget.Toolbar>
 
     <include layout="@layout/settings_toolbar" />
@@ -68,13 +68,13 @@
         android:id="@+id/add"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/add"
+        app:srcCompat="@drawable/ic_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
         fab:fab_addButtonColorNormal="?attr/colorAccent"
-        fab:fab_addButtonPlusIconColor="@color/white"
+        fab:fab_addButtonPlusIconColor="@android:color/white"
         fab:fab_addButtonColorPressed="?attr/colorAccent"
         fab:fab_addButtonSize="normal"
         fab:fab_labelStyle="@style/menu_labels_style"

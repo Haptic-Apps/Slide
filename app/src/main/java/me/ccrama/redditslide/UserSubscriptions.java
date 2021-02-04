@@ -64,28 +64,17 @@ public class UserSubscriptions {
     }
 
     public static Map<String, String> getMultiNameToSubs(boolean all) {
-        Map<String, String> multiNameToSubsMapBase = new HashMap<>();
-
-        Map<String, ?> multiNameToSubsObject = multiNameToSubs.getAll();
-
-        for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
-            multiNameToSubsMapBase.put(entry.getKey(), entry.getValue().toString());
-        }
-        if (all) multiNameToSubsMapBase.putAll(getSubsNameToMulti());
-
-        Map<String, String> multiNameToSubsMap = new HashMap<>();
-
-        for (Map.Entry<String, String> entries : multiNameToSubsMapBase.entrySet()) {
-            multiNameToSubsMap.put(entries.getKey().toLowerCase(Locale.ENGLISH), entries.getValue());
-        }
-
-        return multiNameToSubsMap;
+        return getNameToSubs(multiNameToSubs, all);
     }
 
     public static Map<String, String> getNewsNameToSubs(boolean all) {
+        return getNameToSubs(newsNameToSubs, all);
+    }
+
+    private static Map<String, String> getNameToSubs(SharedPreferences sP, boolean all) {
         Map<String, String> multiNameToSubsMapBase = new HashMap<>();
 
-        Map<String, ?> multiNameToSubsObject = newsNameToSubs.getAll();
+        Map<String, ?> multiNameToSubsObject = sP.getAll();
 
         for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
             multiNameToSubsMapBase.put(entry.getKey(), entry.getValue().toString());
@@ -335,7 +324,7 @@ public class UserSubscriptions {
             pag.setLimit(100);
             try {
                 while (pag.hasNext()) {
-                    for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                    for (Subreddit s : pag.next()) {
                         toReturn.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
                     }
                 }
@@ -347,7 +336,7 @@ public class UserSubscriptions {
                 //failed;
                 e.printStackTrace();
             }
-            addSubsToHistory(toReturn, true);
+            addSubsToHistory(toReturn);
         } else {
             toReturn.addAll(defaultSubs);
         }
@@ -481,7 +470,7 @@ public class UserSubscriptions {
         pag.setLimit(100);
         try {
             while (pag.hasNext()) {
-                for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                for (Subreddit s : pag.next()) {
                     finished.add(s.getDisplayName().toLowerCase(Locale.ENGLISH));
                 }
             }
@@ -647,7 +636,7 @@ public class UserSubscriptions {
         subscriptions.edit().putString("subhistory", history.toString()).apply();
     }
 
-    public static void addSubsToHistory(CaseInsensitiveArrayList s2, boolean b) {
+    public static void addSubsToHistory(CaseInsensitiveArrayList s2) {
         StringBuilder history = new StringBuilder(subscriptions.getString("subhistory", "").toLowerCase(Locale.ENGLISH));
         for (String s : s2) {
             if (!history.toString().contains(s.toLowerCase(Locale.ENGLISH))) {
@@ -767,10 +756,6 @@ public class UserSubscriptions {
         java.util.Collections.sort(subs, String.CASE_INSENSITIVE_ORDER);
         finals.addAll(subs);
         return finals;
-    }
-
-    public static boolean isSubscriber(String s, Context c) {
-        return getSubscriptions(c).contains(s.toLowerCase(Locale.ENGLISH));
     }
 
     public static class SubscribeTask extends AsyncTask<String, Void, Void> {

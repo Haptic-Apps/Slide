@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -60,7 +61,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -73,6 +73,7 @@ import me.ccrama.redditslide.SubmissionViews.OpenVRedditTask;
 import me.ccrama.redditslide.Views.ExoVideoView;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -167,25 +168,10 @@ public class MediaView extends FullScreenActivity
 
     public static void animateOut(final View l) {
         ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 l.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -223,13 +209,13 @@ public class MediaView extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.open_external);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
-        Drawable collection = getResources().getDrawable(R.drawable.collection);
-        Drawable file = getResources().getDrawable(R.drawable.save_content);
-        Drawable thread = getResources().getDrawable(R.drawable.commentchange);
+        Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable image = getResources().getDrawable(R.drawable.ic_image);
+        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
+        Drawable collection = getResources().getDrawable(R.drawable.ic_folder);
+        Drawable file = getResources().getDrawable(R.drawable.ic_save);
+        Drawable thread = getResources().getDrawable(R.drawable.ic_forum);
 
         external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -366,7 +352,7 @@ public class MediaView extends FullScreenActivity
                             ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.save);
+                            .setSmallIcon(R.drawable.ic_get_app);
                     try {
 
                         final URL url =
@@ -414,7 +400,7 @@ public class MediaView extends FullScreenActivity
                                         Notification notif = new NotificationCompat.Builder(
                                                 MediaView.this, Reddit.CHANNEL_IMG)
                                                 .setContentTitle(getString(R.string.gif_saved))
-                                                .setSmallIcon(R.drawable.save_content)
+                                                .setSmallIcon(R.drawable.ic_save)
                                                 .setContentIntent(contentIntent)
                                                 .build();
 
@@ -452,7 +438,7 @@ public class MediaView extends FullScreenActivity
                             ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.save);
+                            .setSmallIcon(R.drawable.ic_get_app);
                     try {
 
                         final URL url =

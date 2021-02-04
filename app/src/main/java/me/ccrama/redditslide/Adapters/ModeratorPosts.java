@@ -9,7 +9,6 @@ import net.dean.jraw.paginators.ModeratorPaginator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 
@@ -26,11 +25,6 @@ public class ModeratorPosts {
     private ModeratorAdapter adapter;
     private ModeratorPaginator paginator;
 
-    public ModeratorPosts(ArrayList<PublicContribution> firstData, ModeratorPaginator paginator) {
-        posts = firstData;
-        this.paginator = paginator;
-    }
-
     public ModeratorPosts(String where, String subreddit) {
         this.where = where;
         this.subreddit = subreddit;
@@ -45,10 +39,6 @@ public class ModeratorPosts {
     public void loadMore(ModeratorAdapter adapter, String where, String subreddit) {
         this.subreddit = subreddit;
         new LoadData(true).execute(where);
-    }
-
-    public void addData(List<PublicContribution> data) {
-        posts.addAll(data);
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<PublicContribution>> {

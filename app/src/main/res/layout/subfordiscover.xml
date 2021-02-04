@@ -58,7 +58,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            app:srcCompat="@drawable/subscribed"
+            app:srcCompat="@drawable/ic_check_circle"
             android:id="@+id/subbed"
             android:layout_height="15dp" />
 

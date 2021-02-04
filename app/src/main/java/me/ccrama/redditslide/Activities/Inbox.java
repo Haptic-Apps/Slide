@@ -8,10 +8,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -27,7 +27,6 @@ import java.util.Set;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
@@ -36,7 +35,9 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -45,7 +46,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Inbox extends BaseActivityAnim {
 
     public static final String EXTRA_UNREAD = "unread";
-    public  Inbox.OverviewPagerAdapter adapter;
+    public InboxPagerAdapter adapter;
     private TabLayout                  tabs;
     private ViewPager                  pager;
 
@@ -99,11 +100,11 @@ public class Inbox extends BaseActivityAnim {
 
                             try {
                                 final int CURRENT_TAB = tabs.getSelectedTabPosition();
-                                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                                adapter = new InboxPagerAdapter(getSupportFragmentManager());
                                 pager.setAdapter(adapter);
                                 tabs.setupWithViewPager(pager);
 
-                                scrollToTabAfterLayout(CURRENT_TAB);
+                                LayoutUtils.scrollToTabAfterLayout(tabs, CURRENT_TAB);
                                 pager.setCurrentItem(CURRENT_TAB);
                             } catch (Exception e) {
 
@@ -114,28 +115,6 @@ public class Inbox extends BaseActivityAnim {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Method to scroll the TabLayout to a specific index
-     *
-     * @param tabPosition index to scroll to
-     */
-    private void scrollToTabAfterLayout(final int tabPosition) {
-        if (tabs != null) {
-            final ViewTreeObserver observer = tabs.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        tabs.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        tabs.getTabAt(tabPosition).select();
-                    }
-                });
-            }
-        }
     }
 
     @Override
@@ -211,7 +190,7 @@ public class Inbox extends BaseActivityAnim {
 
         pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
-        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        adapter = new InboxPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
 
         if (getIntent() != null && getIntent().hasExtra(EXTRA_UNREAD)) {
@@ -248,15 +227,16 @@ public class Inbox extends BaseActivityAnim {
 
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        public OverviewPagerAdapter(FragmentManager fm) {
+    private class InboxPagerAdapter extends FragmentStatePagerAdapter {
+
+        InboxPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             Fragment f = new InboxPage();
-
             Bundle args = new Bundle();
             args.putString("id", ContentGrabber.InboxValue.values()[i].getWhereName());
             f.setArguments(args);

@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/action_shadowbox"
-        android:icon="@drawable/shadowbox"
+        android:icon="@drawable/ic_view_carousel"
         android:title="@string/general_enable_shadowbox"
         app:showAsAction="ifRoom" />
     <item

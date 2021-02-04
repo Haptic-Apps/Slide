@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginEnd="16dp"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:layout_marginStart="16dp"
                     android:tag="tint"
                     android:text="@string/example_title"/>
@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:layout_gravity="start"
                     android:layout_marginStart="16dp"
                     android:gravity="center_vertical"
@@ -67,7 +67,7 @@
                     android:id="@+id/information"
                     android:layout_width="wrap_content"
                     android:layout_toRightOf="@+id/subreddit"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
                     android:layout_gravity="start"
@@ -88,7 +88,7 @@
                     android:layout_marginStart="16dp"
                     android:tag="tintactionbar"
                     android:contentDescription="@string/img_score"
-                    app:srcCompat="@drawable/upvoted" />
+                    app:srcCompat="@drawable/ic_arrow_upward" />
 
                 <TextView
                     android:id="@+id/score"
@@ -97,7 +97,7 @@
                     android:layout_below="@+id/information"
                     android:layout_gravity="center_vertical"
                     android:layout_toRightOf="@+id/scoreimg"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:gravity="center_vertical"
                     android:tag="tintactionbar"
                     android:text="400"
@@ -115,14 +115,14 @@
                     android:layout_toRightOf="@+id/score"
                     android:tag="tintactionbar"
                     android:contentDescription="@string/img_comments"
-                    app:srcCompat="@drawable/commentchange" />
+                    app:srcCompat="@drawable/ic_forum" />
 
                 <TextView
                     android:id="@+id/comments"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:layout_toRightOf="@+id/pointsimg"
                     android:layout_below="@+id/information"
                     android:gravity="center_vertical"

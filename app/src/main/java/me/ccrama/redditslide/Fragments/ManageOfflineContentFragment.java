@@ -24,15 +24,15 @@ import java.util.List;
 import java.util.Map;
 
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 public class ManageOfflineContentFragment {
 

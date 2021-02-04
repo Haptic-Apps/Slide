@@ -18,7 +18,7 @@
             android:gravity="center_vertical"
             android:paddingStart="24dp"
             android:text="@string/example_sub"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -32,8 +32,8 @@
             android:layout_marginEnd="12dp"
             android:layout_marginTop="-59dp"
             android:padding="12dp"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/share" />
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_share" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -175,7 +175,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/send" />
+                        app:srcCompat="@drawable/ic_send" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/profile" />
+                        app:srcCompat="@drawable/ic_account_circle" />
 
                     <TextView
                         android:id="@+id/friend"
@@ -226,7 +226,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/collection" />
+                        app:srcCompat="@drawable/ic_folder" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -252,7 +252,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/palette" />
+                        app:srcCompat="@drawable/ic_palette" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -277,7 +277,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/fontsize" />
+                        app:srcCompat="@drawable/ic_text_fields" />
 
                     <TextView
                         android:id="@+id/tagged"
@@ -302,7 +302,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/close" />
+                            app:srcCompat="@drawable/ic_close" />
 
                     <TextView
                             android:id="@+id/block"

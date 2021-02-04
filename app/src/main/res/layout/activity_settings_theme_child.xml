@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/palette"
+            app:srcCompat="@drawable/ic_palette"
             android:tint="?attr/tintColor" />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/accent"
+            app:srcCompat="@drawable/ic_colorize"
             android:tint="?attr/tintColor"/>
 
         <TextView
@@ -78,7 +78,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/theme"
+            app:srcCompat="@drawable/ic_invert_colors"
             android:tint="?attr/tintColor" />
 
         <TextView
@@ -102,7 +102,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/nighttheme"
+            app:srcCompat="@drawable/ic_dark_mode"
             android:tint="?attr/tintColor" />
 
         <TextView

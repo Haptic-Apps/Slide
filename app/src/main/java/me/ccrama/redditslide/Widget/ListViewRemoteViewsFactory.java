@@ -31,10 +31,10 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 public class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     String subreddit;

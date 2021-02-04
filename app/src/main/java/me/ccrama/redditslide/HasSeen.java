@@ -27,7 +27,7 @@ import static me.ccrama.redditslide.OpenRedditLink.getRedditLinkType;
  */
 public class HasSeen {
 
-    public static HashSet<String>       hasSeen;
+    public static HashSet<String> hasSeen;
     public static HashMap<String, Long> seenTimes;
 
     public static void setHasSeenContrib(List<Contribution> submissions) {
@@ -38,27 +38,7 @@ public class HasSeen {
         KVManger m = KVStore.getInstance();
         for (Contribution s : submissions) {
             if (s instanceof Submission) {
-                String fullname = s.getFullName();
-                if (fullname.contains("t3_")) {
-                    fullname = fullname.substring(3);
-                }
-
-                // Check if KVStore has a key containing the fullname
-                // This is necessary because the KVStore library is limited and Carlos didn't realize the performance impact
-                Cursor cur = m.execQuery("SELECT * FROM ? WHERE ? LIKE '%?%' LIMIT 1",
-                        new String[] { TABLE_NAME, COLUMN_KEY, fullname });
-                boolean contains = cur != null && cur.getCount() > 0;
-                CursorUtils.closeCursorQuietly(cur);
-
-                if (contains) {
-                    hasSeen.add(fullname);
-                    String value = m.get(fullname);
-                    try {
-                        if (value != null) seenTimes.put(fullname, Long.valueOf(value));
-                    } catch (Exception e) {
-
-                    }
-                }
+                historyContains(s, m);
             }
         }
     }
@@ -70,24 +50,29 @@ public class HasSeen {
         }
         KVManger m = KVStore.getInstance();
         for (Contribution s : submissions) {
-            String fullname = s.getFullName();
-            if (fullname.contains("t3_")) {
-                fullname = fullname.substring(3);
-            }
-            // Check if KVStore has a key containing the fullname
-            // This is necessary because the KVStore library is limited and Carlos didn't realize the performance impact
-            Cursor cur = m.execQuery("SELECT * FROM ? WHERE ? LIKE '%?%' LIMIT 1",
-                    new String[] { TABLE_NAME, COLUMN_KEY, fullname });
-            boolean contains = cur != null && cur.getCount() > 0;
-            CursorUtils.closeCursorQuietly(cur);
+            historyContains(s, m);
+        }
+    }
 
-            if (contains) {
-                hasSeen.add(fullname);
-                String value = m.get(fullname);
-                try {
-                    if (value != null) seenTimes.put(fullname, Long.valueOf(value));
-                } catch (Exception ignored) {
-                }
+    private static void historyContains(Contribution s, KVManger m) {
+        String fullname = s.getFullName();
+        if (fullname.contains("t3_")) {
+            fullname = fullname.substring(3);
+        }
+
+        // Check if KVStore has a key containing the fullname
+        // This is necessary because the KVStore library is limited and Carlos didn't realize the performance impact
+        Cursor cur = m.execQuery("SELECT * FROM ? WHERE ? LIKE '%?%' LIMIT 1",
+                new String[]{TABLE_NAME, COLUMN_KEY, fullname});
+        boolean contains = cur != null && cur.getCount() > 0;
+        CursorUtils.closeCursorQuietly(cur);
+
+        if (contains) {
+            hasSeen.add(fullname);
+            String value = m.get(fullname);
+            try {
+                if (value != null) seenTimes.put(fullname, Long.valueOf(value));
+            } catch (Exception ignored) {
             }
         }
     }

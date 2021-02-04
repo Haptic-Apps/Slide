@@ -56,7 +56,7 @@
                         android:id="@+id/light"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:background="#ffffff"
+                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
 
@@ -68,7 +68,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             android:tint="#de393939"
-                            app:srcCompat="@drawable/theme" />
+                            app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             android:tint="#8A3e3d36"
-                            app:srcCompat="@drawable/theme" />
+                            app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -124,8 +124,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
-                            app:srcCompat="@drawable/theme" />
+                            android:tint="@android:color/white"
+                            app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
 
                             android:text="@string/theme_dark_blue"
 
-                            android:textColor="#ffffff"
+                            android:textColor="@android:color/white"
 
                             android:textSize="16sp" />
 
@@ -158,8 +158,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
-                            app:srcCompat="@drawable/theme" />
+                            android:tint="@android:color/white"
+                            app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
 
                             android:text="@string/theme_dark"
 
-                            android:textColor="#ffffff"
+                            android:textColor="@android:color/white"
 
                             android:textSize="16sp" />
 
@@ -189,8 +189,8 @@
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:padding="12dp"
-                                android:tint="#ffffff"
-                                app:srcCompat="@drawable/theme" />
+                                android:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                                 android:layout_width="wrap_content"
@@ -199,7 +199,7 @@
 
                                 android:text="@string/theme_pixel"
 
-                                android:textColor="#ffffff"
+                                android:textColor="@android:color/white"
 
                                 android:textSize="16sp" />
 
@@ -220,8 +220,8 @@
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:padding="12dp"
-                                android:tint="#ffffff"
-                                app:srcCompat="@drawable/theme" />
+                                android:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                                 android:layout_width="wrap_content"
@@ -230,7 +230,7 @@
 
                                 android:text="@string/theme_deep"
 
-                                android:textColor="#ffffff"
+                                android:textColor="@android:color/white"
 
                                 android:textSize="16sp" />
 
@@ -250,14 +250,14 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
-                            app:srcCompat="@drawable/theme" />
+                            android:tint="@android:color/white"
+                            app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/theme_amoled_contrast"
-                            android:textColor="#ffffff"
+                            android:textColor="@android:color/white"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -277,8 +277,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="#ffffff"
-                            app:srcCompat="@drawable/theme" />
+                            android:tint="@android:color/white"
+                            app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -287,7 +287,7 @@
 
                             android:text="@string/theme_black"
 
-                            android:textColor="#ffffff"
+                            android:textColor="@android:color/white"
 
                             android:textSize="16sp" />
 
@@ -307,8 +307,8 @@
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:padding="12dp"
-                                android:tint="#ffffff"
-                                app:srcCompat="@drawable/theme" />
+                                android:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_invert_colors" />
 
                         <TextView
                                 android:layout_width="wrap_content"
@@ -317,7 +317,7 @@
 
                                 android:text="@string/theme_red_shift"
 
-                                android:textColor="#ffffff"
+                                android:textColor="@android:color/white"
 
                                 android:textSize="16sp" />
 

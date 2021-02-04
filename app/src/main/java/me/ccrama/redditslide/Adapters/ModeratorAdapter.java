@@ -69,17 +69,18 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -282,13 +283,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                                 }
                             });
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(com.google.android.material.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-
-
+                            LayoutUtils.showSnackbar(s);
                         }
                     });
                     return true;
@@ -321,24 +316,24 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300, false),
                         0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_500, false),
                         0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                         0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (Authentication.name != null && comment.getAuthor()
                     .toLowerCase(Locale.ENGLISH)
                     .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
                 author.replace(0, author.length(), " " + comment.getAuthor() + " ");
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
@@ -558,18 +553,18 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //Initialize drawables
         int color = ta.getColor(0, Color.WHITE);
-        final Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
-        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable pin = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.star);
-        final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
-        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
-        final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
-        final Drawable note = mContext.getResources().getDrawable(R.drawable.note);
-        final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.report_reason);
-        final Drawable lock = mContext.getResources().getDrawable(R.drawable.lock);
+        final Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.ic_report);
+        final Drawable approve = mContext.getResources().getDrawable(R.drawable.ic_thumb_up);
+        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
+        final Drawable pin = mContext.getResources().getDrawable(R.drawable.ic_bookmark_border);
+        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.ic_star);
+        final Drawable remove = mContext.getResources().getDrawable(R.drawable.ic_close);
+        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ic_gavel);
+        final Drawable spam = mContext.getResources().getDrawable(R.drawable.ic_flag);
+        final Drawable note = mContext.getResources().getDrawable(R.drawable.ic_note);
+        final Drawable removeReason = mContext.getResources().getDrawable(R.drawable.ic_announcement);
+        final Drawable lock = mContext.getResources().getDrawable(R.drawable.ic_lock);
 
         //Tint drawables
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -658,10 +653,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     if (success) {
                                         Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                                                 Snackbar.LENGTH_LONG);
-                                        View view = s.getView();
-                                        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                                        tv.setTextColor(Color.WHITE);
-                                        s.show();
+                                        LayoutUtils.showSnackbar(s);
 
                                     } else {
                                         new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -738,10 +730,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_distinguished,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
@@ -773,10 +762,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_undistinguished,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
@@ -808,10 +794,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -886,10 +869,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed, Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -924,10 +904,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, lock ? R.string.mod_locked : R.string.mod_unlocked,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)

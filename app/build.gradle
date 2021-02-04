@@ -1,12 +1,12 @@
 plugins {
-    id 'com.gladed.androidgitversion' version '0.4.13'
-    id 'com.github.ben-manes.versions' version '0.33.0'
+    id 'com.gladed.androidgitversion' version '0.4.14'
+    id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.android.application'
 }
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
@@ -35,15 +35,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "Slide"
         }
         debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "Slide Debug"
         }
-
     }
 
     packagingOptions {
@@ -74,7 +72,7 @@ android {
 
 dependencies {
 /** Flavors **/
-    withGPlayImplementation 'com.google.android.gms:play-services-drive:10.2.6'
+    withGPlayImplementation 'com.google.android.gms:play-services-drive:11.4.2'
 
 /** Custom **/
     implementation 'com.github.ccrama:JRAW:9a2494892d'
@@ -96,22 +94,22 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
 
 /** Third-party (Other) **/
-    def exoPlayerVersion = '2.12.2'
+    def exoPlayerVersion = '2.12.3'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:extension-okhttp:$exoPlayerVersion"
 
-    implementation 'com.google.guava:guava:30.0-android'
+    implementation 'com.google.guava:guava:30.1-android'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     //noinspection GradleDependency
     implementation 'com.afollestad.material-dialogs:commons:0.8.6.2' //0.9.6.0
     implementation 'com.jakewharton:process-phoenix:2.0.0'
-    implementation 'com.github.ligi.snackengage:snackengage-core:0.26'
-    implementation 'com.github.ligi.snackengage:snackengage-playrate:0.26'
+    implementation 'com.github.ligi.snackengage:snackengage-core:0.27'
+    implementation 'com.github.ligi.snackengage:snackengage-playrate:0.27'
     implementation 'com.github.rey5137:material:1.3.1'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    implementation 'com.github.davemorrissey:subsampling-scale-image-view:ebce8e0'
+    implementation 'com.github.davemorrissey:subsampling-scale-image-view:173e421'
     implementation 'com.cocosw:bottomsheet:1.5.0@aar'
     implementation 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
     implementation 'org.apache.commons:commons-lang3:3.11'
@@ -122,12 +120,11 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.ozodrukh.CircularReveal:circualreveal:2.1.0'
-    compileOnly 'org.jetbrains:annotations:20.1.0'
     implementation 'com.mikepenz:itemanimators:1.1.0@aar'
-    implementation 'com.neovisionaries:nv-websocket-client:2.10'
+    implementation 'com.neovisionaries:nv-websocket-client:2.11'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'me.everything:overscroll-decor-android:1.1.0'
     implementation 'com.mikepenz:aboutlibraries:6.2.3'
@@ -138,5 +135,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation 'org.robolectric:robolectric:4.4'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.7'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
 }

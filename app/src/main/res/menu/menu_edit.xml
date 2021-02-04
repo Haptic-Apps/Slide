@@ -4,7 +4,7 @@
     tools:context=".SubredditOverview">
     <item
         android:id="@+id/edit"
-        android:icon="@drawable/edit"
+        android:icon="@drawable/ic_edit"
         android:title="@string/edit_query"
         app:showAsAction="ifRoom" />
 </menu>

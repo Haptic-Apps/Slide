@@ -5,6 +5,7 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -893,12 +894,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         mAnimator = slideAnimator(finalHeight, 0, v);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 //Height=0, but it set visibility to GONE
@@ -908,12 +904,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onAnimationCancel(Animator animation) {
                 v.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -924,12 +914,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         mAnimator = slideAnimator(finalHeight, 0, v);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 //Height=0, but it set visibility to GONE
@@ -939,12 +924,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onAnimationCancel(Animator animation) {
                 ((LinearLayout) v).removeAllViews();
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -964,27 +943,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         l2.measure(widthSpec2, heightSpec2);
         ValueAnimator mAnimator = slideAnimator(l.getMeasuredHeight(), l2.getMeasuredHeight(), l);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 l2.setVisibility(View.VISIBLE);
-
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
                 l2.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -1026,12 +993,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mAnimator = slideAnimator((l.getMeasuredHeight() - l2.getMeasuredHeight()),
                 l.getMeasuredHeight() - (l.getMeasuredHeight() - l2.getMeasuredHeight()), l);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 RelativeLayout.LayoutParams params =
@@ -1048,11 +1010,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
                 params.addRule(RelativeLayout.BELOW, R.id.commentOverflow);
                 l.setLayoutParams(params);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -1067,12 +1024,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         mAnimator = slideAnimator(0, l.getMeasuredHeight(), l);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) l.getLayoutParams();
@@ -1085,11 +1037,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) l.getLayoutParams();
                 params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
                 l.setLayoutParams(params);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();

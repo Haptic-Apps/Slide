@@ -31,9 +31,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.dean.jraw.models.Submission;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -62,7 +59,6 @@ public class HeaderImageLinkView extends RelativeLayout {
     public TextView  secondTitle;
     public TextView  secondSubTitle;
     public View      wrapArea;
-    boolean done;
     String lastDone = "";
     ContentType.Type type;
     DisplayImageOptions bigOptions = new DisplayImageOptions.Builder().resetViewBeforeLoading(false)
@@ -71,7 +67,6 @@ public class HeaderImageLinkView extends RelativeLayout {
             .cacheInMemory(false)
             .displayer(new FadeInBitmapDisplayer(250))
             .build();
-    Activity            activity   = null;
     boolean     clickHandled;
     Handler     handler;
     MotionEvent event;
@@ -602,11 +597,11 @@ public class HeaderImageLinkView extends RelativeLayout {
                 TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
                 int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.open_in_browser);
+                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_new);
                 open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                Drawable share = getResources().getDrawable(R.drawable.share);
+                Drawable share = getResources().getDrawable(R.drawable.ic_share);
                 share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                Drawable copy = getResources().getDrawable(R.drawable.copy);
+                Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
                 copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                 ta.recycle();
@@ -743,16 +738,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         secondTitle = v.findViewById(R.id.contenttitle);
         secondSubTitle = v.findViewById(R.id.contenturl);
 
-    }
-
-    private String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        if (domain != null && !domain.isEmpty()) {
-            return domain.startsWith("www.") ? domain.substring(4) : domain;
-        } else {
-            return "";
-        }
     }
 
     private void init() {

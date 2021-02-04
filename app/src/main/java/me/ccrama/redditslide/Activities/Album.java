@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -25,17 +25,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -47,9 +41,11 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
 
-import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.*;
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 /**
  * Created by ccrama on 3/5/2015. <p/> This class is responsible for accessing the Imgur api to get
@@ -173,40 +169,6 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 .show();
     }
 
-    private void saveImageGallery(final Bitmap bitmap, String URL) {
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog();
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog();
-        } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "")
-                    + File.separator
-                    + UUID.randomUUID().toString()
-                    + ".png");
-
-
-            FileOutputStream out = null;
-            try {
-                f.createNewFile();
-                out = new FileOutputStream(f);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorDialog();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showErrorDialog();
-                }
-            }
-        }
-
-    }
-
     public String url;
     public String subreddit;
     public String submissionTitle;
@@ -222,7 +184,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         return true;
     }
 
-    public OverviewPagerAdapter album;
+    public AlbumPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -244,7 +206,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
-        album = new OverviewPagerAdapter(getSupportFragmentManager());
+        album = new AlbumPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -255,14 +217,14 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                                   finish();
                                               }
                                               if (position == 0
-                                                      && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      && ((AlbumPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                  if (((AlbumPagerAdapter) pager.getAdapter()).blankPage
                                                           != null) {
-                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      ((AlbumPagerAdapter) pager.getAdapter()).blankPage
                                                               .doOffset(positionOffset);
                                                   }
-                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
-                                                          adjustAlpha(positionOffset * 0.7f));
+                                                  ((AlbumPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
+                                                          Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
                                           }
 
@@ -292,14 +254,15 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         }
     }
 
-    public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class AlbumPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
         public AlbumFrag album;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        public AlbumPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             if (i == 0) {
@@ -308,24 +271,13 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             } else {
                 album = new AlbumFrag();
                 return album;
-
             }
         }
 
         @Override
         public int getCount() {
-
             return 2;
         }
-
-    }
-
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
     }
 
     public static class AlbumFrag extends Fragment {
@@ -364,7 +316,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
             String url;
 
-            public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
+            public LoadIntoRecycler(@NonNull String url, @NonNull Activity baseActivity) {
                 super(url, baseActivity);
                 this.url = url;
             }

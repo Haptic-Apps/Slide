@@ -59,22 +59,6 @@ public class ContentType {
         }
     }
 
-    public static boolean isGifLoadInstantly(URI uri) {
-        try {
-            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
-            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
-
-            return hostContains(host, "gfycat.com") || hostContains(host, "v.redd.it") || (
-                    hostContains(host, "imgur.com")
-                            && (path.endsWith(".gif") || path.endsWith(".gifv") || path.endsWith(
-                            ".webm"))) || path.endsWith(".mp4");
-
-        } catch (NullPointerException e) {
-            return false;
-        }
-    }
-
-
     public static boolean isImage(URI uri) {
         try {
             final String host = uri.getHost().toLowerCase(Locale.ENGLISH);

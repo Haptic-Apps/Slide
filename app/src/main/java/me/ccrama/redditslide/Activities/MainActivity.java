@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -23,7 +24,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -145,7 +145,6 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
@@ -166,21 +165,23 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.EditTextValidator;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 import static me.ccrama.redditslide.UserSubscriptions.modOf;
 
@@ -214,7 +215,7 @@ public class MainActivity extends BaseActivity
     public EditText                 drawerSearch;
     public View                     header;
     public String                   subToDo;
-    public OverviewPagerAdapter     adapter;
+    public MainPagerAdapter adapter;
     public int     toGoto = 0;
     public boolean first  = true;
     public TabLayout mTabLayout;
@@ -256,12 +257,12 @@ public class MainActivity extends BaseActivity
                 current = current - 1;
             }
             if (current < 0) current = 0;
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            adapter = new MainPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(current);
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(current);
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
             }
             setToolbarClick();
         } else if ((requestCode == 2001 || requestCode == 2002) && resultCode == RESULT_OK) {
@@ -288,7 +289,7 @@ public class MainActivity extends BaseActivity
         } else if (requestCode == 2002 && resultCode != RESULT_OK) {
             mToolbar.performLongClick(); //search was init from the toolbar, so return focus to the toolbar
         } else if (requestCode == 423 && resultCode == RESULT_OK) {
-            ((OverviewPagerAdapterComment) adapter).mCurrentComments.doResult(data);
+            ((MainPagerAdapterComment) adapter).mCurrentComments.doResult(data);
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
                 if (resultCode == RESULT_OK) {
@@ -487,12 +488,12 @@ public class MainActivity extends BaseActivity
                 && SettingValues.commentPager
                 && pager.getCurrentItem() == toOpenComments
                 && SettingValues.commentVolumeNav
-                && pager.getAdapter() instanceof OverviewPagerAdapterComment) {
+                && pager.getAdapter() instanceof MainPagerAdapterComment) {
             if (SettingValues.commentVolumeNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
                     case KeyEvent.KEYCODE_VOLUME_DOWN:
-                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
+                        return ((MainPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
                                 keyCode, event);
                     default:
                         return super.dispatchKeyEvent(event);
@@ -663,10 +664,7 @@ public class MainActivity extends BaseActivity
                 if (subreddit.equalsIgnoreCase("friends")) {
                     Snackbar s = Snackbar.make(findViewById(R.id.anchor),
                             getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     openPopup();
                 }
@@ -1069,11 +1067,7 @@ public class MainActivity extends BaseActivity
                                                     startActivity(i);
                                                 }
                                             });
-                                    View view = snack.getView();
-                                    TextView tv = view.findViewById(
-                                            com.google.android.material.R.id.snackbar_text);
-                                    tv.setTextColor(Color.WHITE);
-                                    snack.show();
+                                    LayoutUtils.showSnackbar(snack);
                                 }
                             }
                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1372,7 +1366,7 @@ public class MainActivity extends BaseActivity
             datasetChanged = false;
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(pager.getCurrentItem());
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, pager.getCurrentItem());
             }
             setToolbarClick();
         }*/
@@ -2464,11 +2458,7 @@ public class MainActivity extends BaseActivity
                                                                                             R.string.multi_subreddit_added,
                                                                                             multiName),
                                                                                     Snackbar.LENGTH_LONG);
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
@@ -2655,15 +2645,7 @@ public class MainActivity extends BaseActivity
                                                                                                     getString(
                                                                                                             R.string.misc_subscribed),
                                                                                                     Snackbar.LENGTH_LONG);
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             })
                                                                     .setNegativeButton(
@@ -2709,11 +2691,7 @@ public class MainActivity extends BaseActivity
                                                 Snackbar s =
                                                         Snackbar.make(mToolbar, R.string.sub_added,
                                                                 Snackbar.LENGTH_LONG);
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        com.google.android.material.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         })
                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -2757,15 +2735,7 @@ public class MainActivity extends BaseActivity
                                                                                                     getString(
                                                                                                             R.string.misc_unsubscribed),
                                                                                                     Snackbar.LENGTH_LONG);
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             })
                                                                     .setNegativeButton(
@@ -2810,11 +2780,7 @@ public class MainActivity extends BaseActivity
                                                 Snackbar s = Snackbar.make(mToolbar,
                                                         R.string.misc_unsubscribed,
                                                         Snackbar.LENGTH_LONG);
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        com.google.android.material.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         })
                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -3258,17 +3224,7 @@ public class MainActivity extends BaseActivity
                                                                                         }
                                                                                         if (s
                                                                                                 != null) {
-                                                                                            View
-                                                                                                    view =
-                                                                                                    s.getView();
-                                                                                            TextView
-                                                                                                    tv =
-                                                                                                    view
-                                                                                                            .findViewById(
-                                                                                                                    com.google.android.material.R.id.snackbar_text);
-                                                                                            tv.setTextColor(
-                                                                                                    Color.WHITE);
-                                                                                            s.show();
+                                                                                            LayoutUtils.showSnackbar(s);
                                                                                         }
                                                                                     }
                                                                                 }.executeOnExecutor(
@@ -3327,11 +3283,7 @@ public class MainActivity extends BaseActivity
                                                                             Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            com.google.android.material.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             }
                                                         }.executeOnExecutor(
@@ -3613,7 +3565,7 @@ public class MainActivity extends BaseActivity
         PopupMenu popup =
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
-                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
+                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final Spannable[] base = SortingUtil.getSortingSpannables(id);
         for (Spannable s : base) {
             // Do not add option for "Best" in any subreddit except for the frontpage.
@@ -3635,37 +3587,37 @@ public class MainActivity extends BaseActivity
                 switch (i) {
                     case 0:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.TOP);
                         openPopupTime();
                         break;
                     case 4:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.CONTROVERSIAL);
                         openPopupTime();
                         break;
                     case 5:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.BEST);
                         reloadSubs();
                         break;
@@ -3682,7 +3634,7 @@ public class MainActivity extends BaseActivity
         PopupMenu popup =
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
-                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
+                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final Spannable[] base = SortingUtil.getSortingTimesSpannables(id);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
@@ -3700,37 +3652,37 @@ public class MainActivity extends BaseActivity
                 switch (i) {
                     case 0:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 1:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 2:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 3:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 4:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 5:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.ALL);
                         reloadSubs();
                         break;
@@ -3754,11 +3706,11 @@ public class MainActivity extends BaseActivity
             current = 0;
         }
         reloadItemNumber = current;
-        if (adapter instanceof OverviewPagerAdapterComment) {
+        if (adapter instanceof MainPagerAdapterComment) {
             pager.setAdapter(null);
-            adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
+            adapter = new MainPagerAdapterComment(getSupportFragmentManager());
         } else {
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            adapter = new MainPagerAdapter(getSupportFragmentManager());
         }
         pager.setAdapter(adapter);
 
@@ -3767,7 +3719,7 @@ public class MainActivity extends BaseActivity
         pager.setCurrentItem(current);
         if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(pager);
-            scrollToTabAfterLayout(current);
+            LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
         }
 
 
@@ -3790,12 +3742,12 @@ public class MainActivity extends BaseActivity
                 public void run() {
                     usedArray = new CaseInsensitiveArrayList(
                             UserSubscriptions.getSubscriptions(MainActivity.this));
-                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                    adapter = new MainPagerAdapter(getSupportFragmentManager());
 
                     pager.setAdapter(adapter);
                     if (mTabLayout != null) {
                         mTabLayout.setupWithViewPager(pager);
-                        scrollToTabAfterLayout(usedArray.indexOf(subToDo));
+                        LayoutUtils.scrollToTabAfterLayout(mTabLayout, usedArray.indexOf(subToDo));
                     }
 
                     setToolbarClick();
@@ -3886,9 +3838,9 @@ public class MainActivity extends BaseActivity
             usedArray = new CaseInsensitiveArrayList(data);
             if (adapter == null) {
                 if (commentPager && singleMode) {
-                    adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
+                    adapter = new MainPagerAdapterComment(getSupportFragmentManager());
                 } else {
-                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                    adapter = new MainPagerAdapter(getSupportFragmentManager());
                 }
             } else {
                 adapter.notifyDataSetChanged();
@@ -3923,7 +3875,7 @@ public class MainActivity extends BaseActivity
                 mTabLayout.setupWithViewPager(pager);
                 if (mTabLayout != null) {
                     mTabLayout.setupWithViewPager(pager);
-                    scrollToTabAfterLayout(toGoto);
+                    LayoutUtils.scrollToTabAfterLayout(mTabLayout, toGoto);
                 }
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
@@ -3998,10 +3950,10 @@ public class MainActivity extends BaseActivity
                                     drawerSearch.getText().toString());
                             MainActivity.this.startActivityForResult(inte, 2001);
                         } else {
-                            if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
+                            if (commentPager && adapter instanceof MainPagerAdapterComment) {
                                 openingComments = null;
                                 toOpenComments = -1;
-                                ((MainActivity.OverviewPagerAdapterComment) adapter).size =
+                                ((MainPagerAdapterComment) adapter).size =
                                         (usedArray.size() + 1);
                                 adapter.notifyDataSetChanged();
                                 if (usedArray.contains(
@@ -4168,14 +4120,14 @@ public class MainActivity extends BaseActivity
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
                         .setLongLabel("Open your Inbox")
-                        .setIcon(getIcon("inbox", R.drawable.sidebar_inbox))
+                        .setIcon(getIcon("inbox", R.drawable.ic_email))
                         .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 Inbox.class))
                         .build());
 
                 shortcuts.add(new ShortcutInfo.Builder(this, "submit").setShortLabel("Submit")
                         .setLongLabel("Create new Submission")
-                        .setIcon(getIcon("submit", R.drawable.edit))
+                        .setIcon(getIcon("submit", R.drawable.ic_edit))
                         .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 Submit.class))
                         .build());
@@ -4194,7 +4146,7 @@ public class MainActivity extends BaseActivity
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 frontpage)
                                 .setLongLabel(frontpage)
-                                .setIcon(getIcon(s, R.drawable.sub))
+                                .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
                                 .build());
                         count++;
@@ -4221,7 +4173,7 @@ public class MainActivity extends BaseActivity
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
                                 frontpage)
                                 .setLongLabel(frontpage)
-                                .setIcon(getIcon(s, R.drawable.sub))
+                                .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
                                 .build();
                         count++;
@@ -4332,26 +4284,10 @@ public class MainActivity extends BaseActivity
 
         ValueAnimator mAnimator = slideAnimator(finalHeight, 0, v);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
-
                 v.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -4389,24 +4325,6 @@ public class MainActivity extends BaseActivity
 
         ValueAnimator mAnimator = slideAnimator(0, v.getMeasuredHeight(), v);
         mAnimator.start();
-    }
-
-    private void scrollToTabAfterLayout(final int tabIndex) {
-        //from http://stackoverflow.com/a/34780589/3697225
-        if (mTabLayout != null) {
-            final ViewTreeObserver observer = mTabLayout.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        mTabLayout.getTabAt(tabIndex).select();
-                    }
-                });
-            }
-        }
     }
 
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
@@ -4570,10 +4488,10 @@ public class MainActivity extends BaseActivity
                                                                 intent, 2002);
                                                     } else {
                                                         if (commentPager
-                                                                && adapter instanceof OverviewPagerAdapterComment) {
+                                                                && adapter instanceof MainPagerAdapterComment) {
                                                             openingComments = null;
                                                             toOpenComments = -1;
-                                                            ((OverviewPagerAdapterComment) adapter).size =
+                                                            ((MainPagerAdapterComment) adapter).size =
                                                                     (usedArray.size() + 1);
                                                             adapter.notifyDataSetChanged();
 
@@ -4945,10 +4863,7 @@ public class MainActivity extends BaseActivity
                                 }
                             });
 
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 }
                 Reddit.appRestart.edit().putInt("inbox", count).apply();
             }
@@ -4982,10 +4897,10 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public class MainPagerAdapter extends FragmentStatePagerAdapter {
         protected SubmissionsView mCurrentFragment;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
+        public MainPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
@@ -5075,7 +4990,6 @@ public class MainActivity extends BaseActivity
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
 
@@ -5095,9 +5009,9 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
             String name;
@@ -5110,12 +5024,10 @@ public class MainActivity extends BaseActivity
             f.setArguments(args);
 
             return f;
-
-
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             if (reloadItemNumber == position || reloadItemNumber < 0) {
                 super.setPrimaryItem(container, position, object);
                 if (usedArray.size() >= position) doSetPrimary(object, position);
@@ -5149,7 +5061,6 @@ public class MainActivity extends BaseActivity
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
                     mCurrentFragment.doAdapter();
-
                 }
             }
         }
@@ -5158,26 +5069,22 @@ public class MainActivity extends BaseActivity
             return mCurrentFragment;
         }
 
-
         @Override
         public CharSequence getPageTitle(int position) {
-
             if (usedArray != null) {
                 return abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }
-
-
         }
     }
 
-    public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
+    public class MainPagerAdapterComment extends MainPagerAdapter {
         public int size = usedArray.size();
         public  Fragment    storedFragment;
         private CommentPage mCurrentComments;
 
-        public OverviewPagerAdapterComment(FragmentManager fm) {
+        public MainPagerAdapterComment(FragmentManager fm) {
             super(fm);
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -5242,7 +5149,6 @@ public class MainActivity extends BaseActivity
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
             notifyDataSetChanged();
@@ -5257,9 +5163,9 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (openingComments == null || i != toOpenComments) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
@@ -5289,8 +5195,6 @@ public class MainActivity extends BaseActivity
                 f.setArguments(args);
                 return f;
             }
-
-
         }
 
         @Override
@@ -5317,7 +5221,6 @@ public class MainActivity extends BaseActivity
             } else if (object instanceof CommentPage) {
                 mCurrentComments = (CommentPage) object;
             }
-
         }
 
         public Fragment getCurrentFragment() {
@@ -5325,14 +5228,13 @@ public class MainActivity extends BaseActivity
         }
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             if (object != storedFragment) return POSITION_NONE;
             return POSITION_UNCHANGED;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-
             if (usedArray != null && position != toOpenComments) {
                 return abbreviate(usedArray.get(position), 25);
             } else {

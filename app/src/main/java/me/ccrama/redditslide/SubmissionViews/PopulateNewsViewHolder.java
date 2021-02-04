@@ -2,8 +2,6 @@ package me.ccrama.redditslide.SubmissionViews;
 
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -80,13 +77,14 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.ReadLater;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
@@ -99,13 +97,6 @@ import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationServi
 public class PopulateNewsViewHolder {
 
     public PopulateNewsViewHolder() {
-    }
-
-    public static int getStyleAttribColorValue(final Context context, final int attribResId,
-            final int defaultValue) {
-        final TypedValue tv = new TypedValue();
-        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
-        return found ? tv.data : defaultValue;
     }
 
     private static void addClickFunctions(final View base, final ContentType.Type type,
@@ -261,11 +252,7 @@ public class PopulateNewsViewHolder {
 
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 }
             }
@@ -410,19 +397,10 @@ public class PopulateNewsViewHolder {
 
     }
 
-    public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-
-    }
-
     public String reason;
 
     boolean[] chosen    = new boolean[]{false, false, false};
     boolean[] oldChosen = new boolean[]{false, false, false};
-
-    public static int getWhiteTintColor() {
-        return Palette.ThemeEnum.DARK.getTint();
-    }
 
     public <T extends Contribution> void showBottomSheet(final Activity mContext,
             final Submission submission, final NewsViewHolder holder, final List<T> posts,
@@ -433,28 +411,28 @@ public class PopulateNewsViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
         final Drawable sub =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
         Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.star,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
                         null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
         final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
         Drawable copy =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.copy,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
         final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_get_app, null);
         Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.open_external, null);
-        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
+        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
         Drawable reddit =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forum,
                         null);
         Drawable filter =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.filter, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
 
         profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -739,11 +717,7 @@ public class PopulateNewsViewHolder {
                                     ReadLater.setReadLater(submission, false);
                                     Snackbar s2 = Snackbar.make(holder.itemView,
                                             "Removed from read later", Snackbar.LENGTH_SHORT);
-                                    View view2 = s2.getView();
-                                    TextView tv2 = view2.findViewById(
-                                            com.google.android.material.R.id.snackbar_text);
-                                    tv2.setTextColor(Color.WHITE);
-                                    s2.show();
+                                    LayoutUtils.showSnackbar(s2);
                                 }
                             });
                             if (NetworkUtil.isConnected(mContext)) {
@@ -879,12 +853,7 @@ public class PopulateNewsViewHolder {
                                 "https://reddit.com" + submission.getPermalink(), mContext);
                         break;
                     case 6: {
-                        ClipboardManager clipboard = ContextCompat.getSystemService(mContext,
-                                ClipboardManager.class);
-                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                        if (clipboard != null) {
-                            clipboard.setPrimaryClip(clip);
-                        }
+                        ClipboardUtil.copyToClipboard(mContext, "Link", submission.getUrl());
                         Toast.makeText(mContext, R.string.submission_link_copied,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -909,24 +878,15 @@ public class PopulateNewsViewHolder {
                                                         .toString()
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
-                                                ClipboardManager clipboard =
-                                                        ContextCompat.getSystemService(mContext,
-                                                                ClipboardManager.class);
-                                                ClipData clip;
                                                 if (!selected.isEmpty()) {
-                                                    clip = ClipData.newPlainText("Selftext",
-                                                            selected);
-
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext", selected);
                                                 } else {
-                                                    clip = ClipData.newPlainText("Selftext",
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext",
                                                             HtmlCompat.fromHtml(
                                                                     submission.getTitle()
                                                                             + "\n\n"
-                                                                            + submission.getSelftext(), HtmlCompat.FROM_HTML_MODE_LEGACY));
-
-                                                }
-                                                if (clipboard != null) {
-                                                    clipboard.setPrimaryClip(clip);
+                                                                            + submission.getSelftext(),
+                                                                    HtmlCompat.FROM_HTML_MODE_LEGACY));
                                                 }
                                                 Toast.makeText(mContext,
                                                         R.string.submission_comment_copied,
@@ -939,17 +899,11 @@ public class PopulateNewsViewHolder {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                ClipboardManager clipboard =
-                                                        ContextCompat.getSystemService(mContext,
-                                                                ClipboardManager.class);
-                                                ClipData clip = ClipData.newPlainText("Selftext",
+                                                ClipboardUtil.copyToClipboard(mContext, "Selftext",
                                                         StringEscapeUtils.unescapeHtml4(
                                                                 submission.getTitle()
                                                                         + "\n\n"
                                                                         + submission.getSelftext()));
-                                                if (clipboard != null) {
-                                                    clipboard.setPrimaryClip(clip);
-                                                }
 
                                                 Toast.makeText(mContext,
                                                         R.string.submission_text_copied,
@@ -974,10 +928,7 @@ public class PopulateNewsViewHolder {
                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                 Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_unhidden,
                         Snackbar.LENGTH_LONG);
-                View view = snack.getView();
-                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             } else {
                 final T t = posts.get(pos);
                 posts.remove(pos);
@@ -1013,10 +964,7 @@ public class PopulateNewsViewHolder {
 
                             }
                         });
-                View view = snack.getView();
-                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             }
 
         }
@@ -1134,10 +1082,7 @@ public class PopulateNewsViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg),
                                     Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     if (SettingValues.actionbarTap && !full) {
                         CreateCardView.toggleActionbar(holder.itemView);
@@ -1181,11 +1126,7 @@ public class PopulateNewsViewHolder {
         @Override
         protected void onPostExecute(Void aVoid) {
             Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-            View view = s.getView();
-            TextView tv = view.findViewById(
-                    com.google.android.material.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            s.show();
+            LayoutUtils.showSnackbar(s);
         }
     }
 }

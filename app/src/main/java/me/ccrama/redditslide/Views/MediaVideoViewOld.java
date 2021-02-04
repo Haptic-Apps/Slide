@@ -1,13 +1,11 @@
 package me.ccrama.redditslide.Views;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
@@ -263,12 +261,6 @@ public class MediaVideoViewOld extends SurfaceView
         initVideoView();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MediaVideoViewOld(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        initVideoView();
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
@@ -343,10 +335,6 @@ public class MediaVideoViewOld extends SurfaceView
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(MediaVideoViewOld.class.getName());
-    }
-
-    public int resolveAdjustedSize(int desiredSize, int measureSpec) {
-        return getDefaultSize(desiredSize, measureSpec);
     }
 
     private void initVideoView() {

@@ -8,7 +8,7 @@
 <View
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@android:color/black"
     android:alpha=".7"
     android:id="@+id/black"
     />
@@ -31,7 +31,7 @@
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#00000000" />
+            android:background="@android:color/transparent" />
         <ProgressBar
             android:id="@+id/gifprogress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -71,7 +71,7 @@
                 android:theme="@style/Ripple.List"
                 android:layout_toLeftOf="@+id/hq"
                 android:padding="15dp"
-                app:srcCompat="@drawable/mute"
+                app:srcCompat="@drawable/ic_volume_off"
                 android:tint="#e1e1e1" />
         <ImageView
             android:id="@+id/hq"
@@ -80,7 +80,7 @@
             android:theme="@style/Ripple.List"
             android:layout_toLeftOf="@+id/save"
             android:padding="15dp"
-            app:srcCompat="@drawable/hd"
+            app:srcCompat="@drawable/ic_high_quality"
             android:tint="#e1e1e1" />
         <ImageView
             android:id="@+id/comments"
@@ -89,7 +89,7 @@
             android:theme="@style/Ripple.List"
             android:layout_alignParentLeft="true"
             android:padding="15dp"
-            app:srcCompat="@drawable/commentchange"
+            app:srcCompat="@drawable/ic_forum"
             android:tint="#e1e1e1" />
         <ImageView
             android:id="@+id/save"
@@ -98,7 +98,7 @@
             android:layout_toLeftOf="@+id/more"
             android:theme="@style/Ripple.List"
             android:padding="15dp"
-            app:srcCompat="@drawable/save"
+            app:srcCompat="@drawable/ic_get_app"
             android:tint="#e1e1e1" />
         <ImageView
             android:id="@+id/more"
@@ -112,7 +112,7 @@
             android:paddingTop="15dp"
             android:layout_alignParentRight="true"
             android:paddingBottom="15dp"
-            app:srcCompat="@drawable/more"
+            app:srcCompat="@drawable/ic_more_vert"
             android:tint="#e1e1e1" />
 
     </RelativeLayout>

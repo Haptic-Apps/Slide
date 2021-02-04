@@ -3,14 +3,12 @@ package me.ccrama.redditslide.Fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.MarginLayoutParamsCompat;
@@ -52,6 +50,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
@@ -125,7 +124,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     }
                 });
             } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
-                fab.setImageResource(R.drawable.search);
+                fab.setImageResource(R.drawable.ic_search);
                 fab.setOnClickListener(new View.OnClickListener() {
                     String term;
                     @Override
@@ -160,7 +159,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     }
                 });
             } else {
-                fab.setImageResource(R.drawable.hide);
+                fab.setImageResource(R.drawable.ic_visibility_off);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -213,10 +212,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                             }
                         };*/
                         Snackbar s = Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
 
                         return false;
                     }
@@ -289,7 +285,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             rv.addOnScrollListener(new ToolbarScrollHideHandler((getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
 
                     visibleItemCount = rv.getLayoutManager().getChildCount();

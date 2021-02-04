@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -43,14 +44,11 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -58,10 +56,10 @@ import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
@@ -188,7 +186,7 @@ public class RedditGalleryPager extends FullScreenActivity
             getSupportActionBar().setSubtitle(1 + "/" + images.size());
         }
 
-        GalleryViewPager adapter = new GalleryViewPager(getSupportFragmentManager());
+        GalleryViewPagerAdapter adapter = new GalleryViewPagerAdapter(getSupportFragmentManager());
         p.setAdapter(adapter);
         p.setCurrentItem(1);
         findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -255,18 +253,18 @@ public class RedditGalleryPager extends FullScreenActivity
         return true;
     }
 
-    public class GalleryViewPager extends FragmentStatePagerAdapter {
-        public GalleryViewPager(FragmentManager m) {
+    private class GalleryViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        GalleryViewPagerAdapter(FragmentManager m) {
             super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i == 0) {
                 return new BlankFragment();
             }
-
             i--;
 
             Fragment f = new ImageFullNoSubmission();
@@ -276,7 +274,6 @@ public class RedditGalleryPager extends FullScreenActivity
 
             return f;
         }
-
 
         @Override
         public int getCount() {
@@ -294,10 +291,10 @@ public class RedditGalleryPager extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.open_external);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
+        Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable image = getResources().getDrawable(R.drawable.ic_image);
+        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
 
         external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -433,21 +430,6 @@ public class RedditGalleryPager extends FullScreenActivity
             Bundle bundle = this.getArguments();
             i = bundle.getInt("page", 0);
         }
-    }
-
-    public static void setTextWithLinks(String s, SpoilerRobotoTextView text) {
-        String[] parts = s.split("\\s+");
-
-        StringBuilder b = new StringBuilder();
-        for (String item : parts)
-            try {
-                URL url = new URL(item);
-                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
-            } catch (MalformedURLException e) {
-                b.append(" ").append(item);
-            }
-
-        text.setTextHtml(b.toString(), "no sub");
     }
 
     public static String readableFileSize(long size) {

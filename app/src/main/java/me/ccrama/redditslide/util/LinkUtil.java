@@ -3,8 +3,6 @@ package me.ccrama.redditslide.util;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -104,7 +102,7 @@ public class LinkUtil {
                                 pendingIntent)
                         .setCloseButtonIcon(drawableToBitmap(
                                 ContextCompat.getDrawable(contextActivity,
-                                        R.drawable.left)));
+                                        R.drawable.ic_arrow_back)));
         try {
             CustomTabsIntent customTabsIntent = builder.build();
 
@@ -238,11 +236,7 @@ public class LinkUtil {
 
     public static void copyUrl(String url, Context context) {
         url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
-        ClipboardManager clipboard = ContextCompat.getSystemService(context, ClipboardManager.class);
-        ClipData clip = ClipData.newPlainText("Link", url);
-        if (clipboard != null) {
-            clipboard.setPrimaryClip(clip);
-        }
+        ClipboardUtil.copyToClipboard(context, "Link", url);
         Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
     }
 

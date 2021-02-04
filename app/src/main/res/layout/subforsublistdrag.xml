@@ -14,7 +14,7 @@
             android:layout_width="48dp"
             android:padding="8dp"
             android:id="@+id/dragit"
-            app:srcCompat="@drawable/dragit"
+            app:srcCompat="@drawable/ic_drag_handle"
             android:tint="?attr/tintColor"
             android:layout_height="match_parent" />
 
@@ -40,7 +40,7 @@
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:backgroundTint="?attr/fontColor"
-                android:background="@drawable/pin" />
+                android:background="@drawable/ic_push_pin" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="49dp"

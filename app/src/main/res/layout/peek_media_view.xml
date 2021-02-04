@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         xmlns:cardview="http://schemas.android.com/apk/res-auto"
-        cardview:cardBackgroundColor="#00000000"
+        cardview:cardBackgroundColor="@android:color/transparent"
         android:gravity="center"
         cardview:cardCornerRadius="5dp"
         cardview:cardElevation="5dp"

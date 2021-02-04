@@ -31,6 +31,7 @@ import java.util.Set;
 
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.PhotoLoader;
 
 /**
  * Created by carlo_000 on 4/18/2016.
@@ -108,7 +109,6 @@ public class CommentCacheAsync extends AsyncTask {
         if (Authentication.reddit == null) Reddit.authentication = new Authentication(context);
 
         ArrayList<String> success = new ArrayList<>();
-        ArrayList<String> error = new ArrayList<>();
 
         for (final String fSub : subs) {
             final String sub;
@@ -128,7 +128,7 @@ public class CommentCacheAsync extends AsyncTask {
                     mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
                             sub.equalsIgnoreCase("frontpage") ? fSub
                                     : (fSub.contains("/m/") ? fSub : "/r/" + fSub)))
-                            .setSmallIcon(R.drawable.save_content);
+                            .setSmallIcon(R.drawable.ic_save);
                 }
                 List<Submission> submissions = new ArrayList<>();
                 ArrayList<String> newFullnames = new ArrayList<>();

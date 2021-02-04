@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -47,8 +48,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -57,7 +56,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -72,6 +70,7 @@ import me.ccrama.redditslide.Views.ExoVideoView;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -197,7 +196,7 @@ public class AlbumPager extends FullScreenActivity
 
         String url;
 
-        public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
+        public LoadIntoPager(@NonNull String url, @NonNull Activity baseActivity) {
             super(url, baseActivity);
             this.url = url;
         }
@@ -251,7 +250,7 @@ public class AlbumPager extends FullScreenActivity
                 getSupportActionBar().setSubtitle(1 + "/" + images.size());
             }
 
-            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+            AlbumViewPagerAdapter adapter = new AlbumViewPagerAdapter(getSupportFragmentManager());
             p.setAdapter(adapter);
             p.setCurrentItem(1);
             findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -319,11 +318,13 @@ public class AlbumPager extends FullScreenActivity
         return true;
     }
 
-    public class AlbumViewPager extends FragmentStatePagerAdapter {
-        public AlbumViewPager(FragmentManager m) {
+    private class AlbumViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        AlbumViewPagerAdapter(FragmentManager m) {
             super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
 
@@ -351,7 +352,6 @@ public class AlbumPager extends FullScreenActivity
                 return f;
             }
         }
-
 
         @Override
         public int getCount() {
@@ -446,10 +446,10 @@ public class AlbumPager extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.open_external);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
+        Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable image = getResources().getDrawable(R.drawable.ic_image);
+        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
 
         external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));

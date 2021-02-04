@@ -6,8 +6,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,7 +27,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,14 +57,16 @@ import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -178,7 +177,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     SpannableStringBuilder pinned =
                             new SpannableStringBuilder(" " + UserTags.getUserTag(author) + " ");
                     pinned.setSpan(
-                            new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500,
+                            new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500,
                                     false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
                     titleString.append(" ");
@@ -187,7 +186,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (UserSubscriptions.friends.contains(author)) {
                     SpannableStringBuilder pinned = new SpannableStringBuilder(
                             " " + mContext.getString(R.string.profile_friend) + " ");
-                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
+                    pinned.setSpan(new RoundedBackgroundSpan(mContext, android.R.color.white,
                                     R.color.md_deep_orange_500, false), 0, pinned.length(),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
@@ -257,12 +256,12 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
                     final int color = ta.getColor(0, Color.WHITE);
-                    Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.reply);
-                    Drawable unhide = mContext.getResources().getDrawable(R.drawable.visibility);
-                    Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
-                    Drawable copy = mContext.getResources().getDrawable(R.drawable.copy);
-                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+                    Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.ic_reply);
+                    Drawable unhide = mContext.getResources().getDrawable(R.drawable.ic_visibility);
+                    Drawable hide = mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
+                    Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
+                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
                     profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                     hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
@@ -331,14 +330,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 }
                                 break;
                                 case 25: {
-                                    ClipboardManager clipboard =
-                                            ContextCompat.getSystemService(
-                                                    mContext, ClipboardManager.class);
-                                    ClipData clip =
-                                            ClipData.newPlainText("Message", comment.getBody());
-                                    if (clipboard != null) {
-                                        clipboard.setPrimaryClip(clip);
-                                    }
+                                    ClipboardUtil.copyToClipboard(mContext, "Message", comment.getBody());
                                     Toast.makeText(mContext,
                                             mContext.getString(R.string.mail_message_copied),
                                             Toast.LENGTH_SHORT).show();
@@ -491,21 +483,14 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onPostExecute(Void voids) {
+            Snackbar s;
             if (sent) {
-                Snackbar s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
-                View view = s.getView();
-                TextView tv =
-                        view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
+                s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
+                LayoutUtils.showSnackbar(s);
             } else {
-                Snackbar s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
+                s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
                         Snackbar.LENGTH_LONG);
-                View view = s.getView();
-                TextView tv =
-                        view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
+                LayoutUtils.showSnackbar(s);
                 Drafts.addDraft(text);
                 sent = true;
             }

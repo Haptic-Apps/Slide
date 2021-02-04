@@ -49,13 +49,13 @@ import java.util.Locale;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -109,31 +109,31 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_500, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (Authentication.name != null && comment.getAuthor()
                 .toLowerCase(Locale.ENGLISH)
                 .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_300,
                             false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } /* todoelse if (submission != null && comment.getAuthor()
                 .toLowerCase(Locale.ENGLISH)
                 .equals(submission.getAuthor().toLowerCase(Locale.ENGLISH)) && !comment.getAuthor().equals("[deleted]")) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } */ else if (authorcolor != 0) {
             author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
@@ -174,7 +174,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                     + mContext.getString(R.string.submission_stickied).toUpperCase()
                     + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -183,7 +183,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     "\u00A0" + UserTags.getUserTag(comment.getAuthor()) + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -249,7 +249,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     "\u00A0" + mContext.getString(R.string.profile_friend) + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");

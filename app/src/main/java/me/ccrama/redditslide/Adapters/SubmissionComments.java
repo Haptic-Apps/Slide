@@ -1,14 +1,10 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
@@ -110,13 +106,6 @@ public class SubmissionComments {
         this.refreshLayout = layout;
     }
 
-    public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context) {
-        this.fullName = fullName;
-        this.page = commentPage;
-        this.context = context;
-        this.refreshLayout = layout;
-    }
-
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context, int contextNumber) {
         this.fullName = fullName;
         this.page = commentPage;
@@ -149,20 +138,6 @@ public class SubmissionComments {
         adapter.currentSelectedItem = context;
         mLoadData = new LoadData(false);
         mLoadData.execute(fullName);
-    }
-
-    public void loadMoreReplyTop(CommentAdapter adapter, String context) {
-        this.adapter = adapter;
-        adapter.currentSelectedItem = context;
-        mLoadData = new LoadData(true);
-        mLoadData.execute(fullName);
-        if (context == null || context.isEmpty()) {
-            Snackbar s = Snackbar.make(page.rv, "Comment submitted", Snackbar.LENGTH_SHORT);
-            View view = s.getView();
-            TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            s.show();
-        }
     }
 
     public void loadMore(CommentAdapter adapter, String subreddit, boolean forgetPlace) {
@@ -208,8 +183,6 @@ public class SubmissionComments {
     public void reloadSubmission(CommentAdapter commentAdapter) {
         commentAdapter.submission = Authentication.reddit.getSubmission(submission.getFullName().substring(3));
     }
-
-    public boolean forceSorting = false;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<CommentObject>> {
         final boolean reset;
