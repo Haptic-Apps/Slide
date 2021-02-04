@@ -538,7 +538,7 @@ public class SettingsBackup extends BaseActivityAnim
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle("Settings Backup is a Pro feature")
+            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_backup_ispro)
                     .setMessage(R.string.pro_upgrade_msg)
                     //avoid that the dialog can be closed
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -669,11 +669,11 @@ public class SettingsBackup extends BaseActivityAnim
                                         if (intent.resolveActivityInfo(getPackageManager(), 0)
                                                 != null) {
                                             startActivity(
-                                                    Intent.createChooser(intent, "View backup"));
+                                                    Intent.createChooser(intent, getString(R.string.settings_backup_view)));
                                         } else {
                                             Snackbar s =
                                                     Snackbar.make(findViewById(R.id.restorefile),
-                                                            "No file explorer found, file located at "
+                                                            R.string.settings_backup_err_no_explorer
                                                                     + file.getAbsolutePath(),
                                                             Snackbar.LENGTH_INDEFINITE);
                                             LayoutUtils.showSnackbar(s);

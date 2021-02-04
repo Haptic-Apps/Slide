@@ -217,7 +217,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle("Settings Backup is a Pro feature")
+            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_backup_ispro)
                     .setMessage(R.string.pro_upgrade_msg)
                     .setPositiveButton(R.string.btn_yes_exclaim,
 

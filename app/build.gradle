@@ -72,7 +72,7 @@ android {
 
 dependencies {
 /** Flavors **/
-    withGPlayImplementation 'com.google.android.gms:play-services-drive:10.2.6'
+    withGPlayImplementation 'com.google.android.gms:play-services-drive:11.4.2'
 
 /** Custom **/
     implementation 'com.github.ccrama:JRAW:9a2494892d'
