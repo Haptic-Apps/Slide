@@ -6,8 +6,6 @@
     <string name="general_confirm_exit_msg">Vill du verkligen avsluta Slide?</string>
     <string name="general_enable_shadowbox">Aktivera Shadowbox läge</string>
     <string name="pro_upgrade_msg">Uppgradera Slide för Reddit Pro för att njuta av några häftiga nya funktioner, inklusive: \n\n - Ad Blocker och Läsarläge i webbplatsvyn\n-ändra om- och rita bilder till uppladdning\n-anpassningsbar tablett kolumn mode\n-automatisk night mode\n - Shadowbox och Galleri innehåll views\n - Kommentar Shadowbox view\n-säkerhetskopiering och återställning till Google Drive och \n-stödja öppen källkod och ad-fri programvara! \n\nWould du vilja stödja bild för Reddit?</string>
-    <string name="general_pro_msg">Jag har valt för att göra några funktioner i Slide (inklusive multi-kolumn läge) upplåsbara genom att köpa en Pro nyckel från Play Store. \n\nDetta är för att hålla igång utvecklingen, och i stället för att visa annonser i den gratisversionen av Slide! \n\nI denna ingår flerkolumns läge, Shadowboxläge (för bildsubreddits), galleriläge, säkerhetskopiering och återställning till Google Drive och mycket mer som kommer snart! \n\nSkulle du vilja låsa upp Slide for Reddit Pro?</string>
-    <string name="general_pro_msg_crop">Jag har valt för att göra några funktioner i Slide (inklusive multi-kolumn läge) upplåsbara genom att köpa en Pro nyckel från Play Store. \n\nDetta är för att hålla igång utvecklingen, och i stället för att visa annonser i den gratisversionen av Slide! \n\nI denna ingår flerkolumns läge, Shadowboxläge (för bildsubreddits), galleriläge, säkerhetskopiering och återställning till Google Drive och mycket mer som kommer snart! \n\nSkulle du vilja låsa upp Slide for Reddit Pro?</string>
     <string name="general_open_settings">Öppna Subredditinställningar</string>
     <string name="general_sub_sync">Synkronisera prenumerationer</string>
     <string name="general_gallerymode_ispro">Galleriläget är endast tillgängligt i Pro-versionen</string>
@@ -23,7 +21,6 @@
     <string name="submission_post_saved">Inlägg sparat</string>
     <string name="submission_info_hidden">Inlägg dolt för evigt.</string>
     <string name="submission_stickied">fäst</string>
-    <string name="submission_link_extern">Öppna externt</string>
     <string name="submission_link_copy">Kopiera URL</string>
     <string name="submission_link_share">Dela URL</string>
     <string name="submission_share_title">Vilken länk skulle du vilja dela?</string>
@@ -44,10 +41,6 @@
     <string name="submission_share_permalink">Dela länk</string>
     <string name="submission_comment_copied">Kommentarstext kopierad</string>
     <string name="submission_link_copied">Länk kopierad</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d poäng</item>
-        <item quantity="other">%d poäng</item>
-    </plurals>
     <plurals name="new_messages">
         <item quantity="one">%d nytt meddelande</item>
         <item quantity="other">%d nytt meddelande</item>
@@ -116,7 +109,6 @@
     <string name="profile_friend">Vän</string>
     <string name="profile_add_friend">Lägg till vän</string>
     <string name="profile_remove_friend">Ta bort vän</string>
-    <string name="profile_manage_accounts">Hantera konton</string>
     <string name="profile_remove_account">Vill du verkligen ta bort detta konto?</string>
     <string name="profile_remove">Ta bort konto</string>
     <string name="profile_history">Historik</string>
@@ -182,7 +174,6 @@
     <string name="err_title">Hoppsan, något gick fel!</string>
     <string name="err_invalid_url">Ogiltig webbadress</string>
     <string name="err_loading_content">Fel vid laddning av innehåll</string>
-    <string name="err_connection_lost">Hoppsan! Du verkar ha förlorat internet-anslutning. Anslut till internet och gå tillbaka!</string>
     <string name="err_general">Hoppsan, ett fel uppstod</string>
     <string name="err_no_connection">Reddit kunde inte nås. Vill du försöka igen?</string>
     <string name="err_retry_later">Försök igen om en minut!</string>
@@ -195,7 +186,6 @@
     <string name="err_something_wrong">Hoppsan, något gick fel</string>
     <string name="err_couldnt_save_choose_new">Slide kunde inte spara till den valda katalogen. Vill du välja en ny sparplats?</string>
     <string name="err_share_image">Fel vid delning av bild</string>
-    <string name="err_comment_post_copy">Kopiera kommentar</string>
     <!-- Gif -->
     <string name="gif_err_title">GIFen hittades inte</string>
     <string name="gif_err_msg">Ett fel uppstod vid inläsning av denna GIF. Vänligen öppna GIFen på nytt och försök igen.</string>
@@ -221,7 +211,6 @@
     <string name="type_album">Album</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_img">Bild</string>
-    <string name="type_vid">Video</string>
     <string name="type_emb">Inbäddad</string>
     <string name="type_imgur">Innehåll från Imgur</string>
     <!-- Content types plural (Content filters) -->
@@ -250,14 +239,12 @@
     <string name="misc_none">Ingen</string>
     <string name="misc_retry">Vill du försöka igen?</string>
     <string name="misc_score_hidden">poäng dolt</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Prenumererar</string>
     <string name="misc_continue">Fortsätt</string>
     <string name="misc_unsubscribed">Prenumeration avslutad</string>
     <string name="misc_no_more_posts">Inga fler inlägg!</string>
     <string name="misc_please_wait">Vänligen vänta&#8230;</string>
     <string name="misc_img_share">Dela bild med</string>
-    <string name="misc_link_chooser">Öppna URL med</string>
     <string name="misc_copy_text">Kopiera text</string>
     <string name="misc_try_again">Försök igen</string>
     <string name="misc_please_try_again">Försök igen</string>
@@ -265,7 +252,6 @@
     <!-- Goto User -->
     <string name="user_enter">Ange användarnamn</string>
     <string name="user_btn_goto">Gå till användaren</string>
-    <string name="user_invalid_msg">Reddit användarnamn kan endast innehålla bokstäver, siffror, understreck och bindestreck.</string>
     <!-- Buttons -->
     <string name="btn_add">Lägg till</string>
     <string name="btn_cancel">Avbryt</string>
@@ -274,7 +260,6 @@
     <string name="btn_discard">Släng</string>
     <string name="btn_done">Färdig</string>
     <string name="btn_go_back">Gå tillbaka</string>
-    <string name="btn_no_danks">Nej tack</string>
     <string name="btn_no">Nej</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">Ta bort</string>
@@ -289,7 +274,6 @@
     <string name="btn_refresh">Uppdatera</string>
     <string name="btn_delete">Ta bort</string>
     <string name="btn_message">Meddelande</string>
-    <string name="btn_add_domain">Lägg till en domän</string>
     <string name="btn_changelog">Ändringslogg</string>
     <string name="btn_create">Skapa</string>
     <string name="btn_upload">Ladda upp</string>
@@ -320,11 +304,7 @@
     <!-- Moderation tools -->
     <string name="mod_mail">Mod Mail</string>
     <string name="mod_reports">Rapporter</string>
-    <string name="mod_approve">Vill du verkligen att godkänna detta inlägg?</string>
     <string name="mod_approved">Inlägg godkänt.</string>
-    <string name="mod_mark_nsfw">Vill du verkligen markera detta som NSFW?</string>
-    <string name="mod_remove_nsfw">Vill du verkligen ta bort NSFW-taggen?</string>
-    <string name="mod_flair_post">Flair-inlägg</string>
     <string name="mod_flair_hint">Flair-text</string>
     <string name="mod_no_reports">Inga rapporter</string>
     <string name="mod_btn_approve">Godkänn</string>
@@ -333,16 +313,13 @@
     <!-- Toolbox-related stuff -->
     <string name="toolbox_removal_pm">Skicka som PM</string>
     <string name="toolbox_note_default">Ingen typ</string>
-    <!-- Pleasantly asking the user if he made his mind up -->
     <!-- If he did -->
     <!-- Subreddit Wiki -->
     <string name="wiki_err">Ingen wiki hittades</string>
     <string name="wiki_err_msg">Denna subreddit har ingen wiki!</string>
     <!-- Subreddits -->
-    <string name="subreddit_subscribers">%1$d prenumeranter</string>
     <string name="subreddit_err_msg">Subreddit %1$s kunde inte hittas. Kanske den stavades fel?</string>
     <string name="subreddit_err">Subredditen hittades inte</string>
-    <string name="subreddit_chooser">Välj en subreddit</string>
     <!-- Search -->
     <string name="search_comments_hint">Sök kommentarer</string>
     <string name="search_goto">Gå till</string>
@@ -351,9 +328,6 @@
     <string name="search_all">Sök alla</string>
     <string name="search_subreddit">Sök %1$s</string>
     <string name="search_comments">Kommentarer</string>
-    <!-- Captcha -->
-    <string name="captcha">Ange koden ovan</string>
-    <string name="captcha_title">Bevisa att du inte är en robot</string>
     <!-- Settings -->
     <string name="settings_reddit_prefs">Reddit-inställningar</string>
     <string name="settings_accent_title">Redigera accentfärg</string>
@@ -384,7 +358,6 @@
     <string name="settings_filter_domain">Domänfilter</string>
     <string name="settings_filter_selfttext">Selftext filter</string>
     <string name="settings_filter_title">Titelfilter</string>
-    <string name="settings_filter_hint">Ange strängar att matcha separerade med kommatecken</string>
     <string name="settings_prefs_reddit">Visa alla inställningar på reddit.com</string>
     <string name="settings_font_post">Font på trådtitel</string>
     <string name="settings_font_comment">Font på kommentarer</string>
@@ -408,8 +381,6 @@
     <string name="settings_section_browser">Webbläsare</string>
     <string name="settings_section_save_history">Spara historik</string>
     <string name="settings_section_clear_history">Rensa historik</string>
-    <string name="settings_section_image_quality">Bildkvalitet</string>
-    <string name="settings_section_hide_images">Dölj bilder</string>
     <string name="settings_synccit_username">Användarnamn</string>
     <string name="settings_font_system">System</string>
     <string name="settings_layout_picture_mode">Bildläge</string>
@@ -428,14 +399,11 @@
     <string name="reorder_add_subreddit">Lägg till en subreddit</string>
     <string name="reorder_fab_collection">Samling</string>
     <string name="reorder_fab_domain">Domän</string>
-    <string name="FAQ">FAQ</string>
     <string name="deleting">Tar bort&#8230;</string>
-    <string name="btn_add_collection">Lägg till en samling</string>
     <string name="subscribe_caps">PRENUMERERA</string>
     <!-- Save categories -->
     <string name="category_set_name_hint">Kategorinamn</string>
     <string name="category_categorize">KATEGORISERA</string>
-    <string name="category_create_new">Ny kategori</string>
     <string name="profile_category_loading">Laddar kategorier</string>
     <string name="profile_category_select">Välj kategori</string>
     <string name="profile_saved_categories">Sparade kategorier</string>
@@ -451,7 +419,6 @@
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Inkorgen</string>
     <string name="title_theme_settings">Temainställningar</string>
-    <string name="title_mod">Moderator</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">Detta belopp&#8230;</string>
     <string name="donate_info_student">Jag är en student utvecklare, och är mycket tacksam för era generösa donationer! De har hjälpt till att förverkliga (gratis) Slide :)</string>
@@ -461,16 +428,9 @@
     <string name="donate_amount_hours1">Stödjer</string>
     <string name="donate_amount_hours2">timmar utveckling</string>
     <string name="donate_title">Stöd Slide for Reddit</string>
-    <string name="donate_err_title">Donationen misslyckade :(</string>
-    <string name="donate_err_msg">Tyvärr gick inte donationen igenom. Se till att du är ansluten till internet och försök igen! Tack för ditt stöd!</string>
-    <string name="donate_success_title">Donation lyckades!</string>
-    <string name="donate_success_msg">Tack så mycket för ert stöd av Slide for Reddit! Det betyder verkligen mycket för mig. Om du stöter på några problem, skicka mig ett mail eller skapa ett inlägg i /r/slideforreddit när som helst!</string>
-    <string name="donate_success_btn">Varsågod!</string>
     <!-- Offline mode -->
-    <string name="offline_caching">Lagrar bidrag i cache</string>
     <string name="offline_msg">Gå online och uppdatera subreddit</string>
     <!-- Website -->
-    <string name="website_back">Gå tillbaka</string>
     <!-- Time -->
     <string name="time_just_now">Just nu</string>
     <plurals name="time_hours">
@@ -487,15 +447,13 @@
     <!-- Subreddit color synchronization - https://redd.it/41054l -->
     <!-- Discover section: find -->
     <string name="discover_title">Upptäck</string>
-    <!-- Subreddit post notifiactions -->
+    <!-- Subreddit post notifications -->
     <!-- Internal browser -->
     <string name="internal_browser_readermode">Läsläge</string>
     <!-- Live thread -->
     <!-- Used when viewing media -->
     <string name="mediaview_save">Spara %1$s</string>
     <!-- Drafts -->
-    <string name="draft_saving">Sparar utkast</string>
-    <string name="draft_saved">Utkast sparat</string>
     <string name="choose_draft">Välj ett utkast</string>
     <string name="manage_drafts">Hantera utkast</string>
     <!-- Strings for widgets -->
@@ -523,12 +481,10 @@
     <string name="do_not_show_again">Visa inte igen</string>
     <string name="datasave_mobile">Mobildata</string>
     <string name="never">Aldrig</string>
-    <string name="thumb_type_off">Visa aldrig</string>
     <string name="btn_open_comments">Öppna kommentarer</string>
     <string name="btn_preview">Förhandsgranska</string>
     <string name="msg_sent_success">Meddelande skickat</string>
     <string name="guest">Gäst</string>
-    <string name="album_saving">Sparar album</string>
     <string name="download_album">Ladda ner album</string>
     <string name="mark_all_as_read">Markera alla som lästa</string>
     <string name="alert_history_cleared">Historik rensad!</string>
@@ -549,5 +505,4 @@
     <string name="content_settings">Innehållsinställningar</string>
     <string name="theme_deep">Djup</string>
     <string name="btn_reset_color">ÅTERSTÄLL FÄRG</string>
-    <string name="firefox">Firefox</string>
 </resources>

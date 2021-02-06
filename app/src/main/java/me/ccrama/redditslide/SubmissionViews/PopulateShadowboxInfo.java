@@ -521,7 +521,7 @@ public class PopulateShadowboxInfo {
                 b.sheet(12, report, mContext.getString(R.string.btn_report));
             }
         }
-        b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
+        b.sheet(7, open, mContext.getString(R.string.open_externally))
                 .sheet(4, link, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
                 .listener(new DialogInterface.OnClickListener() {

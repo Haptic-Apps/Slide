@@ -4,7 +4,7 @@
     tools:ignore="UnusedResources">
     <item
         android:id="@+id/open_link"
-        android:title="@string/submission_link_extern"
+        android:title="@string/open_externally"
         android:icon="@drawable/ic_open_in_new" />
     <item
         android:id="@+id/share_link"

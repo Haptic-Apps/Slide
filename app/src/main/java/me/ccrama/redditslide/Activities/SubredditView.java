@@ -348,7 +348,7 @@ public class SubredditView extends BaseActivity {
                                             }
                                         }
                                     })
-                            .setNegativeButton(R.string.btn_no_danks,
+                            .setNegativeButton(R.string.btn_no_thanks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                 int whichButton) {
@@ -445,7 +445,7 @@ public class SubredditView extends BaseActivity {
                                             }
                                         }
                                     })
-                            .setNegativeButton(R.string.btn_no_danks,
+                            .setNegativeButton(R.string.btn_no_thanks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                 int whichButton) {
@@ -1496,7 +1496,7 @@ public class SubredditView extends BaseActivity {
                             new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
                                     getString(R.string.unsubscribe_from,
                                             subreddit.getDisplayName()))
-                                    .setPositiveButton(R.string.reorder_remove_unsubsribe,
+                                    .setPositiveButton(R.string.reorder_remove_unsubscribe,
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,

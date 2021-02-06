@@ -6,8 +6,6 @@
     <string name="general_confirm_exit_msg">Esteu segurs que voleu sortir d\'Slide?</string>
     <string name="general_enable_shadowbox">Mode Shadowbox</string>
     <string name="pro_upgrade_msg">Passeu-vos a Slide for Reddit Pro per gaudir de funcions brillants com ara:\n\n- Un bloquejador d\'anuncis i un mode de lectura durant la visualització de pàgines web\n- L\'habilitat de retallar i dibuixar sobre imatges abans de penjar-les\n- Un mode de columnes personalitzar-la per a tauletes\n- Mode nocturn automàtic\n- Visors de contingut de mode galeria i shadowbox\n- Visió de comentaris en format Shadowbox\n- Opció de desar còpies de seguretat a Google Drive o com a fitxers\n- Promocionar software sense anuncis i de codi obert!\n\nVoldrieu donar suport a Slide for Reddit?</string>
-    <string name="general_pro_msg">He optat per fer d\'algunes de les funcions d\'Slide funcions desbloquejables a partir de la compra de la versió Pro a Play Store. \n\nLa finalitat és mantenir el desenvolupament interromput, i en lloc de mostrar anuncis en la versió gratuïta!\n\nInclòs en aquest paquet trobareu el mode multi-columna, el mode Shadowbox (per subreddits d\'imatges), el mode galeria, còpies de seguretat via Google Drive i via fitxer, i l\'opció de dibuixar/retallar imatges!\n\nVoldrieu desbloquejar Slide for Reddit Pro?</string>
-    <string name="general_pro_msg_crop">Eucat per convertir certes funcions d\'Slide (inclòs retallar i/o dibuixar sobre imatges) en funcions desbloquejables mitjançant la compra de la versió Pro a Play Store. \n\n la seva finalitat és mantenir el desenvolupament ininterromput, i no haver demostrar anuncis en la versió gratuïta!\n\nInclosos en aquest paquet trobareu el mode multi-columna, el mode Shadowbox (per subreddits d\'imatges), el mode galeria, còpies de restauració via Google Drive i via fitxers, i més!\n\nVoldríeu passar-vos a Slide for Reddit Pro?</string>
     <string name="general_open_settings">Barra lateral</string>
     <string name="general_sub_sync">Sincronitzant Subscripcions</string>
     <string name="general_gallerymode_ispro">El mode galeria és una funcionalitat de la versió Pro</string>
@@ -19,12 +17,10 @@
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Contribució no desada</string>
     <string name="submission_info_saved">Publicació desada</string>
-    <string name="submission_info_cached">Contribució desada a la memòria cau</string>
     <string name="submission_info_archived">Aquesta és una publicació arxivada. No podreu votar o comentar.</string>
     <string name="submission_post_saved">Publicació desada</string>
     <string name="submission_info_hidden">Publicació oculta per sempre</string>
     <string name="submission_stickied">Fixat</string>
-    <string name="submission_link_extern">Obrir externament</string>
     <string name="submission_link_copy">Còpia l\'adressa</string>
     <string name="submission_link_share">Comparteix l\'enllaç</string>
     <string name="submission_share_title">Quin enllaç vols comparir?</string>
@@ -45,14 +41,10 @@
     <string name="submission_comment_unsaved">El comentari ja no està desat</string>
     <string name="submission_share_permalink">Compartir enllaç</string>
     <string name="submission_comment_copied">Text del comentari copiat</string>
+    <string name="submission_text_copied">Publicació escrita copiada</string>
     <string name="submission_nocontent">Aquesta contribució no consta de cap contingut</string>
     <string name="submission_link_copied">Enllaç copiat</string>
-    <string name="submission_text_copied">Publicació escrita copiada</string>
     <string name="submission_removed">Publicació eliminada</string>
-    <plurals name="submission_points">
-        <item quantity="one">%d punt</item>
-        <item quantity="other">%d punts</item>
-    </plurals>
     <plurals name="new_messages">
         <item quantity="one">%d missatge nou</item>
         <item quantity="other">%d missatges nous</item>
@@ -133,7 +125,6 @@
     <string name="profile_friend">Amic</string>
     <string name="profile_add_friend">Afegir amic</string>
     <string name="profile_remove_friend">Eliminar Amic</string>
-    <string name="profile_manage_accounts">Gestionar els comptes</string>
     <string name="profile_remove_account">Esteu segurs que voleu eliminar aquest compte?</string>
     <string name="profile_remove">Eliminar el compte</string>
     <string name="profile_history">Historial</string>
@@ -182,12 +173,6 @@
     <string name="sorting_month">mes</string>
     <string name="sorting_year">any</string>
     <string name="sorting_all">tot el temps</string>
-    <string name="sorting_search_hour">Última hora</string>
-    <string name="sorting_search_day">Últimes 24 hores</string>
-    <string name="sorting_search_week">La setmana passada</string>
-    <string name="sorting_search_month">El mes passat</string>
-    <string name="sorting_search_year">L\'any passat</string>
-    <string name="sorting_search_all">Tot el temps</string>
     <string name="sorting_defaultfor">Per defecte per a /r/%1$s</string>
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">Enllaç</string>
@@ -198,7 +183,6 @@
     <string name="editor_err_msg">Si us plau, torneu-ho a intentar en uns instants</string>
     <string name="editor_uploading_image">Penjant la imatge a Imgur</string>
     <string name="editor_upload_image_question">Penjar la imatge a Imgur?</string>
-    <string name="editor_self">Publicació escrita</string>
     <string name="editor_select_img">Seleccionar imatge</string>
     <string name="editor_hint_optional_body">Cos (opcional)</string>
     <string name="editor_submit">Enviar una publicació</string>
@@ -224,13 +208,11 @@
     <string name="editor_spoiler">Filtració</string>
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Imatge desada</string>
-    <string name="video_saved">Vídeo desat</string>
     <string name="gif_saved">GIF desat</string>
     <!-- General errors / errors without a category -->
     <string name="err_title">Caram, quelcom ha fallat!</string>
     <string name="err_invalid_url">Enllaç invàlid</string>
     <string name="err_loading_content">Error carregant contingut</string>
-    <string name="err_connection_lost">Caram! Sembla que us heu desconnectat d\'internet. Torneu-vos a conectar i proveu-ho de nou!</string>
     <string name="err_general">Caram, s\'ha produït un error</string>
     <string name="err_no_connection">No hem pogut connectar amb Reddit. Voleu tornar-ho a intentar?</string>
     <string name="err_retry_later">Torneu a intentar-ho en un minut!</string>
@@ -239,7 +221,6 @@
     <string name="err_authentication">Autenticació fallida</string>
     <string name="err_submit_restricted">Aquest subreddit està restringit</string>
     <string name="err_submit_restricted_text">No teniu permès publicar aquí. Si us plau escolliu un altre subreddit</string>
-    <string name="err_upload_unaccessible">Assegureu-vos que la imatge sigui accessible i proveu-ho una altra vegada!</string>
     <string name="error_video_not_found">Vídeo no trobat</string>
     <string name="error_video_message">S\'ha produït un error durant la càrrega d\'aquest vídeo</string>
     <string name="error_album_not_found">Àlbum no trobat</string>
@@ -258,7 +239,6 @@
     <string name="err_comment_post">Ups, la publicació d\'aquest comentari ha fallat!</string>
     <string name="err_comment_post_reason">Raó: %1$s</string>
     <string name="err_comment_post_message">\n\nEl vostre missatge s\'ha desat com a esborrany. Torneu-ho a intentar després.</string>
-    <string name="err_comment_post_copy">Còpia el comentari</string>
     <string name="err_connection_failed_msg">La connexió a Reddit ha fallat. Si us plau comproveu la vostra connexió a internet i torneu a provar-ho, o entreu a mode fora de línia.</string>
     <string name="err_block_user">Error bloquejant l\'usuari</string>
     <!-- Gif -->
@@ -297,7 +277,6 @@
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">Àlbum NSFW</string>
     <string name="type_img">Imatge</string>
-    <string name="type_vid">Vídeo</string>
     <string name="type_videos">Vídeos</string>
     <string name="type_nsfw_video">Vídeo NSFW</string>
     <string name="type_emb">Incrustat</string>
@@ -348,14 +327,12 @@
     <string name="misc_retry">Ho vols tornar a intentar?</string>
     <string name="misc_retry_draft">Voldrieu tornar-ho a provar? \nUn esborrany de la vostra publicació ha estat desat</string>
     <string name="misc_score_hidden">puntuació oculta</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Subscrit</string>
     <string name="misc_continue">Continuar</string>
     <string name="misc_unsubscribed">Subscripció cancel·lada</string>
     <string name="misc_no_more_posts">No hi ha més publicacions!</string>
     <string name="misc_please_wait">Si us plau, espereu&#8230;</string>
     <string name="misc_img_share">Compartir imatge amb</string>
-    <string name="misc_link_chooser">Obrir enllaç amb</string>
     <string name="misc_copy_text">Copiar text</string>
     <string name="misc_maybe_later">Potser més tard</string>
     <string name="misc_try_again">Tornar-ho a intentar</string>
@@ -371,7 +348,6 @@
     <string name="user_enter">Introduïu el nom d\'usuari</string>
     <string name="user_btn_goto">Anar a l\'usuari</string>
     <string name="user_btn_gotomultis">Anar als multireddita de l\'usuari</string>
-    <string name="user_invalid_msg">Els noms d\'usuari de Reddit només poden contenir lletres, números, guions i guions baixos.</string>
     <!-- Buttons -->
     <string name="btn_add">Afegir</string>
     <string name="btn_cancel">Cancel·lar</string>
@@ -380,7 +356,6 @@
     <string name="btn_discard">Descartar</string>
     <string name="btn_done">Fet</string>
     <string name="btn_go_back">Retornar</string>
-    <string name="btn_no_danks">No gràcies</string>
     <string name="btn_no">No</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">El·liminar</string>
@@ -397,7 +372,6 @@
     <string name="btn_delete">Eliminar</string>
     <string name="btn_time">Període de temps</string>
     <string name="btn_message">Missatge</string>
-    <string name="btn_add_domain">Afegir un domini</string>
     <string name="btn_select">Seleccionar</string>
     <string name="btn_view">VEURE</string>
     <string name="btn_changelog">Registre de canvis</string>
@@ -451,15 +425,10 @@
     <string name="mod_modqueue">Cua de moderació</string>
     <string name="mod_unmoderated">Sense moderar</string>
     <string name="mod_reports">Informes</string>
-    <string name="mod_approve">Esteu segurs que voleu aprovar aquesta publicació?</string>
     <string name="mod_approved">Publicació aprovada</string>
-    <string name="mod_mark_nsfw">Esteu segurs que voleu marcar-ho com a NSFW?</string>
-    <string name="mod_remove_nsfw">Esteu segurs que voleu eliminar l\'etiqueta NSFW?</string>
-    <string name="mod_flair_post">Bandereta de la publicació</string>
     <string name="mod_flair_hint">Text de la bandereta</string>
     <string name="mod_no_reports">Sense informes</string>
     <string name="mod_btn_approve">Aprovar</string>
-    <string name="mod_btn_approved">Aprovat per /u/%1$s</string>
     <string name="mod_btn_submission_flair">Afegir bandereta</string>
     <string name="mod_btn_submission_flair_text">Afegir text de la bandereta</string>
     <string name="mod_btn_mark_nsfw">Marcar NSFW</string>
@@ -483,13 +452,11 @@
     <string name="mod_ban_note_user">Missatge per l\'usuari (opcional)</string>
     <string name="mod_ban_time">Temps de l\'expulsió - Deixa-ho en blanc per permanent</string>
     <string name="mod_ban_title">Expulsar /u/%1$s</string>
-    <string name="mod_ban_requirements">Raó i hora requerits</string>
     <string name="mod_remove_template">Esborrat per\u0020</string>
     <string name="mod_remove_hint">Raó de la retirada</string>
     <string name="mod_remove_title">Quina és la raó de retirada de la publicació?</string>
     <string name="mod_remove_insert_draft">Insertar esborrany</string>
     <string name="mod_flair_none_found">No s\'han trobat banderetes en aquest subreddit</string>
-    <string name="mod_approved_by">\u00A0aprovat per %1$s</string>
     <string name="mod_distinguish">Distingir</string>
     <string name="mod_undistinguish">Treure la distinció</string>
     <string name="mod_sticky">Anclar</string>
@@ -519,11 +486,6 @@
     <string name="toolbox_note_default">Sense estil</string>
     <string name="toolbox_wiki_edit_reauth">Per afegir o treure notes d\'usuari, Slide necessita autenticar-vos de nou</string>
     <string name="toolbox_wiki_edit_reauth_question">Voleu tornar a accedir a Slide?</string>
-    <!-- Pleasantly asking the user if he made his mind up -->
-    <string name="really_remove_submission">Esteu segurs que voleu eliminar aquesta publicació?</string>
-    <string name="really_pin_submission">Esteu segurs que voleu anclar aquesta publicació?</string>
-    <string name="really_unpin_submission">Esteu segurs que voleu desanclar aquesta publicació?</string>
-    <string name="undistinguish_comment">Esteu segurs que voleu treure la distinció a aquest comentari?</string>
     <!-- If he did -->
     <string name="really_pin_submission_message">Publicació anclada</string>
     <string name="really_unpin_submission_message">Publicació no anclada</string>
@@ -531,13 +493,11 @@
     <string name="wiki_err">No s\'ha trobat cap Wiki</string>
     <string name="wiki_err_msg">Aquest subreddit no té cap wiki!</string>
     <!-- Subreddits -->
-    <string name="subreddit_subscribers">%1$d subscriptor/es</string>
     <string name="subreddit_subscribers_string">%1$s subscriptor/es</string>
     <string name="subreddit_active_users_string_new">%1$s aquí ara</string>
     <string name="subreddit_err_msg">No hem trobat el subreddit %1$s. Potser l\'heu escrit malament?</string>
     <string name="subreddit_err_msg_new">No hem trobat el subreddit %1$s. Potser l\'heu escrit malament o no hi teniu accés.</string>
     <string name="subreddit_err">Subreddit no trobat</string>
-    <string name="subreddit_chooser">Escull un subreddit</string>
     <!-- Search -->
     <string name="search_comments_hint">Cercar comentaris</string>
     <string name="search_goto">Anar a</string>
@@ -550,9 +510,6 @@
     <string name="search_new">Nou</string>
     <string name="search_comments">Comentaris</string>
     <string name="no_posts_found">No s\'ha trobat cap publicació</string>
-    <!-- Captcha -->
-    <string name="captcha">Introdueixi el codi superior</string>
-    <string name="captcha_title">Demostreu que no sou un robot</string>
     <!-- Settings -->
     <string name="settings_reddit_prefs">Preferències de Reddit</string>
     <string name="settings_accent_title">Editar el color principal</string>
@@ -591,7 +548,6 @@
     <string name="settings_filter_domain">Filtrar dominis</string>
     <string name="settings_filter_selfttext">Filtrar text</string>
     <string name="settings_filter_title">Filtrar per títols</string>
-    <string name="settings_filter_hint">Introduïu els valors corresponents separats per comes</string>
     <string name="settings_prefs_reddit">Veure totes les preferències de reddit.com</string>
     <string name="settings_font_post">Font del títol de la publicació</string>
     <string name="settings_font_comment">Font de comentari</string>
@@ -631,8 +587,6 @@
     <string name="settings_section_save_history">Desar l\'historial</string>
     <string name="settings_section_clear_history">Netejar l\'historial</string>
     <string name="settings_section_data_saving_mode">Mode d\'estalvi de dades</string>
-    <string name="settings_section_image_quality">Qualitat d\'imatge</string>
-    <string name="settings_section_hide_images">Ocultar imatges</string>
     <string name="settings_comment_color">Indicador coloratiu de profunditat del commentari</string>
     <string name="settings_volume_nav_comments">Navegar entre comentaris utilitzant els botons del volum</string>
     <string name="settings_synccit_remove">DESCONECTAR SYNCCIT</string>
@@ -662,23 +616,18 @@
     <string name="settings_comments_swap_long">Intercanviar les accions de toc i pressió</string>
     <string name="settings_redditprefs_over18">Tinc més de 18 anys i vull veure el contingut NSFW</string>
     <string name="settings_layout_view">Mode de visualització</string>
-    <string name="settings_data_lowqaul_desc">D\'altra manera, carregar sempre les imatges en qualitat alta</string>
-    <string name="settings_data_lowqaul">Carregar qualitat d\'imatge inferior de ser possible</string>
     <string name="settings_subredditspecific_bigpic">Mostrar sempre imatges grans en aquest subreddit</string>
     <string name="settings_layout_picture_mode">Mode d\'imatges</string>
     <string name="settings_general_expanded_toolbar">Menú d\'eines expandit</string>
     <string name="settings_general_expanded_toolbar_desc">Mostrar més opcions a la barra d\'eines del subreddit</string>
     <string name="settings_theme_tinting">Modalitat de coloració del subreddit</string>
-    <string name="settings_reddit_thumbnail_mode">Mode de miniatura</string>
     <string name="settings_layout_actionbar_mode">Mode barra d\'acció</string>
     <string name="settings_theme_tint_outside_desc">Tintar el fons solament a multireddits, la pàgina principal i a /r/all</string>
     <string name="settings_layout_small_content_tag">Etiqueta de contingut més petita</string>
     <string name="settings_links_force_external">Forçar un navegador extern</string>
-    <string name="settings_links_force_external_desc">Escollir dominis que s\'obriran sempre externament</string>
     <string name="settings_layout_show_domain">Mostrar domini a la línia d\'informació</string>
     <string name="settings_layout_show_content_type">Mostrar el tipus de contingut a la línia d\'informació</string>
     <string name="settings_layout_show_votes_comments">Mostrar els vots i comentaris a la línia d\'informació</string>
-    <string name="settings_general_swipeanywhere_description">Desplaça cap a qualsevol part per eixir</string>
     <string name="settings_general_comment_last_visit">Mostrar el nombre de comentaris des de la darrera visita</string>
     <string name="settings_fab_create">Mostrar el FAB \"crear comentari\"</string>
     <string name="settings_right_handed_comment_menu">Menú de resposta a comentaris per persones dretanes</string>
@@ -687,26 +636,19 @@
     <string name="settings_description_synccit">Synccit us permet sincronitzar el vostre historial de publicacions entre dispositius i navegador</string>
     <string name="settings_description_view_type">Les diferents tipologies de visualització afecten tant la visió general com la de subreddits individuals.\n\nPanell de comentaris: els comentaris llisquen junt amb les publicacions i es desa la vostra localització a la pàgina després de lliscar enrere (per no perdre el vostre progrés)\n\nSense pestanyes de subreddits: inhabilita l\'opció de lliscar entre subreddits\n\nPestanyes de subreddits: llisqui entre els seus subreddits</string>
     <string name="settings_comment_hide_selftext_image">Ocultar la primera imatge en les publicacions escrites</string>
-    <string name="settings_reddit_syncing">Sincronitzant amb Reddit</string>
     <string name="settings_filter_flair">Filtrar per banderetes</string>
-    <string name="settings_data_low_quality">Carregar imatges de poca qualitat</string>
     <string name="settings_view_type">Tipus de vista</string>
     <string name="settings_data">Estalviant dades</string>
     <string name="settings_card_show_selftext">Mostrar el primer paràgraf del text</string>
     <string name="settings_handling_external_desc">Els dominis introduïts a continuació s\'obriran sempre externament</string>
     <string name="settings_handling_enterdomain">Insereixi un domini o part d\'aquest</string>
     <string name="settings_section_content">Contingut</string>
-    <string name="settings_about_changelog_post">Veure el registre de canvis</string>
-    <string name="settings_filter_flair_error">Els filtres de les banderetes han de ser com subreddit:flairtext</string>
     <string name="settings_backup_include_personal_title">Incluir informació personal?</string>
     <string name="settings_backup_include_personal_text">Això inclou cadenes d\'autentificació, noms d\'usuari, etiquetes i cronologia</string>
     <string name="settings_backup_view">Veure còpia de seguretat</string>
     <string name="settings_backup_err_no_explorer">No s\'ha trobat exploradors de fitxers, el fitxer rau a %1$s</string>
     <string name="settings_about_version_copied_toast">Número de la versió copiat al porta-retalls</string>
-    <string name="settings_about_stacktrace_copied_toast">Stacktrace copiat al porta-retalls</string>
     <string name="settings_support_slide">Donar suport a Slide for Reddit passant a la versió Pro!</string>
-    <string name="settings_theme_night_start_title">Seleccionar un horari d\'inici pel mode nocturn</string>
-    <string name="settings_theme_night_end_title">Seleccionar un horari d\'acabament pel mode nocturn</string>
     <string name="settings_theme_night_start_at">Començar a\u0020</string>
     <string name="settings_theme_night_end_at">Finalitzar a\u0020</string>
     <string name="settings_general_inbox_snd">So i vibració</string>
@@ -751,23 +693,17 @@
     <string name="reorder_fab_domain">Domini</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
     <string name="reorder_add_subscribe">Afegir i subscriure\'s</string>
-    <string name="reorder_remove_unsubsribe">Esborrar i desfer la subscripció</string>
-    <string name="reorder_selected">\u0020seleccionat</string>
     <string name="reorder_move">Moure a la part superior</string>
     <string name="reorder_domain_placeholder">\u0020(nomès el nom del domini)</string>
     <string name="reorder_not_found_err">No s\'ha trobat el subreddit, aquí tens algunes suggerències</string>
     <string name="reorder_subscribed_toast">Subscrit a /r/%1$s</string>
     <string name="reorder_unsubscribed_toast">Subscripció a /r/%1$s desfeta</string>
     <string name="sorting_faq"><b>Com actualitzo els subreddits?</b>\nPer actualitzar els subreddits, premi la icona d\'actualització a la barra d\'eines!\n\n<b>He cancel·lat la meva subscripció a alguns subreddits però encara apareixen!</b>\nSlide convertirà aquells subreddits els quals has cancel·lat la teva subscripció en subscripcions casuals. Per eliminar-los, manten-los premuts i selecciona eliminar!\n\n<b>Com puc utilitzar col·leccions?</b>\nPer crear una col·lecció, prem el FAB + i selecciona \'Crear una col·lecció\'. Això us permetrà tenir diversos subs actuan com un de sol a la pàgina principal!</string>
-    <string name="FAQ">Preguntes freqüents</string>
     <string name="alphabetize_subreddits">Ordenar els subreddits en ordre alfabètic</string>
     <string name="sync_subscriptions">Sincronitzar subscripcions</string>
     <string name="cannot_be_undone">Aquesta operació no es pot desfer.</string>
     <string name="deleting">Eliminant&#8230;</string>
     <string name="create_or_import_multi">Vos agradaria crear una nova col·lecció o importar un multireddit?</string>
-    <string name="btn_add_subreddit">Afegir un subreddit</string>
-    <string name="btn_add_collection">Afegir una col·lecció</string>
-    <string name="add_to_subs">AFEGIR A LES SUBSCRIPCIONS</string>
     <string name="sub_added">Subreddit afegit!</string>
     <string name="reorder_subs_FAQ">Reordenar les preguntes freqüents dels subreddits</string>
     <string name="subscribe_to">Subscriure\'s a /r/%1$s</string>
@@ -781,7 +717,6 @@
     <string name="reorder_add_or_search_subreddit">Afegir o cercar un subreddit</string>
     <string name="reorder_subreddit_name">Nom del subreddit</string>
     <string name="reorder_remove_title">Eliminar aquest subreddit?</string>
-    <string name="reorder_remove_msg">No cancel·lareu la vostra subscripció, però el subreddit ja no apareixerà en la vostra barra lateral!</string>
     <string name="reorder_sync_complete">Sincronització finalitzada</string>
     <string name="reorder_loading_title">Carregant els seus subreddits</string>
     <string name="reorder_url_err">Enllaç invalid</string>
@@ -790,7 +725,6 @@
     <string name="category_set_name_hint">Nom de la categoria</string>
     <string name="category_categorize">CATEGORITZAR</string>
     <string name="category_set_error">Error establint la categoria</string>
-    <string name="category_create_new">Nova categoria</string>
     <string name="profile_category_loading">Carregant categories</string>
     <string name="profile_category_select">Seleccionant categories</string>
     <string name="profile_saved_categories">Categories desades</string>
@@ -805,7 +739,6 @@
     <string name="navigation">Navegació</string>
     <string name="collapse_comments">Col·lapsar accions</string>
     <string name="nsfw">Contingut NSFW</string>
-    <string name="content_thumbnails">Miniatures del contingut</string>
     <string name="view_reddit_settings">Obrir les preferències de Reddit al navegador</string>
     <string name="font_styles">Tipus de lletra</string>
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -816,12 +749,10 @@
     <string name="title_settings">Configuració</string>
     <string name="title_share">Compartir mitjançant</string>
     <string name="title_login">Accedir a Reddit</string>
-    <string name="title_reorder_subs">Reordenar subreddits</string>
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Bústia d\'entrada</string>
     <string name="title_theme_settings">Tema</string>
     <string name="title_create_multi">Crear un multireddit</string>
-    <string name="title_mod">Moderador</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">Aquesta xifra&#8230;</string>
     <string name="donate_info_student">Sóc un estudiant, i estic molt agraït per les vostres donacions generoses! Són la raó que Slide sigui una realitat (gratuïta) :)</string>
@@ -831,13 +762,7 @@
     <string name="donate_amount_hours1">Donar suport</string>
     <string name="donate_amount_hours2">hores de desenvolupament</string>
     <string name="donate_title">Donar suport a Slide for Reddit</string>
-    <string name="donate_err_title">Donació sense èxit :(</string>
-    <string name="donate_err_msg">Desafortunadament, no s\'ha pogut completar la donació. Assegureu-vos que esteu connetctats a internet i torneu-ho a provar! Gràcies pel vostre suport!</string>
-    <string name="donate_success_title">Donació amb èxit!</string>
-    <string name="donate_success_msg">Moltes gràcies pel teu suport a Slide for Reddit! Significa molt per mi. Si trobes qualsevol problema, envia\'m un correu electrònic o informe\'n a GitHub quan vulguis!</string>
-    <string name="donate_success_btn">No es mereixen!</string>
     <!-- Offline mode -->
-    <string name="offline_caching">Desant les publicacions a la memòria cau</string>
     <string name="offline_msg">Si us plau connecteu-vos a internet i actualitzeu el subreddit per tal de fer això</string>
     <string name="offline_last_update">Darrera actualització %1$s</string>
     <string name="offline_comments_not_loaded">Si us plau, retorneu al mode en línia i seleccioneu \"Memòria cau dels comentaris\" al menú per tal de veure els comentaris fora de línia</string>
@@ -846,7 +771,6 @@
     <string name="offline_caching_title">Desant %1$s</string>
     <string name="offline_caching_complete">Desat de memòria cau complet</string>
     <!-- Website -->
-    <string name="website_back">Retornar</string>
     <string name="website_external">Obrir en un navegador extern</string>
     <plurals name="reorder_subs_added">
         <item quantity="one">%d subreddit afegit</item>
@@ -883,7 +807,6 @@
     <string name="time_days_short">%dd</string>
     <string name="time_hours_short">%dh</string>
     <string name="time_minutes_short">%dm</string>
-    <string name="time_seconds_short">%ds</string>
     <!-- Strings present during the login process -->
     <string name="login_subscribe_rslideforreddit">Subscriure\'s a /r/slideforreddit?</string>
     <string name="login_subscribe_rslideforreddit_desc">Voldrieu subscriure\'s a /r/slideforreddit per obtenir les darreres notícies i informar d\'errors?</string>
@@ -908,23 +831,19 @@
     <string name="discover_search">Cercar terme o tema</string>
     <string name="discover_popular">Popular</string>
     <string name="discover_trending">Tendència</string>
-    <!-- Subreddit post notifiactions -->
+    <!-- Subreddit post notifications -->
     <string name="sub_post_notifs_title">Rebre notificacions de les noves publicacions a\n/r/%1$s?</string>
     <string name="sub_post_notifs_title_settings">Rebre notificacions de les noves publicacions?</string>
-    <string name="sub_post_notifs_menu">Rebre notificacions de les noves publicacions</string>
     <string name="sub_post_notify">Notificar</string>
-    <string name="sub_post_notifs_text">Slide cercarà noves publicacions cada 10 minuts. Podeu cancel·lar-ho a notificacions de publicacions</string>
     <string name="sub_post_notifs_threshold">Llindar de puntuació</string>
     <string name="sub_post_notifs_err">Solament podeu afegir notificacions a un sol subreddit</string>
     <string name="sub_post_notifs_settings_none">Sense subreddits per notificar</string>
-    <string name="sub_post_notifs_settings_title">Subreddits a controlar</string>
     <string name="sub_post_notifs_settings_search">Cercar subreddit pel nom</string>
     <string name="sub_post_notifs_notification_title">Nova publicació a r/%1$s</string>
     <string name="sub_post_notifs_notification_btn">Aturar el seguiment a /r/%1$s</string>
     <string name="title_sub_post_notifs">Notifications de publicació per Subreddits</string>
     <!-- Internal browser -->
     <string name="internal_browser_extracting_error">Disculpes, no s\'ha pogut extreure l\'article</string>
-    <string name="internal_browser_extracting_progress">Extraient article&#8230;</string>
     <string name="internal_browser_storecookies">Desar les galetes de llocs web</string>
     <string name="internal_browser_readermode">Mode de lectura</string>
     <!-- Live thread -->
@@ -934,13 +853,9 @@
     <!-- Used when viewing media -->
     <string name="mediaview_notif_title">S\'està baixant la imatge&#8230;</string>
     <string name="mediaview_notif_text">Descàrrega en curs</string>
-    <string name="mediaview_converting_fail">La conversió del Gif via Gfycat no ha funcionat</string>
-    <string name="mediaview_converting_fail_btn">Obrir al navegador</string>
     <string name="mediaview_save">Desa %1$s</string>
     <string name="mediaview_saving">Desant %1$s</string>
     <!-- Drafts -->
-    <string name="draft_saving">Desant esborrany</string>
-    <string name="draft_saved">Esborramy desat</string>
     <string name="choose_draft">Seleccionar un esborrany</string>
     <string name="dialog_no_drafts">Sense esborranys</string>
     <string name="dialog_no_drafts_msg">Podeu afegir un esborrany prement el botó \"desar\" a la barra d\'edició!</string>
@@ -965,17 +880,12 @@
     <string name="force_change_subscription">No s\'ha pogut canviar la subscripció</string>
     <string name="force_change_subscription_desc">Voldrieu canviar-la localment?</string>
     <string name="never_load_images">No desis cap imatge</string>
-    <string name="low_quality_images_in_image_viewer">Imatges de baixa qualitat en el visor d\'imatges</string>
-    <string name="load_high_quality_image_every_time">D\'altra manera, carregar sempre imatges d\'alta qualitat</string>
-    <string name="load_lower_quality_imgur">D\'estar activat, intentarà carregar una qualitat encara més baixa de les imatges</string>
-    <string name="load_medium_quality_imgur_images">Carregar imatges d\'Imgur en una qualitat mitjana</string>
     <string name="load_low_quality">Carregar imatges en baixa qualitat (màx. 320x320)</string>
     <string name="load_medium_quality">Carregar imatges en qualitat mitjana (màx. 640x640)</string>
     <string name="load_high_quality">Carregar imatges en alta qualitat (màx. 1080x1080)</string>
     <string name="choose_color_title">Escull un color</string>
     <string name="enter_text_to_filter_click_enter_to_add">Introduïu el text en qüestió, premeu entrar per afegir el filtre</string>
     <string name="mode_desktop_compact">Escriptori compacte</string>
-    <string name="may_reduce_comment_scroll_performance">Podria reduïr el rendiment de desplaçament en els fils de comentaris</string>
     <string name="show_content_type_text_beside_links">Mostrar la tipologia del contingut al costat dels enllaços</string>
     <string name="comment_shadowbox">Comentari shadowbox</string>
     <!-- Sidebar strings (multis, flairs) -->
@@ -1012,8 +922,6 @@
     <!-- Saving location setting -->
     <string name="set_gif_save_loc">Establir la ubicació d\'emmagatzematge dels GIFs</string>
     <string name="set_gif_save_loc_msg">Encara no heu establert cap ubicació d\'emmagatzematge per a GIFs. Voldrieu establir-la ara?</string>
-    <string name="set_video_save_loc">Establir la ubicació d\'emmagatzematge dels vídeos</string>
-    <string name="set_video_save_loc_msg">Encara no heu establert cap ubicació d\'emmagatzematge per a vídeos. Voldrieu establir-la ara?</string>
     <string name="set_save_location">Establir la ubicació d\'emmagatzematge de les imatges</string>
     <string name="set_save_location_msg">Encara no heu establert cap ubicació d\'emmagatzematge per a imatges. Voldrieu establir-la ara?</string>
     <!-- Report flow -->
@@ -1074,9 +982,6 @@
     <string name="card_background_tint">Fons de la targeta</string>
     <string name="subreddit_name_tint">Nom del subreddit</string>
     <string name="login_failed_err_decline">Assegureu-vos de no haver seleccionat \"Declinar\" a la darrera pantalla i proveu-ho altra volta en un minut</string>
-    <string name="thumb_type_always">Mostrar sempre</string>
-    <string name="thumb_type_off">No mostrar mai</string>
-    <string name="thumb_type_sub">Mostrar la configuració per subreddits</string>
     <string name="tutorial_swipe_navigation">Navegació per desplaçament tàctil</string>
     <string name="tutorial_swipe_description">Llisqui des de la vora esquerra per eixir.\n\nAplicable a imatges, GIFs, àlbums, configuracions i més!</string>
     <string name="handling_browser">Navegador web</string>
@@ -1093,11 +998,9 @@
     <string name="msg_sent_failure">Ha hagut un error en enviar el missatge</string>
     <string name="msg_send_user_dne">Aquest usuari no existeix</string>
     <string name="editor_actions_quote_comment">Seleccionar text a citar</string>
-    <string name="content_removed">[esborrat]</string>
     <string name="guest">Convidat</string>
     <string name="album_slide_view">Visió d\'àlbums horitzontal</string>
     <string name="album_grid">Quadrícula d\'àlbum</string>
-    <string name="album_saving">Desant àlbum</string>
     <string name="open_externally">Obrir externament</string>
     <string name="vertical_album_view">Visió de l\'àlbum vertical</string>
     <string name="download_album">Descarregar àlbum</string>
@@ -1131,14 +1034,10 @@
     <string name="clear_all_sub_themes_msg">No es pot desfer aquesta acció</string>
     <string name="title_not_found">No s\'ha trobat el títol</string>
     <string name="really_delete_submission">Segur que voleu suprimir aquesta publicació? No es podrà desfer</string>
-    <string name="unsticky_comment">Esteu segurs que voleu desanclar aquest comentari?</string>
     <string name="comment_unstickied">Comentari desanclat</string>
-    <string name="sticky_comment">Esteu segurs que voleu anclar aquest comentari?</string>
     <string name="comment_stickied">Comentari anclat</string>
     <string name="comment_undistinguished">Distinció del comentari esborrada</string>
-    <string name="distinguish_comment">Esteu segurs que voleu destacar aquest comentari?</string>
     <string name="comment_distinguished">Comentari destacat</string>
-    <string name="remove_comment">Esteu segurs que voleu esborrar aquest comentari?</string>
     <string name="comment_removed">Comentari eliminat</string>
     <string name="set_nav_mode">Establir mode de navegació</string>
     <string name="auto_hide_the_comment_nav_bar">Ocultar automàticament la barra de navegació de comentaris</string>
@@ -1148,7 +1047,6 @@
     <string name="create_folder">Crear carpeta</string>
     <string name="folder_name">Nom de la carpeta</string>
     <string name="sidebar_friends">Amics</string>
-    <string name="get_lq_imgur_images_through_imgur_api">Obtenir imatges de baixa qualitat a travès de l\'API d\'Imgur</string>
     <string name="open_links_externally">Obrir sempre aquest amfitrió externament</string>
     <string name="hide_read_posts">Ocultar publicacions ja llegides</string>
     <string name="gallery_mode">Mode de galeria</string>
@@ -1157,8 +1055,6 @@
     <string name="pro_previews">Vista prèvia (%d)</string>
     <string name="draw_undo">Desfer</string>
     <string name="empty_preview_text">Res a veure per aquí ¯\\_(ツ)_/¯</string>
-    <string name="low_quality_through_imgur_higher_resolution">Qualitat baixa via Imgur (major resolució)</string>
-    <string name="low_quality_through_reddit_lower_resolution">Qualitat baixa via Imgur (menor resolució)</string>
     <string name="theme_red_shift">Red shift</string>
     <string name="view_sub_sidebar">Veure la barra lateral</string>
     <string name="mod_log">Registre de moderació</string>
@@ -1200,9 +1096,7 @@
     <string name="replies_disabled_comment">Respostes de comentari desactivades</string>
     <string name="replies_enabled_comment">Habilitar les respostes als comentaris</string>
     <string name="replies_switch_accounts">Canviar a un altre compte</string>
-    <string name="browser_choose">Seleccionar un navegador</string>
     <string name="search_settings">Configuració de cerca</string>
-    <string name="firefox">Firefox</string>
     <string name="show_collapse_expand_nav_bar">Mostrar el botó colapsar/expandir a labarra de navegació dels comentaris</string>
     <string name="page_not_found">Pàgina no trobada</string>
     <string name="page_does_not_exist">La pàgina que heu sol·licitat no existeix</string>

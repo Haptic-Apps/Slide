@@ -231,7 +231,7 @@ public class MediaView extends FullScreenActivity
 
         BottomSheet.Builder b = new BottomSheet.Builder(this).title(contentUrl);
 
-        b.sheet(2, external, getString(R.string.submission_link_extern));
+        b.sheet(2, external, getString(R.string.open_externally));
         b.sheet(5, share, getString(R.string.submission_link_share));
 
         if (!isGif) b.sheet(3, image, getString(R.string.share_image));
