@@ -1,9 +1,10 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * A simple ViewPager subclass that allows swiping between pages to be enabled or disabled at
@@ -34,7 +35,7 @@ public class ToggleSwipeViewPager extends ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_UP) {
             if (mSwipeDisabledUntilRelease) {
-                setSwipingEnabled(true);
+                mEnableSwiping = true;
                 mSwipeDisabledUntilRelease = false;
             }
         }
@@ -55,7 +56,7 @@ public class ToggleSwipeViewPager extends ViewPager {
     }
 
     public void disableSwipingUntilRelease() {
-        setSwipingEnabled(false);
+        mEnableSwiping = false;
         mSwipeDisabledUntilRelease = true;
     }
 

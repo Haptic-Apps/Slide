@@ -6,34 +6,31 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import net.dean.jraw.managers.AccountManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 
 public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -79,8 +76,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else if (position == dataSet.posts.size() && dataSet.nomore) {
             return NO_MORE;
         }
-        int SUBMISSION = 1;
-        return SUBMISSION;
+        return 1;
     }
 
     int tag = 1;
@@ -160,16 +156,12 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     } else {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
 
                     }
 
                 }
             });
-            final boolean saved = submission.isSaved();
 
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, true, false, "multi" + dataSet.multiReddit.getDisplayName().toLowerCase(Locale.ENGLISH), null);
         }
@@ -205,13 +197,13 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
@@ -226,64 +218,4 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
-        View v;
-
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (ActionStates.isSaved(submissions[0])) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = false;
-                    v = null;
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = true;
-                    v = null;
-                }
-            } catch (Exception e) {
-                return null;
-            }
-            return null;
-        }
-    }
-
-
-    static void fixSliding(int position) {
-        try {
-            Reddit.lastPosition.add(position, 0);
-        } catch (IndexOutOfBoundsException e) {
-            fixSliding(position - 1);
-        }
-    }
 }

@@ -1,8 +1,8 @@
 package me.ccrama.redditslide.util;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -13,15 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.ccrama.redditslide.Constants;
-import me.ccrama.redditslide.SecretConstants;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okio.Buffer;
 
 /**
  * A class that helps with HTTP requests and response parsing.

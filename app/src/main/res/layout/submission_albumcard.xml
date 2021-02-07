@@ -12,11 +12,11 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"
+        android:background="@android:color/black"
         android:gravity="center"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/images"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,7 +38,7 @@
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:text="asdf"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="?attr/font_cardtitle" />
 
         <TextView
@@ -76,7 +76,8 @@
                 android:layout_marginStart="16dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/upvoted" />
+                android:contentDescription="@string/img_score"
+                sothree:srcCompat="@drawable/ic_arrow_upward" />
 
             <TextView
                 android:id="@+id/score"
@@ -102,7 +103,8 @@
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/commentchange" />
+                android:contentDescription="@string/img_comments"
+                sothree:srcCompat="@drawable/ic_forum" />
 
             <TextView
                 android:id="@+id/comments"
@@ -129,7 +131,8 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/iconstarfilled" />
+                android:contentDescription="@string/btn_save"
+                sothree:srcCompat="@drawable/ic_star" />
 
             <ImageView
                 android:id="@+id/upvote"
@@ -142,20 +145,22 @@
 
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/upvoted" />
+                android:contentDescription="@string/btn_upvote"
+                sothree:srcCompat="@drawable/ic_arrow_upward" />
 
             <ImageView
                 android:id="@+id/downvote"
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:contentDescription="@string/btn_downvote"
                 android:layout_below="@+id/innerrelative"
 
                 android:layout_toLeftOf="@+id/menu"
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/downvote" />
+                sothree:srcCompat="@drawable/ic_arrow_downward" />
 
 
             <ImageView
@@ -168,7 +173,8 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/more" />
+                android:contentDescription="@string/btn_menu"
+                sothree:srcCompat="@drawable/ic_more_vert" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

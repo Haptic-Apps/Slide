@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
 /**
@@ -38,57 +37,7 @@ public class ContributionPostsSaved extends ContributionPosts {
 
         @Override
         public void onPostExecute(ArrayList<Contribution> submissions) {
-            loading = false;
-
-            if (submissions != null && !submissions.isEmpty()) {
-                // new submissions found
-
-                int start = 0;
-                if (posts != null) {
-                    start = posts.size() + 1;
-                }
-
-                ArrayList<Contribution> filteredSubmissions = new ArrayList<>();
-                for (Contribution c : submissions) {
-                    if (c instanceof Submission) {
-                        if (!PostMatch.doesMatch((Submission) c)) {
-                            filteredSubmissions.add(c);
-                        }
-                    } else {
-                        filteredSubmissions.add(c);
-                    }
-                }
-
-                HasSeen.setHasSeenContrib(filteredSubmissions);
-                if (reset || posts == null) {
-                    posts = filteredSubmissions;
-                    start = -1;
-                } else {
-                    posts.addAll(filteredSubmissions);
-                }
-
-                final int finalStart = start;
-                // update online
-                if (refreshLayout != null) {
-                    refreshLayout.setRefreshing(false);
-                }
-
-                if (finalStart != -1) {
-                    adapter.notifyItemRangeInserted(finalStart + 1, posts.size());
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-
-            } else if (submissions != null) {
-                // end of submissions
-                nomore = true;
-                adapter.notifyDataSetChanged();
-
-            } else if (!nomore) {
-                // error
-                adapter.setError(true);
-            }
-            refreshLayout.setRefreshing(false);
+            super.onPostExecute(submissions);
         }
 
         @Override
@@ -110,11 +59,15 @@ public class ContributionPostsSaved extends ContributionPosts {
                 for (Contribution c : paginator.next()) {
                     if (c instanceof Submission) {
                         Submission s = (Submission) c;
-                        newData.add(s);
+                        if (!PostMatch.doesMatch(s)) {
+                            newData.add(s);
+                        }
                     } else {
                         newData.add(c);
                     }
                 }
+
+                HasSeen.setHasSeenContrib(newData);
 
                 return newData;
             } catch (Exception e) {

@@ -2,15 +2,14 @@ package me.ccrama.redditslide.Visuals;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.TypedValue;
 
 import java.util.Locale;
 
-import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
 public class Palette {
-    private int fontColor;
-    public int backgroundColor;
 
     public static int getDefaultColor() {
         if (Reddit.colors.contains("DEFAULTCOLOR")) {
@@ -54,17 +53,6 @@ public class Palette {
         }
     }
 
-    private int mainColor;
-    private int accentColor;
-
-    private static int getColorAccent(final String subreddit) {
-        if (Reddit.colors.contains("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH))) {
-            return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
-        } else {
-            return getDefaultColor();
-        }
-    }
-
     public static int getFontColorUser(final String subreddit) {
         if (Reddit.colors.contains("USER" + subreddit.toLowerCase(Locale.ENGLISH))) {
             final int color = Reddit.colors.getInt("USER" + subreddit.toLowerCase(Locale.ENGLISH), getDefaultColor());
@@ -77,6 +65,28 @@ public class Palette {
         } else {
             return 0;
         }
+    }
+
+    public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
+        final TypedValue tv = new TypedValue();
+        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
+        return found ? tv.data : defaultValue;
+    }
+
+    public static int getCurrentTintColor(final Context v) {
+        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
+    }
+
+    public static int getWhiteTintColor() {
+        return Palette.ThemeEnum.DARK.getTint();
+    }
+
+    public static int getCurrentFontColor(final Context v) {
+        return getStyleAttribColorValue(v, R.attr.fontColor, Color.WHITE);
+    }
+
+    public static int getWhiteFontColor() {
+        return Palette.ThemeEnum.DARK.getFontColor();
     }
 
     public static int[] getColors(String subreddit, Context context) {
@@ -119,28 +129,6 @@ public class Palette {
         Reddit.colors.edit().remove("USER" + username.toLowerCase(Locale.ENGLISH)).apply();
     }
 
-    public static Palette getSubredditPallete(String subredditname) {
-        Palette p = new Palette();
-
-        p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
-        p.fontColor = p.theme.getFontColor();
-        p.backgroundColor = p.theme.getBackgroundColor();
-        p.mainColor = getColor(subredditname);
-        p.accentColor = getColorAccent(subredditname);
-
-        return p;
-    }
-
-    public static Palette getDefaultPallete() {
-        Palette p = new Palette();
-
-        p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
-        p.fontColor = p.theme.getFontColor();
-        p.backgroundColor = p.theme.getBackgroundColor();
-
-        return p;
-    }
-
     public static int getDarkerColor(String s) {
         return getDarkerColor(getColor(s));
     }
@@ -155,7 +143,13 @@ public class Palette {
         return color;
     }
 
-    public ThemeEnum theme;
+    public static int adjustAlpha(float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
+    }
 
     public enum ThemeEnum {
         DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),

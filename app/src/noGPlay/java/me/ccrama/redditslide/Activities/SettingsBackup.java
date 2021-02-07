@@ -2,18 +2,16 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import java.io.BufferedReader;
@@ -32,6 +30,7 @@ import java.util.Calendar;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.FileUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -54,6 +53,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 42) {
             progress =
                     new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring)
@@ -81,7 +81,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
                     if (read.contains("Slide_backupEND>")) {
 
-                        String[] files = read.split("END>");
+                        String[] files = read.split("END>\\s*");
                         progress.dismiss();
                         progress = new MaterialDialog.Builder(SettingsBackup.this).title(
                                 R.string.backup_restoring)
@@ -91,8 +91,8 @@ public class SettingsBackup extends BaseActivityAnim {
                         for (int i = 1; i < files.length; i++) {
                             String innerFile = files[i];
                             String t = innerFile.substring(6, innerFile.indexOf(">"));
-                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1,
-                                    innerFile.length());
+                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1
+                            );
 
                             File newF = new File(getApplicationInfo().dataDir
                                     + File.separator
@@ -217,7 +217,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle("Settings Backup is a Pro feature")
+            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_backup_ispro)
                     .setMessage(R.string.pro_upgrade_msg)
                     .setPositiveButton(R.string.btn_yes_exclaim,
 
@@ -285,15 +285,14 @@ public class SettingsBackup extends BaseActivityAnim {
                         for (String s : list) {
 
                             if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains(
-                                    "albums") && !s.contains("com.google") && (((personal
-                                    && !s.contains("SUBSNEW")
+                                    "albums") && !s.contains("com.google") && (!personal || (!s.contains("SUBSNEW")
                                     && !s.contains("appRestart")
                                     && !s.contains("STACKTRACE")
                                     && !s.contains("AUTH")
                                     && !s.contains("TAGS")
                                     && !s.contains("SEEN")
                                     && !s.contains("HIDDEN")
-                                    && !s.contains("HIDDEN_POSTS"))) || !personal)) {
+                                    && !s.contains("HIDDEN_POSTS")))) {
                                 FileReader fr = null;
                                 try {
                                     fr = new FileReader(new File(prefsdir + File.separator + s));
@@ -348,11 +347,7 @@ public class SettingsBackup extends BaseActivityAnim {
                                                                     R.string.settings_backup_err_no_explorer,
                                                                     file.getAbsolutePath() + file),
                                                             Snackbar.LENGTH_INDEFINITE);
-                                            View view = s.getView();
-                                            TextView tv = view.findViewById(
-                                                    android.support.design.R.id.snackbar_text);
-                                            tv.setTextColor(Color.WHITE);
-                                            s.show();
+                                            LayoutUtils.showSnackbar(s);
                                         }
                                     }
                                 })

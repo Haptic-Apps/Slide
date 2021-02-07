@@ -8,14 +8,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -32,9 +27,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import net.dean.jraw.fluent.FluentRedditClient;
 import net.dean.jraw.managers.AccountManager;
@@ -50,17 +54,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.Fragments.HistoryView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserTags;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -82,24 +87,6 @@ public class Profile extends BaseActivityAnim {
     private TabLayout tabs;
     private String[] usedArray;
     public boolean isSavedView;
-
-    private void scrollToTabAfterLayout(final int tabIndex) {
-        //from http://stackoverflow.com/a/34780589/3697225
-        if (tabs != null) {
-            final ViewTreeObserver observer = tabs.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        tabs.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        tabs.getTabAt(tabIndex).select();
-                    }
-                });
-            }
-        }
-    }
 
     public static boolean isValidUsername(String user) {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
@@ -156,7 +143,7 @@ public class Profile extends BaseActivityAnim {
 
         new getProfile().execute(name);
 
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -170,18 +157,10 @@ public class Profile extends BaseActivityAnim {
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
                 if (sortItem != null) {
-                    if (position < 3) {
-                        sortItem.setVisible(true);
-                    } else {
-                        sortItem.setVisible(false);
-                    }
+                    sortItem.setVisible(position < 3);
                 }
                 if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
-                    if (position == 6) {
-                        categoryItem.setVisible(true);
-                    } else {
-                        categoryItem.setVisible(false);
-                    }
+                    categoryItem.setVisible(position == 6);
                 }
             }
 
@@ -208,7 +187,7 @@ public class Profile extends BaseActivityAnim {
         }
         isSavedView = pager.getCurrentItem() == 6;
         if (pager.getCurrentItem() != 0) {
-            scrollToTabAfterLayout(pager.getCurrentItem());
+            LayoutUtils.scrollToTabAfterLayout(tabs, pager.getCurrentItem());
         }
     }
 
@@ -233,7 +212,8 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
-        if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()) {
+        if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()
+                && !name.equalsIgnoreCase(Authentication.name)) {
             try {
                 new AlertDialogWrapper.Builder(Profile.this)
                         .setTitle(R.string.account_suspended)
@@ -290,16 +270,15 @@ public class Profile extends BaseActivityAnim {
         }
     }
 
-    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
+    private class ProfilePagerAdapter extends FragmentStatePagerAdapter {
 
-        public ProfilePagerAdapter(FragmentManager fm) {
-            super(fm);
-
+        ProfilePagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i < 8) {
                 Fragment f = new ContributionsView();
                 Bundle args = new Bundle();
@@ -307,9 +286,6 @@ public class Profile extends BaseActivityAnim {
                 args.putString("id", name);
                 String place;
                 switch (i) {
-                    case 0:
-                        place = "overview";
-                        break;
                     case 1:
                         place = "comments";
                         break;
@@ -331,6 +307,7 @@ public class Profile extends BaseActivityAnim {
                     case 7:
                         place = "hidden";
                         break;
+                    case 0:
                     default:
                         place = "overview";
                 }
@@ -339,13 +316,9 @@ public class Profile extends BaseActivityAnim {
                 f.setArguments(args);
                 return f;
             } else {
-                Fragment f = new HistoryView();
-                return f;
+                return new HistoryView();
             }
-
-
         }
-
 
         @Override
         public int getCount() {
@@ -355,7 +328,6 @@ public class Profile extends BaseActivityAnim {
                 return usedArray.length;
             }
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {
@@ -482,18 +454,10 @@ public class Profile extends BaseActivityAnim {
 
         int position = pager == null ? 0 : pager.getCurrentItem();
         if (sortItem != null) {
-            if (position < 3) {
-                sortItem.setVisible(true);
-            } else {
-                sortItem.setVisible(false);
-            }
+            sortItem.setVisible(position < 3);
         }
         if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
-            if (position == 6) {
-                categoryItem.setVisible(true);
-            } else {
-                categoryItem.setVisible(false);
-            }
+            categoryItem.setVisible(position == 6);
         }
         return true;
     }
@@ -570,6 +534,15 @@ public class Profile extends BaseActivityAnim {
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(name);
+
+                    if (account.getDataNode().has("is_employee")
+                            && account.getDataNode().get("is_employee").asBoolean()) {
+                        SpannableStringBuilder admin = new SpannableStringBuilder("[A]");
+                        admin.setSpan(new RelativeSizeSpan(.67f), 0, admin.length(),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        title.append(" ");
+                        title.append(admin);
+                    }
 
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -657,7 +630,9 @@ public class Profile extends BaseActivityAnim {
                                 view.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        LinkUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                        LinkUtil.openUrl(LinkUtil.formatURL(t.getAboutUrl()).toString(),
+                                                Palette.getColorUser(account.getFullName()),
+                                                Profile.this);
                                     }
                                 });
                             }
@@ -727,7 +702,7 @@ public class Profile extends BaseActivityAnim {
                                         map.put("account_id", "t2_" + account.getId());
                                         try {
                                             Authentication.reddit.execute(Authentication.reddit.request().post(map)
-                                                    .path(String.format("/api/block_user"))
+                                                    .path("/api/block_user")
                                                     .build());
                                         } catch (Exception ex) {
                                             return false;
@@ -902,6 +877,7 @@ public class Profile extends BaseActivityAnim {
 
                     ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma()));
                     ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
+                    ((TextView) dialoglayout.findViewById(R.id.totalKarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma() + account.getLinkKarma()));
 
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

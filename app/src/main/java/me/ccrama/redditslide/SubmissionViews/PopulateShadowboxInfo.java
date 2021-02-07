@@ -1,34 +1,36 @@
 package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.text.Html;
-import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.google.android.material.snackbar.Snackbar;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.ApiException;
@@ -36,7 +38,9 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
+import net.dean.jraw.models.Ruleset;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.SubredditRule;
 import net.dean.jraw.models.VoteDirection;
 
 import java.util.Locale;
@@ -49,13 +53,15 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 /**
  * Created by carlo_000 on 2/27/2016.
@@ -71,7 +77,7 @@ public class PopulateShadowboxInfo {
             else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
                 distingush = "[A]";
 
-            title.setText(Html.fromHtml(s.getTitle()));
+            title.setText(HtmlCompat.fromHtml(s.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
             String spacer = c.getString(R.string.submission_properties_seperator);
             SpannableStringBuilder titleString = new SpannableStringBuilder();
@@ -287,12 +293,12 @@ public class PopulateShadowboxInfo {
             SpannableStringBuilder commentTitle = new SpannableStringBuilder();
             SpannableStringBuilder level = new SpannableStringBuilder();
             if(!node.isTopLevel()){
-                level.append("["+node.getDepth() + "] ");
+                level.append("[").append(String.valueOf(node.getDepth())).append("] ");
                 level.setSpan(new RelativeSizeSpan(0.7f),0, level.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 commentTitle.append(level);
             }
-            commentTitle.append(Html.fromHtml(s.getDataNode().get("body_html").asText().trim()));
+            commentTitle.append(HtmlCompat.fromHtml(s.getDataNode().get("body_html").asText().trim(), HtmlCompat.FROM_HTML_MODE_LEGACY));
             title.setTextHtml(commentTitle);
             title.setMaxLines(3);
 
@@ -303,9 +309,9 @@ public class PopulateShadowboxInfo {
             int authorcolor = Palette.getFontColorUser(s.getAuthor());
 
             if (Authentication.name != null && s.getAuthor().toLowerCase(Locale.ENGLISH).equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
-                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.setSpan(new RoundedBackgroundSpan(c, android.R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || s.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                author.setSpan(new RoundedBackgroundSpan(c, android.R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -480,34 +486,32 @@ public class PopulateShadowboxInfo {
         }
     }
 
-    public static String reportReason;
-
     public static void showBottomSheet(final Activity mContext, final Submission submission, final View rootView) {
 
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+        final Drawable sub = mContext.getResources().getDrawable(R.drawable.ic_bookmark_border);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.ic_report);
         Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-        Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
-        Drawable link = mContext.getResources().getDrawable(R.drawable.link);
-        Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+        Drawable open = mContext.getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable link = mContext.getResources().getDrawable(R.drawable.ic_link);
+        Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        link.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        report.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        link.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
         ta.recycle();
 
         BottomSheet.Builder b = new BottomSheet.Builder(mContext)
-                .title(Html.fromHtml(submission.getTitle()));
+                .title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
         if (Authentication.didOnline) {
@@ -543,48 +547,85 @@ public class PopulateShadowboxInfo {
                                 Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
                                 break;
                             case 12:
-                                reportReason = "";
-                                new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                                        reportReason = input.toString();
-                                    }
-                                }).alwaysCallInputCallback()
+                                final MaterialDialog reportDialog = new MaterialDialog.Builder(mContext)
+                                        .customView(R.layout.report_dialog, true)
                                         .title(R.string.report_post)
-                                        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                                | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                                                | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                         .positiveText(R.string.btn_report)
                                         .negativeText(R.string.btn_cancel)
-                                        .onNegative(null)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                new AsyncTask<Void, Void, Void>() {
-                                                    @Override
-                                                    protected Void doInBackground(Void... params) {
-                                                        try {
-                                                            new AccountManager(Authentication.reddit).report(submission, reportReason);
-                                                        } catch (ApiException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        return null;
-                                                    }
-
-                                                    @Override
-                                                    protected void onPostExecute(Void aVoid) {
-                                                        Snackbar s = Snackbar.make(rootView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
-                                                    }
-                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                                RadioGroup reasonGroup = dialog.getCustomView()
+                                                        .findViewById(R.id.report_reasons);
+                                                String reportReason;
+                                                if (reasonGroup.getCheckedRadioButtonId() == R.id.report_other) {
+                                                    reportReason = ((EditText) dialog.getCustomView()
+                                                            .findViewById(R.id.input_report_reason))
+                                                            .getText().toString();
+                                                } else {
+                                                    reportReason = ((RadioButton) reasonGroup
+                                                            .findViewById(reasonGroup.getCheckedRadioButtonId()))
+                                                            .getText().toString();
+                                                }
+                                                new AsyncReportTask(submission, rootView)
+                                                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                                                                reportReason);
                                             }
-                                        })
-                                        .show();
+                                        }).build();
+                                final RadioGroup reasonGroup = reportDialog.getCustomView().findViewById(R.id.report_reasons);
 
+                                reasonGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                        if (checkedId == R.id.report_other)
+                                            reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                                    .setVisibility(View.VISIBLE);
+                                        else
+                                            reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                                    .setVisibility(View.GONE);
+                                    }
+                                });
+
+                                // Load sub's report reasons and show the appropriate ones
+                                new AsyncTask<Void, Void, Ruleset>() {
+                                    @Override
+                                    protected Ruleset doInBackground(Void... voids) {
+                                        return Authentication.reddit.getRules(submission.getSubredditName());
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Ruleset rules) {
+                                        reportDialog.getCustomView().findViewById(R.id.report_loading).setVisibility(View.GONE);
+                                        if (rules.getSubredditRules().size() > 0) {
+                                            TextView subHeader = new TextView(mContext);
+                                            subHeader.setText(mContext.getString(R.string.report_sub_rules,
+                                                    submission.getSubredditName()));
+                                            reasonGroup.addView(subHeader, reasonGroup.getChildCount() - 2);
+                                        }
+                                        for (SubredditRule rule : rules.getSubredditRules()) {
+                                            if (rule.getKind() == SubredditRule.RuleKind.LINK
+                                                    || rule.getKind() == SubredditRule.RuleKind.ALL) {
+                                                RadioButton btn = new RadioButton(mContext);
+                                                btn.setText(rule.getViolationReason());
+                                                reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                                btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                            }
+                                        }
+                                        if (rules.getSiteRules().size() > 0) {
+                                            TextView siteHeader = new TextView(mContext);
+                                            siteHeader.setText(R.string.report_site_rules);
+                                            reasonGroup.addView(siteHeader, reasonGroup.getChildCount() - 2);
+                                        }
+                                        for (String rule : rules.getSiteRules()) {
+                                            RadioButton btn = new RadioButton(mContext);
+                                            btn.setText(rule);
+                                            reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                            btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                        }
+                                    }
+                                }.execute();
+
+                                reportDialog.show();
                                 break;
                             case 8:
                                 if(SettingValues.shareLongLink){
@@ -594,9 +635,7 @@ public class PopulateShadowboxInfo {
                                 }
                                 break;
                             case 6: {
-                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                clipboard.setPrimaryClip(clip);
+                                ClipboardUtil.copyToClipboard(mContext, "Link", submission.getUrl());
                                 Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
                             break;
@@ -606,6 +645,32 @@ public class PopulateShadowboxInfo {
 
 
         b.show();
+    }
+
+    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
+        private Submission submission;
+        private View contextView;
+
+        public AsyncReportTask(Submission submission, View contextView) {
+            this.submission = submission;
+            this.contextView = contextView;
+        }
+
+        @Override
+        protected Void doInBackground(String... reason) {
+            try {
+                new AccountManager(Authentication.reddit).report(submission, reason[0]);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+            LayoutUtils.showSnackbar(s);
+        }
     }
 
 }

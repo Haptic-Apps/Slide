@@ -13,9 +13,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import android.os.Build;
 import android.text.Html;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import net.dean.jraw.models.Message;
 import net.dean.jraw.paginators.InboxPaginator;
@@ -117,7 +119,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     .setGroup("MESSAGES")
                                     .setGroupSummary(true)
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                    .addAction(R.drawable.ic_check_all_black,
+                                    .addAction(R.drawable.ic_done_all,
                                             c.getString(R.string.mail_mark_read), readPI);
                     if (!SettingValues.notifSound) {
                         builder.setSound(null);
@@ -127,7 +129,7 @@ public class CheckForMailSingle extends BroadcastReceiver {
                     notificationManager.notify(0, notification);
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     NotificationCompat.BigTextStyle notiStyle =
                             new NotificationCompat.BigTextStyle();
                     String contentTitle;
@@ -162,8 +164,9 @@ public class CheckForMailSingle extends BroadcastReceiver {
                     PendingIntent openPi =
                             PendingIntent.getActivity(c, 3 + (int) message.getCreated().getTime(),
                                     openPIBase, 0);
-                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                            message.getDataNode().get("body_html").asText())));
+
+                    String unescape = StringEscapeUtils.unescapeHtml4(message.getDataNode().get("body_html").asText());
+                    notiStyle.bigText(Html.fromHtml(unescape, Html.FROM_HTML_MODE_LEGACY));
 
                     PendingIntent readPISingle = MarkAsReadService.getMarkAsReadIntent(
                             2 + (int) message.getCreated().getTime(), c,
@@ -179,12 +182,11 @@ public class CheckForMailSingle extends BroadcastReceiver {
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
                                     .setContentTitle(contentTitle)
-                                    .setContentText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(
-                                            message.getDataNode().get("body_html").asText())))
+                                    .setContentText(Html.fromHtml(unescape, Html.FROM_HTML_MODE_LEGACY))
                                     .setStyle(notiStyle)
                                     .setGroup("MESSAGES")
                                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                                    .addAction(R.drawable.ic_check_all_black,
+                                    .addAction(R.drawable.ic_done_all,
                                             c.getString(R.string.mail_mark_read), readPISingle);
                     if (!SettingValues.notifSound) {
                         builder.setSound(null);

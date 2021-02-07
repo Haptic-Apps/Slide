@@ -1,21 +1,21 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 
-import me.ccrama.redditslide.ColorPreferences;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import me.ccrama.redditslide.Fragments.ReadLaterView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
 public class PostReadLater extends BaseActivityAnim {
-
-    private ViewPager pager;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -28,21 +28,20 @@ public class PostReadLater extends BaseActivityAnim {
         setupAppBar(R.id.toolbar, "Read later", true, true);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
-        pager = (ViewPager) findViewById(R.id.content_view);
-        pager.setAdapter(new ReadLaterAdaptor(getSupportFragmentManager()));
+        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
+        pager.setAdapter(new ReadLaterPagerAdapter(getSupportFragmentManager()));
     }
 
-    public class ReadLaterAdaptor extends FragmentStatePagerAdapter {
+    private static class ReadLaterPagerAdapter extends FragmentStatePagerAdapter {
 
-        public ReadLaterAdaptor(FragmentManager fm) {
-            super(fm);
-
+        ReadLaterPagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-            Fragment f = new ReadLaterView();
-            return f;
+            return new ReadLaterView();
         }
 
         @Override

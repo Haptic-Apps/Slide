@@ -1,13 +1,10 @@
 package me.ccrama.redditslide.Views;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.widget.CardView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import java.util.ArrayList;
 
@@ -85,6 +85,12 @@ public class CreateCardView {
             }
         }
 
+        if (SettingValues.noThumbnails) {
+            final int SQUARE_THUMBNAIL_SIZE = 0;
+            thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
+            thumbImage.getLayoutParams().width = Reddit.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
+        }
+
         doHideObjects(v);
         return v;
     }
@@ -109,9 +115,9 @@ public class CreateCardView {
     public static void doColor(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
-                ((TextView) v2).setTextColor(getCurrentFontColor(v2.getContext()));
+                ((TextView) v2).setTextColor(Palette.getCurrentFontColor(v2.getContext()));
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(getCurrentTintColor(v2.getContext()));
+                ((ImageView) v2).setColorFilter(Palette.getCurrentTintColor(v2.getContext()));
 
             }
         }
@@ -120,9 +126,9 @@ public class CreateCardView {
     public static void doColorSecond(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
-                ((TextView) v2).setTextColor(getSecondFontColor(v2.getContext()));
+                ((TextView) v2).setTextColor(Palette.getCurrentTintColor(v2.getContext()));
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(getCurrentTintColor(v2.getContext()));
+                ((ImageView) v2).setColorFilter(Palette.getCurrentTintColor(v2.getContext()));
 
             }
         }
@@ -131,18 +137,12 @@ public class CreateCardView {
     public static void resetColor(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
-                ((TextView) v2).setTextColor(getWhiteFontColor());
+                ((TextView) v2).setTextColor(Palette.getWhiteFontColor());
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                ((ImageView) v2).setColorFilter(Palette.getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
             }
         }
-    }
-
-    public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
-        final TypedValue tv = new TypedValue();
-        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
-        return found ? tv.data : defaultValue;
     }
 
     private static ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
@@ -163,32 +163,10 @@ public class CreateCardView {
         return views;
     }
 
-    public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-
-    }
-
-    public static int getWhiteTintColor() {
-        return Palette.ThemeEnum.DARK.getTint();
-    }
-
-    public static int getCurrentFontColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.fontColor, Color.WHITE);
-    }
-
-    public static int getSecondFontColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-    }
-
-    public static int getWhiteFontColor() {
-        return Palette.ThemeEnum.DARK.getFontColor();
-
-    }
-
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
         resetColorCard(v);
         if ((SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()) || (subToMatch.equals("nomatching") && (SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()))) {
-            if (!secondary && !SettingValues.colorEverywhere || secondary) {
+            if (secondary || !SettingValues.colorEverywhere) {
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
                 v.setTag(v.getId(), "color");
                 resetColor(getViewsByTag((ViewGroup) v, "tint"));
@@ -225,6 +203,9 @@ public class CreateCardView {
     }
 
     public static View setBigPicEnabled(Boolean b, ViewGroup parent) {
+        SettingValues.prefs.edit().putBoolean("noThumbnails", b).apply();
+        SettingValues.noThumbnails = false;
+
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
         SettingValues.bigPicEnabled = b;
 
@@ -235,11 +216,27 @@ public class CreateCardView {
     }
 
     public static View setBigPicCropped(Boolean b, ViewGroup parent) {
+        SettingValues.prefs.edit().putBoolean("noThumbnails", b).apply();
+        SettingValues.noThumbnails = false;
+
         SettingValues.prefs.edit().putBoolean("bigPicCropped", b).apply();
         SettingValues.bigPicCropped = b;
 
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
         SettingValues.bigPicEnabled = b;
+
+        return CreateView(parent);
+    }
+
+    public static View setNoThumbnails(Boolean b, ViewGroup parent) {
+        SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
+        SettingValues.bigPicEnabled = false;
+
+        SettingValues.prefs.edit().putBoolean("bigPicCropped", false).apply();
+        SettingValues.bigPicCropped = false;
+
+        SettingValues.prefs.edit().putBoolean("noThumbnails", b).apply();
+        SettingValues.noThumbnails = b;
 
         return CreateView(parent);
     }
@@ -310,25 +307,10 @@ public class CreateCardView {
     public static void animateOut(final View l) {
 
         ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 l.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -447,38 +429,6 @@ public class CreateCardView {
 
     public static boolean isDesktop() {
         return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.DESKTOP;
-    }
-
-    public static CardEnum getCardView() {
-        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString()));
-    }
-
-    public static SettingValues.ColorIndicator getColorIndicator() {
-        String subreddit = "";
-
-        return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew", SettingValues.colorIndicator.toString()));
-    }
-
-    public static SettingValues.ColorMatchingMode getColorMatchingMode() {
-        String subreddit = "";
-
-        return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew", SettingValues.colorMatchingMode.toString()));
-    }
-
-    public static void setColorMatchingMode(SettingValues.ColorMatchingMode b) {
-        String subreddit = "";
-        if (subreddit.isEmpty()) {
-
-
-            SettingValues.prefs.edit().putString("ccolorMatchingModeNew", b.toString()).apply();
-
-            SettingValues.colorMatchingMode = b;
-
-        } else {
-            SettingValues.prefs.edit().putString(subreddit + "ccolorMatchingModeNew", b.toString()).apply();
-
-        }
-
     }
 
     public enum CardEnum {

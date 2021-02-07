@@ -8,16 +8,12 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +30,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
@@ -45,8 +48,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -57,7 +58,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapterTumblr;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
@@ -69,10 +69,11 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Tumblr.Photo;
 import me.ccrama.redditslide.Tumblr.TumblrUtils;
+import me.ccrama.redditslide.Views.ExoVideoView;
 import me.ccrama.redditslide.Views.ImageSource;
-import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -142,6 +143,7 @@ public class TumblrPager extends FullScreenActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 3) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
         }
@@ -186,7 +188,7 @@ public class TumblrPager extends FullScreenActivity
 
         String url;
 
-        public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
+        public LoadIntoPager(@NonNull String url, @NonNull Activity baseActivity) {
             super(url, baseActivity);
             this.url = url;
         }
@@ -212,7 +214,7 @@ public class TumblrPager extends FullScreenActivity
                 getSupportActionBar().setSubtitle(1 + "/" + images.size());
             }
 
-            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+            TumblrViewPagerAdapter adapter = new TumblrViewPagerAdapter(getSupportFragmentManager());
             p.setAdapter(adapter);
             p.setCurrentItem(1);
             findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -237,7 +239,7 @@ public class TumblrPager extends FullScreenActivity
                     d.show();
                 }
             });
-            p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -281,17 +283,17 @@ public class TumblrPager extends FullScreenActivity
         return true;
     }
 
-    public class AlbumViewPager extends FragmentStatePagerAdapter {
-        public AlbumViewPager(FragmentManager m) {
-            super(m);
+    private class TumblrViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        TumblrViewPagerAdapter(FragmentManager m) {
+            super(m, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (i == 0) {
-                Fragment blankFragment = new BlankFragment();
-                return blankFragment;
+                return new BlankFragment();
             }
 
             i--;
@@ -324,7 +326,6 @@ public class TumblrPager extends FullScreenActivity
             }
         }
 
-
         @Override
         public int getCount() {
             if (images == null) {
@@ -347,13 +348,13 @@ public class TumblrPager extends FullScreenActivity
             if (this.isVisible()) {
                 if (!isVisibleToUser)   // If we are becoming invisible, then...
                 {
-                    ((MediaVideoView) gif).pause();
+                    ((ExoVideoView) gif).pause();
                     gif.setVisibility(View.GONE);
                 }
 
                 if (isVisibleToUser) // If we are becoming visible, then...
                 {
-                    ((MediaVideoView) gif).start();
+                    ((ExoVideoView) gif).play();
                     gif.setVisibility(View.VISIBLE);
 
                 }
@@ -371,18 +372,17 @@ public class TumblrPager extends FullScreenActivity
             gif = rootView.findViewById(R.id.gif);
 
             gif.setVisibility(View.VISIBLE);
-            final MediaVideoView v = (MediaVideoView) gif;
+            final ExoVideoView v = (ExoVideoView) gif;
             v.clearFocus();
 
             final String url = ((TumblrPager) getActivity()).images.get(i).getOriginalSize().getUrl();
 
-            new GifUtils.AsyncLoadGif(getActivity(),
-                    (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
+            new GifUtils.AsyncLoadGif(getActivity(), rootView.findViewById(R.id.gif), loader, null, new Runnable() {
                 @Override
                 public void run() {
 
                 }
-            }, false, true, true, (TextView) rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
+            }, false, true, rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -416,15 +416,15 @@ public class TumblrPager extends FullScreenActivity
         TypedArray ta = obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable external = getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = getResources().getDrawable(R.drawable.share);
-        Drawable image = getResources().getDrawable(R.drawable.image);
-        Drawable save = getResources().getDrawable(R.drawable.save);
+        Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
+        Drawable share = getResources().getDrawable(R.drawable.ic_share);
+        Drawable image = getResources().getDrawable(R.drawable.ic_image);
+        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
 
-        external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        image.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        save.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
         ta.recycle();
         BottomSheet.Builder b = new BottomSheet.Builder(this).title(contentUrl);
@@ -522,6 +522,9 @@ public class TumblrPager extends FullScreenActivity
                         }
 
                     });
+                    if (!SettingValues.imageDownloadButton) {
+                        rootView.findViewById(R.id.save).setVisibility(View.INVISIBLE);
+                    }
                 }
 
 
@@ -539,12 +542,12 @@ public class TumblrPager extends FullScreenActivity
                     (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                 } else if (title.isEmpty()) {
                     setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                            rootView.findViewById(R.id.title));
                 } else {
                     setTextWithLinks(title,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)));
+                            rootView.findViewById(R.id.title));
                     setTextWithLinks(description,
-                            ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
+                            rootView.findViewById(R.id.body));
                 }
                 {
                     int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
@@ -654,11 +657,9 @@ public class TumblrPager extends FullScreenActivity
                                 .imageScaleType(ImageScaleType.NONE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
-                            private View mView;
 
                             @Override
                             public void onLoadingStarted(String imageUri, View view) {
-                                mView = view;
                                 size.setVisibility(View.VISIBLE);
                             }
 
@@ -742,7 +743,7 @@ public class TumblrPager extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(this,

@@ -4,9 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.text.style.ReplacementSpan;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 
 import com.devspark.robototextview.RobotoTypefaces;
 

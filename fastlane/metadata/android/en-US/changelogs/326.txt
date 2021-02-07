@@ -1,0 +1,12 @@
+- Huge Video rewrite, thank you to @timawesomeness! Contains support for DASH videos, uses newer ExoPlayer code, and cleans up some older video sites
+- Support for mod locking of individual comments
+- Added option to save photos to a manual folder (thanks to @Archeidos)
+- Updated Fastlane metadata for F-Droid builds (thanks to @obar)
+- Fixed offline mode crash when no subreddits were cached
+- Fixed posting to profiles with more than 20 characters (thanks to @LostGhost1)
+- Added an always show FAB option in Settings (thanks to @darshan099)
+- Graceful handling of submission loading errors with new "try again" button (thanks to @ctbur)
+- Fix OnePlus and Huawei media scanner intents, will show images in gallery on these devices (thanks to @Rexee)
+- Fixed handling of intent links in internal browser
+- Fix toolbox encoded chars in removal reason text
+- Fixed startup issue on some devices

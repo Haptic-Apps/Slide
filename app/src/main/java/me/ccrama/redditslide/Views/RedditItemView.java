@@ -5,9 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -23,6 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.core.text.HtmlCompat;
+
 import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.models.Account;
@@ -31,7 +33,6 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.models.VoteDirection;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,12 +47,12 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 /**
@@ -81,41 +82,38 @@ public class RedditItemView extends RelativeLayout {
     public void loadUrl(PeekMediaView v, String url, ProgressBar progress) {
 
         this.progress = progress;
-        url = OpenRedditLink.formatRedditUrl(url);
+        Uri uri = OpenRedditLink.formatRedditUrl(url);
 
-        if (url.isEmpty()) {
+        if (uri == null) {
             v.doLoadLink(url);
         } else if (url.startsWith("np")) {
-            url = url.substring(2);
+            uri = uri.buildUpon().authority(uri.getHost().substring(2)).build();
         }
-        String[] parts = url.split("/");
-        if (parts[parts.length - 1].startsWith("?")) parts = Arrays.copyOf(parts, parts.length - 1);
+        List<String> parts = uri.getPathSegments();
 
-        contentType = OpenRedditLink.getRedditLinkType(url);
+        contentType = OpenRedditLink.getRedditLinkType(uri);
 
         switch (contentType) {
             case SHORTENED: {
-                new AsyncLoadSubmission(parts[1]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubmission(parts.get(0)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case LIVE: {
                 v.doLoadLink(url);
             }
             break;
-            case WIKI: {
-                v.doLoadLink(url);
-                break;
-            }
-            case SEARCH: {
+            case WIKI:
+            case SEARCH:
+            case OTHER: {
                 v.doLoadLink(url);
                 break;
             }
             case COMMENT_PERMALINK: {
-                String submission = parts[4];
-                if (parts.length >= 7) {
+                String submission = parts.get(3);
+                if (parts.size() >= 6) {
                     //is likely a comment
-                    String end = parts[6];
-                    if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
+                    String end = parts.get(5);
+
                     if (end.length() >= 3) {
                         new AsyncLoadComment(end).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     } else {
@@ -128,24 +126,20 @@ public class RedditItemView extends RelativeLayout {
                 break;
             }
             case SUBMISSION: {
-                new AsyncLoadSubmission(parts[4]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubmission(parts.get(3)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case SUBMISSION_WITHOUT_SUB: {
-                new AsyncLoadSubmission(parts[2]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubmission(parts.get(1)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case SUBREDDIT: {
-                new AsyncLoadSubreddit(parts[2]).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new AsyncLoadSubreddit(parts.get(1)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             }
             case USER: {
-                String name = parts[2];
+                String name = parts.get(1);
                 new AsyncLoadProfile(name).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            }
-            case OTHER: {
-                v.doLoadLink(url);
                 break;
             }
 
@@ -164,12 +158,17 @@ public class RedditItemView extends RelativeLayout {
 
         @Override
         protected Account doInBackground(Void... params) {
-            return Authentication.reddit.getUser(id);
+            try {
+                return Authentication.reddit.getUser(id);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override
         protected void onPostExecute(Account account) {
-            if (account != null) {
+            if (account != null && (account.getDataNode().has("is_suspended")
+                    && !account.getDataNode().get("is_suspended").asBoolean())) {
                 View content = LayoutInflater.from(getContext())
                         .inflate(R.layout.account_pop, RedditItemView.this, false);
                 RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
@@ -185,7 +184,7 @@ public class RedditItemView extends RelativeLayout {
 
     private void doUser(Account account, View content) {
         String name = account.getFullName();
-        final TextView title = (TextView) content.findViewById(R.id.title);
+        final TextView title = content.findViewById(R.id.title);
         title.setText(name);
 
         final int currentColor = Palette.getColorUser(name);
@@ -237,9 +236,8 @@ public class RedditItemView extends RelativeLayout {
     }
 
     private void doSidebar(Subreddit subreddit, View content) {
-        if ((!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(getContext())
-                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) || (Authentication.isLoggedIn
-                && subreddit.isUserSubscriber())) {
+        if (Authentication.isLoggedIn ? subreddit.isUserSubscriber() : UserSubscriptions.getSubscriptions(getContext())
+                .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) {
             ((AppCompatCheckBox) content.findViewById(R.id.subscribed)).setChecked(true);
         }
         content.findViewById(R.id.header_sub)
@@ -249,8 +247,8 @@ public class RedditItemView extends RelativeLayout {
             content.findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
             setViews(subreddit.getDataNode().get("public_description_html").asText(),
                     subreddit.getDisplayName().toLowerCase(Locale.ENGLISH),
-                    ((SpoilerRobotoTextView) content.findViewById(R.id.sub_title)),
-                    (CommentOverflow) content.findViewById(R.id.sub_title_overflow));
+                    content.findViewById(R.id.sub_title),
+                    content.findViewById(R.id.sub_title_overflow));
         } else {
             content.findViewById(R.id.sub_title).setVisibility(View.GONE);
         }
@@ -263,6 +261,16 @@ public class RedditItemView extends RelativeLayout {
                             (ImageView) content.findViewById(R.id.subimage));
         } else {
             content.findViewById(R.id.subimage).setVisibility(View.GONE);
+        }
+        if (findViewById(R.id.sub_banner) != null) {
+            String bannerImage = subreddit.getBannerImage();
+            if (bannerImage != null && !bannerImage.isEmpty()) {
+                findViewById(R.id.sub_banner).setVisibility(View.VISIBLE);
+                ((Reddit) ((PeekViewActivity) getContext()).getApplication()).getImageLoader()
+                        .displayImage(bannerImage, (ImageView) findViewById(R.id.sub_banner));
+            } else {
+                findViewById(R.id.sub_banner).setVisibility(View.GONE);
+            }
         }
         ((TextView) content.findViewById(R.id.subscribers)).setText(
                 getContext().getString(R.string.subreddit_subscribers_string,
@@ -286,7 +294,11 @@ public class RedditItemView extends RelativeLayout {
 
         @Override
         protected Comment doInBackground(Void... params) {
-            return (Comment) Authentication.reddit.get("t1_" + id).get(0);
+            try {
+                return (Comment) Authentication.reddit.get("t1_" + id).get(0);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override
@@ -316,7 +328,11 @@ public class RedditItemView extends RelativeLayout {
 
         @Override
         protected Submission doInBackground(Void... params) {
-            return Authentication.reddit.getSubmission(id);
+            try {
+                return Authentication.reddit.getSubmission(id);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override
@@ -404,36 +420,68 @@ public class RedditItemView extends RelativeLayout {
         }
         holder.content.setTypeface(typeface);
 
-        if (comment.getTimesGilded() > 0) {
-            final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                    : "\u200Ax" + Integer.toString(comment.getTimesGilded());
-            SpannableStringBuilder gilded =
-                    new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+        if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
             TypedArray a = getContext().obtainStyledAttributes(
                     new FontPreferences(getContext()).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);
             int fontsize =
                     (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
             a.recycle();
-            Bitmap image =
-                    BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gold);
-            float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            gilded.setSpan(new ImageSpan(getContext(), image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.gild.setVisibility(View.VISIBLE);
-            ((TextView) holder.gild).setText(gilded);
+            // Add silver, gold, platinum icons and counts in that order
+            if (comment.getTimesSilvered() > 0) {
+                final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
+                        : "\u200Ax" + comment.getTimesSilvered();
+                SpannableStringBuilder silvered =
+                        new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.silver);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                silvered.setSpan(new ImageSpan(getContext(), image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ((TextView) holder.gild).append(silvered);
+            }
+            if (comment.getTimesGilded() > 0) {
+                final String timesGilded = (comment.getTimesGilded() == 1) ? ""
+                        : "\u200Ax" + comment.getTimesGilded();
+                SpannableStringBuilder gilded =
+                        new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gold);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                gilded.setSpan(new ImageSpan(getContext(), image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ((TextView) holder.gild).append(gilded);
+            }
+            if (comment.getTimesPlatinized() > 0) {
+                final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
+                        : "\u200Ax" + comment.getTimesPlatinized();
+                SpannableStringBuilder platinized =
+                        new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.platinum);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                platinized.setSpan(new ImageSpan(getContext(), image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ((TextView) holder.gild).append(platinized);
+            }
         } else if (holder.gild.getVisibility() == View.VISIBLE) {
             holder.gild.setVisibility(View.GONE);
         }
 
         if (comment.getSubmissionTitle() != null) {
-            holder.title.setText(Html.fromHtml(comment.getSubmissionTitle()));
+            holder.title.setText(HtmlCompat.fromHtml(comment.getSubmissionTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
         } else {
-            holder.title.setText(Html.fromHtml(comment.getAuthor()));
+            holder.title.setText(HtmlCompat.fromHtml(comment.getAuthor(), HtmlCompat.FROM_HTML_MODE_LEGACY));
         }
     }
 
@@ -478,7 +526,7 @@ public class RedditItemView extends RelativeLayout {
             } else {
                 commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
             }
-            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
+            SidebarLayout sidebar = findViewById(R.id.drawer_layout);
             for (int i = 0; i < commentOverflow.getChildCount(); i++) {
                 View maybeScrollable = commentOverflow.getChildAt(i);
                 if (maybeScrollable instanceof HorizontalScrollView) {

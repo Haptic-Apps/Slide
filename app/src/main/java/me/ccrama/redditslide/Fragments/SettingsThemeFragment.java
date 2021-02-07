@@ -9,36 +9,47 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SwitchCompat;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.annotation.ArrayRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import me.ccrama.redditslide.Activities.BaseActivity;
-import me.ccrama.redditslide.Activities.Slide;
-import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.OnSingleClickListener;
+
 import org.apache.commons.lang3.ArrayUtils;
-import uz.shift.colorpicker.LineColorPicker;
-import uz.shift.colorpicker.OnColorChangedListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import me.ccrama.redditslide.Activities.BaseActivity;
+import me.ccrama.redditslide.Activities.Slide;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.OnSingleClickListener;
+import uz.shift.colorpicker.LineColorPicker;
+import uz.shift.colorpicker.OnColorChangedListener;
 
 
 public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsFragment.RestartActivity> {
@@ -463,7 +474,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
 
                         //set the currently selected pref
                         startSpinner.setSelection(startAdapter.getPosition(
-                                Integer.toString(SettingValues.nightStart).concat("pm")));
+                                SettingValues.nightStart + "pm"));
 
                         startSpinner.setOnItemSelectedListener(
                                 new AdapterView.OnItemSelectedListener() {
@@ -511,7 +522,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
 
                         //set the currently selected pref
                         endSpinner.setSelection(endAdapter.getPosition(
-                                Integer.toString(SettingValues.nightEnd).concat("am")));
+                                SettingValues.nightEnd + "am"));
 
                         endSpinner.setOnItemSelectedListener(
                                 new AdapterView.OnItemSelectedListener() {

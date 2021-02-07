@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
-import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
 
@@ -35,13 +33,8 @@ public class SettingsHandling extends BaseActivityAnim {
         super.onPause();
         SharedPreferences.Editor e = SettingValues.prefs.edit();
 
-        e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, Reddit.arrayToString(fragment.domains));
+        e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
         e.apply();
-
-        PostMatch.externalDomain = null;
-
-        SettingValues.alwaysExternal =
-                SettingValues.prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
     }
 
 }

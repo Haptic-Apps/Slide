@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         ViewHolderItem viewHolderItem;
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
-			viewHolderItem = new ViewHolderItem((TextView) convertView.findViewById(R.id.name));
+			viewHolderItem = new ViewHolderItem(convertView.findViewById(R.id.name));
 			convertView.setTag(viewHolderItem);
 		} else {
 			viewHolderItem = (ViewHolderItem) convertView.getTag();
@@ -93,7 +94,8 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         final String subreddit = fitems.get(position);
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(
+                Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
 
         if(getContext() instanceof SetupWidget){
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -119,9 +121,8 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         src = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
                         final int overlayColor = Palette.getColor(subreddit);
                         final Paint paint = new Paint();
-                        Canvas c;
                         final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
-                        c = new Canvas(bm1);
+                        Canvas c = new Canvas(bm1);
                         paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
                         c.drawBitmap(src, 0, 0, paint);
 
@@ -136,7 +137,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         ImageUtil.drawWithTargetColor(bm2, bm1, overlayColor, 0);
                     }
 
-                    final float scale = ((Shortcut)getContext()).getResources().getDisplayMetrics().density;
+                    final float scale = getContext().getResources().getDisplayMetrics().density;
                     int p = (int) (50 * scale + 0.5f);
                     shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + subreddit);
                     Intent intent = new Intent();
@@ -163,7 +164,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
             FilterResults results = new FilterResults();
             String prefix = constraint.toString().toLowerCase(Locale.ENGLISH);
 
-            if (prefix == null || prefix.length() == 0) {
+            if (prefix == null || prefix.isEmpty()) {
                 ArrayList<String> list = new ArrayList<>(baseItems);
                 results.values = list;
                 results.count = list.size();

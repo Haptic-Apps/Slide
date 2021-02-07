@@ -9,18 +9,20 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import me.ccrama.redditslide.R;
 
 /**
  * Created by carlos on 3/14/16.
  */
-public class TransparentTagTextView extends TextView {
+public class TransparentTagTextView extends AppCompatTextView {
     Bitmap mMaskBitmap;
     Canvas mMaskCanvas;
     Paint mPaint;
 
+    Drawable backdrop;
     Drawable mBackground;
     Bitmap mBackgroundBitmap;
     Canvas mBackgroundCanvas;
@@ -43,16 +45,6 @@ public class TransparentTagTextView extends TextView {
         super.setTextColor(Color.BLACK);
         super.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setBackgroundDrawable(context.getResources().getDrawable(R.drawable.flairback));
-    }
-
-
-    Drawable backdrop;
-    public void resetBackground(Context context) {
-        mPaint = new Paint();
-        super.setTextColor(Color.BLACK);
-        super.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        backdrop = context.getResources().getDrawable(R.drawable.flairback);
-        setBackgroundDrawable(backdrop);
     }
 
     @Override

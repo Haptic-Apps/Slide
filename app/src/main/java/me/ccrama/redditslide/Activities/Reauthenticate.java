@@ -1,12 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -15,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
@@ -25,14 +22,12 @@ import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 import net.dean.jraw.models.LoggedInAccount;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -42,8 +37,6 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Reauthenticate extends BaseActivityAnim {
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    Dialog d;
-    ArrayList<String> subNames;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -52,7 +45,7 @@ public class Reauthenticate extends BaseActivityAnim {
         setContentView(R.layout.activity_login);
         setupAppBar(R.id.toolbar, "Re-authenticate", true, true);
 
-        String[] scopes = {"identity", "modcontributors", "modconfig", "modothers", "modwiki", "creddits", "livemanage", "account", "privatemessages", "modflair", "modlog", "report", "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save", "wikiread", "flair", "history", "mysubreddits"};
+        String[] scopes = {"identity", "modcontributors", "modconfig", "modothers", "modwiki", "creddits", "livemanage", "account", "privatemessages", "modflair", "modlog", "report", "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save", "wikiread", "flair", "history", "mysubreddits", "wikiedit"};
         final OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
         final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
         String authorizationUrl = oAuthHelper.getAuthorizationUrl(credentials, true, scopes)

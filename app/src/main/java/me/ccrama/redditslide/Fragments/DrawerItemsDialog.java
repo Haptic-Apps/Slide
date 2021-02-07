@@ -1,10 +1,11 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.CheckBox;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;

@@ -2,22 +2,37 @@ package me.ccrama.redditslide.util;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.*;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.customtabs.*;
-import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
+import androidx.browser.customtabs.CustomTabsCallback;
+import androidx.browser.customtabs.CustomTabsClient;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsServiceConnection;
+import androidx.browser.customtabs.CustomTabsSession;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
+
+import net.dean.jraw.models.Submission;
+
+import org.apache.commons.text.StringEscapeUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import me.ccrama.redditslide.Activities.Crosspost;
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.ReaderMode;
@@ -26,11 +41,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import net.dean.jraw.models.Submission;
-import org.apache.commons.text.StringEscapeUtils;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import static me.ccrama.redditslide.Fragments.SettingsHandlingFragment.LinkHandlingMode;
 
@@ -80,16 +90,19 @@ public class LinkUtil {
         PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
 
         CustomTabsIntent.Builder builder =
-                new CustomTabsIntent.Builder(getSession()).setToolbarColor(color)
+                new CustomTabsIntent.Builder(getSession())
+                        .setDefaultColorSchemeParams(new CustomTabColorSchemeParams.Builder()
+                                .setToolbarColor(color)
+                                .build())
                         .setShowTitle(true)
                         .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
                         .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
-                        .addDefaultShareMenuItem()
+                        .setShareState(CustomTabsIntent.SHARE_STATE_ON)
                         .addMenuItem(contextActivity.getString(R.string.open_links_externally),
                                 pendingIntent)
                         .setCloseButtonIcon(drawableToBitmap(
                                 ContextCompat.getDrawable(contextActivity,
-                                        R.drawable.ic_arrow_back_white_24dp)));
+                                        R.drawable.ic_arrow_back)));
         try {
             CustomTabsIntent customTabsIntent = builder.build();
 
@@ -156,11 +169,7 @@ public class LinkUtil {
         }
 
         Uri uri = Uri.parse(url);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            return uri.normalizeScheme();
-        } else {
-            return uri;
-        }
+        return uri.normalizeScheme();
     }
 
     public static boolean tryOpenWithVideoPlugin(@NonNull String url) {
@@ -171,6 +180,7 @@ public class LinkUtil {
                         Reddit.getAppContext().getString(R.string.youtube_plugin_package),
                         Reddit.getAppContext().getString(R.string.youtube_plugin_class));
                 sharingIntent.putExtra("url", removeUnusedParameters(url));
+                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 Reddit.getAppContext().startActivity(sharingIntent);
                 return true;
 
@@ -201,7 +211,7 @@ public class LinkUtil {
      * @param url     URL to open
      */
     public static void openExternally(String url) {
-        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
+        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
         Uri uri = formatURL(url);
 
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -225,11 +235,8 @@ public class LinkUtil {
     }
 
     public static void copyUrl(String url, Context context) {
-        url = StringEscapeUtils.unescapeHtml4(Html.fromHtml(url).toString());
-        ClipboardManager clipboard =
-                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("Link", url);
-        clipboard.setPrimaryClip(clip);
+        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
+        ClipboardUtil.copyToClipboard(context, "Link", url);
         Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
     }
 

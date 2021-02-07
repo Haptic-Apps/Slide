@@ -11,12 +11,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -30,11 +25,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
+import com.google.android.material.snackbar.Snackbar;
 
-import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
@@ -55,13 +53,14 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -134,61 +133,9 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
             super(itemView);
-        }
-    }
-
-    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
-        View v;
-
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (ActionStates.isSaved(submissions[0])) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = false;
-                    v = null;
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = true;
-                    v = null;
-                }
-            } catch (Exception e) {
-                return null;
-            }
-            return null;
         }
     }
 
@@ -209,7 +156,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = dialoglayout.findViewById(R.id.title);
-                    title.setText(Html.fromHtml(submission.getTitle()));
+                    title.setText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
                     ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
@@ -241,7 +188,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 
                             }
-                            new AsyncSave(firstHolder.itemView).execute(submission);
+                            new AsyncSave(mContext, firstHolder.itemView).execute(submission);
 
                         }
                     });
@@ -322,11 +269,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                                 }
                             });
-                            View view = s.getView();
-                            TextView tv =
-                                    view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
+                            LayoutUtils.showSnackbar(s);
 
 
                         }
@@ -429,28 +372,68 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             holder.content.setTypeface(typeface);
 
-            if (comment.getTimesGilded() > 0) {
-                final String timesGilded = (comment.getTimesGilded() == 1) ? "" : "\u200Ax" + Integer.toString(comment.getTimesGilded());
-                SpannableStringBuilder gilded = new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-                TypedArray a = mContext.obtainStyledAttributes(new FontPreferences(mContext).getPostFontStyle().getResId(), R.styleable.FontStyle);
-                int fontsize = (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1)*.75);
+            ((TextView) holder.gild).setText("");
+            if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
+                TypedArray a = mContext.obtainStyledAttributes(
+                        new FontPreferences(mContext).getPostFontStyle().getResId(),
+                        R.styleable.FontStyle);
+                int fontsize =
+                        (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
                 a.recycle();
-                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
-                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                image = Bitmap.createScaledBitmap(image,
-                        (int) Math.ceil(fontsize * aspectRatio),
-                        (int) Math.ceil(fontsize), true);
-                gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.gild.setVisibility(View.VISIBLE);
-                ((TextView) holder.gild).setText(gilded);
+                // Add silver, gold, platinum icons and counts in that order
+                if (comment.getTimesSilvered() > 0) {
+                    final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
+                            : "\u200Ax" + comment.getTimesSilvered();
+                    SpannableStringBuilder silvered =
+                            new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
+                    Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
+                    float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                    image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                            (int) Math.ceil(fontsize), true);
+                    silvered.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ((TextView) holder.gild).append(silvered);
+                }
+                if (comment.getTimesGilded() > 0) {
+                    final String timesGilded = (comment.getTimesGilded() == 1) ? ""
+                            : "\u200Ax" + comment.getTimesGilded();
+                    SpannableStringBuilder gilded =
+                            new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+                    Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
+                    float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                    image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                            (int) Math.ceil(fontsize), true);
+                    gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ((TextView) holder.gild).append(gilded);
+                }
+                if (comment.getTimesPlatinized() > 0) {
+                    final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
+                            : "\u200Ax" + comment.getTimesPlatinized();
+                    SpannableStringBuilder platinized =
+                            new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
+                    Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
+                    float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                    image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                            (int) Math.ceil(fontsize), true);
+                    platinized.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ((TextView) holder.gild).append(platinized);
+                }
             } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
 
             if (comment.getSubmissionTitle() != null)
-                holder.title.setText(Html.fromHtml(comment.getSubmissionTitle()));
+                holder.title.setText(HtmlCompat.fromHtml(comment.getSubmissionTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
             else
-                holder.title.setText(Html.fromHtml(comment.getAuthor()));
+                holder.title.setText(HtmlCompat.fromHtml(comment.getAuthor(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -476,7 +459,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }

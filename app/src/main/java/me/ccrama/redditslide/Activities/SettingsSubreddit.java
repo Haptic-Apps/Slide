@@ -3,18 +3,17 @@ package me.ccrama.redditslide.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.models.Subreddit;
 
@@ -24,14 +23,15 @@ import java.util.Locale;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.GetClosestColor;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 
 /**
@@ -46,6 +46,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
             Intent i = new Intent(SettingsSubreddit.this, SettingsSubreddit.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -99,7 +100,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
             @Override
             public void onClick(View view) {
                 final ArrayList<String> subs = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(SettingsSubreddit.this));
-                final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
+                final CharSequence[] subsAsChar = subs.toArray(new CharSequence[0]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
                 builder.title(R.string.dialog_choose_subreddits_to_edit)
@@ -177,10 +178,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                             }).setNegativeButton(R.string.btn_cancel, null).show();
                 } else {
                     Snackbar s = Snackbar.make(mToolbar, R.string.err_color_sync_login, Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 }
             }
         });
@@ -206,7 +204,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         mSettingsSubAdapter = new SettingsSubAdapter(this, changedSubs);
         recycler.setAdapter(mSettingsSubAdapter);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
-        recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy <= 0 && fab.getId() != 0) {

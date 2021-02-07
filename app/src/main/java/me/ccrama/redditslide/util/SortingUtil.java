@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.util;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -16,9 +17,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Search;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 
 public class SortingUtil {
     public static final Map<String, TimePeriod>              times  = new HashMap<>();
@@ -29,8 +30,6 @@ public class SortingUtil {
 
     public static Integer getSortingId(Sorting sort) {
         switch (sort) {
-            case HOT:
-                return 0;
             case NEW:
                 return 1;
             case RISING:
@@ -41,24 +40,24 @@ public class SortingUtil {
                 return 4;
             case BEST:
                 return 5;
+            case HOT:
             default:
                 return 0;
         }
     }
 
     public static String[] getSearch() {
+        final Context appContext = Reddit.getAppContext();
         return new String[]{
-                Reddit.getAppContext().getString(R.string.search_relevance),
-                Reddit.getAppContext().getString(R.string.search_top),
-                Reddit.getAppContext().getString(R.string.search_new),
-                Reddit.getAppContext().getString(R.string.search_comments)
+                appContext.getString(R.string.search_relevance),
+                appContext.getString(R.string.search_top),
+                appContext.getString(R.string.search_new),
+                appContext.getString(R.string.search_comments)
         };
     }
 
     private static Integer getSortingTimeId(TimePeriod time) {
         switch (time) {
-            case HOUR:
-                return 0;
             case DAY:
                 return 1;
             case WEEK:
@@ -69,6 +68,7 @@ public class SortingUtil {
                 return 4;
             case ALL:
                 return 5;
+            case HOUR:
             default:
                 return 0;
         }
@@ -119,38 +119,39 @@ public class SortingUtil {
     }
 
     public static String[] getSortingStrings() {
-        String[] current = new String[]{
-                Reddit.getAppContext().getString(R.string.sorting_hot),
-                Reddit.getAppContext().getString(R.string.sorting_new),
-                Reddit.getAppContext().getString(R.string.sorting_rising),
-                Reddit.getAppContext().getString(R.string.sorting_top),
-                Reddit.getAppContext().getString(R.string.sorting_controversial),
-                Reddit.getAppContext().getString(R.string.sorting_best),
+        final Context appContext = Reddit.getAppContext();
+        return new String[]{
+                appContext.getString(R.string.sorting_hot),
+                appContext.getString(R.string.sorting_new),
+                appContext.getString(R.string.sorting_rising),
+                appContext.getString(R.string.sorting_top),
+                appContext.getString(R.string.sorting_controversial),
+                appContext.getString(R.string.sorting_best),
         };
-        return current;
     }
 
     public static String[] getSortingCommentsStrings() {
+        final Context appContext = Reddit.getAppContext();
         return new String[]{
-                Reddit.getAppContext().getString(R.string.sorting_best),
-                Reddit.getAppContext().getString(R.string.sorting_top),
-                Reddit.getAppContext().getString(R.string.sorting_new),
-                Reddit.getAppContext().getString(R.string.sorting_controversial),
-                Reddit.getAppContext().getString(R.string.sorting_old),
-                Reddit.getAppContext().getString(R.string.sorting_ama),
+                appContext.getString(R.string.sorting_best),
+                appContext.getString(R.string.sorting_top),
+                appContext.getString(R.string.sorting_new),
+                appContext.getString(R.string.sorting_controversial),
+                appContext.getString(R.string.sorting_old),
+                appContext.getString(R.string.sorting_ama),
         };
     }
 
     public static String[] getSortingTimesStrings() {
-        String[] current = new String[]{
-                Reddit.getAppContext().getString(R.string.sorting_hour),
-                Reddit.getAppContext().getString(R.string.sorting_day),
-                Reddit.getAppContext().getString(R.string.sorting_week),
-                Reddit.getAppContext().getString(R.string.sorting_month),
-                Reddit.getAppContext().getString(R.string.sorting_year),
-                Reddit.getAppContext().getString(R.string.sorting_all),
+        final Context appContext = Reddit.getAppContext();
+        return new String[]{
+                appContext.getString(R.string.sorting_hour),
+                appContext.getString(R.string.sorting_day),
+                appContext.getString(R.string.sorting_week),
+                appContext.getString(R.string.sorting_month),
+                appContext.getString(R.string.sorting_year),
+                appContext.getString(R.string.sorting_all),
         };
-        return current;
     }
 
     public static TimePeriod getTime(String subreddit, TimePeriod defaultTime) {
@@ -167,24 +168,17 @@ public class SortingUtil {
     }
 
     private static Spannable[] getSortingSpannables(int sortingId, String sub) {
-        ArrayList<Spannable> spannables = new ArrayList<>();
         String[] sortingStrings = getSortingStrings();
-        for (int i = 0; i < sortingStrings.length; i++) {
-            SpannableString spanString = new SpannableString(sortingStrings[i]);
-            if (i == sortingId) {
-                spanString.setSpan(new ForegroundColorSpan(
-                                new ColorPreferences(Reddit.getAppContext()).getColor(sub)), 0,
-                        spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-            }
-            spannables.add(spanString);
-        }
-        return spannables.toArray(new Spannable[spannables.size()]);
+        return createSortingSpannableStrings(sortingStrings, sortingId, sub);
     }
 
     private static Spannable[] getSortingTimesSpannables(int sortingId, String sub) {
-        ArrayList<Spannable> spannables = new ArrayList<>();
         String[] sortingStrings = getSortingTimesStrings();
+        return createSortingSpannableStrings(sortingStrings, sortingId, sub);
+    }
+
+    private static Spannable[] createSortingSpannableStrings(String[] sortingStrings, int sortingId, String sub) {
+        ArrayList<Spannable> spannables = new ArrayList<>();
         for (int i = 0; i < sortingStrings.length; i++) {
             SpannableString spanString = new SpannableString(sortingStrings[i]);
             if (i == sortingId) {
@@ -195,7 +189,7 @@ public class SortingUtil {
             }
             spannables.add(spanString);
         }
-        return spannables.toArray(new Spannable[spannables.size()]);
+        return spannables.toArray(new Spannable[0]);
     }
 
     public static void setSorting(String s, Sorting sort) {

@@ -6,12 +6,12 @@
 
     <item
         android:id="@+id/slider"
-        android:icon="@drawable/album_pager"
+        android:icon="@drawable/ic_view_array"
         android:title="@string/album_slide_view"
         app:showAsAction="always" />
     <item
         android:id="@+id/grid"
-        android:icon="@drawable/album_grid"
+        android:icon="@drawable/ic_view_module"
         android:title="@string/album_grid"
         app:showAsAction="always" />
 

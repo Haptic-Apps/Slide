@@ -1,12 +1,13 @@
 package me.ccrama.redditslide.Views;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-import io.codetail.animation.SupportAnimator;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
 import io.codetail.animation.ViewAnimationUtils;
 import me.ccrama.redditslide.R;
 
@@ -39,7 +40,7 @@ public class AnimateHelper {
 
 
                 try {
-                    SupportAnimator animator =
+                    Animator animator =
                             ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
                     animator.setInterpolator(new FastOutSlowInInterpolator());
                     animator.setDuration(250);
@@ -52,25 +53,10 @@ public class AnimateHelper {
 
                             animator2.setInterpolator(new AccelerateDecelerateInterpolator());
                             animator2.setDuration(450);
-                            animator2.addListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-
-                                }
-
+                            animator2.addListener(new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
                                     v.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-
                                 }
                             });
                             animator2.start();

@@ -5,12 +5,12 @@
 
     <item
         android:id="@+id/vertical"
-        android:icon="@drawable/album_list"
+        android:icon="@drawable/ic_view_day"
         android:title="@string/vertical_album_view"
         app:showAsAction="always" />
     <item
         android:id="@+id/grid"
-        android:icon="@drawable/album_grid"
+        android:icon="@drawable/ic_view_module"
         android:title="@string/album_grid"
         app:showAsAction="always" />
 

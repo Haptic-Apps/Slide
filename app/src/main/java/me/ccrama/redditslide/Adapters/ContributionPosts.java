@@ -1,7 +1,8 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
@@ -61,23 +62,12 @@ public class ContributionPosts extends GeneralPosts {
                     start = posts.size() + 1;
                 }
 
-                ArrayList<Contribution> filteredSubmissions = new ArrayList<>();
-                for (Contribution c : submissions) {
-                    if (c instanceof Submission) {
-                        if (!PostMatch.doesMatch((Submission) c)) {
-                            filteredSubmissions.add(c);
-                        }
-                    } else {
-                        filteredSubmissions.add(c);
-                    }
-                }
 
-                HasSeen.setHasSeenContrib(filteredSubmissions);
                 if (reset || posts == null) {
-                    posts = filteredSubmissions;
+                    posts = submissions;
                     start = -1;
                 } else {
-                    posts.addAll(filteredSubmissions);
+                    posts.addAll(submissions);
                 }
 
                 final int finalStart = start;
@@ -122,11 +112,15 @@ public class ContributionPosts extends GeneralPosts {
                 for (Contribution c : paginator.next()) {
                     if (c instanceof Submission) {
                         Submission s = (Submission) c;
-                        newData.add(s);
+                        if (!PostMatch.doesMatch(s)) {
+                            newData.add(s);
+                        }
                     } else {
                         newData.add(c);
                     }
                 }
+
+                HasSeen.setHasSeenContrib(newData);
 
                 return newData;
             } catch (Exception e) {

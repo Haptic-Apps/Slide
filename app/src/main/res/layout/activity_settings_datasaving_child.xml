@@ -60,7 +60,7 @@
         <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:id="@+id/settings_datasaving_imageQualityHeader"
-                android:text="@string/settings_section_image_quality"
+                android:text="@string/settings_section_data_saving_quality"
                 android:tag="label"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -102,6 +102,22 @@
                         android:textSize="13sp" />
             </LinearLayout>
         </RelativeLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_datasaving_videoquality"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"
+                android:text="@string/settings_data_video_quality"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"/>
     </LinearLayout>
 
 </LinearLayout>

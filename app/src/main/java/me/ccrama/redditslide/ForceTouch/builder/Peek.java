@@ -14,23 +14,15 @@
 
 package me.ccrama.redditslide.ForceTouch.builder;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
-import android.os.Build;
-import android.os.Handler;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.ForceTouch.callback.OnPeek;
-import me.ccrama.redditslide.ForceTouch.util.GestureDetectorCompat;
-import me.ccrama.redditslide.ForceTouch.util.GestureListener;
 
 /**
  * This is a builder class to facilitate the creation of the PeekView.
@@ -83,31 +75,6 @@ public class Peek {
     }
 
     /**
-     * Finish the builder by selecting the base view that you want to show the PeekView from.
-     *
-     * @param activity the PeekViewActivity that you are on.
-     * @param base the view that you want to touch to apply the peek to.
-     */
-    public void applyTo(final PeekViewActivity activity, final View base) {
-        final GestureDetectorCompat detector =
-                new GestureDetectorCompat(activity, new GestureListener(activity, base, this));
-
-        base.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, final MotionEvent motionEvent) {
-                // we use the detector for the long and short click motion events
-                detector.onTouchEvent(motionEvent);
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    forceRippleAnimation(base, motionEvent);
-                }
-
-                return true;
-            }
-        });
-    }
-
-    /**
      * Show the PeekView
      *
      * @param activity
@@ -126,21 +93,4 @@ public class Peek {
         activity.showPeek(peek, motionEvent.getRawY());
     }
 
-    private void forceRippleAnimation(View view, MotionEvent event) {
-        Drawable background = view.getBackground();
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background instanceof RippleDrawable) {
-            final RippleDrawable rippleDrawable = (RippleDrawable) background;
-
-            rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
-            rippleDrawable.setHotspot(event.getX(), event.getY());
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    rippleDrawable.setState(new int[]{});
-                }
-            }, 300);
-        }
-    }
 }

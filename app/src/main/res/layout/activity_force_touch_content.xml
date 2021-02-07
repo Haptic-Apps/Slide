@@ -17,7 +17,7 @@
         android:adjustViewBounds="true"
         android:layout_height="wrap_content" />
 
-    <me.ccrama.redditslide.Views.MediaVideoView
+    <me.ccrama.redditslide.Views.ExoVideoView
         android:layout_width="match_parent"
         android:id="@+id/gif"
         android:adjustViewBounds="true"

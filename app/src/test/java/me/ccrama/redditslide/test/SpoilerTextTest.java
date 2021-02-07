@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.test;
 
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -11,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static junit.framework.Assert.fail;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
+
+import static org.junit.Assert.fail;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SpoilerRobotoTextView.class})
+@PrepareForTest(SpoilerRobotoTextView.class)
 public class SpoilerTextTest {
     private final Pattern htmlSpoilerPattern = Whitebox.getInternalState(SpoilerRobotoTextView.class, "htmlSpoilerPattern");
     private final Pattern nativeSpoilerPattern = Whitebox.getInternalState(SpoilerRobotoTextView.class, "nativeSpoilerPattern");
@@ -45,9 +46,9 @@ public class SpoilerTextTest {
     private void spoilerTest(List<Object[]> tests, Pattern pattern, String name) {
         for (Object[] test : tests) {
             if (pattern.matcher((String) test[0]).matches() == (Boolean) test[1]) {
-                System.out.println(name.concat(": ").concat((String) test[0]).concat(" PASSED"));
+                System.out.println(name + ": " + (String) test[0] + " PASSED");
             } else {
-                System.out.println(name.concat(": ").concat((String) test[0]).concat(" FAILED"));
+                System.out.println(name + ": " + (String) test[0] + " FAILED");
                 fail();
             }
         }

@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,7 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -207,7 +208,7 @@ public class Crosspost extends BaseActivity {
                                     + ((AutoCompleteTextView) findViewById(
                                     R.id.subreddittext)).getText().toString()
                                     + "/comments/"
-                                    + s.getFullName().substring(3, s.getFullName().length()));
+                                    + s.getFullName().substring(3));
                     Crosspost.this.finish();
                 } catch (final ApiException e) {
                     e.printStackTrace();

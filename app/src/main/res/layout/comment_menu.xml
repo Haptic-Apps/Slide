@@ -18,7 +18,8 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-                app:srcCompat="@drawable/edit"/>
+                android:contentDescription="@string/btn_edit"
+                app:srcCompat="@drawable/ic_edit"/>
 
         <ImageView
                 android:id="@+id/delete"
@@ -27,7 +28,8 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-                app:srcCompat="@drawable/delete"/>
+                android:contentDescription="@string/btn_delete"
+                app:srcCompat="@drawable/ic_delete"/>
 
         <ImageView
                 android:id="@+id/upvote"
@@ -36,7 +38,8 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-                app:srcCompat="@drawable/upvoted"/>
+                android:contentDescription="@string/btn_upvote"
+                app:srcCompat="@drawable/ic_arrow_upward"/>
 
         <ImageView
                 android:id="@+id/downvote"
@@ -45,7 +48,8 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-                app:srcCompat="@drawable/downvote"/>
+                android:contentDescription="@string/btn_downvote"
+                app:srcCompat="@drawable/ic_arrow_downward"/>
 
         <ImageView
                 android:id="@+id/reply"
@@ -54,7 +58,8 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-                app:srcCompat="@drawable/reply"/>
+                android:contentDescription="@string/btn_reply"
+                app:srcCompat="@drawable/ic_reply"/>
 
         <ImageView
                 android:id="@+id/more"
@@ -63,7 +68,8 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-                app:srcCompat="@drawable/more"/>
+                android:contentDescription="@string/btn_menu"
+                app:srcCompat="@drawable/ic_more_vert"/>
 
         <ImageView
                 android:id="@+id/mod"
@@ -72,7 +78,8 @@
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
                 android:padding="12dp"
-                app:srcCompat="@drawable/mod"/>
+                android:contentDescription="@string/btn_mod"
+                app:srcCompat="@drawable/ic_verified_user"/>
     </LinearLayout>
 
     <LinearLayout
@@ -98,8 +105,8 @@
                 android:imeOptions="actionDone|flagNoEnterAction"
                 android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                 android:minHeight="30dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
                 android:textCursorDrawable="@drawable/cursor"
                 android:theme="@style/ReplyEditTextTheme"/>
 
@@ -132,7 +139,7 @@
                     android:padding="16dp"
                     android:text="@string/btn_preview"
                     android:textAllCaps="true"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 

@@ -7,7 +7,7 @@
 
     <item
             android:id="@+id/web"
-            android:icon="@drawable/world"
+            android:icon="@drawable/ic_public"
             android:title="Open in web"
             app:showAsAction="always"/>
 

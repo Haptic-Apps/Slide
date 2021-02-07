@@ -5,23 +5,28 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.Fragments.WikiPage;
-import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
+import com.google.android.material.tabs.TabLayout;
+
 import net.dean.jraw.managers.WikiManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Fragments.WikiPage;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -34,7 +39,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
     private TabLayout tabs;
     private ToggleSwipeViewPager pager;
     private String subreddit;
-    private Wiki.OverviewPagerAdapter adapter;
+    private WikiPagerAdapter adapter;
     private List<String> pages;
     private String page;
     private static String globalCustomCss;
@@ -78,11 +83,11 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
         TypedArray ta = obtainStyledAttributes(
                 new int[]{R.attr.activity_background, R.attr.fontColor, R.attr.colorAccent});
         customCssBuilder.append("html { ")
-                .append("background: ".concat(getHexFromColorInt(ta.getColor(0, Color.WHITE))).concat(";"))
-                .append("color: ".concat(getHexFromColorInt(ta.getColor(1, Color.BLACK))).concat(";"))
+                .append("background: ").append(getHexFromColorInt(ta.getColor(0, Color.WHITE))).append(";")
+                .append("color: ").append(getHexFromColorInt(ta.getColor(1, Color.BLACK))).append(";")
                 .append("; }");
         customCssBuilder.append("a { ")
-                .append("color: ".concat(getHexFromColorInt(ta.getColor(2, Color.BLUE))).concat(";"))
+                .append("color: ").append(getHexFromColorInt(ta.getColor(2, Color.BLUE))).append(";")
                 .append("; }");
         ta.recycle();
         customCssBuilder.append("table, code { display: block; overflow-x: scroll; }");
@@ -161,7 +166,7 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                 pages.removeAll(toRemove);
 
 
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                adapter = new WikiPagerAdapter(getSupportFragmentManager());
 
 
             } catch (Exception e) {
@@ -226,16 +231,17 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class WikiPagerAdapter extends FragmentStatePagerAdapter {
 
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+        WikiPagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-            Fragment f = new WikiPage();
-            ((WikiPage) f).setListener(Wiki.this);
+            WikiPage f = new WikiPage();
+            f.setListener(Wiki.this);
             Bundle args = new Bundle();
 
             args.putString("title", pages.get(i));
@@ -245,7 +251,6 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
 
             return f;
         }
-
 
         @Override
         public int getCount() {
@@ -261,5 +266,4 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
             return pages.get(position);
         }
     }
-
 }

@@ -8,10 +8,9 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
@@ -20,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
+
 import com.cocosw.bottomsheet.BottomSheet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -27,9 +30,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.dean.jraw.models.Submission;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
@@ -59,7 +59,6 @@ public class HeaderImageLinkView extends RelativeLayout {
     public TextView  secondTitle;
     public TextView  secondSubTitle;
     public View      wrapArea;
-    boolean done;
     String lastDone = "";
     ContentType.Type type;
     DisplayImageOptions bigOptions = new DisplayImageOptions.Builder().resetViewBeforeLoading(false)
@@ -68,7 +67,6 @@ public class HeaderImageLinkView extends RelativeLayout {
             .cacheInMemory(false)
             .displayer(new FadeInBitmapDisplayer(250))
             .build();
-    Activity            activity   = null;
     boolean     clickHandled;
     Handler     handler;
     MotionEvent event;
@@ -126,7 +124,6 @@ public class HeaderImageLinkView extends RelativeLayout {
             case GIF:
             case STREAMABLE:
             case VIDEO:
-            case VID_ME:
                 ((RoundImageTriangleView)(thumbImage2)).setFlagColor(R.color.md_green_300);
                 break;
             default:
@@ -282,23 +279,23 @@ public class HeaderImageLinkView extends RelativeLayout {
                         url = submission.getUrl();
                         url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
                                 : (SettingValues.lqMid ? "l" : "h")) + url.substring(
-                                url.lastIndexOf("."), url.length());
+                                url.lastIndexOf("."));
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (SettingValues.lqMid && length >= 4) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (length >= 5) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else {
-                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                            url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                     }
@@ -368,30 +365,30 @@ public class HeaderImageLinkView extends RelativeLayout {
                         url = submission.getUrl();
                         url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
                                 : (SettingValues.lqMid ? "l" : "h")) + url.substring(
-                                url.lastIndexOf("."), url.length());
+                                url.lastIndexOf("."));
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[2].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (SettingValues.lqMid && length >= 4) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[3].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else if (length >= 5) {
-                            url = Html.fromHtml(
-                                    submission.getThumbnails().getVariations()[length - 1].getUrl())
+                            url = HtmlCompat.fromHtml(
+                                    submission.getThumbnails().getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         } else {
-                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                            url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                     .toString(); //unescape url characters
                         }
                     }
                     lq = true;
 
                 } else {
-                    url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                    url = HtmlCompat.fromHtml(submission.getThumbnails().getSource().getUrl().isEmpty() ? submission.getThumbnail() : submission.getThumbnails().getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                             .toString(); //unescape url characters
                 }
                 if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb || (news && submission.getScore() < 5000)) {
@@ -428,6 +425,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!thumbnail
                     .isNull() && submission.isNsfw() && SettingValues.getIsNSFWEnabled()))) {
 
+                url = submission.getThumbnail();
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
                 } else {
@@ -522,9 +520,9 @@ public class HeaderImageLinkView extends RelativeLayout {
         final Context context = getContext();
         if (context instanceof Activity) {
             activity = (Activity) context;
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+        } else if (context instanceof ContextThemeWrapper) {
             activity =
-                    (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+                    (Activity) ((ContextThemeWrapper) context).getBaseContext();
         } else if (context instanceof ContextWrapper) {
             Context context1 = ((ContextWrapper) context).getBaseContext();
             if (context1 instanceof Activity) {
@@ -535,7 +533,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     activity = (Activity) context2;
                 } else if (context2 instanceof ContextWrapper) {
                     activity =
-                            (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                            (Activity) ((ContextThemeWrapper) context2).getBaseContext();
                 }
             }
         } else {
@@ -599,12 +597,12 @@ public class HeaderImageLinkView extends RelativeLayout {
                 TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
                 int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
-                open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_new);
+                open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable share = getResources().getDrawable(R.drawable.ic_share);
-                share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-                copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                 ta.recycle();
 
@@ -701,14 +699,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         };
     }
 
-    public void setSecondSubtitle(TextView v) {
-        secondSubTitle = v;
-    }
-
-    public void setSecondTitle(TextView v) {
-        secondTitle = v;
-    }
-
     public void setSubmission(final Submission submission, final boolean full, String baseSub,
             ContentType.Type type) {
         this.type = type;
@@ -745,19 +735,9 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setWrapArea(View v) {
         wrapArea = v;
-        setSecondTitle((TextView) v.findViewById(R.id.contenttitle));
-        setSecondSubtitle((TextView) v.findViewById(R.id.contenturl));
+        secondTitle = v.findViewById(R.id.contenttitle);
+        secondSubTitle = v.findViewById(R.id.contenturl);
 
-    }
-
-    private String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        if (domain != null && !domain.isEmpty()) {
-            return domain.startsWith("www.") ? domain.substring(4) : domain;
-        } else {
-            return "";
-        }
     }
 
     private void init() {

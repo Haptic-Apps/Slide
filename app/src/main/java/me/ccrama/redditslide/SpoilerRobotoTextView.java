@@ -1,17 +1,35 @@
 package me.ccrama.redditslide;
 
 import android.app.Activity;
-import android.content.*;
-import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.text.*;
-import android.text.style.*;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.CharacterStyle;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
+import android.text.style.QuoteSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
+import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.HapticFeedbackConstants;
@@ -20,8 +38,23 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
+
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.MediaView;
@@ -39,17 +72,10 @@ import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
-import org.apache.commons.text.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by carlo_000 on 1/11/2016.
@@ -121,7 +147,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      */
     public void setTextHtml(CharSequence baseText, String subreddit) {
         String text = wrapAlternateSpoilers(saveEmotesFromDestruction(baseText.toString().trim()));
-        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(text);
+        SpannableStringBuilder builder = (SpannableStringBuilder) HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY);
 
         replaceQuoteSpans(
                 builder); //replace the <blockquote> blue line with something more colorful
@@ -173,10 +199,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             spannable.removeSpan(quoteSpan);
 
             //If the theme is Light or Sepia, use a darker blue; otherwise, use a lighter blue
-            final int barColor =
-                    (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5)
-                            ? ContextCompat.getColor(getContext(), R.color.md_blue_600)
-                            : ContextCompat.getColor(getContext(), R.color.md_blue_400);
+            final int barColor = ContextCompat.getColor(getContext(),
+                    SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5
+                            ? R.color.md_blue_600 : R.color.md_blue_400);
 
             final int BAR_WIDTH = 4;
             final int GAP = 5;
@@ -235,8 +260,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 //Make sure bitmap loaded works well with screen density.
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 DisplayMetrics metrics = new DisplayMetrics();
-                ((WindowManager) getContext().getSystemService(
-                        Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+                ContextCompat.getSystemService(getContext(), WindowManager.class).getDefaultDisplay().getMetrics(metrics);
                 options.inDensity = 240;
                 options.inScreenDensity = metrics.densityDpi;
                 options.inScaled = true;
@@ -358,9 +382,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         Activity activity = null;
         if (context instanceof Activity) {
             activity = (Activity) context;
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+        } else if (context instanceof ContextThemeWrapper) {
             activity =
-                    (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+                    (Activity) ((ContextThemeWrapper) context).getBaseContext();
         } else if (context instanceof ContextWrapper) {
             Context context1 = ((ContextWrapper) context).getBaseContext();
             if (context1 instanceof Activity) {
@@ -371,7 +395,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     activity = (Activity) context2;
                 } else if (context2 instanceof ContextWrapper) {
                     activity =
-                            (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                            (Activity) ((ContextThemeWrapper) context2).getBaseContext();
                 }
             }
         } else {
@@ -400,39 +424,33 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
                     break;
                 case SELF:
+                case NONE:
                     break;
                 case STREAMABLE:
-                case VID_ME:
                     openStreamable(url, subreddit);
                     break;
                 case ALBUM:
                     if (SettingValues.album) {
+                        Intent i;
                         if (SettingValues.albumSwipe) {
-                            Intent i = new Intent(activity, AlbumPager.class);
+                            i = new Intent(activity, AlbumPager.class);
                             i.putExtra(Album.EXTRA_URL, url);
                             i.putExtra(AlbumPager.SUBREDDIT, subreddit);
-                            activity.startActivity(i);
                         } else {
-                            Intent i = new Intent(activity, Album.class);
+                            i = new Intent(activity, Album.class);
                             i.putExtra(Album.SUBREDDIT, subreddit);
                             i.putExtra(Album.EXTRA_URL, url);
-                            activity.startActivity(i);
                         }
+                        activity.startActivity(i);
                     } else {
                         LinkUtil.openExternally(url);
                     }
                     break;
                 case TUMBLR:
                     if (SettingValues.image) {
-                        if (SettingValues.albumSwipe) {
-                            Intent i = new Intent(activity, TumblrPager.class);
-                            i.putExtra(Album.EXTRA_URL, url);
-                            activity.startActivity(i);
-                        } else {
-                            Intent i = new Intent(activity, TumblrPager.class);
-                            i.putExtra(Album.EXTRA_URL, url);
-                            activity.startActivity(i);
-                        }
+                        Intent i = new Intent(activity, TumblrPager.class);
+                        i.putExtra(Album.EXTRA_URL, url);
+                        activity.startActivity(i);
                     } else {
                         LinkUtil.openExternally(url);
                     }
@@ -446,8 +464,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case GIF:
                 case VREDDIT_DIRECT:
                     openGif(url, subreddit, activity);
-                    break;
-                case NONE:
                     break;
                 case VIDEO:
                     if (!LinkUtil.tryOpenWithVideoPlugin(url)) {
@@ -478,9 +494,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         final Context context = getContext();
         if (context instanceof Activity) {
             activity = (Activity) context;
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+        } else if (context instanceof ContextThemeWrapper) {
             activity =
-                    (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+                    (Activity) ((ContextThemeWrapper) context).getBaseContext();
         } else if (context instanceof ContextWrapper) {
             Context context1 = ((ContextWrapper) context).getBaseContext();
             if (context1 instanceof Activity) {
@@ -491,7 +507,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     activity = (Activity) context2;
                 } else if (context2 instanceof ContextWrapper) {
                     activity =
-                            (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                            (Activity) ((ContextThemeWrapper) context2).getBaseContext();
                 }
             }
         } else {
@@ -512,11 +528,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         peekView.addButton((R.id.copy), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                ClipboardManager clipboard =
-                                        (ClipboardManager) rootView.getContext()
-                                                .getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Link", url);
-                                clipboard.setPrimaryClip(clip);
+                                ClipboardUtil.copyToClipboard(rootView.getContext(), "Link", url);
                                 Toast.makeText(rootView.getContext(),
                                         R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
@@ -565,12 +577,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
                 int color = ta.getColor(0, Color.WHITE);
-                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
-                open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_new);
+                open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable share = getResources().getDrawable(R.drawable.ic_share);
-                share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-                copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                 ta.recycle();
 
@@ -657,7 +669,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
             if (foregroundColors.length > 1) {
                 text.removeSpan(foregroundColors[1]);
-                setText(text);
             } else {
                 for (int i = 1; i < storedSpoilerStarts.size(); i++) {
                     if (storedSpoilerStarts.get(i) < endOfLink + offset
@@ -674,8 +685,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         }
                     }
                 }
-                setText(text);
             }
+            setText(text);
         }
     }
 
@@ -751,7 +762,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         return sequence;
     }
 
-    private class URLSpanNoUnderline extends URLSpan {
+    private static class URLSpanNoUnderline extends URLSpan {
         public URLSpanNoUnderline(String url) {
             super(url);
         }

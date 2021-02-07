@@ -239,10 +239,10 @@ public class Image {
     }
 
     public String getImageUrl() {
-        return "https://i.imgur.com/" + getHash() + getExt();
+        return "https://i.imgur.com/" + hash + ext;
     }
 
     public String getThumbnailUrl() {
-        return "https://i.imgur.com/" + getHash() + "s" + getExt();
+        return "https://i.imgur.com/" + hash + "s" + ext;
     }
 }

@@ -1,9 +1,10 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import me.ccrama.redditslide.Activities.Settings;
 import me.ccrama.redditslide.Authentication;

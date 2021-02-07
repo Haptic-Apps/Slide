@@ -31,7 +31,7 @@
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/save"/>
+                    app:srcCompat="@drawable/ic_get_app"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tintColor"
-                    app:srcCompat="@drawable/restorefile"/>
+                    app:srcCompat="@drawable/ic_folder_open"/>
 
                 <TextView
                     android:layout_width="wrap_content"

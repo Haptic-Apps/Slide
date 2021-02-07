@@ -1,14 +1,14 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import net.dean.jraw.models.Submission;
-
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.List;
 
@@ -28,7 +28,6 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -41,6 +40,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public PostLoader subredditPosts;
     public String subreddit;
     int firstPage;
+    private int count;
 
     public ViewPager pager;
 
@@ -74,12 +74,13 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
         subredditPosts.getPosts().addAll(submissions.submissions);
+        count = subredditPosts.getPosts().size();
 
         pager = (ViewPager) findViewById(R.id.content_view);
-        submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
+        submissionsPager = new ShadowboxPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);
         pager.setCurrentItem(firstPage);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -101,7 +102,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
     }
 
-    OverviewPagerAdapter submissionsPager;
+    ShadowboxPagerAdapter submissionsPager;
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
@@ -109,6 +110,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                count = subredditPosts.getPosts().size();
                 if (startIndex != -1) {
                     // TODO determine correct behaviour
                     //comments.notifyItemRangeInserted(startIndex, posts.posts.size());
@@ -126,6 +128,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                count = subredditPosts.getPosts().size();
                 submissionsPager.notifyDataSetChanged();
             }
         });
@@ -149,16 +152,15 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         submissionsPager.notifyDataSetChanged();
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class ShadowboxPagerAdapter extends FragmentStatePagerAdapter {
 
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
-
+        ShadowboxPagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             Fragment f = null;
             ContentType.Type t = ContentType.getContentType(subredditPosts.getPosts().get(i));
 
@@ -175,10 +177,10 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 case DEVIANTART:
                 case EMBEDDED:
                 case XKCD:
+                case REDDIT_GALLERY:
                 case VREDDIT_DIRECT:
                 case VREDDIT_REDIRECT:
                 case LINK:
-                case VID_ME:
                 case STREAMABLE:
                 case VIDEO: {
                     f = new MediaFragment();
@@ -191,13 +193,13 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                             .get(0)
                             .get("source")
                             .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                        previewUrl = StringEscapeUtils.escapeHtml4(submission.getDataNode()
+                        previewUrl = submission.getDataNode()
                                 .get("preview")
                                 .get("images")
                                 .get(0)
                                 .get("source")
                                 .get("url")
-                                .asText());
+                                .asText();
                     }
                     args.putString("contentUrl", submission.getUrl());
                     args.putString("firstUrl", previewUrl);
@@ -206,22 +208,17 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f.setArguments(args);
                 }
                 break;
-                case SELF: {
+                case SELF:
+                case NONE: {
                     if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
                     } else {
                         f = new SelftextFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
                     }
+                    Bundle args = new Bundle();
+                    args.putInt("page", i);
+                    args.putString("sub", subreddit);
+                    f.setArguments(args);
                 }
                 break;
                 case TUMBLR: {
@@ -229,7 +226,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     args.putString("sub", subreddit);
-
                     f.setArguments(args);
                 }
                 break;
@@ -238,42 +234,17 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     args.putString("sub", subreddit);
-
                     f.setArguments(args);
-                }
-                break;
-                case NONE: {
-                    if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
-                        f = new TitleFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
-                    } else {
-                        f = new SelftextFull();
-                        Bundle args = new Bundle();
-                        args.putInt("page", i);
-                        args.putString("sub", subreddit);
-
-                        f.setArguments(args);
-                    }
                 }
                 break;
             }
 
             return f;
-
-
         }
-
 
         @Override
         public int getCount() {
-            return subredditPosts.getPosts().size() ;
+            return count;
         }
-
-
     }
-
 }

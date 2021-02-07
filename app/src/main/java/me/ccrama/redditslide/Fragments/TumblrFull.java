@@ -5,28 +5,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Submission;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.Shadowbox;
-import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.Adapters.TumblrView;
-import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
-import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 import me.ccrama.redditslide.Tumblr.Photo;
@@ -59,7 +56,7 @@ public class TumblrFull extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ((RecyclerView) list).setLayoutManager(layoutManager);
 
-        ((RecyclerView) list).setOnScrollListener(new RecyclerView.OnScrollListener() {
+        ((RecyclerView) list).addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -160,7 +157,7 @@ public class TumblrFull extends Fragment {
 
         String url;
 
-        public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
+        public LoadIntoRecycler(@NonNull String url, @NonNull Activity baseActivity) {
             super(url, baseActivity);
             //todo htis dontClose = true;
             this.url = url;

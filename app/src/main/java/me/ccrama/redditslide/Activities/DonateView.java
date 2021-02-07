@@ -1,16 +1,14 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
@@ -20,12 +18,12 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.IabHelper;
-import me.ccrama.redditslide.util.IabResult;
-import me.ccrama.redditslide.util.Inventory;
 import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.Purchase;
-import me.ccrama.redditslide.util.SkuDetails;
+import me.ccrama.redditslide.util.billing.IabHelper;
+import me.ccrama.redditslide.util.billing.IabResult;
+import me.ccrama.redditslide.util.billing.Inventory;
+import me.ccrama.redditslide.util.billing.Purchase;
+import me.ccrama.redditslide.util.billing.SkuDetails;
 
 
 /**
@@ -33,39 +31,6 @@ import me.ccrama.redditslide.util.SkuDetails;
  * Allows a user to donate to Slide using Google Play's IabHelper
  */
 public class DonateView extends BaseActivityAnim {
-
-    private final IabHelper.OnConsumeFinishedListener mPurchaseFinishedListener =
-            new IabHelper.OnConsumeFinishedListener() {
-                @Override
-                public void onConsumeFinished(Purchase purchase, IabResult result) {
-                    if (result.isFailure()) {
-                        Log.d(LogUtil.getTag(), "Error purchasing: " + result);
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(DonateView.this);
-                        builder.setTitle(R.string.donate_err_title);
-                        builder.setMessage(R.string.donate_err_msg);
-                        builder.setNeutralButton(R.string.btn_ok, null);
-                        builder.show();
-                    } else if (purchase.getSku().contains("donation")) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                AlertDialog.Builder builder =
-                                        new AlertDialog.Builder(DonateView.this);
-                                builder.setTitle(R.string.donate_success_title);
-                                builder.setMessage(R.string.donate_success_msg);
-                                builder.setPositiveButton(R.string.donate_success_btn,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                DonateView.this.finish();
-                                            }
-                                        });
-                                builder.show();
-                            }
-                        });
-                    }
-                }
-            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +69,7 @@ public class DonateView extends BaseActivityAnim {
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos,
                     int oldValue, int newValue) {
                 ads.setText(" " + newValue * 330 + " ");
-                hours.setText(" " + String.valueOf((double) newValue / 10) + " ");
+                hours.setText(" " + (double) newValue / 10 + " ");
                 money.setText("$" + newValue);
             }
         });
@@ -112,7 +77,7 @@ public class DonateView extends BaseActivityAnim {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ads.setText(" " + 4 * 330 + " ");
-        hours.setText(" " + String.valueOf((double) 4 / 10) + " ");
+        hours.setText(" " + (double) 4 / 10 + " ");
         money.setText("$" + 4);
 
         findViewById(R.id.donate).setOnClickListener(new View.OnClickListener() {

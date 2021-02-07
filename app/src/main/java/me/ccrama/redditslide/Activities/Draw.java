@@ -4,16 +4,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -138,7 +140,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri)
                         .copy(Bitmap.Config.RGB_565, true);
-                color.getBackground().setColorFilter(getLastColor(), PorterDuff.Mode.MULTIPLY);
+                color.getBackground().setColorFilter(new PorterDuffColorFilter(getLastColor(), PorterDuff.Mode.MULTIPLY));
                 color.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -162,7 +164,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         drawView.setPaintStrokeColor(selectedColor);
-        color.getBackground().setColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY);
+        color.getBackground().setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
         Reddit.colors.edit().putInt("drawColor", selectedColor).commit();
     }

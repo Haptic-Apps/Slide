@@ -5,19 +5,19 @@
              android:layout_height="match_parent"
              android:background="?attr/activity_background">
 
-    <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/activity_main_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/vertical_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fadeScrollbars="true"
                 android:orientation="vertical"
                 android:scrollbars="vertical"/>
-    </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
             android:id="@+id/commentnav"
@@ -33,7 +33,8 @@
                 android:layout_width="0dp"
                 android:layout_height="36dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/up"/>
+                app:srcCompat="@drawable/ic_keyboard_arrow_up"
+                android:contentDescription="@string/btn_nav_up"/>
 
         <ImageView
                 android:id="@+id/nav"
@@ -41,14 +42,16 @@
                 android:layout_width="48dp"
                 android:layout_height="36dp"
                 android:padding="8dp"
-                app:srcCompat="@drawable/nav"/>
+                app:srcCompat="@drawable/ic_explore"
+                android:contentDescription="@string/btn_nav_mode"/>
         <ImageView
             android:id="@+id/collapse_expand"
             style="@style/Ripple.List"
             android:layout_width="48dp"
             android:layout_height="36dp"
             android:padding="8dp"
-            app:srcCompat="@drawable/comment"/>
+            app:srcCompat="@drawable/ic_comment"
+            android:contentDescription="@string/btn_nav_collapse_expand"/>
 
         <ImageView
                 android:id="@+id/down"
@@ -56,10 +59,11 @@
                 android:layout_width="0dp"
                 android:layout_height="36dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/down"/>
+                app:srcCompat="@drawable/ic_keyboard_arrow_down"
+            android:contentDescription="@string/btn_nav_down"/>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton android:id="@+id/comment_floating_action_button"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@+id/comment_floating_action_button"
                                                         layout="@layout/fab"
                                                         xmlns:android="http://schemas.android.com/apk/res/android"
                                                         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -72,21 +76,22 @@
                                                         app:layout_anchorGravity="bottom|right|end"
                                                         app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
                                                         app:pressedTranslationZ="12dp"
-                                                        app:srcCompat="@drawable/reply"/>
+                                                        app:srcCompat="@drawable/ic_reply"
+                                                        android:contentDescription="@string/btn_fab_reply"/>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="16dp"
                 android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/standard_toolbar_height"
@@ -100,7 +105,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_np_link"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -110,7 +115,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_archived"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -120,7 +125,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_locked"
-                    android:textColor="?attr/fontColor"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -130,7 +135,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_info_contest"
-                    android:textColor="?attr/fontColor"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"/>
 
             <TextView
@@ -141,9 +146,9 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/submission_load_full"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"/>
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <ProgressBar
                 android:id="@+id/progress"

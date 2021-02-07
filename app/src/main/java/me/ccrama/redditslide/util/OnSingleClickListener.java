@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.util;
 
 import android.os.SystemClock;
-import android.util.Config;
 import android.util.Log;
 import android.view.View;
 
@@ -30,9 +29,7 @@ public abstract class OnSingleClickListener implements View.OnClickListener {
 
         if (now - lastClickTime < MIN_DELAY_MS && !override) {
             // Too fast: ignore
-            if (Config.LOGD) {
-                Log.d(TAG, "onClick Clicked too quickly: ignored");
-            }
+            Log.d(TAG, "onClick Clicked too quickly: ignored");
         } else {
             override = false;
             // Update mLastClickTime and register the click

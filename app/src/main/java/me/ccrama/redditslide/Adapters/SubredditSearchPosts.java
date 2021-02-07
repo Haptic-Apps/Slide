@@ -2,8 +2,9 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Contribution;
@@ -35,12 +36,13 @@ public class SubredditSearchPosts extends GeneralPosts {
 
     public Activity parent;
 
-    public SubredditSearchPosts(String subreddit, String term, Activity parent) {
+    public SubredditSearchPosts(String subreddit, String term, Activity parent, boolean multireddit) {
         if (subreddit != null) {
             this.subreddit = subreddit;
         }
         this.parent = parent;
         this.term = term;
+        this.multireddit = multireddit;
     }
 
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) {
@@ -181,9 +183,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                     nomore = true;
                     return newSubmissions;
                 }
-                for (Submission s : paginator.next()) {
-                    newSubmissions.add(s);
-                }
+                newSubmissions.addAll(paginator.next());
 
                 return newSubmissions;
             } catch (Exception e) {

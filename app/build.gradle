@@ -1,36 +1,34 @@
 plugins {
-    id 'com.gladed.androidgitversion' version '0.4.3'
-    id 'com.github.ben-manes.versions' version '0.17.0'
+    id 'com.gladed.androidgitversion' version '0.4.14'
+    id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.android.application'
-    id 'com.devspark.robototextview.gradle-plugin'
 }
 
 android {
-    lintOptions {
-        quiet true
-        abortOnError false
-        ignoreWarnings true
-        // Translations are crowd-sourced
-        disable 'MissingTranslation'
-    }
+    compileSdkVersion 29
+    buildToolsVersion '30.0.3'
+
     defaultConfig {
         applicationId "net.alephcom.saferead"
-        versionCode 311
-        minSdkVersion 15
-        targetSdkVersion 27
-        compileSdkVersion 27
-        multiDexEnabled = true
+        minSdkVersion 16
+        //Change to 28 for F-Droid, need to add this to the scheme
+        targetSdkVersion 29
+        versionCode 335
         versionName androidGitVersion.name()
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary true
     }
 
     flavorDimensions "variant"
-
     productFlavors {
         withGPlay {
             dimension "variant"
+            buildConfigField "boolean", "isFDroid", "false"
         }
         noGPlay {
             dimension "variant"
+            buildConfigField "boolean", "isFDroid", "true"
         }
     }
 
@@ -45,94 +43,98 @@ android {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "SafeRead (debug)"
         }
-
     }
+
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/*'
+    }
+
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        // Translations are crowd-sourced
+        disable 'MissingTranslation', 'ExtraTranslation',
+                'StaticFieldLeak', 'ClickableViewAccessibility', 'NotSibling'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources true
+        }
     }
 }
 
-robototextview {
-    include "Roboto-Light",
-            "Roboto-Regular",
-            "Roboto-Bold",
-            "Roboto-Medium",
-            "RobotoSlab-Light",
-            "RobotoSlab-Regular",
-            "RobotoCondensed-Light",
-            "RobotoCondensed-Regular",
-            "RobotoCondensed-Bold"
-}
-
-ext {
-    supportLibVersion = '27.1.0'
-    robolectricVersion = '3.3.1'
-    powerMockitoVersion = '1.7.4'
-}
 dependencies {
-    withGPlayImplementation 'com.google.android.gms:play-services-drive:10.2.0'
+/** Flavors **/
+    withGPlayImplementation 'com.google.android.gms:play-services-drive:11.4.2'
 
-    implementation 'com.github.ccrama:JRAW:c2bc59eb5e'
-    //implementation 'net.dean.jraw:JRAW-Android:1.1.0'
-    implementation "com.google.guava:guava:23.0-android"
+/** Custom **/
+    implementation 'com.github.ccrama:JRAW:9a2494892d'
+    implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'
+    implementation 'com.github.ccrama.commonmark-java:commonmark:07b304b575'
+    implementation 'com.github.ccrama.commonmark-java:commonmark-ext-gfm-strikethrough:07b304b575'
+    implementation 'com.github.ccrama.commonmark-java:commonmark-ext-gfm-tables:07b304b575'
+    implementation 'com.github.ccrama:JReadability:bb291880a5'
+    implementation 'com.github.Alexendoo.Android-RobotoTextView:robototextview:f6d0eb5ac7'
+
+/** AndroidX **/
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.browser:browser:1.3.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.interpolator:interpolator:1.0.0'
+    implementation 'androidx.media:media:1.2.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
+
+/** Third-party (Other) **/
+    def exoPlayerVersion = '2.12.3'
+    implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
+    implementation "com.google.android.exoplayer:extension-okhttp:$exoPlayerVersion"
+
+    implementation 'com.google.guava:guava:30.1-android'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     //noinspection GradleDependency
-    implementation 'com.afollestad.material-dialogs:commons:0.8.6.2'
+    implementation 'com.afollestad.material-dialogs:commons:0.8.6.2' //0.9.6.0
     implementation 'com.jakewharton:process-phoenix:2.0.0'
-    implementation 'org.ligi:snackengage:0.5'
-    implementation "com.android.support:design:$supportLibVersion"
-    implementation "com.android.support:customtabs:$supportLibVersion"
-    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
-    implementation "com.android.support:appcompat-v7:$supportLibVersion"
-    implementation "com.android.support:support-v13:$supportLibVersion"
-    implementation "com.android.support:cardview-v7:$supportLibVersion"
-    implementation 'com.android.support:multidex:1.0.2'
-    implementation 'com.github.rey5137:material:1.2.4'
+    implementation 'com.github.ligi.snackengage:snackengage-core:0.27'
+    implementation 'com.github.ligi.snackengage:snackengage-playrate:0.27'
+    implementation 'com.github.rey5137:material:1.3.1'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
-    implementation 'com.cocosw:bottomsheet:1.3.0@aar'
-    implementation 'com.github.ccrama:AndroidVideoCache:483e44579d'
+    implementation 'com.github.davemorrissey:subsampling-scale-image-view:173e421'
+    implementation 'com.cocosw:bottomsheet:1.5.0@aar'
     implementation 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
-    implementation 'org.apache.commons:commons-lang3:3.5'
-    implementation 'jp.wasabeef:blurry:2.1.0'
-    implementation 'com.github.johnkil.android-robototextview:robototextview:4.0.0'
-    implementation 'com.makeramen:roundedimageview:2.2.1'
+    implementation 'org.apache.commons:commons-lang3:3.11'
+    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'commons-io:commons-io:2.8.0'
+    implementation 'jp.wasabeef:blurry:3.0.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
-    implementation 'com.sothree.slidinguppanel:library:3.3.1'
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
-    implementation 'com.github.dasar:shiftcolorpicker:v0.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.7.0'
-    implementation 'com.google.code.gson:gson:2.8.0'
-    implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'
-    implementation 'commons-io:commons-io:2.5'
-    implementation 'com.github.ozodrukh:CircularReveal:1.3.1'
-    implementation 'com.github.ccrama:exomedia:4d4e5a490a'
-    implementation 'com.github.ccrama:commonmark-java:07b304b575'
-    implementation 'org.jetbrains:annotations-java5:15.0'
-    implementation "com.mikepenz:itemanimators:1.0.0@aar"
-    implementation 'com.neovisionaries:nv-websocket-client:1.31'
-    implementation 'com.github.ccrama:PeekAndPop:09adee29f1'
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.1'
-    implementation 'com.github.ccrama:JReadability:bb291880a5'
-    implementation 'me.everything:overscroll-decor-android:1.0.4'
-    implementation 'com.mikepenz:aboutlibraries:5.8.1'
-    implementation 'com.googlecode.mp4parser:isoparser:1.1.21'
-    implementation 'org.apache.commons:commons-text:1.4'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.github.ozodrukh.CircularReveal:circualreveal:2.1.0'
+    implementation 'com.mikepenz:itemanimators:1.1.0@aar'
+    implementation 'com.neovisionaries:nv-websocket-client:2.11'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'me.everything:overscroll-decor-android:1.1.0'
+    implementation 'com.mikepenz:aboutlibraries:6.2.3'
+    implementation 'org.mp4parser:isoparser:1.9.41'
+    implementation 'org.mp4parser:muxer:1.9.41'
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.hamcrest:hamcrest-all:1.3'
-    testImplementation 'org.mockito:mockito-core:2.8.9'
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
-    testImplementation "org.powermock:powermock-api-mockito2:$powerMockitoVersion"
-    testImplementation "org.powermock:powermock-module-junit4:$powerMockitoVersion"
+/** Testing **/
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.robolectric:robolectric:4.4'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
 }

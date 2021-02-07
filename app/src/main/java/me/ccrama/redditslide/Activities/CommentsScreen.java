@@ -5,14 +5,18 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import net.dean.jraw.models.Submission;
 
@@ -32,13 +36,14 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing the post and its
  * comments underneath with the slide left/right for the next post.
  * <p/>
  * When the end of the currently loaded posts is being reached, more posts are loaded asynchronously
- * in {@link OverviewPagerAdapter}.
+ * in {@link CommentsScreenPagerAdapter}.
  * <p/>
  * Comments are displayed in the {@link CommentPage} fragment.
  * <p/>
@@ -55,7 +60,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public PostLoader subredditPosts;
     int firstPage;
 
-    OverviewPagerAdapter comments;
+    CommentsScreenPagerAdapter comments;
     private String subreddit;
     private String baseSubreddit;
 
@@ -68,9 +73,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         if (SettingValues.commentVolumeNav) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:
-                    return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 case KeyEvent.KEYCODE_VOLUME_DOWN:
-                    return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 case KeyEvent.KEYCODE_SEARCH:
                     return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 default:
@@ -81,6 +84,14 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        InputMethodManager imm = ContextCompat.getSystemService(this, InputMethodManager.class);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
+        }
+    }
 
     @Override
     public void onDestroy() {
@@ -111,14 +122,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public int                currentPage;
     public ArrayList<Integer> seen;
 
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
-    }
-
     public boolean popup;
 
     @Override
@@ -140,7 +143,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             overrideSwipeFromAnywhere();
             applyColorTheme();
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            getWindow().getDecorView().setBackgroundDrawable(null);
+            getWindow().getDecorView().setBackground(null);
             super.onCreate(savedInstance);
             setContentView(R.layout.activity_slide);
         }
@@ -193,7 +196,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
             final ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
-            comments = new OverviewPagerAdapter(getSupportFragmentManager());
+            comments = new CommentsScreenPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(comments);
             currentPage = firstPage;
 
@@ -207,11 +210,11 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                                       finish();
                                                   }
                                                   if (position == firstPage && !popup) {
-                                                      if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                          ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
+                                                      if (((CommentsScreenPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                          ((CommentsScreenPagerAdapter) pager.getAdapter()).blankPage.doOffset(
                                                                   positionOffset);
                                                       }
-                                                      pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                                                      pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
 
                                                   }
                                               }
@@ -316,30 +319,30 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         comments.notifyDataSetChanged();
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    private class CommentsScreenPagerAdapter extends FragmentStatePagerAdapter {
         private CommentPage   mCurrentFragment;
         public  BlankFragment blankPage;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+        CommentsScreenPagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
-        public Fragment getCurrentFragment() {
+        Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             super.setPrimaryItem(container, position, object);
-            if (getCurrentFragment() != object && object != null && object instanceof CommentPage) {
+            if (getCurrentFragment() != object && object instanceof CommentPage) {
                 mCurrentFragment = (CommentPage) object;
                 if (!mCurrentFragment.loaded && mCurrentFragment.isAdded()) {
                     mCurrentFragment.doAdapter(true);
-
                 }
             }
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             if (i <= firstPage || i == 0) {
@@ -350,7 +353,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
                 String name = currentPosts.get(i).getFullName();
-                args.putString("id", name.substring(3, name.length()));
+                args.putString("id", name.substring(3));
                 args.putBoolean("archived", currentPosts.get(i).isArchived());
                 args.putBoolean("contest",
                         currentPosts.get(i).getDataNode().get("contest_mode").asBoolean());
@@ -362,16 +365,12 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                 f.setArguments(args);
                 return f;
-
             }
         }
 
         @Override
         public int getCount() {
-
             return currentPosts.size() + 1;
         }
-
     }
-
 }

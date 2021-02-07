@@ -1,11 +1,12 @@
 package me.ccrama.redditslide.ForceTouch;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -49,26 +50,23 @@ public class PeekViewActivity extends AppCompatActivity {
             RelativeLayout.LayoutParams params =
                     (RelativeLayout.LayoutParams) peek.getLayoutParams();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_MOVE:
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                params.topMargin = (int) -((origY - event.getY()) / 5);
+                if( false && event.getY() < (2* origY) / 3) {
+                    params.leftMargin = twelve - (int) ((origY - event.getY())) / 2;
+                    params.rightMargin =  twelve -(int)((origY - event.getY()) )  / 2;
+                } else {
+                    params.leftMargin = twelve;
+                    params.rightMargin = twelve;
+                }
 
-                    params.topMargin = (int) -((origY - event.getY()) / 5);
-                    if( false && event.getY() < (2* origY) / 3) {
-                        params.leftMargin = twelve - (int) ((origY - event.getY())) / 2;
-                        params.rightMargin =  twelve -(int)((origY - event.getY()) )  / 2;
-                    } else {
-                        params.leftMargin = twelve;
-                        params.rightMargin = twelve;
-                    }
-
-                    if (event.getY() < (origY) / 2 && !Reddit.peek) {
-                        peekView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                        Reddit.peek = true;
-                    } else if(event.getY() > (origY) / 2){
-                        Reddit.peek = false;
-                    }
-                    peek.setLayoutParams(params);
-                    break;
+                if (event.getY() < (origY) / 2 && !Reddit.peek) {
+                    peekView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    Reddit.peek = true;
+                } else if(event.getY() > (origY) / 2){
+                    Reddit.peek = false;
+                }
+                peek.setLayoutParams(params);
             }
             // we don't want to pass along the touch event or else it will just scroll under the PeekView
             return false;

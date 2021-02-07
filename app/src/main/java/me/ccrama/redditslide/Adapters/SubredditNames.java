@@ -80,8 +80,7 @@ public class SubredditNames {
             if (submissions != null && !submissions.isEmpty()) {
                 ArrayList<Subreddit> toRemove = new ArrayList<>();
                 for (Subreddit s : submissions) {
-                    if (!SettingValues.subredditFilters.isEmpty() && PostMatch.contains(s.getDisplayName().toLowerCase(
-                            Locale.ENGLISH), PostMatch.subreddits, true))
+                    if (PostMatch.contains(s.getDisplayName().toLowerCase(Locale.ENGLISH), SettingValues.subredditFilters, true))
                         toRemove.add(s);
                 }
                 submissions.removeAll(toRemove);
@@ -113,9 +112,6 @@ public class SubredditNames {
         protected List<Subreddit> doInBackground(String... subredditPaginators) {
 
             List<Subreddit> things = new ArrayList<>();
-            if (PostMatch.subreddits == null)
-                PostMatch.subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-
             try {
             if (subredditPaginators[0].equalsIgnoreCase("trending")) {
                 List<String> trending = Authentication.reddit.getTrendingSubreddits();

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.RobotoTypefaces;
@@ -33,6 +34,8 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
+
 public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Image> users;
 
@@ -41,13 +44,15 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public boolean paddingBottom;
     public int height;
     public String subreddit;
+    private final String submissionTitle;
 
-    public AlbumView(final Activity context, final List<Image> users, int height, String subreddit) {
+    public AlbumView(final Activity context, final List<Image> users, int height, String subreddit, String SubmissionTitle) {
 
         this.height = height;
         main = context;
         this.users = users;
         this.subreddit = subreddit;
+        this.submissionTitle = SubmissionTitle;
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
         if (context.findViewById(R.id.grid) != null)
@@ -180,6 +185,9 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getImageUrl());
                         myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                        if(submissionTitle != null) {
+                            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
+                        }
                         main.startActivity(myIntent);
                     } else {
                         LinkUtil.openExternally(user.getImageUrl());
@@ -221,7 +229,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return users == null ? 0 : users.size() + 1;
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }

@@ -1,19 +1,13 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -27,9 +21,13 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -38,40 +36,25 @@ import net.dean.jraw.models.Subreddit;
 
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.ImgurAlbum.UploadImgur;
+import me.ccrama.redditslide.ImgurAlbum.UploadImgurAlbum;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
-import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.Views.ImageInsertEditText;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TitleExtractor;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.BufferedSink;
-
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -79,13 +62,14 @@ import okio.BufferedSink;
 public class Submit extends BaseActivity {
 
     private boolean      sent;
-    private String       trying;
     private String       URL;
     private SwitchCompat inboxReplies;
     private View         image;
     private View         link;
     private View         self;
     public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_BODY = "body";
+    public static final String EXTRA_IS_SELF = "is_self";
 
     AsyncTask<Void, Void, Subreddit> tchange;
 
@@ -121,6 +105,7 @@ public class Submit extends BaseActivity {
 
         Intent intent = getIntent();
         final String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
+        final String initialBody = intent.getStringExtra(EXTRA_BODY);
 
         self = findViewById(R.id.selftext);
         final AutoCompleteTextView subredditText =
@@ -139,6 +124,9 @@ public class Submit extends BaseActivity {
                 && !subreddit.contains("/m/")
                 && !subreddit.contains("+")) {
             subredditText.setText(subreddit);
+        }
+        if (initialBody != null) {
+            ((ImageInsertEditText) self.findViewById(R.id.bodytext)).setText(initialBody);
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
                 UserSubscriptions.getAllSubreddits(this));
@@ -282,21 +270,18 @@ public class Submit extends BaseActivity {
             @Override
             public void onClick(View view) {
                 TedBottomPicker tedBottomPicker =
-                        new TedBottomPicker.Builder(Submit.this).setOnImageSelectedListener(
-                                new TedBottomPicker.OnImageSelectedListener() {
-                                    @Override
-                                    public void onImageSelected(List<Uri> uri) {
-                                        handleImageIntent(uri);
-                                    }
-                                })
+                        new TedBottomPicker.Builder(Submit.this)
+                                .setOnImageSelectedListener(Submit.this::handleImageIntent)
                                 .setLayoutResource(R.layout.image_sheet_dialog)
                                 .setTitle("Choose a photo")
                                 .create();
 
                 tedBottomPicker.show(getSupportFragmentManager());
                 InputMethodManager imm =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(findViewById(R.id.bodytext).getWindowToken(), 0);
+                        ContextCompat.getSystemService(Submit.this, InputMethodManager.class);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(findViewById(R.id.bodytext).getWindowToken(), 0);
+                }
             }
         });
 
@@ -304,13 +289,14 @@ public class Submit extends BaseActivity {
                 findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this, null, null);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras()
                 .getString(Intent.EXTRA_TEXT, "")
-                .isEmpty()) {
+                .isEmpty()
+                && !intent.getBooleanExtra(EXTRA_IS_SELF, false)) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (data.contains("\n")) {
                 ((EditText) findViewById(R.id.titletext)).setText(
                         data.substring(0, data.indexOf("\n")));
                 ((EditText) findViewById(R.id.urltext)).setText(
-                        data.substring(data.indexOf("\n"), data.length()));
+                        data.substring(data.indexOf("\n")));
             } else {
                 ((EditText) findViewById(R.id.urltext)).setText(data);
             }
@@ -394,14 +380,14 @@ public class Submit extends BaseActivity {
         if (uris.size() == 1) {
             // Get the Image from data (single image)
             try {
-                new UploadImgur(this, uris.get(0));
+                new UploadImgurSubmit(this, uris.get(0));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             //Multiple images
             try {
-                new UploadImgurAlbum(this, uris.toArray(new Uri[uris.size()]));
+                new UploadImgurAlbumSubmit(this, uris.toArray(new Uri[0]));
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -431,7 +417,7 @@ public class Submit extends BaseActivity {
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3, s.getFullName().length()));
+                                        .substring(3));
                         Submit.this.finish();
                     } catch (final ApiException e) {
                         Drafts.addDraft(text);
@@ -463,7 +449,7 @@ public class Submit extends BaseActivity {
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3, s.getFullName().length()));
+                                        .substring(3));
 
                         Submit.this.finish();
                     } catch (final ApiException e) {
@@ -502,7 +488,7 @@ public class Submit extends BaseActivity {
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3, s.getFullName().length()));
+                                        .substring(3));
 
                         Submit.this.finish();
                     } catch (final Exception e) {
@@ -538,14 +524,11 @@ public class Submit extends BaseActivity {
         }
     }
 
-    private class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
+    private class UploadImgurSubmit extends UploadImgur {
 
-        final         Context        c;
-        private final MaterialDialog dialog;
-        private final Uri            uri;
-        public        Bitmap         b;
+        private final Uri uri;
 
-        public UploadImgur(Context c, Uri u) {
+        public UploadImgurSubmit(Context c, Uri u) {
             this.c = c;
             this.uri = u;
 
@@ -578,123 +561,6 @@ public class Submit extends BaseActivity {
                     .show();
         }
 
-        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
-        public File createFile(Uri uri, @NonNull Context context) {
-            InputStream in;
-            ContentResolver resolver = context.getContentResolver();
-            String type = resolver.getType(uri);
-            String extension;
-
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
-            }
-
-            try {
-                in = resolver.openInputStream(uri);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
-
-            // Create files from a uri in our cache directory so they eventually get deleted
-            String timeStamp = String.valueOf(System.currentTimeMillis());
-            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
-                    .getDiskCache()
-                    .getDirectory();
-            File tempFile = new File(cacheDir, timeStamp + extension);
-
-            if (writeInputStreamToFile(in, tempFile)) {
-                return tempFile;
-            } else {
-                // If writeInputStreamToFile fails, delete the excess file
-                tempFile.delete();
-            }
-
-            return null;
-        }
-
-        public boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
-            BufferedOutputStream buffer = null;
-            boolean didFinish = false;
-
-            try {
-                buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
-                int i;
-
-                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
-                    buffer.write(byt, 0, i);
-                }
-
-                buffer.flush();
-                didFinish = true;
-            } catch (IOException e) {
-                didFinish = false;
-            } finally {
-                closeStream(in);
-                closeStream(buffer);
-            }
-
-            return didFinish;
-        }
-
-        public void closeStream(@Nullable Closeable closeable) {
-            if (closeable != null) {
-                try {
-                    closeable.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-
-        //End methods sourced from Opengur
-
-        @Override
-        protected JSONObject doInBackground(Uri... sub) {
-            File bitmap = createFile(sub[0], c);
-
-            final OkHttpClient client = Reddit.client;
-
-            try {
-                RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("image", bitmap.getName(),
-                                RequestBody.create(MediaType.parse("image/*"), bitmap))
-                        .build();
-
-                DoEditorActions.ProgressRequestBody body =
-                        new DoEditorActions.ProgressRequestBody(formBody,
-                                new DoEditorActions.ProgressRequestBody.Listener() {
-                                    @Override
-                                    public void onProgress(int progress) {
-                                        publishProgress(progress);
-                                    }
-                                });
-
-
-                Request request = new Request.Builder().header("Authorization",
-                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                        .url("https://imgur-apiv3.p.mashape.com/3/image")
-                        .post(body)
-                        .build();
-
-                Response response = client.newCall(request).execute();
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-                return new JSONObject(response.body().string());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
         @Override
         protected void onPostExecute(final JSONObject result) {
             dialog.dismiss();
@@ -714,22 +580,13 @@ public class Submit extends BaseActivity {
                 e.printStackTrace();
             }
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            dialog.setProgress(values[0]);
-            LogUtil.v("Progress:" + values[0]);
-        }
     }
 
-    private class UploadImgurAlbum extends AsyncTask<Uri, Integer, String> {
+    private class UploadImgurAlbumSubmit extends UploadImgurAlbum {
 
-        final         Context        c;
-        private final MaterialDialog dialog;
-        private final Uri[]          uris;
-        public        Bitmap         b;
+        private final Uri[] uris;
 
-        public UploadImgurAlbum(Context c, Uri... u) {
+        public UploadImgurAlbumSubmit(Context c, Uri... u) {
             this.c = c;
             this.uris = u;
 
@@ -761,167 +618,6 @@ public class Submit extends BaseActivity {
                     .show();
         }
 
-        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
-        public File createFile(Uri uri, @NonNull Context context) {
-            InputStream in;
-            ContentResolver resolver = context.getContentResolver();
-            String type = resolver.getType(uri);
-            String extension;
-
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
-            }
-
-            try {
-                in = resolver.openInputStream(uri);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
-
-            // Create files from a uri in our cache directory so they eventually get deleted
-            String timeStamp = String.valueOf(System.currentTimeMillis());
-            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
-                    .getDiskCache()
-                    .getDirectory();
-            File tempFile = new File(cacheDir, timeStamp + extension);
-
-            if (writeInputStreamToFile(in, tempFile)) {
-                return tempFile;
-            } else {
-                // If writeInputStreamToFile fails, delete the excess file
-                tempFile.delete();
-            }
-
-            return null;
-        }
-
-        public boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
-            BufferedOutputStream buffer = null;
-            boolean didFinish = false;
-
-            try {
-                buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
-                int i;
-
-                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
-                    buffer.write(byt, 0, i);
-                }
-
-                buffer.flush();
-                didFinish = true;
-            } catch (IOException e) {
-                didFinish = false;
-            } finally {
-                closeStream(in);
-                closeStream(buffer);
-            }
-
-            return didFinish;
-        }
-
-        public void closeStream(@Nullable Closeable closeable) {
-            if (closeable != null) {
-                try {
-                    closeable.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-
-        //End methods sourced from Opengur
-
-        String finalUrl;
-
-        @Override
-        protected String doInBackground(Uri... sub) {
-            totalCount = sub.length;
-            final OkHttpClient client = Reddit.client;
-
-            String albumurl;
-            {
-                Request request = new Request.Builder().header("Authorization",
-                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                        .url("https://imgur-apiv3.p.mashape.com/3/album")
-                        .post(new RequestBody() {
-                            @Override
-                            public MediaType contentType() {
-                                return null;
-                            }
-
-                            @Override
-                            public void writeTo(BufferedSink sink) throws IOException {
-
-                            }
-                        })
-                        .build();
-                Response response = null;
-                try {
-                    response = client.newCall(request).execute();
-
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
-                    JSONObject album = new JSONObject(response.body().string());
-                    albumurl = album.getJSONObject("data").getString("deletehash");
-                    finalUrl = "http://imgur.com/a/" + album.getJSONObject("data").getString("id");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-
-            }
-
-
-            try {
-                MultipartBody.Builder formBodyBuilder =
-                        new MultipartBody.Builder().setType(MultipartBody.FORM);
-                for (Uri uri : sub) {
-                    File bitmap = createFile(uri, c);
-                    formBodyBuilder.addFormDataPart("image", bitmap.getName(),
-                            RequestBody.create(MediaType.parse("image/*"), bitmap));
-                    formBodyBuilder.addFormDataPart("album", albumurl);
-                    MultipartBody formBody = formBodyBuilder.build();
-
-                    DoEditorActions.ProgressRequestBody body =
-                            new DoEditorActions.ProgressRequestBody(formBody,
-                                    new DoEditorActions.ProgressRequestBody.Listener() {
-                                        @Override
-                                        public void onProgress(int progress) {
-                                            publishProgress(progress);
-                                        }
-                                    });
-
-
-                    Request request = new Request.Builder().header("Authorization",
-                            "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                            .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                            .url("https://imgur-apiv3.p.mashape.com/3/image")
-                            .post(body)
-                            .build();
-
-                    Response response = client.newCall(request).execute();
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
         @Override
         protected void onPostExecute(final String result) {
             dialog.dismiss();
@@ -940,19 +636,6 @@ public class Submit extends BaseActivity {
                         .show();
                 e.printStackTrace();
             }
-        }
-
-        int uploadCount;
-        int totalCount;
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            int progress = values[0];
-            if (progress < dialog.getCurrentProgress() || uploadCount == 0) {
-                uploadCount += 1;
-            }
-            dialog.setContent("Image " + uploadCount + "/" + totalCount);
-            dialog.setProgress(progress);
         }
     }
 

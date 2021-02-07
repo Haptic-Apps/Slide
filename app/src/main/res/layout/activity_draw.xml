@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="#000"
     android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:id="@+id/toolbar"
         android:layout_height="56dp">
@@ -15,7 +15,7 @@
                 android:layout_gravity="center_vertical|right"
                 android:adjustViewBounds="true"
                 android:background="@drawable/circle" />
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
     <me.ccrama.redditslide.Views.CanvasView
         android:id="@+id/paintView"
         android:layout_below="@+id/toolbar"

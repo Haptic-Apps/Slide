@@ -1,13 +1,11 @@
 package me.ccrama.redditslide.Views;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.MediaController;
-import android.widget.SeekBar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -264,12 +261,6 @@ public class MediaVideoViewOld extends SurfaceView
         initVideoView();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MediaVideoViewOld(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        initVideoView();
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
@@ -346,15 +337,10 @@ public class MediaVideoViewOld extends SurfaceView
         info.setClassName(MediaVideoViewOld.class.getName());
     }
 
-    public int resolveAdjustedSize(int desiredSize, int measureSpec) {
-        return getDefaultSize(desiredSize, measureSpec);
-    }
-
     private void initVideoView() {
         mVideoWidth = 0;
         mVideoHeight = 0;
         getHolder().addCallback(mSHCallback);
-        getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         setFocusable(true);
         setFocusableInTouchMode(true);
         requestFocus();
@@ -449,12 +435,7 @@ public class MediaVideoViewOld extends SurfaceView
             // target state that was there before.
             mCurrentState = STATE_PREPARING;
             attachMediaController();
-        } catch (IOException ex) {
-            Log.w(TAG, "Unable to open content: " + mUri, ex);
-            mCurrentState = STATE_ERROR;
-            mTargetState = STATE_ERROR;
-            mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-        } catch (IllegalArgumentException ex) {
+        } catch (IOException | IllegalArgumentException ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;

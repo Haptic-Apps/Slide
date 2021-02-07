@@ -109,16 +109,17 @@ public class ImageFlairs {
         @Override
         protected FlairStylesheet doInBackground(Void... params) {
             try {
-                HttpRequest r = new HttpRequest.Builder().host("reddit.com")
+                HttpRequest r = new HttpRequest.Builder().host("old.reddit.com")
                         .path("/r/" + subreddit + "/stylesheet")
                         .expected(MediaTypes.CSS.type())
                         .build();
-                RestResponse response = Authentication.reddit.execute(r);
-                String stylesheet = response.getRaw();
 
+
+                RestResponse response = Authentication.reddit.execute(r);
+
+                String stylesheet = response.getRaw();
                 ArrayList<String> allImages = new ArrayList<>();
                 FlairStylesheet flairStylesheet = new FlairStylesheet(stylesheet);
-                int count = 0;
                 for (String s : flairStylesheet.getListOfFlairIds()) {
                     String classDef = flairStylesheet.getClass(flairStylesheet.stylesheetString,
                             "flair-" + s);
@@ -155,7 +156,7 @@ public class ImageFlairs {
         private int width, height, x, y;
         private String id;
 
-        public CropTransformation(Context context, String id, int width, int height, int x, int y) {
+        public CropTransformation(String id, int width, int height, int x, int y) {
             super();
             this.id = id;
             this.width = width;
@@ -189,8 +190,7 @@ public class ImageFlairs {
                     + ":"
                     + nY + " and bit is " + bitmap.getWidth() + ":" + bitmap.getHeight());
 
-            Bitmap b = Bitmap.createBitmap(bitmap, nX, nY, nWidth, nHeight);
-            return b;
+            return Bitmap.createBitmap(bitmap, nX, nY, nWidth, nHeight);
         }
 
     }
@@ -205,7 +205,7 @@ public class ImageFlairs {
 
         Dimensions prevDimension = null;
 
-        class Dimensions {
+        static class Dimensions {
             int width, height;
             Boolean scale   = false;
             Boolean missing = true;
@@ -223,7 +223,7 @@ public class ImageFlairs {
             }
         }
 
-        class Location {
+        static class Location {
             int x, y;
             Boolean isPercentage = false;
             Boolean missing      = true;
@@ -275,16 +275,15 @@ public class ImageFlairs {
                     "(?<! )\\." + className + "(?!-|\\[|[A-Za-z0-9_.])([^\\{]*)*\\{(.+?)\\}");
             Matcher matches = propertyDefinition.matcher(cssDefinitionString);
 
-            String properties = null;
+            StringBuilder properties = null;
 
             while (matches.find()) {
-                if (properties == null) properties = "";
-                properties = matches.group(2)
-                        + ";"
-                        + properties;   // append properties to simulate property overriding
+                if (properties == null) properties = new StringBuilder();
+                properties.insert(0, matches.group(2)
+                        + ";");   // append properties to simulate property overriding
             }
 
-            return properties;
+            return properties == null ? null : properties.toString();
         }
 
         /**
@@ -523,7 +522,7 @@ public class ImageFlairs {
         /**
          * Request a flair by flair id. `.into` can be chained onto this method call.
          *
-         * @param id
+         * @param sub
          * @param context
          * @return
          */
@@ -615,7 +614,7 @@ public class ImageFlairs {
                             + ":"
                             + flairLocation.y);
                     try {
-                        newBit = new CropTransformation(context, id, flairDimensions.width,
+                        newBit = new CropTransformation(id, flairDimensions.width,
                                 flairDimensions.height, flairLocation.x, flairLocation.y).transform(
                                 loadedImage, flairLocation.isPercentage);
                     } catch (Exception e) {
@@ -658,7 +657,7 @@ public class ImageFlairs {
 
         private volatile static FlairImageLoader instance;
 
-        /** Returns singletone class instance */
+        /** Returns singleton class instance */
         public static FlairImageLoader getInstance() {
             if (instance == null) {
                 synchronized (ImageLoader.class) {
@@ -694,9 +693,8 @@ public class ImageFlairs {
         long discCacheSize = 1024 * 1024 * 100; //100 MB limit
         DiskCache discCache;
         File dir = getCacheDirectory(context);
-        int threadPoolSize;
         discCacheSize *= 100;
-        threadPoolSize = 7;
+        int threadPoolSize = 7;
         if (discCacheSize > 0) {
             try {
                 dir.mkdir();

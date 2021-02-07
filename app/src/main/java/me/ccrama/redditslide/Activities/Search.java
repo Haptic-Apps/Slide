@@ -7,14 +7,15 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -23,20 +24,20 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.Locale;
 
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.SortingUtil;
@@ -187,7 +188,11 @@ public class Search extends BaseActivityAnim {
                             public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                 Intent i = new Intent(Search.this, Search.class);
                                 i.putExtra(Search.EXTRA_TERM, where);
-                                i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
+                                if (multireddit) {
+                                    i.putExtra(Search.EXTRA_MULTIREDDIT, subreddit);
+                                } else {
+                                    i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
+                                }
                                 startActivity(i);
                                 overridePendingTransition(0, 0);
                                 finish();
@@ -244,7 +249,7 @@ public class Search extends BaseActivityAnim {
 
         time = TimePeriod.ALL;
 
-        getSupportActionBar().setTitle(Html.fromHtml(where));
+        getSupportActionBar().setTitle(HtmlCompat.fromHtml(where, HtmlCompat.FROM_HTML_MODE_LEGACY));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         assert mToolbar != null; //it won't be, trust me
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -263,14 +268,13 @@ public class Search extends BaseActivityAnim {
                         + StringUtils.capitalize(time.name().toLowerCase(Locale.ENGLISH)));
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        final RecyclerView.LayoutManager mLayoutManager;
-        mLayoutManager =
+        final RecyclerView.LayoutManager mLayoutManager =
                 createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, Search.this));
         rv.setLayoutManager(mLayoutManager);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
@@ -309,7 +313,7 @@ public class Search extends BaseActivityAnim {
             }
         });
 
-        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(Locale.ENGLISH), this);
+        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(Locale.ENGLISH), this, multireddit);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 

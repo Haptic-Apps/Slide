@@ -42,4 +42,10 @@
     </declare-styleable>
 
     <attr name="SwipeBackLayoutStyle" format="reference"/>
+
+    <declare-styleable name="LineColorPicker">
+        <attr name="android:orientation" />
+        <attr name="colors" format="reference" />
+        <attr name="selectedColorIndex" format="integer" />
+    </declare-styleable>
 </resources>

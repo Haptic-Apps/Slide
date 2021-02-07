@@ -3,8 +3,6 @@ package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,53 +11,61 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.os.Bundle;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
 import net.dean.jraw.fluent.FluentRedditClient;
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.FlairTemplate;
+import net.dean.jraw.models.Ruleset;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.SubredditRule;
 import net.dean.jraw.models.Thing;
 import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -68,6 +74,7 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
+import me.ccrama.redditslide.Activities.GalleryImage;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ModQueue;
@@ -75,6 +82,8 @@ import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.PostReadLater;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Reauthenticate;
+import me.ccrama.redditslide.Activities.RedditGallery;
+import me.ccrama.redditslide.Activities.RedditGalleryPager;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Tumblr;
@@ -94,10 +103,10 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.ReadLater;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -105,11 +114,15 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -117,13 +130,6 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class PopulateSubmissionViewHolder {
 
     public PopulateSubmissionViewHolder() {
-    }
-
-    public static int getStyleAttribColorValue(final Context context, final int attribResId,
-            final int defaultValue) {
-        final TypedValue tv = new TypedValue();
-        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
-        return found ? tv.data : defaultValue;
     }
 
     private static void addClickFunctions(final View base, final ContentType.Type type,
@@ -154,7 +160,6 @@ public class PopulateSubmissionViewHolder {
                         if (!PostMatch.openExternal(submission.getUrl())
                                 || type == ContentType.Type.VIDEO) {
                             switch (type) {
-                                case VID_ME:
                                 case STREAMABLE:
                                     if (SettingValues.video) {
                                         Intent myIntent =
@@ -162,6 +167,7 @@ public class PopulateSubmissionViewHolder {
                                         myIntent.putExtra(MediaView.SUBREDDIT,
                                                 submission.getSubredditName());
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                        myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         addAdaptorPosition(myIntent, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(myIntent);
@@ -170,15 +176,18 @@ public class PopulateSubmissionViewHolder {
                                     }
                                     break;
                                 case IMGUR:
+                                case DEVIANTART:
+                                case XKCD:
+                                case IMAGE:
                                     openImage(type, contextActivity, submission, holder.leadImage,
                                             holder.getAdapterPosition());
                                     break;
                                 case EMBEDDED:
                                     if (SettingValues.video) {
-                                        String data = Html.fromHtml(submission.getDataNode()
+                                        String data = HtmlCompat.fromHtml(submission.getDataNode()
                                                 .get("media_embed")
                                                 .get("content")
-                                                .asText()).toString();
+                                                .asText(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
                                         {
                                             Intent i = new Intent(contextActivity,
                                                     FullscreenVideo.class);
@@ -191,6 +200,62 @@ public class PopulateSubmissionViewHolder {
                                     break;
                                 case REDDIT:
                                     openRedditContent(submission.getUrl(), contextActivity);
+                                    break;
+                                case REDDIT_GALLERY:
+                                    if (SettingValues.album) {
+                                        Intent i;
+                                        if (SettingValues.albumSwipe) {
+                                            i = new Intent(contextActivity, RedditGalleryPager.class);
+                                            i.putExtra(AlbumPager.SUBREDDIT,
+                                                    submission.getSubredditName());
+                                        } else {
+                                            i = new Intent(contextActivity, RedditGallery.class);
+                                            i.putExtra(Album.SUBREDDIT,
+                                                    submission.getSubredditName());
+                                        }
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
+
+                                        i.putExtra(RedditGallery.SUBREDDIT,
+                                                submission.getSubredditName());
+
+                                        ArrayList<GalleryImage> urls = new ArrayList<>();
+
+                                        JsonNode dataNode = submission.getDataNode();
+                                        if (dataNode.has("gallery_data")) {
+                                            for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
+                                                if (dataNode.has("media_metadata") && dataNode.get(
+                                                        "media_metadata")
+                                                        .has(identifier.get("media_id").asText())) {
+                                                    urls.add(new GalleryImage(dataNode.get("media_metadata")
+                                                            .get(identifier.get("media_id").asText())
+                                                            .get("s")));
+                                                }
+                                            }
+                                        } else if (dataNode.has("crosspost_parent_list")) { //Else, try getting crosspost gallery data
+                                            JsonNode crosspost_parent = dataNode.get("crosspost_parent_list").get(0);
+                                            for (JsonNode identifier : crosspost_parent.get("gallery_data").get("items")) {
+                                                if (crosspost_parent.has("media_metadata") && crosspost_parent.get(
+                                                        "media_metadata")
+                                                        .has(identifier.get("media_id").asText())) {
+                                                    urls.add(new GalleryImage(crosspost_parent.get("media_metadata")
+                                                            .get(identifier.get("media_id").asText())
+                                                            .get("s")));
+                                                }
+                                            }
+                                        }
+
+                                        Bundle urlsBundle = new Bundle();
+                                        urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, urls);
+                                        i.putExtras(urlsBundle);
+
+                                        addAdaptorPosition(i, submission,
+                                                holder.getAdapterPosition());
+                                        contextActivity.startActivity(i);
+                                        contextActivity.overridePendingTransition(R.anim.slideright,
+                                                R.anim.fade_out);
+                                    } else {
+                                        LinkUtil.openExternally(submission.getUrl());
+                                    }
                                     break;
                                 case LINK:
                                     LinkUtil.openUrl(submission.getUrl(),
@@ -211,13 +276,14 @@ public class PopulateSubmissionViewHolder {
                                             i = new Intent(contextActivity, AlbumPager.class);
                                             i.putExtra(AlbumPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
                                             i.putExtra(Album.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+
                                         addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
@@ -225,7 +291,6 @@ public class PopulateSubmissionViewHolder {
                                                 R.anim.fade_out);
                                     } else {
                                         LinkUtil.openExternally(submission.getUrl());
-
                                     }
                                     break;
                                 case TUMBLR:
@@ -235,13 +300,13 @@ public class PopulateSubmissionViewHolder {
                                             i = new Intent(contextActivity, TumblrPager.class);
                                             i.putExtra(TumblrPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Tumblr.class);
                                             i.putExtra(Tumblr.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+
                                         addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
@@ -251,12 +316,6 @@ public class PopulateSubmissionViewHolder {
                                         LinkUtil.openExternally(submission.getUrl());
 
                                     }
-                                    break;
-                                case DEVIANTART:
-                                case XKCD:
-                                case IMAGE:
-                                    openImage(type, contextActivity, submission, holder.leadImage,
-                                            holder.getAdapterPosition());
                                     break;
                                 case VREDDIT_REDIRECT:
                                 case GIF:
@@ -286,11 +345,7 @@ public class PopulateSubmissionViewHolder {
 
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 }
             }
@@ -306,9 +361,9 @@ public class PopulateSubmissionViewHolder {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
-            String url;
+            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
             String previewUrl;
-            url = submission.getUrl();
+            String url = submission.getUrl();
 
             if (baseView != null
                     && baseView.lq
@@ -368,6 +423,7 @@ public class PopulateSubmissionViewHolder {
 
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
 
             GifUtils.AsyncLoadGif.VideoType t =
                     GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
@@ -375,13 +431,24 @@ public class PopulateSubmissionViewHolder {
             if (t == GifUtils.AsyncLoadGif.VideoType.VREDDIT) {
                 if (submission.getDataNode().has("media") && submission.getDataNode()
                         .get("media")
-                        .has("reddit_video")) {
+                        .has("reddit_video") && submission.getDataNode()
+                        .get("media")
+                        .get("reddit_video").has("hls_url")) {
                     myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
                             .getDataNode()
                             .get("media")
                             .get("reddit_video")
-                            .get("fallback_url")
+                            .get("dash_url") //In the future, we could load the HLS url as well
                             .asText()).replace("&amp;", "&"));
+                } else if (submission.getDataNode().has("media") && submission.getDataNode()
+                            .get("media")
+                            .has("reddit_video")) {
+                        myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
+                                .getDataNode()
+                                .get("media")
+                                .get("reddit_video")
+                                .get("fallback_url")
+                                .asText()).replace("&amp;", "&"));
                 } else if (submission.getDataNode().has("crosspost_parent_list")) {
                     myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(submission
                             .getDataNode()
@@ -389,7 +456,7 @@ public class PopulateSubmissionViewHolder {
                             .get(0)
                             .get("media")
                             .get("reddit_video")
-                            .get("fallback_url")
+                            .get("dash_url")
                             .asText()).replace("&amp;", "&"));
                 } else {
                     new OpenVRedditTask(contextActivity, submission.getSubredditName()).executeOnExecutor(
@@ -416,6 +483,15 @@ public class PopulateSubmissionViewHolder {
                                 .get("mp4")
                                 .get("source")
                                 .get("url")
+                                .asText()).replace("&amp;", "&"));
+            } else if (t.shouldLoadPreview()
+                    && submission.getDataNode().has("preview")
+                    && submission.getDataNode().get("preview").get("reddit_video_preview").has("fallback_url")) {
+                myIntent.putExtra(MediaView.EXTRA_URL, StringEscapeUtils.unescapeJson(
+                        submission.getDataNode()
+                                .get("preview")
+                                .get("reddit_video_preview")
+                                .get("fallback_url")
                                 .asText()).replace("&amp;", "&"));
             } else if (t == GifUtils.AsyncLoadGif.VideoType.DIRECT
                     && submission.getDataNode()
@@ -463,21 +539,10 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-
-    }
-
     public String reason;
-
-    public String reportReason;
 
     boolean[] chosen    = new boolean[]{false, false, false};
     boolean[] oldChosen = new boolean[]{false, false, false};
-
-    public static int getWhiteTintColor() {
-        return Palette.ThemeEnum.DARK.getTint();
-    }
 
     public <T extends Contribution> void showBottomSheet(final Activity mContext,
             final Submission submission, final SubmissionViewHolder holder, final List<T> posts,
@@ -488,48 +553,48 @@ public class PopulateSubmissionViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
         final Drawable sub =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
         Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
                         null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
         final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
         Drawable copy =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
         final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_get_app, null);
         Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
-        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
+        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
         Drawable reddit =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forum,
                         null);
         Drawable filter =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.filter, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
         Drawable crosspost =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.forward, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forward, null);
 
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        link.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        readLater.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        crosspost.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        saved.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        report.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        link.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        readLater.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        filter.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        crosspost.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
         ta.recycle();
 
         final BottomSheet.Builder b =
-                new BottomSheet.Builder(mContext).title(Html.fromHtml(submission.getTitle()));
+                new BottomSheet.Builder(mContext).title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
         final boolean isReadLater = mContext instanceof PostReadLater;
@@ -597,8 +662,6 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 10:
-
-
                         String[] choices;
                         final String flair = submission.getSubmissionFlair().getText() != null
                                 ? submission.getSubmissionFlair().getText() : "";
@@ -614,21 +677,14 @@ public class PopulateSubmissionViewHolder {
                                             submission.getDomain())
                             };
 
-                            chosen = new boolean[]{
-                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase(
-                                            Locale.ENGLISH).split(",")).contains(
-                                            submission.getSubredditName()
-                                                    .toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                    SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                            .split(",")).contains(
-                                    submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                            chosen = new boolean[] {
+                                    SettingValues.subredditFilters.contains(
+                                            submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.userFilters.contains(
+                                            submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.domainFilters.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                                    SettingValues.alwaysExternal.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH))
                             };
                             oldChosen = chosen.clone();
@@ -645,24 +701,16 @@ public class PopulateSubmissionViewHolder {
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
                         }
-                        chosen = new boolean[]{
-                                Arrays.asList(
-                                        SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                        chosen = new boolean[] {
+                                SettingValues.subredditFilters.contains(
                                         submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(
-                                        submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.userFilters.contains(
+                                submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                SettingValues.domainFilters.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.alwaysExternal.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.flairFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(baseSub + ":" + flair)
+                                SettingValues.flairFilters.contains(baseSub + ":" + flair.toLowerCase(Locale.ENGLISH).trim())
                         };
                         oldChosen = chosen.clone();
 
@@ -681,142 +729,88 @@ public class PopulateSubmissionViewHolder {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 boolean filtered = false;
-                                                SharedPreferences.Editor e =
-                                                        SettingValues.prefs.edit();
+                                                SharedPreferences.Editor e = SettingValues.prefs.edit();
                                                 if (chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters
-                                                                    + (
-                                                                    (SettingValues.subredditFilters.isEmpty()
-                                                                            || SettingValues.subredditFilters
-                                                                            .endsWith(",")) ? ""
-                                                                            : ",")
-                                                                    + submission.getSubredditName();
+                                                    SettingValues.subredditFilters.add(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
-                                                    PostMatch.subreddits = null;
-                                                } else if (!chosen[0]
-                                                        && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters.replace(
-                                                                    submission.getSubredditName(),
-                                                                    "");
+                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                                    SettingValues.subredditFilters.remove(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
                                                     e.apply();
-                                                    PostMatch.subreddits = null;
                                                 }
                                                 if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters + ((
-                                                                    SettingValues.userFilters.isEmpty()
-                                                                            || SettingValues.userFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getAuthor();
+                                                    SettingValues.userFilters.add(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
-                                                    PostMatch.users = null;
-                                                } else if (!chosen[1]
-                                                        && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters.replace(
-                                                                    submission.getAuthor(), "");
+                                                } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                                    SettingValues.userFilters.remove(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
                                                     e.apply();
-                                                    PostMatch.users = null;
                                                 }
                                                 if (chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters + ((
-                                                                    SettingValues.domainFilters.isEmpty()
-                                                                            || SettingValues.domainFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
+                                                    SettingValues.domainFilters.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
-                                                    PostMatch.domains = null;
-                                                } else if (!chosen[2]
-                                                        && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters.replace(
-                                                                    submission.getDomain(), "");
+                                                } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.domainFilters.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
                                                     e.apply();
-                                                    PostMatch.domains = null;
                                                 }
                                                 if (chosen[3] && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal + ((
-                                                                    SettingValues.alwaysExternal.isEmpty()
-                                                                            || SettingValues.alwaysExternal
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                    SettingValues.alwaysExternal.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
-                                                } else if (!chosen[3]
-                                                        && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal.replace(
-                                                                    submission.getDomain(), "");
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                                    SettingValues.alwaysExternal.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
                                                 }
                                                 if (chosen.length > 4) {
+                                                    String s = (baseSub + ":" + flair)
+                                                            .toLowerCase(Locale.ENGLISH).trim();
                                                     if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters + ((
-                                                                        SettingValues.flairFilters.isEmpty()
-                                                                                || SettingValues.flairFilters
-                                                                                .endsWith(",")) ? ""
-                                                                        : ",") + (baseSub
-                                                                        + ":"
-                                                                        + flair);
-                                                        e.putString(
+                                                        SettingValues.flairFilters.add(s);
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                         filtered = true;
-                                                    } else if (!chosen[4]
-                                                            && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters.toLowerCase(
-                                                                        Locale.ENGLISH)
-                                                                        .replace((baseSub
-                                                                                        + ":"
-                                                                                        + flair).toLowerCase(
-                                                                                Locale.ENGLISH),
-                                                                                "");
-                                                        e.putString(
+                                                    } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
+                                                        SettingValues.flairFilters.remove(s);
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                     }
                                                 }
                                                 if (filtered) {
                                                     e.apply();
-                                                    PostMatch.domains = null;
-                                                    PostMatch.subreddits = null;
-                                                    PostMatch.users = null;
-                                                    ArrayList<Contribution> toRemove =
-                                                            new ArrayList<>();
+                                                    ArrayList<Contribution> toRemove = new ArrayList<>();
                                                     for (Contribution s : posts) {
                                                         if (s instanceof Submission
-                                                                && PostMatch.doesMatch(
-                                                                (Submission) s)) {
+                                                                && PostMatch.doesMatch((Submission) s)) {
                                                             toRemove.add(s);
                                                         }
                                                     }
@@ -867,7 +861,7 @@ public class PopulateSubmissionViewHolder {
                                     Snackbar.LENGTH_SHORT);
                             View view = s.getView();
                             TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
+                                    com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
@@ -875,15 +869,11 @@ public class PopulateSubmissionViewHolder {
                                     ReadLater.setReadLater(submission, false);
                                     Snackbar s2 = Snackbar.make(holder.itemView,
                                             "Removed from read later", Snackbar.LENGTH_SHORT);
-                                    View view2 = s2.getView();
-                                    TextView tv2 = view2.findViewById(
-                                            android.support.design.R.id.snackbar_text);
-                                    tv2.setTextColor(Color.WHITE);
-                                    s2.show();
+                                    LayoutUtils.showSnackbar(s2);
                                 }
                             });
                             if (NetworkUtil.isConnected(mContext)) {
-                                new CommentCacheAsync(Arrays.asList(submission), mContext,
+                                new CommentCacheAsync(Collections.singletonList(submission), mContext,
                                         CommentCacheAsync.SAVED_SUBMISSIONS,
                                         new boolean[]{true, true}).executeOnExecutor(
                                         AsyncTask.THREAD_POOL_EXECUTOR);
@@ -903,7 +893,7 @@ public class PopulateSubmissionViewHolder {
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
                                 TextView tv2 = view2.findViewById(
-                                        android.support.design.R.id.snackbar_text);
+                                        com.google.android.material.R.id.snackbar_text);
                                 tv2.setTextColor(Color.WHITE);
                                 s2.setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
@@ -918,7 +908,7 @@ public class PopulateSubmissionViewHolder {
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
                                 TextView tv2 = view2.findViewById(
-                                        android.support.design.R.id.snackbar_text);
+                                        com.google.android.material.R.id.snackbar_text);
                                 s2.show();
                             }
                             OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS)
@@ -927,66 +917,88 @@ public class PopulateSubmissionViewHolder {
                         }
                         break;
                     case 4:
-                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
+                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
                                 StringEscapeUtils.escapeHtml4(submission.getUrl()), mContext);
                         break;
                     case 12:
-                        reportReason = "";
-                        new MaterialDialog.Builder(mContext).input(
-                                mContext.getString(R.string.input_reason_for_report), null, true,
-                                new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                                        reportReason = input.toString();
-                                    }
-                                })
+                        final MaterialDialog reportDialog = new MaterialDialog.Builder(mContext)
+                                .customView(R.layout.report_dialog, true)
                                 .title(R.string.report_post)
-                                .alwaysCallInputCallback()
-                                .inputType(InputType.TYPE_CLASS_TEXT
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                                        | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
-                                .onNegative(null)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        new AsyncTask<Void, Void, Void>() {
-                                            @Override
-                                            protected Void doInBackground(Void... params) {
-                                                try {
-                                                    new AccountManager(
-                                                            Authentication.reddit).report(
-                                                            submission, reportReason);
-                                                } catch (ApiException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                return null;
-                                            }
-
-                                            @Override
-                                            protected void onPostExecute(Void aVoid) {
-                                                if (holder.itemView != null) {
-                                                    try {
-                                                        Snackbar s = Snackbar.make(holder.itemView,
-                                                                R.string.msg_report_sent,
-                                                                Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
-                                                    } catch (Exception ignored) {
-
-                                                    }
-                                                }
-                                            }
-                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                        RadioGroup reasonGroup = dialog.getCustomView()
+                                                .findViewById(R.id.report_reasons);
+                                        String reportReason;
+                                        if (reasonGroup.getCheckedRadioButtonId() == R.id.report_other) {
+                                            reportReason = ((EditText) dialog.getCustomView()
+                                                    .findViewById(R.id.input_report_reason)).getText().toString();
+                                        } else {
+                                            reportReason = ((RadioButton) reasonGroup
+                                                    .findViewById(reasonGroup.getCheckedRadioButtonId()))
+                                                    .getText().toString();
+                                        }
+                                        new AsyncReportTask(submission, holder.itemView)
+                                                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, reportReason);
                                     }
-                                })
-                                .show();
+                                }).build();
 
+                        final RadioGroup reasonGroup = reportDialog.getCustomView().findViewById(R.id.report_reasons);
+
+                        reasonGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                if (checkedId == R.id.report_other)
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.VISIBLE);
+                                else
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.GONE);
+                            }
+                        });
+
+                        // Load sub's report reasons and show the appropriate ones
+                        new AsyncTask<Void, Void, Ruleset>() {
+                            @Override
+                            protected Ruleset doInBackground(Void... voids) {
+                                return Authentication.reddit.getRules(submission.getSubredditName());
+                            }
+
+                            @Override
+                            protected void onPostExecute(Ruleset rules) {
+                                reportDialog.getCustomView().findViewById(R.id.report_loading).setVisibility(View.GONE);
+                                if (rules.getSubredditRules().size() > 0) {
+                                    TextView subHeader = new TextView(mContext);
+                                    subHeader.setText(mContext.getString(R.string.report_sub_rules,
+                                            submission.getSubredditName()));
+                                    reasonGroup.addView(subHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (SubredditRule rule : rules.getSubredditRules()) {
+                                    if (rule.getKind() == SubredditRule.RuleKind.LINK
+                                            || rule.getKind() == SubredditRule.RuleKind.ALL) {
+                                        RadioButton btn = new RadioButton(mContext);
+                                        btn.setText(rule.getViolationReason());
+                                        reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                        btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                    }
+                                }
+                                if (rules.getSiteRules().size() > 0) {
+                                    TextView siteHeader = new TextView(mContext);
+                                    siteHeader.setText(R.string.report_site_rules);
+                                    reasonGroup.addView(siteHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (String rule : rules.getSiteRules()) {
+                                    RadioButton btn = new RadioButton(mContext);
+                                    btn.setText(rule);
+                                    reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                    btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                }
+                            }
+                        }.execute();
+
+                        reportDialog.show();
                         break;
                     case 8:
                         if(SettingValues.shareLongLink){
@@ -996,10 +1008,7 @@ public class PopulateSubmissionViewHolder {
                         }
                         break;
                     case 6: {
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
-                                Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                        clipboard.setPrimaryClip(clip);
+                        ClipboardUtil.copyToClipboard(mContext, "Link", submission.getUrl());
                         Toast.makeText(mContext, R.string.submission_link_copied,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -1025,33 +1034,18 @@ public class PopulateSubmissionViewHolder {
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
                                                 if (!selected.isEmpty()) {
-                                                    ClipboardManager clipboard =
-                                                            (ClipboardManager) mContext.getSystemService(
-                                                                    Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip =
-                                                            ClipData.newPlainText("Selftext",
-                                                                    selected);
-                                                    clipboard.setPrimaryClip(clip);
-
-                                                    Toast.makeText(mContext,
-                                                            R.string.submission_comment_copied,
-                                                            Toast.LENGTH_SHORT).show();
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext", selected);
                                                 } else {
-                                                    ClipboardManager clipboard =
-                                                            (ClipboardManager) mContext.getSystemService(
-                                                                    Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip =
-                                                            ClipData.newPlainText("Selftext",
-                                                                    Html.fromHtml(
-                                                                            submission.getTitle()
-                                                                                    + "\n\n"
-                                                                                    + submission.getSelftext()));
-                                                    clipboard.setPrimaryClip(clip);
-
-                                                    Toast.makeText(mContext,
-                                                            R.string.submission_comment_copied,
-                                                            Toast.LENGTH_SHORT).show();
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext",
+                                                            HtmlCompat.fromHtml(
+                                                                    submission.getTitle()
+                                                                            + "\n\n"
+                                                                            + submission.getSelftext(),
+                                                                    HtmlCompat.FROM_HTML_MODE_LEGACY));
                                                 }
+                                                Toast.makeText(mContext,
+                                                        R.string.submission_comment_copied,
+                                                        Toast.LENGTH_SHORT).show();
 
                                             }
                                         })
@@ -1060,17 +1054,14 @@ public class PopulateSubmissionViewHolder {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                ClipboardManager clipboard =
-                                                        (ClipboardManager) mContext.getSystemService(
-                                                                Context.CLIPBOARD_SERVICE);
-                                                ClipData clip = ClipData.newPlainText("Selftext",
-                                                        Html.fromHtml(submission.getTitle()
-                                                                + "\n\n"
-                                                                + submission.getSelftext()));
-                                                clipboard.setPrimaryClip(clip);
+                                                ClipboardUtil.copyToClipboard(mContext, "Selftext",
+                                                        StringEscapeUtils.unescapeHtml4(
+                                                                submission.getTitle()
+                                                                        + "\n\n"
+                                                                        + submission.getSelftext()));
 
                                                 Toast.makeText(mContext,
-                                                        R.string.submission_comment_copied,
+                                                        R.string.submission_text_copied,
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         })
@@ -1112,6 +1103,7 @@ public class PopulateSubmissionViewHolder {
                         ((ImageView) holder.save).setColorFilter(
                                 ContextCompat.getColor(mContext, R.color.md_amber_500),
                                 PorterDuff.Mode.SRC_ATOP);
+                        holder.save.setContentDescription(mContext.getString(R.string.btn_unsave));
                         s = Snackbar.make(holder.itemView, R.string.submission_info_saved,
                                 Snackbar.LENGTH_LONG);
                         if (Authentication.me.hasGold()) {
@@ -1131,13 +1123,12 @@ public class PopulateSubmissionViewHolder {
                         ((ImageView) holder.save).setColorFilter(
                                 ((((holder.itemView.getTag(holder.itemView.getId())) != null
                                         && holder.itemView.getTag(holder.itemView.getId())
-                                        .equals("none"))) || full) ? getCurrentTintColor(mContext)
-                                        : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                        .equals("none"))) || full) ? Palette.getCurrentTintColor(mContext)
+                                        : Palette.getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                        holder.save.setContentDescription(mContext.getString(R.string.btn_save));
+
                     }
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } catch (Exception ignored) {
 
                 }
@@ -1235,14 +1226,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         itemView,
                                                                                         R.string.submission_info_saved,
                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                View view =
-                                                                                        s.getView();
-                                                                                TextView tv =
-                                                                                        view.findViewById(
-                                                                                                android.support.design.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
+                                                                                LayoutUtils.showSnackbar(s);
                                                                             }
                                                                         } else {
                                                                             if (itemView != null) {
@@ -1250,14 +1234,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         itemView,
                                                                                         R.string.category_set_error,
                                                                                         Snackbar.LENGTH_SHORT);
-                                                                                View view =
-                                                                                        s.getView();
-                                                                                TextView tv =
-                                                                                        view.findViewById(
-                                                                                                android.support.design.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
+                                                                                LayoutUtils.showSnackbar(s);
                                                                             }
                                                                         }
 
@@ -1290,22 +1267,14 @@ public class PopulateSubmissionViewHolder {
                                                         s = Snackbar.make(itemView,
                                                                 R.string.submission_info_saved,
                                                                 Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
+                                                        LayoutUtils.showSnackbar(s);
                                                     }
                                                 } else {
                                                     if (itemView != null) {
                                                         s = Snackbar.make(itemView,
                                                                 R.string.category_set_error,
                                                                 Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
+                                                        LayoutUtils.showSnackbar(s);
                                                     }
                                                 }
                                             }
@@ -1334,10 +1303,7 @@ public class PopulateSubmissionViewHolder {
                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                 Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_unhidden,
                         Snackbar.LENGTH_LONG);
-                View view = snack.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             } else {
                 final T t = posts.get(pos);
                 posts.remove(pos);
@@ -1373,10 +1339,7 @@ public class PopulateSubmissionViewHolder {
 
                             }
                         });
-                View view = snack.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             }
 
         }
@@ -1393,65 +1356,71 @@ public class PopulateSubmissionViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
         final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
         final Drawable approve =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_thumb_up, null);
         final Drawable nsfw =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
         final Drawable spoiler =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.spoil, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_remove_circle, null);
         final Drawable pin =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
         final Drawable lock =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_lock, null);
         final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(),
-                R.drawable.ic_format_quote_white_48dp, null);
+                R.drawable.ic_format_quote, null);
         final Drawable remove =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.close, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_close, null);
         final Drawable remove_reason =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.reportreason, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_announcement, null);
         final Drawable ban =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ban, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_gavel, null);
         final Drawable spam =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.spam, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_flag, null);
         final Drawable distinguish =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
                         null);
+        final Drawable note = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);
 
 
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        approve.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        nsfw.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        flair.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        spoiler.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        remove_reason.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        lock.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        report.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        approve.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        spam.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        nsfw.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        pin.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        flair.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        remove.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        spoiler.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        remove_reason.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        ban.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        spam.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        distinguish.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        lock.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        note.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
         ta.recycle();
 
         BottomSheet.Builder b =
-                new BottomSheet.Builder(mContext).title(Html.fromHtml(submission.getTitle()));
+                new BottomSheet.Builder(mContext).title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         int reportCount = reports.size() + reports2.size();
 
         b.sheet(0, report,
                 res.getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
 
+        if (SettingValues.toolboxEnabled) {
+            b.sheet(24, note, res.getString(R.string.mod_usernotes_view));
+        }
+
         boolean approved = false;
         String whoApproved = "";
         b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
         b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
                 .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason))
-                .sheet(30, spam, "Mark as spam");
+                .sheet(30, spam, res.getString(R.string.mod_btn_spam));
 
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
         b.sheet(20, flair, res.getString(R.string.mod_btn_submission_flair));
@@ -1465,23 +1434,25 @@ public class PopulateSubmissionViewHolder {
 
         final boolean isSpoiler = submission.getDataNode().get("spoiler").asBoolean();
         if (isSpoiler) {
-            b.sheet(12, nsfw, "Unmark as spoiler");
+            b.sheet(12, nsfw, res.getString(R.string.mod_btn_unmark_spoiler));
         } else {
-            b.sheet(12, nsfw, "Mark as spoiler");
+            b.sheet(12, nsfw, res.getString(R.string.mod_btn_mark_spoiler));
         }
 
         final boolean locked = submission.isLocked();
         if (locked) {
-            b.sheet(9, lock, "Unlock thread");
+            b.sheet(9, lock, res.getString(R.string.mod_btn_unlock_thread));
         } else {
-            b.sheet(9, lock, "Lock thread");
+            b.sheet(9, lock, res.getString(R.string.mod_btn_lock_thread));
         }
 
         final boolean stickied = submission.isStickied();
-        if (stickied) {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
-        } else {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
+        if (!SubmissionCache.removed.contains(submission.getFullName())) {
+            if (stickied) {
+                b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
+            } else {
+                b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
+            }
         }
 
         final boolean distinguished =
@@ -1525,7 +1496,7 @@ public class PopulateSubmissionViewHolder {
                             public void onPostExecute(ArrayList<String> data) {
                                 new AlertDialogWrapper.Builder(mContext).setTitle(
                                         R.string.mod_reports)
-                                        .setItems(data.toArray(new CharSequence[data.size()]),
+                                        .setItems(data.toArray(new CharSequence[0]),
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
@@ -1589,7 +1560,45 @@ public class PopulateSubmissionViewHolder {
                         removeSubmission(mContext, submission, posts, recyclerview, holder, false);
                         break;
                     case 7:
-                        doRemoveSubmissionReason(mContext, submission, posts, recyclerview, holder);
+                        if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.TOOLBOX.ordinal()
+                                && ToolboxUI.canShowRemoval(submission.getSubredditName())) {
+                            ToolboxUI.showRemoval(mContext, submission, new ToolboxUI.CompletedRemovalCallback() {
+                                @Override
+                                public void onComplete(boolean success) {
+                                    if (success) {
+                                        SubmissionCache.removed.add(submission.getFullName());
+                                        SubmissionCache.approved.remove(submission.getFullName());
+
+                                        SubmissionCache.updateInfoSpannable(submission, mContext,
+                                                submission.getSubredditName());
+
+                                        if (mContext instanceof ModQueue) {
+                                            final int pos = posts.indexOf(submission);
+                                            posts.remove(submission);
+
+                                            if (pos == 0) {
+                                                recyclerview.getAdapter().notifyDataSetChanged();
+                                            } else {
+                                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                            }
+                                        } else {
+                                            recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
+                                        }
+                                        Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
+                                                Snackbar.LENGTH_LONG);
+
+                                        LayoutUtils.showSnackbar(s);
+
+                                    } else {
+                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                                .setMessage(R.string.err_retry_later)
+                                                .show();
+                                    }
+                                }
+                            });
+                        } else { // Show a Slide reason dialog if we can't show a toolbox or reddit one
+                            doRemoveSubmissionReason(mContext, submission, posts, recyclerview, holder);
+                        }
                         break;
                     case 30:
                         removeSubmission(mContext, submission, posts, recyclerview, holder, true);
@@ -1605,6 +1614,10 @@ public class PopulateSubmissionViewHolder {
                     case 23:
                         //ban a user
                         showBan(mContext, holder.itemView, submission, "", "", "", "");
+                        break;
+                    case 24:
+                        ToolboxUI.showUsernotes(mContext, submission.getAuthor(), submission.getSubredditName(),
+                                "l," + submission.getId());
                         break;
                 }
             }
@@ -1681,10 +1694,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
 
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -1696,10 +1706,10 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    new AccountManager(Authentication.reddit).reply(submission, reason);
+                    String toDistinguish = new AccountManager(Authentication.reddit).reply(submission, reason);
                     new ModerationManager(Authentication.reddit).remove(submission, false);
                     new ModerationManager(Authentication.reddit).setDistinguishedStatus(
-                            Authentication.reddit.get(submission.getFullName()).get(0),
+                            Authentication.reddit.get("t1_" + toDistinguish).get(0),
                             DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();
@@ -1742,10 +1752,7 @@ public class PopulateSubmissionViewHolder {
 
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -1758,7 +1765,7 @@ public class PopulateSubmissionViewHolder {
             protected Boolean doInBackground(Void... params) {
                 try {
                     new ModerationManager(Authentication.reddit).remove(submission, spam);
-                } catch (ApiException e) {
+                } catch (ApiException | NetworkException e) {
                     e.printStackTrace();
                     return false;
 
@@ -1886,10 +1893,7 @@ public class PopulateSubmissionViewHolder {
                     }
                 }
                 if (s != null) {
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1942,10 +1946,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, R.string.really_pin_submission_message,
                                     Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -1958,7 +1959,7 @@ public class PopulateSubmissionViewHolder {
             protected Boolean doInBackground(Void... params) {
                 try {
                     new ModerationManager(Authentication.reddit).setSticky(submission, true);
-                } catch (ApiException e) {
+                } catch (ApiException | NetworkException e) {
                     e.printStackTrace();
                     return false;
 
@@ -1978,10 +1979,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, R.string.really_unpin_submission_message,
                                     Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2012,11 +2010,8 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s =
-                            Snackbar.make(holder.itemView, "Thread locked", Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                            Snackbar.make(holder.itemView, R.string.mod_locked, Snackbar.LENGTH_LONG);
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2047,11 +2042,8 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s =
-                            Snackbar.make(holder.itemView, "Thread unlocked", Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                            Snackbar.make(holder.itemView, R.string.mod_unlocked, Snackbar.LENGTH_LONG);
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2083,10 +2075,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Submission distinguished",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2119,10 +2108,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Submission distinguish removed",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2155,10 +2141,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s =
                             Snackbar.make(holder.itemView, "NSFW status set", Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2192,10 +2175,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "NSFW status removed",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2228,10 +2208,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Spoiler status set",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2265,10 +2242,7 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     Snackbar s = Snackbar.make(holder.itemView, "Spoiler status removed",
                             Snackbar.LENGTH_LONG);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
 
                 } else {
                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
@@ -2321,11 +2295,7 @@ public class PopulateSubmissionViewHolder {
                     try {
                         Snackbar s = Snackbar.make(holder.itemView, R.string.mod_approved,
                                 Snackbar.LENGTH_LONG);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     } catch (Exception ignored) {
 
                     }
@@ -2434,7 +2404,7 @@ public class PopulateSubmissionViewHolder {
                                                             submission.getSubredditName(),
                                                             submission.getAuthor(),
                                                             reason.getText().toString(), n, m,
-                                                            Integer.valueOf(time.getText().toString()));
+                                                            Integer.parseInt(time.getText().toString()));
                                                 }
                                                 return true;
                                             } catch (Exception e) {
@@ -2493,14 +2463,8 @@ public class PopulateSubmissionViewHolder {
 
                                             }
 
-                                            if (s != null)
-
-                                            {
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        android.support.design.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                            if (s != null) {
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         }
                                     }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -2539,7 +2503,7 @@ public class PopulateSubmissionViewHolder {
                 ((ImageView) holder.mod).setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
             }
             holder.mod.setOnClickListener(new View.OnClickListener() {
@@ -2613,17 +2577,20 @@ public class PopulateSubmissionViewHolder {
         }
 
         //Set the colors and styles for the score text depending on what state it is in
+        //Also set content descriptions
         switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500),
                         PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvoted));
                 holder.score.setTypeface(null, Typeface.BOLD);
                 downvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                 if (submission.getVote() != VoteDirection.UPVOTE) {
                     if (submission.getVote() == VoteDirection.DOWNVOTE) ++submissionScore;
                     ++submissionScore; //offset the score by +1
@@ -2634,12 +2601,14 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500),
                         PorterDuff.Mode.SRC_ATOP);
+                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvoted));
                 holder.score.setTypeface(null, Typeface.BOLD);
                 upvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                 if (submission.getVote() != VoteDirection.DOWNVOTE) {
                     if (submission.getVote() == VoteDirection.UPVOTE) --submissionScore;
                     --submissionScore; //offset the score by +1
@@ -2652,20 +2621,22 @@ public class PopulateSubmissionViewHolder {
                 downvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                 upvotebutton.setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                 break;
             }
         }
 
 
         //if the submission is already at 0pts, keep it at 0pts
-        submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
+        submissionScore = Math.max(submissionScore, 0);
         if (submissionScore >= 10000 && SettingValues.abbreviateScores) {
             holder.score.setText(String.format(Locale.getDefault(), "%.1fk",
                     (((double) submissionScore) / 1000)));
@@ -2694,12 +2665,14 @@ public class PopulateSubmissionViewHolder {
                 ((ImageView) holder.save).setColorFilter(
                         ContextCompat.getColor(mContext, R.color.md_amber_500),
                         PorterDuff.Mode.SRC_ATOP);
+                holder.save.setContentDescription(mContext.getString(R.string.btn_unsave));
             } else {
                 ((ImageView) holder.save).setColorFilter(
                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                 && holder.itemView.getTag(holder.itemView.getId()).equals("none")
-                                || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(),
+                                || full)) ? Palette.getCurrentTintColor(mContext) : Palette.getWhiteTintColor(),
                         PorterDuff.Mode.SRC_ATOP);
+                holder.save.setContentDescription(mContext.getString(R.string.btn_save));
             }
             holder.save.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2766,10 +2739,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg),
                                     Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     if (SettingValues.actionbarTap && !full) {
                         CreateCardView.toggleActionbar(holder.itemView);
@@ -2802,8 +2772,8 @@ public class PopulateSubmissionViewHolder {
             }
             holder.body.setTypeface(typeface);
 
-            holder.body.setTextHtml(Html.fromHtml(
-                    text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length()))
+            holder.body.setTextHtml(HtmlCompat.fromHtml(
+                    text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length()), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     .toString()
                     .replace("<sup>", "<sup><small>")
                     .replace("</sup>", "</small></sup>"), "none ");
@@ -2872,9 +2842,10 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
+                                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvoted));
 
                                 AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton,
                                         ContextCompat.getColor(mContext, R.color.md_blue_500));
@@ -2884,7 +2855,6 @@ public class PopulateSubmissionViewHolder {
                                                 - 1; //if a post is at 0 votes, keep it at 0 when downvoting
                                 new Vote(false, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.DOWNVOTE);
-                                setSubmissionScoreText(submission, holder);
                             } else { //un-downvoted a post
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
@@ -2893,11 +2863,12 @@ public class PopulateSubmissionViewHolder {
                                 downvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
-                                setSubmissionScoreText(submission, holder);
+                                downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvote));
                             }
+                            setSubmissionScoreText(submission, holder);
                             if (!full
                                     && !SettingValues.actionbarVisible
                                     && SettingValues.defaultCardView
@@ -2931,9 +2902,10 @@ public class PopulateSubmissionViewHolder {
                                 downvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
+                                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvoted));
 
                                 AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton,
                                         ContextCompat.getColor(mContext, R.color.md_orange_500));
@@ -2942,7 +2914,6 @@ public class PopulateSubmissionViewHolder {
 
                                 new Vote(true, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.UPVOTE);
-                                setSubmissionScoreText(submission, holder);
 
                             } else { //un-upvoted a post
                                 points.setTextColor(comments.getCurrentTextColor());
@@ -2952,12 +2923,12 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter(
                                         (((holder.itemView.getTag(holder.itemView.getId())) != null
                                                 && holder.itemView.getTag(holder.itemView.getId())
-                                                .equals("none") || full)) ? getCurrentTintColor(
-                                                mContext) : getWhiteTintColor(),
+                                                .equals("none") || full)) ? Palette.getCurrentTintColor(
+                                                mContext) : Palette.getWhiteTintColor(),
                                         PorterDuff.Mode.SRC_ATOP);
-                                setSubmissionScoreText(submission, holder);
-
+                                upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvote));
                             }
+                            setSubmissionScoreText(submission, holder);
                             if (!full
                                     && !SettingValues.actionbarVisible
                                     && SettingValues.defaultCardView
@@ -3018,23 +2989,23 @@ public class PopulateSubmissionViewHolder {
 
                             final int color2 = ta.getColor(0, Color.WHITE);
                             Drawable edit_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.edit);
+                                    mContext.getResources().getDrawable(R.drawable.ic_edit);
                             Drawable nsfw_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.hide);
+                                    mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
                             Drawable delete_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.delete);
+                                    mContext.getResources().getDrawable(R.drawable.ic_delete);
                             Drawable flair_drawable =
-                                    mContext.getResources().getDrawable(R.drawable.fontsizedarker);
+                                    mContext.getResources().getDrawable(R.drawable.ic_text_fields);
 
-                            edit_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
-                            nsfw_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
-                            delete_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
-                            flair_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
+                            edit_drawable.setColorFilter(new PorterDuffColorFilter(color2, PorterDuff.Mode.SRC_ATOP));
+                            nsfw_drawable.setColorFilter(new PorterDuffColorFilter(color2, PorterDuff.Mode.SRC_ATOP));
+                            delete_drawable.setColorFilter(new PorterDuffColorFilter(color2, PorterDuff.Mode.SRC_ATOP));
+                            flair_drawable.setColorFilter(new PorterDuffColorFilter(color2, PorterDuff.Mode.SRC_ATOP));
 
                             ta.recycle();
 
                             BottomSheet.Builder b = new BottomSheet.Builder(mContext).title(
-                                            Html.fromHtml(submission.getTitle()));
+                                            HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                             if (submission.isSelfPost()) {
                                 b.sheet(1, edit_drawable,
@@ -3047,6 +3018,12 @@ public class PopulateSubmissionViewHolder {
                                 b.sheet(4, nsfw_drawable,
                                         mContext.getString(R.string.mod_btn_mark_nsfw));
                             }
+                            if (submission.getDataNode().get("spoiler").asBoolean()) {
+                                b.sheet(5, nsfw_drawable, mContext.getString(R.string.mod_btn_unmark_spoiler));
+                            } else {
+                                b.sheet(5, nsfw_drawable, mContext.getString(R.string.mod_btn_mark_spoiler));
+                            }
+
                             b.sheet(2, delete_drawable,
                                     mContext.getString(R.string.delete_submission));
 
@@ -3329,19 +3306,8 @@ public class PopulateSubmissionViewHolder {
                                                                                                                                 Snackbar.LENGTH_SHORT);
                                                                                                             }
                                                                                                         }
-                                                                                                        if (s
-                                                                                                                != null) {
-                                                                                                            View
-                                                                                                                    view =
-                                                                                                                    s.getView();
-                                                                                                            TextView
-                                                                                                                    tv =
-                                                                                                                    view
-                                                                                                                            .findViewById(
-                                                                                                                                    android.support.design.R.id.snackbar_text);
-                                                                                                            tv.setTextColor(
-                                                                                                                    Color.WHITE);
-                                                                                                            s.show();
+                                                                                                        if (s != null) {
+                                                                                                            LayoutUtils.showSnackbar(s);
                                                                                                         }
                                                                                                     }
                                                                                                 }.executeOnExecutor(
@@ -3407,15 +3373,7 @@ public class PopulateSubmissionViewHolder {
                                                                                     }
                                                                                 }
                                                                                 if (s != null) {
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            android.support.design.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             }
                                                                         }.executeOnExecutor(
@@ -3431,6 +3389,13 @@ public class PopulateSubmissionViewHolder {
                                                 unNsfwSubmission(mContext, submission, holder);
                                             } else {
                                                 setPostNsfw(mContext, submission, holder);
+                                            }
+                                            break;
+                                        case 5:
+                                            if (submission.getDataNode().get("spoiler").asBoolean()) {
+                                                unSpoiler(mContext, submission, holder);
+                                            } else {
+                                                setSpoiler(mContext, submission, holder);
                                             }
                                             break;
                                     }
@@ -3482,7 +3447,7 @@ public class PopulateSubmissionViewHolder {
 
 
         //if the submission is already at 0pts, keep it at 0pts
-        submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
+        submissionScore = Math.max(submissionScore, 0);
         if (submissionScore >= 10000 && SettingValues.abbreviateScores) {
             holder.score.setText(String.format(Locale.getDefault(), "%.1fk",
                     (((double) submissionScore) / 1000)));
@@ -3510,6 +3475,39 @@ public class PopulateSubmissionViewHolder {
             } else {
                 holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()),
                         subredditName);
+            }
+        }
+    }
+
+    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
+        private Submission submission;
+        private View contextView;
+
+        public AsyncReportTask(Submission submission, View contextView) {
+            this.submission = submission;
+            this.contextView = contextView;
+        }
+
+        @Override
+        protected Void doInBackground(String... reason) {
+            try {
+                new AccountManager(
+                        Authentication.reddit).report(submission, reason[0]);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (contextView != null) {
+                try {
+                    Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+                    LayoutUtils.showSnackbar(s);
+                } catch (Exception ignored) {
+
+                }
             }
         }
     }

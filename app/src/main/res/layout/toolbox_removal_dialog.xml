@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:fillViewport="true">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingLeft="8dp"
+                  android:paddingRight="8dp">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <CheckBox
+                    android:id="@+id/toolbox_header_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_header"
+                    android:paddingEnd="8dp"
+                    android:paddingRight="8dp"
+                    android:checked="true"
+                    android:textColor="?attr/fontColor"/>
+
+            <TextView
+                    android:id="@+id/toolbox_header_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/toolbox_header_toggle"
+                    android:layout_toRightOf="@id/toolbox_header_toggle"
+                    android:layout_alignBaseline="@id/toolbox_header_toggle"
+                    android:paddingEnd="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="4dp"
+                    android:text="Your submission has been removed for the following reason(s):"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+        </RelativeLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.25dp"
+                android:background="?attr/tintColor"/>
+
+        <LinearLayout
+                android:id="@+id/toolbox_reasons_list"
+                android:choiceMode="multipleChoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.25dp"
+                    android:background="?attr/tintColor"/>
+
+            <CheckBox
+                    android:id="@+id/toolbox_footer_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_footer"
+                    android:paddingEnd="8dp"
+                    android:paddingRight="8dp"
+                    android:checked="true"
+                    android:textColor="?attr/fontColor"/>
+
+            <TextView
+                    android:id="@+id/toolbox_footer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/toolbox_footer_toggle"
+                    android:layout_toRightOf="@id/toolbox_footer_toggle"
+                    android:layout_alignBaseline="@id/toolbox_footer_toggle"
+                    android:paddingEnd="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="4dp"
+                    android:text="Please message the moderators with any concerns."
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+        </RelativeLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.25dp"
+                android:background="?attr/tintColor"
+                android:layout_marginBottom="8dp"/>
+
+        <RadioGroup
+                android:id="@+id/toolbox_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_comment"
+                    android:checked="true"
+                    android:textColor="?attr/fontColor"/>
+
+            <CheckBox
+                    android:id="@+id/sticky_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_sticky"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:textColor="?attr/fontColor"/>
+
+            <RadioButton
+                    android:id="@+id/pm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_pm"
+                    android:textColor="?attr/fontColor"/>
+
+            <CheckBox
+                    android:id="@+id/pm_modmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_modmail"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:textColor="?attr/fontColor"/>
+
+            <RadioButton
+                    android:id="@+id/both"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_both"
+                    android:textColor="?attr/fontColor"/>
+
+            <RadioButton
+                    android:id="@+id/none"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toolbox_removal_none"
+                    android:visibility="gone"
+                    android:textColor="?attr/fontColor"/>
+
+        </RadioGroup>
+        
+        <CheckBox
+                android:id="@+id/lock"
+                android:layout_width="match_parent" 
+                android:layout_height="wrap_content"
+                android:text="@string/toolbox_removal_lock"
+                android:textColor="?attr/fontColor"/>
+
+        <EditText
+                android:id="@+id/toolbox_log_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/toolbox_logreason_placeholder"
+                android:inputType="text"
+                android:visibility="gone"
+                android:importantForAutofill="no"/>
+
+    </LinearLayout>
+</ScrollView>

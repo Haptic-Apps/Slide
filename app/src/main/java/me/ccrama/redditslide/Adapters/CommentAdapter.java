@@ -5,23 +5,23 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -35,6 +35,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.RobotoTypefaces;
@@ -98,6 +104,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     final static  int HEADER = 1;
     private final int SPACER = 6;
+    public final Bitmap[] awardIcons;
     public Context            mContext;
     public SubmissionComments dataSet;
     public Submission         submission;
@@ -117,7 +124,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     CommentPage       mPage;
     int               shifted;
     int               toShiftTo;
-    ArrayList<String> hidden;
+    HashSet<String> hidden;
     ArrayList<String> hiddenPersons;
     ArrayList<String> toCollapse;
     private String backedText         = "";
@@ -136,7 +143,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.fm = fm;
 
         this.submission = submission;
-        hidden = new ArrayList<>();
+        hidden = new HashSet<>();
         currentComments = dataSet.comments;
         if (currentComments != null) {
             for (int i = 0; i < currentComments.size(); i++) {
@@ -147,6 +154,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         toCollapse = new ArrayList<>();
 
         shifted = 0;
+
+        // As per reddit API gids: 0=silver, 1=gold, 2=platinum
+        awardIcons = new Bitmap[] {
+                BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver),
+                BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold),
+                BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum),
+        };
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView,
@@ -159,7 +173,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.dataSet = dataSet;
 
         this.submission = submission;
-        hidden = new ArrayList<>();
+        hidden = new HashSet<>();
         currentComments = dataSet.comments;
         if (currentComments != null) {
             for (int i = 0; i < currentComments.size(); i++) {
@@ -234,7 +248,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
@@ -244,9 +258,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentComments == null) return;
         for (CommentObject o : currentComments) {
             if (o.comment.isTopLevel()) {
-                if (hiddenPersons.contains(o.comment.getComment().getFullName())) {
-                    hiddenPersons.remove(o.comment.getComment().getFullName());
-                }
+                hiddenPersons.remove(o.comment.getComment().getFullName());
                 unhideAll(o.comment);
             }
         }
@@ -280,7 +292,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             lastSeen = HasSeen.getSeenTime(submission);
             String fullname = submission.getFullName();
             if (fullname.contains("t3_")) {
-                fullname = fullname.substring(3, fullname.length());
+                fullname = fullname.substring(3);
             }
             HasSeen.seenTimes.put(fullname, System.currentTimeMillis());
             KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
@@ -370,8 +382,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             };
             holder.itemView.setOnClickListener(singleClick);
             holder.commentOverflow.setOnClickListener(singleClick);
-            if (!toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments
-                    || !SettingValues.collapseComments) {
+            if (!toCollapse.contains(comment.getFullName()) || !SettingValues.collapseComments) {
                 setViews(comment.getDataNode().get("body_html").asText(),
                         submission.getSubredditName(), holder, singleClick, onLongClickListener);
             }
@@ -399,17 +410,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     && !comment.getAuthorFlair().getCssClass().isEmpty()) {
                 boolean set = false;
                 for (String s : comment.getAuthorFlair().getCssClass().split(" ")) {
+                    ImageFlairs.FlairImageLoader loader = ImageFlairs.getFlairImageLoader(mContext);
                     File file = DiskCacheUtils.findInCache(
                             comment.getSubredditName().toLowerCase(Locale.ENGLISH)
                                     + ":"
                                     + s.toLowerCase(Locale.ENGLISH),
-                            ImageFlairs.getFlairImageLoader(mContext).getInstance().getDiskCache());
+                            loader.getDiskCache());
                     if (file != null && file.exists()) {
                         set = true;
                         holder.imageFlair.setVisibility(View.VISIBLE);
                         String decodedImgUri = Uri.fromFile(file).toString();
-                        ImageFlairs.getFlairImageLoader(mContext)
-                                .displayImage(decodedImgUri, holder.imageFlair);
+                        loader.displayImage(decodedImgUri, holder.imageFlair);
                         break;
                     }
                 }
@@ -532,6 +543,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 setCommentStateHighlighted(holder, comment, baseNode, true, false);
             }
 
+            if (SettingValues.collapseDeletedComments) {
+                if (comment.getBody().startsWith("[removed]") || comment.getBody().startsWith("[deleted]")) {
+                    holder.firstTextView.setVisibility(View.GONE);
+                    holder.commentOverflow.setVisibility(View.GONE);
+                }
+            }
+
         } else if (firstHolder instanceof SubmissionViewHolder && submission != null) {
             submissionViewHolder = (SubmissionViewHolder) firstHolder;
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(
@@ -563,12 +581,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     mPage.overrideFab = false;
                                     currentlyEditingId = "";
                                     backedText = "";
-                                    View view = ((Activity) mContext).getCurrentFocus();
+                                    View view = ((Activity) mContext).findViewById(android.R.id.content);
                                     if (view != null) {
                                         InputMethodManager imm =
-                                                (InputMethodManager) mContext.getSystemService(
-                                                        Context.INPUT_METHOD_SERVICE);
-                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                                ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                                        if (imm != null) {
+                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        }
                                     }
                                 }
                             });
@@ -689,7 +708,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     builder.setTitle(mContext.getString(R.string.replies_switch_accounts));
-                    builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
+                    builder.setSingleChoiceItems(keys.toArray(new String[0]), i,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -716,11 +735,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                replyLine.setOnFocusChangeListener((v, b) -> {
+                    if (b) {
+                        v.postDelayed(() -> {
+                            if (!v.hasFocus())
+                                v.requestFocus();
+                        }, 100);
+                    }
+                });
+            }
             replyLine.requestFocus();
-            InputMethodManager imm =
-                    (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                    InputMethodManager.HIDE_IMPLICIT_ONLY);
+            InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+            if (imm != null) {
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                        InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
 
             editingPosition = submissionViewHolder.getAdapterPosition();
 
@@ -743,17 +774,26 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 currentlyEditing = null;
                                 editingPosition = -1;
                                 //Hide soft keyboard
-                                View view = ((Activity) mContext).getCurrentFocus();
+                                View view = ((Activity) mContext).findViewById(android.R.id.content);
                                 if (view != null) {
                                     InputMethodManager imm =
-                                            (InputMethodManager) mContext.getSystemService(
-                                                    Context.INPUT_METHOD_SERVICE);
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                            ContextCompat.getSystemService(
+                                                    mContext, InputMethodManager.class);
+                                    if (imm != null) {
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    }
                                 }
                             }
                         }
                     });
         } else {
+            View view = ((Activity) mContext).findViewById(android.R.id.content);
+            if (view != null) {
+                InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
             collapseAndHide(replyArea);
         }
     }
@@ -854,12 +894,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         mAnimator = slideAnimator(finalHeight, 0, v);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 //Height=0, but it set visibility to GONE
@@ -869,12 +904,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onAnimationCancel(Animator animation) {
                 v.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -885,12 +914,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         mAnimator = slideAnimator(finalHeight, 0, v);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 //Height=0, but it set visibility to GONE
@@ -900,12 +924,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onAnimationCancel(Animator animation) {
                 ((LinearLayout) v).removeAllViews();
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -925,27 +943,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         l2.measure(widthSpec2, heightSpec2);
         ValueAnimator mAnimator = slideAnimator(l.getMeasuredHeight(), l2.getMeasuredHeight(), l);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 l2.setVisibility(View.VISIBLE);
-
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
                 l2.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -987,12 +993,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mAnimator = slideAnimator((l.getMeasuredHeight() - l2.getMeasuredHeight()),
                 l.getMeasuredHeight() - (l.getMeasuredHeight() - l2.getMeasuredHeight()), l);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 RelativeLayout.LayoutParams params =
@@ -1009,11 +1010,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
                 params.addRule(RelativeLayout.BELOW, R.id.commentOverflow);
                 l.setLayoutParams(params);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -1028,12 +1024,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         mAnimator = slideAnimator(0, l.getMeasuredHeight(), l);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) l.getLayoutParams();
@@ -1046,11 +1037,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) l.getLayoutParams();
                 params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
                 l.setLayoutParams(params);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -1093,9 +1079,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentNode = baseNode;
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             resetMenu(holder.menuArea, false);
-            final View baseView = (SettingValues.rightHandedCommentMenu) ? inflater.inflate(
-                    R.layout.comment_menu_right_handed, holder.menuArea)
-                    : inflater.inflate(R.layout.comment_menu, holder.menuArea);
+            final View baseView = inflater.inflate(
+                    SettingValues.rightHandedCommentMenu ?
+                            R.layout.comment_menu_right_handed : R.layout.comment_menu, holder.menuArea);
 
             if (!isReplying) {
                 baseView.setVisibility(View.GONE);
@@ -1141,11 +1127,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final Comment comment = baseNode.getComment();
             if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
                 upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                upvote.setContentDescription(mContext.getResources().getString(R.string.btn_upvoted));
             } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
                 downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
+                downvote.setContentDescription(mContext.getResources().getString(R.string.btn_downvoted));
             } else {
                 downvote.clearColorFilter();
+                downvote.setContentDescription(mContext.getResources().getString(R.string.btn_downvote));
                 upvote.clearColorFilter();
+                upvote.setContentDescription(mContext.getResources().getString(R.string.btn_upvote));
             }
             {
                 final ImageView mod = baseView.findViewById(R.id.mod);
@@ -1223,6 +1213,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (Authentication.isLoggedIn
                     && !submission.isArchived()
                     && !submission.isLocked()
+                    && !(comment.getDataNode().has("locked") && comment.getDataNode().get("locked").asBoolean())
                     && !deleted.contains(n.getFullName())
                     && !comment.getAuthor().equals("[deleted]")
                     && Authentication.didOnline) {
@@ -1290,7 +1281,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             AlertDialogWrapper.Builder builder =
                                     new AlertDialogWrapper.Builder(mContext);
                             builder.setTitle(R.string.sorting_choose);
-                            builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]), i,
+                            builder.setSingleChoiceItems(keys.toArray(new String[0]), i,
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -1304,10 +1295,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     replyLine.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                            InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                    if (imm != null) {
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    }
 
                     currentlyEditingId = n.getFullName();
                     replyLine.setText(backedText);
@@ -1362,10 +1354,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.strike)).setColorFilter(
                                     Color.WHITE);
-                            ((TextView) replyArea.findViewById(R.id.author)).setTextColor(
+                            ((ImageView) replyArea.findViewById(R.id.author)).setColorFilter(
                                     Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.spoiler)).setColorFilter(Color.WHITE);
                             replyLine.getBackground()
-                                    .setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+                                    .setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN));
                         }
 
                         replyArea.setVisibility(View.VISIBLE);
@@ -1409,7 +1402,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 AlertDialogWrapper.Builder builder =
                                         new AlertDialogWrapper.Builder(mContext);
                                 builder.setTitle(R.string.sorting_choose);
-                                builder.setSingleChoiceItems(keys.toArray(new String[keys.size()]),
+                                builder.setSingleChoiceItems(keys.toArray(new String[0]),
                                         i, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1422,11 +1415,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 builder.show();
                             }
                         });
-                        replyLine.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            replyLine.setOnFocusChangeListener((view, b) -> {
+                                if (b) {
+                                    view.postDelayed(() -> {
+                                        if (!view.hasFocus())
+                                            view.requestFocus();
+                                    }, 100);
+                                }
+                            });
+                        }
+                        replyLine.requestFocus(); // TODO: Not working when called a second time
+                        InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
+                        if (imm != null) {
+                            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                    InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        }
 
                         currentlyEditingId = n.getFullName();
                         replyLine.addTextChangedListener(new TextWatcher() {
@@ -1470,11 +1474,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             editingPosition = -1;
                         }
                         //Hide soft keyboard
-                        View view = ((Activity) mContext).getCurrentFocus();
+                        View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            InputMethodManager imm = ContextCompat.getSystemService(
+                                    mContext, InputMethodManager.class);
+                            if (imm != null) {
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
                     }
                 });
@@ -1486,11 +1492,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         currentlyEditingId = "";
                         backedText = "";
                         mPage.overrideFab = false;
-                        View view = ((Activity) mContext).getCurrentFocus();
+                        View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            InputMethodManager imm = ContextCompat.getSystemService(
+                                    mContext, InputMethodManager.class);
+                            if (imm != null) {
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
                         doShowMenu(baseView);
                     }
@@ -1595,15 +1603,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void resetMenu(LinearLayout v, boolean collapsed) {
         v.removeAllViews();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
         if (collapsed) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
             params.height = 0;
-            v.setLayoutParams(params);
         } else {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
             params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            v.setLayoutParams(params);
         }
+        v.setLayoutParams(params);
     }
 
     public void setCommentStateUnhighlighted(final CommentViewHolder holder,
@@ -1665,12 +1671,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
-                            View view = ((Activity) mContext).getCurrentFocus();
+                            View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        ContextCompat.getSystemService(
+                                                mContext, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
                             if (mContext instanceof BaseActivity) {
                                 ((BaseActivity) mContext).setShareUrl(
@@ -1733,12 +1741,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
-                            View view = ((Activity) mContext).getCurrentFocus();
+                            View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        ContextCompat.getSystemService(
+                                                mContext, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
 
                             doLongClick(holder, comment, baseNode);
@@ -1790,12 +1800,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
-                            View view = ((Activity) mContext).getCurrentFocus();
+                            View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
                                 InputMethodManager imm =
-                                        (InputMethodManager) mContext.getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        ContextCompat.getSystemService(
+                                                mContext, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
 
                             doOnClick(holder, baseNode, comment);
@@ -1911,14 +1923,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int counter = unhideNumber(n, 0);
             if (SettingValues.collapseComments) {
                 listView.setItemAnimator(null);
-                notifyItemRangeInserted(i, counter);
             } else {
                 try {
                     listView.setItemAnimator(new AlphaInAnimator());
                 } catch (Exception ignored) {
                 }
-                notifyItemRangeInserted(i, counter);
             }
+            notifyItemRangeInserted(i, counter);
         } catch (Exception ignored) {
 
         }
@@ -1928,11 +1939,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         unhideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyDataSetChanged();
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
     }
 
     public void hideAll(CommentNode n) {
@@ -1940,11 +1950,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         hideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyDataSetChanged();
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
 
     }
 
@@ -1953,11 +1962,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int counter = hideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyItemRangeRemoved(i, counter);
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
-            notifyItemRangeRemoved(i, counter);
         }
+        notifyItemRangeRemoved(i, counter);
 
     }
 

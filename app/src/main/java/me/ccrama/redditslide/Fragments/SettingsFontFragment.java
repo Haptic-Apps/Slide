@@ -1,12 +1,13 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.devspark.robototextview.widget.RobotoRadioButton;
 
@@ -24,14 +25,13 @@ public class SettingsFontFragment {
                 return "Larger";
             case R.string.font_size_large:
                 return "Large";
-            case R.string.font_size_medium:
-                return "Medium";
             case R.string.font_size_small:
                 return "Small";
             case R.string.font_size_smaller:
                 return "Smaller";
             case R.string.font_size_tiny:
                 return "Tiny";
+            case R.string.font_size_medium:
             default:
                 return "Medium";
         }
@@ -44,7 +44,7 @@ public class SettingsFontFragment {
     }
 
     public void Bind() {
-        final TextView colorComment = (TextView) context.findViewById(R.id.settings_font_commentFont);
+        final TextView colorComment = context.findViewById(R.id.settings_font_commentFont);
         colorComment.setText(new FontPreferences(context).getCommentFontStyle().getTitle());
         context.findViewById(R.id.settings_font_commentfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +72,7 @@ public class SettingsFontFragment {
                 popup.show();
             }
         });
-        final TextView colorPost = (TextView) context.findViewById(R.id.settings_font_postFont);
+        final TextView colorPost = context.findViewById(R.id.settings_font_postFont);
         colorPost.setText(new FontPreferences(context).getPostFontStyle().getTitle());
         context.findViewById(R.id.settings_font_postfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,7 +304,7 @@ public class SettingsFontFragment {
         });
 
         {
-            SwitchCompat single = (SwitchCompat) context.findViewById(R.id.settings_font_linktype);
+            SwitchCompat single = context.findViewById(R.id.settings_font_linktype);
             single.setChecked(SettingValues.typeInText);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -315,7 +315,7 @@ public class SettingsFontFragment {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) context.findViewById(R.id.settings_font_enlarge_links);
+            SwitchCompat single = context.findViewById(R.id.settings_font_enlarge_links);
             single.setChecked(SettingValues.largeLinks);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -23,7 +24,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -36,28 +36,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.ViewDragHelper;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
@@ -91,10 +69,34 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
+import androidx.customview.widget.ViewDragHelper;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
 
@@ -143,11 +145,9 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.FDroid;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.DrawerItemsDialog;
 import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
@@ -165,21 +165,23 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.EditTextValidator;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 import static me.ccrama.redditslide.UserSubscriptions.modOf;
 
@@ -213,7 +215,7 @@ public class MainActivity extends BaseActivity
     public EditText                 drawerSearch;
     public View                     header;
     public String                   subToDo;
-    public OverviewPagerAdapter     adapter;
+    public MainPagerAdapter adapter;
     public int     toGoto = 0;
     public boolean first  = true;
     public TabLayout mTabLayout;
@@ -255,12 +257,12 @@ public class MainActivity extends BaseActivity
                 current = current - 1;
             }
             if (current < 0) current = 0;
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            adapter = new MainPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(current);
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(current);
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
             }
             setToolbarClick();
         } else if ((requestCode == 2001 || requestCode == 2002) && resultCode == RESULT_OK) {
@@ -279,13 +281,15 @@ public class MainActivity extends BaseActivity
             View view = MainActivity.this.getCurrentFocus();
             if (view != null) {
                 InputMethodManager imm =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        ContextCompat.getSystemService(this, InputMethodManager.class);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         } else if (requestCode == 2002 && resultCode != RESULT_OK) {
             mToolbar.performLongClick(); //search was init from the toolbar, so return focus to the toolbar
         } else if (requestCode == 423 && resultCode == RESULT_OK) {
-            ((OverviewPagerAdapterComment) adapter).mCurrentComments.doResult(data);
+            ((MainPagerAdapterComment) adapter).mCurrentComments.doResult(data);
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
                 if (resultCode == RESULT_OK) {
@@ -339,7 +343,10 @@ public class MainActivity extends BaseActivity
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
-            drawerLayout.openDrawer(Gravity.START);
+            drawerLayout.openDrawer(GravityCompat.START);
+        } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+            pager.setCurrentItem(0);
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
             final AlertDialogWrapper.Builder builder =
@@ -370,11 +377,11 @@ public class MainActivity extends BaseActivity
         changed = false;
         if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(
-                    SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+                    SynccitRead.newVisited.toArray(new String[0]));
         }
         if (Authentication.isLoggedIn
                 && Authentication.me != null
-                && Authentication.me.hasGold()
+                //This is causing a crash, might not be important since the storeVisits will just not do anything without gold && Authentication.me.hasGold()
                 && !SynccitRead.newVisited.isEmpty()) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -406,50 +413,47 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[],
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
             int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
 
-                } else {
+            } else {
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                    R.string.err_permission)
-                                    .setMessage(R.string.err_permission_msg)
-                                    .setPositiveButton(R.string.btn_yes,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                                R.string.err_permission)
+                                .setMessage(R.string.err_permission_msg)
+                                .setPositiveButton(R.string.btn_yes,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
                                                         int which) {
-                                                    ActivityCompat.requestPermissions(
-                                                            MainActivity.this, new String[]{
-                                                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                            }, 1);
+                                                ActivityCompat.requestPermissions(
+                                                        MainActivity.this, new String[]{
+                                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                                        }, 1);
 
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_no,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_no,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
                                                         int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                    .show();
-                        }
-                    });
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                .show();
+                    }
+                });
 
-                }
             }
 
             // other 'case' lines to check for other
@@ -484,14 +488,12 @@ public class MainActivity extends BaseActivity
                 && SettingValues.commentPager
                 && pager.getCurrentItem() == toOpenComments
                 && SettingValues.commentVolumeNav
-                && pager.getAdapter() instanceof OverviewPagerAdapterComment) {
+                && pager.getAdapter() instanceof MainPagerAdapterComment) {
             if (SettingValues.commentVolumeNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
-                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
-                                keyCode, event);
                     case KeyEvent.KEYCODE_VOLUME_DOWN:
-                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
+                        return ((MainPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(
                                 keyCode, event);
                     default:
                         return super.dispatchKeyEvent(event);
@@ -500,13 +502,11 @@ public class MainActivity extends BaseActivity
                 return super.dispatchKeyEvent(event);
             }
         }
-        if (event.getAction() != KeyEvent.ACTION_DOWN) return true;
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_SEARCH:
-                return onKeyDown(keyCode, event);
-            default:
-                return super.dispatchKeyEvent(event);
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event);
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            return onKeyDown(keyCode, event);
         }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
@@ -664,10 +664,7 @@ public class MainActivity extends BaseActivity
                 if (subreddit.equalsIgnoreCase("friends")) {
                     Snackbar s = Snackbar.make(findViewById(R.id.anchor),
                             getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     openPopup();
                 }
@@ -1070,11 +1067,7 @@ public class MainActivity extends BaseActivity
                                                     startActivity(i);
                                                 }
                                             });
-                                    View view = snack.getView();
-                                    TextView tv = view.findViewById(
-                                            android.support.design.R.id.snackbar_text);
-                                    tv.setTextColor(Color.WHITE);
-                                    snack.show();
+                                    LayoutUtils.showSnackbar(snack);
                                 }
                             }
                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1123,11 +1116,7 @@ public class MainActivity extends BaseActivity
                         @Override
                         public void onGlobalLayout() {
                             headerHeight = header.getHeight();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            } else {
-                                header.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                            }
+                            header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         }
                     });
         }
@@ -1246,7 +1235,7 @@ public class MainActivity extends BaseActivity
         }
 
 
-        if (!FDroid.isFDroid && Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this))
+        if (!BuildConfig.isFDroid && Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this))
 
         {
             // Display an snackbar that asks the user to rate the app after this
@@ -1314,9 +1303,9 @@ public class MainActivity extends BaseActivity
 
     public void checkClipboard(){
         try {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = ContextCompat.getSystemService(this, ClipboardManager.class);
 
-            if (clipboard.hasPrimaryClip()) {
+            if (clipboard != null && clipboard.hasPrimaryClip()) {
                 ClipData data = clipboard.getPrimaryClip();
                 final String s = (String) data.getItemAt(0).getText();
                 if (!s.isEmpty()) {
@@ -1348,8 +1337,8 @@ public class MainActivity extends BaseActivity
             restartTheme(); //force a restart because we should not be here
         }
 
-        if ((!inNightMode && SettingValues.isNight()) || (inNightMode
-                && !SettingValues.isNight())) {
+        if (inNightMode != SettingValues.isNight()) {
+            ((SwitchCompat) drawerLayout.findViewById(R.id.toggle_night_mode)).setChecked(SettingValues.isNight());
             restartTheme();
         }
         checkClipboard();
@@ -1377,7 +1366,7 @@ public class MainActivity extends BaseActivity
             datasetChanged = false;
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(pager.getCurrentItem());
+                LayoutUtils.scrollToTabAfterLayout(mTabLayout, pager.getCurrentItem());
             }
             setToolbarClick();
         }*/
@@ -1433,7 +1422,7 @@ public class MainActivity extends BaseActivity
         if (keyCode == KeyEvent.KEYCODE_SEARCH) {
             return onOptionsItemSelected(menu.findItem(R.id.search));
         }
-        return false;
+        return super.onKeyDown(keyCode, event);
     }
 
     public static String abbreviate(final String str, final int maxWidth) {
@@ -1619,9 +1608,11 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
+                        header.setContentDescription(getResources().getString(R.string.btn_collapse));
                         flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                     } else {
                         collapse(profStuff);
+                        header.setContentDescription(getResources().getString(R.string.btn_expand));
                         flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                     }
 
@@ -1637,8 +1628,6 @@ public class MainActivity extends BaseActivity
             }
             final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
 
-            final String guest = getString(R.string.guest);
-            keys.add(guest);
             final LinearLayout accountList = header.findViewById(R.id.accountsarea);
             for (final String accName : keys) {
                 LogUtil.v(accName);
@@ -1647,93 +1636,89 @@ public class MainActivity extends BaseActivity
                                 false);
                 ((TextView) t.findViewById(R.id.name)).setText(accName);
                 LogUtil.v("Adding click to " + ((TextView) t.findViewById(R.id.name)).getText());
-                if (!accName.equals(guest)) {
-                    t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                            new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.profile_remove)
-                                    .setMessage(R.string.profile_remove_account)
-                                    .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog2, int which2) {
-                                            Set<String> accounts2 = Authentication.authentication.getStringSet(
-                                                    "accounts", new HashSet<String>());
-                                            Set<String> done = new HashSet<>();
-                                            for (String s : accounts2) {
-                                                if (!s.contains(accName)) {
-                                                    done.add(s);
-                                                }
-                                            }
-                                            Authentication.authentication.edit()
-                                                    .putStringSet("accounts", done)
-                                                    .commit();
-                                            dialog2.dismiss();
-                                            accountList.removeView(t);
-                                            if (accName.equalsIgnoreCase(Authentication.name)) {
-
-                                                boolean d = false;
-                                                for (String s : keys) {
-
-                                                    if (!s.equalsIgnoreCase(accName)) {
-                                                        d = true;
-                                                        LogUtil.v("Switching to " + s);
-                                                        for(Map.Entry<String, String> e : accounts.entrySet()){
-                                                            LogUtil.v(e.getKey() + ":" + e.getValue());
-                                                        }
-                                                        if (accounts.containsKey(s) && !accounts.get(s)
-                                                                .isEmpty()) {
-                                                            Authentication.authentication.edit()
-                                                                    .putString("lasttoken", accounts.get(s))
-                                                                    .remove("backedCreds")
-                                                                    .commit();
-                                                        } else {
-                                                            ArrayList<String> tokens = new ArrayList<>(
-                                                                    Authentication.authentication.getStringSet(
-                                                                            "tokens", new HashSet<String>()));
-                                                            int index = keys.indexOf(s);
-                                                            if (keys.indexOf(s) > tokens.size()) {
-                                                                index -= 1;
-                                                            }
-                                                            Authentication.authentication.edit()
-                                                                    .putString("lasttoken",
-                                                                            tokens.get(index))
-                                                                    .remove("backedCreds")
-                                                                    .commit();
-                                                        }
-                                                        Authentication.name = s;
-                                                        UserSubscriptions.switchAccounts();
-                                                        Reddit.forceRestart(MainActivity.this, true);
-                                                        break;
-                                                    }
-
-                                                }
-                                                if (!d) {
-                                                    Authentication.name = "LOGGEDOUT";
-                                                    Authentication.isLoggedIn = false;
-                                                    Authentication.authentication.edit()
-                                                            .remove("lasttoken")
-                                                            .remove("backedCreds")
-                                                            .commit();
-                                                    UserSubscriptions.switchAccounts();
-                                                    Reddit.forceRestart(MainActivity.this, true);
-                                                }
-
-                                            } else {
-                                                accounts.remove(accName);
-                                                keys.remove(accName);
+                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.profile_remove)
+                                .setMessage(R.string.profile_remove_account)
+                                .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog2, int which2) {
+                                        Set<String> accounts2 = Authentication.authentication.getStringSet(
+                                                "accounts", new HashSet<String>());
+                                        Set<String> done = new HashSet<>();
+                                        for (String s : accounts2) {
+                                            if (!s.contains(accName)) {
+                                                done.add(s);
                                             }
                                         }
-                                    })
-                                    .setPositiveButton(R.string.btn_cancel, null)
-                                    .show();
+                                        Authentication.authentication.edit()
+                                                .putStringSet("accounts", done)
+                                                .commit();
+                                        dialog2.dismiss();
+                                        accountList.removeView(t);
+                                        if (accName.equalsIgnoreCase(Authentication.name)) {
+
+                                            boolean d = false;
+                                            for (String s : keys) {
+
+                                                if (!s.equalsIgnoreCase(accName)) {
+                                                    d = true;
+                                                    LogUtil.v("Switching to " + s);
+                                                    for(Map.Entry<String, String> e : accounts.entrySet()){
+                                                        LogUtil.v(e.getKey() + ":" + e.getValue());
+                                                    }
+                                                    if (accounts.containsKey(s) && !accounts.get(s)
+                                                            .isEmpty()) {
+                                                        Authentication.authentication.edit()
+                                                                .putString("lasttoken", accounts.get(s))
+                                                                .remove("backedCreds")
+                                                                .commit();
+                                                    } else {
+                                                        ArrayList<String> tokens = new ArrayList<>(
+                                                                Authentication.authentication.getStringSet(
+                                                                        "tokens", new HashSet<String>()));
+                                                        int index = keys.indexOf(s);
+                                                        if (keys.indexOf(s) > tokens.size()) {
+                                                            index -= 1;
+                                                        }
+                                                        Authentication.authentication.edit()
+                                                                .putString("lasttoken",
+                                                                        tokens.get(index))
+                                                                .remove("backedCreds")
+                                                                .commit();
+                                                    }
+                                                    Authentication.name = s;
+                                                    UserSubscriptions.switchAccounts();
+                                                    Reddit.forceRestart(MainActivity.this, true);
+                                                    break;
+                                                }
+
+                                            }
+                                            if (!d) {
+                                                Authentication.name = "LOGGEDOUT";
+                                                Authentication.isLoggedIn = false;
+                                                Authentication.authentication.edit()
+                                                        .remove("lasttoken")
+                                                        .remove("backedCreds")
+                                                        .commit();
+                                                UserSubscriptions.switchAccounts();
+                                                Reddit.forceRestart(MainActivity.this, true);
+                                            }
+
+                                        } else {
+                                            accounts.remove(accName);
+                                            keys.remove(accName);
+                                        }
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_cancel, null)
+                                .show();
 
 
-                        }
-                    });
-                } else {
-                    t.findViewById(R.id.remove).setVisibility(View.GONE);
-                }
+                    }
+                });
                 t.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1741,30 +1726,21 @@ public class MainActivity extends BaseActivity
                         LogUtil.v("Found name is " + accName);
                         if (!accName.equalsIgnoreCase(Authentication.name)) {
                             LogUtil.v("Switching to " + accName);
-                            if (!accName.equals(guest)) {
-                                if (!accounts.get(accName).isEmpty()) {
-                                    LogUtil.v("Using token " + accounts.get(accName));
-                                    Authentication.authentication.edit()
-                                            .putString("lasttoken", accounts.get(accName))
-                                            .remove("backedCreds")
-                                            .apply();
-                                } else {
-                                    ArrayList<String> tokens = new ArrayList<>(
-                                            Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                    Authentication.authentication.edit()
-                                            .putString("lasttoken", tokens.get(keys.indexOf(accName)))
-                                            .remove("backedCreds")
-                                            .apply();
-                                }
-                                Authentication.name = accName;
-                            } else {
-                                Authentication.name = "LOGGEDOUT";
-                                Authentication.isLoggedIn = false;
+                            if (!accounts.get(accName).isEmpty()) {
+                                LogUtil.v("Using token " + accounts.get(accName));
                                 Authentication.authentication.edit()
-                                        .remove("lasttoken")
+                                        .putString("lasttoken", accounts.get(accName))
+                                        .remove("backedCreds")
+                                        .apply();
+                            } else {
+                                ArrayList<String> tokens = new ArrayList<>(
+                                        Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                Authentication.authentication.edit()
+                                        .putString("lasttoken", tokens.get(keys.indexOf(accName)))
                                         .remove("backedCreds")
                                         .apply();
                             }
+                            Authentication.name = accName;
 
                             UserSubscriptions.switchAccounts();
 
@@ -1783,10 +1759,26 @@ public class MainActivity extends BaseActivity
                     if (body.getVisibility() == View.GONE) {
                         expand(body);
                         flipAnimator(false, view).start();
+                        view.findViewById(R.id.godown).setContentDescription(getResources().getString(R.string.btn_collapse));
                     } else {
                         collapse(body);
                         flipAnimator(true, view).start();
+                        view.findViewById(R.id.godown).setContentDescription(getResources().getString(R.string.btn_expand));
                     }
+                }
+            });
+
+            header.findViewById(R.id.guest_mode).setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    Authentication.name = "LOGGEDOUT";
+                    Authentication.isLoggedIn = false;
+                    Authentication.authentication.edit()
+                            .remove("lasttoken")
+                            .remove("backedCreds")
+                            .apply();
+                    UserSubscriptions.switchAccounts();
+                    Reddit.forceRestart(MainActivity.this, true);
                 }
             });
 
@@ -1833,9 +1825,11 @@ public class MainActivity extends BaseActivity
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
                         flipAnimator(false, header.findViewById(R.id.headerflip)).start();
+                        header.findViewById(R.id.headerflip).setContentDescription(getResources().getString(R.string.btn_collapse));
                     } else {
                         collapse(profStuff);
                         flipAnimator(true, header.findViewById(R.id.headerflip)).start();
+                        header.findViewById(R.id.headerflip).setContentDescription(getResources().getString(R.string.btn_expand));
                     }
 
                 }
@@ -1851,8 +1845,6 @@ public class MainActivity extends BaseActivity
             }
             final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
 
-            final String guest = getString(R.string.guest);
-            keys.add(guest);
             final LinearLayout accountList = header.findViewById(R.id.accountsarea);
             for (final String accName : keys) {
                 LogUtil.v(accName);
@@ -1860,84 +1852,80 @@ public class MainActivity extends BaseActivity
                         getLayoutInflater().inflate(R.layout.account_textview_white, accountList,
                                 false);
                 ((TextView) t.findViewById(R.id.name)).setText(accName);
-                if (!accName.equals(guest)) {
-                    t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                            new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.profile_remove)
-                                    .setMessage(R.string.profile_remove_account)
-                                    .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog2, int which2) {
-                                            Set<String> accounts2 = Authentication.authentication.getStringSet(
-                                                    "accounts", new HashSet<String>());
-                                            Set<String> done = new HashSet<>();
-                                            for (String s : accounts2) {
-                                                if (!s.contains(accName)) {
-                                                    done.add(s);
-                                                }
+                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.profile_remove)
+                                .setMessage(R.string.profile_remove_account)
+                                .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog2, int which2) {
+                                        Set<String> accounts2 = Authentication.authentication.getStringSet(
+                                                "accounts", new HashSet<String>());
+                                        Set<String> done = new HashSet<>();
+                                        for (String s : accounts2) {
+                                            if (!s.contains(accName)) {
+                                                done.add(s);
                                             }
-                                            Authentication.authentication.edit()
-                                                    .putStringSet("accounts", done)
-                                                    .commit();
-                                            dialog2.dismiss();
-                                            accountList.removeView(t);
+                                        }
+                                        Authentication.authentication.edit()
+                                                .putStringSet("accounts", done)
+                                                .commit();
+                                        dialog2.dismiss();
+                                        accountList.removeView(t);
 
-                                            if (accName.equalsIgnoreCase(Authentication.name)) {
-                                                boolean d = false;
-                                                for (String s : keys) {
-                                                    if (!s.equalsIgnoreCase(accName)) {
-                                                        d = true;
-                                                        LogUtil.v("Switching to " + s);
-                                                        if (!accounts.get(s).isEmpty()) {
-                                                            Authentication.authentication.edit()
-                                                                    .putString("lasttoken", accounts.get(s))
-                                                                    .remove("backedCreds")
-                                                                    .commit();
+                                        if (accName.equalsIgnoreCase(Authentication.name)) {
+                                            boolean d = false;
+                                            for (String s : keys) {
+                                                if (!s.equalsIgnoreCase(accName)) {
+                                                    d = true;
+                                                    LogUtil.v("Switching to " + s);
+                                                    if (!accounts.get(s).isEmpty()) {
+                                                        Authentication.authentication.edit()
+                                                                .putString("lasttoken", accounts.get(s))
+                                                                .remove("backedCreds")
+                                                                .commit();
 
-                                                        } else {
-                                                            ArrayList<String> tokens = new ArrayList<>(
-                                                                    Authentication.authentication.getStringSet(
-                                                                            "tokens", new HashSet<String>()));
-                                                            Authentication.authentication.edit()
-                                                                    .putString("lasttoken", tokens.get(
-                                                                            keys.indexOf(s)))
-                                                                    .remove("backedCreds")
-                                                                    .commit();
-                                                        }
-                                                        Authentication.name = s;
-                                                        UserSubscriptions.switchAccounts();
-                                                        Reddit.forceRestart(MainActivity.this, true);
+                                                    } else {
+                                                        ArrayList<String> tokens = new ArrayList<>(
+                                                                Authentication.authentication.getStringSet(
+                                                                        "tokens", new HashSet<String>()));
+                                                        Authentication.authentication.edit()
+                                                                .putString("lasttoken", tokens.get(
+                                                                        keys.indexOf(s)))
+                                                                .remove("backedCreds")
+                                                                .commit();
                                                     }
-                                                }
-                                                if (!d) {
-                                                    Authentication.name = "LOGGEDOUT";
-                                                    Authentication.isLoggedIn = false;
-                                                    Authentication.authentication.edit()
-                                                            .remove("lasttoken")
-                                                            .remove("backedCreds")
-                                                            .commit();
+                                                    Authentication.name = s;
                                                     UserSubscriptions.switchAccounts();
                                                     Reddit.forceRestart(MainActivity.this, true);
                                                 }
-                                            } else {
-                                                accounts.remove(accName);
-                                                keys.remove(accName);
                                             }
+                                            if (!d) {
+                                                Authentication.name = "LOGGEDOUT";
+                                                Authentication.isLoggedIn = false;
+                                                Authentication.authentication.edit()
+                                                        .remove("lasttoken")
+                                                        .remove("backedCreds")
+                                                        .commit();
+                                                UserSubscriptions.switchAccounts();
+                                                Reddit.forceRestart(MainActivity.this, true);
+                                            }
+                                        } else {
+                                            accounts.remove(accName);
+                                            keys.remove(accName);
                                         }
-                                    })
-                                    .setPositiveButton(R.string.btn_cancel, null)
-                                    .show();
-                        }
-                    });
-                } else {
-                    t.findViewById(R.id.remove).setVisibility(View.GONE);
-                }
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_cancel, null)
+                                .show();
+                    }
+                });
                 t.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
-                        if (!accName.equalsIgnoreCase(Authentication.name) && !accName.equals(guest)) {
+                        if (!accName.equalsIgnoreCase(Authentication.name)) {
                             if (!accounts.get(accName).isEmpty()) {
                                 Authentication.authentication.edit()
                                         .putString("lasttoken", accounts.get(accName))
@@ -2026,6 +2014,87 @@ public class MainActivity extends BaseActivity
             });
 
         }
+
+        final LinearLayout expandSettings = header.findViewById(R.id.expand_settings);
+        header.findViewById(R.id.godown_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (expandSettings.getVisibility() == View.GONE) {
+                    expand(expandSettings);
+                    header.findViewById(R.id.godown_settings).setContentDescription(getResources().getString(R.string.btn_collapse));
+                    flipAnimator(false, v).start();
+                } else {
+                    collapse(expandSettings);
+                    header.findViewById(R.id.godown_settings).setContentDescription(getResources().getString(R.string.btn_expand));
+                    flipAnimator(true, v).start();
+                }
+            }
+        });
+
+        {   // Set up quick setting toggles
+            final SwitchCompat toggleNightMode = expandSettings.findViewById(R.id.toggle_night_mode);
+            if (SettingValues.isPro) {
+                toggleNightMode.setVisibility(View.VISIBLE);
+                toggleNightMode.setChecked(inNightMode);
+                toggleNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingValues.forcedNightModeState = isChecked
+                                ? SettingValues.ForcedState.FORCED_ON
+                                : SettingValues.ForcedState.FORCED_OFF;
+                        restartTheme();
+                    }
+                });
+            }
+
+            final SwitchCompat toggleImmersiveMode = expandSettings.findViewById(R.id.toggle_immersive_mode);
+            toggleImmersiveMode.setChecked(SettingValues.immersiveMode);
+            toggleImmersiveMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.immersiveMode = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMMERSIVE_MODE, isChecked).apply();
+                    if (isChecked) {
+                        hideDecor();
+                    } else {
+                        showDecor();
+                    }
+                }
+            });
+
+            final SwitchCompat toggleNSFW = expandSettings.findViewById(R.id.toggle_nsfw);
+            toggleNSFW.setChecked(SettingValues.showNSFWContent);
+            toggleNSFW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.showNSFWContent = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_NSFW_CONTENT, isChecked).apply();
+                    reloadSubs();
+                }
+            });
+
+            final SwitchCompat toggleRightThumbnails = expandSettings.findViewById(R.id.toggle_right_thumbnails);
+            toggleRightThumbnails.setChecked(SettingValues.switchThumb);
+            toggleRightThumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.switchThumb = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWITCH_THUMB, isChecked).apply();
+                    reloadSubs();
+                }
+            });
+
+            final SwitchCompat toggleReaderMode = expandSettings.findViewById(R.id.toggle_reader_mode);
+            toggleReaderMode.setChecked(SettingValues.readerMode);
+            toggleReaderMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.readerMode = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_READER_MODE, isChecked).apply();
+                }
+            });
+        }
+
         header.findViewById(R.id.manage).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -2153,12 +2222,14 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onDrawerClosed(View view) {
                         super.onDrawerClosed(view);
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(drawerLayout.getWindowToken(), 0);
+                        InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(drawerLayout.getWindowToken(), 0);
+                        }
                     }
                 };
 
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
@@ -2185,9 +2256,8 @@ public class MainActivity extends BaseActivity
     }
 
     public void doForcePrefs() {
-        ArrayList<String> domains = new ArrayList<>();
-
-        for (String s : SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
+        HashSet<String> domains = new HashSet<>();
+        for (String s : SettingValues.alwaysExternal) {
             if (!s.isEmpty()) {
                 s = s.trim();
                 final String finalS = s;
@@ -2200,13 +2270,11 @@ public class MainActivity extends BaseActivity
         domains.add("youtu.be");
         domains.add("play.google.com");
 
-        SharedPreferences.Editor e = SettingValues.prefs.edit();
-        e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, Reddit.arrayToString(domains));
-        e.apply();
-        PostMatch.externalDomain = null;
+        SettingValues.prefs.edit()
+                .putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL, domains)
+                .apply();
 
-        SettingValues.alwaysExternal =
-                SettingValues.prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
+        SettingValues.alwaysExternal = domains;
     }
 
     public void doFriends(final List<String> friends) {
@@ -2319,7 +2387,7 @@ public class MainActivity extends BaseActivity
 
             //whether or not this subreddit was in the keySet
             boolean isNotified =
-                    subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
+                    subThresholds.containsKey(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
             ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -2362,7 +2430,7 @@ public class MainActivity extends BaseActivity
                                                         try {
                                                             final String multiName = multis.keySet()
                                                                     .toArray(
-                                                                            new String[multis.size()])[which];
+                                                                            new String[0])[which];
                                                             List<String> subs =
                                                                     new ArrayList<String>();
                                                             for (MultiSubreddit sub : multis.get(
@@ -2390,11 +2458,7 @@ public class MainActivity extends BaseActivity
                                                                                             R.string.multi_subreddit_added,
                                                                                             multiName),
                                                                                     Snackbar.LENGTH_LONG);
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            android.support.design.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
@@ -2581,15 +2645,7 @@ public class MainActivity extends BaseActivity
                                                                                                     getString(
                                                                                                             R.string.misc_subscribed),
                                                                                                     Snackbar.LENGTH_LONG);
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            android.support.design.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             })
                                                                     .setNegativeButton(
@@ -2635,11 +2691,7 @@ public class MainActivity extends BaseActivity
                                                 Snackbar s =
                                                         Snackbar.make(mToolbar, R.string.sub_added,
                                                                 Snackbar.LENGTH_LONG);
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        android.support.design.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         })
                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -2683,15 +2735,7 @@ public class MainActivity extends BaseActivity
                                                                                                     getString(
                                                                                                             R.string.misc_unsubscribed),
                                                                                                     Snackbar.LENGTH_LONG);
-                                                                                    View view =
-                                                                                            s.getView();
-                                                                                    TextView tv =
-                                                                                            view
-                                                                                                    .findViewById(
-                                                                                                            android.support.design.R.id.snackbar_text);
-                                                                                    tv.setTextColor(
-                                                                                            Color.WHITE);
-                                                                                    s.show();
+                                                                                    LayoutUtils.showSnackbar(s);
                                                                                 }
                                                                             })
                                                                     .setNegativeButton(
@@ -2736,11 +2780,7 @@ public class MainActivity extends BaseActivity
                                                 Snackbar s = Snackbar.make(mToolbar,
                                                         R.string.misc_unsubscribed,
                                                         Snackbar.LENGTH_LONG);
-                                                View view = s.getView();
-                                                TextView tv = view.findViewById(
-                                                        android.support.design.R.id.snackbar_text);
-                                                tv.setTextColor(Color.WHITE);
-                                                s.show();
+                                                LayoutUtils.showSnackbar(s);
                                             }
                                         })
                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -2754,11 +2794,10 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (!currentlySubbed) {
                         doSubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
                     } else {
                         doUnsubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
                     }
+                    doSubscribeButtonText(currentlySubbed, subscribe);
                 }
 
 
@@ -2785,6 +2824,15 @@ public class MainActivity extends BaseActivity
                             (ImageView) findViewById(R.id.subimage));
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
+        }
+        String bannerImage = subreddit.getBannerImage();
+        if (bannerImage != null && !bannerImage.isEmpty()) {
+            findViewById(R.id.sub_banner).setVisibility(View.VISIBLE);
+            ((Reddit) getApplication()).getImageLoader()
+                    .displayImage(bannerImage,
+                            (ImageView) findViewById(R.id.sub_banner));
+        } else {
+            findViewById(R.id.sub_banner).setVisibility(View.GONE);
         }
         ((TextView) findViewById(R.id.subscribers)).setText(
                 getString(R.string.subreddit_subscribers_string,
@@ -3176,17 +3224,7 @@ public class MainActivity extends BaseActivity
                                                                                         }
                                                                                         if (s
                                                                                                 != null) {
-                                                                                            View
-                                                                                                    view =
-                                                                                                    s.getView();
-                                                                                            TextView
-                                                                                                    tv =
-                                                                                                    view
-                                                                                                            .findViewById(
-                                                                                                                    android.support.design.R.id.snackbar_text);
-                                                                                            tv.setTextColor(
-                                                                                                    Color.WHITE);
-                                                                                            s.show();
+                                                                                            LayoutUtils.showSnackbar(s);
                                                                                         }
                                                                                     }
                                                                                 }.executeOnExecutor(
@@ -3245,11 +3283,7 @@ public class MainActivity extends BaseActivity
                                                                             Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
-                                                                    View view = s.getView();
-                                                                    TextView tv = view.findViewById(
-                                                                            android.support.design.R.id.snackbar_text);
-                                                                    tv.setTextColor(Color.WHITE);
-                                                                    s.show();
+                                                                    LayoutUtils.showSnackbar(s);
                                                                 }
                                                             }
                                                         }.executeOnExecutor(
@@ -3263,7 +3297,7 @@ public class MainActivity extends BaseActivity
                         }
                     }
                 };
-                currentFlair.execute(dialoglayout.findViewById(R.id.flair));
+                currentFlair.execute((View) dialoglayout.findViewById(R.id.flair));
             }
         } else {
             if (drawerLayout != null) {
@@ -3377,8 +3411,8 @@ public class MainActivity extends BaseActivity
      * @param CLOSE_BUTTON           button that clears the search and closes the search UI
      */
     public void enterAnimationsForToolbarSearch(final long ANIMATION_DURATION,
-            final CardView SUGGESTIONS_BACKGROUND, final AutoCompleteTextView GO_TO_SUB_FIELD,
-            final ImageView CLOSE_BUTTON) {
+                                                final CardView SUGGESTIONS_BACKGROUND, final AutoCompleteTextView GO_TO_SUB_FIELD,
+                                                final ImageView CLOSE_BUTTON) {
         SUGGESTIONS_BACKGROUND.animate()
                 .translationY(headerHeight)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
@@ -3531,7 +3565,7 @@ public class MainActivity extends BaseActivity
         PopupMenu popup =
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
-                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
+                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final Spannable[] base = SortingUtil.getSortingSpannables(id);
         for (Spannable s : base) {
             // Do not add option for "Best" in any subreddit except for the frontpage.
@@ -3553,37 +3587,37 @@ public class MainActivity extends BaseActivity
                 switch (i) {
                     case 0:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.TOP);
                         openPopupTime();
                         break;
                     case 4:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.CONTROVERSIAL);
                         openPopupTime();
                         break;
                     case 5:
                         SortingUtil.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.BEST);
                         reloadSubs();
                         break;
@@ -3600,7 +3634,7 @@ public class MainActivity extends BaseActivity
         PopupMenu popup =
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
-                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
+                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final Spannable[] base = SortingUtil.getSortingTimesSpannables(id);
         for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
@@ -3618,37 +3652,37 @@ public class MainActivity extends BaseActivity
                 switch (i) {
                     case 0:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 1:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 2:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 3:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 4:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 5:
                         SortingUtil.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
+                                ((SubmissionsView) (((MainPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.ALL);
                         reloadSubs();
                         break;
@@ -3672,20 +3706,20 @@ public class MainActivity extends BaseActivity
             current = 0;
         }
         reloadItemNumber = current;
-        if (adapter instanceof OverviewPagerAdapterComment) {
+        if (adapter instanceof MainPagerAdapterComment) {
             pager.setAdapter(null);
-            adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
-            pager.setAdapter(adapter);
+            adapter = new MainPagerAdapterComment(getSupportFragmentManager());
         } else {
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            pager.setAdapter(adapter);
+            adapter = new MainPagerAdapter(getSupportFragmentManager());
         }
+        pager.setAdapter(adapter);
+
         reloadItemNumber = -2;
         shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
         if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(pager);
-            scrollToTabAfterLayout(current);
+            LayoutUtils.scrollToTabAfterLayout(mTabLayout, current);
         }
 
 
@@ -3708,12 +3742,12 @@ public class MainActivity extends BaseActivity
                 public void run() {
                     usedArray = new CaseInsensitiveArrayList(
                             UserSubscriptions.getSubscriptions(MainActivity.this));
-                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                    adapter = new MainPagerAdapter(getSupportFragmentManager());
 
                     pager.setAdapter(adapter);
                     if (mTabLayout != null) {
                         mTabLayout.setupWithViewPager(pager);
-                        scrollToTabAfterLayout(usedArray.indexOf(subToDo));
+                        LayoutUtils.scrollToTabAfterLayout(mTabLayout, usedArray.indexOf(subToDo));
                     }
 
                     setToolbarClick();
@@ -3776,11 +3810,10 @@ public class MainActivity extends BaseActivity
     }
 
     public void scrollToTop() {
-        int[] firstVisibleItems;
         int pastVisiblesItems = 0;
 
         if (((adapter.getCurrentFragment()) == null)) return;
-        firstVisibleItems =
+        int[] firstVisibleItems =
                 ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv
                         .getLayoutManager())).findFirstVisibleItemPositions(null);
         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
@@ -3805,9 +3838,9 @@ public class MainActivity extends BaseActivity
             usedArray = new CaseInsensitiveArrayList(data);
             if (adapter == null) {
                 if (commentPager && singleMode) {
-                    adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
+                    adapter = new MainPagerAdapterComment(getSupportFragmentManager());
                 } else {
-                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                    adapter = new MainPagerAdapter(getSupportFragmentManager());
                 }
             } else {
                 adapter.notifyDataSetChanged();
@@ -3842,7 +3875,7 @@ public class MainActivity extends BaseActivity
                 mTabLayout.setupWithViewPager(pager);
                 if (mTabLayout != null) {
                     mTabLayout.setupWithViewPager(pager);
-                    scrollToTabAfterLayout(toGoto);
+                    LayoutUtils.scrollToTabAfterLayout(mTabLayout, toGoto);
                 }
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
@@ -3874,9 +3907,7 @@ public class MainActivity extends BaseActivity
                         drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
-        if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
-                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH
-                || SettingValues.subredditSearchMethod
+        if ((SettingValues.subredditSearchMethod
                 != Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)) {
             drawerSearch = headerMain.findViewById(R.id.sort);
             drawerSearch.setVisibility(View.VISIBLE);
@@ -3919,10 +3950,10 @@ public class MainActivity extends BaseActivity
                                     drawerSearch.getText().toString());
                             MainActivity.this.startActivityForResult(inte, 2001);
                         } else {
-                            if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
+                            if (commentPager && adapter instanceof MainPagerAdapterComment) {
                                 openingComments = null;
                                 toOpenComments = -1;
-                                ((MainActivity.OverviewPagerAdapterComment) adapter).size =
+                                ((MainPagerAdapterComment) adapter).size =
                                         (usedArray.size() + 1);
                                 adapter.notifyDataSetChanged();
                                 if (usedArray.contains(
@@ -3946,9 +3977,10 @@ public class MainActivity extends BaseActivity
                             drawerSearch.setText("");
                             View view = MainActivity.this.getCurrentFocus();
                             if (view != null) {
-                                InputMethodManager imm = (InputMethodManager) getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
                         }
                     }
@@ -3992,7 +4024,7 @@ public class MainActivity extends BaseActivity
 
     public void setToolbarClick() {
         if (mTabLayout != null) {
-            mTabLayout.setOnTabSelectedListener(
+            mTabLayout.addOnTabSelectedListener(
                     new TabLayout.ViewPagerOnTabSelectedListener(pager) {
                         @Override
                         public void onTabReselected(TabLayout.Tab tab) {
@@ -4083,19 +4115,19 @@ public class MainActivity extends BaseActivity
 
         if (NetworkUtil.isConnected(MainActivity.this)) {
             if (Authentication.isLoggedIn
-                    && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
                         .setLongLabel("Open your Inbox")
-                        .setIcon(getIcon("inbox", R.drawable.sidebar_inbox))
+                        .setIcon(getIcon("inbox", R.drawable.ic_email))
                         .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 Inbox.class))
                         .build());
 
                 shortcuts.add(new ShortcutInfo.Builder(this, "submit").setShortLabel("Submit")
                         .setLongLabel("Create new Submission")
-                        .setIcon(getIcon("submit", R.drawable.edit))
+                        .setIcon(getIcon("submit", R.drawable.ic_edit))
                         .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 Submit.class))
                         .build());
@@ -4110,10 +4142,11 @@ public class MainActivity extends BaseActivity
                         Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
                         shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setIcon(getIcon(s, R.drawable.sub))
+                                frontpage)
+                                .setLongLabel(frontpage)
+                                .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
                                 .build());
                         count++;
@@ -4123,7 +4156,7 @@ public class MainActivity extends BaseActivity
                 Collections.reverse(shortcuts);
 
                 shortcutManager.setDynamicShortcuts(shortcuts);
-            } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
                 ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
                 int count = 0;
@@ -4136,10 +4169,11 @@ public class MainActivity extends BaseActivity
                         Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
+                        String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
                         new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setLongLabel((s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s)
-                                .setIcon(getIcon(s, R.drawable.sub))
+                                frontpage)
+                                .setLongLabel(frontpage)
+                                .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
                                 .build();
                         count++;
@@ -4161,8 +4195,8 @@ public class MainActivity extends BaseActivity
         Bitmap over = drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
 
         Canvas canvas = new Canvas(color);
-        canvas.drawBitmap(over, color.getWidth() / 2 - (over.getWidth() / 2),
-                color.getHeight() / 2 - (over.getHeight() / 2), null);
+        canvas.drawBitmap(over, color.getWidth() / 2.0f - (over.getWidth() / 2.0f),
+                color.getHeight() / 2.0f - (over.getHeight() / 2.0f), null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Icon.createWithBitmap(color);
@@ -4250,26 +4284,10 @@ public class MainActivity extends BaseActivity
 
         ValueAnimator mAnimator = slideAnimator(finalHeight, 0, v);
 
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+        mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
-
                 v.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         mAnimator.start();
@@ -4307,24 +4325,6 @@ public class MainActivity extends BaseActivity
 
         ValueAnimator mAnimator = slideAnimator(0, v.getMeasuredHeight(), v);
         mAnimator.start();
-    }
-
-    private void scrollToTabAfterLayout(final int tabIndex) {
-        //from http://stackoverflow.com/a/34780589/3697225
-        if (mTabLayout != null) {
-            final ViewTreeObserver observer = mTabLayout.getViewTreeObserver();
-
-            if (observer.isAlive()) {
-                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mTabLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        mTabLayout.getTabAt(tabIndex).select();
-                    }
-                });
-            }
-        }
     }
 
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
@@ -4372,7 +4372,9 @@ public class MainActivity extends BaseActivity
      */
     private void setupSubredditSearchToolbar() {
         if (!NetworkUtil.isConnected(this)) {
-            findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+            if (findViewById(R.id.drawer_divider) != null) {
+                findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+            }
         } else {
             if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                     || SettingValues.subredditSearchMethod
@@ -4431,10 +4433,11 @@ public class MainActivity extends BaseActivity
 
                                 //Get focus of the search field and show the keyboard
                                 GO_TO_SUB_FIELD.requestFocus();
-                                InputMethodManager imm = (InputMethodManager) getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                        InputMethodManager.HIDE_IMPLICIT_ONLY);
+                                InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                if (imm != null) {
+                                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                            InputMethodManager.HIDE_IMPLICIT_ONLY);
+                                }
 
 
                                 //Close the search UI and keyboard when clicking the close button
@@ -4445,9 +4448,10 @@ public class MainActivity extends BaseActivity
                                         if (view != null) {
                                             //Hide the keyboard
                                             InputMethodManager imm =
-                                                    (InputMethodManager) getSystemService(
-                                                            Context.INPUT_METHOD_SERVICE);
-                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                                    ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                            if (imm != null) {
+                                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                            }
                                         }
 
                                         //run the exit animations
@@ -4484,10 +4488,10 @@ public class MainActivity extends BaseActivity
                                                                 intent, 2002);
                                                     } else {
                                                         if (commentPager
-                                                                && adapter instanceof OverviewPagerAdapterComment) {
+                                                                && adapter instanceof MainPagerAdapterComment) {
                                                             openingComments = null;
                                                             toOpenComments = -1;
-                                                            ((OverviewPagerAdapterComment) adapter).size =
+                                                            ((MainPagerAdapterComment) adapter).size =
                                                                     (usedArray.size() + 1);
                                                             adapter.notifyDataSetChanged();
 
@@ -4526,10 +4530,11 @@ public class MainActivity extends BaseActivity
                                                     if (view != null) {
                                                         //Hide the keyboard
                                                         InputMethodManager imm =
-                                                                (InputMethodManager) getSystemService(
-                                                                        Context.INPUT_METHOD_SERVICE);
-                                                        imm.hideSoftInputFromWindow(
-                                                                view.getWindowToken(), 0);
+                                                                ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
+                                                        if (imm != null) {
+                                                            imm.hideSoftInputFromWindow(
+                                                                    view.getWindowToken(), 0);
+                                                        }
                                                     }
 
                                                     SUGGESTIONS_BACKGROUND.setVisibility(View.GONE);
@@ -4858,10 +4863,7 @@ public class MainActivity extends BaseActivity
                                 }
                             });
 
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 }
                 Reddit.appRestart.edit().putInt("inbox", count).apply();
             }
@@ -4871,8 +4873,10 @@ public class MainActivity extends BaseActivity
                     badge.setVisibility(View.GONE);
                 }
                 NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancel(0);
+                        ContextCompat.getSystemService(MainActivity.this, NotificationManager.class);
+                if (notificationManager != null) {
+                    notificationManager.cancel(0);
+                }
             } else if (count != -1) {
                 if (badge != null) {
                     badge.setVisibility(View.VISIBLE);
@@ -4893,11 +4897,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public class MainPagerAdapter extends FragmentStatePagerAdapter {
         protected SubmissionsView mCurrentFragment;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+        public MainPagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -4986,7 +4990,6 @@ public class MainActivity extends BaseActivity
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
 
@@ -5006,9 +5009,9 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
             String name;
@@ -5021,12 +5024,10 @@ public class MainActivity extends BaseActivity
             f.setArguments(args);
 
             return f;
-
-
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             if (reloadItemNumber == position || reloadItemNumber < 0) {
                 super.setPrimaryItem(container, position, object);
                 if (usedArray.size() >= position) doSetPrimary(object, position);
@@ -5060,7 +5061,6 @@ public class MainActivity extends BaseActivity
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
                     mCurrentFragment.doAdapter();
-
                 }
             }
         }
@@ -5069,26 +5069,22 @@ public class MainActivity extends BaseActivity
             return mCurrentFragment;
         }
 
-
         @Override
         public CharSequence getPageTitle(int position) {
-
             if (usedArray != null) {
                 return abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }
-
-
         }
     }
 
-    public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
+    public class MainPagerAdapterComment extends MainPagerAdapter {
         public int size = usedArray.size();
         public  Fragment    storedFragment;
         private CommentPage mCurrentComments;
 
-        public OverviewPagerAdapterComment(FragmentManager fm) {
+        public MainPagerAdapterComment(FragmentManager fm) {
             super(fm);
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -5153,7 +5149,6 @@ public class MainActivity extends BaseActivity
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
             notifyDataSetChanged();
@@ -5168,9 +5163,9 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
-
             if (openingComments == null || i != toOpenComments) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
@@ -5189,7 +5184,7 @@ public class MainActivity extends BaseActivity
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
                 String name = openingComments.getFullName();
-                args.putString("id", name.substring(3, name.length()));
+                args.putString("id", name.substring(3));
                 args.putBoolean("archived", openingComments.isArchived());
                 args.putBoolean("contest",
                         openingComments.getDataNode().get("contest_mode").asBoolean());
@@ -5200,8 +5195,6 @@ public class MainActivity extends BaseActivity
                 f.setArguments(args);
                 return f;
             }
-
-
         }
 
         @Override
@@ -5228,7 +5221,6 @@ public class MainActivity extends BaseActivity
             } else if (object instanceof CommentPage) {
                 mCurrentComments = (CommentPage) object;
             }
-
         }
 
         public Fragment getCurrentFragment() {
@@ -5236,14 +5228,13 @@ public class MainActivity extends BaseActivity
         }
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             if (object != storedFragment) return POSITION_NONE;
             return POSITION_UNCHANGED;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-
             if (usedArray != null && position != toOpenComments) {
                 return abbreviate(usedArray.get(position), 25);
             } else {

@@ -3,16 +3,10 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,19 +16,20 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -46,7 +41,11 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
+
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 /**
  * Created by ccrama on 3/5/2015. <p/> This class is responsible for accessing the Imgur api to get
@@ -57,10 +56,10 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     public static final String EXTRA_URL = "url";
     public static final String SUBREDDIT = "subreddit";
     private List<Image> images;
-    private int         adapterPosition;
+    private int adapterPosition;
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(this,
@@ -85,6 +84,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            }
+            if (submissionTitle != null) {
+                i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
             }
             i.putExtra("url", url);
             startActivity(i);
@@ -119,6 +121,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
                 if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
+                if (submissionTitle != null) {
+                    i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
+                }
                 startService(i);
             }
         } else {
@@ -164,42 +169,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 .show();
     }
 
-    private void saveImageGallery(final Bitmap bitmap, String URL) {
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog();
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog();
-        } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "")
-                    + File.separator
-                    + UUID.randomUUID().toString()
-                    + ".png");
-
-
-            FileOutputStream out = null;
-            try {
-                f.createNewFile();
-                out = new FileOutputStream(f);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorDialog();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showErrorDialog();
-                }
-            }
-        }
-
-    }
-
     public String url;
     public String subreddit;
+    public String submissionTitle;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -212,7 +184,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         return true;
     }
 
-    public OverviewPagerAdapter album;
+    public AlbumPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -225,31 +197,34 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if(getIntent().hasExtra(SUBREDDIT)){
+        if (getIntent().hasExtra(SUBREDDIT)) {
             this.subreddit = getIntent().getExtras().getString(SUBREDDIT);
+        }
+        if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
+            this.submissionTitle = getIntent().getExtras().getString(EXTRA_SUBMISSION_TITLE);
         }
 
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
-        album = new OverviewPagerAdapter(getSupportFragmentManager());
+        album = new AlbumPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
-                                                  int positionOffsetPixels) {
+                                                                     int positionOffsetPixels) {
                                               if (position == 0 && positionOffsetPixels == 0) {
                                                   finish();
                                               }
                                               if (position == 0
-                                                      && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      && ((AlbumPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                  if (((AlbumPagerAdapter) pager.getAdapter()).blankPage
                                                           != null) {
-                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                      ((AlbumPagerAdapter) pager.getAdapter()).blankPage
                                                               .doOffset(positionOffset);
                                                   }
-                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
-                                                          adjustAlpha(positionOffset * 0.7f));
+                                                  ((AlbumPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
+                                                          Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
                                           }
 
@@ -272,20 +247,22 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 3) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
 
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class AlbumPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
-        public AlbumFrag     album;
+        public AlbumFrag album;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+        public AlbumPagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             if (i == 0) {
@@ -294,24 +271,13 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             } else {
                 album = new AlbumFrag();
                 return album;
-
             }
         }
 
         @Override
         public int getCount() {
-
             return 2;
         }
-
-    }
-
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
     }
 
     public static class AlbumFrag extends Fragment {
@@ -320,11 +286,10 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(getActivity());
+            final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());
             recyclerView = rootView.findViewById(R.id.images);
             recyclerView.setLayoutManager(mLayoutManager);
             ((Album) getActivity()).url =
@@ -351,7 +316,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
             String url;
 
-            public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
+            public LoadIntoRecycler(@NonNull String url, @NonNull Activity baseActivity) {
                 super(url, baseActivity);
                 this.url = url;
             }
@@ -370,7 +335,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
-                                                            int which) {
+                                                                        int which) {
                                                         getActivity().finish();
                                                     }
                                                 })
@@ -379,7 +344,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog,
-                                                            int which) {
+                                                                        int which) {
                                                         Intent i = new Intent(getActivity(),
                                                                 Website.class);
                                                         i.putExtra(LinkUtil.EXTRA_URL, url);
@@ -402,9 +367,11 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 super.doWithData(jsonElements);
                 if (getActivity() != null) {
                     getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
-                    ((Album) getActivity()).images = new ArrayList<>(jsonElements);
-                    AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images,
-                            getActivity().findViewById(R.id.toolbar).getHeight(), ((Album) getActivity()).subreddit);
+                    Album albumActivity = (Album) getActivity();
+                    albumActivity.images = new ArrayList<>(jsonElements);
+                    AlbumView adapter = new AlbumView(baseActivity, albumActivity.images,
+                            getActivity().findViewById(R.id.toolbar).getHeight(),
+                            albumActivity.subreddit, albumActivity.submissionTitle);
                     recyclerView.setAdapter(adapter);
                 }
             }

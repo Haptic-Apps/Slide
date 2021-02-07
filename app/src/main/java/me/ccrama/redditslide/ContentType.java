@@ -48,6 +48,7 @@ public class ContentType {
 
             return hostContains(host, "gfycat.com")
                     || hostContains(host, "v.redd.it")
+                    || hostContains(host, "redgifs.com")
                     || path.endsWith(".gif")
                     || path.endsWith(".gifv")
                     || path.endsWith(".webm")
@@ -57,22 +58,6 @@ public class ContentType {
             return false;
         }
     }
-
-    public static boolean isGifLoadInstantly(URI uri) {
-        try {
-            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
-            final String path = uri.getPath().toLowerCase(Locale.ENGLISH);
-
-            return hostContains(host, "gfycat.com") || hostContains(host, "v.redd.it") || (
-                    hostContains(host, "imgur.com")
-                            && (path.endsWith(".gif") || path.endsWith(".gifv") || path.endsWith(
-                            ".webm"))) || path.endsWith(".mp4");
-
-        } catch (NullPointerException e) {
-            return false;
-        }
-    }
-
 
     public static boolean isImage(URI uri) {
         try {
@@ -130,6 +115,18 @@ public class ContentType {
         }
     }
 
+    public static boolean isRedditGallery(String url) {
+        try {
+            final URI uri = new URI(url);
+            final String host = uri.getHost().toLowerCase(Locale.ENGLISH);
+
+            return hostContains(host, "reddit.com", "redd.it") && url.contains("/gallery/");
+
+        } catch (URISyntaxException | NullPointerException e) {
+            return false;
+        }
+    }
+
     /**
      * Attempt to determine the content type of a link from the URL
      *
@@ -164,6 +161,10 @@ public class ContentType {
                 }
             }
 
+            if (isRedditGallery(url)) {
+                return Type.REDDIT_GALLERY;
+            }
+
             if (!scheme.equals("http") && !scheme.equals("https")) {
                 return Type.EXTERNAL;
             }
@@ -194,9 +195,6 @@ public class ContentType {
             }
             if (hostContains(host, "reddit.com", "redd.it")) {
                 return Type.REDDIT;
-            }
-            if (hostContains(host, "vid.me")) {
-                return Type.VID_ME;
             }
             if (hostContains(host, "deviantart.com")) {
                 return Type.DEVIANTART;
@@ -233,19 +231,20 @@ public class ContentType {
             return Type.SELF; //hopefully shouldn't be null, but catch it in case
         }
 
-        final String url = submission.getUrl();
-        final Type basicType = getContentType(url);
-
         if (submission.isSelfPost()) {
             return Type.SELF;
         }
+
+        final String url = submission.getUrl();
+        final Type basicType = getContentType(url);
+
         // TODO: Decide whether internal youtube links should be EMBEDDED or LINK
-        if (basicType.equals(Type.LINK) && submission.getDataNode().has("media_embed") && submission
+        /* Disable this for nowif (basicType.equals(Type.LINK) && submission.getDataNode().has("media_embed") && submission
                 .getDataNode()
                 .get("media_embed")
                 .has("content")) {
             return Type.EMBEDDED;
-        }
+        }*/
 
         return basicType;
     }
@@ -254,6 +253,7 @@ public class ContentType {
         switch (t) {
 
             case ALBUM:
+            case REDDIT_GALLERY:
             case DEVIANTART:
             case IMAGE:
             case XKCD:
@@ -271,6 +271,7 @@ public class ContentType {
         switch (t) {
 
             case ALBUM:
+            case REDDIT_GALLERY:
             case DEVIANTART:
             case GIF:
             case IMAGE:
@@ -282,7 +283,6 @@ public class ContentType {
             case SELF:
             case VREDDIT_DIRECT:
             case VREDDIT_REDIRECT:
-            case VID_ME:
                 return true;
 
             case EMBEDDED:
@@ -300,6 +300,7 @@ public class ContentType {
     public static boolean mediaType(Type t) {
         switch (t) {
             case ALBUM:
+            case REDDIT_GALLERY:
             case DEVIANTART:
             case GIF:
             case IMAGE:
@@ -309,7 +310,6 @@ public class ContentType {
             case VREDDIT_DIRECT:
             case VREDDIT_REDIRECT:
             case STREAMABLE:
-            case VID_ME:
                 return true;
             default:
                 return false;
@@ -332,9 +332,12 @@ public class ContentType {
             switch (contentType) {
                 case ALBUM:
                     return R.string.type_nsfw_album;
+                case REDDIT_GALLERY:
+                    return R.string.type_nsfw_gallery;
                 case EMBEDDED:
                     return R.string.type_nsfw_emb;
                 case EXTERNAL:
+                case LINK:
                     return R.string.type_nsfw_link;
                 case GIF:
                     return R.string.type_nsfw_gif;
@@ -344,18 +347,17 @@ public class ContentType {
                     return R.string.type_nsfw_tumblr;
                 case IMGUR:
                     return R.string.type_nsfw_imgur;
-                case LINK:
-                    return R.string.type_nsfw_link;
                 case VIDEO:
                 case VREDDIT_DIRECT:
                 case VREDDIT_REDIRECT:
-                case VID_ME:
                     return R.string.type_nsfw_video;
             }
         } else {
             switch (contentType) {
                 case ALBUM:
                     return R.string.type_album;
+                case REDDIT_GALLERY:
+                    return R.string.type_gallery;
                 case XKCD:
                     return R.string.type_xkcd;
                 case DEVIANTART:
@@ -384,8 +386,6 @@ public class ContentType {
                     return R.string.type_streamable;
                 case VIDEO:
                     return R.string.type_youtube;
-                case VID_ME:
-                    return R.string.type_vidme;
                 case VREDDIT_REDIRECT:
                 case VREDDIT_DIRECT:
                     return R.string.type_vreddit;
@@ -470,6 +470,6 @@ public class ContentType {
     }
 
     public enum Type {
-        ALBUM, DEVIANTART, EMBEDDED, EXTERNAL, GIF, VREDDIT_DIRECT, VREDDIT_REDIRECT, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR, VID_ME
+        ALBUM, REDDIT_GALLERY, DEVIANTART, EMBEDDED, EXTERNAL, GIF, VREDDIT_DIRECT, VREDDIT_REDIRECT, IMAGE, IMGUR, LINK, NONE, REDDIT, SELF, SPOILER, STREAMABLE, VIDEO, XKCD, TUMBLR
     }
 }

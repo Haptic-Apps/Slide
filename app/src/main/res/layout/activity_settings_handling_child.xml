@@ -116,7 +116,7 @@
                     android:textSize="13sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_handling_reader_mode"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -169,7 +169,7 @@
                 android:textSize="13sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_readernight"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -225,7 +225,7 @@
                 android:textSize="13sp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_shortlink"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -273,8 +273,50 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_gif"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingEnd="16dp"
+            android:backgroundTint="?attr/tintColor"
+            android:button="@null"
+            android:buttonTint="?attr/tintColor"
+            android:hapticFeedbackEnabled="true"
+            android:textColor="?attr/fontColor"
+            android:textColorHint="?attr/fontColor" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:alpha=".25"
+        android:background="?attr/tintColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_link_hqgif"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_handling_hqgif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -315,7 +357,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -357,7 +399,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_album"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -399,7 +441,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_handling_peek"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -3,7 +3,6 @@ package me.ccrama.redditslide;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 /**
@@ -13,7 +12,7 @@ public class Drafts  {
 
     public static ArrayList<String> getDrafts(){
         ArrayList<String> drafts = new ArrayList<>();
-        for(String s : Arrays.asList(Authentication.authentication.getString(SettingValues.PREF_DRAFTS, "").split("</newdraft>"))){
+        for(String s : Authentication.authentication.getString(SettingValues.PREF_DRAFTS, "").split("</newdraft>")){
             if(!s.trim().isEmpty()){
                 drafts.add(s);
             }

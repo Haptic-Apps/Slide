@@ -3,6 +3,9 @@ package me.ccrama.redditslide.test;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ContentType.Type;
 import me.ccrama.redditslide.Reddit;
@@ -10,8 +13,8 @@ import me.ccrama.redditslide.SettingValues;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 
@@ -19,7 +22,12 @@ public class ContentTypeTest {
 
     @BeforeClass
     public static void setUp() {
-        SettingValues.alwaysExternal = "twitter.com,github.com,t.co,example.com/path";
+        SettingValues.alwaysExternal = new HashSet<>(Arrays.asList(
+                "twitter.com",
+                "github.com",
+                "t.co",
+                "example.com/path"
+        ));
     }
 
     @Test
@@ -126,11 +134,6 @@ public class ContentTypeTest {
         Reddit.videoPlugin = false;
         assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"), is(not(Type.VIDEO)));
         assertThat(ContentType.getContentType("https://youtu.be/lX_pF03vCSU"), is(not(Type.VIDEO)));
-    }
-
-    @Test
-    public void detectsVidme() {
-        assertThat(ContentType.getContentType("https://vid.me/6tPY"), is(Type.VID_ME));
     }
 
     @Test

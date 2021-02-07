@@ -2,7 +2,8 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -12,7 +13,6 @@ import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.Paginator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 
@@ -26,11 +26,6 @@ public class InboxMessages extends GeneralPosts {
     private SwipeRefreshLayout refreshLayout;
     public String where;
     private InboxAdapter adapter;
-
-    public InboxMessages(ArrayList<Message> firstData, InboxPaginator paginator) {
-        posts = firstData;
-        this.paginator = paginator;
-    }
 
     public InboxMessages(String where) {
         this.where = where;
@@ -48,10 +43,6 @@ public class InboxMessages extends GeneralPosts {
 
 
 
-    }
-
-    public void addData(List<Message> data) {
-        posts.addAll(data);
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Message>> {
@@ -74,30 +65,21 @@ public class InboxMessages extends GeneralPosts {
                 if (reset) {
                     posts = subs;
 
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-                            loading = false;
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    });
                 } else {
                     if(posts == null){
                         posts =new ArrayList<>();
                     }
                     posts.addAll(subs);
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-                            loading = false;
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    });
                 }
+                ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                        loading = false;
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
             }
         }
 

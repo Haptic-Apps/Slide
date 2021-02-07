@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,13 +9,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -26,10 +18,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.snackbar.Snackbar;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -38,14 +38,7 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -53,27 +46,15 @@ import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Activities.Draw;
-import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.ImgurAlbum.UploadImgur;
+import me.ccrama.redditslide.ImgurAlbum.UploadImgurAlbum;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.SubmissionParser;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.ForwardingSink;
-import okio.Okio;
-import okio.Sink;
 
 /**
  * Created by carlo_000 on 10/18/2015.
@@ -82,7 +63,7 @@ public class DoEditorActions {
 
     public static void doActions(final EditText editText, final View baseView,
             final FragmentManager fm, final Activity a, final String oldComment,
-            @Nullable final String authors[]) {
+            @Nullable final String[] authors) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,20 +86,15 @@ public class DoEditorActions {
                     @Override
                     public void onClick(View v) {
                         if (authors.length == 1) {
-                            int pos = editText.getSelectionStart();
                             String author =  "/u/" + authors[0];
-                            editText.setText(editText.getText().toString() + author);
-                            editText.setSelection(pos + author.length()); //put the cursor between the symbols
-
+                            insertBefore(author, editText);
                         } else {
                             new AlertDialogWrapper.Builder(a).setTitle(R.string.authors_above)
                                     .setItems(authors, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            int pos = editText.getSelectionStart();
                                             String author =  "/u/" + authors[which];
-                                            editText.setText(editText.getText().toString() + author);
-                                            editText.setSelection(pos + author.length()); //put the cursor between the symbols
+                                            insertBefore(author, editText);
                                         }
                                     })
                                     .setNeutralButton(R.string.btn_cancel, null)
@@ -157,7 +133,22 @@ public class DoEditorActions {
                     //If the user doesn't have text selected, put the symbols around the cursor's position
                     int pos = editText.getSelectionStart();
                     editText.getText().insert(pos, "~~");
-                    editText.getText().insert(pos + 1, "~~");
+                    editText.getText().insert(pos + 2, "~~");
+                    editText.setSelection(pos + 2); //put the cursor between the symbols
+                }
+            }
+        });
+
+        baseView.findViewById(R.id.spoiler).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editText.hasSelection()) {
+                    wrapString(">!", "!<", editText); //If the user has text selected, wrap that text in the symbols
+                } else {
+                    //If the user doesn't have text selected, put the symbols around the cursor's position
+                    int pos = editText.getSelectionStart();
+                    editText.getText().insert(pos, ">!");
+                    editText.getText().insert(pos + 2, "!<");
                     editText.setSelection(pos + 2); //put the cursor between the symbols
                 }
             }
@@ -170,7 +161,7 @@ public class DoEditorActions {
                 Snackbar s = Snackbar.make(baseView.findViewById(R.id.savedraft), "Draft saved",
                         Snackbar.LENGTH_SHORT);
                 View view = s.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
                 tv.setTextColor(Color.WHITE);
                 s.setAction(R.string.btn_discard, new View.OnClickListener() {
                     @Override
@@ -272,12 +263,6 @@ public class DoEditorActions {
                 }
             }
         });
-       /*todo baseView.findViewById(R.id.strikethrough).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wrapString("~~", editText);
-            }
-        });*/
         baseView.findViewById(R.id.imagerep).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,9 +283,10 @@ public class DoEditorActions {
                         .create();
 
                 tedBottomPicker.show(fm);
-                InputMethodManager imm = (InputMethodManager) editText.getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }
             }
         });
 
@@ -378,31 +364,33 @@ public class DoEditorActions {
 
                 if (oldComment != null) {
                     final TextView showText = new TextView(a);
-                    showText.setText(oldComment);
+                    showText.setText(StringEscapeUtils.unescapeHtml4(oldComment)); // text we get is escaped, we don't want that
                     showText.setTextIsSelectable(true);
                     int sixteen = Reddit.dpToPxVertical(24);
                     showText.setPadding(sixteen, 0, sixteen, 0);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
-                    builder.setView(showText)
-                            .setTitle(R.string.editor_actions_quote_comment)
-                            .setCancelable(true)
-                            .setPositiveButton(a.getString(R.string.btn_select),
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String selected = showText.getText()
-                                                    .toString()
-                                                    .substring(showText.getSelectionStart(),
-                                                            showText.getSelectionEnd());
-                                            if (selected.equals("")) {
-                                                insertBefore("> " + oldComment, editText);
-                                            } else {
-                                                insertBefore("> " + selected + "\n\n", editText);
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(a.getString(R.string.btn_cancel), null)
+                    MaterialDialog.Builder builder = new MaterialDialog.Builder(a);
+                    builder.customView(showText, false)
+                            .title(R.string.editor_actions_quote_comment)
+                            .cancelable(true)
+                            .positiveText(a.getString(R.string.btn_select))
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    String selected = showText.getText()
+                                            .toString()
+                                            .substring(showText.getSelectionStart(), showText.getSelectionEnd());
+                                    if (selected.isEmpty()) {
+                                        selected = StringEscapeUtils.unescapeHtml4(oldComment);
+                                    }
+                                    insertBefore("> " + selected.replaceAll("\n", "\n> ") + "\n\n", editText);
+                                }
+                            })
+                            .negativeText(a.getString(R.string.btn_cancel))
                             .show();
+                    InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    }
                 } else {
                     insertBefore("> ", editText);
                 }
@@ -412,14 +400,30 @@ public class DoEditorActions {
         baseView.findViewById(R.id.bulletlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBefore("* ", editText);
+                int start = editText.getSelectionStart();
+                int end = editText.getSelectionEnd();
+                String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
+                if (!selected.isEmpty()) {
+                    selected = selected.replaceFirst("^[^\n]", "* $0").replaceAll("\n", "\n* ");
+                    editText.getText().replace(Math.min(start, end), Math.max(start, end), selected);
+                } else {
+                    insertBefore("* ", editText);
+                }
             }
         });
 
         baseView.findViewById(R.id.numlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBefore("1. ", editText);
+                int start = editText.getSelectionStart();
+                int end = editText.getSelectionEnd();
+                String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
+                if (!selected.isEmpty()) {
+                    selected = selected.replaceFirst("^[^\n]", "1. $0").replaceAll("\n", "\n1. ");
+                    editText.getText().replace(Math.min(start, end), Math.max(start, end), selected);
+                } else {
+                    insertBefore("1. ", editText);
+                }
             }
         });
 
@@ -436,8 +440,8 @@ public class DoEditorActions {
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
                 setViews(html, "NO sub",
-                        (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView),
-                        (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                        dialoglayout.findViewById(R.id.firstTextView),
+                        dialoglayout.findViewById(R.id.commentOverflow));
                 builder.setView(dialoglayout);
                 builder.show();
             }
@@ -486,10 +490,10 @@ public class DoEditorActions {
                                                 (EditText) dialog.findViewById(R.id.text_box);
                                         dialog.dismiss();
 
-                                        final String s = "[".concat(textBox.getText().toString())
-                                                .concat("](")
-                                                .concat(urlBox.getText().toString())
-                                                .concat(")");
+                                        final String s = "[" + textBox.getText().toString()
+                                                + "]("
+                                                + urlBox.getText().toString()
+                                                + ")";
 
                                         int start = Math.max(editText.getSelectionStart(), 0);
                                         int end = Math.max(editText.getSelectionEnd(), 0);
@@ -545,9 +549,10 @@ public class DoEditorActions {
 
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         final Intent intent = new Intent(a, Draw.class);
-        InputMethodManager imm = (InputMethodManager) editText.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        }
         e = editText.getText();
         TedBottomPicker tedBottomPicker =
                 new TedBottomPicker.Builder(editText.getContext()).setOnImageSelectedListener(
@@ -610,11 +615,38 @@ public class DoEditorActions {
 //        editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
 //    }
 
+    /**
+     * Wrap selected text in one or multiple characters, handling newlines and spaces properly for markdown
+     * @param wrapText Character(s) to wrap the selected text in
+     * @param editText EditText
+     */
     public static void wrapString(String wrapText, EditText editText) {
+        wrapString(wrapText, wrapText, editText);
+    }
+
+    /**
+     * Wrap selected text in one or multiple characters, handling newlines, spaces, >s properly for markdown,
+     * with different start and end text.
+     * @param startWrap Character(s) to start wrapping with
+     * @param endWrap Character(s) to close wrapping with
+     * @param editText EditText
+     */
+    public static void wrapString(String startWrap, String endWrap, EditText editText) {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
-        editText.getText().insert(Math.min(start, end), wrapText);
-        editText.getText().insert(Math.max(start, end) + wrapText.length(), wrapText);
+        String selected = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
+        // insert the wrapping character inside any selected spaces and >s because they stop markdown formatting
+        // we use replaceFirst because anchors (\A, \Z) aren't consumed
+        selected = selected.replaceFirst("\\A[\\n> ]*", "$0" + startWrap)
+                           .replaceFirst("[\\n> ]*\\Z", endWrap + "$0");
+        // 2+ newlines stop formatting, so we do the formatting on each instance of text surrounded by 2+ newlines
+        /* in case anyone needs to understand this in the future:
+         * ([^\n> ]) captures any character that isn't a newline, >, or space
+         * (\n[> ]*){2,} captures any number of two or more newlines with any combination of spaces or >s since markdown ignores those by themselves
+         * (?=[^\n> ]) performs a lookahead and ensures there's a character that isn't a newline, >, or space
+         */
+        selected = selected.replaceAll("([^\\n> ])(\\n[> ]*){2,}(?=[^\\n> ])", "$1" + endWrap + "$2" + startWrap);
+        editText.getText().replace(start, end, selected);
     }
 
     private static void setViews(String rawHTML, String subredditName,
@@ -649,135 +681,15 @@ public class DoEditorActions {
         }
     }
 
-    private static class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
+    private static class UploadImgurDEA extends UploadImgur {
 
-        final         Context        c;
-        private final MaterialDialog dialog;
-        public        Bitmap         b;
-
-        public UploadImgur(Context c) {
+        public UploadImgurDEA(Context c) {
             this.c = c;
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
                     .cancelable(false)
                     .show();
-        }
-
-        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
-        public static File createFile(Uri uri, @NonNull Context context) {
-            InputStream in;
-            ContentResolver resolver = context.getContentResolver();
-            String type = resolver.getType(uri);
-            String extension;
-
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
-            }
-
-            try {
-                in = resolver.openInputStream(uri);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
-
-            // Create files from a uri in our cache directory so they eventually get deleted
-            String timeStamp = String.valueOf(System.currentTimeMillis());
-            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
-                    .getDiskCache()
-                    .getDirectory();
-            File tempFile = new File(cacheDir, timeStamp + extension);
-
-            if (writeInputStreamToFile(in, tempFile)) {
-                return tempFile;
-            } else {
-                // If writeInputStreamToFile fails, delete the excess file
-                tempFile.delete();
-            }
-
-            return null;
-        }
-
-        public static boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
-            BufferedOutputStream buffer = null;
-            boolean didFinish = false;
-
-            try {
-                buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
-                int i;
-
-                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
-                    buffer.write(byt, 0, i);
-                }
-
-                buffer.flush();
-                didFinish = true;
-            } catch (IOException e) {
-                didFinish = false;
-            } finally {
-                closeStream(in);
-                closeStream(buffer);
-            }
-
-            return didFinish;
-        }
-
-        public static void closeStream(@Nullable Closeable closeable) {
-            if (closeable != null) {
-                try {
-                    closeable.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-
-        //End methods sourced from Opengur
-
-        @Override
-        protected JSONObject doInBackground(Uri... sub) {
-            File bitmap = createFile(sub[0], c);
-
-            final OkHttpClient client = Reddit.client;
-
-            try {
-                RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("image", bitmap.getName(),
-                                RequestBody.create(MediaType.parse("image/*"), bitmap))
-                        .build();
-
-                ProgressRequestBody body =
-                        new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
-                            @Override
-                            public void onProgress(int progress) {
-                                publishProgress(progress);
-                            }
-                        });
-
-
-                Request request = new Request.Builder().header("Authorization",
-                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                        .url("https://imgur-apiv3.p.mashape.com/3/image")
-                        .post(body)
-                        .build();
-
-                Response response = client.newCall(request).execute();
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-                return new JSONObject(response.body().string());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -802,40 +714,47 @@ public class DoEditorActions {
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-                final InputMethodManager imm =
-                        (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                        InputMethodManager.HIDE_IMPLICIT_ONLY);
+                final InputMethodManager imm = ContextCompat.getSystemService(c, InputMethodManager.class);
+                if (imm != null) {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                            InputMethodManager.HIDE_IMPLICIT_ONLY);
+                }
+
+                if (DoEditorActions.e != null) {
+                    descriptionBox.setText(DoEditorActions.e.toString().substring(sStart, sEnd));
+                }
 
                 ta.recycle();
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_title_link)
-                        .setView(layout)
-                        .setPositiveButton(R.string.editor_action_link,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        String s = "["
-                                                + descriptionBox.getText().toString()
-                                                + "]("
-                                                + url
-                                                + ")";
-                                        if (descriptionBox.getText().toString().trim().isEmpty()) {
-                                            s = url + " ";
-                                        }
-                                        int start = Math.max(sStart, 0);
-                                        int end = Math.max(sEnd, 0);
-                                        if (DoEditorActions.e != null) {
-                                            DoEditorActions.e.insert(Math.max(start, end), s);
-                                            DoEditorActions.e = null;
-                                        }
-                                        sStart = 0;
-                                        sEnd = 0;
-                                    }
-                                })
+                new MaterialDialog.Builder(c).title(R.string.editor_title_link)
+                        .customView(layout, false)
+                        .positiveText(R.string.editor_action_link)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                                String s = "["
+                                        + descriptionBox.getText().toString()
+                                        + "]("
+                                        + url
+                                        + ")";
+                                if (descriptionBox.getText().toString().trim().isEmpty()) {
+                                    s = url + " ";
+                                }
+                                int start = Math.max(sStart, 0);
+                                int end = Math.max(sEnd, 0);
+                                if (DoEditorActions.e != null) {
+                                    DoEditorActions.e.insert(Math.max(start, end), s);
+                                    DoEditorActions.e.delete(start, end);
+                                    DoEditorActions.e = null;
+                                }
+                                sStart = 0;
+                                sEnd = 0;
+                            }
+                        })
+                        .canceledOnTouchOutside(false)
                         .show();
 
             } catch (Exception e) {
@@ -850,187 +769,17 @@ public class DoEditorActions {
                 e.printStackTrace();
             }
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            dialog.setProgress(values[0]);
-            LogUtil.v("Progress:" + values[0]);
-        }
     }
 
-    private static class UploadImgurAlbum extends AsyncTask<Uri, Integer, String> {
+    private static class UploadImgurAlbumDEA extends UploadImgurAlbum {
 
-        final         Context        c;
-        private final MaterialDialog dialog;
-        public        Bitmap         b;
-
-        public UploadImgurAlbum(Context c) {
+        public UploadImgurAlbumDEA(Context c) {
             this.c = c;
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
                     .cancelable(false)
                     .show();
-        }
-
-        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
-        public static File createFile(Uri uri, @NonNull Context context) {
-            InputStream in;
-            ContentResolver resolver = context.getContentResolver();
-            String type = resolver.getType(uri);
-            String extension;
-
-            if ("image/png".equals(type)) {
-                extension = ".gif";
-            } else if ("image/png".equals(type)) {
-                extension = ".png";
-            } else {
-                extension = ".jpg";
-            }
-
-            try {
-                in = resolver.openInputStream(uri);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
-
-            // Create files from a uri in our cache directory so they eventually get deleted
-            String timeStamp = String.valueOf(System.currentTimeMillis());
-            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
-                    .getDiskCache()
-                    .getDirectory();
-            File tempFile = new File(cacheDir, timeStamp + extension);
-
-            if (writeInputStreamToFile(in, tempFile)) {
-                return tempFile;
-            } else {
-                // If writeInputStreamToFile fails, delete the excess file
-                tempFile.delete();
-            }
-
-            return null;
-        }
-
-        public static boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
-            BufferedOutputStream buffer = null;
-            boolean didFinish = false;
-
-            try {
-                buffer = new BufferedOutputStream(new FileOutputStream(file));
-                byte byt[] = new byte[1024];
-                int i;
-
-                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
-                    buffer.write(byt, 0, i);
-                }
-
-                buffer.flush();
-                didFinish = true;
-            } catch (IOException e) {
-                didFinish = false;
-            } finally {
-                closeStream(in);
-                closeStream(buffer);
-            }
-
-            return didFinish;
-        }
-
-        public static void closeStream(@Nullable Closeable closeable) {
-            if (closeable != null) {
-                try {
-                    closeable.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-
-        //End methods sourced from Opengur
-
-        String finalUrl;
-
-        @Override
-        protected String doInBackground(Uri... sub) {
-            totalCount = sub.length;
-            final OkHttpClient client = Reddit.client;
-
-            String albumurl;
-            {
-                Request request = new Request.Builder().header("Authorization",
-                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                        .url("https://imgur-apiv3.p.mashape.com/3/album")
-                        .post(new RequestBody() {
-                            @Override
-                            public MediaType contentType() {
-                                return null;
-                            }
-
-                            @Override
-                            public void writeTo(BufferedSink sink) {
-
-                            }
-                        })
-                        .build();
-                Response response = null;
-                try {
-                    response = client.newCall(request).execute();
-
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
-                    JSONObject album = new JSONObject(response.body().string());
-                    albumurl = album.getJSONObject("data").getString("deletehash");
-                    finalUrl = "http://imgur.com/a/" + album.getJSONObject("data").getString("id");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-
-            }
-
-
-            try {
-                MultipartBody.Builder formBodyBuilder =
-                        new MultipartBody.Builder().setType(MultipartBody.FORM);
-                for (Uri uri : sub) {
-                    File bitmap = createFile(uri, c);
-                    formBodyBuilder.addFormDataPart("image", bitmap.getName(),
-                            RequestBody.create(MediaType.parse("image/*"), bitmap));
-                    formBodyBuilder.addFormDataPart("album", albumurl);
-                    MultipartBody formBody = formBodyBuilder.build();
-
-                    ProgressRequestBody body =
-                            new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
-                                @Override
-                                public void onProgress(int progress) {
-                                    publishProgress(progress);
-                                }
-                            });
-
-
-                    Request request = new Request.Builder().header("Authorization",
-                            "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
-                            .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
-                            .url("https://imgur-apiv3.p.mashape.com/3/image")
-                            .post(body)
-                            .build();
-
-                    Response response = client.newCall(request).execute();
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -1055,31 +804,36 @@ public class DoEditorActions {
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
 
+                if (DoEditorActions.e != null) {
+                    descriptionBox.setText(DoEditorActions.e.toString().substring(sStart, sEnd));
+                }
 
                 ta.recycle();
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_title_link)
-                        .setView(layout)
-                        .setPositiveButton(R.string.editor_action_link,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        String s = "["
-                                                + descriptionBox.getText().toString()
-                                                + "]("
-                                                + finalUrl
-                                                + ")";
-                                        int start = Math.max(sStart, 0);
-                                        int end = Math.max(sEnd, 0);
-                                        DoEditorActions.e.insert(Math.max(start, end), s);
-                                        DoEditorActions.e = null;
-                                        sStart = 0;
-                                        sEnd = 0;
-                                    }
-                                })
+                new MaterialDialog.Builder(c).title(R.string.editor_title_link)
+                        .customView(layout, false)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                dialog.dismiss();
+                                String s = "["
+                                        + descriptionBox.getText().toString()
+                                        + "]("
+                                        + finalUrl
+                                        + ")";
+                                int start = Math.max(sStart, 0);
+                                int end = Math.max(sEnd, 0);
+                                DoEditorActions.e.insert(Math.max(start, end), s);
+                                DoEditorActions.e.delete(start, end);
+                                DoEditorActions.e = null;
+                                sStart = 0;
+                                sEnd = 0;
+                            }
+                        })
+                        .positiveText(R.string.editor_action_link)
+                        .canceledOnTouchOutside(false)
                         .show();
 
             } catch (Exception e) {
@@ -1094,19 +848,6 @@ public class DoEditorActions {
                 e.printStackTrace();
             }
         }
-
-        int uploadCount;
-        int totalCount;
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            int progress = values[0];
-            if (progress < dialog.getCurrentProgress() || uploadCount == 0) {
-                uploadCount += 1;
-            }
-            dialog.setContent("Image " + uploadCount + "/" + totalCount);
-            dialog.setProgress(progress);
-        }
     }
 
     public static void handleImageIntent(List<Uri> uris, EditText ed, Context c) {
@@ -1117,74 +858,18 @@ public class DoEditorActions {
         if (uris.size() == 1) {
             // Get the Image from data (single image)
             try {
-                new UploadImgur(c).execute(uris.get(0));
+                new UploadImgurDEA(c).execute(uris.get(0));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             //Multiple images
             try {
-                new UploadImgurAlbum(c).execute(uris.toArray(new Uri[uris.size()]));
+                new UploadImgurAlbumDEA(c).execute(uris.toArray(new Uri[0]));
             } catch (Exception e) {
                 e.printStackTrace();
 
             }
         }
     }
-
-
-    public static class ProgressRequestBody extends RequestBody {
-
-        protected RequestBody  mDelegate;
-        protected Listener     mListener;
-        protected CountingSink mCountingSink;
-
-        public ProgressRequestBody(RequestBody delegate, Listener listener) {
-            mDelegate = delegate;
-            mListener = listener;
-        }
-
-        @Override
-        public MediaType contentType() {
-            return mDelegate.contentType();
-        }
-
-        @Override
-        public long contentLength() {
-            try {
-                return mDelegate.contentLength();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return -1;
-        }
-
-        @Override
-        public void writeTo(BufferedSink sink) throws IOException {
-            mCountingSink = new CountingSink(sink);
-            BufferedSink bufferedSink = Okio.buffer(mCountingSink);
-            mDelegate.writeTo(bufferedSink);
-            bufferedSink.flush();
-        }
-
-        protected final class CountingSink extends ForwardingSink {
-            private long bytesWritten = 0;
-
-            public CountingSink(Sink delegate) {
-                super(delegate);
-            }
-
-            @Override
-            public void write(Buffer source, long byteCount) throws IOException {
-                super.write(source, byteCount);
-                bytesWritten += byteCount;
-                mListener.onProgress((int) (100F * bytesWritten / contentLength()));
-            }
-        }
-
-        public interface Listener {
-            void onProgress(int progress);
-        }
-    }
-
 }

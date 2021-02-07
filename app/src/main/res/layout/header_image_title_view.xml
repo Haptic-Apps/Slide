@@ -47,7 +47,7 @@
             android:paddingTop="8dp"
             android:text="@string/example_domain"
             android:textStyle="bold"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="14sp" />
 
         <TextView

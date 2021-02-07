@@ -30,8 +30,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/color" />
+            app:srcCompat="@drawable/ic_palette"
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,8 +54,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/accent" />
+            app:srcCompat="@drawable/ic_colorize"
+            android:tint="?attr/tintColor"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,8 +78,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/theme" />
+            app:srcCompat="@drawable/ic_invert_colors"
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,8 +102,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:padding="16dp"
-            android:tint="?attr/tintColor"
-            app:srcCompat="@drawable/nighttheme" />
+            app:srcCompat="@drawable/ic_dark_mode"
+            android:tint="?attr/tintColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_theme_tint_everywhere"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -238,7 +238,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_theme_color_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -288,7 +288,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_theme_color_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

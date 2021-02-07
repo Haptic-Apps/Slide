@@ -5,19 +5,19 @@
 
     <item
             android:id="@+id/action_shadowbox"
-            android:icon="@drawable/shadowbox"
+            android:icon="@drawable/ic_view_carousel"
             android:title="@string/general_enable_shadowbox"
             app:showAsAction="ifRoom"/>
 
     <item
             android:id="@+id/action_sort"
-            android:icon="@drawable/sort"
+            android:icon="@drawable/ic_sort"
             android:title="@string/sorting_change_sorting"
             app:showAsAction="ifRoom"/>
 
     <item
             android:id="@+id/search"
-            android:icon="@drawable/search"
+            android:icon="@drawable/ic_search"
             android:title="@string/search_title"
             app:showAsAction="ifRoom"/>
 
@@ -29,13 +29,13 @@
 
     <item
             android:id="@+id/gallery"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_image"
             android:title="@string/gallery_mode"
             app:showAsAction="ifRoom"/>
 
     <item
             android:id="@+id/sidebar"
-            android:icon="@drawable/infonew"
+            android:icon="@drawable/ic_info"
             android:title="@string/general_open_settings"
             app:showAsAction="ifRoom"/>
 

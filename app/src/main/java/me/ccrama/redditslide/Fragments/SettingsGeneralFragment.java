@@ -8,11 +8,6 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +16,15 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.models.CommentSort;
@@ -33,12 +34,14 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.SettingsViewType;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate.FolderCallback;
 import me.ccrama.redditslide.Notifications.CheckForMail;
@@ -46,11 +49,12 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ImageLoaderUtils;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -87,7 +91,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             checkBox.setText(context.getString(R.string.settings_mail_check));
         } else {
             checkBox.setChecked(true);
-            landscape.setValue(Reddit.notificationTime / 15, false);
+            landscape.setValue(Reddit.notificationTime / 15.0f, false);
             checkBox.setText(context.getString(R.string.settings_notification_newline,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime,
                             context.getBaseContext())));
@@ -218,6 +222,28 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                 });
             }
         }
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_high_colorspace);
+
+            if (single != null) {
+                single.setChecked(SettingValues.highColorspaceImages);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingsThemeFragment.changed = true;
+                        SettingValues.highColorspaceImages = isChecked;
+
+                        Reddit application = (Reddit) context.getApplication();
+                        ImageLoaderUtils.initImageLoader(application.getApplicationContext());
+                        application.defaultImageLoader = ImageLoaderUtils.imageLoader;
+
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_HIGH_COLORSPACE_IMAGES, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
 
         {
             SwitchCompat single = context.findViewById(R.id.settings_general_forcelanguage);
@@ -231,6 +257,43 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                         SettingValues.overrideLanguage = isChecked;
                         SettingValues.prefs.edit()
                                 .putBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
+
+        //hide fab while scrolling
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_show_fab);
+
+            if (single != null) {
+                single.setChecked(SettingValues.alwaysShowFAB);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingsThemeFragment.changed = true;
+                        SettingValues.alwaysShowFAB = isChecked;
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_ALWAYS_SHOW_FAB, isChecked)
+                                .apply();
+                    }
+                });
+            }
+        }
+
+        // Show image download button
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_general_show_download_button);
+
+            if (single != null) {
+                single.setChecked(SettingValues.imageDownloadButton);
+                single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingValues.imageDownloadButton = isChecked;
+                        SettingValues.prefs.edit()
+                                .putBoolean(SettingValues.PREF_IMAGE_DOWNLOAD_BUTTON, isChecked)
                                 .apply();
                     }
                 });
@@ -344,12 +407,29 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                             .putBoolean(SettingValues.PREF_FAB, true)
                                             .apply();
                                     break;
+                                case R.id.search:
+                                    SettingValues.fab = true;
+                                    SettingValues.fabType = Constants.FAB_SEARCH;
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREF_FAB_TYPE, Constants.FAB_SEARCH)
+                                            .apply();
+                                    SettingValues.prefs.edit()
+                                            .putBoolean(SettingValues.PREF_FAB, true)
+                                            .apply();
+                                    break;
                             }
-                            ((TextView) context.findViewById(R.id.settings_general_fab_current)).setText(
-                                    SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS
-                                            ? context.getString(R.string.fab_hide)
-                                            : context.getString(R.string.fab_create))
-                                            : context.getString(R.string.fab_disabled));
+                            final TextView fabTitle = context.findViewById(R.id.settings_general_fab_current);
+                            if (SettingValues.fab) {
+                                if (SettingValues.fabType == Constants.FAB_DISMISS) {
+                                    fabTitle.setText(R.string.fab_hide);
+                                } else if (SettingValues.fabType == Constants.FAB_POST) {
+                                    fabTitle.setText(R.string.fab_create);
+                                } else {
+                                    fabTitle.setText(R.string.fab_search);
+                                }
+                            } else {
+                                fabTitle.setText(R.string.fab_disabled);
+                            }
 
                             return true;
                         }
@@ -442,6 +522,9 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
             currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_drawer));
+        } else if (SettingValues.backButtonBehavior
+                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+            currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_goto_first));
         } else {
             currentBackButtonTitle.setText(context.getString(R.string.back_button_behavior_default));
         }
@@ -480,6 +563,14 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                                 Constants.BackButtonBehaviorOptions.OpenDrawer.getValue())
                                         .apply();
                                 break;
+                            case R.id.back_button_behavior_goto_first:
+                                SettingValues.backButtonBehavior =
+                                        Constants.BackButtonBehaviorOptions.GotoFirst.getValue();
+                                SettingValues.prefs.edit()
+                                        .putInt(SettingValues.PREF_BACK_BUTTON_BEHAVIOR,
+                                                Constants.BackButtonBehaviorOptions.GotoFirst.getValue())
+                                        .apply();
+                                break;
                         }
 
                         if (SettingValues.backButtonBehavior
@@ -490,6 +581,10 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
                             currentBackButtonTitle.setText(
                                     context.getString(R.string.back_button_behavior_drawer));
+                        } else if (SettingValues.backButtonBehavior
+                                == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
+                            currentBackButtonTitle.setText(
+                                    context.getString(R.string.back_button_behavior_goto_first));
                         } else {
                             currentBackButtonTitle.setText(
                                     context.getString(R.string.back_button_behavior_default));
@@ -595,11 +690,25 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                         }
                                     }
                                 };
+
                         AlertDialogWrapper.Builder builder =
                                 new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
                         builder.setTitle(R.string.sorting_choose);
-                        builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
-                                SortingUtil.getSortingId(""), l2);
+
+                        // Remove the "Best" sorting option from settings because it is only supported on the frontpage.
+                        int skip = -1;
+                        List<String> sortingStrings = new ArrayList<>(Arrays.asList(SortingUtil.getSortingStrings()));
+                        for (int i = 0; i < sortingStrings.size(); i++) {
+                            if (sortingStrings.get(i).equals(context.getString(R.string.sorting_best))) {
+                                skip = i;
+                                break;
+                            }
+                        }
+                        if (skip != -1) {
+                            sortingStrings.remove(skip);
+                        }
+
+                        builder.setSingleChoiceItems(sortingStrings.toArray(new String[0]), SortingUtil.getSortingId(""), l2);
                         builder.show();
                     }
                 });
@@ -811,12 +920,16 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             }
         }
 
-        //List of all subreddits of the multi
-        List<String> sorted = new ArrayList<>();
-        //Add all user subs that aren't already on the list
-        for (String s : UserSubscriptions.sort(UserSubscriptions.getSubscriptions(context))) {
-            sorted.add(s);
+        // Get list of user's subscriptions
+        CaseInsensitiveArrayList subs = UserSubscriptions.getSubscriptions(context);
+        // Add any subs that the user has notifications for but isn't subscribed to
+        for (String s : subThresholds.keySet()) {
+            if (!subs.contains(s)) {
+                subs.add(s);
+            }
         }
+
+        List<String> sorted = UserSubscriptions.sort(subs);
 
         //Array of all subs
         String[] all = new String[sorted.size()];
@@ -843,7 +956,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         for (String s : all) {
             if (s != null && !s.isEmpty()) {
                 list.add(s);
-                if (subThresholds.keySet().contains(s)) {
+                if (subThresholds.containsKey(s)) {
                     checked[i] = true;
                 }
                 i++;
@@ -851,7 +964,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
 
         //Convert List back to Array
-        all = list.toArray(new String[list.size()]);
+        all = list.toArray(new String[0]);
 
         final ArrayList<String> toCheck = new ArrayList<>(subThresholds.keySet());
         final String[] finalAll = all;
@@ -1023,7 +1136,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
     }
 
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(context,

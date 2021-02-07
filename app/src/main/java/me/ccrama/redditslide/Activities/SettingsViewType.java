@@ -1,10 +1,11 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.PopupMenu;
 
 import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;

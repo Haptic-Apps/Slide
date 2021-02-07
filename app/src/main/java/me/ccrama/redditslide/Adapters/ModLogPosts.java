@@ -1,14 +1,14 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.models.ModAction;
 import net.dean.jraw.paginators.ModLogPaginator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 
@@ -22,11 +22,6 @@ public class ModLogPosts {
     private ModLogAdapter        adapter;
     private ModLogPaginator      paginator;
 
-    public ModLogPosts(ArrayList<ModAction> firstData, ModLogPaginator paginator) {
-        posts = firstData;
-        this.paginator = paginator;
-    }
-
     public ModLogPosts() {
     }
 
@@ -38,10 +33,6 @@ public class ModLogPosts {
 
     public void loadMore(ModLogAdapter adapter) {
         new ModLogPosts.LoadData(true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    public void addData(List<ModAction> data) {
-        posts.addAll(data);
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<ModAction>> {
@@ -80,9 +71,8 @@ public class ModLogPosts {
                 }
 
                 if (paginator.hasNext()) {
-                    ArrayList<ModAction> done = new ArrayList<>(paginator.next());
 
-                    return done;
+                    return new ArrayList<>(paginator.next());
 
                 }
                 return null;

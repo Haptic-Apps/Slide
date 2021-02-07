@@ -29,11 +29,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import me.ccrama.redditslide.R;
 
@@ -91,16 +92,8 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
         viewHandleId = R.id.dragit;
     }
 
-    public void setLeftDragArea(int w) {
-        dragHandleWidth = w;
-    }
-
     public void setFloatingAlpha() {
         floatingItemAlpha = 0.4f;
-    }
-
-    public void setFloatingBgColor(int c) {
-        floatingItemBgColor = c;
     }
 
     /*
@@ -126,7 +119,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
 
         debugLog("View top = " + view.getTop());
         if (selectedDragItemPos != -1) {
-            int itemPos = rv.getChildPosition(view);
+            int itemPos = rv.getChildAdapterPosition(view);
             debugLog("itemPos =" + itemPos);
 
             if (!canDragOver(itemPos)) {
@@ -140,7 +133,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
                 view.setVisibility(View.VISIBLE);
 
                 //Find middle of the floatingItem
-                float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2;
+                float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2.0f;
 
                 //Moving down the list
                 //These will auto-animate if the device continually sends touch motion events
@@ -184,10 +177,10 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
      * This *seems* to work, another method would be to use
      * getItemOffsets, but I think that could miss items?..
      */
-    private int getNewPostion(RecyclerView rv) {
+    private int getNewPosition(RecyclerView rv) {
         int itemsOnScreen = rv.getLayoutManager().getChildCount();
 
-        float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2;
+        float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2.0f;
 
         int above = 0;
         int below = Integer.MAX_VALUE;
@@ -199,12 +192,12 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
             if (view.getVisibility() != View.VISIBLE)
                 continue;
 
-            int itemPos = rv.getChildPosition(view);
+            int itemPos = rv.getChildAdapterPosition(view);
 
             if (itemPos == selectedDragItemPos) //Don't check against itself!
                 continue;
 
-            float viewMiddleY = view.getTop() + view.getHeight() / 2;
+            float viewMiddleY = view.getTop() + view.getHeight() / 2.0f;
             if (floatMiddleY > viewMiddleY) //Is above this item
             {
                 if (itemPos > above)
@@ -294,7 +287,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
                 fingerOffsetInViewY = fingerAnchorY - itemView.getTop();
                 fingerY = fingerAnchorY;
 
-                selectedDragItemPos = rv.getChildPosition(itemView);
+                selectedDragItemPos = rv.getChildAdapterPosition(itemView);
                 debugLog("selectedDragItemPos = " + selectedDragItemPos);
 
                 return true;
@@ -310,7 +303,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
         if ((e.getAction() == MotionEvent.ACTION_UP) ||
                 (e.getAction() == MotionEvent.ACTION_CANCEL)) {
             if ((e.getAction() == MotionEvent.ACTION_UP) && selectedDragItemPos != -1) {
-                int newPos = getNewPostion(rv);
+                int newPos = getNewPosition(rv);
                 if (moveInterface != null)
                     moveInterface.onItemMoved(selectedDragItemPos, newPos);
             }

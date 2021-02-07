@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -14,6 +13,8 @@ import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
+
+import androidx.core.text.HtmlCompat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -26,9 +27,11 @@ import java.util.Locale;
 import java.util.WeakHashMap;
 
 import me.ccrama.redditslide.Adapters.CommentAdapterHelper;
+import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.TimeUtils;
 
 /**
  * Created by carlo_000 on 4/22/2016.
@@ -136,7 +139,7 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + UserTags.getUserTag(json.get("author").asText()) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
         }
@@ -145,7 +148,7 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + mContext.getString(R.string.profile_friend) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
         }
@@ -179,7 +182,7 @@ public class SubmissionCache {
                     || (baseSub.equalsIgnoreCase("mod"))
                     || baseSub.contains(".")
                     || baseSub.contains("+"));
-            if (!secondary && !SettingValues.colorEverywhere || secondary) {
+            if (secondary || !SettingValues.colorEverywhere) {
                 subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0,
                         subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(),
@@ -209,20 +212,20 @@ public class SubmissionCache {
             if (Authentication.name != null && submission.getAuthor()
                     .toLowerCase(Locale.ENGLISH)
                     .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
-                author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
+                author.setSpan(new RoundedBackgroundSpan(mContext, android.R.color.white,
                                 R.color.md_deep_orange_300, false), 0, author.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_purple_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_purple_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
                 author.setSpan(
-                        new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300,
+                        new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300,
                                 false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
@@ -239,22 +242,23 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + UserTags.getUserTag(submission.getAuthor()) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
             titleString.append(" ");
+            titleString.append(pinned);
         }
 
         if (UserSubscriptions.friends.contains(submission.getAuthor())) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     " " + mContext.getString(R.string.profile_friend) + " ");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
             titleString.append(" ");
+            titleString.append(pinned);
         }
 
+        ToolboxUI.appendToolboxNote(mContext, titleString, submission.getSubredditName(), submission.getAuthor());
 
         /* too big, might add later todo
         if (submission.getAuthorFlair() != null && submission.getAuthorFlair().getText() != null && !submission.getAuthorFlair().getText().isEmpty()) {
@@ -403,45 +407,81 @@ public class SubmissionCache {
     private static SpannableStringBuilder getTitleSpannable(Submission submission,
             String flairOverride, Context mContext) {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
-        titleString.append(Html.fromHtml(submission.getTitle()));
+        titleString.append(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         if (submission.isStickied()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0"
                     + mContext.getString(R.string.submission_stickied).toUpperCase()
                     + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, true),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
-        if (submission.getTimesGilded() > 0) {
-            //if the post has only been gilded once, don't show a number
-            final String timesGilded = (submission.getTimesGilded() == 1) ? ""
-                    : "\u200Ax" + Integer.toString(submission.getTimesGilded());
-            SpannableStringBuilder gilded =
-                    new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+
+        if (!SettingValues.hidePostAwards &&
+                (submission.getTimesSilvered() > 0 || submission.getTimesGilded() > 0 || submission.getTimesPlatinized() > 0)) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);
             int fontsize =
                     (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
             a.recycle();
-            Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
-            float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(gilded);
+            // Add silver, gold, platinum icons and counts in that order
+            if (submission.getTimesSilvered() > 0) {
+                final String timesSilvered = (submission.getTimesSilvered() == 1) ? ""
+                        : "\u200Ax" + submission.getTimesSilvered();
+                SpannableStringBuilder silvered =
+                        new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                silvered.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                titleString.append(silvered);
+            }
+            if (submission.getTimesGilded() > 0) {
+                final String timesGilded = (submission.getTimesGilded() == 1) ? ""
+                        : "\u200Ax" + submission.getTimesGilded();
+                SpannableStringBuilder gilded =
+                        new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                titleString.append(gilded);
+            }
+            if (submission.getTimesPlatinized() > 0) {
+                final String timesPlatinized = (submission.getTimesPlatinized() == 1) ? ""
+                        : "\u200Ax" + submission.getTimesPlatinized();
+                SpannableStringBuilder platinized =
+                        new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                platinized.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                titleString.append(platinized);
+            }
         }
         if (submission.isNsfw()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0NSFW\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, true), 0,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300, true), 0,
                     pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -449,7 +489,14 @@ public class SubmissionCache {
         if (submission.getDataNode().get("spoiler").asBoolean()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0SPOILER\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_grey_600, true),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_grey_600, true),
+                    0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        if (submission.getDataNode().get("is_original_content").asBoolean()) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0OC\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, true),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -476,7 +523,7 @@ public class SubmissionCache {
                 flairString = submission.getSubmissionFlair().getText();
             }
             SpannableStringBuilder pinned =
-                    new SpannableStringBuilder("\u00A0" + Html.fromHtml(flairString) + "\u00A0");
+                    new SpannableStringBuilder("\u00A0" + HtmlCompat.fromHtml(flairString, HtmlCompat.FROM_HTML_MODE_LEGACY) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(font, color, true, mContext), 0,
                     pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");

@@ -17,13 +17,13 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center">
 
-        <me.ccrama.redditslide.Views.MediaVideoView
+        <me.ccrama.redditslide.Views.ExoVideoView
             android:id="@+id/gif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
 
-        </me.ccrama.redditslide.Views.MediaVideoView>
+        </me.ccrama.redditslide.Views.ExoVideoView>
 
         <ProgressBar
             android:id="@+id/gifprogress"
@@ -58,9 +58,9 @@
             android:layout_height="56dp"
             android:padding="15dp"
             android:theme="@style/Ripple.List"
-            android:tint="@color/white"
+            android:tint="@android:color/white"
             android:layout_toLeftOf="@+id/more"
-            app:srcCompat="@drawable/save" />
+            app:srcCompat="@drawable/ic_get_app" />
 
         <ImageView
             android:id="@+id/more"
@@ -74,7 +74,7 @@
             android:paddingEnd="11dp"
             android:paddingTop="15dp"
             android:theme="@style/Ripple.List"
-            app:srcCompat="@drawable/more" />
+            app:srcCompat="@drawable/ic_more_vert" />
     </RelativeLayout>
 
 </RelativeLayout>

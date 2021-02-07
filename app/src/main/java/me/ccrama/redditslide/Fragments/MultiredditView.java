@@ -3,24 +3,25 @@ package me.ccrama.redditslide.Fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.MarginLayoutParamsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
@@ -48,6 +50,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
@@ -120,8 +123,43 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                                 }).show();
                     }
                 });
+            } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
+                fab.setImageResource(R.drawable.ic_search);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    String term;
+                    @Override
+                    public void onClick(View v) {
+                        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
+                                .title(R.string.search_title)
+                                .alwaysCallInputCallback()
+                                .input(getString(R.string.search_msg), "",
+                                        new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(
+                                                    MaterialDialog materialDialog,
+                                                    CharSequence charSequence) {
+                                                term = charSequence.toString();
+                                            }
+                                        });
+
+                        builder.positiveText(getString(R.string.search_subreddit,
+                                "/m/" + posts.multiReddit.getDisplayName()))
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog materialDialog,
+                                                        @NonNull DialogAction dialogAction) {
+                                        Intent i = new Intent(getActivity(), Search.class);
+                                        i.putExtra(Search.EXTRA_TERM, term);
+                                        i.putExtra(Search.EXTRA_MULTIREDDIT, posts.multiReddit.getDisplayName());
+                                        startActivity(i);
+                                    }
+                                });
+
+                        builder.show();
+                    }
+                });
             } else {
-                fab.setImageResource(R.drawable.hide);
+                fab.setImageResource(R.drawable.ic_visibility_off);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -174,10 +212,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                             }
                         };*/
                         Snackbar s = Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
 
                         return false;
                     }
@@ -196,9 +231,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
          */
         if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                params.setMarginStart(0);
-            }
+            MarginLayoutParamsCompat.setMarginStart(params, 0);
             rv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             refreshLayout.setLayoutParams(params);
         }
@@ -232,7 +265,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
             rv.setAdapter(adapter);
-            rv.setItemAnimator(new SlideUpAlphaAnimator());
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
             posts.loadMore(getActivity(), this, true, adapter);
 
             refreshLayout.setOnRefreshListener(
@@ -250,16 +283,15 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 fab.show();
             }
 
-            rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
+            rv.addOnScrollListener(new ToolbarScrollHideHandler((getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
 
                     visibleItemCount = rv.getLayoutManager().getChildCount();
                     totalItemCount = rv.getLayoutManager().getItemCount();
 
-                    int[] firstVisibleItems;
-                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
+                    int[] firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         for (int firstVisibleItem : firstVisibleItems) {
                             pastVisiblesItems = firstVisibleItem;
@@ -322,7 +354,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
             }
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideUpAlphaAnimator());
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
             return originalDataSetPosts;
         }
 

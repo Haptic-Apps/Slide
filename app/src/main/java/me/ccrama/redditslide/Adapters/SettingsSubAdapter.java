@@ -4,14 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
+import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -20,10 +22,10 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SettingsSubreddit;
 import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
@@ -57,7 +59,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
         final String subreddit = objects.get(position);
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
 
         final String DELETE_SUB_SETTINGS_TITLE = (subreddit.contains("/m/")) ? subreddit : ("/r/" + subreddit);
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -103,7 +105,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         return objects.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
         }
@@ -187,20 +189,21 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         title.setBackgroundColor(currentColor);
 
         if (multipleSubs) {
-            String titleString = "";
 
+            StringBuilder titleStringBuilder = new StringBuilder();
             for (String sub : subreddits) {
                 //if the subreddit is the frontpage, don't put "/r/" in front of it
                 if (sub.equals("frontpage")) {
-                    titleString += sub + ", ";
+                    titleStringBuilder.append(sub).append(", ");
                 } else {
                     if (sub.contains("/m/")) {
-                        titleString += sub + ", ";
+                        titleStringBuilder.append(sub).append(", ");
                     } else {
-                        titleString += "/r/" + sub + ", ";
+                        titleStringBuilder.append("/r/").append(sub).append(", ");
                     }
                 }
             }
+            String titleString = titleStringBuilder.toString();
             titleString = titleString.substring(0, titleString.length() - 2);
             title.setMaxLines(3);
             title.setText(titleString);
@@ -328,17 +331,19 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             }).setNeutralButton(R.string.btn_reset, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    String subTitles = "";
+                    String subTitles;
 
                     if (multipleSubs) {
+                        StringBuilder subTitlesBuilder = new StringBuilder();
                         for (String sub : subreddits) {
                             //if the subreddit is the frontpage, don't put "/r/" in front of it
                             if (sub.equals("frontpage")) {
-                                subTitles += sub + ", ";
+                                subTitlesBuilder.append(sub).append(", ");
                             } else {
-                                subTitles += "/r/" + sub + ", ";
+                                subTitlesBuilder.append("/r/").append(sub).append(", ");
                             }
                         }
+                        subTitles = subTitlesBuilder.toString();
                         subTitles = subTitles.substring(0, subTitles.length() - 2);
                     } else {
                         //if the subreddit is the frontpage, don't put "/r/" in front of it

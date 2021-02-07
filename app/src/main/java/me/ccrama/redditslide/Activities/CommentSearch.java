@@ -1,10 +1,11 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.dean.jraw.models.CommentNode;
 
@@ -36,8 +37,7 @@ public class CommentSearch extends BaseActivityAnim {
 
         final EditText search = (EditText) findViewById(R.id.search);
         RecyclerView rv = (RecyclerView) findViewById(R.id.vertical_content);
-        final PreCachingLayoutManager mLayoutManager;
-        mLayoutManager = new PreCachingLayoutManager(this);
+        final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
         ArrayList<CommentNode> comments = new ArrayList<>();
         List<CommentObject> commentsOld = DataShare.sharedComments;

@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -175,15 +174,6 @@ public class SwipeBackLayout extends FrameLayout {
         mDragHelper.setSensitivity(context, sensitivity);
     }
 
-    /**
-     * Set up contentView which will be moved by user gesture
-     *
-     * @param view
-     */
-    private void setContentView(View view) {
-        mContentView = view;
-    }
-
     public void setEnableGesture(boolean enable) {
         mEnable = enable;
     }
@@ -259,7 +249,7 @@ public class SwipeBackLayout extends FrameLayout {
         mListeners.remove(listener);
     }
 
-    public static interface SwipeListener {
+    public interface SwipeListener {
         /**
          * Invoke when state change
          *
@@ -269,7 +259,7 @@ public class SwipeBackLayout extends FrameLayout {
          * @see #STATE_DRAGGING
          * @see #STATE_SETTLING
          */
-        public void onScrollStateChange(int state, float scrollPercent);
+        void onScrollStateChange(int state, float scrollPercent);
 
         /**
          * Invoke when edge touched
@@ -280,12 +270,12 @@ public class SwipeBackLayout extends FrameLayout {
          * @see #EDGE_BOTTOM
          * @see #EDGE_TOP
          */
-        public void onEdgeTouch(int edgeFlag);
+        void onEdgeTouch(int edgeFlag);
 
         /**
          * Invoke when scroll percent over the threshold for the first time
          */
-        public void onScrollOverThreshold();
+        void onScrollOverThreshold();
     }
 
     /**
@@ -503,7 +493,8 @@ public class SwipeBackLayout extends FrameLayout {
         decorChild.setBackgroundResource(background);
         decor.removeView(decorChild);
         addView(decorChild);
-        setContentView(decorChild);
+        // Set up contentView which will be moved by user gesture
+        mContentView = decorChild;
         decor.addView(this);
     }
 
@@ -511,7 +502,7 @@ public class SwipeBackLayout extends FrameLayout {
     public void computeScroll() {
         mScrimOpacity = 1 - mScrollPercent;
         if (mDragHelper.continueSettling(true)) {
-            ViewCompat.postInvalidateOnAnimation(this);
+            this.postInvalidateOnAnimation();
         }
     }
 

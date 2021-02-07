@@ -13,7 +13,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"
+        android:background="@android:color/black"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -26,7 +26,7 @@
             android:paddingEnd="16dp"
             android:paddingTop="16dp"
             android:text="@string/example_domain"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="?attr/font_cardtitle"/>
 
         <ScrollView
@@ -48,7 +48,7 @@
                     android:paddingBottom="8dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
 
                     android:textSize="?attr/font_commentbody" />
 
@@ -97,6 +97,7 @@
 
             <ImageView
                 android:id="@+id/scoreimg"
+                android:labelFor="@+id/score"
                 android:layout_width="15dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center_vertical"
@@ -104,7 +105,8 @@
                 android:layout_marginStart="16dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/upvoted" />
+                android:contentDescription="@string/img_score"
+                app:srcCompat="@drawable/ic_arrow_upward" />
 
             <TextView
                 android:id="@+id/score"
@@ -121,6 +123,7 @@
 
             <ImageView
                 android:id="@+id/pointsimg"
+                android:labelFor="@+id/comments"
                 android:layout_width="15dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
@@ -130,7 +133,8 @@
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/commentchange" />
+                android:contentDescription="@string/img_comments"
+                app:srcCompat="@drawable/ic_forum" />
 
             <TextView
                 android:id="@+id/comments"
@@ -157,7 +161,8 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/iconstarfilled" />
+                android:contentDescription="@string/btn_save"
+                app:srcCompat="@drawable/ic_star" />
 
             <ImageView
                 android:id="@+id/upvote"
@@ -170,7 +175,8 @@
 
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/upvoted" />
+                android:contentDescription="@string/btn_upvote"
+                app:srcCompat="@drawable/ic_arrow_upward" />
 
             <ImageView
                 android:id="@+id/downvote"
@@ -183,7 +189,8 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/downvote" />
+                android:contentDescription="@string/btn_downvote"
+                app:srcCompat="@drawable/ic_arrow_downward" />
 
 
             <ImageView
@@ -196,7 +203,8 @@
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/more" />
+                android:contentDescription="@string/btn_menu"
+                app:srcCompat="@drawable/ic_more_vert" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
     </RelativeLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

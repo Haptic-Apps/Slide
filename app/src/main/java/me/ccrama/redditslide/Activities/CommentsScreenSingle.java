@@ -6,13 +6,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -32,7 +34,9 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SwipeLayout.Utils;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -42,13 +46,14 @@ import me.ccrama.redditslide.util.LogUtil;
  * Submission object, and then displays the submission with its comments.
  */
 public class CommentsScreenSingle extends BaseActivityAnim {
-    OverviewPagerAdapter comments;
+    CommentsScreenSinglePagerAdapter comments;
     boolean              np;
     private ViewPager pager;
     private String    subreddit;
     private String    name;
     private String    context;
     private int       contextNumber;
+    private Boolean   doneTranslucent = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -73,7 +78,6 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:
-                    return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 case KeyEvent.KEYCODE_VOLUME_DOWN:
                     return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);
                 default:
@@ -87,7 +91,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     public void onCreate(Bundle savedInstance) {
         disableSwipeBackLayout();
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
+        getWindow().getDecorView().setBackground(null);
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);
@@ -162,24 +166,16 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         }
     }
 
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
-    }
-
     private void setupAdapter() {
         themeSystemBars(subreddit);
         setRecentBar(subreddit);
 
         pager = (ViewPager) findViewById(R.id.content_view);
-        comments = new OverviewPagerAdapter(getSupportFragmentManager());
+        comments = new CommentsScreenSinglePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(comments);
         pager.setBackgroundColor(Color.TRANSPARENT);
         pager.setCurrentItem(1);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset,
                     int positionOffsetPixels) {
@@ -187,9 +183,9 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     finish();
                 }
                 if (position == 0
-                        && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                    ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
-                    pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                        && ((CommentsScreenSinglePagerAdapter) pager.getAdapter()).blankPage != null) {
+                    ((CommentsScreenSinglePagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
+                    pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
                 }
             }
 
@@ -200,7 +196,10 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if(!doneTranslucent) {
+                    doneTranslucent = true;
+                    Utils.convertActivityToTranslucent(CommentsScreenSingle.this);
+                }
             }
         });
     }
@@ -275,37 +274,36 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         }
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-
+    private class CommentsScreenSinglePagerAdapter extends FragmentStatePagerAdapter {
         private Fragment      mCurrentFragment;
         public  BlankFragment blankPage;
 
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
+        CommentsScreenSinglePagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
-        public Fragment getCurrentFragment() {
+        Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            if (getCurrentFragment() != object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            if (mCurrentFragment != object) {
                 mCurrentFragment = (Fragment) object;
             }
             super.setPrimaryItem(container, position, object);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int i) {
             if (i == 0) {
                 blankPage = new BlankFragment();
                 return blankPage;
             } else {
-
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
-                if (name.contains("t3_")) name = name.substring(3, name.length());
+                if (name.contains("t3_")) name = name.substring(3);
 
                 args.putString("id", name);
                 args.putString("context", context);
@@ -329,19 +327,11 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                 return f;
             }
-
         }
-
 
         @Override
         public int getCount() {
-
             return 2;
-
         }
-
-
     }
-
-
 }

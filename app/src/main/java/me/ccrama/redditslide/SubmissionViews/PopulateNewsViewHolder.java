@@ -2,8 +2,6 @@ package me.ccrama.redditslide.SubmissionViews;
 
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,37 +9,43 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
-import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Contribution;
+import net.dean.jraw.models.Ruleset;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.SubredditRule;
 
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -73,16 +77,19 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.ReadLater;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -90,13 +97,6 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 public class PopulateNewsViewHolder {
 
     public PopulateNewsViewHolder() {
-    }
-
-    public static int getStyleAttribColorValue(final Context context, final int attribResId,
-            final int defaultValue) {
-        final TypedValue tv = new TypedValue();
-        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
-        return found ? tv.data : defaultValue;
     }
 
     private static void addClickFunctions(final View base, final ContentType.Type type,
@@ -126,7 +126,6 @@ public class PopulateNewsViewHolder {
                         if (!PostMatch.openExternal(submission.getUrl())
                                 || type == ContentType.Type.VIDEO) {
                             switch (type) {
-                                case VID_ME:
                                 case STREAMABLE:
                                     if (SettingValues.video) {
                                         Intent myIntent =
@@ -134,21 +133,25 @@ public class PopulateNewsViewHolder {
                                         myIntent.putExtra(MediaView.SUBREDDIT,
                                                 submission.getSubredditName());
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                        myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         contextActivity.startActivity(myIntent);
                                     } else {
                                         LinkUtil.openExternally(submission.getUrl());
                                     }
                                     break;
                                 case IMGUR:
+                                case DEVIANTART:
+                                case XKCD:
+                                case IMAGE:
                                     openImage(type, contextActivity, submission, holder.leadImage,
                                             holder.getAdapterPosition());
                                     break;
                                 case EMBEDDED:
                                     if (SettingValues.video) {
-                                        String data = Html.fromHtml(submission.getDataNode()
+                                        String data = HtmlCompat.fromHtml(submission.getDataNode()
                                                 .get("media_embed")
                                                 .get("content")
-                                                .asText()).toString();
+                                                .asText(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
                                         {
                                             Intent i = new Intent(contextActivity,
                                                     FullscreenVideo.class);
@@ -181,13 +184,14 @@ public class PopulateNewsViewHolder {
                                             i = new Intent(contextActivity, AlbumPager.class);
                                             i.putExtra(AlbumPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
                                             i.putExtra(Album.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+
                                         addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
@@ -205,13 +209,13 @@ public class PopulateNewsViewHolder {
                                             i = new Intent(contextActivity, TumblrPager.class);
                                             i.putExtra(TumblrPager.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         } else {
                                             i = new Intent(contextActivity, Tumblr.class);
                                             i.putExtra(Tumblr.SUBREDDIT,
                                                     submission.getSubredditName());
-                                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         }
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+
                                         addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
@@ -221,12 +225,6 @@ public class PopulateNewsViewHolder {
                                         LinkUtil.openExternally(submission.getUrl());
 
                                     }
-                                    break;
-                                case DEVIANTART:
-                                case XKCD:
-                                case IMAGE:
-                                    openImage(type, contextActivity, submission, holder.leadImage,
-                                            holder.getAdapterPosition());
                                     break;
                                 case GIF:
                                     openGif(contextActivity, submission,
@@ -254,11 +252,7 @@ public class PopulateNewsViewHolder {
 
                         Snackbar s = Snackbar.make(holder.itemView, R.string.go_online_view_content,
                                 Snackbar.LENGTH_SHORT);
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 }
             }
@@ -274,9 +268,9 @@ public class PopulateNewsViewHolder {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
-            String url;
+            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
             String previewUrl;
-            url = submission.getUrl();
+            String url = submission.getUrl();
 
             if (baseView != null
                     && baseView.lq
@@ -336,6 +330,7 @@ public class PopulateNewsViewHolder {
 
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+            myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
 
             GifUtils.AsyncLoadGif.VideoType t =
                     GifUtils.AsyncLoadGif.getVideoType(submission.getUrl());
@@ -402,21 +397,10 @@ public class PopulateNewsViewHolder {
 
     }
 
-    public static int getCurrentTintColor(Context v) {
-        return getStyleAttribColorValue(v, R.attr.tintColor, Color.WHITE);
-
-    }
-
     public String reason;
-
-    public String reportReason;
 
     boolean[] chosen    = new boolean[]{false, false, false};
     boolean[] oldChosen = new boolean[]{false, false, false};
-
-    public static int getWhiteTintColor() {
-        return Palette.ThemeEnum.DARK.getTint();
-    }
 
     public <T extends Contribution> void showBottomSheet(final Activity mContext,
             final Submission submission, final NewsViewHolder holder, final List<T> posts,
@@ -427,45 +411,45 @@ public class PopulateNewsViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
         final Drawable sub =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
         Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
                         null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
         final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
         Drawable copy =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
         final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_get_app, null);
         Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
-        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
+        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
         Drawable reddit =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forum,
                         null);
         Drawable filter =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.filter, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
 
-        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        link.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        readLater.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        saved.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        report.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        link.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        readLater.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        filter.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
         ta.recycle();
 
         final BottomSheet.Builder b =
-                new BottomSheet.Builder(mContext).title(Html.fromHtml(submission.getTitle()));
+                new BottomSheet.Builder(mContext).title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
         final boolean isReadLater = mContext instanceof PostReadLater;
@@ -532,13 +516,11 @@ public class PopulateNewsViewHolder {
                     }
                     break;
                     case 10:
-
-
                         String[] choices;
                         final String flair = submission.getSubmissionFlair().getText() != null
                                 ? submission.getSubmissionFlair().getText() : "";
                         if (flair.isEmpty()) {
-                            choices = new String[]{
+                            choices = new String[] {
                                     mContext.getString(R.string.filter_posts_sub,
                                             submission.getSubredditName()),
                                     mContext.getString(R.string.filter_posts_user,
@@ -549,26 +531,19 @@ public class PopulateNewsViewHolder {
                                             submission.getDomain())
                             };
 
-                            chosen = new boolean[]{
-                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase(
-                                            Locale.ENGLISH).split(",")).contains(
-                                            submission.getSubredditName()
-                                                    .toLowerCase(Locale.ENGLISH)), Arrays.asList(
-                                    SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                            .split(",")).contains(
-                                    submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                            chosen = new boolean[] {
+                                    SettingValues.subredditFilters.contains(
+                                            submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.userFilters.contains(
+                                            submission.getAuthor().toLowerCase(Locale.ENGLISH)),
+                                    SettingValues.domainFilters.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                    Arrays.asList(
-                                            SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                    .split(",")).contains(
+                                    SettingValues.alwaysExternal.contains(
                                             submission.getDomain().toLowerCase(Locale.ENGLISH))
                             };
                             oldChosen = chosen.clone();
                         } else {
-                            choices = new String[]{
+                            choices = new String[] {
                                     mContext.getString(R.string.filter_posts_sub,
                                             submission.getSubredditName()),
                                     mContext.getString(R.string.filter_posts_user,
@@ -580,24 +555,16 @@ public class PopulateNewsViewHolder {
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
                         }
-                        chosen = new boolean[]{
-                                Arrays.asList(
-                                        SettingValues.subredditFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                        chosen = new boolean[] {
+                                SettingValues.subredditFilters.contains(
                                         submission.getSubredditName().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.userFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(
+                                SettingValues.userFilters.contains(
                                         submission.getAuthor().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.domainFilters.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.domainFilters.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(
-                                        SettingValues.alwaysExternal.toLowerCase(Locale.ENGLISH)
-                                                .split(",")).contains(
+                                SettingValues.alwaysExternal.contains(
                                         submission.getDomain().toLowerCase(Locale.ENGLISH)),
-                                Arrays.asList(SettingValues.flairFilters.toLowerCase(Locale.ENGLISH)
-                                        .split(",")).contains(baseSub + ":" + flair)
+                                SettingValues.flairFilters.contains(baseSub + ":" + flair.toLowerCase(Locale.ENGLISH).trim())
                         };
                         oldChosen = chosen.clone();
 
@@ -616,136 +583,84 @@ public class PopulateNewsViewHolder {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 boolean filtered = false;
-                                                SharedPreferences.Editor e =
-                                                        SettingValues.prefs.edit();
+                                                SharedPreferences.Editor e = SettingValues.prefs.edit();
                                                 if (chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters
-                                                                    + (
-                                                                    (SettingValues.subredditFilters.isEmpty()
-                                                                            || SettingValues.subredditFilters
-                                                                            .endsWith(",")) ? ""
-                                                                            : ",")
-                                                                    + submission.getSubredditName();
+                                                    SettingValues.subredditFilters.add(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
-                                                    PostMatch.subreddits = null;
-                                                } else if (!chosen[0]
-                                                        && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters =
-                                                            SettingValues.subredditFilters.replace(
-                                                                    submission.getSubredditName(),
-                                                                    "");
+                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                                    SettingValues.subredditFilters.remove(submission.getSubredditName()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(
+                                                    e.putStringSet(
                                                             SettingValues.PREF_SUBREDDIT_FILTERS,
                                                             SettingValues.subredditFilters);
                                                     e.apply();
-                                                    PostMatch.subreddits = null;
                                                 }
                                                 if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters + ((
-                                                                    SettingValues.userFilters.isEmpty()
-                                                                            || SettingValues.userFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getAuthor();
+                                                    SettingValues.userFilters.add(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
-                                                    PostMatch.users = null;
-                                                } else if (!chosen[1]
-                                                        && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters =
-                                                            SettingValues.userFilters.replace(
-                                                                    submission.getAuthor(), "");
+                                                } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                                    SettingValues.userFilters.remove(submission.getAuthor()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
                                                             SettingValues.userFilters);
                                                     e.apply();
-                                                    PostMatch.users = null;
                                                 }
                                                 if (chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters + ((
-                                                                    SettingValues.domainFilters.isEmpty()
-                                                                            || SettingValues.domainFilters
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
+                                                    SettingValues.domainFilters.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = true;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
-                                                    PostMatch.domains = null;
-                                                } else if (!chosen[2]
-                                                        && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters =
-                                                            SettingValues.domainFilters.replace(
-                                                                    submission.getDomain(), "");
+                                                } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.domainFilters.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
                                                     filtered = false;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
                                                             SettingValues.domainFilters);
                                                     e.apply();
-                                                    PostMatch.domains = null;
                                                 }
                                                 if (chosen[3] && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal + ((
-                                                                    SettingValues.alwaysExternal.isEmpty()
-                                                                            || SettingValues.alwaysExternal
-                                                                            .endsWith(",")) ? ""
-                                                                    : ",") + submission.getDomain();
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                    SettingValues.alwaysExternal.add(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
-                                                } else if (!chosen[3]
-                                                        && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal =
-                                                            SettingValues.alwaysExternal.replace(
-                                                                    submission.getDomain(), "");
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                                    SettingValues.alwaysExternal.remove(submission.getDomain()
+                                                            .toLowerCase(Locale.ENGLISH).trim());
+                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
                                                             SettingValues.alwaysExternal);
                                                     e.apply();
                                                 }
                                                 if (chosen.length > 4) {
+                                                    String s = (baseSub + ":" + flair)
+                                                            .toLowerCase(Locale.ENGLISH).trim();
                                                     if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters + ((
-                                                                        SettingValues.flairFilters.isEmpty()
-                                                                                || SettingValues.flairFilters
-                                                                                .endsWith(",")) ? ""
-                                                                        : ",") + (baseSub
-                                                                        + ":"
-                                                                        + flair);
-                                                        e.putString(
+                                                        SettingValues.flairFilters.add(s);
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                         filtered = true;
-                                                    } else if (!chosen[4]
-                                                            && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters =
-                                                                SettingValues.flairFilters.toLowerCase(
-                                                                        Locale.ENGLISH)
-                                                                        .replace((baseSub
-                                                                                        + ":"
-                                                                                        + flair).toLowerCase(
-                                                                                Locale.ENGLISH),
-                                                                                "");
-                                                        e.putString(
+                                                    } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
+                                                        SettingValues.flairFilters.remove(s);
+                                                        e.putStringSet(
                                                                 SettingValues.PREF_FLAIR_FILTERS,
                                                                 SettingValues.flairFilters);
                                                         e.apply();
-                                                        PostMatch.flairs = null;
                                                     }
                                                 }
                                                 if (filtered) {
                                                     e.apply();
-                                                    PostMatch.domains = null;
-                                                    PostMatch.subreddits = null;
-                                                    PostMatch.users = null;
                                                     ArrayList<Contribution> toRemove =
                                                             new ArrayList<>();
                                                     for (Contribution s : posts) {
@@ -776,11 +691,9 @@ public class PopulateNewsViewHolder {
                                 .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                         break;
-
-                    case 5: {
+                    case 5:
                         hideSubmission(submission, posts, baseSub, recyclerview, mContext);
-                    }
-                    break;
+                        break;
                     case 7:
                         LinkUtil.openExternally(submission.getUrl());
                         if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
@@ -796,7 +709,7 @@ public class PopulateNewsViewHolder {
                                     Snackbar.LENGTH_SHORT);
                             View view = s.getView();
                             TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
+                                    com.google.android.material.R.id.snackbar_text);
                             tv.setTextColor(Color.WHITE);
                             s.setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
@@ -804,15 +717,11 @@ public class PopulateNewsViewHolder {
                                     ReadLater.setReadLater(submission, false);
                                     Snackbar s2 = Snackbar.make(holder.itemView,
                                             "Removed from read later", Snackbar.LENGTH_SHORT);
-                                    View view2 = s2.getView();
-                                    TextView tv2 = view2.findViewById(
-                                            android.support.design.R.id.snackbar_text);
-                                    tv2.setTextColor(Color.WHITE);
-                                    s2.show();
+                                    LayoutUtils.showSnackbar(s2);
                                 }
                             });
                             if (NetworkUtil.isConnected(mContext)) {
-                                new CommentCacheAsync(Arrays.asList(submission), mContext,
+                                new CommentCacheAsync(Collections.singletonList(submission), mContext,
                                         CommentCacheAsync.SAVED_SUBMISSIONS,
                                         new boolean[]{true, true}).executeOnExecutor(
                                         AsyncTask.THREAD_POOL_EXECUTOR);
@@ -832,7 +741,7 @@ public class PopulateNewsViewHolder {
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
                                 TextView tv2 = view2.findViewById(
-                                        android.support.design.R.id.snackbar_text);
+                                        com.google.android.material.R.id.snackbar_text);
                                 tv2.setTextColor(Color.WHITE);
                                 s2.setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
@@ -847,7 +756,7 @@ public class PopulateNewsViewHolder {
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
                                 TextView tv2 = view2.findViewById(
-                                        android.support.design.R.id.snackbar_text);
+                                        com.google.android.material.R.id.snackbar_text);
                                 s2.show();
                             }
                             OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS)
@@ -856,76 +765,95 @@ public class PopulateNewsViewHolder {
                         }
                         break;
                     case 4:
-                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
+                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
                                 StringEscapeUtils.escapeHtml4(submission.getUrl()), mContext);
                         break;
                     case 12:
-                        reportReason = "";
-                        new MaterialDialog.Builder(mContext).input(
-                                mContext.getString(R.string.input_reason_for_report), null, true,
-                                new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                                        reportReason = input.toString();
-                                    }
-                                })
+                        final MaterialDialog reportDialog = new MaterialDialog.Builder(mContext)
+                                .customView(R.layout.report_dialog, true)
                                 .title(R.string.report_post)
-                                .alwaysCallInputCallback()
-                                .inputType(InputType.TYPE_CLASS_TEXT
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-                                        | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                                        | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                 .positiveText(R.string.btn_report)
                                 .negativeText(R.string.btn_cancel)
-                                .onNegative(null)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        new AsyncTask<Void, Void, Void>() {
-                                            @Override
-                                            protected Void doInBackground(Void... params) {
-                                                try {
-                                                    new AccountManager(
-                                                            Authentication.reddit).report(
-                                                            submission, reportReason);
-                                                } catch (ApiException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                return null;
-                                            }
-
-                                            @Override
-                                            protected void onPostExecute(Void aVoid) {
-                                                if (holder.itemView != null) {
-                                                    try {
-                                                        Snackbar s = Snackbar.make(holder.itemView,
-                                                                R.string.msg_report_sent,
-                                                                Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = view.findViewById(
-                                                                android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
-                                                    } catch (Exception ignored) {
-
-                                                    }
-                                                }
-                                            }
-                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                        RadioGroup reasonGroup = dialog.getCustomView()
+                                                .findViewById(R.id.report_reasons);
+                                        String reportReason;
+                                        if (reasonGroup.getCheckedRadioButtonId() == R.id.report_other) {
+                                            reportReason = ((EditText) dialog.getCustomView()
+                                                    .findViewById(R.id.input_report_reason)).getText().toString();
+                                        } else {
+                                            reportReason = ((RadioButton) reasonGroup
+                                                    .findViewById(reasonGroup.getCheckedRadioButtonId()))
+                                                    .getText().toString();
+                                        }
+                                        new AsyncReportTask(submission, holder.itemView)
+                                                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, reportReason);
                                     }
-                                })
-                                .show();
+                                }).build();
 
+                        final RadioGroup reasonGroup = reportDialog.getCustomView().findViewById(R.id.report_reasons);
+
+                        reasonGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                if (checkedId == R.id.report_other)
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.VISIBLE);
+                                else
+                                    reportDialog.getCustomView().findViewById(R.id.input_report_reason)
+                                            .setVisibility(View.GONE);
+                            }
+                        });
+
+                        // Load sub's report reasons and show the appropriate ones
+                        new AsyncTask<Void, Void, Ruleset>() {
+                            @Override
+                            protected Ruleset doInBackground(Void... voids) {
+                                return Authentication.reddit.getRules(submission.getSubredditName());
+                            }
+
+                            @Override
+                            protected void onPostExecute(Ruleset rules) {
+                                reportDialog.getCustomView().findViewById(R.id.report_loading).setVisibility(View.GONE);
+                                if (rules.getSubredditRules().size() > 0) {
+                                    TextView subHeader = new TextView(mContext);
+                                    subHeader.setText(mContext.getString(R.string.report_sub_rules,
+                                            submission.getSubredditName()));
+                                    reasonGroup.addView(subHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (SubredditRule rule : rules.getSubredditRules()) {
+                                    if (rule.getKind() == SubredditRule.RuleKind.LINK
+                                            || rule.getKind() == SubredditRule.RuleKind.ALL) {
+                                        RadioButton btn = new RadioButton(mContext);
+                                        btn.setText(rule.getViolationReason());
+                                        reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                        btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                    }
+                                }
+                                if (rules.getSiteRules().size() > 0) {
+                                    TextView siteHeader = new TextView(mContext);
+                                    siteHeader.setText(R.string.report_site_rules);
+                                    reasonGroup.addView(siteHeader, reasonGroup.getChildCount() - 2);
+                                }
+                                for (String rule : rules.getSiteRules()) {
+                                    RadioButton btn = new RadioButton(mContext);
+                                    btn.setText(rule);
+                                    reasonGroup.addView(btn, reasonGroup.getChildCount() - 2);
+                                    btn.getLayoutParams().width = WindowManager.LayoutParams.MATCH_PARENT;
+                                }
+                            }
+                        }.execute();
+
+                        reportDialog.show();
                         break;
                     case 8:
-                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
+                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
                                 "https://reddit.com" + submission.getPermalink(), mContext);
                         break;
                     case 6: {
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
-                                Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                        clipboard.setPrimaryClip(clip);
+                        ClipboardUtil.copyToClipboard(mContext, "Link", submission.getUrl());
                         Toast.makeText(mContext, R.string.submission_link_copied,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -951,33 +879,18 @@ public class PopulateNewsViewHolder {
                                                         .substring(showText.getSelectionStart(),
                                                                 showText.getSelectionEnd());
                                                 if (!selected.isEmpty()) {
-                                                    ClipboardManager clipboard =
-                                                            (ClipboardManager) mContext.getSystemService(
-                                                                    Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip =
-                                                            ClipData.newPlainText("Selftext",
-                                                                    selected);
-                                                    clipboard.setPrimaryClip(clip);
-
-                                                    Toast.makeText(mContext,
-                                                            R.string.submission_comment_copied,
-                                                            Toast.LENGTH_SHORT).show();
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext", selected);
                                                 } else {
-                                                    ClipboardManager clipboard =
-                                                            (ClipboardManager) mContext.getSystemService(
-                                                                    Context.CLIPBOARD_SERVICE);
-                                                    ClipData clip =
-                                                            ClipData.newPlainText("Selftext",
-                                                                    Html.fromHtml(
-                                                                            submission.getTitle()
-                                                                                    + "\n\n"
-                                                                                    + submission.getSelftext()));
-                                                    clipboard.setPrimaryClip(clip);
-
-                                                    Toast.makeText(mContext,
-                                                            R.string.submission_comment_copied,
-                                                            Toast.LENGTH_SHORT).show();
+                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext",
+                                                            HtmlCompat.fromHtml(
+                                                                    submission.getTitle()
+                                                                            + "\n\n"
+                                                                            + submission.getSelftext(),
+                                                                    HtmlCompat.FROM_HTML_MODE_LEGACY));
                                                 }
+                                                Toast.makeText(mContext,
+                                                        R.string.submission_comment_copied,
+                                                        Toast.LENGTH_SHORT).show();
 
                                             }
                                         })
@@ -986,17 +899,14 @@ public class PopulateNewsViewHolder {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                ClipboardManager clipboard =
-                                                        (ClipboardManager) mContext.getSystemService(
-                                                                Context.CLIPBOARD_SERVICE);
-                                                ClipData clip = ClipData.newPlainText("Selftext",
-                                                        Html.fromHtml(submission.getTitle()
-                                                                + "\n\n"
-                                                                + submission.getSelftext()));
-                                                clipboard.setPrimaryClip(clip);
+                                                ClipboardUtil.copyToClipboard(mContext, "Selftext",
+                                                        StringEscapeUtils.unescapeHtml4(
+                                                                submission.getTitle()
+                                                                        + "\n\n"
+                                                                        + submission.getSelftext()));
 
                                                 Toast.makeText(mContext,
-                                                        R.string.submission_comment_copied,
+                                                        R.string.submission_text_copied,
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         })
@@ -1018,10 +928,7 @@ public class PopulateNewsViewHolder {
                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                 Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_unhidden,
                         Snackbar.LENGTH_LONG);
-                View view = snack.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             } else {
                 final T t = posts.get(pos);
                 posts.remove(pos);
@@ -1057,10 +964,7 @@ public class PopulateNewsViewHolder {
 
                             }
                         });
-                View view = snack.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snack.show();
+                LayoutUtils.showSnackbar(snack);
             }
 
         }
@@ -1178,10 +1082,7 @@ public class PopulateNewsViewHolder {
                     Snackbar s =
                             Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg),
                                     Snackbar.LENGTH_SHORT);
-                    View view = s.getView();
-                    TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
+                    LayoutUtils.showSnackbar(s);
                 } else {
                     if (SettingValues.actionbarTap && !full) {
                         CreateCardView.toggleActionbar(holder.itemView);
@@ -1200,6 +1101,32 @@ public class PopulateNewsViewHolder {
             holder.title.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
+        }
+    }
+
+    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
+        private Submission submission;
+        private View contextView;
+
+        public AsyncReportTask(Submission submission, View contextView) {
+            this.submission = submission;
+            this.contextView = contextView;
+        }
+
+        @Override
+        protected Void doInBackground(String... reason) {
+            try {
+                new AccountManager(Authentication.reddit).report(submission, reason[0]);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+            LayoutUtils.showSnackbar(s);
         }
     }
 }

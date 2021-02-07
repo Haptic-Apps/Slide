@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -13,15 +12,17 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.common.io.Files;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.DeleteFile;
@@ -43,6 +45,8 @@ import me.ccrama.redditslide.util.LogUtil;
  * Created by Carlos on 7/15/2016.
  */
 public class ImageDownloadNotificationService extends Service {
+
+    public static final String EXTRA_SUBMISSION_TITLE = "submissionTitle";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -59,34 +63,43 @@ public class ImageDownloadNotificationService extends Service {
         if (intent.hasExtra("subreddit")) {
             subreddit = intent.getStringExtra("subreddit");
         }
-        new PollTask(actuallyLoaded, intent.getIntExtra("index", -1), subreddit).executeOnExecutor(
+        new PollTask(actuallyLoaded,
+                intent.getIntExtra("index", -1),
+                subreddit,
+                intent.getStringExtra(EXTRA_SUBMISSION_TITLE),
+                intent.getStringExtra("saveToLocation")).executeOnExecutor(
                 AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
-        public  int                        id;
-        private NotificationManager        mNotifyManager;
+        public int id;
+        private NotificationManager mNotifyManager;
         private NotificationCompat.Builder mBuilder;
-        public  String                     actuallyLoaded;
-        private int                        index;
-        private String                     subreddit;
+        public String actuallyLoaded;
+        private final int index;
+        private final String subreddit;
+        private final String submissionTitle;
+        public String saveToLocation;
+        private static final String RESERVED_CHARS = "[|\\\\?*<\":>+\\[\\]/']";
 
 
-        public PollTask(String actuallyLoaded, int index, String subreddit) {
+        public PollTask(String actuallyLoaded, int index, String subreddit, String submissionTitle, String saveToLocation) {
             this.actuallyLoaded = actuallyLoaded;
             this.index = index;
             this.subreddit = subreddit;
+            this.submissionTitle = submissionTitle;
+            this.saveToLocation = saveToLocation;
         }
 
         public void startNotification() {
             id = (int) (System.currentTimeMillis() / 1000);
-            mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(getApplicationContext());
+            mNotifyManager = ContextCompat.getSystemService(
+                    ImageDownloadNotificationService.this, NotificationManager.class);
+            mBuilder = new NotificationCompat.Builder(getApplicationContext(), Reddit.CHANNEL_IMG);
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
-                    .setChannelId(Reddit.CHANNEL_IMG)
                     .setContentText(getString(R.string.mediaview_notif_text))
-                    .setSmallIcon(R.drawable.save_png);
+                    .setSmallIcon(R.drawable.ic_save);
         }
 
         @Override
@@ -107,8 +120,6 @@ public class ImageDownloadNotificationService extends Service {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = actuallyLoaded;
-            final String finalUrl1 = url;
             final String finalUrl = actuallyLoaded;
             try {
                 ((Reddit) getApplication()).getImageLoader()
@@ -118,70 +129,47 @@ public class ImageDownloadNotificationService extends Service {
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view,
-                                            final Bitmap loadedImage) {
+                                                                  final Bitmap loadedImage) {
                                         File f = ((Reddit) getApplicationContext()).getImageLoader()
-                                                .getDiscCache()
+                                                .getDiskCache()
                                                 .get(finalUrl);
                                         if (f != null && f.exists()) {
-                                            File f_out = null;
-                                            try {
-                                                if(SettingValues.imageSubfolders && !subreddit.isEmpty()){
-                                                    File directory = new File( Reddit.appRestart.getString("imagelocation",
-                                                            "")
-                                                            + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : ""));
-                                                    directory.mkdirs();
-                                                }
-                                                f_out = new File(
-                                                        Reddit.appRestart.getString("imagelocation",
-                                                                "")
-                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
-                                                                + File.separator
-                                                                + (index > -1 ? String.format(
-                                                                "%03d_", index) : "")
-                                                                + getFileName(new URL(finalUrl1)));
-                                            } catch (MalformedURLException e) {
-                                                f_out = new File(
-                                                        Reddit.appRestart.getString("imagelocation",
-                                                                "")
-                                                                + (SettingValues.imageSubfolders && !subreddit.isEmpty() ?File.separator + subreddit : "")
-                                                                + File.separator
-                                                                + (index > -1 ? String.format(
-                                                                "%03d_", index) : "")
-                                                                + UUID.randomUUID().toString()
-                                                                + ".png");
+                                            if (SettingValues.imageSubfolders && !subreddit.isEmpty()) {
+                                                File directory = new File(getFolderPath() + getSubfolderPath());
+                                                directory.mkdirs();
                                             }
+
+                                            File f_out = new File(getFolderPath()
+                                                    + getSubfolderPath()
+                                                    + File.separator
+                                                    + getFileName(finalUrl));
+
                                             LogUtil.v("F out is " + f_out.toString());
                                             try {
                                                 Files.copy(f, f_out);
                                                 showNotifPhoto(f_out, loadedImage);
                                             } catch (IOException e) {
                                                 try {
-                                                    saveImageGallery(loadedImage, finalUrl1);
+                                                    saveImageGallery(loadedImage, finalUrl);
                                                 } catch (IOException ignored) {
                                                     onError(e);
                                                 }
                                             }
                                         } else {
                                             try {
-                                                saveImageGallery(loadedImage, finalUrl1);
+                                                saveImageGallery(loadedImage, finalUrl);
                                             } catch (IOException e) {
                                                 onError(e);
                                             }
                                         }
                                     }
-                                }, new ImageLoadingProgressListener() {
-                                    @Override
-                                    public void onProgressUpdate(String imageUri, View view,
-                                            int current, int total) {
-                                        latestPercentDone = (int) ((current / (float) total) * 100);
-                                        if (percentDone <= latestPercentDone + 30
-                                                || latestPercentDone == 100) { //Do every 10 percent
-                                            percentDone = latestPercentDone;
-                                            mBuilder.setProgress(100, percentDone, false);
-                                            mNotifyManager.notify(id, mBuilder.build());
-                                        }
-
-
+                                }, (imageUri, view, current, total) -> {
+                                    latestPercentDone = (int) ((current / (float) total) * 100);
+                                    if (percentDone <= latestPercentDone + 30
+                                            || latestPercentDone == 100) { //Do every 10 percent
+                                        percentDone = latestPercentDone;
+                                        mBuilder.setProgress(100, percentDone, false);
+                                        mNotifyManager.notify(id, mBuilder.build());
                                     }
                                 });
             } catch (Exception e) {
@@ -191,23 +179,62 @@ public class ImageDownloadNotificationService extends Service {
             return null;
         }
 
-        public void onError(Exception e){
+        private String getFolderPath() {
+            if (saveToLocation != null) return saveToLocation;
+            else return Reddit.appRestart.getString("imagelocation", "");
+        }
+
+        @NonNull
+        private String getSubfolderPath() {
+            return SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator + subreddit : "";
+        }
+
+        public void onError(Exception e) {
             e.printStackTrace();
             mNotifyManager.cancel(id);
             stopSelf();
             try {
                 Toast.makeText(getBaseContext(), "Error saving image", Toast.LENGTH_LONG).show();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
-        private String getFileName(URL url) {
-            if (url == null) return null;
-            String path = url.getPath();
-            String end = path.substring(path.lastIndexOf("/") + 1);
-            if (!end.endsWith(".png") && !end.endsWith(".jpg") && !end.endsWith(".jpeg")) {
-                end = end + ".png";
+        private String getFileName(String url) {
+            String extension;
+            try {
+                URL parsedUrl = new URL(url);
+                String path = parsedUrl.getPath();
+                if (path.endsWith(".png") || path.endsWith(".jpg") || path.endsWith(".jpeg")) {
+                    extension = path.substring(path.lastIndexOf("."));
+                } else {
+                    throw new MalformedURLException();
+                }
+            } catch (MalformedURLException e) {
+                extension = ".png";
             }
-            return end;
+            String fileIndex = index > -1 ? String.format(Locale.ENGLISH, "_%03d", index) : "";
+            String title = submissionTitle != null && !submissionTitle.replaceAll("\\W+", "").trim().isEmpty() //Replace all non-alphanumeric characters to ensure a valid File URL
+                    ? submissionTitle.replaceAll("\\W+", "") : UUID.randomUUID().toString();
+            String finalURL = (title + fileIndex + extension)
+                    .replaceAll(RESERVED_CHARS, "")
+                    .trim();
+
+            File file = new File(getFolderPath()
+                    + getSubfolderPath()
+                    + File.separator
+                    + finalURL);
+            int tries = 0;
+            while(file.exists()) {
+                tries += 1;
+                finalURL = (title + fileIndex + "_" + tries + extension )
+                        .replaceAll(RESERVED_CHARS, "")
+                        .trim();
+                file = new File(getFolderPath()
+                        + getSubfolderPath()
+                        + File.separator
+                        + finalURL);
+            }
+            return finalURL;
         }
 
         @Override
@@ -293,12 +320,11 @@ public class ImageDownloadNotificationService extends Service {
 
 
                             Notification notif = new NotificationCompat.Builder(
-                                    getApplicationContext()).setContentTitle(
+                                    getApplicationContext(), Reddit.CHANNEL_IMG).setContentTitle(
                                     getString(R.string.info_photo_saved))
-                                    .setSmallIcon(R.drawable.save_png)
+                                    .setSmallIcon(R.drawable.ic_save)
                                     .setLargeIcon(loadedImage)
                                     .setContentIntent(pContentIntent)
-                                    .setChannelId(Reddit.CHANNEL_IMG)
                                     .addAction(R.drawable.ic_share, getString(R.string.share_image),
                                             pShareIntent)
                                     //maybe add this in later .addAction(R.drawable.edit, "EDIT", pEditIntent)
@@ -310,10 +336,13 @@ public class ImageDownloadNotificationService extends Service {
                                     .build();
 
                             NotificationManager mNotificationManager =
-                                    (NotificationManager) getApplicationContext().getSystemService(
-                                            NOTIFICATION_SERVICE);
+                                    ContextCompat.getSystemService(getApplicationContext(),
+                                            NotificationManager.class);
                             notif.flags |= Notification.FLAG_AUTO_CANCEL;
-                            mNotificationManager.notify(id, notif);
+                            if (mNotificationManager != null) {
+                                mNotificationManager.cancel(id);
+                                mNotificationManager.notify(id, notif);
+                            }
                             loadedImage.recycle();
                             stopSelf();
                         }
@@ -323,23 +352,18 @@ public class ImageDownloadNotificationService extends Service {
 
         private void saveImageGallery(final Bitmap bitmap, String URL) throws IOException {
 
-            File f = new File(
-                    Reddit.appRestart.getString("imagelocation", "") + File.separator + (index > -1
-                            ? String.format("%03d_", index) : "") + UUID.randomUUID().toString() + (
-                            URL.endsWith("png") ? ".png" : ".jpg"));
-
-            FileOutputStream out = null;
+            File f = new File(getFolderPath()
+                    + File.separator
+                    + getFileName(""));
             f.createNewFile();
-            out = new FileOutputStream(f);
+            FileOutputStream out = new FileOutputStream(f);
             bitmap.compress(
                     URL.endsWith("png") ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG,
                     100, out);
             {
                 try {
-                    if (out != null) {
-                        out.close();
-                        showNotifPhoto(f, bitmap);
-                    }
+                    out.close();
+                    showNotifPhoto(f, bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                     onError(e);
@@ -347,12 +371,6 @@ public class ImageDownloadNotificationService extends Service {
             }
         }
 
-    }
-
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        handleIntent(intent);
     }
 
     @Override

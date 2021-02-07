@@ -1,0 +1,34 @@
+<p>Slide for Reddit is a feature-packed, material-desgined unofficial browser for Reddit with an easy to use UI and tons of customization. Slide is ad-free, open source, and is packed with many unique features! Slide is for everyone, with a broad array of features for power users and sleek design for minimalists.</p>
+
+<p><b>Highlights:</b></p>
+<ul>
+<li> Gorgeous and unique design that is both pleasing to the eye, extremely easy to use, and fully configurable with over 12,000 theme combinations</li>
+<li> Slide is fully offline-capable! Sync your subreddits automatically and enjoy Reddit where you don't have internet, complete with images and gifs</li>
+<li> Make each subreddit unique with its own theme colors and accents</li>
+<li> Always ad-free and open source</li>
+<li> Image Flair support lets you show off your unique flair in your favorite communities, including /r/collegebasketball and /r/soccer</li>
+<li> Reply to comments and submissions inline without opening a reply window, and upload images straight into to your submissions/comments</li>
+<li> Support for many content sites, including Imgur, Tumblr, Gfycat, and Vid.me</li>
+<li> Most feature-rich and easy to use moderation suite on Android</li>
+<li> Hundreds of customization options to make Slide work exactly how you like it</li>
+<li> Lightweight and blazing fast</li>
+</ul>
+
+<p><b>Other features that make Slide awesome:</b></p>
+<ul>
+<li> Many view types including desktop compact for dense information display and beautiful material card layout for enjoying photos</li>
+<li> Gallery and shadowbox modes (pro) give you a new way to view your favorite subreddits</li>
+<li> Extensive data-saving options with quality selection, never blow through your data caps again</li>
+<li> Theme choices include a beautiful true black AMOLED theme, sepia theme, blue gray theme, and white theme</li>
+<li> Synccit integration</li>
+<li> Full subreddit wiki support, and ability to correctly render tables and code blocks</li>
+<li> Full multireddit support with the ability to view other users' multireddits</li>
+<li> Switch accounts when writing comments</li>
+<li> Powerful filter system to block out what you don't want to see</li>
+<li> View and delete your browsing history</li>
+<li> Get notified of new posts in subreddits</li>
+<li> "Casual" subscriptions that won't show up on your frontpage</li>
+<li> Ad-Block in websites (Pro)</li>
+<li> Optimized for tablet viewing with configurable columns and popup comment views (Pro)</li>
+<li> Many more details and features that you will fall in love with</li>
+</ul>

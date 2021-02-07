@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/card_background"
@@ -65,7 +65,7 @@
 
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/profile"
+                            app:srcCompat="@drawable/ic_account_circle"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -100,7 +100,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/sub"
+                            app:srcCompat="@drawable/ic_bookmark_border"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -134,7 +134,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/iconstarfilled"
+                            app:srcCompat="@drawable/ic_star"
 
                             android:tint="?attr/tintColor" />
 
@@ -170,7 +170,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/openexternal"
+                            app:srcCompat="@drawable/ic_open_in_browser"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -202,7 +202,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            app:srcCompat="@drawable/report"
+                            app:srcCompat="@drawable/ic_report"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -261,7 +261,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/link"
+                            app:srcCompat="@drawable/ic_link"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -292,7 +292,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/hide"
+                            app:srcCompat="@drawable/ic_visibility_off"
                             android:tint="?attr/tintColor" />
 
                         <TextView
@@ -322,7 +322,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/commentchange"
+                            app:srcCompat="@drawable/ic_forum"
                             android:tint="?attr/tintColor" />
 
 
@@ -332,7 +332,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/downvote"
+                            app:srcCompat="@drawable/ic_arrow_downward"
                             android:tint="?attr/tintColor" />
                         <ImageView
                             android:layout_width="0dp"
@@ -340,7 +340,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/upvoted"
+                            app:srcCompat="@drawable/ic_arrow_upward"
                             android:tint="?attr/tintColor" />
 
                     </LinearLayout>
@@ -349,5 +349,5 @@
 
             </RelativeLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -17,7 +17,16 @@
             android:layout_margin="16dp"
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:id="@+id/profile"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <me.ccrama.redditslide.Views.ImageInsertEditText
                 android:id="@+id/entry"
@@ -45,7 +54,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"
@@ -55,7 +64,7 @@
                 android:padding="16dp"
                 android:text="@string/btn_cancel" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/preview"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"
@@ -65,7 +74,7 @@
                 android:padding="16dp"
                 android:text="@string/btn_preview" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submit"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"

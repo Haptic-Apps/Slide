@@ -1,8 +1,9 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
@@ -127,6 +128,17 @@ public class SettingsCommentsFragment {
             });
         }
         {
+            SwitchCompat single = context.findViewById(R.id.settings_comments_hide_awards);
+            single.setChecked(SettingValues.hideCommentAwards);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.hideCommentAwards = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_COMMENT_AWARDS, isChecked).apply();
+                }
+            });
+        }
+        {
             SwitchCompat single = context.findViewById(R.id.settings_comments_autohidenav);
             single.setChecked(SettingValues.commentAutoHide);
 
@@ -215,6 +227,17 @@ public class SettingsCommentsFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.cropImage = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CROP_IMAGE, isChecked).apply();
+                }
+            });
+        }
+        {
+            SwitchCompat single = context.findViewById(R.id.settings_comments_collapse_deleted);
+            single.setChecked(SettingValues.collapseDeletedComments);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.collapseDeletedComments = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_DELETED_COMMENTS, isChecked).apply();
                 }
             });
         }

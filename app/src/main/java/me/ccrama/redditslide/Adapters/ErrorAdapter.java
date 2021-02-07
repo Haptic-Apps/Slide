@@ -4,10 +4,11 @@ package me.ccrama.redditslide.Adapters;
  * Created by ccrama on 10/30/2015.
  */
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import me.ccrama.redditslide.R;
 

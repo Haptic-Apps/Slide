@@ -1,7 +1,8 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.lusfold.androidkeyvaluestore.KVStore;
 
@@ -18,7 +19,6 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.

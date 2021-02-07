@@ -7,27 +7,23 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.google.android.material.snackbar.Snackbar;
 
-import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -39,6 +35,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 
 
@@ -54,6 +51,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE         = 3;
     private final int SPACER          = 6;
+    private final int ERROR = 7;
     SubmissionDisplay displayer;
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView,
@@ -109,16 +107,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (!dataSet.posts.isEmpty()) {
             position -= (1);
         }
-        if (position == dataSet.posts.size()
-                && !dataSet.posts.isEmpty()
-                && !dataSet.offline
-                && !dataSet.nomore) {
-            return LOADING_SPINNER;
-        } else if (position == dataSet.posts.size() && (dataSet.offline || dataSet.nomore)) {
-            return NO_MORE;
+        if (position == dataSet.posts.size()) {
+            if (dataSet.error) {
+                return ERROR;
+            } else if (!dataSet.posts.isEmpty() && !dataSet.offline && !dataSet.nomore) {
+                return LOADING_SPINNER;
+            } else if (dataSet.offline || dataSet.nomore) {
+                return NO_MORE;
+            }
         }
-        int SUBMISSION = 1;
-        return SUBMISSION;
+        return 1;
     }
 
     int tag = 1;
@@ -140,6 +138,17 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.nomoreposts, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
+        } else if (i == ERROR) {
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.errorloadingcontent, viewGroup, false);
+            v.findViewById(R.id.retry).setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    dataSet.loadMore(v.getContext(),
+                            displayer, false, dataSet.subreddit);
+                }
+            });
+            return new SubmissionFooterViewHolder(v);
         } else {
             View v = CreateCardView.CreateView(viewGroup);
             return new SubmissionViewHolder(v);
@@ -149,18 +158,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     int clicked;
 
     public void refreshView() {
-        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
-        listView.setItemAnimator(null);
-        notifyItemChanged(clicked);
-        listView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setItemAnimator(a);
-            }
-        }, 500);
-    }
-
-    public void refreshView(boolean ignore18) {
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
         listView.setItemAnimator(null);
         notifyItemChanged(clicked);
@@ -216,16 +213,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                final MainActivity a = (MainActivity) context;
                                                                if (a.singleMode
                                                                        && a.commentPager
-                                                                       && a.adapter instanceof MainActivity.OverviewPagerAdapterComment) {
+                                                                       && a.adapter instanceof MainActivity.MainPagerAdapterComment) {
 
                                                                    if (a.openingComments != submission) {
                                                                        clicked = holder2.getAdapterPosition();
                                                                        a.openingComments = submission;
                                                                        a.toOpenComments = a.pager.getCurrentItem() + 1;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
-                                                                       ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment =
+                                                                       ((MainActivity.MainPagerAdapterComment) (a).adapter).storedFragment =
                                                                                (a).adapter.getCurrentFragment();
-                                                                       ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size =
+                                                                       ((MainActivity.MainPagerAdapterComment) (a).adapter).size =
                                                                                a.toOpenComments + 1;
                                                                        try {
                                                                            a.adapter.notifyDataSetChanged();
@@ -257,9 +254,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        clicked = holder2.getAdapterPosition();
                                                                        a.openingComments = submission;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
-                                                                       ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment =
+                                                                       ((SubredditView.SubredditPagerAdapterComment) (a).adapter).storedFragment =
                                                                                (a).adapter.getCurrentFragment();
-                                                                       ((SubredditView.OverviewPagerAdapterComment) a.adapter).size =
+                                                                       ((SubredditView.SubredditPagerAdapterComment) a.adapter).size =
                                                                                3;
                                                                        a.adapter.notifyDataSetChanged();
                                                                    }
@@ -321,11 +318,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                .show();
                                                                    }
                                                                });
-                                                               View view = s.getView();
-                                                               TextView tv = view.findViewById(
-                                                                       android.support.design.R.id.snackbar_text);
-                                                               tv.setTextColor(Color.WHITE);
-                                                               s.show();
+                                                               LayoutUtils.showSnackbar(s);
                                                            }
                                                        }
 
@@ -395,13 +388,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
 
-    public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+    public static class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
@@ -415,61 +408,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return dataSet.posts.size() + 2; // Always account for footer
         }
     }
-
-    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
-        View v;
-
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (ActionStates.isSaved(submissions[0])) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved,
-                            Snackbar.LENGTH_SHORT);
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = false;
-                    v = null;
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    final Snackbar s =
-                            Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv = view.findViewById(
-                                    android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
-
-
-                    submissions[0].saved = true;
-                    v = null;
-                }
-            } catch (Exception e) {
-                return null;
-            }
-            return null;
-        }
-    }
-
 
     public void performClick(int adapterPosition) {
         if (listView != null) {

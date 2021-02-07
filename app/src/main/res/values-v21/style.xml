@@ -5,8 +5,8 @@
         <item name="colorPrimary">#e64a19</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
         <item name="android:alertDialogStyle">@style/Theme.AppCompat.Dialog.Alert</item>
-        <item name="android:colorBackground">#000000</item>
-        <item name="colorPrimaryDark">#000000</item>
+        <item name="android:colorBackground">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
 
@@ -37,8 +37,8 @@
 
     <!-- When searching for a subreddit in the toolbar, tint the EditText bar -->
     <style name="SearchEditTextTheme">
-        <item name="android:colorControlNormal">@color/white</item>
-        <item name="android:colorControlActivated">@color/white</item>
-        <item name="android:colorControlHighlight">@color/white</item>
+        <item name="android:colorControlNormal">@android:color/white</item>
+        <item name="android:colorControlActivated">@android:color/white</item>
+        <item name="android:colorControlHighlight">@android:color/white</item>
     </style>
 </resources>

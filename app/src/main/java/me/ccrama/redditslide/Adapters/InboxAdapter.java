@@ -6,22 +6,16 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -33,12 +27,17 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.InboxManager;
@@ -58,14 +57,16 @@ import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -176,7 +177,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     SpannableStringBuilder pinned =
                             new SpannableStringBuilder(" " + UserTags.getUserTag(author) + " ");
                     pinned.setSpan(
-                            new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500,
+                            new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500,
                                     false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
                     titleString.append(" ");
@@ -185,7 +186,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (UserSubscriptions.friends.contains(author)) {
                     SpannableStringBuilder pinned = new SpannableStringBuilder(
                             " " + mContext.getString(R.string.profile_friend) + " ");
-                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
+                    pinned.setSpan(new RoundedBackgroundSpan(mContext, android.R.color.white,
                                     R.color.md_deep_orange_500, false), 0, pinned.length(),
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
@@ -227,7 +228,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (comment.getDataNode().has("link_title")) {
                 SpannableStringBuilder link = new SpannableStringBuilder(" "
-                        + Html.fromHtml(comment.getDataNode().get("link_title").asText())
+                        + HtmlCompat.fromHtml(comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                         + " ");
                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -255,24 +256,24 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
                     final int color = ta.getColor(0, Color.WHITE);
-                    Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.reply);
+                    Drawable profile = mContext.getResources().getDrawable(R.drawable.ic_account_circle);
+                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.ic_reply);
                     Drawable unhide = mContext.getResources().getDrawable(R.drawable.ic_visibility);
-                    Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
+                    Drawable hide = mContext.getResources().getDrawable(R.drawable.ic_visibility_off);
                     Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
-                    profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    reply.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                    unhide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                    profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    reply.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    unhide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                     ta.recycle();
 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                            Html.fromHtml(comment.getSubject()));
+                            HtmlCompat.fromHtml(comment.getSubject(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                     String author = comment.getAuthor();
                     if (!dataSet.where.contains("mod")
@@ -329,12 +330,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 }
                                 break;
                                 case 25: {
-                                    ClipboardManager clipboard =
-                                            (ClipboardManager) mContext.getSystemService(
-                                                    Context.CLIPBOARD_SERVICE);
-                                    ClipData clip =
-                                            ClipData.newPlainText("Message", comment.getBody());
-                                    clipboard.setPrimaryClip(clip);
+                                    ClipboardUtil.copyToClipboard(mContext, "Message", comment.getBody());
                                     Toast.makeText(mContext,
                                             mContext.getString(R.string.mail_message_copied),
                                             Toast.LENGTH_SHORT).show();
@@ -381,8 +377,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (comment.getDataNode().has("link_title")) {
                                 SpannableStringBuilder link = new SpannableStringBuilder(
                                         " "
-                                                + Html.fromHtml(
-                                                comment.getDataNode().get("link_title").asText())
+                                                + HtmlCompat.fromHtml(
+                                                comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
                                                 + " ");
                                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -425,7 +421,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
-        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+        final EditText e = dialoglayout.findViewById(R.id.entry);
 
         DoEditorActions.doActions(e, dialoglayout,
                 ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
@@ -487,21 +483,14 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onPostExecute(Void voids) {
+            Snackbar s;
             if (sent) {
-                Snackbar s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
-                View view = s.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
+                s = Snackbar.make(listView, "Reply sent!", Snackbar.LENGTH_LONG);
+                LayoutUtils.showSnackbar(s);
             } else {
-                Snackbar s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
+                s = Snackbar.make(listView, "Sending failed! Reply saved as a draft.",
                         Snackbar.LENGTH_LONG);
-                View view = s.getView();
-                TextView tv =
-                        (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
+                LayoutUtils.showSnackbar(s);
                 Drafts.addDraft(text);
                 sent = true;
             }
@@ -509,7 +498,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
@@ -556,7 +545,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
+    private static class AsyncSetRead extends AsyncTask<Message, Void, Void> {
 
         Boolean b;
 

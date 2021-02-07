@@ -34,15 +34,13 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
     }
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-        LayoutInflater inflater =
-                ( LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         ViewHolder holder;
+
         if (convertView == null) {
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            convertView = LayoutInflater.from(mContext)
+                    .inflate(android.R.layout.simple_list_item_1, null);
             holder = new ViewHolder();
-            holder.txt01 = (TextView) convertView.findViewById(android.R.id.text1);
+            holder.txt01 = convertView.findViewById(android.R.id.text1);
             holder.txt01.setTextColor(Color.WHITE);
             convertView.setTag(holder);
         } else {
@@ -54,7 +52,7 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         TextView txt01;
     }
 

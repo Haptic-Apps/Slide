@@ -3,13 +3,15 @@ package me.ccrama.redditslide.Views;
 import android.content.Context;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.text.util.LinkifyCompat;
 
 
 /**
  * Created by ccrama on 5/5/2015.
  */
-public class AutoMarkupTextView extends TextView {
+public class AutoMarkupTextView extends AppCompatTextView {
 
     public AutoMarkupTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -33,7 +35,7 @@ public class AutoMarkupTextView extends TextView {
 
         setText(s);
         int mask = Linkify.WEB_URLS;
-        Linkify.addLinks(this, mask);
+        LinkifyCompat.addLinks(this, mask);
 
         //todo this setMovementMethod(new CommentMovementMethod());
 

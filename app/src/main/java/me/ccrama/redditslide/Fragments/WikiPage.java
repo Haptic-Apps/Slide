@@ -3,25 +3,29 @@ package me.ccrama.redditslide.Fragments;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import net.dean.jraw.managers.WikiManager;
+
+import org.apache.commons.text.StringEscapeUtils;
+
+import java.lang.ref.WeakReference;
+
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
 import me.ccrama.redditslide.Visuals.Palette;
-import net.dean.jraw.managers.WikiManager;
-import org.apache.commons.text.StringEscapeUtils;
-
-import java.lang.ref.WeakReference;
 
 
 public class WikiPage extends Fragment {
@@ -32,7 +36,7 @@ public class WikiPage extends Fragment {
     private WikiPageListener listener;
 
     private WebView webView;
-    private GeneralSwipeRefreshLayout ref;
+    private SwipeRefreshLayout ref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,10 +113,11 @@ public class WikiPage extends Fragment {
     private void onDomRetrieved(String dom) {
         webView.loadDataWithBaseURL(
                 wikiUrl,
-                "<head>".concat(Wiki.getGlobalCustomCss())
-                        .concat(Wiki.getGlobalCustomJavaScript())
-                        .concat("</head>")
-                        .concat(dom),
+                "<head>"
+                        + Wiki.getGlobalCustomCss()
+                        + Wiki.getGlobalCustomJavaScript()
+                        + "</head>"
+                        + dom,
                 "text/html",
                 "utf-8",
                 null);
@@ -124,7 +129,7 @@ public class WikiPage extends Fragment {
         Bundle bundle = this.getArguments();
         title = bundle.getString("title", "");
         subreddit = bundle.getString("subreddit", "");
-        wikiUrl = "https://www.reddit.com/r/".concat(subreddit).concat("/wiki/");
+        wikiUrl = "https://www.reddit.com/r/" + subreddit + "/wiki/";
     }
 
     public void setListener(WikiPageListener listener) {

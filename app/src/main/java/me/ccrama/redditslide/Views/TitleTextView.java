@@ -15,21 +15,20 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 public class TitleTextView extends SpoilerRobotoTextView {
     public TitleTextView(Context c) {
         super(c);
-        if (!isInEditMode()) {
-            int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
-            Typeface typeface;
-            if (type >= 0) {
-                typeface = RobotoTypefaces.obtainTypeface(c, type);
-            } else {
-                typeface = Typeface.DEFAULT;
-            }
-            setTypeface(typeface);
-
-        }
+        setTypeface(c);
     }
 
     public TitleTextView(Context c, AttributeSet attrs) {
         super(c, attrs);
+        setTypeface(c);
+    }
+
+    public TitleTextView(Context c, AttributeSet attrs, int defStyle) {
+        super(c, attrs, defStyle);
+        setTypeface(c);
+    }
+
+    private void setTypeface(Context c) {
         if (!isInEditMode()) {
             int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
             Typeface typeface;
@@ -42,17 +41,4 @@ public class TitleTextView extends SpoilerRobotoTextView {
         }
     }
 
-    public TitleTextView(Context c, AttributeSet attrs, int defStyle) {
-        super(c, attrs, defStyle);
-        if (!isInEditMode()) {
-            int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
-            Typeface typeface;
-            if (type >= 0) {
-                typeface = RobotoTypefaces.obtainTypeface(c, type);
-            } else {
-                typeface = Typeface.DEFAULT;
-            }
-            setTypeface(typeface);
-        }
-    }
 }

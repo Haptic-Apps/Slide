@@ -3,24 +3,23 @@ package me.ccrama.redditslide.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class Related extends BaseActivityAnim {
 
@@ -38,10 +37,9 @@ public class Related extends BaseActivityAnim {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == R.id.home) {
+            onBackPressed();
+            return true;
         }
         return false;
     }
@@ -82,13 +80,12 @@ public class Related extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        final PreCachingLayoutManager mLayoutManager;
-        mLayoutManager = new PreCachingLayoutManager(this);
+        final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
@@ -127,7 +124,7 @@ public class Related extends BaseActivityAnim {
             }
         });
 
-        posts = new SubredditSearchPosts("", "url:" + url, this);
+        posts = new SubredditSearchPosts("", "url:" + url, this, false);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 

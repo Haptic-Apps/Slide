@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/settings_moderation_child"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/settings_moderation_general_header"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/settings_title_general"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"/>
+
+    <RelativeLayout
+            android:id="@+id/settings_moderation_removal_reasons"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_mod_removal_reasons"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
+
+            <TextView
+                    android:id="@+id/settings_moderation_removal_reasons_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="13sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/settings_moderation_toolbox_header"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/settings_mod_toolbox_header"
+            android:tag="label"
+            android:textColor="?attr/colorAccent"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:orientation="vertical"
+                android:layout_marginRight="64dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_mod_toolbox_enabled"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:text="@string/settings_mod_toolbox_desc"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="13sp"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_moderation_toolbox_enabled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:paddingEnd="16dp"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"
+                android:paddingRight="16dp"/>
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor"/>
+
+    <RelativeLayout
+            android:id="@+id/settings_moderation_toolbox_message"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_mod_toolbox_message"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
+
+            <TextView
+                    android:id="@+id/settings_moderation_toolbox_message_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="13sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="?android:selectableItemBackground"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
+
+        <LinearLayout
+                android:layout_marginEnd="64dp"
+                android:layout_marginRight="64dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_mod_toolbox_modmail"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_moderation_toolbox_modmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="16dp"
+                android:paddingRight="16dp"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"/>
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="?android:selectableItemBackground"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
+
+        <LinearLayout
+                android:layout_marginEnd="64dp"
+                android:layout_marginRight="64dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_mod_toolbox_sticky"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_moderation_toolbox_sticky"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="16dp"
+                android:paddingRight="16dp"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"/>
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="?android:selectableItemBackground"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp">
+
+        <LinearLayout
+                android:layout_marginEnd="64dp"
+                android:layout_marginRight="64dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_mod_toolbox_lock"
+                    android:textColor="?attr/fontColor"
+                    android:textSize="14sp"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_moderation_toolbox_lock"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="16dp"
+                android:paddingRight="16dp"
+                android:backgroundTint="?attr/tintColor"
+                android:button="@null"
+                android:buttonTint="?attr/tintColor"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="?attr/fontColor"
+                android:textColorHint="?attr/fontColor"/>
+    </RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tintColor"/>
+
+    <RelativeLayout
+            android:id="@+id/settings_moderation_toolbox_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_mod_toolbox_refresh"
+                android:textColor="?attr/fontColor"
+                android:textSize="14sp"/>
+
+    </RelativeLayout>
+</LinearLayout>

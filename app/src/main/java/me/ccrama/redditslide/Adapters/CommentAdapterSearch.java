@@ -13,9 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -31,14 +28,18 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.devspark.robototextview.RobotoTypefaces;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,13 +48,14 @@ import java.util.Locale;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TimeUtils;
 
 
 public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -107,31 +109,31 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_red_500, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (Authentication.name != null && comment.getAuthor()
                 .toLowerCase(Locale.ENGLISH)
                 .equals(Authentication.name.toLowerCase(Locale.ENGLISH))) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_300,
                             false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } /* todoelse if (submission != null && comment.getAuthor()
                 .toLowerCase(Locale.ENGLISH)
                 .equals(submission.getAuthor().toLowerCase(Locale.ENGLISH)) && !comment.getAuthor().equals("[deleted]")) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } */ else if (authorcolor != 0) {
             author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
@@ -172,7 +174,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                     + mContext.getString(R.string.submission_stickied).toUpperCase()
                     + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_green_300, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -181,38 +183,73 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     "\u00A0" + UserTags.getUserTag(comment.getAuthor()) + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_blue_500, false),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getTimesGilded() > 0) {
-            final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                    : "\u200Ax" + Integer.toString(comment.getTimesGilded());
-            SpannableStringBuilder gilded =
-                    new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+        if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);
             int fontsize =
                     (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
             a.recycle();
-            Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
-            float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(gilded);
-            titleString.append(" ");
+            // Add silver, gold, platinum icons and counts in that order
+            if (comment.getTimesSilvered() > 0) {
+                final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
+                        : "\u200Ax" + comment.getTimesSilvered();
+                SpannableStringBuilder silvered =
+                        new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                silvered.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(silvered);
+                titleString.append(" ");
+            }
+            if (comment.getTimesGilded() > 0) {
+                final String timesGilded = (comment.getTimesGilded() == 1) ? ""
+                        : "\u200Ax" + comment.getTimesGilded();
+                SpannableStringBuilder gilded =
+                        new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(gilded);
+                titleString.append(" ");
+            }
+            if (comment.getTimesPlatinized() > 0) {
+                final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
+                        : "\u200Ax" + comment.getTimesPlatinized();
+                SpannableStringBuilder platinized =
+                        new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                platinized.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(platinized);
+                titleString.append(" ");
+            }
         }
         if (UserSubscriptions.friends.contains(comment.getAuthor())) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(
                     "\u00A0" + mContext.getString(R.string.profile_friend) + "\u00A0");
             pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
+                    new RoundedBackgroundSpan(mContext, android.R.color.white, R.color.md_deep_orange_500,
                             false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -224,7 +261,8 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    "\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
+                    "\u00A0" + HtmlCompat.fromHtml(comment.getAuthorFlair().getText(),
+                            HtmlCompat.FROM_HTML_MODE_LEGACY) + "\u00A0");
             pinned.setSpan(
                     new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color,
                             false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -367,7 +405,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         return dataSet.size();
     }
 
-    private class UserFilter extends Filter {
+    private static class UserFilter extends Filter {
 
         private final CommentAdapterSearch adapter;
 

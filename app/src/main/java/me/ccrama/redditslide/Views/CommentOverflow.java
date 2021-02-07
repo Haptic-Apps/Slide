@@ -18,10 +18,10 @@ import com.devspark.robototextview.RobotoTypefaces;
 
 import java.util.List;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
 /**

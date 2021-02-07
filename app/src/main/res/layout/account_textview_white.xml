@@ -22,7 +22,8 @@
         android:layout_alignParentRight="true"
         android:padding="6dp"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/close"
+        app:srcCompat="@drawable/ic_close"
         android:tint="#fff"
-        android:layout_height="36dp" />
+        android:layout_height="36dp"
+        android:contentDescription="@string/btn_remove" />
 </RelativeLayout>

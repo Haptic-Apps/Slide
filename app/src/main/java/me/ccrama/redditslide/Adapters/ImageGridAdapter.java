@@ -14,8 +14,10 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.GalleryImage;
 import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Tumblr.Photo;
 
 /**
@@ -27,7 +29,7 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
     public static final DisplayImageOptions options =
             new DisplayImageOptions.Builder().cacheOnDisk(true)
                     .resetViewBeforeLoading(true)
-                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .bitmapConfig(SettingValues.highColorspaceImages ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565)
                     .imageScaleType(ImageScaleType.EXACTLY)
                     .cacheInMemory(false)
                     .displayer(new FadeInBitmapDisplayer(250))
@@ -38,6 +40,14 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
         jsons = new ArrayList<>();
         for (Image i : imgurAlbum) {
             jsons.add(i.getThumbnailUrl());
+        }
+    }
+
+    public ImageGridAdapter(Context c, boolean gallery, List<GalleryImage> redditGallery) {
+        mContext = c;
+        jsons = new ArrayList<>();
+        for (GalleryImage i : redditGallery) {
+            jsons.add(i.url);
         }
     }
 

@@ -18,7 +18,7 @@
             android:gravity="center_vertical"
             android:paddingStart="24dp"
             android:text="@string/example_sub"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -32,8 +32,8 @@
             android:layout_marginEnd="12dp"
             android:layout_marginTop="-59dp"
             android:padding="12dp"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/share" />
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_share" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,6 +48,32 @@
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"
                 android:paddingTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/totalKarma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="12dp"
+                        android:text="0"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/profile_karma_total"
+                        android:textColor="?attr/fontColor"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -149,7 +175,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/send" />
+                        app:srcCompat="@drawable/ic_send" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -174,7 +200,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/profile" />
+                        app:srcCompat="@drawable/ic_account_circle" />
 
                     <TextView
                         android:id="@+id/friend"
@@ -200,7 +226,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/collection" />
+                        app:srcCompat="@drawable/ic_folder" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -226,7 +252,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/color" />
+                        app:srcCompat="@drawable/ic_palette" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -251,7 +277,7 @@
                         android:alpha=".86"
                         android:padding="12dp"
                         android:tint="?attr/tintColor"
-                        app:srcCompat="@drawable/fontsizedarker" />
+                        app:srcCompat="@drawable/ic_text_fields" />
 
                     <TextView
                         android:id="@+id/tagged"
@@ -276,7 +302,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
                             android:tint="?attr/tintColor"
-                            app:srcCompat="@drawable/close" />
+                            app:srcCompat="@drawable/ic_close" />
 
                     <TextView
                             android:id="@+id/block"
@@ -302,7 +328,7 @@
                     android:id="@+id/picker"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:orientation="horizontal"
+                    android:orientation="horizontal"
                     android:layout_marginTop="24dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
@@ -313,13 +339,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@+id/picker"
-                    app:orientation="horizontal"
+                    android:orientation="horizontal"
                     android:layout_marginTop="8dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     app:selectedColorIndex="5" />
 
-                <android.support.v7.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/ok"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
@@ -329,7 +355,7 @@
                     android:layout_margin="8dp"
                     android:padding="8dp"
                     android:text="@string/btn_ok" />
-                <android.support.v7.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/reset"
                         style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"

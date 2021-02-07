@@ -3,29 +3,37 @@ package me.ccrama.redditslide.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.IdRes;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SwitchCompat;
+import android.os.Build;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import androidx.annotation.IdRes;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
 
     private Activity context;
 
-    public ArrayList<String> domains = new ArrayList<>();
     EditText domain;
 
     public SettingsHandlingFragment(Activity context) {
@@ -36,18 +44,21 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
         //todo web stuff
         SwitchCompat image = context.findViewById(R.id.settings_handling_image);
         SwitchCompat gif = context.findViewById(R.id.settings_handling_gif);
+        SwitchCompat hqgif = context.findViewById(R.id.settings_handling_hqgif);
         SwitchCompat album = context.findViewById(R.id.settings_handling_album);
         SwitchCompat peek = context.findViewById(R.id.settings_handling_peek);
         SwitchCompat shortlink = context.findViewById(R.id.settings_handling_shortlink);
 
         image.setChecked(SettingValues.image);
         gif.setChecked(SettingValues.gif);
+        hqgif.setChecked(SettingValues.hqgif);
         album.setChecked(SettingValues.album);
         peek.setChecked(SettingValues.peek);
         shortlink.setChecked(!SettingValues.shareLongLink);
 
         image.setOnCheckedChangeListener(this);
         gif.setOnCheckedChangeListener(this);
+        hqgif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
         peek.setOnCheckedChangeListener(this);
         shortlink.setOnCheckedChangeListener(this);
@@ -106,8 +117,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        SettingValues.alwaysExternal =
-                                SettingValues.alwaysExternal + ", " + domain.getText().toString();
+                        SettingValues.alwaysExternal.add(domain.getText().toString().toLowerCase(Locale.ENGLISH).trim());
                         domain.setText("");
                         updateFilters();
                     }
@@ -121,19 +131,15 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
     private void setUpBrowserLinkHandling() {
         RadioGroup radioGroup = context.findViewById(R.id.settings_handling_select_browser_type);
         radioGroup.check(LinkHandlingMode.idResFromValue(SettingValues.linkHandlingMode));
-        radioGroup.setOnCheckedChangeListener(
-                new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        SettingValues.linkHandlingMode = LinkHandlingMode.valueFromIdRes(checkedId);
-                        SettingValues.prefs.edit()
-                                .putInt(SettingValues.PREF_LINK_HANDLING_MODE,
-                                        SettingValues.linkHandlingMode)
-                                .apply();
-                    }
-                });
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            SettingValues.linkHandlingMode = LinkHandlingMode.valueFromIdRes(checkedId);
+            SettingValues.prefs.edit()
+                    .putInt(SettingValues.PREF_LINK_HANDLING_MODE,
+                            SettingValues.linkHandlingMode)
+                    .apply();
+        });
 
-        final BiMap<String, String> installedBrowsers = Reddit.getInstalledBrowsers();
+        final HashMap<String, String> installedBrowsers = Reddit.getInstalledBrowsers();
         if (!installedBrowsers.containsKey(SettingValues.selectedBrowser)) {
             SettingValues.selectedBrowser = "";
             SettingValues.prefs.edit()
@@ -146,34 +152,32 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             context.findViewById(R.id.settings_handling_select_browser).setVisibility(View.GONE);
         } else {
             context.findViewById(R.id.settings_handling_select_browser).setVisibility(View.VISIBLE);
-            context.findViewById(R.id.settings_handling_select_browser)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final PopupMenu popupMenu = new PopupMenu(context, v);
-                            for (String name : installedBrowsers.values()) {
-                                popupMenu.getMenu().add(name);
-                            }
-                            popupMenu.setOnMenuItemClickListener(
-                                    new PopupMenu.OnMenuItemClickListener() {
-                                        @Override
-                                        public boolean onMenuItemClick(MenuItem item) {
-                                            SettingValues.selectedBrowser =
-                                                    installedBrowsers.inverse()
-                                                            .get(item.getTitle());
-                                            SettingValues.prefs.edit()
-                                                    .putString(SettingValues.PREF_SELECTED_BROWSER,
-                                                            SettingValues.selectedBrowser)
-                                                    .apply();
-                                            ((TextView) context.findViewById(
-                                                    R.id.settings_handling_browser)).setText(
-                                                    item.getTitle());
-                                            return true;
-                                        }
-                                    });
-                            popupMenu.show();
-                        }
-                    });
+            context.findViewById(R.id.settings_handling_select_browser).setOnClickListener(v -> {
+                final PopupMenu popupMenu = new PopupMenu(context, v);
+                final HashMap<MenuItem, String> packageNames = new HashMap<>();
+
+                for (Map.Entry<String, String> entry : installedBrowsers.entrySet()) {
+                    final MenuItem menuItem = popupMenu.getMenu().add(entry.getValue());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        menuItem.setTooltipText(entry.getKey());
+                    }
+
+                    packageNames.put(menuItem, entry.getKey());
+                }
+
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    SettingValues.selectedBrowser = packageNames.get(item);
+                    SettingValues.prefs.edit()
+                            .putString(SettingValues.PREF_SELECTED_BROWSER,
+                                    SettingValues.selectedBrowser)
+                            .apply();
+                    ((TextView) context.findViewById(
+                            R.id.settings_handling_browser)).setText(
+                            item.getTitle());
+                    return true;
+                });
+                popupMenu.show();
+            });
         }
     }
 
@@ -187,6 +191,10 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             case R.id.settings_handling_gif:
                 SettingValues.gif = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_GIF, isChecked).apply();
+                break;
+            case R.id.settings_handling_hqgif:
+                SettingValues.hqgif = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HQGIF, isChecked).apply();
                 break;
             case R.id.settings_handling_album:
                 SettingValues.album = isChecked;
@@ -206,29 +214,17 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
     }
 
     private void updateFilters() {
-        domains = new ArrayList<>();
-
         ((LinearLayout) context.findViewById(R.id.domainlist)).removeAllViews();
-        for (String s : SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
-            if (!s.isEmpty() && (!Reddit.videoPlugin || (!s.contains("youtube.co") && !s.contains(
-                    "youtu.be")))) {
-                s = s.trim();
-                final String finalS = s;
-                domains.add(finalS);
+        for (String s : SettingValues.alwaysExternal) {
+            if (!s.isEmpty() && (!Reddit.videoPlugin || (!s.contains("youtube.co") && !s.contains("youtu.be")))) {
                 final View t = context.getLayoutInflater().inflate(R.layout.account_textview,
-                        ((LinearLayout) context.findViewById(R.id.domainlist)), false);
-
+                        context.findViewById(R.id.domainlist), false);
                 ((TextView) t.findViewById(R.id.name)).setText(s);
-                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        domains.remove(finalS);
-                        SettingValues.alwaysExternal = Reddit.arrayToString(domains);
-                        updateFilters();
-                    }
+                t.findViewById(R.id.remove).setOnClickListener(v -> {
+                    SettingValues.alwaysExternal.remove(s);
+                    updateFilters();
                 });
                 ((LinearLayout) context.findViewById(R.id.domainlist)).addView(t);
-
             }
         }
     }

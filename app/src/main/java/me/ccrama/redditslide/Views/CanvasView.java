@@ -17,9 +17,9 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -29,8 +29,6 @@ import android.view.View;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-// import android.util.Log;
-// import android.widget.Toast;
 
 /**
  * This class defines fields and methods for drawing.
@@ -41,7 +39,7 @@ public class CanvasView extends View {
     public enum Mode {
         DRAW,
         TEXT,
-        ERASER;
+        ERASER
     }
 
     // Enumeration for Drawer
@@ -52,15 +50,16 @@ public class CanvasView extends View {
         CIRCLE,
         ELLIPSE,
         QUADRATIC_BEZIER,
-        QUBIC_BEZIER;
+        QUBIC_BEZIER
     }
 
-    private Context context = null;
     private Canvas canvas = null;
     private Bitmap bitmap = null;
 
     private List<Path> pathLists = new ArrayList<Path>();
     private List<Paint> paintLists = new ArrayList<Paint>();
+
+    private final Paint emptyPaint = new Paint();
 
     // for Eraser
     private int baseColor = Color.parseColor("#303030");
@@ -81,6 +80,7 @@ public class CanvasView extends View {
     private int opacity = 255;
     private float blur = 0F;
     private Paint.Cap lineCap = Paint.Cap.ROUND;
+    private PathEffect drawPathEffect = null;
 
     // for Text
     private String text = "";
@@ -106,7 +106,7 @@ public class CanvasView extends View {
      */
     public CanvasView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.setup(context);
+        this.setup();
     }
 
     /**
@@ -117,7 +117,7 @@ public class CanvasView extends View {
      */
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setup(context);
+        this.setup();
     }
 
     /**
@@ -127,16 +127,14 @@ public class CanvasView extends View {
      */
     public CanvasView(Context context) {
         super(context);
-        this.setup(context);
+        this.setup();
     }
 
     /**
      * Common initialization.
      *
-     * @param context
      */
-    private void setup(Context context) {
-        this.context = context;
+    private void setup() {
 
         this.pathLists.add(new Path());
         this.paintLists.add(this.createPaint());
@@ -180,6 +178,7 @@ public class CanvasView extends View {
             paint.setColor(this.paintStrokeColor);
             paint.setShadowLayer(this.blur, 0F, 0F, this.paintStrokeColor);
             paint.setAlpha(this.opacity);
+            paint.setPathEffect(this.drawPathEffect);
         }
 
         return paint;
@@ -265,8 +264,8 @@ public class CanvasView extends View {
         float textLength = paintForMeasureText.measureText(this.text);
         float lengthOfChar = textLength / (float) this.text.length();
         float restWidth = this.canvas.getWidth() - textX;  // text-align : right
-        int numChars = (lengthOfChar <= 0) ? 1 : (int) Math.floor((double) (restWidth / lengthOfChar));  // The number of characters at 1 line
-        int modNumChars = (numChars < 1) ? 1 : numChars;
+        int numChars = (lengthOfChar <= 0) ? 1 : (int) Math.floor(restWidth / lengthOfChar);  // The number of characters at 1 line
+        int modNumChars = Math.max(numChars, 1);
         float y = textY;
 
         for (int i = 0, len = this.text.length(); i < len; i += modNumChars) {
@@ -353,7 +352,12 @@ public class CanvasView extends View {
                             break;
                         case RECTANGLE:
                             path.reset();
-                            path.addRect(this.startX, this.startY, x, y, Path.Direction.CCW);
+                            float left = Math.min(this.startX, x);
+                            float right = Math.max(this.startX, x);
+                            float top = Math.min(this.startY, y);
+                            float bottom = Math.max(this.startY, y);
+
+                            path.addRect(left, top, right, bottom, Path.Direction.CCW);
                             break;
                         case CIRCLE:
                             double distanceX = Math.abs((double) (this.startX - x));
@@ -428,9 +432,9 @@ public class CanvasView extends View {
             Matrix m = new Matrix();
             m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()), new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), Matrix.ScaleToFit.CENTER);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
-            height = (((canvas.getHeight()/2)-bitmap.getHeight()/2));
-            width=((canvas.getWidth()/2)-bitmap.getWidth()/2);
-            canvas.drawBitmap(bitmap,width,height, new Paint());
+            height = (((canvas.getHeight()/2.0f)-bitmap.getHeight()/2.0f));
+            width=((canvas.getWidth()/2.0f)-bitmap.getWidth()/2.0f);
+            canvas.drawBitmap(bitmap,width,height, emptyPaint);
             right = canvas.getWidth();
             bottom = height + ((bitmap.getHeight()));
             canvas.clipRect(0,height,right, bottom);
@@ -513,12 +517,30 @@ public class CanvasView extends View {
     }
 
     /**
+     * This method checks if Undo is available
+     *
+     * @return If Undo is available, this is returned as true. Otherwise, this is returned as false.
+     */
+    public boolean canUndo() {
+        return this.historyPointer > 1;
+    }
+
+    /**
+     * This method checks if Redo is available
+     *
+     * @return If Redo is available, this is returned as true. Otherwise, this is returned as false.
+     */
+    public boolean canRedo() {
+        return this.historyPointer < this.pathLists.size();
+    }
+
+    /**
      * This method draws canvas again for Undo.
      *
      * @return If Undo is enabled, this is returned as true. Otherwise, this is returned as false.
      */
     public boolean undo() {
-        if (this.historyPointer > 1) {
+        if (canUndo()) {
             this.historyPointer--;
             this.invalidate();
 
@@ -534,7 +556,7 @@ public class CanvasView extends View {
      * @return If Redo is enabled, this is returned as true. Otherwise, this is returned as false.
      */
     public boolean redo() {
-        if (this.historyPointer < this.pathLists.size()) {
+        if (canRedo()) {
             this.historyPointer++;
             this.invalidate();
 
@@ -663,8 +685,6 @@ public class CanvasView extends View {
         return this.paintFillColor;
     }
 
-    ;
-
     /**
      * This method is setter for fill color.
      * But, current Android API cannot set fill color (?).
@@ -759,6 +779,24 @@ public class CanvasView extends View {
      */
     public void setLineCap(Paint.Cap cap) {
         this.lineCap = cap;
+    }
+
+    /**
+     * This method is getter for path effect of drawing.
+     *
+     * @return drawPathEffect
+     */
+    public PathEffect getDrawPathEffect() {
+        return drawPathEffect;
+    }
+
+    /**
+     * This method is setter for path effect of drawing.
+     *
+     * @param drawPathEffect
+     */
+    public void setDrawPathEffect(PathEffect drawPathEffect) {
+        this.drawPathEffect = drawPathEffect;
     }
 
     /**

@@ -54,7 +54,7 @@
                     android:textSize="13sp"/>
             </LinearLayout>
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_font_enlarge_links"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -96,7 +96,7 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_font_linktype"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -133,7 +133,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/commentchange" />
+                app:srcCompat="@drawable/ic_forum" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -259,7 +259,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="16dp"
                 android:tint="?attr/tintColor"
-                app:srcCompat="@drawable/ic_format_size_white_48dp" />
+                app:srcCompat="@drawable/ic_text_fields" />
 
             <TextView
                 android:layout_width="wrap_content"

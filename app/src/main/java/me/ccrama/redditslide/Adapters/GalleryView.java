@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.cocosw.bottomsheet.BottomSheet;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
@@ -27,7 +31,10 @@ import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.Gallery;
+import me.ccrama.redditslide.Activities.GalleryImage;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.RedditGallery;
+import me.ccrama.redditslide.Activities.RedditGalleryPager;
 import me.ccrama.redditslide.Activities.Tumblr;
 import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.ContentType;
@@ -38,6 +45,8 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LinkUtil;
+
+import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Gallery main;
@@ -88,23 +97,23 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             holder.type.setVisibility(View.VISIBLE);
             switch (ContentType.getContentType(submission)) {
+                case REDDIT_GALLERY:
                 case ALBUM:
-                    holder.type.setImageResource(R.drawable.album);
+                    holder.type.setImageResource(R.drawable.ic_photo_library);
                     break;
                 case EXTERNAL:
                 case LINK:
                 case REDDIT:
-                    holder.type.setImageResource(R.drawable.world);
+                    holder.type.setImageResource(R.drawable.ic_public);
                     break;
                 case SELF:
-                    holder.type.setImageResource(R.drawable.fontsizedarker);
+                    holder.type.setImageResource(R.drawable.ic_text_fields);
                     break;
                 case EMBEDDED:
                 case GIF:
                 case STREAMABLE:
                 case VIDEO:
-                case VID_ME:
-                    holder.type.setImageResource(R.drawable.play);
+                    holder.type.setImageResource(R.drawable.ic_play_arrow);
                     break;
                 default:
                     holder.type.setVisibility(View.GONE);
@@ -149,12 +158,12 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         TypedArray ta = main.obtainStyledAttributes(attrs);
 
                         int color = ta.getColor(0, Color.WHITE);
-                        Drawable open = main.getResources().getDrawable(R.drawable.ic_open_in_browser);
-                        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                        Drawable open = main.getResources().getDrawable(R.drawable.ic_open_in_new);
+                        open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                         Drawable share = main.getResources().getDrawable(R.drawable.ic_share);
-                        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                        share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                         Drawable copy = main.getResources().getDrawable(R.drawable.ic_content_copy);
-                        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                        copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
 
                         ta.recycle();
 
@@ -190,23 +199,27 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ContentType.Type type = ContentType.getContentType(submission);
                     if (!PostMatch.openExternal(submission.getUrl()) || type == ContentType.Type.VIDEO) {
                         switch (type) {
-                            case VID_ME:
                             case STREAMABLE:
                                 if (SettingValues.video) {
                                     Intent myIntent = new Intent(main, MediaView.class);
                                     myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
                                     myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                    myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     main.startActivity(myIntent);
                                 } else {
                                     LinkUtil.openExternally(submission.getUrl());
                                 }
                                 break;
                             case IMGUR:
+                            case DEVIANTART:
+                            case XKCD:
+                            case IMAGE:
                                 PopulateSubmissionViewHolder.openImage(type, main, submission, null, holder.getAdapterPosition());
                                 break;
                             case EMBEDDED:
                                 if (SettingValues.video) {
-                                    String data = Html.fromHtml(submission.getDataNode().get("media_embed").get("content").asText()).toString();
+                                    String data = HtmlCompat.fromHtml(submission.getDataNode().get("media_embed").get("content").asText(),
+                                            HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
                                     {
                                         Intent i = new Intent(main, FullscreenVideo.class);
                                         i.putExtra(FullscreenVideo.EXTRA_HTML, data);
@@ -224,44 +237,82 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 break;
                             case ALBUM:
                                 if (SettingValues.album) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i = new Intent(main, AlbumPager.class);
+                                        i = new Intent(main, AlbumPager.class);
                                         i.putExtra(AlbumPager.SUBREDDIT, subreddit);
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                        main.startActivity(i);
                                     } else {
-                                        Intent i = new Intent(main, Album.class);
+                                        i = new Intent(main, Album.class);
                                         i.putExtra(Album.SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                        main.startActivity(i);
+                                        i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     }
+                                    main.startActivity(i);
                                 } else {
                                     LinkUtil.openExternally(submission.getUrl());
 
                                 }
                                 break;
+                            case REDDIT_GALLERY:
+                                if (SettingValues.album) {
+                                    Intent i;
+                                    if (SettingValues.albumSwipe) {
+                                        i = new Intent(main, RedditGalleryPager.class);
+                                        i.putExtra(AlbumPager.SUBREDDIT,
+                                                submission.getSubredditName());
+                                    } else {
+                                        i = new Intent(main, RedditGallery.class);
+                                        i.putExtra(Album.SUBREDDIT,
+                                                submission.getSubredditName());
+                                    }
+                                    i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
+
+                                    i.putExtra(RedditGallery.SUBREDDIT,
+                                            submission.getSubredditName());
+
+                                    ArrayList<GalleryImage> urls = new ArrayList<>();
+
+                                    JsonNode dataNode = submission.getDataNode();
+                                    if (dataNode.has("gallery_data")) {
+                                        for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
+                                            if (dataNode.has("media_metadata") && dataNode.get(
+                                                    "media_metadata")
+                                                    .has(identifier.get("media_id").asText())) {
+                                                urls.add(new GalleryImage(dataNode.get("media_metadata")
+                                                        .get(identifier.get("media_id").asText())
+                                                        .get("s")));
+                                            }
+                                        }
+                                    }
+
+                                    Bundle urlsBundle = new Bundle();
+                                    urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, urls);
+                                    i.putExtras(urlsBundle);
+
+                                    main.startActivity(i);
+                                } else {
+                                    LinkUtil.openExternally(submission.getUrl());
+                                }
+                                break;
+
                             case TUMBLR:
                                 if (SettingValues.image) {
+                                    Intent i;
                                     if (SettingValues.albumSwipe) {
-                                        Intent i = new Intent(main, TumblrPager.class);
+                                        i = new Intent(main, TumblrPager.class);
                                         i.putExtra(TumblrPager.SUBREDDIT, subreddit);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                        main.startActivity(i);
                                     } else {
-                                        Intent i = new Intent(main, Tumblr.class);
+                                        i = new Intent(main, Tumblr.class);
                                         i.putExtra(Tumblr.SUBREDDIT, subreddit);
-                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                        main.startActivity(i);
                                     }
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    main.startActivity(i);
                                 } else {
                                     LinkUtil.openExternally(submission.getUrl());
 
                                 }
-                                break;
-                            case DEVIANTART:
-                            case XKCD:
-                            case IMAGE:
-                                PopulateSubmissionViewHolder.openImage(type, main, submission, null, holder.getAdapterPosition());
                                 break;
                             case GIF:
                                 PopulateSubmissionViewHolder.openGif(main, submission,  holder.getAdapterPosition());
@@ -291,7 +342,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return posts == null ? 0 : posts.size();
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+    public static class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }

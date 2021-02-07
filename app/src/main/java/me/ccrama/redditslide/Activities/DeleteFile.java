@@ -10,14 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 
-import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
+import androidx.core.content.ContextCompat;
 
-import me.ccrama.redditslide.Adapters.MarkAsReadService;
-import me.ccrama.redditslide.Notifications.CheckForMail;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
+import java.io.File;
 
 /**
  * Created by ccrama on 9/28/2015.
@@ -40,8 +35,10 @@ public class DeleteFile extends Activity {
         super.onCreate(savedInstance);
         Intent intent = getIntent();
 
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
+        NotificationManager manager = ContextCompat.getSystemService(this, NotificationManager.class);
+        if (manager != null) {
+            manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
+        }
 
         Bundle extras = intent.getExtras();
         String image;

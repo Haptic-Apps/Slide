@@ -4,7 +4,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@android:color/black"
     android:gravity="center"
 
     android:orientation="vertical">
@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"
+        android:background="@android:color/black"
 
         android:orientation="vertical">
 
@@ -22,7 +22,7 @@
 
             android:layout_height="match_parent"
 
-            android:background="#000000">
+            android:background="@android:color/black">
 
 
             <RelativeLayout
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="asdf"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="?attr/font_cardtitle" />
 
 
@@ -84,7 +84,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="4dp"
-                    app:srcCompat="@drawable/upvoted"
+                    app:srcCompat="@drawable/ic_arrow_upward"
                     android:tag="tint" />
 
                 <TextView
@@ -107,7 +107,7 @@
                     android:layout_below="@+id/title"
                     android:layout_marginEnd="4dp"
                     android:layout_toRightOf="@+id/score"
-                    app:srcCompat="@drawable/commentchange" />
+                    app:srcCompat="@drawable/ic_forum" />
 
                 <TextView
                     android:id="@+id/comments"

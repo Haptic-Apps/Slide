@@ -11,17 +11,18 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
+
 import java.util.Locale;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -30,6 +31,7 @@ import me.ccrama.redditslide.SwipeLayout.SwipeBackLayout;
 import me.ccrama.redditslide.SwipeLayout.Utils;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -61,6 +63,9 @@ public class BaseActivity extends PeekViewActivity
                 hideDecor();
             }
         }
+        if (enableSwipeBackLayout) {
+            Utils.convertActivityToTranslucent(this);
+        }
     }
 
     public void hideDecor(){
@@ -91,6 +96,17 @@ public class BaseActivity extends PeekViewActivity
             }
         } catch(Exception ignored){
 
+        }
+    }
+
+    public void showDecor() {
+        try {
+            if (!SettingValues.immersiveMode) {
+                final View decorView = getWindow().getDecorView();
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                decorView.setOnSystemUiVisibilityChangeListener(null);
+            }
+        } catch (Exception ignored) {
         }
     }
 
@@ -218,10 +234,6 @@ public class BaseActivity extends PeekViewActivity
 
     protected void overrideSwipeFromAnywhere() {
         overrideSwipeFromAnywhere = true;
-    }
-
-    protected void swipeVerticalExit(){
-        verticalExit = true;
     }
 
     protected void overrideRedditSwipeAnywhere() {
@@ -469,15 +481,23 @@ public class BaseActivity extends PeekViewActivity
      */
     public void setRecentBar(@Nullable String title, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (title == null || title.isEmpty()) {
+                title = getString(R.string.app_name);
+            }
+            setRecentBarTaskDescription(title, color);
+        }
+    }
 
-            if (title == null || title.equals("")) title = getString(R.string.app_name);
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setRecentBarTaskDescription(@Nullable String title, int color) {
+        int icon = title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
+                : R.drawable.ic_launcher;
 
-            Bitmap bitmap= BitmapFactory.decodeResource(getResources(),(  title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte
-                    : R.mipmap.ic_launcher));
-
-            setTaskDescription(
-                    new ActivityManager.TaskDescription(title, bitmap, color));
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            setTaskDescription(new ActivityManager.TaskDescription(title, icon, color));
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), icon);
+            setTaskDescription(new ActivityManager.TaskDescription(title, bitmap, color));
             bitmap.recycle();
         }
     }

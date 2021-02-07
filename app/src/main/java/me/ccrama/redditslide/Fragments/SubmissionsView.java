@@ -5,18 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MarginLayoutParamsCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -24,9 +15,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.view.MarginLayoutParamsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
@@ -37,12 +39,12 @@ import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
@@ -52,8 +54,10 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     private static int               adapterPosition;
@@ -95,9 +99,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
                 new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
-        final View v = ((LayoutInflater) contextThemeWrapper.getSystemService(
-                Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent,
-                container, false);
+        final View v = LayoutInflater.from(contextThemeWrapper)
+                .inflate(R.layout.fragment_verticalcontent, container, false);
 
         if (getActivity() instanceof MainActivity) {
             v.findViewById(R.id.back).setBackgroundResource(0);
@@ -106,19 +109,14 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         rv.setHasFixedSize(true);
 
-        final RecyclerView.LayoutManager mLayoutManager;
-        mLayoutManager =
+        final RecyclerView.LayoutManager mLayoutManager =
                 createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, getActivity()));
 
         if (!(getActivity() instanceof SubredditView)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                v.findViewById(R.id.back).setBackground(null);
-            } else {
-                v.findViewById(R.id.back).setBackgroundDrawable(null);
-            }
+            v.findViewById(R.id.back).setBackground(null);
         }
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemAnimator(new SlideUpAlphaAnimator());
+        rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
         rv.getLayoutManager().scrollToPosition(0);
 
         mSwipeRefreshLayout = v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -134,11 +132,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             RelativeLayout.LayoutParams params =
                     new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                params.setMarginStart(0);
-            } else {
-                MarginLayoutParamsCompat.setMarginStart(params, 0);
-            }
+            MarginLayoutParamsCompat.setMarginStart(params, 0);
             rv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             mSwipeRefreshLayout.setLayoutParams(params);
         }
@@ -158,7 +152,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             fab = v.findViewById(R.id.post_floating_action_button);
 
             if (SettingValues.fabType == Constants.FAB_POST) {
-                fab.setImageResource(R.drawable.add);
+                fab.setImageResource(R.drawable.ic_add);
+                fab.setContentDescription(getString(R.string.btn_fab_post));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -167,8 +162,74 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         getActivity().startActivity(inte);
                     }
                 });
+            } else if (SettingValues.fabType == Constants.FAB_SEARCH) {
+                fab.setImageResource(R.drawable.ic_search);
+                fab.setContentDescription(getString(R.string.btn_fab_search));
+                fab.setOnClickListener(new View.OnClickListener() {
+                    String term;
+                    @Override
+                    public void onClick(View v) {
+                        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
+                                .title(R.string.search_title)
+                                .alwaysCallInputCallback()
+                                .input(getString(R.string.search_msg), "",
+                                        new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(MaterialDialog materialDialog,
+                                                                CharSequence charSequence) {
+                                                term = charSequence.toString();
+                                            }
+                                        });
+
+                        //Add "search current sub" if it is not frontpage/all/random
+                        if (!id.equalsIgnoreCase("frontpage")
+                                && !id.equalsIgnoreCase("all")
+                                && !id.contains(".")
+                                && !id.contains("/m/")
+                                && !id.equalsIgnoreCase("friends")
+                                && !id.equalsIgnoreCase("random")
+                                && !id.equalsIgnoreCase("popular")
+                                && !id.equalsIgnoreCase("myrandom")
+                                && !id.equalsIgnoreCase("randnsfw")) {
+                            builder.positiveText(getString(R.string.search_subreddit, id))
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                                            @NonNull DialogAction dialogAction) {
+                                            Intent i = new Intent(getActivity(), Search.class);
+                                            i.putExtra(Search.EXTRA_TERM, term);
+                                            i.putExtra(Search.EXTRA_SUBREDDIT, id);
+                                            startActivity(i);
+                                        }
+                                    });
+                            builder.neutralText(R.string.search_all)
+                                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                                            @NonNull DialogAction dialogAction) {
+                                            Intent i = new Intent(getActivity(), Search.class);
+                                            i.putExtra(Search.EXTRA_TERM, term);
+                                            startActivity(i);
+                                        }
+                                    });
+                        } else {
+                            builder.positiveText(R.string.search_all)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                                            @NonNull DialogAction dialogAction) {
+                                            Intent i = new Intent(getActivity(), Search.class);
+                                            i.putExtra(Search.EXTRA_TERM, term);
+                                            startActivity(i);
+                                        }
+                                    });
+                        }
+                        builder.show();
+                    }
+                });
             } else {
-                fab.setImageResource(R.drawable.hide);
+                fab.setImageResource(R.drawable.ic_visibility_off);
+                fab.setContentDescription(getString(R.string.btn_fab_hide));
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -207,7 +268,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                             origY = event.getY();
                             handler.postDelayed(mLongPressRunnable, android.view.ViewConfiguration.getLongPressTimeout());
                         }
-                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight()/2)|| (event.getAction() == MotionEvent.ACTION_UP)) {
+                        if (((event.getAction() == MotionEvent.ACTION_MOVE) && Math.abs(event.getY() - origY) > fab.getHeight()/2.0f)|| (event.getAction() == MotionEvent.ACTION_UP)) {
                             handler.removeCallbacks(mLongPressRunnable);
                         }
                         return false;
@@ -250,11 +311,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
                             }
                         });*/
-                        View view = s.getView();
-                        TextView tv = view.findViewById(
-                                android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.WHITE);
-                        s.show();
+                        LayoutUtils.showSnackbar(s);
                     }
                 };
             }
@@ -342,12 +399,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
         posts.loadMore(getActivity(), this, true);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
     }
 
     public void doAdapter(boolean force18) {
@@ -363,12 +415,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
         posts.loadMore(getActivity(), this, true);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
     }
 
     public List<Submission> clearSeenPosts(boolean forever) {
@@ -399,7 +446,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
             adapter.notifyItemRangeChanged(0, adapter.dataSet.posts.size());
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideUpAlphaAnimator());
+            rv.setItemAnimator(new SlideUpAlphaAnimator().withInterpolator(new LinearOutSlowInInterpolator()));
             return originalDataSetPosts;
         }
 
@@ -470,12 +517,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
                     if (startIndex != -1 && !forced ) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
-                        adapter.notifyDataSetChanged();
                     } else {
                         forced = false;
                         rv.scrollToPosition(0);
-                        adapter.notifyDataSetChanged();
                     }
+                    adapter.notifyDataSetChanged();
 
                 }
             });
@@ -523,7 +569,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
         }
         mSwipeRefreshLayout.setRefreshing(false);
-        adapter.setError(true);
     }
 
     @Override
@@ -551,15 +596,14 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             toolbarScroll =
                     new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, header) {
                         @Override
-                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                             super.onScrolled(recyclerView, dx, dy);
 
                             if (!posts.loading && !posts.nomore && !posts.offline && !adapter.isError){
                                 visibleItemCount = rv.getLayoutManager().getChildCount();
                                 totalItemCount = rv.getLayoutManager().getItemCount();
 
-                                int[] firstVisibleItems;
-                                firstVisibleItems =
+                                int[] firstVisibleItems =
                                         ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(
                                                 null);
                                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {
@@ -604,14 +648,17 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                         fab.show();
                                     }
                                 } else {
-                                    fab.hide();
+                                    if(!SettingValues.alwaysShowFAB)
+                                    {
+                                        fab.hide();
+                                    }
                                 }
                             }
 
                         }
 
                         @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 //                switch (newState) {
 //                    case RecyclerView.SCROLL_STATE_IDLE:
 //                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
