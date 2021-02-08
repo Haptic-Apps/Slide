@@ -352,7 +352,7 @@ public class Settings extends BaseActivity
                                             }
                                         }
                                     })
-                            .setNegativeButton(R.string.btn_no_danks,
+                            .setNegativeButton(R.string.btn_no_thanks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                 int whichButton) {
@@ -609,7 +609,7 @@ public class Settings extends BaseActivity
                                             }
                                         }
                                     })
-                            .setNegativeButton(R.string.btn_no_danks,
+                            .setNegativeButton(R.string.btn_no_thanks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                 int whichButton) {

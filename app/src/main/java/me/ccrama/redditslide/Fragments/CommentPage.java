@@ -857,7 +857,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                     }
                                                 }
                                             })
-                                    .setNegativeButton(R.string.btn_no_danks,
+                                    .setNegativeButton(R.string.btn_no_thanks,
                                             new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog,
                                                                     int whichButton) {
@@ -1519,7 +1519,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                 getString(R.string.unsubscribe_from,
                                                         baseSub.getDisplayName()))
                                                 .setPositiveButton(
-                                                        R.string.reorder_remove_unsubsribe,
+                                                        R.string.reorder_remove_unsubscribe,
                                                         new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(

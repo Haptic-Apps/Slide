@@ -6,7 +6,6 @@
     <string name="general_confirm_exit_msg">هل تريد حقاً الخروج من سلايد؟</string>
     <string name="general_enable_shadowbox">نمط Shadowbox</string>
     <string name="pro_upgrade_msg">يمكنك الترقية إلى Slide لـ Reddit Pro للاستمتاع ببعض الميزات الجديدة في تحقيق ذلك:\n\n- أداة حظر الإعلانات عرض القارئ في عرض موقع الويب \n- لاقتصاص والرسم على الصور لتحميل\n- وضع عمود لوحي قابل للتخصيص \n- الوضع الليلي التلقائي mode\n- Shadowbox and ومعارض المحتوى معرض \n- تعليق Shadowbox عرض\n- النسخ الاحتياطي والاستعادة إلى Google Drive والملف\n- دعم البرامج مفتوحة المصدر والبرامج الخالية من الإعلانات!\n\nهل ترغب في دعم Slide for Reddit؟?</string>
-    <string name="general_pro_msg">لقد اخترت إنشاء بعض الميزات من الشريحة بدون قفل عن طريق شراء مفتاح إلغاء قفل Pro من متجرPlay. \n\nهذا هو للحفاظ على التنمية مستمرة, وبدلاً من عرض الإعلانات في الإصدار المجاني من Slide! \n\nالمدرجة في هذا هو وضع متعدد الأعمدة, وضع Shadowbox (للحصول على صور subreddits) ووضع المعرض والنسخ الاحتياطي والاستعادة إلى Google Drive وللملف والرسم / اقتصاص الصور!\n\nهل تريد فتح Slide For Reddit Pro؟</string>
     <string name="general_open_settings">الشريط الجانبي</string>
     <string name="general_sub_sync">مزامنة الاشتراكات</string>
     <string name="general_gallerymode_ispro">وضع المعرض هو ميزة Pro</string>
@@ -18,12 +17,10 @@
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">لم يتم حفظ البيانات</string>
     <string name="submission_info_saved">تم حفظ الادخال</string>
-    <string name="submission_info_cached">تسليم تم تخزينة مؤقتا</string>
     <string name="submission_info_archived">هذا منشور مؤرشف. لن تتمكن من التصويت أو التعليق</string>
     <string name="submission_post_saved">حُفظ المنشور</string>
     <string name="submission_info_hidden">المنشور مخفى للأبد</string>
     <string name="submission_stickied">مثبت</string>
-    <string name="submission_link_extern">فتح بالخارج</string>
     <string name="submission_link_copy">انسخ الرابط</string>
     <string name="submission_link_share">مشاركة الرابط</string>
     <string name="submission_share_title">تريد مشاركة اي رابط ؟</string>
@@ -44,9 +41,9 @@
     <string name="submission_comment_unsaved">تعليق غير محفوظ</string>
     <string name="submission_share_permalink">مشاركة الرابط</string>
     <string name="submission_comment_copied">نص التعليق الذي تم نسخه</string>
+    <string name="submission_text_copied">تم نسخ الالنص الذاتي</string>
     <string name="submission_nocontent">تسليم ليس له محتوى</string>
     <string name="submission_link_copied">تم نسخ الرابط</string>
-    <string name="submission_text_copied">تم نسخ الالنص الذاتي</string>
     <string name="submission_removed">تسليم تمت إزالته</string>
     <plurals name="points">
         <item quantity="zero">0 نقاط</item>
@@ -70,6 +67,7 @@
     <string name="theme_black">AMOLED أسود</string>
     <string name="theme_dark_blue">ازرق غامق</string>
     <string name="night_mode">الوضع الليلي</string>
+    <string name="disabled">معطّل</string>
     <string name="manual">يدوي</string>
     <string name="automatic">تلقائي</string>
     <string name="theme_default_color">اللون الأساسي</string>
@@ -81,6 +79,8 @@
     <string name="theme_amoled_contrast">AMOLED مع التباين</string>
     <string name="theme_night">موضوع الليلة</string>
     <!-- Font settings -->
+    <string name="font_size_comment">حجم خط التعليق</string>
+    <string name="font_size_post">حجم الخط المنشور</string>
     <string name="font_size_huge">ضخم</string>
     <string name="font_size_larger">أكبر</string>
     <string name="font_size_large">كبير</string>
@@ -107,6 +107,7 @@
     <string name="drawer_moderation">الإشراف</string>
     <string name="drawer_offline">Slide غير متصل</string>
     <string name="drawer_offline_retry">حاول لدخول وضع على الإنترنت</string>
+    <string name="drawer_guest_mode">تصفح كضيف</string>
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_wiki">ويكي subreddit</string>
     <string name="sidebar_mods">المشرفون على Subreddit</string>
@@ -128,7 +129,6 @@
     <string name="profile_friend">صديق</string>
     <string name="profile_add_friend">أضف كصديق</string>
     <string name="profile_remove_friend">حذف صديق</string>
-    <string name="profile_manage_accounts">إدارة الحسابات</string>
     <string name="profile_remove_account">هل ترغب حقًا في إزالة هذا الحساب؟</string>
     <string name="profile_remove">حذف الحساب</string>
     <string name="profile_history">السّجل</string>
@@ -148,9 +148,18 @@
     <string name="comment_delete_msg">هل تريد حذف هذا التعليق حقاً؟ وهذا لا يمكن التراجع عنه.</string>
     <string name="comment_delete_err">آه ، لقد حدث خطأ ما</string>
     <string name="comment_delete_err_msg">هل تود أن تجرب مجددا؟</string>
+    <string name="comment_unsave">لم يحفظ</string>
+    <string name="comment_load_more">حمِّل %1$d آخرين</string>
+    <string name="comment_load_more_string_new">حمِّل %1$s آخرين</string>
+    <string name="comment_loading_more">يحمل تعليقات...</string>
+    <string name="comment_permalink">حمِّل الرابط الثابت للتعليق</string>
+    <string name="comment_parent">إعرض التعليق الأب</string>
     <!-- Welcome view (first time setup) -->
+    <string name="welcome_start">ابدأ الآن</string>
+    <string name="welcome_personalize">خصص</string>
     <!-- Sorting options -->
     <string name="sorting_choose">اختر نوع الفرز</string>
+    <string name="sorting_time_choose">اختر إطارا زمنيا</string>
     <string name="sorting_change_sorting">تغييرطريقة فرزالمنشورات</string>
     <string name="sorting_best">أفضل</string>
     <string name="sorting_top">أعلى</string>
@@ -163,9 +172,8 @@
     <string name="sorting_day">٢٤ ساعة</string>
     <string name="sorting_week">اسبوع</string>
     <string name="sorting_month">شهر</string>
-    <string name="sorting_search_day">٢٤ ساعة الماضية</string>
-    <string name="sorting_search_year">العام الماضي</string>
-    <string name="sorting_search_all">كل الوقت</string>
+    <string name="sorting_year">السنة</string>
+    <string name="sorting_all">جميع الأوقات</string>
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">الرابط</string>
     <string name="editor_text">النص</string>
@@ -174,22 +182,36 @@
     <string name="editor_title">عنوان</string>
     <string name="editor_err_msg">الرجاء المحاولة مرة أخرى في بضع ثوان.</string>
     <string name="editor_uploading_image">تحميل الصورة إلى Imgur</string>
+    <string name="editor_upload_image_question">تحميل الصورة إلى Imgur؟</string>
     <string name="editor_select_img">قم بأختيار صورة</string>
     <string name="editor_hint_optional_body">الجسم (اختياري)</string>
     <string name="editor_submit">أرسِل المنشورة</string>
     <string name="editor_hint_subreddit">ريدّت فرعي</string>
+    <string name="edit_selftext">حرر النص</string>
     <!-- Editor buttons -->
+    <string name="editor_save_draft">أحفظ كمسودة</string>
+    <string name="editor_chose_draft">اختر مسودة</string>
     <string name="editor_insert_image">إرفاق صورة</string>
     <string name="editor_link">إضافة رابط</string>
+    <string name="editor_bold">عريض</string>
     <string name="editor_italics">مائل</string>
+    <string name="editor_quote">اقتباس</string>
+    <string name="editor_author">أشار للمؤلف</string>
+    <string name="editor_list">قائمة منقوطة</string>
+    <string name="editor_num_list">قائمة مرقّمة</string>
     <string name="editor_size">نص كبير</string>
+    <string name="editor_strike">شطب</string>
     <!-- General information / information without a category -->
     <string name="info_photo_saved">حُفظت الصورة</string>
+    <string name="gif_saved">حفظت ال GIF</string>
     <!-- General errors / errors without a category -->
     <string name="err_title">حدث خطأ!</string>
     <string name="err_invalid_url">الرابط غير صالح</string>
     <string name="err_loading_content">خطأ في تحميل المحتوى</string>
-    <string name="err_connection_lost">يبدو أنك فقدت الاتصال بشبكة الإنترنت. يرجى الاتصال بالإنترنت والذهاب مرة أخرى!</string>
+    <string name="err_general">حدث خطأ!</string>
+    <string name="err_no_connection">تعذر الوصول إلى ريديت. هل ترغب في إعادة المحاولة؟</string>
+    <string name="err_retry_later">إعادة المحاولة بعد دقيقة!</string>
+    <string name="err_permission">رُفض الإذن</string>
     <string name="error_video_not_found">لم يتم العثور على الفيديو</string>
     <string name="err_something_wrong">آه ، لقد حدث خطأ ما</string>
     <string name="err_couldnt_save_choose_new">لا يمكن حفظ لslide إلى الدليل المحدد. هل ترغب في اختيار موقع الحفظ جديدة؟</string>
@@ -201,7 +223,6 @@
     <string name="err_comment_post">آه...، نشر هذا التعليق فشل!</string>
     <string name="err_comment_post_reason">السبب: %1$s</string>
     <string name="err_comment_post_message">تم حفظ الرسالة \n\nYour كمسودة. الرجاء المحاولة مرة أخرى لاحقاً.</string>
-    <string name="err_comment_post_copy">نسخ تعليق</string>
     <string name="err_connection_failed_msg">فشل الاتصال Reddit. الرجاء التحقق من اتصال الإنترنت الخاص بك وحاول مرة أخرى، أو الدخول في وضع دون اتصال.</string>
     <string name="err_block_user">خطأ أثناء حظر المستخدم</string>
     <!-- Gif -->
@@ -239,7 +260,6 @@
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">ألبوم غير صالح للعمل</string>
     <string name="type_img">صورة</string>
-    <string name="type_vid">فيديو</string>
     <string name="type_videos">مقاطع فيديو</string>
     <string name="type_nsfw_video">فيديو غير صالح للعمل</string>
     <string name="type_emb">مضمّن</string>
@@ -272,7 +292,6 @@
     <string name="misc_err">خطأ</string>
     <string name="misc_none">لاشيء</string>
     <string name="misc_score_hidden">النقاط مخفية</string>
-    <string name="misc_nsfw">NSFW</string>
     <string name="misc_continue">متابعة</string>
     <string name="misc_copy_text">نسخ الكتابه</string>
     <!-- Goto User -->
@@ -285,7 +304,6 @@
     <string name="btn_discard">حذف</string>
     <string name="btn_done">تمّ</string>
     <string name="btn_go_back">رجوع</string>
-    <string name="btn_no_danks">لا شكرا</string>
     <string name="btn_no">لا</string>
     <string name="btn_ok">موافق</string>
     <string name="btn_remove">إزالة</string>
@@ -314,15 +332,12 @@
     <string name="mod_btn_mark_nsfw">علّم محتوى غير صالح للعمل</string>
     <string name="mod_btn_unmark_nsfw">ألغ تعليم محتوى غير صالح للعمل</string>
     <!-- Toolbox-related stuff -->
-    <!-- Pleasantly asking the user if he made his mind up -->
     <!-- If he did -->
     <!-- Subreddit Wiki -->
     <string name="wiki_err">لم يتم العصور على wiki</string>
     <!-- Subreddits -->
     <!-- Search -->
     <string name="search_goto">اذهب الى</string>
-    <!-- Captcha -->
-    <string name="captcha_title">أثبت أنك لست روبوت</string>
     <!-- Settings -->
     <string name="settings_layout_default">شكل الموضوع</string>
     <string name="settings_link_album">عرض الالبومات بالداخل</string>
@@ -356,10 +371,8 @@
     <!--Search methods -->
     <!-- Back button behavior -->
     <!-- Subscription managing -->
-    <string name="btn_add_subreddit">إضافة سوبريديت</string>
     <string name="reorder_subreddit_name">اسم السوبريديت</string>
     <string name="reorder_remove_title">إزالة هذا سوبريديت؟</string>
-    <string name="reorder_remove_msg">لن يتم الغاء الاشتراك, لاكن لن ترى هذا السوبريديت بالقائمة الجانبيه الخاصه بك!</string>
     <!-- Save categories -->
     <!-- Setting subheaders -->
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -370,7 +383,6 @@
     <string name="title_inbox">صندوق الوارد</string>
     <string name="title_theme_settings">المظهر</string>
     <string name="title_create_multi">أنشاء multireddit</string>
-    <string name="title_mod">مشرف</string>
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">هذا المبلغ&#8230;</string>
     <string name="donate_info_student">أنا مطور طالب، وأنا ممتن جداً للتبرع السخي! أنهم ساهموا في جعل Slide (مجاني) حقيقه :)</string>
@@ -380,8 +392,6 @@
     <string name="donate_amount_hours1">تدعيمات</string>
     <string name="donate_amount_hours2">ساعات من التطوير</string>
     <string name="donate_title">دعم Slide for Reddit</string>
-    <string name="donate_err_title">لم ينجح التبرع :(</string>
-    <string name="donate_success_title">نجح التبرع!</string>
     <!-- Offline mode -->
     <!-- Website -->
     <!-- Time -->
@@ -393,7 +403,7 @@
     <!-- Discover section: find -->
     <string name="discover_popular">الاكثر شعبية</string>
     <string name="discover_trending">رائج</string>
-    <!-- Subreddit post notifiactions -->
+    <!-- Subreddit post notifications -->
     <!-- Internal browser -->
     <!-- Live thread -->
     <!-- Used when viewing media -->

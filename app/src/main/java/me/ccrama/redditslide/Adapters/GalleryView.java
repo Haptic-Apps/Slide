@@ -167,7 +167,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                         ta.recycle();
 
-                        b.sheet(R.id.open_link, open, main.getResources().getString(R.string.submission_link_extern));
+                        b.sheet(R.id.open_link, open, main.getResources().getString(R.string.open_externally));
                         b.sheet(R.id.share_link, share, main.getResources().getString(R.string.share_link));
                         b.sheet(R.id.copy_link, copy, main.getResources().getString(R.string.submission_link_copy));
 

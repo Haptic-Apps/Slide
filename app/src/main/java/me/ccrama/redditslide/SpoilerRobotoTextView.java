@@ -587,7 +587,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 ta.recycle();
 
                 b.sheet(R.id.open_link, open,
-                        getResources().getString(R.string.submission_link_extern));
+                        getResources().getString(R.string.open_externally));
                 b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
                 b.sheet(R.id.copy_link, copy,
                         getResources().getString(R.string.submission_link_copy));
