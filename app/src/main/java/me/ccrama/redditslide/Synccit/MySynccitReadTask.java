@@ -16,12 +16,11 @@ public class MySynccitReadTask extends SynccitReadTask {
     private SubmissionDisplay displayer;
 
     public MySynccitReadTask(SubmissionDisplay displayer) {
-        super(MY_DEV_NAME);
+        super(MY_DEV_NAME,SettingValues.synccitUrl);
         this.displayer = displayer;
     }
-
     public MySynccitReadTask() {
-        super(MY_DEV_NAME);
+        super(MY_DEV_NAME,SettingValues.synccitUrl);
     }
 
     @Override
@@ -40,7 +39,6 @@ public class MySynccitReadTask extends SynccitReadTask {
     protected String getUsername() {
         return SettingValues.synccitName;
     }
-
     @Override
     protected String getAuth() {
         return SettingValues.synccitAuth;

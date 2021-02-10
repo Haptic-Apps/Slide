@@ -12,8 +12,8 @@ abstract class SynccitUpdateTask extends SynccitTask {
 	
 	private static final String UPDATE_MODE = "update";
 
-	SynccitUpdateTask(String devName) {
-		super(devName);
+	SynccitUpdateTask(String devName,String url) {
+		super(devName,url);
 	}
 
 	@Override

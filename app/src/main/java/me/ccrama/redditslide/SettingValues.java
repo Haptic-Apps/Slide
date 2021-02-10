@@ -116,6 +116,7 @@ public class SettingValues {
     public static final String PREF_SELFTEXT_IMAGE_COMMENT = "selftextImageComment";
     public static final String SYNCCIT_AUTH                = "SYNCCIT_AUTH";
     public static final String SYNCCIT_NAME                = "SYNCCIT_NAME";
+    public static final String SYNCCIT_URL                = "SYNCCIT_URL";
     public static final String PREF_BLUR                   = "blur";
     public static final String PREF_ALBUM_SWIPE            = "albumswipe";
     public static final String PREF_COMMENT_NAV            = "commentVolumeNav";
@@ -214,6 +215,7 @@ public class SettingValues {
 
     public static String synccitName;
     public static String synccitAuth;
+    public static String synccitUrl;
 
     public static Set<String>   titleFilters;
     public static Set<String>   textFilters;
@@ -395,6 +397,7 @@ public class SettingValues {
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
+        synccitUrl = prefs.getString(SYNCCIT_URL, "https://api.synccit.com/api.php");
         notifSound = prefs.getBoolean(PREF_SOUND_NOTIFS, false);
         cookies = prefs.getBoolean(PREF_COOKIES, true);
         linkHandlingMode = prefs.getInt(PREF_LINK_HANDLING_MODE,
