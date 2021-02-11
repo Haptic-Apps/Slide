@@ -4,9 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+import java.util.UUID;
 
 public class FileUtil {
     private FileUtil() {
@@ -55,4 +62,88 @@ public class FileUtil {
             child.delete();
         }
     }
+
+    /**
+     * Returns a unique file that can be used without any collision.
+     *
+     * @param folderPath Base directory path for saving
+     * @param subfolderPath Sub directory path with File separator, such as "/subreddit"
+     * @param title Unsafe file name with any length or any characters
+     * @param fileIndex File index for the file, or empty string if it is not required
+     * @param extension File extension with period, such has ".png", ".mp4"
+     * @return A safe file for writing
+     */
+    public static File getValidFile(String folderPath, String subfolderPath,
+                                    String title, String fileIndex, String extension) {
+        validateDirectory(folderPath);
+        validateDirectory(folderPath + subfolderPath);
+
+        File file;
+
+        int tries = 0;
+        do {
+            String extras = tries == 0 ? fileIndex + extension : fileIndex + "_" + tries + extension;
+            String sanitizedTitle = sanitizeFileName(title, extras);
+
+            if (sanitizedTitle == null || sanitizedTitle.trim().isEmpty()) {
+                sanitizedTitle = UUID.randomUUID().toString();
+            }
+
+            String fileName = sanitizedTitle + extras;
+            file = new File(folderPath + subfolderPath + File.separator + fileName);
+
+            tries++;
+        } while (file.exists());
+
+        return file;
+    }
+
+    /**
+     * Checks for directory existence, if it does not exist, creates one.
+     */
+    private static void validateDirectory(String path) {
+        File directory = new File(path);
+
+        if (directory.exists()) return;
+
+        directory.mkdirs();
+    }
+
+    /**
+     * Truncates a UTF-8 unicode string to be used within the 255 Bytes limit of file name length on Linux,
+     * as well as replaces reserved file name characters with underscore.
+     *
+     * Broken multi-byte unicode character will be ignored.
+     * File name will have "…" added at the end if it gets truncated.
+     *
+     * @param fileName The string that will be saved as file name.
+     * @param extras Additional string, such as index with file extension.
+     * @return Sanitized file name (without the extras) that will be within the byte limit with the extras added later.
+     */
+    @Nullable
+    private static String sanitizeFileName(String fileName, String extras) {
+        if (fileName == null) return null;
+
+        String sanitizedFileName = fileName.replaceAll("[/?<>\\\\:*|\"]", "_");
+
+        Charset charset = Charset.defaultCharset();
+        byte[] fileNameBytes = sanitizedFileName.getBytes(charset);
+
+        int usableByteLimit = 255 - extras.getBytes().length;
+        if (fileNameBytes.length <= usableByteLimit) return sanitizedFileName;
+
+        String replacementChar = "…";
+        int replacementCharLength = replacementChar.getBytes().length;
+
+        ByteBuffer byteBuffer = ByteBuffer.wrap(fileNameBytes, 0, usableByteLimit - replacementCharLength);
+        CharBuffer charBuffer = CharBuffer.allocate(usableByteLimit - replacementCharLength);
+
+        // Replaces a broken / incomplete character because of truncation
+        CharsetDecoder decoder = charset.newDecoder().onMalformedInput(CodingErrorAction.IGNORE);
+        decoder.decode(byteBuffer, charBuffer, true);
+        decoder.flush(charBuffer);
+
+        return new String(charBuffer.array(), 0, charBuffer.position()) + replacementChar;
+    }
+
 }
