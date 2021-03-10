@@ -4601,151 +4601,30 @@ public class MainActivity extends BaseActivity
         });
         return animator;
     }
-  /*Todo once API allows for getting the websocket URL  public class AsyncStartNotifSocket extends AsyncTask<Void, Void, Void>{
+/*
+    // Todo once API allows for getting the websocket URL
+    public class AsyncStartNotifSocket extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 String access = Authentication.authentication.getString("websocket_url", "");
 
                 LogUtil.v(access);
-                com.neovisionaries.ws.client.WebSocket ws = new WebSocketFactory().createSocket(access);
-                ws.addListener(new WebSocketListener() {
+                WebSocket ws = new WebSocketFactory().createSocket(access);
+                ws.addListener(new WebSocketAdapter() {
                     @Override
-                    public void onStateChanged(com.neovisionaries.ws.client.WebSocket websocket, WebSocketState newState) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onConnected(com.neovisionaries.ws.client.WebSocket websocket, Map<String, List<String>> headers) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onConnectError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onDisconnected(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onContinuationFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onTextFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onBinaryFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onCloseFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onPingFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onPongFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onTextMessage(com.neovisionaries.ws.client.WebSocket websocket, String s) throws Exception {
-                        LogUtil.v("Recieved" + s);
-
-                    }
-
-                    @Override
-                    public void onBinaryMessage(com.neovisionaries.ws.client.WebSocket websocket, byte[] binary) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onSendingFrame(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onFrameSent(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onFrameUnsent(com.neovisionaries.ws.client.WebSocket websocket, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onFrameError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onMessageError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, List<WebSocketFrame> frames) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onMessageDecompressionError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, byte[] compressed) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onTextMessageError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, byte[] data) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onSendError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause, WebSocketFrame frame) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onUnexpectedError(com.neovisionaries.ws.client.WebSocket websocket, WebSocketException cause) throws Exception {
-
-                    }
-
-                    @Override
-                    public void handleCallbackError(com.neovisionaries.ws.client.WebSocket websocket, Throwable cause) throws Exception {
-
-                    }
-
-                    @Override
-                    public void onSendingHandshake(com.neovisionaries.ws.client.WebSocket websocket, String requestLine, List<String[]> headers) throws Exception {
-
+                    public void onTextMessage(WebSocket websocket, String s) {
+                        LogUtil.v("Received" + s);
                     }
                 });
                 ws.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (WebSocketException e) {
+            } catch (IOException | WebSocketException e) {
                 e.printStackTrace();
             }
             return null;
         }
-    }*/
-
+    }
+*/
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
