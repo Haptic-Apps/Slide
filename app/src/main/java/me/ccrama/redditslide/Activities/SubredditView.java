@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.PopupMenu;
@@ -327,7 +328,7 @@ public class SubredditView extends BaseActivity {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this).setTitle(
+                    new AlertDialog.Builder(this).setTitle(
                             R.string.general_gallerymode_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -424,7 +425,7 @@ public class SubredditView extends BaseActivity {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this).setTitle(R.string.general_shadowbox_ispro)
+                    new AlertDialog.Builder(this).setTitle(R.string.general_shadowbox_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
 
@@ -611,8 +612,8 @@ public class SubredditView extends BaseActivity {
 
                                 }
                             };
-                    AlertDialogWrapper.Builder builder =
-                            new AlertDialogWrapper.Builder(SubredditView.this);
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(SubredditView.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
                             sortid, l2);
@@ -1095,7 +1096,7 @@ public class SubredditView extends BaseActivity {
                 reloadSubs();
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SubredditView.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
                 SortingUtil.getSortingTimeId(""), l2);
@@ -1392,7 +1393,7 @@ public class SubredditView extends BaseActivity {
                 subscribe.setOnClickListener(new View.OnClickListener() {
                     private void doSubscribe() {
                         if (Authentication.isLoggedIn) {
-                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                            new AlertDialog.Builder(SubredditView.this).setTitle(
                                     getString(R.string.subscribe_to, subreddit.getDisplayName()))
                                     .setPositiveButton(R.string.reorder_add_subscribe,
                                             new DialogInterface.OnClickListener() {
@@ -1404,7 +1405,7 @@ public class SubredditView extends BaseActivity {
                                                         public void onPostExecute(Boolean success) {
                                                             if (!success) { // If subreddit was removed from account or not
 
-                                                                new AlertDialogWrapper.Builder(
+                                                                new AlertDialog.Builder(
                                                                         SubredditView.this).setTitle(
                                                                         R.string.force_change_subscription)
                                                                         .setMessage(
@@ -1493,7 +1494,7 @@ public class SubredditView extends BaseActivity {
 
                     private void doUnsubscribe() {
                         if (Authentication.didOnline) {
-                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                            new AlertDialog.Builder(SubredditView.this).setTitle(
                                     getString(R.string.unsubscribe_from,
                                             subreddit.getDisplayName()))
                                     .setPositiveButton(R.string.reorder_remove_unsubscribe,
@@ -1506,7 +1507,7 @@ public class SubredditView extends BaseActivity {
                                                         public void onPostExecute(Boolean success) {
                                                             if (!success) { // If subreddit was removed from account or not
 
-                                                                new AlertDialogWrapper.Builder(
+                                                                new AlertDialog.Builder(
                                                                         SubredditView.this).setTitle(
                                                                         R.string.force_change_subscription)
                                                                         .setMessage(
@@ -1609,7 +1610,7 @@ public class SubredditView extends BaseActivity {
                                             !sub.contains("+")
                                             && !sub.contains(".")
                                             && !sub.contains("/m/")) {
-                                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                                        new AlertDialog.Builder(SubredditView.this).setTitle(
                                                 getString(R.string.sub_post_notifs_title, sub))
                                                 .setMessage(R.string.sub_post_notifs_msg)
                                                 .setPositiveButton(R.string.btn_ok,
@@ -2041,7 +2042,7 @@ public class SubredditView extends BaseActivity {
 
                 // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
                 if (subreddit.isNsfw() && (!SettingValues.showNSFWContent)) {
-                    new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                    new AlertDialog.Builder(SubredditView.this).setTitle(
                             getString(R.string.over18_title, subreddit.getDisplayName()))
                             .setMessage(getString(R.string.over18_desc) + "\n\n" + getString(
                                     Authentication.isLoggedIn ? R.string.over18_desc_loggedin
@@ -2082,7 +2083,7 @@ public class SubredditView extends BaseActivity {
                     @Override
                     public void run() {
                         try {
-                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                            new AlertDialog.Builder(SubredditView.this).setTitle(
                                     R.string.subreddit_err)
                                     .setMessage(
                                             getString(R.string.subreddit_err_msg_new, params[0]))

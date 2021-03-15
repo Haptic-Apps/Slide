@@ -15,13 +15,12 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -127,7 +126,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
 
     public void showFirstDialog() {
         try {
-            new AlertDialogWrapper.Builder(this).setTitle(R.string.set_save_location)
+            new AlertDialog.Builder(this).setTitle(R.string.set_save_location)
                     .setMessage(R.string.set_save_location_msg)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -147,7 +146,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
     }
 
     public void showErrorDialog() {
-        new AlertDialogWrapper.Builder(RedditGallery.this).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(RedditGallery.this).setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override

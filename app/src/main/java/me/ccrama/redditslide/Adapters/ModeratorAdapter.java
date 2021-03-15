@@ -34,11 +34,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
@@ -168,7 +168,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
@@ -656,7 +656,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                         LayoutUtils.showSnackbar(s);
 
                                     } else {
-                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                        new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                                                 .setMessage(R.string.err_retry_later)
                                                 .show();
                                     }
@@ -701,7 +701,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .show();
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -732,7 +732,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -764,7 +764,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -797,7 +797,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -872,7 +872,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -906,7 +906,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }

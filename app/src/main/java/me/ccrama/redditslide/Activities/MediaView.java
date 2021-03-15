@@ -31,12 +31,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -897,7 +897,7 @@ public class MediaView extends FullScreenActivity
                                             @Override
                                             public boolean onLongClick(View v) {
                                                 try {
-                                                    new AlertDialogWrapper.Builder(
+                                                    new AlertDialog.Builder(
                                                             MediaView.this).setTitle(
                                                             result.get("safe_title").getAsString())
                                                             .setMessage(
@@ -1303,7 +1303,7 @@ public class MediaView extends FullScreenActivity
             public void run() {
                 try {
 
-                    new AlertDialogWrapper.Builder(MediaView.this).setTitle(
+                    new AlertDialog.Builder(MediaView.this).setTitle(
                             R.string.set_save_location)
                             .setMessage(R.string.set_save_location_msg)
                             .setPositiveButton(R.string.btn_yes,
@@ -1333,7 +1333,7 @@ public class MediaView extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(MediaView.this).setTitle(
+                new AlertDialog.Builder(MediaView.this).setTitle(
                         R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {

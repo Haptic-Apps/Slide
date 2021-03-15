@@ -12,7 +12,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
@@ -152,7 +153,7 @@ public class Reauthenticate extends BaseActivityAnim {
             //Dismiss old progress dialog
             mMaterialDialog.dismiss();
 
-            new AlertDialogWrapper.Builder(Reauthenticate.this)
+            new AlertDialog.Builder(Reauthenticate.this)
                     .setTitle(R.string.reauth_complete)
                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         @Override

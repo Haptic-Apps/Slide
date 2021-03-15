@@ -13,9 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.dean.jraw.ApiException;
@@ -123,7 +123,7 @@ public class Crosspost extends BaseActivity {
                                 }
                                 if (s.getSubredditType().equals("RESTRICTED")) {
                                     subredditText.setText("");
-                                    new AlertDialogWrapper.Builder(Crosspost.this).setTitle(
+                                    new AlertDialog.Builder(Crosspost.this).setTitle(
                                             R.string.err_submit_restricted)
                                             .setMessage(R.string.err_submit_restricted_text)
                                             .setPositiveButton(R.string.btn_ok, null)
@@ -242,7 +242,7 @@ public class Crosspost extends BaseActivity {
 
 
     private void showErrorRetryDialog(String message) {
-        new AlertDialogWrapper.Builder(Crosspost.this).setTitle(R.string.err_title)
+        new AlertDialog.Builder(Crosspost.this).setTitle(R.string.err_title)
                 .setMessage(message)
                 .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                     @Override

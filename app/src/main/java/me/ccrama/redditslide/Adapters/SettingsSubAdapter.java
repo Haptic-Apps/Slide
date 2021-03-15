@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.util.ArrayList;
 
@@ -65,7 +64,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
+                new AlertDialog.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -182,8 +181,6 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             selftext.setChecked(SettingValues.isSelftextEnabled(subreddit));
 
         }
-
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
 
         final TextView title = dialoglayout.findViewById(R.id.title);
         title.setBackgroundColor(currentColor);
@@ -319,6 +316,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 }
             }
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setView(dialoglayout);
             builder.setCancelable(false);
             builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
@@ -354,7 +352,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                     if (titleStart.contains("/r/frontpage")) {
                         titleStart = titleStart.replace("/r/frontpage", "frontpage");
                     }
-                    new AlertDialogWrapper.Builder(context).setTitle(titleStart)
+                    new AlertDialog.Builder(context).setTitle(titleStart)
                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

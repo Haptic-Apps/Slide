@@ -27,11 +27,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.multidex.MultiDexApplication;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.exoplayer2.database.DatabaseProvider;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
@@ -305,7 +305,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                           @Override
                                           public void run() {
                                               try {
-                                                  new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                                  new AlertDialog.Builder(c).setTitle(R.string.err_title)
                                                           .setMessage(R.string.err_connection_failed_msg)
                                                           .setNegativeButton(R.string.btn_close,
                                                                   new DialogInterface.OnClickListener() {
@@ -346,7 +346,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                    new AlertDialog.Builder(c).setTitle(R.string.err_title)
                                             .setMessage(R.string.err_refused_request_msg)
                                             .setNegativeButton("No",
                                                     new DialogInterface.OnClickListener() {
@@ -380,7 +380,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                    new AlertDialog.Builder(c).setTitle(R.string.err_title)
                                             .setMessage(R.string.err_could_not_find_content_msg)
                                             .setNegativeButton("Close",
                                                     new DialogInterface.OnClickListener() {

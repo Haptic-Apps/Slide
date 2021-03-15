@@ -7,10 +7,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -77,7 +77,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWrapper.Builder(SettingsSubreddit.this)
+                new AlertDialog.Builder(SettingsSubreddit.this)
                         .setTitle(R.string.clear_all_sub_themes)
                         .setMessage(R.string.clear_all_sub_themes_msg)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -126,7 +126,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 if (Authentication.isLoggedIn) {
-                    new AlertDialogWrapper.Builder(SettingsSubreddit.this).setTitle(R.string.dialog_color_sync_title)
+                    new AlertDialog.Builder(SettingsSubreddit.this).setTitle(R.string.dialog_color_sync_title)
                             .setMessage(R.string.dialog_color_sync_message)
                             .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
                                 @Override
@@ -166,7 +166,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                             reloadSubList();
                                             Resources res = getResources();
 
-                                            new AlertDialogWrapper.Builder(SettingsSubreddit.this)
+                                            new AlertDialog.Builder(SettingsSubreddit.this)
                                                     .setTitle(R.string.color_sync_complete)
                                                     .setMessage(res.getQuantityString(R.plurals.color_sync_colored, done, done))
                                                     .setPositiveButton(getString(R.string.btn_ok), null)

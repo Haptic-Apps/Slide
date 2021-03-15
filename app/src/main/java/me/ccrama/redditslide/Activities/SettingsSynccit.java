@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class SettingsSynccit extends BaseActivityAnim {
             public void onClick(View v) {
                 if (!SettingValues.synccitAuth.isEmpty()) {
 
-                    new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                    new AlertDialog.Builder(SettingsSynccit.this)
                             .setTitle(R.string.settings_synccit_delete)
                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                 @Override
@@ -95,7 +96,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                                 e.apply();
                                 (findViewById(R.id.remove)).setEnabled(true);
 
-                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                                new AlertDialog.Builder(SettingsSynccit.this)
                                         .setTitle(R.string.settings_synccit_connected)
                                         .setMessage(R.string.settings_synccit_active)
                                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
@@ -112,7 +113,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                             } else {
                                 d.dismiss();
 
-                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                                new AlertDialog.Builder(SettingsSynccit.this)
                                         .setTitle(R.string.settings_synccit_failed)
                                         .setMessage(R.string.settings_synccit_failed_msg)
                                         .setPositiveButton(R.string.btn_ok, null).show();
@@ -120,7 +121,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                 } catch (Exception e) {
                     d.dismiss();
 
-                    new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                    new AlertDialog.Builder(SettingsSynccit.this)
                             .setTitle(R.string.settings_synccit_failed)
                             .setMessage(R.string.settings_synccit_failed_msg)
                             .setPositiveButton(R.string.btn_ok, null).show();

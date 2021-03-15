@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -1656,7 +1657,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
-            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.discard_comment_title)
+            new AlertDialog.Builder(mContext).setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -1726,7 +1727,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doLongClick(final CommentViewHolder holder, final Comment comment,
             final CommentNode baseNode) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty()) {
-            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.discard_comment_title)
+            new AlertDialog.Builder(mContext).setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -1785,7 +1786,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
-            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.discard_comment_title)
+            new AlertDialog.Builder(mContext).setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -2223,7 +2224,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                           @Override
                                           public void run() {
                                               try {
-                                                  new AlertDialogWrapper.Builder(mContext).setTitle(
+                                                  new AlertDialog.Builder(mContext).setTitle(
                                                           R.string.err_title)
                                                           .setMessage(R.string.err_connection_failed_msg)
                                                           .setNegativeButton(R.string.btn_ok,
@@ -2250,7 +2251,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle(
+                                    new AlertDialog.Builder(mContext).setTitle(
                                             R.string.err_title)
                                             .setMessage(R.string.err_refused_request_msg)
                                             .setNegativeButton("No",
@@ -2284,7 +2285,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle(
+                                    new AlertDialog.Builder(mContext).setTitle(
                                             R.string.err_title)
                                             .setMessage(R.string.err_could_not_find_content_msg)
                                             .setNegativeButton("Close",
@@ -2434,7 +2435,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (commentBack != null && !commentBack.isEmpty()) {
                     Drafts.addDraft(commentBack);
                     try {
-                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_comment_post)
+                        new AlertDialog.Builder(mContext).setTitle(R.string.err_comment_post)
                                 .setMessage(((why == null) ? ""
                                         : mContext.getString(R.string.err_comment_post_reason, why))
                                         + mContext.getString(R.string.err_comment_post_message))
@@ -2445,7 +2446,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 } else {
                     try {
-                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_comment_post)
+                        new AlertDialog.Builder(mContext).setTitle(R.string.err_comment_post)
                                 .setMessage(((why == null) ? ""
                                         : mContext.getString(R.string.err_comment_post_reason, why))
                                         + mContext.getString(

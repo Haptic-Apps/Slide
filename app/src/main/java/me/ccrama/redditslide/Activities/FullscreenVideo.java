@@ -12,7 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -71,7 +71,7 @@ public class FullscreenVideo extends FullScreenActivity {
             setShareUrl(dat);
             v.loadUrl(dat);
             if ((dat.contains("youtube.co" ) || dat.contains("youtu.be")) && !Reddit.appRestart.contains("showYouTubePopup")) {
-                new AlertDialogWrapper.Builder(FullscreenVideo.this).setTitle(getString(R.string.load_videos_internally))
+                new AlertDialog.Builder(FullscreenVideo.this).setTitle(getString(R.string.load_videos_internally))
                         .setMessage(getString(R.string.load_videos_internally_content))
                         .setPositiveButton(getString(R.string.btn_sure), new DialogInterface.OnClickListener() {
                             @Override

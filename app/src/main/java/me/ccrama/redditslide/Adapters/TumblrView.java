@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.RobotoTypefaces;
 
 import java.net.MalformedURLException;
@@ -60,7 +60,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     LayoutInflater l = context.getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context);
+                    AlertDialog.Builder b = new AlertDialog.Builder(context);
                     GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapterTumblr(context, users));
 

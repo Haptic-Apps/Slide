@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -21,8 +22,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -146,7 +145,7 @@ public class Tutorial extends AppCompatActivity {
 
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -219,7 +218,7 @@ public class Tutorial extends AppCompatActivity {
                 public void onClick(View v) {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -278,7 +277,7 @@ public class Tutorial extends AppCompatActivity {
                 public void onClick(View v) {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 

@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
 import com.google.android.exoplayer2.source.dash.manifest.AdaptationSet;
@@ -115,7 +115,7 @@ public class GifUtils {
      * @param a
      */
     private static void showErrorDialog(final Activity a) {
-        new AlertDialogWrapper.Builder(a).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(a).setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
@@ -137,7 +137,7 @@ public class GifUtils {
      * @param a
      */
     private static void showFirstDialog(final Activity a) {
-        new AlertDialogWrapper.Builder(a).setTitle(R.string.set_gif_save_loc)
+        new AlertDialog.Builder(a).setTitle(R.string.set_gif_save_loc)
                 .setMessage(R.string.set_gif_save_loc_msg)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
@@ -547,7 +547,7 @@ public class GifUtils {
                         @Override
                         public void run() {
                             try {
-                                new AlertDialogWrapper.Builder(c).setTitle(R.string.gif_err_title)
+                                new AlertDialog.Builder(c).setTitle(R.string.gif_err_title)
                                         .setMessage(R.string.gif_err_msg)
                                         .setCancelable(false)
                                         .setPositiveButton(R.string.btn_ok,
@@ -729,7 +729,7 @@ public class GifUtils {
                                 c.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new AlertDialogWrapper.Builder(c).setTitle(
+                                        new AlertDialog.Builder(c).setTitle(
                                                 R.string.error_video_not_found)
                                                 .setMessage(R.string.error_video_message)
                                                 .setCancelable(false)
@@ -790,7 +790,7 @@ public class GifUtils {
                                 @Override
                                 public void run() {
                                     try {
-                                        new AlertDialogWrapper.Builder(c).setTitle(
+                                        new AlertDialog.Builder(c).setTitle(
                                                 R.string.error_video_not_found)
                                                 .setMessage(R.string.error_video_message)
                                                 .setCancelable(false)

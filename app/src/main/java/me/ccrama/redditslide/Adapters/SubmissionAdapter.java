@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.models.Submission;
@@ -279,7 +279,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                            }
                                                        } else {
                                                            if (!Reddit.appRestart.contains("offlinepopup")) {
-                                                               new AlertDialogWrapper.Builder(context).setTitle(
+                                                               new AlertDialog.Builder(context).setTitle(
                                                                        R.string.cache_no_comments_found)
                                                                        .setMessage(R.string.cache_no_comments_found_message)
                                                                        .setCancelable(false)
@@ -301,7 +301,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                s.setAction(R.string.misc_more_info, new View.OnClickListener() {
                                                                    @Override
                                                                    public void onClick(View v) {
-                                                                       new AlertDialogWrapper.Builder(context).setTitle(
+                                                                       new AlertDialog.Builder(context).setTitle(
                                                                                R.string.cache_no_comments_found)
                                                                                .setMessage(R.string.cache_no_comments_found_message)
                                                                                .setCancelable(false)

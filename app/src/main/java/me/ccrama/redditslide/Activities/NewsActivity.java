@@ -20,6 +20,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -27,7 +28,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.material.tabs.TabLayout;
 
 import net.dean.jraw.managers.AccountManager;
@@ -142,7 +142,7 @@ public class NewsActivity extends BaseActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(NewsActivity.this).setTitle(
+                        new AlertDialog.Builder(NewsActivity.this).setTitle(
                                 R.string.err_permission)
                                 .setMessage(R.string.err_permission_msg)
                                 .setPositiveButton(R.string.btn_yes,

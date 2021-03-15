@@ -26,12 +26,11 @@ import android.widget.TextView;
 import androidx.annotation.ArrayRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -71,8 +70,8 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
-                AlertDialogWrapper.Builder builder =
-                        new AlertDialogWrapper.Builder(context);
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -120,8 +119,8 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                AlertDialogWrapper.Builder builder =
-                        new AlertDialogWrapper.Builder(context);
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -164,8 +163,8 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final LinearLayout dialoglayout = (LinearLayout) inflater.inflate(R.layout.choosemain, null);
-                final AlertDialogWrapper.Builder builder =
-                        new AlertDialogWrapper.Builder(context);
+                final AlertDialog.Builder builder =
+                        new AlertDialog.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -397,8 +396,8 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 if (SettingValues.isPro) {
                     LayoutInflater inflater = context.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.nightmode, null);
-                    final AlertDialogWrapper.Builder builder =
-                            new AlertDialogWrapper.Builder(context);
+                    final AlertDialog.Builder builder =
+                            new AlertDialog.Builder(context);
                     final Dialog dialog = builder.setView(dialoglayout).create();
                     dialog.show();
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -556,7 +555,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                         });
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(context).setTitle(
+                    new AlertDialog.Builder(context).setTitle(
                             R.string.general_nighttheme_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,

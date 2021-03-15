@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.lusfold.androidkeyvaluestore.KVStore;
 
 import me.ccrama.redditslide.R;
@@ -52,7 +52,7 @@ public class SettingsHistoryFragment {
             @Override
             public void onClick(View v) {
                 KVStore.getInstance().clearTable();
-                new AlertDialogWrapper.Builder(context).setTitle(R.string.alert_history_cleared)
+                new AlertDialog.Builder(context).setTitle(R.string.alert_history_cleared)
                         .setPositiveButton(R.string.btn_ok, null).show();
             }
         });
@@ -60,7 +60,7 @@ public class SettingsHistoryFragment {
             @Override
             public void onClick(View v) {
                 UserSubscriptions.subscriptions.edit().remove("subhistory").apply();
-                new AlertDialogWrapper.Builder(context).setTitle(R.string.alert_history_cleared)
+                new AlertDialog.Builder(context).setTitle(R.string.alert_history_cleared)
                         .setPositiveButton(R.string.btn_ok, null).show();
             }
         });

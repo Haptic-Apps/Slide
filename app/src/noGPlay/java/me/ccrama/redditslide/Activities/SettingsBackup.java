@@ -9,7 +9,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.processphoenix.ProcessPhoenix;
@@ -111,7 +112,7 @@ public class SettingsBackup extends BaseActivityAnim {
                             }
 
                         }
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setCancelable(false)
+                        new AlertDialog.Builder(SettingsBackup.this).setCancelable(false)
                                 .setTitle(R.string.backup_restore_settings)
                                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                     @Override
@@ -139,7 +140,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
                     } else {
                         progress.hide();
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                 R.string.err_not_valid_backup)
                                 .setMessage(R.string.err_not_valid_backup_msg)
                                 .setPositiveButton(R.string.btn_ok, null)
@@ -149,7 +150,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 } catch (Exception e) {
                     progress.hide();
                     e.printStackTrace();
-                    new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
                             R.string.err_file_not_found)
                             .setMessage(R.string.err_file_not_found_msg)
                             .setPositiveButton(R.string.btn_ok, null)
@@ -158,7 +159,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
             } else {
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                new AlertDialog.Builder(SettingsBackup.this).setTitle(
                         R.string.err_file_not_found)
                         .setMessage(R.string.err_file_not_found_msg)
                         .setPositiveButton(R.string.btn_ok, null)
@@ -180,7 +181,7 @@ public class SettingsBackup extends BaseActivityAnim {
             findViewById(R.id.backfile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
                             R.string.settings_backup_include_personal_title)
                             .setMessage(R.string.settings_backup_include_personal_text)
                             .setPositiveButton(R.string.btn_yes,
@@ -217,7 +218,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_backup_ispro)
+            new AlertDialog.Builder(this).setTitle(R.string.general_backup_ispro)
                     .setMessage(R.string.pro_upgrade_msg)
                     .setPositiveButton(R.string.btn_yes_exclaim,
 
@@ -326,7 +327,7 @@ public class SettingsBackup extends BaseActivityAnim {
             @Override
             protected void onPostExecute(Void aVoid) {
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                new AlertDialog.Builder(SettingsBackup.this).setTitle(
                         R.string.backup_complete)
                         .setMessage(R.string.backup_saved_downloads)
                         .setPositiveButton(R.string.btn_view,

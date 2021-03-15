@@ -38,11 +38,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
@@ -279,8 +279,8 @@ public class CommentAdapterHelper {
                         showText.setTextIsSelectable(true);
                         int sixteen = Reddit.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(mContext);
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(mContext);
                         builder.setView(showText)
                                 .setTitle("Select text to copy")
                                 .setCancelable(true)
@@ -372,7 +372,7 @@ public class CommentAdapterHelper {
                     && o.comment.getDepth() < baseNode.getDepth()) {
                 LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
-                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 Comment parent = o.comment.getComment();
                 adapter.setViews(parent.getDataNode().get("body_html").asText(),
                         adapter.submission.getSubredditName(),
@@ -724,7 +724,7 @@ public class CommentAdapterHelper {
                                         holder.content.setText(CommentAdapterHelper.getScoreString(
                                                 comment, mContext, holder, adapter.submission, adapter));
                                     } else {
-                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                        new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                                                 .setMessage(R.string.err_retry_later)
                                                 .show();
                                     }
@@ -790,7 +790,7 @@ public class CommentAdapterHelper {
         time.setInputType(InputType.TYPE_CLASS_NUMBER);
         l.addView(time);
 
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(l)
                 .setTitle(mContext.getString(R.string.mod_ban_title, submission.getAuthor()))
                 .setCancelable(true)
@@ -799,7 +799,7 @@ public class CommentAdapterHelper {
                             public void onClick(DialogInterface dialog, int which) {
                                 //to ban
                                 if (reason.getText().toString().isEmpty()) {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle(
+                                    new AlertDialog.Builder(mContext).setTitle(
                                             R.string.mod_ban_reason_required)
                                             .setMessage(R.string.misc_please_try_again)
                                             .setPositiveButton(R.string.btn_ok,
@@ -863,7 +863,7 @@ public class CommentAdapterHelper {
                                                         Snackbar.LENGTH_SHORT);
                                             } else {
                                                 if (scope) {
-                                                    new AlertDialogWrapper.Builder(mContext).setTitle(
+                                                    new AlertDialog.Builder(mContext).setTitle(
                                                             R.string.mod_ban_reauth)
                                                             .setMessage(R.string.mod_ban_reauth_question)
                                                             .setPositiveButton(R.string.btn_ok,
@@ -926,7 +926,7 @@ public class CommentAdapterHelper {
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -958,7 +958,7 @@ public class CommentAdapterHelper {
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -990,7 +990,7 @@ public class CommentAdapterHelper {
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1031,7 +1031,7 @@ public class CommentAdapterHelper {
 
             @Override
             public void onPostExecute(ArrayList<String> data) {
-                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_reports)
+                new AlertDialog.Builder(mContext).setTitle(R.string.mod_reports)
                         .setItems(data.toArray(new CharSequence[0]),
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -1060,7 +1060,7 @@ public class CommentAdapterHelper {
                             .show();
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1091,7 +1091,7 @@ public class CommentAdapterHelper {
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1128,7 +1128,7 @@ public class CommentAdapterHelper {
                             CommentAdapterHelper.getScoreString(comment, mContext, holder,
                                     adapter.submission, adapter));
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1210,7 +1210,7 @@ public class CommentAdapterHelper {
                     holder.content.setText(CommentAdapterHelper.getScoreString(comment, mContext, holder,
                             adapter.submission, adapter));
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1244,7 +1244,7 @@ public class CommentAdapterHelper {
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1579,7 +1579,7 @@ public class CommentAdapterHelper {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
-        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
         final EditText e = dialoglayout.findViewById(R.id.entry);
         e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
@@ -1611,7 +1611,7 @@ public class CommentAdapterHelper {
 
     public static void deleteComment(final CommentAdapter adapter, final Context mContext,
             final CommentNode baseNode, final CommentViewHolder holder) {
-        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.comment_delete)
+        new AlertDialog.Builder(mContext).setTitle(R.string.comment_delete)
                 .setMessage(R.string.comment_delete_msg)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
@@ -1661,7 +1661,7 @@ public class CommentAdapterHelper {
                 ((Activity) mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(mContext).setTitle(
+                        new AlertDialog.Builder(mContext).setTitle(
                                 R.string.comment_delete_err)
                                 .setMessage(R.string.comment_delete_err_msg)
                                 .setPositiveButton(R.string.btn_yes,
@@ -1709,7 +1709,7 @@ public class CommentAdapterHelper {
                 holder.firstTextView.setTextHtml(mContext.getString(R.string.content_deleted));
                 holder.content.setText(R.string.content_deleted);
             } else {
-                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.comment_delete_err)
+                new AlertDialog.Builder(mContext).setTitle(R.string.comment_delete_err)
                         .setMessage(R.string.comment_delete_err_msg)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override

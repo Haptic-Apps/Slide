@@ -11,12 +11,11 @@ import android.view.KeyEvent;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Submission;
 
@@ -244,7 +243,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(
+                            new AlertDialog.Builder(CommentsScreenSingle.this).setTitle(
                                     R.string.submission_not_found)
                                     .setMessage(R.string.submission_not_found_msg)
                                     .setPositiveButton(R.string.btn_ok,

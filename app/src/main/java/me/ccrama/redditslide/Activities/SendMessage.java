@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -119,7 +119,7 @@ public class SendMessage extends BaseActivity {
                 oldMSG.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(SendMessage.this);
+                        AlertDialog.Builder b = new AlertDialog.Builder(SendMessage.this);
                         b.setTitle(getString(R.string.mail_author_wrote, name));
                         b.setMessage(previousMessage.getBody());
                         b.create().show();

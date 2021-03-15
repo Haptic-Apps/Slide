@@ -10,7 +10,8 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -52,14 +53,14 @@ public class ImageFlairs {
                 d.dismiss();
                 if (flairStylesheet != null) {
                     flairs.edit().putBoolean(subreddit.toLowerCase(Locale.ENGLISH), true).commit();
-                    d = new AlertDialogWrapper.Builder(context).setTitle("Subreddit flairs synced")
+                    d = new AlertDialog.Builder(context).setTitle("Subreddit flairs synced")
                             .setMessage("Slide found and synced "
                                     + flairStylesheet.count
                                     + " image flairs")
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context).setTitle(
+                    AlertDialog.Builder b = new AlertDialog.Builder(context).setTitle(
                             "Error syncing subreddit flairs")
                             .setMessage("Slide could not find any subreddit flairs to sync from /r/"
                                     + subreddit

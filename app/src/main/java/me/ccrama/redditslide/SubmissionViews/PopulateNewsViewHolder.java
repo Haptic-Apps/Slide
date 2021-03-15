@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.text.HtmlCompat;
@@ -865,8 +866,8 @@ public class PopulateNewsViewHolder {
                         showText.setTextIsSelectable(true);
                         int sixteen = Reddit.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(mContext);
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(mContext);
                         builder.setView(showText)
                                 .setTitle("Select text to copy")
                                 .setCancelable(true)

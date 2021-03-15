@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -1020,8 +1021,8 @@ public class PopulateSubmissionViewHolder {
                         showText.setTextIsSelectable(true);
                         int sixteen = Reddit.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(mContext);
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(mContext);
                         builder.setView(showText)
                                 .setTitle("Select text to copy")
                                 .setCancelable(true)
@@ -1494,7 +1495,7 @@ public class PopulateSubmissionViewHolder {
 
                             @Override
                             public void onPostExecute(ArrayList<String> data) {
-                                new AlertDialogWrapper.Builder(mContext).setTitle(
+                                new AlertDialog.Builder(mContext).setTitle(
                                         R.string.mod_reports)
                                         .setItems(data.toArray(new CharSequence[0]),
                                                 new DialogInterface.OnClickListener() {
@@ -1590,7 +1591,7 @@ public class PopulateSubmissionViewHolder {
                                         LayoutUtils.showSnackbar(s);
 
                                     } else {
-                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                        new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                                                 .setMessage(R.string.err_retry_later)
                                                 .show();
                                     }
@@ -1697,7 +1698,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1755,7 +1756,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1803,7 +1804,7 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(final ArrayList<String> data) {
                 try {
                     if (data.isEmpty()) {
-                        new AlertDialogWrapper.Builder(mContext).setTitle(
+                        new AlertDialog.Builder(mContext).setTitle(
                                 R.string.mod_flair_none_found)
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
@@ -1949,7 +1950,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1982,7 +1983,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2014,7 +2015,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2046,7 +2047,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2078,7 +2079,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2111,7 +2112,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2144,7 +2145,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2178,7 +2179,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2211,7 +2212,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2245,7 +2246,7 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2301,7 +2302,7 @@ public class PopulateSubmissionViewHolder {
                     }
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2353,7 +2354,7 @@ public class PopulateSubmissionViewHolder {
         time.setInputType(InputType.TYPE_CLASS_NUMBER);
         l.addView(time);
 
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(l)
                 .setTitle(mContext.getString(R.string.mod_ban_title, submission.getAuthor()))
                 .setCancelable(true)
@@ -2362,7 +2363,7 @@ public class PopulateSubmissionViewHolder {
                             public void onClick(DialogInterface dialog, int which) {
                                 //to ban
                                 if (reason.getText().toString().isEmpty()) {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle(
+                                    new AlertDialog.Builder(mContext).setTitle(
                                             R.string.mod_ban_reason_required)
                                             .setMessage(R.string.misc_please_try_again)
                                             .setPositiveButton(R.string.btn_ok,
@@ -2426,7 +2427,7 @@ public class PopulateSubmissionViewHolder {
                                                         Snackbar.LENGTH_SHORT);
                                             } else {
                                                 if (scope) {
-                                                    new AlertDialogWrapper.Builder(mContext).setTitle(
+                                                    new AlertDialog.Builder(mContext).setTitle(
                                                             R.string.mod_ban_reauth)
                                                             .setMessage(R.string.mod_ban_reauth_question)
                                                             .setPositiveButton(R.string.btn_ok,
@@ -3044,8 +3045,7 @@ public class PopulateSubmissionViewHolder {
 
                                             final View dialoglayout =
                                                     inflater.inflate(R.layout.edit_comment, null);
-                                            final AlertDialogWrapper.Builder builder =
-                                                    new AlertDialogWrapper.Builder(mContext);
+
 
                                             final EditText e = dialoglayout.findViewById(
                                                     R.id.entry);
@@ -3056,7 +3056,9 @@ public class PopulateSubmissionViewHolder {
                                                     ((AppCompatActivity) mContext).getSupportFragmentManager(),
                                                     mContext, null, null);
 
-                                            builder.setCancelable(false).setView(dialoglayout);
+                                            final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                                                    .setCancelable(false)
+                                                    .setView(dialoglayout);
                                             final Dialog d = builder.create();
                                             d.getWindow()
                                                     .setSoftInputMode(
@@ -3096,7 +3098,7 @@ public class PopulateSubmissionViewHolder {
                                                                                 new Runnable() {
                                                                                     @Override
                                                                                     public void run() {
-                                                                                        new AlertDialogWrapper.Builder(
+                                                                                        new AlertDialog.Builder(
                                                                                                 mContext)
                                                                                                 .setTitle(
                                                                                                         R.string.comment_delete_err)
@@ -3145,7 +3147,7 @@ public class PopulateSubmissionViewHolder {
                                         }
                                         break;
                                         case 2: {
-                                            new AlertDialogWrapper.Builder(mContext).setTitle(
+                                            new AlertDialog.Builder(mContext).setTitle(
                                                     R.string.really_delete_submission)
                                                     .setPositiveButton(R.string.btn_yes,
                                                             new DialogInterface.OnClickListener() {

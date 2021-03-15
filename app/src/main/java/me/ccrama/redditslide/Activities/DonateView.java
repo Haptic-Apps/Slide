@@ -7,10 +7,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.Authentication;
@@ -104,9 +104,9 @@ public class DonateView extends BaseActivityAnim {
                                             public void onIabPurchaseFinished(IabResult result,
                                                     Purchase info) {
                                                 if(result.isSuccess()){
-                                                    new AlertDialogWrapper.Builder(DonateView.this).setTitle("Thank you!").setMessage("Thank you very much for your support :)").setPositiveButton(R.string.btn_done, null).show();
+                                                    new AlertDialog.Builder(DonateView.this).setTitle("Thank you!").setMessage("Thank you very much for your support :)").setPositiveButton(R.string.btn_done, null).show();
                                                 } else {
-                                                    new AlertDialogWrapper.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
+                                                    new AlertDialog.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
                                                 }
                                             }
                                         });
@@ -114,7 +114,7 @@ public class DonateView extends BaseActivityAnim {
                                 LogUtil.v("Null");
                             }
                         } else {
-                            new AlertDialogWrapper.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
+                            new AlertDialog.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
                         }
                     }
                 });

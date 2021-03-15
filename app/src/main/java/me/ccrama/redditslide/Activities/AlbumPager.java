@@ -31,13 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -207,7 +207,7 @@ public class AlbumPager extends FullScreenActivity
                 @Override
                 public void run() {
                     try {
-                        new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(
+                        new AlertDialog.Builder(AlbumPager.this).setTitle(
                                 R.string.error_album_not_found)
                                 .setMessage(R.string.error_album_not_found_text)
                                 .setNegativeButton(R.string.btn_no,
@@ -258,7 +258,7 @@ public class AlbumPager extends FullScreenActivity
                 public void onClick(View v) {
                     LayoutInflater l = getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(AlbumPager.this);
+                    AlertDialog.Builder b = new AlertDialog.Builder(AlbumPager.this);
                     GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, images));
 
@@ -742,7 +742,7 @@ public class AlbumPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(R.string.set_save_location)
+                new AlertDialog.Builder(AlbumPager.this).setTitle(R.string.set_save_location)
                         .setMessage(R.string.set_save_location_msg)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
@@ -765,7 +765,7 @@ public class AlbumPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(
+                new AlertDialog.Builder(AlbumPager.this).setTitle(
                         R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {

@@ -28,13 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -194,7 +194,7 @@ public class Profile extends BaseActivityAnim {
     private void doClick() {
         if (account == null) {
             try {
-                new AlertDialogWrapper.Builder(Profile.this)
+                new AlertDialog.Builder(Profile.this)
                         .setTitle(R.string.profile_err_title)
                         .setCancelable(false)
                         .setMessage(R.string.profile_err_msg)
@@ -215,7 +215,7 @@ public class Profile extends BaseActivityAnim {
         if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()
                 && !name.equalsIgnoreCase(Authentication.name)) {
             try {
-                new AlertDialogWrapper.Builder(Profile.this)
+                new AlertDialog.Builder(Profile.this)
                         .setTitle(R.string.account_suspended)
                         .setCancelable(false)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
@@ -531,7 +531,7 @@ public class Profile extends BaseActivityAnim {
                 if (account != null && trophyCase != null) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(name);
 

@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -489,7 +490,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 }
                             }
                         }
-                        new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                        new AlertDialog.Builder(getActivity()).setTitle(
                                 R.string.set_nav_mode).setSingleChoiceItems(Reddit.stringToArray(
 
                                 "Parent comment ("
@@ -537,8 +538,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                 final View dialoglayout =
                                                         inflater.inflate(R.layout.commenttime,
                                                                 null);
-                                                final AlertDialogWrapper.Builder builder =
-                                                        new AlertDialogWrapper.Builder(
+                                                final AlertDialog.Builder builder =
+                                                        new AlertDialog.Builder(
                                                                 getActivity());
                                                 final Slider landscape =
                                                         dialoglayout.findViewById(R.id.landscape);
@@ -720,7 +721,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
         doTopBar();
 
         if (Authentication.didOnline && !NetworkUtil.isConnectedNoOverride(getActivity())) {
-            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.err_title)
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.err_title)
                     .setMessage(R.string.err_connection_failed_msg)
                     .setNegativeButton(R.string.btn_close, new DialogInterface.OnClickListener() {
                         @Override
@@ -765,7 +766,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                 return true;
             case R.id.related:
                 if (adapter.submission.isSelfPost()) {
-                    new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                    new AlertDialog.Builder(getActivity()).setTitle(
                             "Selftext posts have no related submissions")
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
@@ -832,8 +833,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         }
                     }
                 } else {
-                    AlertDialogWrapper.Builder b =
-                            new AlertDialogWrapper.Builder(getContext()).setTitle(
+                    AlertDialog.Builder b =
+                            new AlertDialog.Builder(getContext()).setTitle(
                                     R.string.general_shadowbox_comments_ispro)
                                     .setMessage(R.string.pro_upgrade_msg)
                                     .setPositiveButton(R.string.btn_yes_exclaim,
@@ -959,8 +960,8 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                     final View dialoglayout =
                                             inflater.inflate(R.layout.parent_comment_dialog,
                                                     null);
-                                    final AlertDialogWrapper.Builder builder =
-                                            new AlertDialogWrapper.Builder(getActivity());
+                                    final AlertDialog.Builder builder =
+                                            new AlertDialog.Builder(getActivity());
                                     adapter.setViews(adapter.submission.getDataNode()
                                                     .get("selftext_html")
                                                     .asText(),
@@ -1405,7 +1406,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             subscribe.setOnClickListener(new View.OnClickListener() {
                                 private void doSubscribe() {
                                     if (Authentication.isLoggedIn) {
-                                        new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                                        new AlertDialog.Builder(getActivity()).setTitle(
                                                 getString(R.string.subscribe_to,
                                                         baseSub.getDisplayName()))
                                                 .setPositiveButton(R.string.reorder_add_subscribe,
@@ -1420,7 +1421,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                             Boolean success) {
                                                                         if (!success) { // If subreddit was removed from account or not
 
-                                                                            new AlertDialogWrapper.Builder(
+                                                                            new AlertDialog.Builder(
                                                                                     getActivity()).setTitle(
                                                                                     R.string.force_change_subscription)
                                                                                     .setMessage(
@@ -1515,7 +1516,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
                                 private void doUnsubscribe() {
                                     if (Authentication.didOnline) {
-                                        new AlertDialogWrapper.Builder(getContext()).setTitle(
+                                        new AlertDialog.Builder(getContext()).setTitle(
                                                 getString(R.string.unsubscribe_from,
                                                         baseSub.getDisplayName()))
                                                 .setPositiveButton(
@@ -1531,7 +1532,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                             Boolean success) {
                                                                         if (!success) { // If subreddit was removed from account or not
 
-                                                                            new AlertDialogWrapper.Builder(
+                                                                            new AlertDialog.Builder(
                                                                                     getContext()).setTitle(
                                                                                     R.string.force_change_subscription)
                                                                                     .setMessage(
@@ -1658,7 +1659,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         sidebar.findViewById(R.id.active_users).setVisibility(View.VISIBLE);
                     }
 
-                    new AlertDialogWrapper.Builder(getContext()).setPositiveButton(
+                    new AlertDialog.Builder(getContext()).setPositiveButton(
                             R.string.btn_close, null).setView(sidebar).show();
                 } catch (NullPointerException e) { //activity has been killed
                 }
@@ -2106,7 +2107,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                     .toString()
                     .isEmpty()) {
                 final int finalToGoto = toGoto;
-                new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                new AlertDialog.Builder(getActivity()).setTitle(
                         R.string.discard_comment_title)
                         .setMessage(R.string.comment_discard_msg)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -2215,7 +2216,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                     .toString()
                     .isEmpty()) {
                 final int finalToGoto = toGoto;
-                new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                new AlertDialog.Builder(getActivity()).setTitle(
                         R.string.discard_comment_title)
                         .setMessage(R.string.comment_discard_msg)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {

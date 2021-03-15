@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.LoggingMode;
@@ -195,7 +195,7 @@ public class Authentication {
                                     public void run() {
                                         try {
 
-                                            new AlertDialogWrapper.Builder(context).setTitle(
+                                            new AlertDialog.Builder(context).setTitle(
                                                     R.string.err_general)
                                                     .setMessage(R.string.err_no_connection)
                                                     .setPositiveButton(R.string.btn_yes,

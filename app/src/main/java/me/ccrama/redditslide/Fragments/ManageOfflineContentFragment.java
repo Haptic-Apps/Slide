@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -89,7 +90,7 @@ public class ManageOfflineContentFragment {
             public void onClick(View v) {
                 final String commentDepth = SettingValues.prefs.getString(
                         SettingValues.COMMENT_DEPTH, "2");
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(R.string.comments_depth);
                 builder.setSingleChoiceItems(
                         commentDepths.toArray(commentDepthArray), commentDepths.indexOf(commentDepth), new DialogInterface.OnClickListener() {
@@ -111,7 +112,7 @@ public class ManageOfflineContentFragment {
             @Override
             public void onClick(View v) {
                 final String commentCount = SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "2");
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(R.string.comments_count);
                 builder.setSingleChoiceItems(
                         commentCounts.toArray(commentCountArray), commentCounts.indexOf(commentCount), new DialogInterface.OnClickListener() {

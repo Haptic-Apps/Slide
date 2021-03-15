@@ -13,11 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -119,7 +119,7 @@ public class Search extends BaseActivityAnim {
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Search.this);
         builder.setTitle(R.string.sorting_time_choose);
         builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
                 SortingUtil.getSortingSearchId(this), l2);
@@ -154,7 +154,7 @@ public class Search extends BaseActivityAnim {
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Search.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(SortingUtil.getSearch(), SortingUtil.getSearchType(), l2);
         builder.show();

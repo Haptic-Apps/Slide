@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
@@ -61,7 +60,7 @@ public class Related extends BaseActivityAnim {
             url = intent.getStringExtra(EXTRA_URL);
         }
         if(url == null || url.isEmpty()){
-            new AlertDialogWrapper.Builder(this).setTitle("URL is empty")
+            new AlertDialog.Builder(this).setTitle("URL is empty")
                     .setMessage("Try again with a different link!")
                     .setCancelable(false)
                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {

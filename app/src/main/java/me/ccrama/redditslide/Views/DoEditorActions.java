@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -89,7 +90,7 @@ public class DoEditorActions {
                             String author =  "/u/" + authors[0];
                             insertBefore(author, editText);
                         } else {
-                            new AlertDialogWrapper.Builder(a).setTitle(R.string.authors_above)
+                            new AlertDialog.Builder(a).setTitle(R.string.authors_above)
                                     .setItems(authors, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -182,12 +183,12 @@ public class DoEditorActions {
                     draftText[i] = drafts.get(i);
                 }
                 if (drafts.isEmpty()) {
-                    new AlertDialogWrapper.Builder(a).setTitle(R.string.dialog_no_drafts)
+                    new AlertDialog.Builder(a).setTitle(R.string.dialog_no_drafts)
                             .setMessage(R.string.dialog_no_drafts_msg)
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 } else {
-                    new AlertDialogWrapper.Builder(a).setTitle(R.string.choose_draft)
+                    new AlertDialog.Builder(a).setTitle(R.string.choose_draft)
                             .setItems(draftText, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -211,7 +212,7 @@ public class DoEditorActions {
                                                                 public void onClick(
                                                                         DialogInterface dialog,
                                                                         int which) {
-                                                                    new AlertDialogWrapper.Builder(
+                                                                    new AlertDialog.Builder(
                                                                             a).setTitle(
                                                                             R.string.really_delete_drafts)
                                                                             .setCancelable(false)
@@ -296,7 +297,7 @@ public class DoEditorActions {
                 if (SettingValues.isPro) {
                     doDraw(a, editText, fm);
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(a).setTitle(
+                    AlertDialog.Builder b = new AlertDialog.Builder(a).setTitle(
                             R.string.general_cropdraw_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -438,7 +439,7 @@ public class DoEditorActions {
                 String html = renderer.render(document);
                 LayoutInflater inflater = a.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
-                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(a);
                 setViews(html, "NO sub",
                         dialoglayout.findViewById(R.id.firstTextView),
                         dialoglayout.findViewById(R.id.commentOverflow));
@@ -758,7 +759,7 @@ public class DoEditorActions {
                         .show();
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c).setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             @Override
@@ -837,7 +838,7 @@ public class DoEditorActions {
                         .show();
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c).setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             @Override

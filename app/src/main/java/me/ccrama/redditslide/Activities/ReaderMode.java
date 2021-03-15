@@ -8,10 +8,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.wuman.jreadability.Readability;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -126,7 +126,7 @@ public class ReaderMode extends BaseActivityAnim {
             if (articleText != null) {
                 display(title, articleText);
             } else {
-                new AlertDialogWrapper.Builder(ReaderMode.this).setTitle(
+                new AlertDialog.Builder(ReaderMode.this).setTitle(
                         R.string.internal_browser_extracting_error)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             @Override

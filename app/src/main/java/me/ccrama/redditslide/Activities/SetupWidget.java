@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
@@ -126,7 +126,7 @@ public class SetupWidget extends BaseActivity {
                 SubredditWidgetProvider.setViewType(appWidgetId, view, SetupWidget.this);
                 SubredditWidgetProvider.setSorting(appWidgetId, i, SetupWidget.this);
                 if (i == 3 || i == 4) {
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SetupWidget.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
                             SortingUtil.getSortingTimeId(""),
@@ -167,7 +167,7 @@ public class SetupWidget extends BaseActivity {
 
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SetupWidget.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(SortingUtil.getSortingStrings(), SortingUtil.getSortingId(""),
                 l2);

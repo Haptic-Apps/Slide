@@ -29,12 +29,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.google.android.material.snackbar.Snackbar;
@@ -419,7 +419,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
-        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
         final EditText e = dialoglayout.findViewById(R.id.entry);
 

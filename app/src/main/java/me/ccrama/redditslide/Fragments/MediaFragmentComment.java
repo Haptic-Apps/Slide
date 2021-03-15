@@ -17,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -260,7 +260,7 @@ public class MediaFragmentComment extends Fragment {
                                             @Override
                                             public boolean onLongClick(View v) {
                                                 try {
-                                                    new AlertDialogWrapper.Builder(
+                                                    new AlertDialog.Builder(
                                                             getContext()).setTitle(
                                                             result.get("safe_title").getAsString())
                                                             .setMessage(

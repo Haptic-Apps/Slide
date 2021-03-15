@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.view.MarginLayoutParamsCompat;
 import androidx.fragment.app.Fragment;
@@ -24,7 +25,6 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.itemanimators.AlphaInAnimator;
@@ -167,7 +167,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                     @Override
                     public void onClick(View v) {
                         if (!Reddit.fabClear) {
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                            new AlertDialog.Builder(getActivity()).setTitle(
                                     R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
                                     .setPositiveButton(R.string.btn_ok,
@@ -214,7 +214,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                     public void run() {
                         fab.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         if (!Reddit.fabClear) {
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                            new AlertDialog.Builder(getActivity()).setTitle(
                                     R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
                                     .setPositiveButton(R.string.btn_ok,

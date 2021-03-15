@@ -28,9 +28,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.base.Strings;
 
 import java.io.File;
@@ -331,7 +331,7 @@ public class Settings extends BaseActivity
             pro.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
-                    new AlertDialogWrapper.Builder(Settings.this).setTitle(
+                    new AlertDialog.Builder(Settings.this).setTitle(
                             R.string.settings_support_slide)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -506,8 +506,8 @@ public class Settings extends BaseActivity
                 if (SettingValues.isPro) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
-                    final AlertDialogWrapper.Builder builder =
-                            new AlertDialogWrapper.Builder(Settings.this);
+                    final AlertDialog.Builder builder =
+                            new AlertDialog.Builder(Settings.this);
                     final Resources res = getResources();
 
                     dialoglayout.findViewById(R.id.title)
@@ -588,7 +588,7 @@ public class Settings extends BaseActivity
                         }
                     });
                 } else {
-                    new AlertDialogWrapper.Builder(Settings.this).setTitle(
+                    new AlertDialog.Builder(Settings.this).setTitle(
                             "Mutli-Column Settings are a Pro feature")
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,

@@ -72,6 +72,7 @@ import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.PopupMenu;
@@ -349,8 +350,8 @@ public class MainActivity extends BaseActivity
             pager.setCurrentItem(0);
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
-            final AlertDialogWrapper.Builder builder =
-                    new AlertDialogWrapper.Builder(MainActivity.this);
+            final AlertDialog.Builder builder =
+                    new AlertDialog.Builder(MainActivity.this);
             builder.setTitle(R.string.general_confirm_exit);
             builder.setMessage(R.string.general_confirm_exit_msg);
             builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -427,7 +428,7 @@ public class MainActivity extends BaseActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                        new AlertDialog.Builder(MainActivity.this).setTitle(
                                 R.string.err_permission)
                                 .setMessage(R.string.err_permission_msg)
                                 .setPositiveButton(R.string.btn_yes,
@@ -616,8 +617,8 @@ public class MainActivity extends BaseActivity
             case R.id.night: {
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                AlertDialogWrapper.Builder builder =
-                        new AlertDialogWrapper.Builder(MainActivity.this);
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(MainActivity.this);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -763,7 +764,7 @@ public class MainActivity extends BaseActivity
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                    AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle(
                             R.string.general_gallerymode_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -839,7 +840,7 @@ public class MainActivity extends BaseActivity
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                    AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle(
                             R.string.general_shadowbox_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -942,7 +943,7 @@ public class MainActivity extends BaseActivity
         }
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("firstStart53")) {
-            new AlertDialogWrapper.Builder(this).setTitle("Content settings have moved!")
+            new AlertDialog.Builder(this).setTitle("Content settings have moved!")
                     .setMessage("NSFW content is now disabled by default. If you are over the age of 18, to re-enable NSFW content, visit Settings > Content settings")
                     .setPositiveButton(R.string.btn_ok, null).setCancelable(false).show();
             Reddit.colors.edit().putBoolean("firstStart53", true).apply();
@@ -1640,7 +1641,7 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onClick(View v) {
 
-                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.profile_remove)
+                        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.profile_remove)
                                 .setMessage(R.string.profile_remove_account)
                                 .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
                                     @Override
@@ -1856,7 +1857,7 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onClick(View v) {
 
-                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.profile_remove)
+                        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.profile_remove)
                                 .setMessage(R.string.profile_remove_account)
                                 .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
                                     @Override
@@ -2111,7 +2112,7 @@ public class MainActivity extends BaseActivity
                 header.findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View view) {
-                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.settings_support_slide)
+                        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.settings_support_slide)
                                 .setMessage(R.string.pro_upgrade_msg)
                                 .setPositiveButton(R.string.btn_yes_exclaim, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -2522,7 +2523,7 @@ public class MainActivity extends BaseActivity
                                         && !sub.contains("+")
                                         && !sub.contains(".")
                                         && !sub.contains("/m/")) {
-                                    new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                                    new AlertDialog.Builder(MainActivity.this).setTitle(
                                             getString(R.string.sub_post_notifs_title, sub))
                                             .setMessage(R.string.sub_post_notifs_msg)
                                             .setPositiveButton(R.string.btn_ok,
@@ -2613,7 +2614,7 @@ public class MainActivity extends BaseActivity
             subscribe.setOnClickListener(new View.OnClickListener() {
                 private void doSubscribe() {
                     if (Authentication.isLoggedIn) {
-                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                        new AlertDialog.Builder(MainActivity.this).setTitle(
                                 getString(R.string.subscribe_to, subreddit.getDisplayName()))
                                 .setPositiveButton(R.string.reorder_add_subscribe,
                                         new DialogInterface.OnClickListener() {
@@ -2624,7 +2625,7 @@ public class MainActivity extends BaseActivity
                                                     public void onPostExecute(Boolean success) {
                                                         if (!success) { // If subreddit was removed from account or not
 
-                                                            new AlertDialogWrapper.Builder(
+                                                            new AlertDialog.Builder(
                                                                     MainActivity.this).setTitle(
                                                                     R.string.force_change_subscription)
                                                                     .setMessage(
@@ -2703,7 +2704,7 @@ public class MainActivity extends BaseActivity
 
                 private void doUnsubscribe() {
                     if (Authentication.didOnline) {
-                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                        new AlertDialog.Builder(MainActivity.this).setTitle(
                                 getString(R.string.unsubscribe_from, subreddit.getDisplayName()))
                                 .setPositiveButton(R.string.reorder_remove_unsubscribe,
                                         new DialogInterface.OnClickListener() {
@@ -2714,7 +2715,7 @@ public class MainActivity extends BaseActivity
                                                     public void onPostExecute(Boolean success) {
                                                         if (!success) { // If subreddit was removed from account or not
 
-                                                            new AlertDialogWrapper.Builder(
+                                                            new AlertDialog.Builder(
                                                                     MainActivity.this).setTitle(
                                                                     R.string.force_change_subscription)
                                                                     .setMessage(
@@ -2966,8 +2967,8 @@ public class MainActivity extends BaseActivity
                                     reloadSubs();
                                 }
                             };
-                    AlertDialogWrapper.Builder builder =
-                            new AlertDialogWrapper.Builder(MainActivity.this);
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
                             sortid, l2);
@@ -3349,7 +3350,7 @@ public class MainActivity extends BaseActivity
                 reloadSubs();
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
                 SortingUtil.getSortingTimeId(""), l2);
@@ -3781,7 +3782,7 @@ public class MainActivity extends BaseActivity
 
     public void saveOffline(final List<Submission> submissions, final String subreddit) {
         final boolean[] chosen = new boolean[2];
-        new AlertDialogWrapper.Builder(this).setTitle(R.string.save_for_offline_viewing)
+        new AlertDialog.Builder(this).setTitle(R.string.save_for_offline_viewing)
                 .setMultiChoiceItems(new String[]{getString(R.string.type_gifs)},
                         new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override

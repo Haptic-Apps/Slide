@@ -21,12 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.text.HtmlCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -139,7 +139,7 @@ public class LiveThread extends BaseActivityAnim {
             @Override
             public void onPostExecute(Void aVoid) {
                 if(thread == null){
-                    new AlertDialogWrapper.Builder(LiveThread.this)
+                    new AlertDialog.Builder(LiveThread.this)
                             .setTitle(R.string.livethread_not_found)
                             .setMessage(R.string.misc_please_try_again_soon)
                             .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {

@@ -25,10 +25,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.google.android.material.snackbar.Snackbar;
@@ -154,7 +154,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 

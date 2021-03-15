@@ -17,8 +17,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -136,7 +136,7 @@ public class Login extends BaseActivityAnim {
         }
         subNames = UserSubscriptions.sort(subNames);
         if (!subNames.contains("slideforreddit")) {
-            new AlertDialogWrapper.Builder(Login.this).setTitle(
+            new AlertDialog.Builder(Login.this).setTitle(
                     R.string.login_subscribe_rslideforreddit)
                     .setMessage(R.string.login_subscribe_rslideforreddit_desc)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -166,7 +166,7 @@ public class Login extends BaseActivityAnim {
     public void doLastStuff(final ArrayList<Subreddit> subs) {
 
         d.dismiss();
-        new AlertDialogWrapper.Builder(Login.this).setTitle(R.string.login_sync_colors)
+        new AlertDialog.Builder(Login.this).setTitle(R.string.login_sync_colors)
                 .setMessage(R.string.login_sync_colors_desc)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override

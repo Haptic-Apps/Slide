@@ -10,7 +10,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -189,7 +190,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 progress.setProgress(progress.getCurrentProgress() + 1);
                                 if (progress.getCurrentProgress() == progress.getMaxProgress()) {
 
-                                    new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                             R.string.backup_success)
                                             .setPositiveButton(R.string.btn_close,
                                                     new DialogInterface.OnClickListener() {
@@ -223,7 +224,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                     if (progress.getCurrentProgress() == progress.getMaxProgress()) {
 
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                 R.string.backup_success)
                                 .setPositiveButton(R.string.btn_close,
                                         new DialogInterface.OnClickListener() {
@@ -303,7 +304,7 @@ public class SettingsBackup extends BaseActivityAnim
                             }
 
                         }
-                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                        new AlertDialog.Builder(SettingsBackup.this)
                                 .setCancelable(false)
                                 .setTitle(R.string.backup_restore_settings)
                                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -333,7 +334,7 @@ public class SettingsBackup extends BaseActivityAnim
 
                     } else {
                         progress.hide();
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                 getString(R.string.err_not_valid_backup))
                                 .setMessage(getString(
                                         R.string.err_not_valid_backup_msg))
@@ -344,7 +345,7 @@ public class SettingsBackup extends BaseActivityAnim
                 } catch (Exception e) {
                     progress.hide();
                     e.printStackTrace();
-                    new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
                             getString(R.string.err_file_not_found))
                             .setMessage(getString(
                                     R.string.err_file_not_found_msg))
@@ -354,7 +355,7 @@ public class SettingsBackup extends BaseActivityAnim
                 }
             } else {
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                new AlertDialog.Builder(SettingsBackup.this).setTitle(
                         getString(R.string.err_file_not_found))
                         .setMessage(
                                 getString(R.string.err_file_not_found_msg))
@@ -390,7 +391,7 @@ public class SettingsBackup extends BaseActivityAnim
                 @Override
                 public void onClick(View v) {
                     if (mGoogleApiClient.isConnected()) {
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                 R.string.general_confirm)
                                 .setMessage(R.string.backup_confirm)
                                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -424,7 +425,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setCancelable(false)
                                 .show();
                     } else {
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                 R.string.settings_google)
                                 .setMessage(R.string.settings_google_msg)
                                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -450,7 +451,7 @@ public class SettingsBackup extends BaseActivityAnim
                 @Override
                 public void onClick(View v) {
                     if (mGoogleApiClient.isConnected()) {
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                 R.string.general_confirm)
                                 .setMessage(R.string.backup_restore_confirm)
                                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -476,7 +477,7 @@ public class SettingsBackup extends BaseActivityAnim
                                 .setCancelable(false)
                                 .show();
                     } else {
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
                                 R.string.settings_google)
                                 .setMessage(R.string.settings_google_msg)
                                 //avoid that the dialog can be closed
@@ -501,7 +502,7 @@ public class SettingsBackup extends BaseActivityAnim
             findViewById(R.id.backfile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
                             getString(me.ccrama.redditslide.R.string.include_personal_info))
                             .setMessage(getString(
                                     me.ccrama.redditslide.R.string.include_personal_info_msg))
@@ -538,7 +539,7 @@ public class SettingsBackup extends BaseActivityAnim
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_backup_ispro)
+            new AlertDialog.Builder(this).setTitle(R.string.general_backup_ispro)
                     .setMessage(R.string.pro_upgrade_msg)
                     //avoid that the dialog can be closed
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -655,7 +656,7 @@ public class SettingsBackup extends BaseActivityAnim
             @Override
             protected void onPostExecute(Void aVoid) {
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                new AlertDialog.Builder(SettingsBackup.this).setTitle(
                         getString(me.ccrama.redditslide.R.string.backup_complete))
                         .setMessage(
                                 getString(me.ccrama.redditslide.R.string.backup_saved_downloads))
@@ -786,7 +787,7 @@ public class SettingsBackup extends BaseActivityAnim
                 progress.dismiss();
 
 
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                new AlertDialog.Builder(SettingsBackup.this).setTitle(
                         R.string.backup_restore_settings)
                         .setMessage(R.string.backup_restarting)
                         .setOnDismissListener(new DialogInterface.OnDismissListener() {

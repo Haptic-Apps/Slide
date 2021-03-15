@@ -17,13 +17,12 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -133,7 +132,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
     public void showFirstDialog() {
         try {
-            new AlertDialogWrapper.Builder(this).setTitle(R.string.set_save_location)
+            new AlertDialog.Builder(this).setTitle(R.string.set_save_location)
                     .setMessage(R.string.set_save_location_msg)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -153,7 +152,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     }
 
     public void showErrorDialog() {
-        new AlertDialogWrapper.Builder(Album.this).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(Album.this).setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
@@ -328,7 +327,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                         @Override
                         public void run() {
                             try {
-                                new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                                new AlertDialog.Builder(getActivity()).setTitle(
                                         R.string.error_album_not_found)
                                         .setMessage(R.string.error_album_not_found_text)
                                         .setNegativeButton(R.string.btn_no,

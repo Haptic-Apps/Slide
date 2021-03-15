@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
@@ -70,7 +71,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
     }
 
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
-        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final Slider landscape = dialoglayout.findViewById(R.id.landscape);
         final CheckBox checkBox = dialoglayout.findViewById(R.id.load);
         final CheckBox sound = dialoglayout.findViewById(R.id.sound);
@@ -691,8 +692,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     }
                                 };
 
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(SettingsGeneralFragment.this.context);
                         builder.setTitle(R.string.sorting_choose);
 
                         // Remove the "Best" sorting option from settings because it is only supported on the frontpage.
@@ -774,8 +775,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     }
                                 };
 
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(SettingsGeneralFragment.this.context);
                         builder.setTitle(R.string.sorting_choose);
                         Resources res = context.getBaseContext().getResources();
                         builder.setSingleChoiceItems(new String[]{
@@ -875,7 +876,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                 "")]);
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsGeneralFragment.this.context);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
                 SortingUtil.getSortingTimeId(""), l2);
@@ -1106,7 +1107,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     @Override
                     public void run() {
                         try {
-                            new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context).setTitle(
+                            new AlertDialog.Builder(SettingsGeneralFragment.this.context).setTitle(
                                     R.string.subreddit_err)
                                     .setMessage(context.getString(R.string.subreddit_err_msg, params[0]))
                                     .setPositiveButton(R.string.btn_ok,

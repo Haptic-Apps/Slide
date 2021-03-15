@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -33,7 +34,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.tabs.TabLayout;
@@ -232,7 +232,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                    AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle(
                             R.string.general_gallerymode_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -301,7 +301,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                         startActivity(i);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                    AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle(
                             R.string.general_shadowbox_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -373,8 +373,8 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     private void buildDialog(boolean wasException) {
         try {
-            AlertDialogWrapper.Builder b =
-                    new AlertDialogWrapper.Builder(MultiredditOverview.this).setCancelable(false)
+            AlertDialog.Builder b =
+                    new AlertDialog.Builder(MultiredditOverview.this).setCancelable(false)
                             .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialog) {
