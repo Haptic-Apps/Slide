@@ -402,7 +402,7 @@ public class NewsActivity extends BaseActivity
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -456,10 +456,6 @@ public class NewsActivity extends BaseActivity
                             p.doNewsActivityOffline(NewsActivity.this, p.displayer);
                         }
                     }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
 

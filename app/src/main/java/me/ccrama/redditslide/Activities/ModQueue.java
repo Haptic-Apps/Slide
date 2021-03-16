@@ -43,23 +43,13 @@ public class ModQueue extends BaseActivityAnim {
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(ModQueue.this).getColor("no sub"));
         final View header = findViewById(R.id.header);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 header.animate()
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());

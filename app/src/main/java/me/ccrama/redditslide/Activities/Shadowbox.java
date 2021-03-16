@@ -80,23 +80,13 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         submissionsPager = new ShadowboxPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);
         pager.setCurrentItem(firstPage);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 if (SettingValues.storeHistory) {
                     if (subredditPosts.getPosts().get(position).isNsfw() && !SettingValues.storeNSFWHistory) {
                     } else HasSeen.addSeen(subredditPosts.getPosts().get(position).getFullName());
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
 

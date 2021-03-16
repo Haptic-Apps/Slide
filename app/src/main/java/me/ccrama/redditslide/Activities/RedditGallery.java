@@ -202,7 +202,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         album = new RedditGalleryPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
                                                   int positionOffsetPixels) {
@@ -219,15 +219,6 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
                                                   ((RedditGalleryPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
-                                          }
-
-                                          @Override
-                                          public void onPageSelected(int position) {
-                                          }
-
-                                          @Override
-                                          public void onPageScrollStateChanged(int state) {
-
                                           }
                                       }
 

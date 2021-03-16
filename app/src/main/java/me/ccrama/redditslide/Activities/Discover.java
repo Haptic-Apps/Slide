@@ -95,23 +95,13 @@ public class Discover extends BaseActivityAnim {
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         pager.setAdapter(new DiscoverPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 findViewById(R.id.header).animate()
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

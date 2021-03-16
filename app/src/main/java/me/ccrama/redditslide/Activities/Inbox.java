@@ -199,13 +199,7 @@ public class Inbox extends BaseActivityAnim {
 
         tabs.setupWithViewPager(pager);
 
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                    int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 findViewById(R.id.header).animate()
@@ -217,11 +211,6 @@ public class Inbox extends BaseActivityAnim {
                 } else if (findViewById(R.id.read) != null) {
                     findViewById(R.id.read).setVisibility(View.VISIBLE);
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
 

@@ -174,7 +174,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         pager.setAdapter(comments);
         pager.setBackgroundColor(Color.TRANSPARENT);
         pager.setCurrentItem(1);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset,
                     int positionOffsetPixels) {
@@ -186,11 +186,6 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     ((CommentsScreenSinglePagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
                     pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
                 }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
             }
 
             @Override

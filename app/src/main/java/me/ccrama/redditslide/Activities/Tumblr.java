@@ -198,7 +198,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         if(getIntent().hasExtra(SUBREDDIT)){
             subreddit = getIntent().getStringExtra(SUBREDDIT);
         }
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
                                                   int positionOffsetPixels) {
@@ -214,15 +214,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                                                   ((TumblrPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
-                                          }
-
-                                          @Override
-                                          public void onPageSelected(int position) {
-                                          }
-
-                                          @Override
-                                          public void onPageScrollStateChanged(int state) {
-
                                           }
                                       }
 

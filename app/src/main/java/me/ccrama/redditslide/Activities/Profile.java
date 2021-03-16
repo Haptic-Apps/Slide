@@ -143,12 +143,7 @@ public class Profile extends BaseActivityAnim {
 
         new getProfile().execute(name);
 
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 isSavedView = position == 6;
@@ -162,11 +157,6 @@ public class Profile extends BaseActivityAnim {
                 if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
                     categoryItem.setVisible(position == 6);
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
 

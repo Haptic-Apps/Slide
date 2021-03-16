@@ -4785,7 +4785,7 @@ public class MainActivity extends BaseActivity
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -4867,10 +4867,6 @@ public class MainActivity extends BaseActivity
                             p.doMainActivityOffline(MainActivity.this, p.displayer);
                         }
                     }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
 
@@ -4968,7 +4964,7 @@ public class MainActivity extends BaseActivity
         public MainPagerAdapterComment(FragmentManager fm) {
             super(fm);
             pager.clearOnPageChangeListeners();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -5026,10 +5022,6 @@ public class MainActivity extends BaseActivity
                             }
                         }
                     }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
             notifyDataSetChanged();

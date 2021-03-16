@@ -202,7 +202,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
             pager.setCurrentItem(firstPage + 1);
 
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                                               @Override
                                               public void onPageScrolled(int position, float positionOffset,
                                                       int positionOffsetPixels) {
@@ -241,11 +241,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                                       intent.putExtras(conData);
                                                       setResult(RESULT_OK, intent);
                                                   }
-                                              }
-
-                                              @Override
-                                              public void onPageScrollStateChanged(int state) {
-
                                               }
                                           }
 

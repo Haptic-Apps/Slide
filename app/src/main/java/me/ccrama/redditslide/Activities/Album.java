@@ -208,7 +208,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         album = new AlbumPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
                                                                      int positionOffsetPixels) {
@@ -225,15 +225,6 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                                   ((AlbumPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
-                                          }
-
-                                          @Override
-                                          public void onPageSelected(int position) {
-                                          }
-
-                                          @Override
-                                          public void onPageScrollStateChanged(int state) {
-
                                           }
                                       }
 

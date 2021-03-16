@@ -733,12 +733,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         MultiredditOverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
-                }
-
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     findViewById(R.id.header).animate()
@@ -756,10 +751,6 @@ public class MultiredditOverview extends BaseActivityAnim {
                             new ColorPreferences(MultiredditOverview.this).getColor(
                                     usedArray.get(position).getDisplayName()));
                     doDrawerSubs(position);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
         }

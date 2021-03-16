@@ -1802,7 +1802,7 @@ public class SubredditView extends BaseActivity {
         public SubredditPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             pager.clearOnPageChangeListeners();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -1823,14 +1823,6 @@ public class SubredditView extends BaseActivity {
                                 positionOffset);
                         pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
                     }
-                }
-
-                @Override
-                public void onPageSelected(final int position) {
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
             if (pager.getAdapter() != null) {
@@ -1896,7 +1888,7 @@ public class SubredditView extends BaseActivity {
         public SubredditPagerAdapterComment(FragmentManager fm) {
             super(fm);
             pager.clearOnPageChangeListeners();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -1934,14 +1926,6 @@ public class SubredditView extends BaseActivity {
                             setRecentBar(openingComments.getSubredditName().toLowerCase(Locale.ENGLISH));
                         }
                     }
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
             if (pager.getAdapter() != null) {

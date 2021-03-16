@@ -239,7 +239,7 @@ public class TumblrPager extends FullScreenActivity
                     d.show();
                 }
             });
-            p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            p.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -251,15 +251,6 @@ public class TumblrPager extends FullScreenActivity
                     if (position == 0 && positionOffset < 0.2) {
                         finish();
                     }
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
                 }
             });
             adapter.notifyDataSetChanged();
