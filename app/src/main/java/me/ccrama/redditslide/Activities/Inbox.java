@@ -9,10 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -37,6 +35,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -247,9 +246,6 @@ public class Inbox extends BaseActivityAnim {
     @Override
     public void onResume(){
         super.onResume();
-        InputMethodManager keyboard = ContextCompat.getSystemService(this, InputMethodManager.class);
-        if (keyboard != null) {
-            keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
-        }
+        KeyboardUtil.hideKeyboard(this, getWindow().getAttributes().token, 0);
     }
 }

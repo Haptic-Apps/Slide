@@ -55,6 +55,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.DisplayUtil;
+import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -284,10 +285,7 @@ public class DoEditorActions {
                         .create();
 
                 tedBottomPicker.show(fm);
-                InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                }
+                KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
             }
         });
 
@@ -388,10 +386,7 @@ public class DoEditorActions {
                             })
                             .negativeText(a.getString(R.string.btn_cancel))
                             .show();
-                    InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    }
+                    KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
                 } else {
                     insertBefore("> ", editText);
                 }
@@ -550,10 +545,7 @@ public class DoEditorActions {
 
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         final Intent intent = new Intent(a, Draw.class);
-        InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        }
+        KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
         e = editText.getText();
         TedBottomPicker tedBottomPicker =
                 new TedBottomPicker.Builder(editText.getContext()).setOnImageSelectedListener(
@@ -715,11 +707,8 @@ public class DoEditorActions {
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-                final InputMethodManager imm = ContextCompat.getSystemService(c, InputMethodManager.class);
-                if (imm != null) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                            InputMethodManager.HIDE_IMPLICIT_ONLY);
-                }
+                KeyboardUtil.toggleKeyboard(c,
+                        InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                 if (DoEditorActions.e != null) {
                     descriptionBox.setText(DoEditorActions.e.toString().substring(sStart, sEnd));

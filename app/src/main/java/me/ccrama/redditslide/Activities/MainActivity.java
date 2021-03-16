@@ -175,6 +175,7 @@ import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.EditTextValidator;
+import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
@@ -282,11 +283,7 @@ public class MainActivity extends BaseActivity
 
             View view = MainActivity.this.getCurrentFocus();
             if (view != null) {
-                InputMethodManager imm =
-                        ContextCompat.getSystemService(this, InputMethodManager.class);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+                KeyboardUtil.hideKeyboard(this, view.getWindowToken(), 0);
             }
         } else if (requestCode == 2002 && resultCode != RESULT_OK) {
             mToolbar.performLongClick(); //search was init from the toolbar, so return focus to the toolbar
@@ -2224,10 +2221,7 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onDrawerClosed(View view) {
                         super.onDrawerClosed(view);
-                        InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(drawerLayout.getWindowToken(), 0);
-                        }
+                        KeyboardUtil.hideKeyboard(MainActivity.this, drawerLayout.getWindowToken(), 0);
                     }
                 };
 
@@ -3979,10 +3973,7 @@ public class MainActivity extends BaseActivity
                             drawerSearch.setText("");
                             View view = MainActivity.this.getCurrentFocus();
                             if (view != null) {
-                                InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
-                                if (imm != null) {
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                }
+                                KeyboardUtil.hideKeyboard(MainActivity.this, view.getWindowToken(), 0);
                             }
                         }
                     }
@@ -4435,12 +4426,8 @@ public class MainActivity extends BaseActivity
 
                                 //Get focus of the search field and show the keyboard
                                 GO_TO_SUB_FIELD.requestFocus();
-                                InputMethodManager imm = ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
-                                if (imm != null) {
-                                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                            InputMethodManager.HIDE_IMPLICIT_ONLY);
-                                }
-
+                                KeyboardUtil.toggleKeyboard(MainActivity.this,
+                                        InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                                 //Close the search UI and keyboard when clicking the close button
                                 CLOSE_BUTTON.setOnClickListener(new View.OnClickListener() {
@@ -4449,11 +4436,7 @@ public class MainActivity extends BaseActivity
                                         final View view = MainActivity.this.getCurrentFocus();
                                         if (view != null) {
                                             //Hide the keyboard
-                                            InputMethodManager imm =
-                                                    ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
-                                            if (imm != null) {
-                                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                            }
+                                            KeyboardUtil.hideKeyboard(MainActivity.this, view.getWindowToken(), 0);
                                         }
 
                                         //run the exit animations
@@ -4531,12 +4514,8 @@ public class MainActivity extends BaseActivity
                                                     View view = MainActivity.this.getCurrentFocus();
                                                     if (view != null) {
                                                         //Hide the keyboard
-                                                        InputMethodManager imm =
-                                                                ContextCompat.getSystemService(MainActivity.this, InputMethodManager.class);
-                                                        if (imm != null) {
-                                                            imm.hideSoftInputFromWindow(
-                                                                    view.getWindowToken(), 0);
-                                                        }
+                                                        KeyboardUtil.hideKeyboard(
+                                                                MainActivity.this, view.getWindowToken(), 0);
                                                     }
 
                                                     SUGGESTIONS_BACKGROUND.setVisibility(View.GONE);

@@ -268,8 +268,7 @@ public class NewsView extends Fragment implements SubmissionDisplay {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
 //                System.out.println("touched");
-//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                KeyboardUtil.hideKeyboard(getActivity(), v.getWindowToken(), 0);
 //
 //                GO_TO_SUB_FIELD.setText("");
 //                GO_TO_SUB_FIELD.setVisibility(View.GONE);

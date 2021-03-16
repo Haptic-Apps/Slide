@@ -97,6 +97,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.DisplayUtil;
+import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -585,11 +586,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     backedText = "";
                                     View view = ((Activity) mContext).findViewById(android.R.id.content);
                                     if (view != null) {
-                                        InputMethodManager imm =
-                                                ContextCompat.getSystemService(mContext, InputMethodManager.class);
-                                        if (imm != null) {
-                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                        }
+                                        KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
                                     }
                                 }
                             });
@@ -749,11 +746,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
             }
             replyLine.requestFocus();
-            InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
-            if (imm != null) {
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                        InputMethodManager.HIDE_IMPLICIT_ONLY);
-            }
+            KeyboardUtil.toggleKeyboard(mContext,
+                    InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
             editingPosition = submissionViewHolder.getAdapterPosition();
 
@@ -778,12 +772,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 //Hide soft keyboard
                                 View view = ((Activity) mContext).findViewById(android.R.id.content);
                                 if (view != null) {
-                                    InputMethodManager imm =
-                                            ContextCompat.getSystemService(
-                                                    mContext, InputMethodManager.class);
-                                    if (imm != null) {
-                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                    }
+                                    KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
                                 }
                             }
                         }
@@ -791,10 +780,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             View view = ((Activity) mContext).findViewById(android.R.id.content);
             if (view != null) {
-                InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+                KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
             }
             collapseAndHide(replyArea);
         }
@@ -1297,11 +1283,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     replyLine.requestFocus();
-                    InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
-                    if (imm != null) {
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                InputMethodManager.HIDE_IMPLICIT_ONLY);
-                    }
+                    KeyboardUtil.toggleKeyboard(mContext,
+                            InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                     currentlyEditingId = n.getFullName();
                     replyLine.setText(backedText);
@@ -1428,11 +1411,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             });
                         }
                         replyLine.requestFocus(); // TODO: Not working when called a second time
-                        InputMethodManager imm = ContextCompat.getSystemService(mContext, InputMethodManager.class);
-                        if (imm != null) {
-                            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                    InputMethodManager.HIDE_IMPLICIT_ONLY);
-                        }
+                        KeyboardUtil.toggleKeyboard(mContext,
+                                InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                         currentlyEditingId = n.getFullName();
                         replyLine.addTextChangedListener(new TextWatcher() {
@@ -1478,11 +1458,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         //Hide soft keyboard
                         View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
-                            InputMethodManager imm = ContextCompat.getSystemService(
-                                    mContext, InputMethodManager.class);
-                            if (imm != null) {
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                            }
+                            KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
                         }
                     }
                 });
@@ -1496,11 +1472,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mPage.overrideFab = false;
                         View view = ((Activity) mContext).findViewById(android.R.id.content);
                         if (view != null) {
-                            InputMethodManager imm = ContextCompat.getSystemService(
-                                    mContext, InputMethodManager.class);
-                            if (imm != null) {
-                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                            }
+                            KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
                         }
                         doShowMenu(baseView);
                     }
@@ -1675,12 +1647,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             backedText = "";
                             View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
-                                InputMethodManager imm =
-                                        ContextCompat.getSystemService(
-                                                mContext, InputMethodManager.class);
-                                if (imm != null) {
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                }
+                                KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
                             }
                             if (mContext instanceof BaseActivity) {
                                 ((BaseActivity) mContext).setShareUrl(
@@ -1745,12 +1712,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             backedText = "";
                             View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
-                                InputMethodManager imm =
-                                        ContextCompat.getSystemService(
-                                                mContext, InputMethodManager.class);
-                                if (imm != null) {
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                }
+                                KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
                             }
 
                             doLongClick(holder, comment, baseNode);
@@ -1804,12 +1766,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             backedText = "";
                             View view = ((Activity) mContext).findViewById(android.R.id.content);
                             if (view != null) {
-                                InputMethodManager imm =
-                                        ContextCompat.getSystemService(
-                                                mContext, InputMethodManager.class);
-                                if (imm != null) {
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                }
+                                KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
                             }
 
                             doOnClick(holder, baseNode, comment);
