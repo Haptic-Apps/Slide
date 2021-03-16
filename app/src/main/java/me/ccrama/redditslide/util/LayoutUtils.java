@@ -29,7 +29,7 @@ public class LayoutUtils {
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        tabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        observer.removeOnGlobalLayoutListener(this);
                         tabLayout.getTabAt(tabPosition).select();
                     }
                 });
@@ -38,8 +38,8 @@ public class LayoutUtils {
     }
 
     public static void showSnackbar(final Snackbar s) {
-        View view = s.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        final View view = s.getView();
+        final TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);
         s.show();
     }
