@@ -33,6 +33,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
 public class ManageOfflineContentFragment {
@@ -165,7 +166,7 @@ public class ManageOfflineContentFragment {
                         context.getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Reddit.cachedData.edit().putString("toCache", Reddit.arrayToString(toCheck)).apply();
+                                Reddit.cachedData.edit().putString("toCache", StringUtil.arrayToString(toCheck)).apply();
                                 updateBackup();
                             }
                         }

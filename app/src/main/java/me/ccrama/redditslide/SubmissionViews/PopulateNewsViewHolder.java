@@ -84,6 +84,7 @@ import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -864,7 +865,7 @@ public class PopulateNewsViewHolder {
                         showText.setText(StringEscapeUtils.unescapeHtml4(
                                 submission.getTitle() + "\n\n" + submission.getSelftext()));
                         showText.setTextIsSelectable(true);
-                        int sixteen = Reddit.dpToPxVertical(24);
+                        int sixteen = DisplayUtil.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(mContext);

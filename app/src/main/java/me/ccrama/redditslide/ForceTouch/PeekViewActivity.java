@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.DisplayUtil;
 
 
 public class PeekViewActivity extends AppCompatActivity {
@@ -28,7 +29,7 @@ public class PeekViewActivity extends AppCompatActivity {
     }
 
     float origY;
-    int twelve = Reddit.dpToPxVertical(12);
+    int twelve = DisplayUtil.dpToPxVertical(12);
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {

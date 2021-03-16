@@ -117,6 +117,7 @@ import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
 
@@ -491,7 +492,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             }
                         }
                         new AlertDialog.Builder(getActivity()).setTitle(
-                                R.string.set_nav_mode).setSingleChoiceItems(Reddit.stringToArray(
+                                R.string.set_nav_mode).setSingleChoiceItems(StringUtil.stringToArray(
 
                                 "Parent comment ("
                                         + parentCount

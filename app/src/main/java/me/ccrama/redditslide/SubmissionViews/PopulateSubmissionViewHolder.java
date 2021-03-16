@@ -116,6 +116,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -1019,7 +1020,7 @@ public class PopulateSubmissionViewHolder {
                         showText.setText(StringEscapeUtils.unescapeHtml4(
                                 submission.getTitle() + "\n\n" + submission.getSelftext()));
                         showText.setTextIsSelectable(true);
-                        int sixteen = Reddit.dpToPxVertical(24);
+                        int sixteen = DisplayUtil.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(mContext);
@@ -2326,7 +2327,7 @@ public class PopulateSubmissionViewHolder {
             String rs, String nt, String msg, String t) {
         LinearLayout l = new LinearLayout(mContext);
         l.setOrientation(LinearLayout.VERTICAL);
-        int sixteen = Reddit.dpToPxVertical(16);
+        int sixteen = DisplayUtil.dpToPxVertical(16);
         l.setPadding(sixteen, 0, sixteen, 0);
 
         final EditText reason = new EditText(mContext);

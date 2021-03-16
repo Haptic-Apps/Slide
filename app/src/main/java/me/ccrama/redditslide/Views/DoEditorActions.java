@@ -51,10 +51,10 @@ import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgur;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgurAlbum;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -367,7 +367,7 @@ public class DoEditorActions {
                     final TextView showText = new TextView(a);
                     showText.setText(StringEscapeUtils.unescapeHtml4(oldComment)); // text we get is escaped, we don't want that
                     showText.setTextIsSelectable(true);
-                    int sixteen = Reddit.dpToPxVertical(24);
+                    int sixteen = DisplayUtil.dpToPxVertical(24);
                     showText.setPadding(sixteen, 0, sixteen, 0);
                     MaterialDialog.Builder builder = new MaterialDialog.Builder(a);
                     builder.customView(showText, false)
@@ -726,7 +726,7 @@ public class DoEditorActions {
                 }
 
                 ta.recycle();
-                int sixteen = Reddit.dpToPxVertical(16);
+                int sixteen = DisplayUtil.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
                 new MaterialDialog.Builder(c).title(R.string.editor_title_link)
@@ -810,7 +810,7 @@ public class DoEditorActions {
                 }
 
                 ta.recycle();
-                int sixteen = Reddit.dpToPxVertical(16);
+                int sixteen = DisplayUtil.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
                 new MaterialDialog.Builder(c).title(R.string.editor_title_link)

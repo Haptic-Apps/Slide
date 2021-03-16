@@ -15,7 +15,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,7 +22,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -57,7 +55,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -139,26 +136,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         ProcessPhoenix.triggerRebirth(context, new Intent(context, MainActivity.class));
     }
 
-    private static int dpToPx(int dp, float xy) {
-        return Math.round(dp * xy / DisplayMetrics.DENSITY_DEFAULT);
-    }
-
-    public static int dpToPxVertical(int dp) {
-        return dpToPx(dp, Resources.getSystem().getDisplayMetrics().ydpi);
-    }
-
-    public static int dpToPxHorizontal(int dp) {
-        return dpToPx(dp, Resources.getSystem().getDisplayMetrics().xdpi);
-    }
-
     public static void defaultShareText(String title, String url, Context c) {
         url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         /* Decode html entities */
         title = StringEscapeUtils.unescapeHtml4(title);
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }
 
@@ -201,47 +186,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
 
         return browserMap;
-    }
-
-    public static String arrayToString(ArrayList<String> array) {
-        if (array != null) {
-            StringBuilder b = new StringBuilder();
-            for (String s : array) {
-                b.append(s).append(",");
-
-
-            }
-            String f = b.toString();
-            if (f.length() > 0) {
-                f = f.substring(0, f.length() - 1);
-            }
-
-            return f;
-        } else {
-            return "";
-        }
-    }
-
-    public static String arrayToString(ArrayList<String> array, String separator) {
-        if (array != null) {
-            StringBuilder b = new StringBuilder();
-            for (String s : array) {
-                b.append(s).append(separator);
-            }
-            String f = b.toString();
-            if (f.length() > 0) {
-                f = f.substring(0, f.length() - separator.length());
-            }
-            return f;
-        } else {
-            return "";
-        }
-    }
-
-    public static ArrayList<String> stringToArray(String string) {
-        ArrayList<String> f = new ArrayList<>();
-        Collections.addAll(f, string.split(","));
-        return f;
     }
 
     @Override

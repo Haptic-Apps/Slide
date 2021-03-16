@@ -36,8 +36,8 @@ import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
 import me.ccrama.redditslide.ForceTouch.util.DensityUtils;
 import me.ccrama.redditslide.ForceTouch.util.NavigationUtils;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PeekMediaView;
+import me.ccrama.redditslide.util.DisplayUtil;
 
 public class PeekView extends FrameLayout {
 
@@ -73,7 +73,7 @@ public class PeekView extends FrameLayout {
     private OnPop mOnPop;
 
     int currentHighlight;
-    static int eight = Reddit.dpToPxVertical(8);
+    static int eight = DisplayUtil.dpToPxVertical(8);
 
     public void highlightMenu(MotionEvent event) {
         if(currentHighlight != 0){

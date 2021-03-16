@@ -55,6 +55,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.ImageLoaderUtils;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
 /**
@@ -885,7 +886,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     private void setSubText() {
         ArrayList<String> rawSubs =
-                Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                StringUtil.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
         String subText = context.getString(R.string.sub_post_notifs_settings_none);
         StringBuilder subs = new StringBuilder();
         for (String s : rawSubs) {
@@ -910,7 +911,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     private void showSelectDialog() {
         ArrayList<String> rawSubs =
-                Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                StringUtil.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
         HashMap<String, Integer> subThresholds = new HashMap<>();
         for (String s : rawSubs) {
             try {
@@ -1031,7 +1032,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     private void showThresholdDialog(ArrayList<String> strings, boolean search) {
         final ArrayList<String> subsRaw =
-                Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                StringUtil.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
 
         if (!search) {
             //NOT a sub searched for, was instead a list of all subs
@@ -1082,7 +1083,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     private void saveAndUpdateSubs(ArrayList<String> subs) {
         Reddit.appRestart.edit()
-                .putString(CheckForMail.SUBS_TO_GET, Reddit.arrayToString(subs))
+                .putString(CheckForMail.SUBS_TO_GET, StringUtil.arrayToString(subs))
                 .commit();
         setSubText();
     }

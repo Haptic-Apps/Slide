@@ -19,9 +19,9 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.DisplayUtil;
 
 /**
  * Created by ccrama on 9/18/2015.
@@ -70,15 +70,15 @@ public class CreateCardView {
             if(SettingValues.defaultCardView == CardEnum.DESKTOP){
                 final int SQUARE_THUMBNAIL_SIZE = 48;
 
-                thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
-                thumbImage.getLayoutParams().width = Reddit.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
+                thumbImage.getLayoutParams().height = DisplayUtil.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
+                thumbImage.getLayoutParams().width = DisplayUtil.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
             } else {
                 final int SQUARE_THUMBNAIL_SIZE = 70;
-                thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
-                thumbImage.getLayoutParams().width = Reddit.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
+                thumbImage.getLayoutParams().height = DisplayUtil.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
+                thumbImage.getLayoutParams().width = DisplayUtil.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
 
-                final int EIGHT_DP_Y = Reddit.dpToPxVertical(8);
-                final int EIGHT_DP_X = Reddit.dpToPxHorizontal(8);
+                final int EIGHT_DP_Y = DisplayUtil.dpToPxVertical(8);
+                final int EIGHT_DP_X = DisplayUtil.dpToPxHorizontal(8);
                 ((RelativeLayout.LayoutParams) thumbImage.getLayoutParams())
                         .setMargins(EIGHT_DP_X * 2, EIGHT_DP_Y, EIGHT_DP_X, EIGHT_DP_Y);
                 v.findViewById(R.id.innerrelative).setPadding(0, EIGHT_DP_Y, 0, 0);
@@ -87,8 +87,8 @@ public class CreateCardView {
 
         if (SettingValues.noThumbnails) {
             final int SQUARE_THUMBNAIL_SIZE = 0;
-            thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
-            thumbImage.getLayoutParams().width = Reddit.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
+            thumbImage.getLayoutParams().height = DisplayUtil.dpToPxVertical(SQUARE_THUMBNAIL_SIZE);
+            thumbImage.getLayoutParams().width = DisplayUtil.dpToPxHorizontal(SQUARE_THUMBNAIL_SIZE);
         }
 
         doHideObjects(v);
@@ -299,14 +299,14 @@ public class CreateCardView {
     public static void animateIn(View l) {
         l.setVisibility(View.VISIBLE);
 
-        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPxVertical(36), l);
+        ValueAnimator mAnimator = slideAnimator(0, DisplayUtil.dpToPxVertical(36), l);
 
         mAnimator.start();
     }
 
     public static void animateOut(final View l) {
 
-        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
+        ValueAnimator mAnimator = slideAnimator(DisplayUtil.dpToPxVertical(36), 0, l);
         mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

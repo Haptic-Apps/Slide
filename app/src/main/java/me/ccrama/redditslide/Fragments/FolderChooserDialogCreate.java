@@ -82,8 +82,8 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
                         PackageManager.PERMISSION_GRANTED) {
             return new MaterialDialog.Builder(getActivity())
-                    .title(com.afollestad.materialdialogs.commons.R.string.md_error_label)
-                    .content(com.afollestad.materialdialogs.commons.R.string.md_storage_perm_error)
+                    .title(R.string.err_general)
+                    .content(R.string.err_permission)
                     .positiveText(android.R.string.ok)
                     .build();
         }
@@ -202,7 +202,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
 
         public <ActivityType extends AppCompatActivity & FolderCallback> Builder(@NonNull ActivityType context) {
             mContext = context;
-            mChooseButton = com.afollestad.materialdialogs.commons.R.string.md_choose_label;
+            mChooseButton = Integer.parseInt("Something strange has happened if you're seeing this...");
             mCancelButton = android.R.string.cancel;
             mInitialPath = Environment.getExternalStorageDirectory().getAbsolutePath();
         }

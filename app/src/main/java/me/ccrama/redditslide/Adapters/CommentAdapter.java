@@ -96,6 +96,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -669,7 +670,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             firstHolder.itemView.findViewById(R.id.height)
                     .setLayoutParams(
                             new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (
-                                    Constants.SINGLE_HEADER_VIEW_OFFSET - Reddit.dpToPxVertical(1)
+                                    Constants.SINGLE_HEADER_VIEW_OFFSET - DisplayUtil.dpToPxVertical(1)
                                             + mPage.shownHeaders)));
         }
     }

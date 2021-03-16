@@ -66,11 +66,11 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 import static me.ccrama.redditslide.UserSubscriptions.setPinned;
@@ -1080,7 +1080,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 itemView.findViewById(R.id.height)
                         .setLayoutParams(
                                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                        Reddit.dpToPxVertical(88)));
+                                        DisplayUtil.dpToPxVertical(88)));
 
             }
         }

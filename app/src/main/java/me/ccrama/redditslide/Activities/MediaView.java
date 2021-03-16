@@ -74,6 +74,7 @@ import me.ccrama.redditslide.Views.ExoVideoView;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -124,7 +125,7 @@ public class MediaView extends FullScreenActivity
     public static void animateIn(View l) {
         l.setVisibility(View.VISIBLE);
 
-        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPxVertical(56), l);
+        ValueAnimator mAnimator = slideAnimator(0, DisplayUtil.dpToPxVertical(56), l);
 
         mAnimator.start();
     }
@@ -167,7 +168,7 @@ public class MediaView extends FullScreenActivity
     }
 
     public static void animateOut(final View l) {
-        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
+        ValueAnimator mAnimator = slideAnimator(DisplayUtil.dpToPxVertical(36), 0, l);
         mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

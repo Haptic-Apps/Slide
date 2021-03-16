@@ -96,6 +96,7 @@ import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 public class SubredditView extends BaseActivity {
@@ -1253,7 +1254,7 @@ public class SubredditView extends BaseActivity {
                 setViews(text, subreddit.getDisplayName(), body, overflow);
 
                 //get all subs that have Notifications enabled
-                ArrayList<String> rawSubs = Reddit.stringToArray(
+                ArrayList<String> rawSubs = StringUtil.stringToArray(
                         Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
                 HashMap<String, Integer> subThresholds = new HashMap<>();
                 for (String s : rawSubs) {
@@ -1638,7 +1639,7 @@ public class SubredditView extends BaseActivity {
                                                                                             CharSequence text) {
                                                                                         ArrayList<String>
                                                                                                 subs =
-                                                                                                Reddit.stringToArray(
+                                                                                                StringUtil.stringToArray(
                                                                                                         Reddit.appRestart
                                                                                                                 .getString(
                                                                                                                         CheckForMail.SUBS_TO_GET,
@@ -1650,7 +1651,7 @@ public class SubredditView extends BaseActivity {
                                                                                                 .edit()
                                                                                                 .putString(
                                                                                                         CheckForMail.SUBS_TO_GET,
-                                                                                                        Reddit.arrayToString(
+                                                                                                        StringUtil.arrayToString(
                                                                                                                 subs))
                                                                                                 .commit();
                                                                                         return true;
