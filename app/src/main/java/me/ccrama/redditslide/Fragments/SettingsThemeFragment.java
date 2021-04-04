@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -47,6 +45,7 @@ import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.ProUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -555,35 +554,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                         });
                     }
                 } else {
-                    new AlertDialog.Builder(context).setTitle(
-                            R.string.general_nighttheme_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                            int whichButton) {
-                                            try {
-                                                context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse("market://details?id="
-                                                                + context.getString(
-                                                                R.string.ui_unlock_package))));
-                                            } catch (android.content.ActivityNotFoundException anfe) {
-                                                context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + context.getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                            int whichButton) {
-
-                                        }
-                                    })
+                    ProUtil.proUpgradeMsg(context, R.string.general_nighttheme_ispro)
+                            .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                    dialog.dismiss())
                             .show();
                 }
             }

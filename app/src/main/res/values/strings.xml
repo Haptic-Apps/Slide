@@ -13,6 +13,7 @@
     <string name="general_shadowbox_ispro">Shadowbox mode is a Pro feature</string>
     <string name="general_nighttheme_ispro">Automatic Night Mode is a Pro feature</string>
     <string name="general_backup_ispro">Settings backup is a Pro feature</string>
+    <string name="general_multicolumn_ispro">Multi-Column Settings are a Pro feature</string>
 
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>

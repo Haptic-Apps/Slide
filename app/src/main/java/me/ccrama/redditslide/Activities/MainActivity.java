@@ -8,7 +8,6 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -180,6 +179,7 @@ import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.ProUtil;
 import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -761,59 +761,32 @@ public class MainActivity extends BaseActivity
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle(
-                            R.string.general_gallerymode_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=" + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            } catch (ActivityNotFoundException e) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            dialog.dismiss();
-                                        }
-                                    });
+                    final AlertDialog.Builder b =
+                            ProUtil.proUpgradeMsg(this, R.string.general_gallerymode_ispro)
+                                    .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                            dialog.dismiss());
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton(getString(R.string.pro_previews, SettingValues.previews),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREVIEWS_LEFT,
-                                                        SettingValues.previews - 1)
-                                                .apply();
-                                        SettingValues.previews = SettingValues.prefs.getInt(
-                                                SettingValues.PREVIEWS_LEFT, 10);
-                                        List<Submission> posts =
-                                                ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
-                                        if (posts != null && !posts.isEmpty()) {
-                                            Intent i2 =
-                                                    new Intent(MainActivity.this, Gallery.class);
-                                            i2.putExtra("offline",
-                                                    ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
-                                                            != null
-                                                            ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time
-                                                            : 0L);
-                                            i2.putExtra(Gallery.EXTRA_SUBREDDIT,
-                                                    ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
-                                            startActivity(i2);
-                                        }
+                                (dialog, which) -> {
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREVIEWS_LEFT,
+                                                    SettingValues.previews - 1)
+                                            .apply();
+                                    SettingValues.previews = SettingValues.prefs.getInt(
+                                            SettingValues.PREVIEWS_LEFT, 10);
+                                    List<Submission> posts =
+                                            ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                                    if (posts != null && !posts.isEmpty()) {
+                                        Intent i2 =
+                                                new Intent(MainActivity.this, Gallery.class);
+                                        i2.putExtra("offline",
+                                                ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
+                                                        != null
+                                                        ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time
+                                                        : 0L);
+                                        i2.putExtra(Gallery.EXTRA_SUBREDDIT,
+                                                ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                                        startActivity(i2);
                                     }
                                 });
                     }
@@ -837,60 +810,33 @@ public class MainActivity extends BaseActivity
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle(
-                            R.string.general_shadowbox_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=" + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            } catch (ActivityNotFoundException e) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            dialog.dismiss();
-                                        }
-                                    });
+                    final AlertDialog.Builder b =
+                            ProUtil.proUpgradeMsg(this, R.string.general_shadowbox_ispro)
+                                    .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                            dialog.dismiss());
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton("Preview (" + SettingValues.previews + ")",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREVIEWS_LEFT,
-                                                        SettingValues.previews - 1)
-                                                .apply();
-                                        SettingValues.previews = SettingValues.prefs.getInt(
-                                                SettingValues.PREVIEWS_LEFT, 10);
-                                        List<Submission> posts =
-                                                ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
-                                        if (posts != null && !posts.isEmpty()) {
-                                            Intent i2 =
-                                                    new Intent(MainActivity.this, Shadowbox.class);
-                                            i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                                            i2.putExtra("offline",
-                                                    ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
-                                                            != null
-                                                            ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time
-                                                            : 0L);
-                                            i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,
-                                                    ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
-                                            startActivity(i2);
-                                        }
+                                (dialog, which) -> {
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREVIEWS_LEFT,
+                                                    SettingValues.previews - 1)
+                                            .apply();
+                                    SettingValues.previews = SettingValues.prefs.getInt(
+                                            SettingValues.PREVIEWS_LEFT, 10);
+                                    List<Submission> posts =
+                                            ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                                    if (posts != null && !posts.isEmpty()) {
+                                        Intent i2 =
+                                                new Intent(MainActivity.this, Shadowbox.class);
+                                        i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                                        i2.putExtra("offline",
+                                                ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
+                                                        != null
+                                                        ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time
+                                                        : 0L);
+                                        i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,
+                                                ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                                        startActivity(i2);
                                     }
                                 });
                     }
@@ -2097,28 +2043,12 @@ public class MainActivity extends BaseActivity
             if (SettingValues.isPro) {
                 support.setVisibility(View.GONE);
             } else {
-                header.findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
+                support.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View view) {
-                        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.settings_support_slide)
-                                .setMessage(R.string.pro_upgrade_msg)
-                                .setPositiveButton(R.string.btn_yes_exclaim, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        try {
-                                            startActivity(new Intent(Intent.ACTION_VIEW,
-                                                    Uri.parse("market://details?id=" + getString(R.string.ui_unlock_package))));
-                                        } catch (ActivityNotFoundException e) {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                                    "http://play.google.com/store/apps/details?id="
-                                                            + getString(R.string.ui_unlock_package))));
-                                        }
-                                    }
-                                })
-                                .setNegativeButton(R.string.btn_no_thanks, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        dialog.dismiss();
-                                    }
-                                })
+                        ProUtil.proUpgradeMsg(MainActivity.this, R.string.settings_support_slide)
+                                .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                        dialog.dismiss())
                                 .show();
                     }
                 });

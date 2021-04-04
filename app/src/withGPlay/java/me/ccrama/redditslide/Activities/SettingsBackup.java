@@ -49,6 +49,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.ProUtil;
 
 
 /**
@@ -539,33 +540,12 @@ public class SettingsBackup extends BaseActivityAnim
                 }
             });
         } else {
-            new AlertDialog.Builder(this).setTitle(R.string.general_backup_ispro)
-                    .setMessage(R.string.pro_upgrade_msg)
+            ProUtil.proUpgradeMsg(this, R.string.general_backup_ispro)
                     //avoid that the dialog can be closed
-                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            finish();
-                        }
-                    })
-                    .setPositiveButton(R.string.btn_yes_exclaim,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                                "market://details?id=" + getString(R.string.ui_unlock_package))));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                                "http://play.google.com/store/apps/details?id=" + getString(R.string.ui_unlock_package))));
-                                    }
-                                }
-                            })
-                    .setNegativeButton(R.string.btn_no_thanks,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    finish();
-                                }
-                            })
+                    .setOnCancelListener(dialog ->
+                            finish())
+                    .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                            finish())
                     .setCancelable(false)
                     .show();
         }

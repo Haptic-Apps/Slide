@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,6 +55,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.KeyboardUtil;
+import me.ccrama.redditslide.util.ProUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -295,49 +295,21 @@ public class DoEditorActions {
                 if (SettingValues.isPro) {
                     doDraw(a, editText, fm);
                 } else {
-                    AlertDialog.Builder b = new AlertDialog.Builder(a).setTitle(
-                            R.string.general_cropdraw_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                a.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse("market://details?id="
-                                                                + a.getString(
-                                                                R.string.ui_unlock_package))));
-                                            } catch (ActivityNotFoundException e) {
-                                                a.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + a.getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            dialog.dismiss();
-                                        }
-                                    });
+                    final AlertDialog.Builder b =
+                            ProUtil.proUpgradeMsg(a, R.string.general_cropdraw_ispro)
+                                    .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                            dialog.dismiss());
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton(
                                 a.getString(R.string.pro_previews, SettingValues.previews),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREVIEWS_LEFT,
-                                                        SettingValues.previews - 1)
-                                                .apply();
-                                        SettingValues.previews = SettingValues.prefs.getInt(
-                                                SettingValues.PREVIEWS_LEFT, 10);
-                                        doDraw(a, editText, fm);
-                                    }
+                                (dialog, which) -> {
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREVIEWS_LEFT,
+                                                    SettingValues.previews - 1)
+                                            .apply();
+                                    SettingValues.previews = SettingValues.prefs.getInt(
+                                            SettingValues.PREVIEWS_LEFT, 10);
+                                    doDraw(a, editText, fm);
                                 });
                     }
                     b.show();

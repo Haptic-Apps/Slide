@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsCallback;
 import androidx.browser.customtabs.CustomTabsClient;
@@ -303,5 +304,20 @@ public class LinkUtil {
                 b.append(" ").append(item);
             }
         text.setTextHtml(b.toString(), "no sub");
+    }
+
+    public static void launchMarketUri(final Context context, final @StringRes int resId) {
+        try {
+            launchMarketUriIntent(context, "market://details?id=", resId);
+        } catch (ActivityNotFoundException anfe) {
+            launchMarketUriIntent(context, "http://play.google.com/store/apps/details?id=", resId);
+        }
+    }
+
+    private static void launchMarketUriIntent(final Context context, final String uriString,
+                                              final @StringRes int resId) {
+        context.startActivity(
+                new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(uriString + context.getString(resId))));
     }
 }

@@ -118,6 +118,7 @@ import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.ProUtil;
 import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
@@ -835,39 +836,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         }
                     }
                 } else {
-                    AlertDialog.Builder b =
-                            new AlertDialog.Builder(getContext()).setTitle(
-                                    R.string.general_shadowbox_comments_ispro)
-                                    .setMessage(R.string.pro_upgrade_msg)
-                                    .setPositiveButton(R.string.btn_yes_exclaim,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                                    int whichButton) {
-                                                    try {
-                                                        startActivity(new Intent(
-                                                                Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "market://details?id="
-                                                                                + getString(
-                                                                                R.string.ui_unlock_package))));
-                                                    } catch (ActivityNotFoundException e) {
-                                                        startActivity(new Intent(
-                                                                Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "http://play.google.com/store/apps/details?id="
-                                                                                + getString(
-                                                                                R.string.ui_unlock_package))));
-                                                    }
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_no_thanks,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                                    int whichButton) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                    b.show();
+                    ProUtil.proUpgradeMsg(getContext(), R.string.general_shadowbox_comments_ispro)
+                            .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                    dialog.dismiss())
+                            .show();
                 }
                 return true;
             case R.id.sort: {
