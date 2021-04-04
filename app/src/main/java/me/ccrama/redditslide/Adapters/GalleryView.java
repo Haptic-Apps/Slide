@@ -44,6 +44,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.JsonUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
@@ -276,15 +277,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                                     JsonNode dataNode = submission.getDataNode();
                                     if (dataNode.has("gallery_data")) {
-                                        for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
-                                            if (dataNode.has("media_metadata") && dataNode.get(
-                                                    "media_metadata")
-                                                    .has(identifier.get("media_id").asText())) {
-                                                urls.add(new GalleryImage(dataNode.get("media_metadata")
-                                                        .get(identifier.get("media_id").asText())
-                                                        .get("s")));
-                                            }
-                                        }
+                                        JsonUtil.getGalleryData(dataNode, urls);
                                     }
 
                                     Bundle urlsBundle = new Bundle();

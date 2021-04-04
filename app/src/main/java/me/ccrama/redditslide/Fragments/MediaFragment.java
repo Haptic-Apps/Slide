@@ -67,6 +67,7 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.JsonUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -429,15 +430,7 @@ public class MediaFragment extends Fragment {
 
                                 JsonNode dataNode = submission.getDataNode();
                                 if (dataNode.has("gallery_data")) {
-                                    for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
-                                        if (dataNode.has("media_metadata") && dataNode.get(
-                                                "media_metadata")
-                                                .has(identifier.get("media_id").asText())) {
-                                            urls.add(new GalleryImage(dataNode.get("media_metadata")
-                                                    .get(identifier.get("media_id").asText())
-                                                    .get("s")));
-                                        }
-                                    }
+                                    JsonUtil.getGalleryData(dataNode, urls);
                                 }
 
                                 Bundle urlsBundle = new Bundle();

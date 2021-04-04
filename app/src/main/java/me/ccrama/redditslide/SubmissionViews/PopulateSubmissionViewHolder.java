@@ -117,6 +117,7 @@ import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.JsonUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -223,26 +224,10 @@ public class PopulateSubmissionViewHolder {
 
                                         JsonNode dataNode = submission.getDataNode();
                                         if (dataNode.has("gallery_data")) {
-                                            for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
-                                                if (dataNode.has("media_metadata") && dataNode.get(
-                                                        "media_metadata")
-                                                        .has(identifier.get("media_id").asText())) {
-                                                    urls.add(new GalleryImage(dataNode.get("media_metadata")
-                                                            .get(identifier.get("media_id").asText())
-                                                            .get("s")));
-                                                }
-                                            }
+                                            JsonUtil.getGalleryData(dataNode, urls);
                                         } else if (dataNode.has("crosspost_parent_list")) { //Else, try getting crosspost gallery data
                                             JsonNode crosspost_parent = dataNode.get("crosspost_parent_list").get(0);
-                                            for (JsonNode identifier : crosspost_parent.get("gallery_data").get("items")) {
-                                                if (crosspost_parent.has("media_metadata") && crosspost_parent.get(
-                                                        "media_metadata")
-                                                        .has(identifier.get("media_id").asText())) {
-                                                    urls.add(new GalleryImage(crosspost_parent.get("media_metadata")
-                                                            .get(identifier.get("media_id").asText())
-                                                            .get("s")));
-                                                }
-                                            }
+                                            JsonUtil.getGalleryData(crosspost_parent, urls);
                                         }
 
                                         Bundle urlsBundle = new Bundle();
