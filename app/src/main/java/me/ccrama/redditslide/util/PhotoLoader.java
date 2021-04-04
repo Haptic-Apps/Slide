@@ -1,13 +1,8 @@
 package me.ccrama.redditslide.util;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.view.View;
 
 import androidx.core.text.HtmlCompat;
-
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
@@ -110,25 +105,7 @@ public class PhotoLoader {
         Reddit appContext = (Reddit) c.getApplicationContext();
 
         appContext.getImageLoader()
-                .loadImage(url, new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view,
-                                                FailReason failReason) {
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view,
-                                                  Bitmap loadedImage) {
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-                    }
-                });
+                .loadImage(url, null);
     }
 
     public static void loadPhotos(final Context c, List<Submission> submissions) {
