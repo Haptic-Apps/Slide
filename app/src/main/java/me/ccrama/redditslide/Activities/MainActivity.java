@@ -21,14 +21,10 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -41,7 +37,6 @@ import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -88,7 +83,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -149,6 +143,7 @@ import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.ForceTouch.util.DensityUtils;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.DrawerItemsDialog;
 import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
@@ -174,10 +169,14 @@ import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.AnimatorUtil;
+import me.ccrama.redditslide.util.DrawableUtil;
 import me.ccrama.redditslide.util.EditTextValidator;
+import me.ccrama.redditslide.util.ImageUtil;
 import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
@@ -1424,15 +1423,6 @@ public class MainActivity extends BaseActivity
         return super.onKeyDown(keyCode, event);
     }
 
-    public static String abbreviate(final String str, final int maxWidth) {
-        if (str.length() <= maxWidth) {
-            return str;
-        }
-
-        final String abrevMarker = "...";
-        return str.substring(0, maxWidth - 3) + abrevMarker;
-    }
-
     /**
      * Set the drawer edge (i.e. how sensitive the drawer is) Based on a given screen width
      * percentage.
@@ -1441,7 +1431,7 @@ public class MainActivity extends BaseActivity
      *                               percentage of screen width
      * @param drawerLayout           drawerLayout to adjust the swipe edge
      */
-    public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
+    private static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
             DrawerLayout drawerLayout) {
         try {
             Field mDragger =
@@ -1608,11 +1598,11 @@ public class MainActivity extends BaseActivity
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
                         header.setContentDescription(getResources().getString(R.string.btn_collapse));
-                        flipAnimator(false, header.findViewById(R.id.headerflip)).start();
+                        AnimatorUtil.flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                     } else {
                         collapse(profStuff);
                         header.setContentDescription(getResources().getString(R.string.btn_expand));
-                        flipAnimator(true, header.findViewById(R.id.headerflip)).start();
+                        AnimatorUtil.flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                     }
 
                 }
@@ -1757,11 +1747,11 @@ public class MainActivity extends BaseActivity
                     LinearLayout body = header.findViewById(R.id.expand_profile);
                     if (body.getVisibility() == View.GONE) {
                         expand(body);
-                        flipAnimator(false, view).start();
+                        AnimatorUtil.flipAnimator(false, view).start();
                         view.findViewById(R.id.godown).setContentDescription(getResources().getString(R.string.btn_collapse));
                     } else {
                         collapse(body);
-                        flipAnimator(true, view).start();
+                        AnimatorUtil.flipAnimator(true, view).start();
                         view.findViewById(R.id.godown).setContentDescription(getResources().getString(R.string.btn_expand));
                     }
                 }
@@ -1823,11 +1813,11 @@ public class MainActivity extends BaseActivity
                 public void onClick(View v) {
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
-                        flipAnimator(false, header.findViewById(R.id.headerflip)).start();
+                        AnimatorUtil.flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                         header.findViewById(R.id.headerflip).setContentDescription(getResources().getString(R.string.btn_collapse));
                     } else {
                         collapse(profStuff);
-                        flipAnimator(true, header.findViewById(R.id.headerflip)).start();
+                        AnimatorUtil.flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                         header.findViewById(R.id.headerflip).setContentDescription(getResources().getString(R.string.btn_expand));
                     }
 
@@ -2021,11 +2011,11 @@ public class MainActivity extends BaseActivity
                 if (expandSettings.getVisibility() == View.GONE) {
                     expand(expandSettings);
                     header.findViewById(R.id.godown_settings).setContentDescription(getResources().getString(R.string.btn_collapse));
-                    flipAnimator(false, v).start();
+                    AnimatorUtil.flipAnimator(false, v).start();
                 } else {
                     collapse(expandSettings);
                     header.findViewById(R.id.godown_settings).setContentDescription(getResources().getString(R.string.btn_expand));
-                    flipAnimator(true, v).start();
+                    AnimatorUtil.flipAnimator(true, v).start();
                 }
             }
         });
@@ -2603,7 +2593,7 @@ public class MainActivity extends BaseActivity
             final TextView subscribe = (TextView) findViewById(R.id.subscribe);
             currentlySubbed = (!Authentication.isLoggedIn && usedArray.contains(
                     subreddit.getDisplayName().toLowerCase(Locale.ENGLISH))) || subreddit.isUserSubscriber();
-            doSubscribeButtonText(currentlySubbed, subscribe);
+            MiscUtil.doSubscribeButtonText(currentlySubbed, subscribe);
 
             assert subscribe != null;
             subscribe.setOnClickListener(new View.OnClickListener() {
@@ -2793,7 +2783,7 @@ public class MainActivity extends BaseActivity
                     } else {
                         doUnsubscribe();
                     }
-                    doSubscribeButtonText(currentlySubbed, subscribe);
+                    MiscUtil.doSubscribeButtonText(currentlySubbed, subscribe);
                 }
 
 
@@ -4181,11 +4171,13 @@ public class MainActivity extends BaseActivity
     }
 
     private Icon getIcon(String subreddit, @DrawableRes int overlay) {
-        Bitmap color = Bitmap.createBitmap(toDp(this, 148), toDp(this, 148), Bitmap.Config.RGB_565);
+        Bitmap color = Bitmap.createBitmap(
+                DensityUtils.toDp(this, 148),
+                DensityUtils.toDp(this, 148), Bitmap.Config.RGB_565);
         color.eraseColor(Palette.getColor(subreddit));
-        color = clipToCircle(color);
+        color = ImageUtil.clipToCircle(color);
 
-        Bitmap over = drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
+        Bitmap over = DrawableUtil.drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
 
         Canvas canvas = new Canvas(color);
         canvas.drawBitmap(over, color.getWidth() / 2.0f - (over.getWidth() / 2.0f),
@@ -4195,68 +4187,6 @@ public class MainActivity extends BaseActivity
             return Icon.createWithBitmap(color);
         }
         return null;
-    }
-
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap =
-                Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
-                        Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
-    public static int toDp(Context context, int px) {
-        return convert(context, px, TypedValue.COMPLEX_UNIT_PX);
-    }
-
-    private static int convert(Context context, int amount, int conversionUnit) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("px should not be less than zero");
-        }
-
-        Resources r = context.getResources();
-        return (int) TypedValue.applyDimension(conversionUnit, amount, r.getDisplayMetrics());
-    }
-
-    public static Bitmap clipToCircle(Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
-        }
-
-        final int width = bitmap.getWidth();
-        final int height = bitmap.getHeight();
-        final Bitmap outputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        final Path path = new Path();
-        path.addCircle((float) (width / 2), (float) (height / 2),
-                (float) Math.min(width, (height / 2)), Path.Direction.CCW);
-
-        final Canvas canvas = new Canvas(outputBitmap);
-        canvas.clipPath(path);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        return outputBitmap;
-    }
-
-    private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
-        ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                v.setScaleY((Float) valueAnimator.getAnimatedValue());
-            }
-        });
-        return animator;
     }
 
     private void changeSubscription(Subreddit subreddit, boolean isChecked) {
@@ -4275,7 +4205,7 @@ public class MainActivity extends BaseActivity
     private void collapse(final LinearLayout v) {
         int finalHeight = v.getHeight();
 
-        ValueAnimator mAnimator = slideAnimator(finalHeight, 0, v);
+        ValueAnimator mAnimator = AnimatorUtil.slideAnimator(finalHeight, 0, v);
 
         mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -4292,22 +4222,6 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
-        if (Authentication.didOnline) {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.unsubscribe_caps);
-            } else {
-                subscribe.setText(R.string.subscribe_caps);
-            }
-        } else {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.btn_remove_from_sublist);
-            } else {
-                subscribe.setText(R.string.btn_add_to_sublist);
-            }
-        }
-    }
-
     private void expand(LinearLayout v) {
         //set Visible
         v.setVisibility(View.VISIBLE);
@@ -4316,7 +4230,7 @@ public class MainActivity extends BaseActivity
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         v.measure(widthSpec, heightSpec);
 
-        ValueAnimator mAnimator = slideAnimator(0, v.getMeasuredHeight(), v);
+        ValueAnimator mAnimator = AnimatorUtil.slideAnimator(0, v.getMeasuredHeight(), v);
         mAnimator.start();
     }
 
@@ -4562,25 +4476,6 @@ public class MainActivity extends BaseActivity
                 }
             }
         }
-    }
-
-    private ValueAnimator slideAnimator(int start, int end, final View v) {
-
-        ValueAnimator animator = ValueAnimator.ofInt(start, end);
-
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                int value = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
-                layoutParams.height = value;
-                v.setLayoutParams(layoutParams);
-            }
-        });
-        return animator;
     }
 /*
     // Todo once API allows for getting the websocket URL
@@ -4928,7 +4823,7 @@ public class MainActivity extends BaseActivity
         @Override
         public CharSequence getPageTitle(int position) {
             if (usedArray != null) {
-                return abbreviate(usedArray.get(position), 25);
+                return StringUtil.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }
@@ -5088,7 +4983,7 @@ public class MainActivity extends BaseActivity
         @Override
         public CharSequence getPageTitle(int position) {
             if (usedArray != null && position != toOpenComments) {
-                return abbreviate(usedArray.get(position), 25);
+                return StringUtil.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }

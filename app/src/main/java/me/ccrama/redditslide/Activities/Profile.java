@@ -88,7 +88,7 @@ public class Profile extends BaseActivityAnim {
     private String[] usedArray;
     public boolean isSavedView;
 
-    public static boolean isValidUsername(String user) {
+    private static boolean isValidUsername(String user) {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
     }

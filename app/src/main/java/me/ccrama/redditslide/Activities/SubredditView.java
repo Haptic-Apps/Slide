@@ -94,6 +94,7 @@ import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.StringUtil;
@@ -1388,7 +1389,7 @@ public class SubredditView extends BaseActivity {
                 currentlySubbed =
                         Authentication.isLoggedIn ? subreddit.isUserSubscriber() : UserSubscriptions.getSubscriptions(this)
                                 .contains(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
-                doSubscribeButtonText(currentlySubbed, subscribe);
+                MiscUtil.doSubscribeButtonText(currentlySubbed, subscribe);
 
                 assert subscribe != null;
                 subscribe.setOnClickListener(new View.OnClickListener() {
@@ -1490,7 +1491,7 @@ public class SubredditView extends BaseActivity {
                         } else {
                             doUnsubscribe();
                         }
-                        doSubscribeButtonText(currentlySubbed, subscribe);
+                        MiscUtil.doSubscribeButtonText(currentlySubbed, subscribe);
                     }
 
                     private void doUnsubscribe() {
@@ -1735,22 +1736,6 @@ public class SubredditView extends BaseActivity {
                     getString(R.string.subreddit_active_users_string_new,
                             subreddit.getLocalizedAccountsActive()));
             findViewById(R.id.active_users).setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
-        if (Authentication.didOnline) {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.unsubscribe_caps);
-            } else {
-                subscribe.setText(R.string.subscribe_caps);
-            }
-        } else {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.btn_remove_from_sublist);
-            } else {
-                subscribe.setText(R.string.btn_add_to_sublist);
-            }
         }
     }
 

@@ -59,7 +59,6 @@ import java.net.URL;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
-import java.text.DecimalFormat;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.MediaView;
@@ -924,21 +923,6 @@ public class GifUtils {
          */
 
         /**
-         * Convert a byte count into a human-readable size
-         *
-         * @param size Byte count
-         * @return Human-readable size
-         */
-        static String readableFileSize(long size) {
-            if (size <= 0) return "0";
-            final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
-            int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-            return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups))
-                    + " "
-                    + units[digitGroups];
-        }
-
-        /**
          * Get a remote video's file size
          *
          * @param url      URL of video (or v.redd.it DASH manifest) to get
@@ -958,7 +942,7 @@ public class GifUtils {
                     c.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            sizeText.setText(readableFileSize(size));
+                            sizeText.setText(FileUtil.readableFileSize(size));
                         }
                     });
                 } catch (IOException e) {
@@ -1016,7 +1000,7 @@ public class GifUtils {
                         public void run() {
                             // We can't know which quality will be selected, so we display <= the highest quality size
                             if (totalSize > 0)
-                                sizeText.setText("≤ " + readableFileSize(totalSize));
+                                sizeText.setText("≤ " + FileUtil.readableFileSize(totalSize));
                         }
                     });
                 } catch (IOException ignored) {

@@ -1,9 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,28 +20,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  */
 public class Shortcut extends BaseActivity {
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
@@ -53,11 +27,7 @@ public class Shortcut extends BaseActivity {
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         super.onCreate(savedInstanceState);
-
-
         doShortcut();
-
-
     }
 
     View header;
@@ -79,12 +49,10 @@ public class Shortcut extends BaseActivity {
         ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
             }
 
             @Override
@@ -94,6 +62,4 @@ public class Shortcut extends BaseActivity {
             }
         });
     }
-
-
 }

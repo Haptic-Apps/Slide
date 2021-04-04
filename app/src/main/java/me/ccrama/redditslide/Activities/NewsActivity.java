@@ -55,6 +55,7 @@ import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.StringUtil;
 
 public class NewsActivity extends BaseActivity
         implements NetworkStateReceiver.NetworkStateReceiverListener {
@@ -261,15 +262,6 @@ public class NewsActivity extends BaseActivity
         }
         Slide.hasStarted = false;
         super.onDestroy();
-    }
-
-    public static String abbreviate(final String str, final int maxWidth) {
-        if (str.length() <= maxWidth) {
-            return str;
-        }
-
-        final String abrevMarker = "...";
-        return str.substring(0, maxWidth - 3) + abrevMarker;
     }
 
     String shouldLoad;
@@ -536,7 +528,7 @@ public class NewsActivity extends BaseActivity
         @Override
         public CharSequence getPageTitle(int position) {
             if (usedArray != null) {
-                return abbreviate(usedArray.get(position), 25);
+                return StringUtil.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }

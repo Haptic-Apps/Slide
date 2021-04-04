@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.devspark.robototextview.RobotoTypefaces;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Album;
@@ -155,7 +153,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             {
                 if (user.getTitle() != null) {
                     List<String> text = SubmissionParser.getBlocks(user.getTitle());
-                    setTextWithLinks(text.get(0), holder.text);
+                    LinkUtil.setTextWithLinks(text.get(0), holder.text);
                     if (holder.text.getText().toString().isEmpty()) {
                         holder.text.setVisibility(View.GONE);
                     }
@@ -168,7 +166,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             {
                 if (user.getDescription() != null) {
                     List<String> text = SubmissionParser.getBlocks(user.getDescription());
-                    setTextWithLinks(text.get(0), holder.body);
+                    LinkUtil.setTextWithLinks(text.get(0), holder.body);
                     if (holder.body.getText().toString().isEmpty()) {
                         holder.body.setVisibility(View.GONE);
                     }
@@ -208,20 +206,6 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), paddingBottom ? height : main.findViewById(R.id.toolbar).getHeight()));
         }
 
-    }
-
-    public static void setTextWithLinks(String s, SpoilerRobotoTextView text) {
-        String[] parts = s.split("\\s+");
-
-        StringBuilder b = new StringBuilder();
-        for (String item : parts)
-            try {
-                URL url = new URL(item);
-                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
-            } catch (MalformedURLException e) {
-                b.append(" ").append(item);
-            }
-        text.setTextHtml(b.toString(), "no sub");
     }
 
     @Override

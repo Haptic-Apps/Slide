@@ -115,6 +115,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.StringUtil;
@@ -1402,7 +1403,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
                             currentlySubbed = Authentication.isLoggedIn ? baseSub.isUserSubscriber() : UserSubscriptions.getSubscriptions(getActivity())
                                     .contains(baseSub.getDisplayName().toLowerCase(Locale.ENGLISH));
-                            doSubscribeButtonText(currentlySubbed, subscribe);
+                            MiscUtil.doSubscribeButtonText(currentlySubbed, subscribe);
 
                             subscribe.setOnClickListener(new View.OnClickListener() {
                                 private void doSubscribe() {
@@ -1512,7 +1513,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                     } else {
                                         doUnsubscribe();
                                     }
-                                    doSubscribeButtonText(currentlySubbed, subscribe);
+                                    MiscUtil.doSubscribeButtonText(currentlySubbed, subscribe);
                                 }
 
                                 private void doUnsubscribe() {
@@ -2271,22 +2272,6 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
             }
         } else {
             commentOverflow.removeAllViews();
-        }
-    }
-
-    private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
-        if (Authentication.didOnline) {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.unsubscribe_caps);
-            } else {
-                subscribe.setText(R.string.subscribe_caps);
-            }
-        } else {
-            if (currentlySubbed) {
-                subscribe.setText(R.string.btn_remove_from_sublist);
-            } else {
-                subscribe.setText(R.string.btn_add_to_sublist);
-            }
         }
     }
 

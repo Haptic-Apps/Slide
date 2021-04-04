@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,22 +72,6 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
     }
 
-    private int getNumColumns(final int orientation) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = getActivity().isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -96,7 +79,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         rv = v.findViewById(R.id.vertical_content);
         final RecyclerView.LayoutManager mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
+                createLayoutManager(LayoutUtils.getNumColumns(getResources().getConfiguration().orientation, getActivity()));
 
         rv.setLayoutManager(mLayoutManager);
         if (SettingValues.fab) {
@@ -378,7 +361,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         final CatchStaggeredGridLayoutManager mLayoutManager =
                 (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
+        mLayoutManager.setSpanCount(LayoutUtils.getNumColumns(currentOrientation, getActivity()));
     }
 
     @Override

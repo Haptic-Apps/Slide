@@ -70,7 +70,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         listView.setAdapter(new ErrorAdapter());
         isError = true;
         listView.setLayoutManager(SubmissionsView.createLayoutManager(
-                SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation,
+                LayoutUtils.getNumColumns(context.getResources().getConfiguration().orientation,
                         context)));
     }
 
@@ -99,7 +99,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         listView.setAdapter(this);
         isError = false;
         listView.setLayoutManager(SubmissionsView.createLayoutManager(
-                SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation,
+                LayoutUtils.getNumColumns(context.getResources().getConfiguration().orientation,
                         context)));
     }
 

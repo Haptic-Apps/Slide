@@ -1,7 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,7 +21,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +32,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.Gson;
@@ -74,7 +70,7 @@ import me.ccrama.redditslide.Views.ExoVideoView;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
-import me.ccrama.redditslide.util.DisplayUtil;
+import me.ccrama.redditslide.util.AnimatorUtil;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -83,7 +79,6 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
 
-import static me.ccrama.redditslide.Activities.AlbumPager.readableFileSize;
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 
@@ -122,70 +117,7 @@ public class MediaView extends FullScreenActivity
     private Gson                       gson;
     private String                     mashapeKey;
 
-    public static void animateIn(View l) {
-        l.setVisibility(View.VISIBLE);
-
-        ValueAnimator mAnimator = slideAnimator(0, DisplayUtil.dpToPxVertical(56), l);
-
-        mAnimator.start();
-    }
-
-    public static void fadeIn(View l) {
-        ValueAnimator mAnimator = fadeAnimator(0.66f, 1, l);
-        mAnimator.start();
-    }
-
-    private static ValueAnimator fadeAnimator(float start, float end, final View v) {
-        ValueAnimator animator = ValueAnimator.ofFloat(start, end);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                float value = (Float) valueAnimator.getAnimatedValue();
-                v.setAlpha(value);
-            }
-        });
-        return animator;
-    }
-
-    private static ValueAnimator slideAnimator(int start, int end, final View v) {
-        ValueAnimator animator = ValueAnimator.ofInt(start, end);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                int value = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
-                layoutParams.height = value;
-                v.setLayoutParams(layoutParams);
-            }
-        });
-        return animator;
-    }
-
-    public static void animateOut(final View l) {
-        ValueAnimator mAnimator = slideAnimator(DisplayUtil.dpToPxVertical(36), 0, l);
-        mAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                l.setVisibility(View.GONE);
-            }
-        });
-        mAnimator.start();
-
-
-    }
-
-    public static void fadeOut(final View l) {
-        ValueAnimator mAnimator = fadeAnimator(1, .66f, l);
-        mAnimator.start();
-    }
-
-    public static boolean shouldTruncate(String url) {
+    private static boolean shouldTruncate(String url) {
         try {
             final URI uri = new URI(url);
             final String path = uri.getPath();
@@ -574,12 +506,12 @@ public class MediaView extends FullScreenActivity
             @Override
             public void onClick(View v) {
                 if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
-                    animateIn(findViewById(R.id.gifheader));
-                    fadeOut(findViewById(R.id.black));
+                    AnimatorUtil.animateIn(findViewById(R.id.gifheader), 56);
+                    AnimatorUtil.fadeOut(findViewById(R.id.black));
                     getWindow().getDecorView().setSystemUiVisibility(0);
                 } else {
-                    animateOut(findViewById(R.id.gifheader));
-                    fadeIn(findViewById(R.id.black));
+                    AnimatorUtil.animateOut(findViewById(R.id.gifheader));
+                    AnimatorUtil.fadeIn(findViewById(R.id.black));
                     getWindow().getDecorView()
                             .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
                 }
@@ -590,8 +522,8 @@ public class MediaView extends FullScreenActivity
             @Override
             public void onClick(View v2) {
                 if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
-                    animateIn(findViewById(R.id.gifheader));
-                    fadeOut(findViewById(R.id.black));
+                    AnimatorUtil.animateIn(findViewById(R.id.gifheader), 56);
+                    AnimatorUtil.fadeOut(findViewById(R.id.black));
                     getWindow().getDecorView().setSystemUiVisibility(0);
                 } else {
                     finish();
@@ -760,8 +692,8 @@ public class MediaView extends FullScreenActivity
             @Override
             public void onClick(View v) {
                 if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
-                    animateIn(findViewById(R.id.gifheader));
-                    fadeOut(findViewById(R.id.black));
+                    AnimatorUtil.animateIn(findViewById(R.id.gifheader), 56);
+                    AnimatorUtil.fadeOut(findViewById(R.id.black));
                 }
             }
         });
@@ -1288,7 +1220,7 @@ public class MediaView extends FullScreenActivity
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
-                                        size.setText(readableFileSize(total));
+                                        size.setText(FileUtil.readableFileSize(total));
 
                                         ((ProgressBar) findViewById(R.id.progress)).setProgress(
                                                 Math.round(100.0f * current / total));

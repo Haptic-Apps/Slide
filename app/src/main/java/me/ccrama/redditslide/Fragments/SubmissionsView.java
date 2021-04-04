@@ -1,11 +1,9 @@
 package me.ccrama.redditslide.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.GestureDetector;
@@ -86,7 +84,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final CatchStaggeredGridLayoutManager mLayoutManager =
                 (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        mLayoutManager.setSpanCount(getNumColumns(currentOrientation, getActivity()));
+        mLayoutManager.setSpanCount(LayoutUtils.getNumColumns(currentOrientation, getActivity()));
     }
 
     Runnable mLongPressRunnable;
@@ -110,7 +108,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv.setHasFixedSize(true);
 
         final RecyclerView.LayoutManager mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, getActivity()));
+                createLayoutManager(LayoutUtils.getNumColumns(getResources().getConfiguration().orientation, getActivity()));
 
         if (!(getActivity() instanceof SubredditView)) {
             v.findViewById(R.id.back).setBackground(null);
@@ -364,23 +362,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public static RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,
                 CatchStaggeredGridLayoutManager.VERTICAL);
-    }
-
-    public static int getNumColumns(final int orientation, Activity context) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
-                && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
     }
 
     public void doAdapter() {

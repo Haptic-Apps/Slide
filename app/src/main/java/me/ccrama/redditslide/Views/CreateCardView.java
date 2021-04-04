@@ -1,7 +1,5 @@
 package me.ccrama.redditslide.Views;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -14,13 +12,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.AnimatorUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 
 /**
@@ -262,66 +260,11 @@ public class CreateCardView {
 
     }
 
-    private static ValueAnimator slideAnimator(int start, int end, final View v) {
-        ValueAnimator animator = ValueAnimator.ofInt(start, end);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                int value = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
-                layoutParams.height = value;
-                v.setLayoutParams(layoutParams);
-            }
-        });
-        return animator;
-    }
-
-    private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
-        if (v != null) {
-            ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
-            animator.setInterpolator(new FastOutSlowInInterpolator());
-
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    //Update Height
-                    v.setScaleY((Float) valueAnimator.getAnimatedValue());
-                }
-            });
-            return animator;
-        }
-        return null;
-    }
-
-    public static void animateIn(View l) {
-        l.setVisibility(View.VISIBLE);
-
-        ValueAnimator mAnimator = slideAnimator(0, DisplayUtil.dpToPxVertical(36), l);
-
-        mAnimator.start();
-    }
-
-    public static void animateOut(final View l) {
-
-        ValueAnimator mAnimator = slideAnimator(DisplayUtil.dpToPxVertical(36), 0, l);
-        mAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                l.setVisibility(View.GONE);
-            }
-        });
-        mAnimator.start();
-
-
-    }
-
     public static void toggleActionbar(View v) {
         if (!SettingValues.actionbarVisible) {
 
-            ValueAnimator a = flipAnimator(v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE, v.findViewById(R.id.secondMenu));
+            ValueAnimator a = AnimatorUtil.flipAnimatorIfNonNull(
+                    v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE, v.findViewById(R.id.secondMenu));
             if (a != null)
                 a.start();
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
@@ -329,24 +272,24 @@ public class CreateCardView {
                     if (v2.getId() == R.id.save) {
                         if (SettingValues.saveButton) {
                             if (v2.getVisibility() == View.VISIBLE) {
-                                animateOut(v2);
+                                AnimatorUtil.animateOut(v2);
                             } else {
-                                animateIn(v2);
+                                AnimatorUtil.animateIn(v2, 36);
                             }
                         }
                     } else if (v2.getId() == R.id.hide) {
                         if (SettingValues.hideButton) {
                             if (v2.getVisibility() == View.VISIBLE) {
-                                animateOut(v2);
+                                AnimatorUtil.animateOut(v2);
                             } else {
-                                animateIn(v2);
+                                AnimatorUtil.animateIn(v2, 36);
                             }
                         }
                     } else {
                         if (v2.getVisibility() == View.VISIBLE) {
-                            animateOut(v2);
+                            AnimatorUtil.animateOut(v2);
                         } else {
-                            animateIn(v2);
+                            AnimatorUtil.animateIn(v2, 36);
                         }
                     }
                 }

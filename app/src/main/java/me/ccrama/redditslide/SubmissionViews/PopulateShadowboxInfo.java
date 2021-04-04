@@ -30,7 +30,6 @@ import androidx.core.text.HtmlCompat;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.google.android.material.snackbar.Snackbar;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.ApiException;
@@ -59,7 +58,6 @@ import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.ClipboardUtil;
-import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
@@ -567,7 +565,7 @@ public class PopulateShadowboxInfo {
                                                             .findViewById(reasonGroup.getCheckedRadioButtonId()))
                                                             .getText().toString();
                                                 }
-                                                new AsyncReportTask(submission, rootView)
+                                                new PopulateBase.AsyncReportTask(submission, rootView)
                                                         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                                                                 reportReason);
                                             }
@@ -646,31 +644,4 @@ public class PopulateShadowboxInfo {
 
         b.show();
     }
-
-    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
-        private Submission submission;
-        private View contextView;
-
-        public AsyncReportTask(Submission submission, View contextView) {
-            this.submission = submission;
-            this.contextView = contextView;
-        }
-
-        @Override
-        protected Void doInBackground(String... reason) {
-            try {
-                new AccountManager(Authentication.reddit).report(submission, reason[0]);
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-            LayoutUtils.showSnackbar(s);
-        }
-    }
-
 }

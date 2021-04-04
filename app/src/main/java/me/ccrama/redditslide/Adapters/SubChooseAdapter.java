@@ -28,6 +28,7 @@ import me.ccrama.redditslide.Activities.Shortcut;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
+import me.ccrama.redditslide.util.DrawableUtil;
 import me.ccrama.redditslide.util.ImageUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -115,10 +116,12 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                     final Bitmap bm2;
                     Intent shortcutIntent  = new Intent(getContext(), OpenContent.class);
                     if (subreddit.toLowerCase(Locale.ENGLISH).equals("androidcirclejerk")) {
-                        bm2 = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
+                        bm2 = DrawableUtil.drawableToBitmapShortcut(
+                                ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
                         Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
                     } else {
-                        src = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
+                        src = DrawableUtil.drawableToBitmapShortcut(
+                                ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
                         final int overlayColor = Palette.getColor(subreddit);
                         final Paint paint = new Paint();
                         final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);

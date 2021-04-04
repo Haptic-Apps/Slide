@@ -70,7 +70,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void setError(Boolean b) {
        listView.setAdapter(new ErrorAdapter());
         isError = true;
-        listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation, context)));
+        listView.setLayoutManager(SubmissionsView.createLayoutManager(
+                LayoutUtils.getNumColumns(context.getResources().getConfiguration().orientation, context)));
     }
 
     public boolean isError;
@@ -97,7 +98,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void undoSetError() {
         listView.setAdapter(this);
         isError = false;
-        listView.setLayoutManager(SubmissionsView.createLayoutManager(SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation, context)));
+        listView.setLayoutManager(SubmissionsView.createLayoutManager(
+                LayoutUtils.getNumColumns(context.getResources().getConfiguration().orientation, context)));
     }
 
     @Override

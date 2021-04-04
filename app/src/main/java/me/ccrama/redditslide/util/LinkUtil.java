@@ -6,10 +6,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +27,8 @@ import net.dean.jraw.models.Submission;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLDecoder;
 
 import me.ccrama.redditslide.Activities.Crosspost;
@@ -40,7 +38,8 @@ import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.SubmissionViews.PopulateBase;
 
 import static me.ccrama.redditslide.Fragments.SettingsHandlingFragment.LinkHandlingMode;
 
@@ -55,22 +54,6 @@ public class LinkUtil {
     public static final String ADAPTER_POSITION = "adapter_position";
 
     private LinkUtil() {
-    }
-
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap =
-                Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
-                        Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
     }
 
     /**
@@ -100,7 +83,7 @@ public class LinkUtil {
                         .setShareState(CustomTabsIntent.SHARE_STATE_ON)
                         .addMenuItem(contextActivity.getString(R.string.open_links_externally),
                                 pendingIntent)
-                        .setCloseButtonIcon(drawableToBitmap(
+                        .setCloseButtonIcon(DrawableUtil.drawableToBitmap(
                                 ContextCompat.getDrawable(contextActivity,
                                         R.drawable.ic_arrow_back)));
         try {
@@ -143,7 +126,7 @@ public class LinkUtil {
             @Nullable Submission submission) {
         intent.putExtra(EXTRA_URL, url);
         if (adapterPosition != null && submission != null) {
-            PopulateSubmissionViewHolder.addAdaptorPosition(intent, submission, adapterPosition);
+            PopulateBase.addAdaptorPosition(intent, submission, adapterPosition);
         }
         intent.putExtra(EXTRA_COLOR, color);
         contextActivity.startActivity(intent);
@@ -306,5 +289,19 @@ public class LinkUtil {
         } catch (UnsupportedEncodingException ignored) {
             return returnUrl;
         }
+    }
+
+    public static void setTextWithLinks(final String s, final SpoilerRobotoTextView text) {
+        final String[] parts = s.split("\\s+");
+
+        final StringBuilder b = new StringBuilder();
+        for (final String item : parts)
+            try {
+                final URL url = new URL(item);
+                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
+            } catch (MalformedURLException e) {
+                b.append(" ").append(item);
+            }
+        text.setTextHtml(b.toString(), "no sub");
     }
 }

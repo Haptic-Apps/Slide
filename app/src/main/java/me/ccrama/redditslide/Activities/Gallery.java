@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -22,9 +21,8 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
+import me.ccrama.redditslide.util.LayoutUtils;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -85,7 +83,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         rv = (RecyclerView) findViewById(R.id.content_view);
         recyclerAdapter = new GalleryView(this, baseSubs, subreddit);
         RecyclerView.LayoutManager layoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
+                createLayoutManager(LayoutUtils.getNumColumns(getResources().getConfiguration().orientation, Gallery.this));
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(recyclerAdapter);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -138,7 +136,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         final CatchStaggeredGridLayoutManager mLayoutManager =
                 (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
+        mLayoutManager.setSpanCount(LayoutUtils.getNumColumns(currentOrientation, Gallery.this));
     }
 
     @Override
@@ -191,22 +189,5 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,
                 CatchStaggeredGridLayoutManager.VERTICAL);
-    }
-
-    private int getNumColumns(final int orientation) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = Gallery.this.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
-                && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
     }
 }

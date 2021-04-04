@@ -96,7 +96,6 @@ import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.LastComments;
@@ -170,7 +169,7 @@ public class PopulateSubmissionViewHolder {
                                                 submission.getSubredditName());
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                         myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
-                                        addAdaptorPosition(myIntent, submission,
+                                        PopulateBase.addAdaptorPosition(myIntent, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(myIntent);
                                     } else {
@@ -250,7 +249,7 @@ public class PopulateSubmissionViewHolder {
                                         urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, urls);
                                         i.putExtras(urlsBundle);
 
-                                        addAdaptorPosition(i, submission,
+                                        PopulateBase.addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
@@ -286,7 +285,7 @@ public class PopulateSubmissionViewHolder {
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
-                                        addAdaptorPosition(i, submission,
+                                        PopulateBase.addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
@@ -309,7 +308,7 @@ public class PopulateSubmissionViewHolder {
                                         }
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
-                                        addAdaptorPosition(i, submission,
+                                        PopulateBase.addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
@@ -396,7 +395,7 @@ public class PopulateSubmissionViewHolder {
                 }
             }
             myIntent.putExtra(MediaView.EXTRA_URL, url);
-            addAdaptorPosition(myIntent, submission, adapterPosition);
+            PopulateBase.addAdaptorPosition(myIntent, submission, adapterPosition);
             myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
             contextActivity.startActivity(myIntent);
@@ -404,17 +403,6 @@ public class PopulateSubmissionViewHolder {
         } else {
             LinkUtil.openExternally(submission.getUrl());
         }
-
-    }
-
-    public static void addAdaptorPosition(Intent myIntent, Submission submission,
-            int adapterPosition) {
-        if (submission.getComments() == null && adapterPosition != -1) {
-            myIntent.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
-            myIntent.putExtra(MediaView.SUBMISSION_URL, submission.getPermalink());
-        }
-        SubmissionsView.currentPosition(adapterPosition);
-        SubmissionsView.currentSubmission(submission);
 
     }
 
@@ -533,7 +521,7 @@ public class PopulateSubmissionViewHolder {
                         .asText();
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
-            addAdaptorPosition(myIntent, submission, adapterPosition);
+            PopulateBase.addAdaptorPosition(myIntent, submission, adapterPosition);
             contextActivity.startActivity(myIntent);
         } else {
             LinkUtil.openExternally(submission.getUrl());

@@ -1,12 +1,18 @@
 package me.ccrama.redditslide.util;
 
+import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by TacoTheDank on 12/31/2020.
@@ -42,5 +48,22 @@ public class LayoutUtils {
         final TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);
         s.show();
+    }
+
+    // Should this go here in this class??? I don't think it should but idk where else to put it
+    public static int getNumColumns(final int orientation, final Activity activity) {
+        final int numColumns;
+        boolean singleColumnMultiWindow = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            singleColumnMultiWindow = activity.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
+            numColumns = Reddit.dpWidth;
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+            numColumns = 2;
+        } else {
+            numColumns = 1;
+        }
+        return numColumns;
     }
 }

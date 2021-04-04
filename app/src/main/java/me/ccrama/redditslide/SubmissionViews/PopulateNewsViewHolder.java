@@ -36,8 +36,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.android.material.snackbar.Snackbar;
 
-import net.dean.jraw.ApiException;
-import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Ruleset;
 import net.dean.jraw.models.Submission;
@@ -70,7 +68,6 @@ import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.LastComments;
@@ -194,7 +191,7 @@ public class PopulateNewsViewHolder {
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
-                                        addAdaptorPosition(i, submission,
+                                        PopulateBase.addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
@@ -218,7 +215,7 @@ public class PopulateNewsViewHolder {
                                         }
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
-                                        addAdaptorPosition(i, submission,
+                                        PopulateBase.addAdaptorPosition(i, submission,
                                                 holder.getAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
@@ -303,7 +300,7 @@ public class PopulateNewsViewHolder {
                 }
             }
             myIntent.putExtra(MediaView.EXTRA_URL, url);
-            addAdaptorPosition(myIntent, submission, adapterPosition);
+            PopulateBase.addAdaptorPosition(myIntent, submission, adapterPosition);
             myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
             contextActivity.startActivity(myIntent);
@@ -311,17 +308,6 @@ public class PopulateNewsViewHolder {
         } else {
             LinkUtil.openExternally(submission.getUrl());
         }
-
-    }
-
-    public static void addAdaptorPosition(Intent myIntent, Submission submission,
-            int adapterPosition) {
-        if (submission.getComments() == null && adapterPosition != -1) {
-            myIntent.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
-            myIntent.putExtra(MediaView.SUBMISSION_URL, submission.getPermalink());
-        }
-        SubmissionsView.currentPosition(adapterPosition);
-        SubmissionsView.currentSubmission(submission);
 
     }
 
@@ -391,7 +377,7 @@ public class PopulateNewsViewHolder {
                         .asText());
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
-            addAdaptorPosition(myIntent, submission, adapterPosition);
+            PopulateBase.addAdaptorPosition(myIntent, submission, adapterPosition);
             contextActivity.startActivity(myIntent);
         } else {
             LinkUtil.openExternally(submission.getUrl());
@@ -790,7 +776,7 @@ public class PopulateNewsViewHolder {
                                                     .findViewById(reasonGroup.getCheckedRadioButtonId()))
                                                     .getText().toString();
                                         }
-                                        new AsyncReportTask(submission, holder.itemView)
+                                        new PopulateBase.AsyncReportTask(submission, holder.itemView)
                                                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, reportReason);
                                     }
                                 }).build();
@@ -1103,32 +1089,6 @@ public class PopulateNewsViewHolder {
             holder.title.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
-        }
-    }
-
-    public static class AsyncReportTask extends AsyncTask<String, Void, Void> {
-        private Submission submission;
-        private View contextView;
-
-        public AsyncReportTask(Submission submission, View contextView) {
-            this.submission = submission;
-            this.contextView = contextView;
-        }
-
-        @Override
-        protected Void doInBackground(String... reason) {
-            try {
-                new AccountManager(Authentication.reddit).report(submission, reason[0]);
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Snackbar s = Snackbar.make(contextView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-            LayoutUtils.showSnackbar(s);
         }
     }
 }
