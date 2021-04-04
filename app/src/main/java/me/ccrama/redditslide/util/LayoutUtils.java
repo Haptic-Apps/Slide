@@ -35,7 +35,7 @@ public class LayoutUtils {
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        observer.removeOnGlobalLayoutListener(this);
+                        tabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         tabLayout.getTabAt(tabPosition).select();
                     }
                 });
