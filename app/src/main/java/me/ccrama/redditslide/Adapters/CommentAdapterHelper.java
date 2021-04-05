@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -22,7 +21,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
@@ -88,6 +86,7 @@ import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
 /**
@@ -1430,54 +1429,9 @@ public class CommentAdapterHelper {
                     (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
             a.recycle();
             // Add silver, gold, platinum icons and counts in that order
-            if (comment.getTimesSilvered() > 0) {
-                final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
-                        : "\u200Ax" + comment.getTimesSilvered();
-                SpannableStringBuilder silvered =
-                        new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
-                Bitmap image = adapter.awardIcons[0];
-                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                        (int) Math.ceil(fontsize), true);
-                silvered.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(silvered);
-                titleString.append(" ");
-            }
-            if (comment.getTimesGilded() > 0) {
-                final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                        : "\u200Ax" + comment.getTimesGilded();
-                SpannableStringBuilder gilded =
-                        new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-                Bitmap image = adapter.awardIcons[1];
-                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                        (int) Math.ceil(fontsize), true);
-                gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(gilded);
-                titleString.append(" ");
-            }
-            if (comment.getTimesPlatinized() > 0) {
-                final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
-                        : "\u200Ax" + comment.getTimesPlatinized();
-                SpannableStringBuilder platinized =
-                        new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
-                Bitmap image = adapter.awardIcons[2];
-                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                        (int) Math.ceil(fontsize), true);
-                platinized.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(platinized);
-                titleString.append(" ");
-            }
+            MiscUtil.addCommentAwards(mContext, fontsize, titleString, comment.getTimesSilvered(), adapter.awardIcons[0]);
+            MiscUtil.addCommentAwards(mContext, fontsize, titleString, comment.getTimesGilded(), adapter.awardIcons[1]);
+            MiscUtil.addCommentAwards(mContext, fontsize, titleString, comment.getTimesPlatinized(), adapter.awardIcons[2]);
         }
         if (UserTags.isUserTagged(comment.getAuthor())) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(

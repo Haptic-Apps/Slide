@@ -3,14 +3,10 @@ package me.ccrama.redditslide;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 
@@ -31,6 +27,7 @@ import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
 /**
@@ -429,54 +426,9 @@ public class SubmissionCache {
                     (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
             a.recycle();
             // Add silver, gold, platinum icons and counts in that order
-            if (submission.getTimesSilvered() > 0) {
-                final String timesSilvered = (submission.getTimesSilvered() == 1) ? ""
-                        : "\u200Ax" + submission.getTimesSilvered();
-                SpannableStringBuilder silvered =
-                        new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
-                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
-                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                        (int) Math.ceil(fontsize), true);
-                silvered.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                titleString.append(silvered);
-            }
-            if (submission.getTimesGilded() > 0) {
-                final String timesGilded = (submission.getTimesGilded() == 1) ? ""
-                        : "\u200Ax" + submission.getTimesGilded();
-                SpannableStringBuilder gilded =
-                        new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
-                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                        (int) Math.ceil(fontsize), true);
-                gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                titleString.append(gilded);
-            }
-            if (submission.getTimesPlatinized() > 0) {
-                final String timesPlatinized = (submission.getTimesPlatinized() == 1) ? ""
-                        : "\u200Ax" + submission.getTimesPlatinized();
-                SpannableStringBuilder platinized =
-                        new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
-                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
-                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                        (int) Math.ceil(fontsize), true);
-                platinized.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                titleString.append(platinized);
-            }
+            MiscUtil.addSubmissionAwards(mContext, fontsize, titleString, submission.getTimesSilvered(), R.drawable.silver);
+            MiscUtil.addSubmissionAwards(mContext, fontsize, titleString, submission.getTimesGilded(), R.drawable.gold);
+            MiscUtil.addSubmissionAwards(mContext, fontsize, titleString, submission.getTimesPlatinized(), R.drawable.platinum);
         }
         if (submission.isNsfw()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0NSFW\u00A0");
