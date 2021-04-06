@@ -705,11 +705,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @TargetApi(Build.VERSION_CODES.M)
     private static void setCanUseNightModeAuto() {
         UiModeManager uiModeManager = getAppContext().getSystemService(UiModeManager.class);
-        if (uiModeManager != null) {
-            uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
-            canUseNightModeAuto = true;
-        } else {
-            canUseNightModeAuto = false;
-        }
+        canUseNightModeAuto = uiModeManager != null
     }
 }
