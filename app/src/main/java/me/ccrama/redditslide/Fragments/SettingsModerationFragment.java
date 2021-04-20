@@ -14,6 +14,8 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import net.dean.jraw.http.NetworkException;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Toolbox.Toolbox;
@@ -242,9 +244,15 @@ public class SettingsModerationFragment {
         @Override
         protected Void doInBackground(Void... voids) {
             for (String sub : UserSubscriptions.modOf) {
-                Toolbox.downloadToolboxConfig(sub);
+                try {
+                    Toolbox.downloadToolboxConfig(sub);
+                } catch (NetworkException ignored) {
+                }
                 publishProgress();
-                Toolbox.downloadUsernotes(sub);
+                try {
+                    Toolbox.downloadUsernotes(sub);
+                } catch (NetworkException ignored) {
+                }
                 publishProgress();
             }
             return null;
