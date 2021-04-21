@@ -732,7 +732,11 @@ public class ToolboxUI {
         protected Boolean doInBackground(String... strings) {
             String reason;
 
-            Toolbox.downloadUsernotes(strings[0]);
+            try {
+                Toolbox.downloadUsernotes(strings[0]);
+            } catch (NetworkException e) {
+                return false;
+            }
             if (Toolbox.getUsernotes(strings[0]) == null) {
                 Toolbox.createUsernotes(strings[0]);
                 reason = "create usernotes config";
@@ -791,7 +795,11 @@ public class ToolboxUI {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            Toolbox.downloadUsernotes(strings[0]);
+            try {
+                Toolbox.downloadUsernotes(strings[0]);
+            } catch (NetworkException e) {
+                return false;
+            }
             Toolbox.getUsernotes(strings[0]).removeNote(strings[1], note);
             try {
                 Toolbox.uploadUsernotes(strings[0], "delete note " + note.getTime() + " on user " + strings[1]);

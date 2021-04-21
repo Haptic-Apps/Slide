@@ -201,6 +201,8 @@ public class Toolbox {
         } catch (NetworkException | JsonParseException e) {
             if (e instanceof JsonParseException) {
                 notes.remove(subreddit);
+            } else if (e instanceof NetworkException && ((NetworkException) e).getResponse().getStatusCode() != 404) {
+                throw e;
             }
             cache.edit().putLong(subreddit + "_usernotes_timestamp", System.currentTimeMillis())
                     .putBoolean(subreddit + "_usernotes_exists", false).apply();
@@ -230,6 +232,8 @@ public class Toolbox {
         } catch (NetworkException | JsonParseException e) {
             if (e instanceof JsonParseException) {
                 toolboxConfigs.remove(subreddit);
+            } else if (e instanceof NetworkException && ((NetworkException) e).getResponse().getStatusCode() != 404) {
+                throw e;
             }
             cache.edit().putLong(subreddit + "_config_timestamp", System.currentTimeMillis())
                     .putBoolean(subreddit + "_config_exists", false).apply();
@@ -261,7 +265,10 @@ public class Toolbox {
     private static class AsyncLoadUsernotes extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... subreddit) {
-            downloadUsernotes(subreddit[0]);
+            try {
+                downloadUsernotes(subreddit[0]);
+            } catch (NetworkException ignored) {
+            }
             return null;
         }
     }
@@ -269,7 +276,10 @@ public class Toolbox {
     private static class AsyncLoadToolboxConfig extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... subreddit) {
-            downloadToolboxConfig(subreddit[0]);
+            try {
+                downloadToolboxConfig(subreddit[0]);
+            } catch (NetworkException ignored) {
+            }
             return null;
         }
     }
