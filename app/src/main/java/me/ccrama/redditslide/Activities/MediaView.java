@@ -771,7 +771,7 @@ public class MediaView extends FullScreenActivity
         findViewById(R.id.progress).setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif(this, videoView, loader,
                 findViewById(R.id.placeholder), doOnClick, true, true,
-                ((TextView) findViewById(R.id.size)), subreddit);
+                ((TextView) findViewById(R.id.size)), subreddit, submissionTitle);
         videoView.attachMuteButton((ImageView) findViewById(R.id.mute));
         videoView.attachHqButton((ImageView) findViewById(R.id.hq));
         gif.execute(dat);

@@ -61,7 +61,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.text.DecimalFormat;
 import java.util.Locale;
-import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Website;
@@ -162,7 +161,7 @@ public class GifUtils {
      * @param subreddit Subreddit for saving in sub-specific folders
      * @param save      Whether to permanently save the GIF of just temporarily cache it
      */
-    public static void cacheSaveGif(Uri uri, Activity a, String subreddit, boolean save) {
+    public static void cacheSaveGif(Uri uri, Activity a, String subreddit, String submissionTitle, boolean save) {
         if (save) {
             try {
                 Toast.makeText(a, a.getString(R.string.mediaview_notif_title), Toast.LENGTH_SHORT).show();
@@ -196,18 +195,16 @@ public class GifUtils {
 
                 @Override
                 protected Boolean doInBackground(Void... voids) {
+                    String folderPath = Reddit.appRestart.getString("imagelocation", "");
+
+                    String subFolderPath = "";
                     if (SettingValues.imageSubfolders && !subreddit.isEmpty()) {
-                        File directory = new File(Reddit.appRestart.getString("imagelocation", "")
-                                + (SettingValues.imageSubfolders
-                                && !subreddit.isEmpty() ? File.separator + subreddit : ""));
-                        directory.mkdirs();
+                        subFolderPath = File.separator + subreddit;
                     }
-                    outFile = new File(Reddit.appRestart.getString("imagelocation", "")
-                            + (SettingValues.imageSubfolders && !subreddit.isEmpty() ? File.separator
-                            + subreddit : "")
-                            + File.separator
-                            + UUID.randomUUID().toString()
-                            + ".mp4");
+
+                    String extension = ".mp4";
+
+                    outFile = FileUtil.getValidFile(folderPath, subFolderPath, submissionTitle, "", extension);
 
                     OutputStream out = null;
                     InputStream in = null;
@@ -351,6 +348,7 @@ public class GifUtils {
         private Runnable doOnClick;
         private boolean autostart;
         public String subreddit;
+        public String submissionTitle;
 
         private TextView size;
 
@@ -369,7 +367,7 @@ public class GifUtils {
 
         public AsyncLoadGif(@NonNull Activity c, @NonNull ExoVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave,
-                boolean closeIfNull, boolean autostart, TextView size, String subreddit) {
+                boolean closeIfNull, boolean autostart, TextView size, String subreddit, String submissionTitle) {
             this.c = c;
             this.video = video;
             this.subreddit = subreddit;
@@ -379,6 +377,7 @@ public class GifUtils {
             this.doOnClick = gifSave;
             this.autostart = autostart;
             this.size = size;
+            this.submissionTitle = submissionTitle;
         }
 
         public void onError() {
@@ -835,14 +834,14 @@ public class GifUtils {
                 gifSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        cacheSaveGif(uri, c, subreddit, true);
+                        cacheSaveGif(uri, c, subreddit, submissionTitle, true);
                     }
                 });
             } else if (doOnClick != null) {
                 MediaView.doOnClick = new Runnable() {
                     @Override
                     public void run() {
-                        cacheSaveGif(uri, c, subreddit, true);
+                        cacheSaveGif(uri, c, subreddit, submissionTitle, true);
                     }
                 };
             }

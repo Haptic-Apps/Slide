@@ -183,6 +183,7 @@ public class CommentCacheAsync extends AsyncTask {
                                                         Uri.parse(GifUtils.AsyncLoadGif.formatUrl(s.getUrl())),
                                                         (Activity) context,
                                                         s.getSubredditName(),
+                                                        null,
                                                         false
                                                 );
                                             }

@@ -409,7 +409,7 @@ public class AlbumPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, rootView.findViewById(R.id.size), ((AlbumPager)getActivity()).subreddit).execute(url);
+            }, false, true, rootView.findViewById(R.id.size), ((AlbumPager)getActivity()).subreddit, getActivity().getIntent().getStringExtra(EXTRA_SUBMISSION_TITLE)).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
