@@ -211,6 +211,8 @@
     <string name="editor_submit">Submit a post</string>
     <string name="editor_hint_subreddit">Subreddit</string>
     <string name="editor_finding_title">Finding the title</string>
+    <string name="submit_findingflairs">Finding flairs</string>
+    <string name="submit_flairchoices">/r/%s flairs</string>
 
 
     <string name="edit_selftext">Edit selftext</string>
@@ -1224,4 +1226,6 @@
     <string name="settings_hide_comment_awards">Hide awards</string>
     <string name="high_colorspace_images">High-Colorspace Images</string>
     <string name="description_high_colorspace">Loads full colorspace on images, potentially leading to higher memory usage</string>
+    <string name="editor_btn_select_flair">Select flair</string>
+    <string name="submit_selected_flair">Selected flair: %s</string>
 </resources>

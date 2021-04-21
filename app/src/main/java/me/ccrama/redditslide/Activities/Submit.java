@@ -19,8 +19,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
@@ -30,21 +40,27 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.dean.jraw.ApiException;
+import net.dean.jraw.http.HttpRequest;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
+import net.dean.jraw.models.UserRecord;
 
 import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgur;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgurAlbum;
+import me.ccrama.redditslide.Flair.RichFlair;
+import me.ccrama.redditslide.ImgurAlbum.AlbumImage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -53,25 +69,33 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.ImageInsertEditText;
+import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TitleExtractor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * Created by ccrama on 3/5/2015.
  */
 public class Submit extends BaseActivity {
 
-    private boolean      sent;
-    private String       URL;
-    private SwitchCompat inboxReplies;
-    private View         image;
-    private View         link;
-    private View         self;
-    public static final String EXTRA_SUBREDDIT = "subreddit";
-    public static final String EXTRA_BODY = "body";
-    public static final String EXTRA_IS_SELF = "is_self";
+    private             boolean      sent;
+    private             String       trying;
+    private             String       URL;
+    private             String       selectedFlairID;
+    private             SwitchCompat inboxReplies;
+    private             View         image;
+    private             View         link;
+    private             View         self;
+    public static final String       EXTRA_SUBREDDIT = "subreddit";
+    public static final String       EXTRA_BODY      = "body";
+    public static final String       EXTRA_IS_SELF   = "is_self";
 
     AsyncTask<Void, Void, Subreddit> tchange;
+    private OkHttpClient client;
+    private Gson         gson;
 
     @Override
     public void onDestroy() {
@@ -225,6 +249,12 @@ public class Submit extends BaseActivity {
                 link.setVisibility(View.VISIBLE);
             }
         });
+        findViewById(R.id.flair).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFlairChooser();
+            }
+        });
 
         findViewById(R.id.suggest).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,8 +300,8 @@ public class Submit extends BaseActivity {
             @Override
             public void onClick(View view) {
                 TedBottomPicker tedBottomPicker =
-                        new TedBottomPicker.Builder(Submit.this)
-                                .setOnImageSelectedListener(Submit.this::handleImageIntent)
+                        new TedBottomPicker.Builder(Submit.this).setOnImageSelectedListener(
+                                Submit.this::handleImageIntent)
                                 .setLayoutResource(R.layout.image_sheet_dialog)
                                 .setTitle("Choose a photo")
                                 .create();
@@ -289,14 +319,12 @@ public class Submit extends BaseActivity {
                 findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this, null, null);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras()
                 .getString(Intent.EXTRA_TEXT, "")
-                .isEmpty()
-                && !intent.getBooleanExtra(EXTRA_IS_SELF, false)) {
+                .isEmpty() && !intent.getBooleanExtra(EXTRA_IS_SELF, false)) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (data.contains("\n")) {
                 ((EditText) findViewById(R.id.titletext)).setText(
                         data.substring(0, data.indexOf("\n")));
-                ((EditText) findViewById(R.id.urltext)).setText(
-                        data.substring(data.indexOf("\n")));
+                ((EditText) findViewById(R.id.urltext)).setText(data.substring(data.indexOf("\n")));
             } else {
                 ((EditText) findViewById(R.id.urltext)).setText(data);
             }
@@ -344,6 +372,78 @@ public class Submit extends BaseActivity {
                         .displayImage(URL, ((ImageView) findViewById(R.id.imagepost)));
             }
         });
+    }
+
+    private void showFlairChooser() {
+        client = Reddit.client;
+        gson = new Gson();
+
+        String subreddit = ((EditText) findViewById(R.id.subreddittext)).getText().toString();
+
+        final Dialog d =
+                new MaterialDialog.Builder(Submit.this).title(R.string.submit_findingflairs)
+                        .cancelable(true)
+                        .content(R.string.misc_please_wait)
+                        .progress(true, 100)
+                        .show();
+        new AsyncTask<Void, Void, JsonArray>() {
+            ArrayList<JsonObject> flairs;
+
+            @Override
+            protected JsonArray doInBackground(Void... params) {
+                flairs = new ArrayList<>();
+                HttpRequest r = Authentication.reddit.request()
+                        .path("/r/" + subreddit + "/api/link_flair_v2.json")
+                        .get()
+                        .build();
+
+                Request request = new Request.Builder()
+                        .headers(r.getHeaders().newBuilder().set("User-Agent", "Slide flair search").build())
+                        .url(r.getUrl())
+                        .build();
+
+                return HttpUtil.getJsonArray(client, gson, request);
+            }
+
+            @Override
+            protected void onPostExecute(final JsonArray result) {
+                if (result == null) {
+                    LogUtil.v("Error loading content");
+                    d.dismiss();
+                } else {
+                    try {
+                        final HashMap<String, RichFlair> flairs = new HashMap<>();
+                        for(JsonElement object : result) {
+                            RichFlair choice = new ObjectMapper().disable(
+                                    DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).readValue(object.toString(), RichFlair.class);
+                            String title = choice.getText();
+                            flairs.put(title, choice);
+                        }
+                        d.dismiss();
+
+                        ArrayList<String> allKeys = new ArrayList<>(flairs.keySet());
+
+                        new MaterialDialog.Builder(Submit.this).title(
+                                getString(R.string.submit_flairchoices, subreddit))
+                                .items(allKeys)
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog,
+                                            View itemView, int which, CharSequence text) {
+                                        RichFlair selected = flairs.get(allKeys.get(which));
+                                        selectedFlairID = selected.getId();
+                                        ((TextView) findViewById(R.id.flair)).setText(getString(R.string.submit_selected_flair, selected.getText()));
+                                    }
+                                })
+                                .show();
+                } catch(Exception e) {
+                        LogUtil.v(e.toString());
+                        d.dismiss();
+                        LogUtil.v("Error parsing flairs");
+                    }
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
@@ -404,13 +504,18 @@ public class Submit extends BaseActivity {
                     final String text =
                             ((EditText) findViewById(R.id.bodytext)).getText().toString();
                     try {
-                        Submission s = new AccountManager(Authentication.reddit).submit(
-                                new AccountManager.SubmissionBuilder(
-                                        ((EditText) findViewById(R.id.bodytext)).getText()
-                                                .toString(), ((AutoCompleteTextView) findViewById(
-                                        R.id.subreddittext)).getText().toString(),
-                                        ((EditText) findViewById(R.id.titletext)).getText()
-                                                .toString()));
+                        AccountManager.SubmissionBuilder builder = new AccountManager.SubmissionBuilder(
+                                ((EditText) findViewById(R.id.bodytext)).getText()
+                                        .toString(), ((AutoCompleteTextView) findViewById(
+                                R.id.subreddittext)).getText().toString(),
+                                ((EditText) findViewById(R.id.titletext)).getText()
+                                        .toString());
+
+                        if(selectedFlairID != null) {
+                            builder.flairID(selectedFlairID);
+                        }
+
+                        Submission s = new AccountManager(Authentication.reddit).submit(builder);
                         new AccountManager(Authentication.reddit).sendRepliesToInbox(s,
                                 inboxReplies.isChecked());
                         new OpenRedditLink(Submit.this,

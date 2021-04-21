@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -78,6 +79,33 @@ public class HttpUtil {
             return gson.fromJson(json, JsonObject.class);
         } catch (JsonSyntaxException | IOException e) {
             LogUtil.e(e, "Error " + apiUrl);
+        }
+        return null;
+    }
+
+    /**
+     * Gets a JsonArray by executing a request and parsing the JSON response String. This method accepts
+     * a Map that can contain custom headers to include in the request.
+     *
+     * @param client     The OkHTTP client to use to make the request
+     * @param gson       The GSON instance to use to parse the response String
+     * @param request    The request to execute
+     * @return A JsonObject representation of the API response, null when there was an error or
+     * Exception thrown by the HTTP call
+     */
+    public static JsonArray getJsonArray(final OkHttpClient client, final Gson gson,
+            final Request request) {
+        if (client == null || gson == null || request == null) return null;
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            ResponseBody responseBody = response.body();
+            String json = responseBody.string();
+            responseBody.close();
+            return gson.fromJson(json, JsonArray.class);
+        } catch (JsonSyntaxException | IOException e) {
+            LogUtil.e(e, "Error " + request.url().toString());
         }
         return null;
     }
