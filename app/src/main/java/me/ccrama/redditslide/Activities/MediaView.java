@@ -28,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -257,14 +258,13 @@ public class MediaView extends FullScreenActivity
 
     public void doImageSaveForLocation() {
         if (!isGif) {
-            new FolderChooserDialogCreate.Builder(
-                    MediaView.this).chooseButton(
-                    R.string.btn_select)  // changes label of the choose button
+            new FolderChooserDialogCreate.Builder(MediaView.this)
+                    .chooseButton(R.string.btn_select) // changes label of the choose button
                     .isSaveToLocation(true)
-                    .initialPath(
-                            Environment.getExternalStorageDirectory()
-                                    .getPath())  // changes initial path, defaults to external storage directory
-                    .show();
+                    .initialPath(Environment.getExternalStorageDirectory()
+                            .getPath()) // changes initial path, defaults to external storage directory
+                    .allowNewFolder(true, 0)
+                    .show(MediaView.this);
         }
     }
 
@@ -1242,7 +1242,8 @@ public class MediaView extends FullScreenActivity
                                             .chooseButton(R.string.btn_select) // changes label of the choose button
                                             .initialPath(Environment.getExternalStorageDirectory()
                                                     .getPath()) // changes initial path, defaults to external storage directory
-                                            .show())
+                                            .allowNewFolder(true, 0)
+                                            .show(MediaView.this))
                             .setNegativeButton(R.string.btn_no, null)
                             .show();
                 } catch (Exception ignored) {
@@ -1265,7 +1266,8 @@ public class MediaView extends FullScreenActivity
                                         .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
                                                 .getPath()) // changes initial path, defaults to external storage directory
-                                        .show())
+                                        .allowNewFolder(true, 0)
+                                        .show(MediaView.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -1273,23 +1275,26 @@ public class MediaView extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            if (isSaveToLocation) {
-                Intent i = new Intent(this, ImageDownloadNotificationService.class);
-                //always download the original file, or use the cached original if that is currently displayed
-                i.putExtra("actuallyLoaded", contentUrl);
-                i.putExtra("saveToLocation", folder.getAbsolutePath());
-                if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
-                if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
-                i.putExtra("index", index);
-                startService(i);
-            } else {
-                Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-                Toast.makeText(this,
-                        getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                        Toast.LENGTH_LONG).show();
-            }
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
+        if (isSaveToLocation) {
+            Intent i = new Intent(this, ImageDownloadNotificationService.class);
+            //always download the original file, or use the cached original if that is currently displayed
+            i.putExtra("actuallyLoaded", contentUrl);
+            i.putExtra("saveToLocation", folder.getAbsolutePath());
+            if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
+            if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
+            i.putExtra("index", index);
+            startService(i);
+        } else {
+            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+            Toast.makeText(this,
+                    getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                    Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 }

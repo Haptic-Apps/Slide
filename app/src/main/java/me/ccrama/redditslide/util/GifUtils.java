@@ -121,7 +121,8 @@ public class GifUtils {
                                 .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
                                         .getPath()) // changes initial path, defaults to external storage directory
-                                .show())
+                                .allowNewFolder(true, 0)
+                                .show((MediaView) a))
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
@@ -140,7 +141,8 @@ public class GifUtils {
                                 .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
                                         .getPath()) // changes initial path, defaults to external storage directory
-                                .show())
+                                .allowNewFolder(true, 0)
+                                .show((MediaView) a))
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }

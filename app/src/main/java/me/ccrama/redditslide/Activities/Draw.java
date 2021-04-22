@@ -146,7 +146,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
                     public void onClick(View v) {
                         new ColorChooserDialog.Builder(Draw.this, R.string.choose_color_title)
                                 .allowUserColorInput(true)
-                                .show(getSupportFragmentManager());
+                                .show(Draw.this);
                     }
                 });
                 drawView.drawBitmap(bitmap);

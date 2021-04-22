@@ -419,7 +419,8 @@ public class RedditGalleryPager extends FullScreenActivity
                                         .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
                                                 .getPath()) // changes initial path, defaults to external storage directory
-                                        .show())
+                                        .allowNewFolder(true, 0)
+                                        .show(RedditGalleryPager.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -439,7 +440,8 @@ public class RedditGalleryPager extends FullScreenActivity
                                         .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
                                                 .getPath()) // changes initial path, defaults to external storage directory
-                                        .show())
+                                        .allowNewFolder(true, 0)
+                                        .show(RedditGalleryPager.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -448,13 +450,15 @@ public class RedditGalleryPager extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this,
-                    getString(R.string.settings_set_image_location, folder.getAbsolutePath())
-                            + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
+        Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+        Toast.makeText(this,
+                getString(R.string.settings_set_image_location, folder.getAbsolutePath())
+                        + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+    }
 
-        }
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 }
