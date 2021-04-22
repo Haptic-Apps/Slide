@@ -38,6 +38,17 @@ public class MiscUtil {
         }
     }
 
+    private static void createAwards(final Context mContext, final int fontsize,
+                                     final SpannableStringBuilder awarded, Bitmap image) {
+        final float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+        image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+                (int) Math.ceil(fontsize), true);
+        awarded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        awarded.setSpan(new RelativeSizeSpan(0.75f), 3, awarded.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
     public static void addAwards(final Context mContext, final int fontsize,
                                  final ProfileCommentViewHolder holder,
                                  final Integer awards, final int drawable) {
@@ -45,32 +56,20 @@ public class MiscUtil {
             final String timesAwarded = awards == 1 ? "" : "\u200Ax" + awards;
             final SpannableStringBuilder awarded =
                     new SpannableStringBuilder("\u00A0★" + timesAwarded + "\u00A0");
-            Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), drawable);
-            final float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            awarded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            awarded.setSpan(new RelativeSizeSpan(0.75f), 3, awarded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            final Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), drawable);
+            createAwards(mContext, fontsize, awarded, image);
             ((TextView) holder.gild).append(awarded);
         }
     }
 
     public static void addCommentAwards(final Context mContext, final int fontsize,
                                         final SpannableStringBuilder titleString, final Integer awards,
-                                        Bitmap image) {
+                                        final Bitmap image) {
         if (awards > 0) {
             final String timesAwarded = awards == 1 ? "" : "\u200Ax" + awards;
             final SpannableStringBuilder awarded =
                     new SpannableStringBuilder("\u00A0★" + timesAwarded + "\u00A0");
-            final float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            awarded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            awarded.setSpan(new RelativeSizeSpan(0.75f), 3, awarded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            createAwards(mContext, fontsize, awarded, image);
             titleString.append(awarded);
             titleString.append(" ");
         }
@@ -83,14 +82,8 @@ public class MiscUtil {
             final String timesAwarded = awards == 1 ? "" : "\u200Ax" + awards;
             final SpannableStringBuilder awarded =
                     new SpannableStringBuilder("\u00A0★" + timesAwarded + "\u00A0");
-            Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), drawable);
-            final float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            awarded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            awarded.setSpan(new RelativeSizeSpan(0.75f), 3, awarded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            final Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), drawable);
+            createAwards(mContext, fontsize, awarded, image);
             titleString.append(" ");
             titleString.append(awarded);
         }
@@ -103,14 +96,8 @@ public class MiscUtil {
             final String timesAwarded = awards == 1 ? "" : "\u200Ax" + awards;
             final SpannableStringBuilder awarded =
                     new SpannableStringBuilder("\u00A0★" + timesAwarded + "\u00A0");
-            Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), drawable);
-            final float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                    (int) Math.ceil(fontsize), true);
-            awarded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            awarded.setSpan(new RelativeSizeSpan(0.75f), 3, awarded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            final Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), drawable);
+            createAwards(mContext, fontsize, awarded, image);
             titleString.append(awarded);
             titleString.append(" ");
         }
